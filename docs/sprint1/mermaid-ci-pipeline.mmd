@@ -1,0 +1,10 @@
+flowchart TD
+    A["Branch created"] --> C
+    B["Pull request opened / updated"] --> C
+    C["Mermaid Diagrams workflow"] --> D["Check out branch"]
+    D --> E["Install mermaid-cli"]
+    E --> F["Render .mmd files and mermaid blocks in Markdown"]
+    F -->|success| G["Publish job summary"]
+    F -->|failure| H["Fail the check with the parser error"]
+    G --> I["Upload SVG + PNG artifact"]
+    I --> J["Comment the diagrams on the pull request"]
