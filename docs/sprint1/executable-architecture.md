@@ -178,7 +178,7 @@ sequenceDiagram
     JS->>API: POST /orders (service, slot)
     API->>DB: BEGIN and SELECT slot FOR UPDATE
     DB-->>API: slot is open
-    API->>DB: INSERT order; slot held, expires in 15 min
+    API->>DB: INSERT order, slot held, expires in 15 min
     API->>S: create PaymentIntent
     S-->>API: client_secret
     API-->>JS: order id + client_secret
@@ -186,9 +186,9 @@ sequenceDiagram
     S-->>JS: payment succeeded
     S->>API: webhook payment_intent.succeeded
     API->>DB: INSERT payment_event (unique provider_event_id)
-    API->>DB: order CONFIRMED; slot booked
+    API->>DB: order CONFIRMED, slot booked
     API-->>S: 200 OK
-    JS->>API: GET /orders/:id
+    JS->>API: GET order by id
     API-->>JS: confirmed booking (US-68)
 ```
 
