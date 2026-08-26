@@ -1,0 +1,11 @@
+import { RegisterRequest, Service, Session, User } from './types';
+
+const services: Service[] = [
+  {id:'svc_interview',title:'Interview confidence coaching',description:'A focused one-to-one session covering behavioural questions, confident delivery and practical feedback for your next interview.',priceMinor:9500,currency:'AUD',modalities:['online'],active:true,averageRating:4.9,reviewCount:28,counsellor:{id:'counsellor_maya',displayName:'Maya Chen',introduction:'Career counsellor specialising in early-career transitions and interview preparation.',verificationStatus:'verified',overallRating:4.9,reviewCount:46}},
+  {id:'svc_resume',title:'Resume and cover letter review',description:'Detailed, actionable feedback to make your application clearer, more relevant and easier for recruiters to scan.',priceMinor:7000,currency:'AUD',modalities:['online','in_person'],location:{state:'VIC',cityOrRegion:'Melbourne'},active:true,averageRating:4.7,reviewCount:19,counsellor:{id:'counsellor_jordan',displayName:'Jordan Lee',introduction:'Recruitment and career-development specialist with experience across technology and consulting.',verificationStatus:'verified',overallRating:4.8,reviewCount:32}},
+];
+const pause = () => new Promise((resolve) => setTimeout(resolve, 300));
+export async function demoLogin(email:string,password:string):Promise<Session>{await pause();if(!email||!password)throw new Error('Enter your email and password.');return{accessToken:'demo-access-token',expiresAt:new Date(Date.now()+3600000).toISOString(),user:{id:'demo-user',name:'Demo Job Seeker',email,role:'job_seeker'}}}
+export async function demoRegister(input:RegisterRequest):Promise<User>{await pause();return{id:'demo-new-user',name:input.name,email:input.email,role:input.role}}
+export async function demoListServices(query=''):Promise<Service[]>{await pause();const term=query.trim().toLowerCase();return term?services.filter((item)=>`${item.title} ${item.counsellor.displayName}`.toLowerCase().includes(term)):services}
+export async function demoGetService(id:string):Promise<Service>{await pause();const service=services.find((item)=>item.id===id);if(!service)throw new Error('Service not found.');return service}
