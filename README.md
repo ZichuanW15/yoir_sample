@@ -6,7 +6,9 @@ React Native + Expo + TypeScript frontend for the first Yoir walking skeleton:
 register -> login -> browse marketplace -> service detail
 ```
 
-The app consumes the S1-02 contract in [`local_works/S1-02/openapi.yaml`](../../local_works/S1-02/openapi.yaml). It is designed for Android and iOS and communicates with the deployed FastAPI backend over HTTPS REST/JSON.
+The app consumes the published S1-02 contract in [`docs/api/openapi.yaml`](docs/api/openapi.yaml). It is designed for Android and iOS and communicates with the deployed FastAPI backend over HTTPS REST/JSON.
+
+Backend contributors should start with [`docs/backend-integration.md`](docs/backend-integration.md). Human-readable control rules and requirement traceability are published under [`docs/architecture`](docs/architecture/interface-contract.md) and [`docs/traceability`](docs/traceability/interface-traceability.csv).
 
 ## Run
 

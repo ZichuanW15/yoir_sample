@@ -1,0 +1,36 @@
+operationId,method,path,actor,requirement_ids,verification
+register,POST,/auth/users,Public,US-01;US-02;US-03;US-04,EA-00 plus duplicate-email contract test
+login,POST,/auth/sessions,Public,US-06;US-07,Contract test plus EA-01
+refreshSession,POST,/auth/sessions/refresh,Authenticated,US-06,Token rotation integration test
+requestPasswordReset,POST,/auth/password-reset-requests,Public,US-70,Non-enumeration and email-adapter test
+logout,DELETE,/auth/sessions/current,Authenticated,US-08,Integration test invalidates token
+listServices,GET,/services,Public,US-44;US-45,Public API contract test
+getService,GET,/services/{serviceId},Public,US-46,Public-field schema test
+listServiceSlots,GET,/services/{serviceId}/slots,Public,US-40,Open-slots-only integration test
+createOrder,POST,/orders,Job Seeker,US-41;US-47,EA-01 and EA-02
+createPaymentIntent,POST,/orders/{orderId}/payment-intents,Owning Job Seeker,US-47,Amount-source and idempotency tests
+processStripeWebhook,POST,/payments/stripe/webhook,Stripe signature,US-41;US-47;US-68,Signature replay and confirmation integration tests
+listMyBookings,GET,/me/bookings,Job Seeker or Counsellor,US-42,Ownership integration test
+getBooking,GET,/bookings/{bookingId},Participant or Platform Owner,US-43;US-68,EA-01 and EA-04
+rescheduleBooking,POST,/bookings/{bookingId}/reschedule,Authorised participant,US-69,Atomic move and rollback tests
+listMessages,GET,/bookings/{bookingId}/messages,Participant,US-49;US-50,EA-04 and EA-05
+sendMessage,POST,/bookings/{bookingId}/messages,Participant,US-50;US-62;US-63,EA-04 and EA-05
+completeBooking,POST,/bookings/{bookingId}/completion,Booked Counsellor,US-53,State-transition integration test
+createReview,POST,/bookings/{bookingId}/review,Owning Job Seeker,US-53;US-54;US-55,EA-06
+listOwnServices,GET,/me/services,Counsellor,US-34;US-36,Ownership contract test
+createService,POST,/me/services,Eligible Counsellor,US-34;US-35;US-37;US-38,Validation and role tests
+createAvailabilitySlot,POST,/me/availability-slots,Counsellor,US-39,Overlap and validation tests
+getCounsellorProfile,GET,/counsellors/{counsellorId},Public,US-30;US-44;US-46,Public-field schema test
+updateOwnCounsellorProfile,PATCH,/me/counsellor-profile,Counsellor,US-30,Ownership and validation tests
+submitVerification,POST,/me/verification-submissions,Counsellor,US-31;US-32,LinkedIn URL and ownership tests
+listForumBoards,GET,/forum/boards,Public,US-14,Public contract test
+listForumPosts,GET,/forum/posts,Public,US-15;US-22,Search filter and sort tests
+createForumPost,POST,/forum/posts,Job Seeker,US-16;US-17;US-19,Role and persistence tests
+replyToForumPost,POST,/forum/posts/{postId}/replies,Authenticated,US-18;US-20,Attribution and eligibility tests
+toggleForumLike,PUT,/forum/posts/{postId}/like,Authenticated,US-21,Idempotent toggle test
+submitDispute,POST,/orders/{orderId}/disputes,Owning Job Seeker,US-51,Ownership and persistence test
+listVerificationSubmissions,GET,/admin/verifications,Platform Owner,US-58,Role and response-schema tests
+decideVerification,POST,/admin/verifications/{submissionId}/decision,Platform Owner,US-32;US-58,State and role tests
+listPaymentOversight,GET,/admin/payments,Platform Owner,US-48,Role and sensitive-field test
+resolveDispute,POST,/admin/disputes/{disputeId}/resolution,Platform Owner,US-52,Role and state consistency test
+healthCheck,GET,/health,Operations,NFR-02,Deployed readiness and no-secret response test
