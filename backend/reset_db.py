@@ -40,7 +40,10 @@ def main() -> None:
         print(f"  {name:<20} {count}")
     print("\nLogins (password: password123)")
     print("  job seekers : alex@example.com, sam@example.com")
-    print("  counsellors : maya@example.com, jordan@example.com, priya@example.com, tom@example.com")
+    print(
+        "  counsellors : maya@example.com, jordan@example.com, "
+        "priya@example.com, tom@example.com"
+    )
 
 
 if __name__ == "__main__":
