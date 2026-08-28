@@ -52,4 +52,3 @@ Restart Expo after changing `.env`.
 5. Repeat the flow on Android and iOS against the deployed backend.
 
 The current payment boundary is an explicit backend stub: it accepts no card data and charges no real money. Stripe remains a conditional future adapter pending `CLIENT-02`. Messaging and reviews remain later slices.
-
