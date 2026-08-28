@@ -1,0 +1,204 @@
+name: Application CI
+
+on:
+  pull_request:
+    paths:
+      - 'app/**'
+      - 'src/**'
+      - 'backend/**'
+      - '__tests__/**'
+      - 'scripts/**'
+      - 'assets/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'app.json'
+      - 'eslint.config.js'
+      - 'tsconfig.json'
+      - 'jest.config.js'
+      - '.env.example'
+      - 'docs/api/**'
+      - 'docs/architecture/**'
+      - 'docs/traceability/**'
+      - '.github/workflows/app-ci.yml'
+  push:
+    branches:
+      - main
+      - dev
+      - 'feature/**'
+      - 'feat/**'
+      - 'fix/**'
+      - 'qa/**'
+      - 'chore/**'
+    paths:
+      - 'app/**'
+      - 'src/**'
+      - 'backend/**'
+      - '__tests__/**'
+      - 'scripts/**'
+      - 'assets/**'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'app.json'
+      - 'eslint.config.js'
+      - 'tsconfig.json'
+      - 'jest.config.js'
+      - '.env.example'
+      - 'docs/api/**'
+      - 'docs/architecture/**'
+      - 'docs/traceability/**'
+      - '.github/workflows/app-ci.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: application-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  application:
+    name: Frontend lint, typecheck, test and export
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.20.2'
+          cache: npm
+          cache-dependency-path: package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Test and coverage
+        run: npm run test:coverage
+
+      - name: Expo Web export smoke
+        run: npx expo export --platform web --output-dir dist/qa-web-smoke
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: application-coverage
+          path: coverage/
+          if-no-files-found: error
+          retention-days: 14
+
+  backend:
+    name: Backend API and PostgreSQL QA
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: yoir
+          POSTGRES_PASSWORD: yoir
+          POSTGRES_DB: yoir_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U yoir -d yoir_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgresql+psycopg://yoir:yoir@localhost:5432/yoir_test
+      YOIR_QA_ALLOW_DATABASE_RESET: 'true'
+      JWT_SECRET: qa-ci-secret-that-is-at-least-32-characters
+      CORS_ALLOW_ORIGINS: http://localhost:8081
+      SEED_ON_STARTUP: 'false'
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: backend/requirements-test.txt
+
+      - name: Install backend and QA dependencies
+        run: python -m pip install -r backend/requirements-test.txt
+
+      - name: Check QA test code
+        run: ruff check backend/tests backend/pyproject.toml
+
+      - name: Audit existing backend lint
+        id: backend_lint
+        continue-on-error: true
+        run: ruff check backend/app
+
+      - name: Report backend lint status
+        if: always()
+        run: |
+          if [ "${{ steps.backend_lint.outcome }}" = "success" ]; then
+            echo "Backend production lint: Pass" >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "Backend production lint: Known failure; see the lint step. It is not counted Pass." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Backend API and contract tests on PostgreSQL
+        working-directory: backend
+        run: pytest tests
+
+      - name: Create isolated PostgreSQL database for live HTTP smoke
+        run: >-
+          python -c "import psycopg; connection = psycopg.connect(
+          'postgresql://yoir:yoir@localhost:5432/postgres', autocommit=True);
+          connection.execute('CREATE DATABASE yoir_live_test'); connection.close()"
+
+      - name: Live HTTP walking-skeleton smoke on PostgreSQL
+        working-directory: backend
+        run: |
+          DATABASE_URL=postgresql+psycopg://yoir:yoir@localhost:5432/yoir_live_test \
+            SEED_ON_STARTUP=true \
+            python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 > /tmp/yoir-backend.log 2>&1 &
+          server_pid=$!
+          trap 'kill "$server_pid" 2>/dev/null || true; cat /tmp/yoir-backend.log' EXIT
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:8000/api/v1/health > /dev/null; then
+              break
+            fi
+            sleep 1
+          done
+          curl --fail --silent http://127.0.0.1:8000/api/v1/health > /dev/null
+          DATABASE_URL=postgresql+psycopg://yoir:yoir@localhost:5432/yoir_test \
+            LIVE_API_BASE_URL=http://127.0.0.1:8000/api/v1 \
+            pytest tests/test_live_api.py -q -ra
+
+  repository-evidence:
+    name: Contract and repository evidence
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install metadata checker dependency
+        run: python -m pip install PyYAML==6.0.2
+
+      - name: Check OpenAPI, traceability, links, YAML and JSON
+        run: python scripts/check_repository_metadata.py
+
+      - name: Whitespace check
+        run: git diff --check HEAD^ HEAD
