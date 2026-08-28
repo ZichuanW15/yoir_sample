@@ -1,5 +1,18 @@
 {
-  "_note": "Mock data loaded by app/seed.py on first startup (when the services table is empty). Edit freely, then re-seed: stop the backend, `dropdb -h localhost -p 5433 yoir && createdb -h localhost -p 5433 yoir`, restart. Every counsellor logs in with the password below.",
+  "_note": "Mock data loaded by app/seed.py on first startup (when the services table is empty). Edit freely, then re-seed: stop the backend, `dropdb -h localhost -p 5433 yoir && createdb -h localhost -p 5433 yoir`, restart. Everyone logs in with the password below.",
+
+  "job_seekers": [
+    {
+      "name": "Alex Rivera",
+      "email": "alex@example.com",
+      "password": "password123"
+    },
+    {
+      "name": "Sam Taylor",
+      "email": "sam@example.com",
+      "password": "password123"
+    }
+  ],
 
   "counsellors": [
     {

@@ -46,6 +46,16 @@ def seed(db: Session) -> None:
 
     data = json.loads(_DATA_FILE.read_text())
 
+    for row in data.get("job_seekers", []):
+        db.add(
+            User(
+                name=row["name"],
+                email=row["email"].lower(),
+                password_hash=hash_password(row.get("password", "password123")),
+                role="job_seeker",
+            )
+        )
+
     counsellors: dict[str, User] = {}
     for row in data.get("counsellors", []):
         user = User(
