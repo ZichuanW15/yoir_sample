@@ -294,7 +294,7 @@ jobs:
           }
           trap cleanup EXIT
 
-          for attempt in $(seq 1 30); do
+          for ((attempt = 1; attempt <= 30; attempt++)); do
             if curl --fail --silent "$LIVE_API_BASE_URL/health" > /dev/null; then
               break
             fi

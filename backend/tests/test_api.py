@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import os
 from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime, timedelta
 from threading import Barrier
@@ -187,7 +188,7 @@ def test_login_returns_verifiable_expiring_jwt(client: TestClient) -> None:
     body = response.json()
     payload = jwt.decode(
         body["accessToken"],
-        "qa-test-secret-that-is-at-least-32-characters",
+        os.environ["JWT_SECRET"],
         algorithms=["HS256"],
     )
     assert payload["sub"] == created.json()["id"]
