@@ -1,4 +1,4 @@
-# Executable Architecture: Yoir
+# Design by Concept: Yoir
 
 Team CSD-Koala · SWEN90014 Semester 2, 2026 · Sprint 1
 
@@ -38,9 +38,8 @@ baselined stories (179 SP).
 
 ## 2. Technology stack
 
-The choices and the alternatives considered are argued in
-[`design-concept.md`](design-concept.md) §5 and §8. This table is the runtime
-view of the outcome.
+This table is the runtime view of the outcome; the alternatives considered are
+recorded in §7.
 
 | Layer | Choice |
 |---|---|
@@ -275,8 +274,7 @@ stated in baseline §8.
 ## 7. What was deliberately left out
 
 Recorded as decisions rather than omissions, so a reviewer can see they were
-considered. The full reasoning is in [`design-concept.md`](design-concept.md)
-§8.
+considered.
 
 | Excluded | Reason |
 |---|---|
@@ -313,8 +311,7 @@ that cannot be finished until `CLIENT-02` is answered.
 
 ## 9. Open items
 
-The same open items tracked in [`design-concept.md`](design-concept.md) §9,
-with the runtime consequence of each.
+The items still unconfirmed by the client, with the runtime consequence of each.
 
 | # | Item | Working assumption | Owner |
 |---|---|---|---|
