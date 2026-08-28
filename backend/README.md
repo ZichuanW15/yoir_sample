@@ -55,10 +55,16 @@ uvicorn app.main:app --reload
 - `DATABASE_URL` in `.env` — e.g. `postgresql+psycopg://evelyn@localhost:5433/yoir`
   (Postgres.app) or `postgresql+psycopg://yoir:yoir@localhost:5432/yoir` (docker compose).
 - API root: `http://localhost:8000/api/v1` · interactive docs: `http://localhost:8000/docs`
-- First start creates the account, service, availability, order and booking tables. It seeds
-  counsellors/services from `app/seed_data.json` and three future time slots per service.
+- First start creates the tables and seeds job seekers, counsellors and services from
+  `app/seed_data.json` plus three future time slots per service.
 - The payment stub is deliberately labelled, collects no card data and charges no real money.
-- Reset: `dropdb -h localhost -p 5433 yoir && createdb -h localhost -p 5433 yoir`, then restart.
+- **Reset / reseed the database any time** (no web server needed):
+  ```bash
+  python reset_db.py
+  ```
+  Drops and recreates every table in `DATABASE_URL`, then reloads `app/seed_data.json`.
+- Seed logins (password `password123`): job seekers `alex@example.com`, `sam@example.com`;
+  counsellors `maya@example.com`, `jordan@example.com`, `priya@example.com`, `tom@example.com`.
 
 ## Connect the frontend
 
