@@ -334,7 +334,7 @@ The items still unconfirmed by the client, with the runtime consequence of each.
 | Interface contract | [`architecture/interface-contract.md`](../architecture/interface-contract.md) |
 | Published API | [`api/openapi.yaml`](../api/openapi.yaml) |
 | Interface traceability | [`traceability/interface-traceability.csv`](../traceability/interface-traceability.csv) |
-| Client decisions | [Client meeting minutes, 25 Aug 2026](meeting-minutes/2026-08-25-joint-client-meeting.md) |
+| Client decisions | [Client meeting minutes, 25 Aug 2026](../sprint1/meeting-minutes/Client%20Meeting/2026-08-25-joint-client-meeting.md) |
 | Product backlog | [Requirements wiki](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements) |
 | Background and scope | [Project Background and Scope](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Project-Background-and-Scope) |
 | Risk register | [Risk Register](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Risk-Register) |
