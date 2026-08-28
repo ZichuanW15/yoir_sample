@@ -34,6 +34,28 @@ EXPO_PUBLIC_USE_DEMO_API=true
 
 Demo mode is visibly labelled in the app and must not be used as evidence that the deployed backend works.
 
+## Quality assurance and CI
+
+- [`docs/sprint1/test-approach.md`](docs/sprint1/test-approach.md) defines the
+  executable-architecture test levels, database safeguards, evidence rules and
+  clean-clone reproduction procedure.
+- [`docs/sprint1/test-results.md`](docs/sprint1/test-results.md) records results
+  against exact product and QA commits; Todo, strict XFail, Skip and Not Run are
+  reported separately from Pass.
+- [`docs/board-insights-automation.md`](docs/board-insights-automation.md)
+  documents the credential and operating boundaries for the ProjectV2-to-Wiki
+  automation.
+- [Application CI](.github/workflows/app-ci.yml) checks the frontend, FastAPI,
+  PostgreSQL, live HTTP boundary and repository contracts.
+- [Board Insights](.github/workflows/board-insights.yml) tests the generator on
+  pull requests and publishes only from explicitly authorised events once the
+  workflow is present on the default branch.
+
+The repository currently uses a handwritten typed API client. The target
+architecture's generated `openapi-typescript` client remains an explicit
+conformance gap; mocked frontend tests do not count as deployed cross-stack
+evidence.
+
 ## Implemented slice
 
 - Public Marketplace service list (`US-44`, `US-45`)
