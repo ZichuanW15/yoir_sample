@@ -1,82 +1,60 @@
-"""Seed data mirroring the frontend's src/api/demo.ts so a connected app looks identical.
+"""Seed the database from app/seed_data.json — editable mock data, no code changes.
 
-Demo counsellor logins (password for both): password123
-    maya@example.com  ·  jordan@example.com
+Runs on startup only when the `services` table is empty. To re-seed after editing
+the JSON: stop the backend, drop and recreate the database, restart.
+
+Every counsellor logs in with the `password` value in the file (default: password123).
 """
+import json
+from pathlib import Path
+
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models import Service, User
+
 from app.security import hash_password
 
-_DEMO_PASSWORD = "password123"
+_DATA_FILE = Path(__file__).parent / "seed_data.json"
 
 
 def seed(db: Session) -> None:
     if db.scalar(select(Service).limit(1)) is not None:
         return
 
-    maya = User(
-        name="Maya Chen",
-        email="maya@example.com",
-        password_hash=hash_password(_DEMO_PASSWORD),
-        role="counsellor",
-        introduction=(
-            "Career counsellor specialising in early-career transitions and "
-            "interview preparation."
-        ),
-        verification_status="verified",
-        overall_rating=4.9,
-        review_count=46,
-    )
-    jordan = User(
-        name="Jordan Lee",
-        email="jordan@example.com",
-        password_hash=hash_password(_DEMO_PASSWORD),
-        role="counsellor",
-        introduction=(
-            "Recruitment and career-development specialist with experience "
-            "across technology and consulting."
-        ),
-        verification_status="verified",
-        overall_rating=4.8,
-        review_count=32,
-    )
-    db.add_all([maya, jordan])
+    data = json.loads(_DATA_FILE.read_text())
+
+    counsellors: dict[str, User] = {}
+    for row in data.get("counsellors", []):
+        user = User(
+            name=row["name"],
+            email=row["email"].lower(),
+            password_hash=hash_password(row.get("password", "password123")),
+            role="counsellor",
+            introduction=row.get("introduction"),
+            verification_status=row.get("verification_status", "pending"),
+            overall_rating=row.get("overall_rating"),
+            review_count=row.get("review_count", 0),
+        )
+        counsellors[user.email] = user
+        db.add(user)
     db.flush()
 
-    db.add_all(
-        [
+    for row in data.get("services", []):
+        counsellor = counsellors[row["counsellor_email"].lower()]
+        db.add(
             Service(
-                counsellor_id=maya.id,
-                title="Interview confidence coaching",
-                description=(
-                    "A focused one-to-one session covering behavioural questions, confident "
-                    "delivery and practical feedback for your next interview."
-                ),
-                price_minor=9500,
-                currency="AUD",
-                modalities=["online"],
-                active=True,
-                average_rating=4.9,
-                review_count=28,
-            ),
-            Service(
-                counsellor_id=jordan.id,
-                title="Resume and cover letter review",
-                description=(
-                    "Detailed, actionable feedback to make your application clearer, more "
-                    "relevant and easier for recruiters to scan."
-                ),
-                price_minor=7000,
-                currency="AUD",
-                modalities=["online", "in_person"],
-                location_state="VIC",
-                location_city="Melbourne",
-                active=True,
-                average_rating=4.7,
-                review_count=19,
-            ),
-        ]
-    )
+                counsellor_id=counsellor.id,
+                title=row["title"],
+                description=row["description"],
+                price_minor=row["price_minor"],
+                currency=row.get("currency", "AUD"),
+                modalities=row.get("modalities", []),
+                location_state=row.get("location_state"),
+                location_city=row.get("location_city"),
+                active=row.get("active", True),
+                average_rating=row.get("average_rating"),
+                review_count=row.get("review_count", 0),
+            )
+        )
     db.commit()

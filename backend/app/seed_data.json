@@ -1,0 +1,136 @@
+{
+  "_note": "Mock data loaded by app/seed.py on first startup (when the services table is empty). Edit freely, then re-seed: stop the backend, `dropdb -h localhost -p 5433 yoir && createdb -h localhost -p 5433 yoir`, restart. Every counsellor logs in with the password below.",
+
+  "counsellors": [
+    {
+      "name": "Maya Chen",
+      "email": "maya@example.com",
+      "password": "password123",
+      "introduction": "Career counsellor specialising in early-career transitions and interview preparation.",
+      "verification_status": "verified",
+      "overall_rating": 4.9,
+      "review_count": 46
+    },
+    {
+      "name": "Jordan Lee",
+      "email": "jordan@example.com",
+      "password": "password123",
+      "introduction": "Recruitment and career-development specialist with experience across technology and consulting.",
+      "verification_status": "verified",
+      "overall_rating": 4.8,
+      "review_count": 32
+    },
+    {
+      "name": "Priya Nair",
+      "email": "priya@example.com",
+      "password": "password123",
+      "introduction": "Career strategist focused on skilled migrants navigating the Australian job market.",
+      "verification_status": "verified",
+      "overall_rating": 4.7,
+      "review_count": 21
+    },
+    {
+      "name": "Tom Baker",
+      "email": "tom@example.com",
+      "password": "password123",
+      "introduction": "Personal branding and LinkedIn coach. New to Yoir.",
+      "verification_status": "pending",
+      "overall_rating": null,
+      "review_count": 0
+    }
+  ],
+
+  "services": [
+    {
+      "counsellor_email": "maya@example.com",
+      "title": "Interview confidence coaching",
+      "description": "A focused one-to-one session covering behavioural questions, confident delivery and practical feedback for your next interview.",
+      "price_minor": 9500,
+      "currency": "AUD",
+      "modalities": ["online"],
+      "location_state": null,
+      "location_city": null,
+      "active": true,
+      "average_rating": 4.9,
+      "review_count": 28
+    },
+    {
+      "counsellor_email": "maya@example.com",
+      "title": "Behavioural interview deep-dive",
+      "description": "Two hours working through the STAR method on your real examples, with a scored practice round and written notes to take away.",
+      "price_minor": 12000,
+      "currency": "AUD",
+      "modalities": ["online"],
+      "location_state": null,
+      "location_city": null,
+      "active": true,
+      "average_rating": 4.8,
+      "review_count": 12
+    },
+    {
+      "counsellor_email": "jordan@example.com",
+      "title": "Resume and cover letter review",
+      "description": "Detailed, actionable feedback to make your application clearer, more relevant and easier for recruiters to scan.",
+      "price_minor": 7000,
+      "currency": "AUD",
+      "modalities": ["online", "in_person"],
+      "location_state": "VIC",
+      "location_city": "Melbourne",
+      "active": true,
+      "average_rating": 4.7,
+      "review_count": 19
+    },
+    {
+      "counsellor_email": "jordan@example.com",
+      "title": "Mock technical screening",
+      "description": "A realistic 45-minute recruiter screen for software roles, followed by feedback on answers, signal and red flags.",
+      "price_minor": 15000,
+      "currency": "AUD",
+      "modalities": ["online"],
+      "location_state": null,
+      "location_city": null,
+      "active": true,
+      "average_rating": 4.6,
+      "review_count": 9
+    },
+    {
+      "counsellor_email": "priya@example.com",
+      "title": "Career strategy session for skilled migrants",
+      "description": "Map your overseas experience to the Australian market: target roles, salary bands, licensing, and a 90-day plan.",
+      "price_minor": 11000,
+      "currency": "AUD",
+      "modalities": ["online", "in_person"],
+      "location_state": "NSW",
+      "location_city": "Sydney",
+      "active": true,
+      "average_rating": 4.7,
+      "review_count": 15
+    },
+    {
+      "counsellor_email": "priya@example.com",
+      "title": "30-day job search plan",
+      "description": "Leave with a written week-by-week plan: applications, networking targets, and follow-up cadence.",
+      "price_minor": 8500,
+      "currency": "AUD",
+      "modalities": ["online"],
+      "location_state": null,
+      "location_city": null,
+      "active": true,
+      "average_rating": null,
+      "review_count": 0
+    },
+    {
+      "counsellor_email": "tom@example.com",
+      "title": "LinkedIn profile makeover",
+      "description": "Headline, About section and experience rewritten for search and recruiter appeal, done live with you.",
+      "price_minor": 6000,
+      "currency": "AUD",
+      "modalities": ["online"],
+      "location_state": null,
+      "location_city": null,
+      "active": true,
+      "average_rating": 4.5,
+      "review_count": 6
+    }
+  ]
+}
