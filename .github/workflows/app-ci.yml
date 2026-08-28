@@ -174,7 +174,7 @@ jobs:
       - name: Compile backend modules
         if: ${{ always() && steps.backend_install.outcome == 'success' }}
         working-directory: backend
-        run: python -m compileall -q app
+        run: python -m compileall -q app reset_db.py
 
       - name: Check QA test code with Ruff
         if: ${{ always() && steps.backend_install.outcome == 'success' }}
@@ -184,7 +184,7 @@ jobs:
       - name: Check production backend with Ruff
         if: ${{ always() && steps.backend_install.outcome == 'success' }}
         working-directory: backend
-        run: ruff check app
+        run: ruff check app reset_db.py
 
       - name: Full backend suite on PostgreSQL with coverage
         if: ${{ always() && steps.backend_install.outcome == 'success' }}
