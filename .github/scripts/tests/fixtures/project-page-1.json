@@ -1,0 +1,103 @@
+{
+  "data": {
+    "organization": {
+      "projectV2": {
+        "title": "Koala delivery board",
+        "updatedAt": "2026-08-28T04:00:00Z",
+        "fields": {
+          "pageInfo": {"hasNextPage": false, "endCursor": null},
+          "nodes": [
+            {
+              "__typename": "ProjectV2SingleSelectField",
+              "name": "Status",
+              "options": [
+                {"name": "Product Backlog"},
+                {"name": "Sprint Backlog"},
+                {"name": "In Progress"},
+                {"name": "Blocked"},
+                {"name": "Under Review"},
+                {"name": "Sprint 1"},
+                {"name": "Sprint 2"}
+              ]
+            },
+            {"__typename": "ProjectV2Field", "name": "Story Points", "dataType": "NUMBER"},
+            {
+              "__typename": "ProjectV2IterationField",
+              "name": "Sprint",
+              "configuration": {
+                "completedIterations": [],
+                "iterations": [
+                  {"title": "Sprint 1", "startDate": "2026-08-10", "duration": 21},
+                  {"title": "Sprint 2", "startDate": "2026-08-31", "duration": 17}
+                ]
+              }
+            },
+            {"__typename": "ProjectV2SingleSelectField", "name": "Epic", "options": [{"name": "A - Authentication"}]},
+            {"__typename": "ProjectV2SingleSelectField", "name": "Work Type", "options": [{"name": "Story"}, {"name": "Enabler"}]},
+            {"__typename": "ProjectV2SingleSelectField", "name": "Priority", "options": [{"name": "Must-have"}, {"name": "Should-have"}]}
+          ]
+        },
+        "items": {
+          "totalCount": 5,
+          "pageInfo": {"hasNextPage": true, "endCursor": "page-2"},
+          "nodes": [
+            {
+              "id": "project-item-1",
+              "content": {
+                "__typename": "Issue",
+                "id": "issue-1",
+                "number": 1,
+                "title": "[US-01] Register",
+                "state": "OPEN",
+                "createdAt": "2026-08-01T01:00:00Z",
+                "updatedAt": "2026-08-27T01:00:00Z",
+                "closedAt": null,
+                "url": "https://github.example/issues/1"
+              },
+              "fieldValues": {
+                "pageInfo": {"hasNextPage": false, "endCursor": null},
+                "nodes": [
+                  {"__typename": "ProjectV2ItemFieldNumberValue", "number": 5, "field": {"name": "Story Points"}},
+                  {"__typename": "ProjectV2ItemFieldSingleSelectValue", "name": "Product Backlog", "field": {"name": "Status"}},
+                  {"__typename": "ProjectV2ItemFieldSingleSelectValue", "name": "A - Authentication", "field": {"name": "Epic"}},
+                  {"__typename": "ProjectV2ItemFieldSingleSelectValue", "name": "Must-have", "field": {"name": "Priority"}}
+                ]
+              }
+            },
+            {
+              "id": "project-item-2",
+              "content": {
+                "__typename": "Issue",
+                "id": "issue-2",
+                "number": 2,
+                "title": "[S1-01] Walking skeleton",
+                "state": "OPEN",
+                "createdAt": "2026-08-12T01:00:00Z",
+                "updatedAt": "2026-08-28T05:00:00Z",
+                "closedAt": null,
+                "url": "https://github.example/issues/2"
+              },
+              "fieldValues": {
+                "pageInfo": {"hasNextPage": false, "endCursor": null},
+                "nodes": [
+                  {"__typename": "ProjectV2ItemFieldNumberValue", "number": 8, "field": {"name": "Story Points"}},
+                  {"__typename": "ProjectV2ItemFieldSingleSelectValue", "name": "In Progress", "field": {"name": "Status"}},
+                  {"__typename": "ProjectV2ItemFieldSingleSelectValue", "name": "Enabler", "field": {"name": "Work Type"}},
+                  {"__typename": "ProjectV2ItemFieldIterationValue", "title": "Sprint 1", "startDate": "2026-08-10", "duration": 21, "field": {"name": "Sprint"}}
+                ]
+              }
+            },
+            {
+              "id": "project-item-draft-1",
+              "content": {"__typename": "DraftIssue"},
+              "fieldValues": {
+                "pageInfo": {"hasNextPage": false, "endCursor": null},
+                "nodes": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}
