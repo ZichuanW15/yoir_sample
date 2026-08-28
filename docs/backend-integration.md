@@ -5,7 +5,7 @@
 The frontend currently implements:
 
 ```text
-register -> login -> browse marketplace -> service detail
+public marketplace -> service detail -> login when required -> choose time -> stub payment -> confirmation
 ```
 
 The backend needs to implement these operations first:
@@ -16,6 +16,9 @@ The backend needs to implement these operations first:
 | `login` | `POST /api/v1/auth/sessions` | `US-06`, `US-07` |
 | `listServices` | `GET /api/v1/services` | `US-44`, `US-45` |
 | `getService` | `GET /api/v1/services/{serviceId}` | `US-46` |
+| `listServiceSlots` | `GET /api/v1/services/{serviceId}/slots` | `US-40` |
+| `createOrder` | `POST /api/v1/orders` | `US-41`, `US-47` |
+| `completeStubPayment` | `POST /api/v1/orders/{orderId}/payments/stub` | `US-47`, `US-68` |
 
 The source of truth for paths, fields, enums, responses and errors is [`api/openapi.yaml`](api/openapi.yaml). Coordinate a contract change before changing an endpoint or schema.
 
@@ -48,5 +51,5 @@ Restart Expo after changing `.env`.
 4. Search services and open a service detail response from the API.
 5. Repeat the flow on Android and iOS against the deployed backend.
 
-Booking, Stripe PaymentSheet, messaging and reviews are later vertical slices; their published contracts already exist but are not part of this first integration.
+The current payment boundary is an explicit backend stub: it accepts no card data and charges no real money. Stripe remains a conditional future adapter pending `CLIENT-02`. Messaging and reviews remain later slices.
 

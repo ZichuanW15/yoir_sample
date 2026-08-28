@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from app.config import get_settings
 from app.db import Base, SessionLocal, engine
 from app.errors import register_error_handlers
-from app.routers import auth, health, services
+from app.routers import auth, bookings, health, services
 from app.seed import seed
 
 settings = get_settings()
@@ -44,3 +44,4 @@ register_error_handlers(app)
 app.include_router(health.router, prefix=API_V1)
 app.include_router(auth.router, prefix=API_V1)
 app.include_router(services.router, prefix=API_V1)
+app.include_router(bookings.router, prefix=API_V1)

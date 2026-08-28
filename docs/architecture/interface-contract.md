@@ -2,11 +2,11 @@
 
 ## 1. Contract boundary
 
-The React Native/Expo mobile app communicates with the FastAPI backend over HTTPS REST/JSON using a generated typed TypeScript client. FastAPI owns business rules and persists through SQLAlchemy 2.0/asyncpg to PostgreSQL 16. Stripe Test Mode is the payment boundary.
+The React Native/Expo mobile app communicates with the FastAPI backend over HTTPS REST/JSON using a typed TypeScript client. FastAPI owns business rules and persists through SQLAlchemy to PostgreSQL 16. The executable slice uses a backend payment stub; Stripe Test Mode remains a fallback pending `CLIENT-02`.
 
 ```text
 React Native/Expo -> FastAPI -> domain services -> PostgreSQL 16
-                         |-> Stripe Test Mode
+                         |-> backend payment stub (current) / Stripe Test Mode (conditional)
                          |-> object storage / email / external meeting link
 ```
 
@@ -59,6 +59,7 @@ Raw card details must never enter the Yoir API, logs or database. Stripe Payment
 | `listServiceSlots` | `GET /services/{serviceId}/slots` | Public | Returns currently open slots | `US-40` |
 | `createOrder` | `POST /orders` | Job Seeker | Atomically reserves slot and creates pending order | `US-41`, `US-47` |
 | `createPaymentIntent` | `POST /orders/{orderId}/payment-intents` | Owning Job Seeker | Creates/reuses Stripe Test PaymentIntent; does not confirm booking | `US-47` |
+| `completeStubPayment` | `POST /orders/{orderId}/payments/stub` | Owning Job Seeker | Simulates successful payment and returns a confirmed booking without card data or real money | `US-47`, `US-68` |
 | `processStripeWebhook` | `POST /payments/stripe/webhook` | Stripe signature | Idempotently updates payment/order and confirms booking | `US-41`, `US-47`, `US-68` |
 | `listMyBookings` | `GET /me/bookings` | Job Seeker/Counsellor | Returns only the caller's bookings | `US-42` |
 | `getBooking` | `GET /bookings/{bookingId}` | Participant/Platform Owner | Returns authorised booking details | `US-43`, `US-68` |
@@ -150,6 +151,7 @@ Booking: held -> confirmed -> completed
 - `createOrder` must reserve the slot and create the pending order atomically. The hold expires after 15 minutes.
 - A slot can belong to at most one non-cancelled order. A conflict returns `SLOT_UNAVAILABLE`.
 - `createPaymentIntent` requires an idempotency key. Repeating it must not create a second PaymentIntent.
+- `completeStubPayment` is the active executable-architecture boundary while `CLIENT-02` is unresolved. It accepts no card fields, is idempotent for an already-paid order, and confirms exactly one booking.
 - `processStripeWebhook` verifies the signature against the raw body and stores a unique Stripe `event_id`. A replay returns success as a no-op.
 - Booking confirmation occurs only after a valid success webhook and committed state transition. A PaymentSheet/client callback never confirms it.
 - Payment failure leaves an unexpired order recoverable as `awaiting_payment`; it must not produce a confirmed booking.
@@ -220,7 +222,7 @@ Given a new user on either supported simulator, the user can register, log in, b
 
 ### EA-01 — Extended successful critical path
 
-Given seeded active service and open slot data, a Job Seeker logs in, retrieves the service, selects its slot, creates an order, completes Stripe Test PaymentSheet and sees a persisted confirmed booking after the verified webhook and app refresh.
+Given seeded active service and open slot data, a Job Seeker logs in, retrieves the service, selects its slot, creates an order, completes the clearly labelled backend payment stub and sees a persisted confirmed booking. No card details or real money are involved.
 
 ### EA-02 — Concurrent slot protection
 

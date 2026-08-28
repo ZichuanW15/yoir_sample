@@ -55,3 +55,44 @@ class Service(Base):
     review_count: Mapped[int] = mapped_column(Integer, default=0)
 
     counsellor: Mapped[User] = relationship(back_populates="services")
+
+
+class AvailabilitySlot(Base):
+    __tablename__ = "availability_slots"
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=_uuid)
+    service_id: Mapped[str] = mapped_column(ForeignKey("services.id"), nullable=False, index=True)
+    starts_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    ends_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    status: Mapped[str] = mapped_column(String, nullable=False, default="open")
+
+
+class Order(Base):
+    __tablename__ = "orders"
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=_uuid)
+    job_seeker_id: Mapped[str] = mapped_column(ForeignKey("users.id"), nullable=False)
+    service_id: Mapped[str] = mapped_column(ForeignKey("services.id"), nullable=False)
+    slot_id: Mapped[str] = mapped_column(ForeignKey("availability_slots.id"), nullable=False)
+    amount_minor: Mapped[int] = mapped_column(Integer, nullable=False)
+    currency: Mapped[str] = mapped_column(String, nullable=False, default="AUD")
+    timezone: Mapped[str] = mapped_column(String, nullable=False)
+    modality: Mapped[str] = mapped_column(String, nullable=False)
+    status: Mapped[str] = mapped_column(String, nullable=False, default="awaiting_payment")
+    payment_status: Mapped[str] = mapped_column(String, nullable=False, default="not_started")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_now)
+
+
+class Booking(Base):
+    __tablename__ = "bookings"
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=_uuid)
+    order_id: Mapped[str] = mapped_column(ForeignKey("orders.id"), unique=True, nullable=False)
+    service_id: Mapped[str] = mapped_column(ForeignKey("services.id"), nullable=False)
+    slot_id: Mapped[str] = mapped_column(ForeignKey("availability_slots.id"), nullable=False)
+    job_seeker_id: Mapped[str] = mapped_column(ForeignKey("users.id"), nullable=False)
+    counsellor_id: Mapped[str] = mapped_column(ForeignKey("users.id"), nullable=False)
+    starts_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    ends_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), nullable=False)
+    timezone: Mapped[str] = mapped_column(String, nullable=False)
+    modality: Mapped[str] = mapped_column(String, nullable=False)
+    status: Mapped[str] = mapped_column(String, nullable=False, default="confirmed")
+    payment_status: Mapped[str] = mapped_column(String, nullable=False, default="paid")
+    created_at: Mapped[datetime] = mapped_column(DateTime(timezone=True), default=_now)

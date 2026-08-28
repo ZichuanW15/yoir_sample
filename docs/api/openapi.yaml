@@ -213,6 +213,25 @@ paths:
       responses:
         '200': {description: Event processed or duplicate event acknowledged as a no-op}
         '400': {$ref: '#/components/responses/BadRequest'}
+  /orders/{orderId}/payments/stub:
+    parameters:
+      - {$ref: '#/components/parameters/OrderId'}
+    post:
+      tags: [Orders]
+      operationId: completeStubPayment
+      x-required-role: job_seeker
+      x-requirement-ids: [US-47, US-68]
+      description: Development payment boundary used while CLIENT-02 remains unresolved. It accepts no card data and charges no real money.
+      responses:
+        '200':
+          description: Stub payment recorded and booking confirmed
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/StubPaymentConfirmation'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
   /me/bookings:
     get:
       tags: [Bookings]
@@ -797,6 +816,27 @@ components:
         paymentIntentId: {type: string}
         clientSecret: {type: string, writeOnly: true}
         status: {type: string, enum: [requires_payment_method, requires_action, processing]}
+    StubPaymentConfirmation:
+      type: object
+      required: [paymentId, paymentStatus, booking]
+      properties:
+        paymentId: {type: string}
+        paymentStatus: {type: string, enum: [paid]}
+        booking: {$ref: '#/components/schemas/StubBooking'}
+    StubBooking:
+      type: object
+      required: [id, orderId, serviceId, serviceTitle, startsAt, endsAt, timezone, modality, status, paymentStatus]
+      properties:
+        id: {type: string}
+        orderId: {type: string}
+        serviceId: {type: string}
+        serviceTitle: {type: string}
+        startsAt: {type: string, format: date-time}
+        endsAt: {type: string, format: date-time}
+        timezone: {type: string}
+        modality: {$ref: '#/components/schemas/Modality'}
+        status: {type: string, enum: [confirmed]}
+        paymentStatus: {type: string, enum: [paid]}
     Booking:
       type: object
       required: [id, orderId, serviceTitle, jobSeekerId, counsellorId, startsAt, endsAt, timezone, modality, status, paymentStatus, conversationStatus]

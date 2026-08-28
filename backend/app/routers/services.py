@@ -4,8 +4,8 @@ from sqlalchemy.orm import Session
 
 from app.db import get_db
 from app.errors import NOT_FOUND, ApiError
-from app.models import Service
-from app.schemas import CounsellorSummary, Location, ServiceOut
+from app.models import AvailabilitySlot, Service
+from app.schemas import AvailabilitySlotOut, CounsellorSummary, Location, ServiceOut
 
 router = APIRouter(tags=["Marketplace"])
 
@@ -59,3 +59,21 @@ def get_service(service_id: str, db: Session = Depends(get_db)) -> ServiceOut:
     if service is None or not service.active:
         raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Service not found.")
     return _to_out(service)
+
+
+@router.get("/services/{service_id}/slots", response_model=list[AvailabilitySlotOut])
+def list_service_slots(service_id: str, db: Session = Depends(get_db)) -> list[AvailabilitySlot]:
+    """US-40. Public users may inspect currently open time slots."""
+    service = db.get(Service, service_id)
+    if service is None or not service.active:
+        raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Service not found.")
+    return list(
+        db.scalars(
+            select(AvailabilitySlot)
+            .where(
+                AvailabilitySlot.service_id == service_id,
+                AvailabilitySlot.status == "open",
+            )
+            .order_by(AvailabilitySlot.starts_at)
+        )
+    )

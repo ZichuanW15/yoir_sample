@@ -74,3 +74,47 @@ class ServiceOut(CamelModel):
     active: bool
     average_rating: float | None = None
     review_count: int
+
+
+class AvailabilitySlotOut(CamelModel):
+    id: str
+    service_id: str
+    starts_at: datetime
+    ends_at: datetime
+    status: Literal["open", "held", "booked"]
+
+
+class CreateOrderRequest(CamelModel):
+    service_id: str
+    slot_id: str
+    modality: Modality
+    timezone: str = Field(min_length=1, max_length=100)
+
+
+class OrderOut(CamelModel):
+    id: str
+    service_id: str
+    slot_id: str
+    amount_minor: int
+    currency: Literal["AUD"]
+    status: Literal["awaiting_payment", "confirmed", "cancelled"]
+    payment_status: Literal["not_started", "paid", "failed"]
+
+
+class BookingOut(CamelModel):
+    id: str
+    order_id: str
+    service_id: str
+    service_title: str
+    starts_at: datetime
+    ends_at: datetime
+    timezone: str
+    modality: Modality
+    status: Literal["confirmed"]
+    payment_status: Literal["paid"]
+
+
+class StubPaymentConfirmation(CamelModel):
+    payment_id: str
+    payment_status: Literal["paid"]
+    booking: BookingOut

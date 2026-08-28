@@ -3,7 +3,7 @@
 FastAPI backend for the first Yoir walking skeleton, the same slice the frontend implements:
 
 ```text
-register -> login -> browse marketplace -> service detail
+public marketplace -> service detail -> login when required -> choose time -> stub payment -> confirmation
 ```
 
 It implements the published Sprint 1 contract in
@@ -16,6 +16,9 @@ It implements the published Sprint 1 contract in
 | POST | `/api/v1/auth/sessions` | login (US-06, US-07) → `200 Session`, `401 INVALID_CREDENTIALS` |
 | GET  | `/api/v1/services` | list active services (US-44, US-45), `?query=`, `?modality=` |
 | GET  | `/api/v1/services/{serviceId}` | service detail (US-46) → `200 Service`, `404 NOT_FOUND` |
+| GET  | `/api/v1/services/{serviceId}/slots` | currently open time slots (US-40) |
+| POST | `/api/v1/orders` | authenticated Job Seeker creates an order and holds one slot (US-41, US-47) |
+| POST | `/api/v1/orders/{orderId}/payments/stub` | records a development-only payment and confirms one booking (US-47, US-68) |
 
 Everything else in the contract (booking, payment, messaging, forum, reviews, verification,
 admin) is a follow-on slice and is deliberately absent.
@@ -52,9 +55,9 @@ uvicorn app.main:app --reload
 - `DATABASE_URL` in `.env` — e.g. `postgresql+psycopg://evelyn@localhost:5433/yoir`
   (Postgres.app) or `postgresql+psycopg://yoir:yoir@localhost:5432/yoir` (docker compose).
 - API root: `http://localhost:8000/api/v1` · interactive docs: `http://localhost:8000/docs`
-- First start creates the `users` and `services` tables and seeds two demo services matching
-  the frontend's data. Demo counsellor logins: `maya@example.com` / `jordan@example.com`,
-  password `password123`.
+- First start creates the account, service, availability, order and booking tables. It seeds
+  counsellors/services from `app/seed_data.json` and three future time slots per service.
+- The payment stub is deliberately labelled, collects no card data and charges no real money.
 - Reset: `dropdb -h localhost -p 5433 yoir && createdb -h localhost -p 5433 yoir`, then restart.
 
 ## Connect the frontend

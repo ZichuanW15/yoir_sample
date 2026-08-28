@@ -3,7 +3,7 @@
 React Native + Expo + TypeScript frontend for the first Yoir walking skeleton:
 
 ```text
-register -> login -> browse marketplace -> service detail
+public marketplace -> service detail -> login when required -> choose time -> stub payment -> confirmation
 ```
 
 The app consumes the published S1-02 contract in [`docs/api/openapi.yaml`](docs/api/openapi.yaml). It is designed for Android and iOS and communicates with the deployed FastAPI backend over HTTPS REST/JSON.
@@ -40,6 +40,9 @@ Demo mode is visibly labelled in the app and must not be used as evidence that t
 - Public service detail and counsellor summary (`US-46`)
 - Job Seeker/Career Counsellor registration (`US-01`–`US-04`)
 - Login with generic safe failure handling (`US-06`, `US-07`)
+- Public service browsing with authenticated booking continuation
+- Available time selection, persisted order and backend payment stub (`US-40`, `US-41`, `US-47`, `US-68`)
+- English payment-success confirmation with booking and payment references
 - In-memory bearer session and role-aware signed-in state
 - Loading, empty, validation, offline and retry states
 - Accessible labels, touch targets and English system copy
@@ -49,7 +52,7 @@ Demo mode is visibly labelled in the app and must not be used as evidence that t
 - The client never chooses an acting user ID; identity comes from the bearer token.
 - API errors follow the S1-02 `Error` schema and clients branch on stable `code` values.
 - Money uses integer minor units plus ISO currency.
-- Stripe PaymentSheet and booking flows are follow-on slices and are not represented as implemented here.
+- The current executable slice uses a clearly labelled backend payment stub. It collects no card details and charges no real money while `CLIENT-02` remains unresolved.
 
 ## Project structure
 

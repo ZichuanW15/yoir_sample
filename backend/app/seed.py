@@ -6,20 +6,43 @@ the JSON: stop the backend, drop and recreate the database, restart.
 Every counsellor logs in with the `password` value in the file (default: password123).
 """
 import json
+from datetime import UTC, datetime, timedelta
 from pathlib import Path
 
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.models import Service, User
+from app.models import AvailabilitySlot, Service, User
 
 from app.security import hash_password
 
 _DATA_FILE = Path(__file__).parent / "seed_data.json"
 
 
+def _seed_slots(db: Session, services: list[Service]) -> None:
+    if db.scalar(select(AvailabilitySlot).limit(1)) is not None:
+        return
+    first_day = (datetime.now(UTC) + timedelta(days=1)).replace(
+        hour=9, minute=0, second=0, microsecond=0
+    )
+    for service in services:
+        for day_offset, hour in ((0, 9), (1, 14), (3, 11)):
+            starts_at = (first_day + timedelta(days=day_offset)).replace(hour=hour)
+            db.add(
+                AvailabilitySlot(
+                    service_id=service.id,
+                    starts_at=starts_at,
+                    ends_at=starts_at + timedelta(hours=1),
+                    status="open",
+                )
+            )
+
+
 def seed(db: Session) -> None:
-    if db.scalar(select(Service).limit(1)) is not None:
+    existing_services = list(db.scalars(select(Service)))
+    if existing_services:
+        _seed_slots(db, existing_services)
+        db.commit()
         return
 
     data = json.loads(_DATA_FILE.read_text())
@@ -40,10 +63,10 @@ def seed(db: Session) -> None:
         db.add(user)
     db.flush()
 
+    services: list[Service] = []
     for row in data.get("services", []):
         counsellor = counsellors[row["counsellor_email"].lower()]
-        db.add(
-            Service(
+        service = Service(
                 counsellor_id=counsellor.id,
                 title=row["title"],
                 description=row["description"],
@@ -56,5 +79,9 @@ def seed(db: Session) -> None:
                 average_rating=row.get("average_rating"),
                 review_count=row.get("review_count", 0),
             )
-        )
+        services.append(service)
+        db.add(service)
+    db.flush()
+
+    _seed_slots(db, services)
     db.commit()
