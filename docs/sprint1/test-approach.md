@@ -21,7 +21,7 @@ the complete product tree, including the frontend code present on that branch.
 | Product baseline: frontend and backend | `origin/exe-archi-backend@f20192f02cf4d3eb968e131cf940422eefaebc06` |
 | Previously committed QA safety work | `qa/sprint1-test-evidence@c0c4960f0693a9c410f7cc0c0a87e9fec69839e3` |
 | QA integration starting point | `qa/sprint1-latest-evidence@ab64d8a34d1a5d7fb446fecbe53dc9b02d2764b8` |
-| Locally validated QA implementation | `qa/sprint1-latest-evidence@e9b743c76fef0c580cf87e3b7013c6fbefbdd15c` |
+| Locally and hosted-validated QA implementation | `qa/sprint1-latest-evidence@ab5cb233660406bb06e6998084178fabbc724b07` |
 | Latest product merge in QA only | `4525881d57653a022ca0fd3f097daad21079e171` |
 | New integration branch | `qa/sprint1-latest-evidence`; no other branch receives this integration |
 
@@ -291,8 +291,12 @@ results. Dependency audit findings are always preserved as JSON; production crit
 the job, while lower-severity findings remain explicit owner work rather than being force-fixed. The
 repository job uses checksum-verified `actionlint` in addition to semantic metadata checks.
 
-Workflow configuration is not hosted evidence. Hosted status remains Not Run until this branch is
-pushed and GitHub Actions succeeds for the exact commit.
+Workflow configuration alone is not hosted evidence. All four Application CI jobs passed for the
+exact pushed QA commit `ab5cb233660406bb06e6998084178fabbc724b07` in
+[Application CI run 33180522542](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/actions/runs/33180522542).
+The credential-free Board Insights validation also passed in
+[Board Insights run 33180016728](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/actions/runs/33180016728).
+That validation run did not access ProjectV2 or publish the Wiki.
 
 ## 13. Known product, architecture, dependency and environment gaps
 
@@ -307,9 +311,9 @@ pushed and GitHub Actions succeeds for the exact commit.
   hosted install can resolve newer FastAPI/SQLAlchemy/transitive versions until product owners adopt
   a reviewed lock strategy. npm advisories require a compatible Expo upgrade decision; QA never
   applies a forced major update.
-- Environment: Web export and local PostgreSQL/Uvicorn are not native iOS/Android simulator tests or
-  deployed-environment acceptance. Hosted CI, Wiki publication and board access are separate evidence
-  and require exact remote runs and credentials.
+- Environment: Web export and local/hosted PostgreSQL/Uvicorn are not native iOS/Android simulator
+  tests or deployed-environment acceptance. Wiki publication and live ProjectV2 access remain
+  separate evidence and require default-branch integration and credentials.
 
 ## 14. Exit criteria
 
@@ -326,9 +330,10 @@ This QA slice is ready for local review only when:
 - coverage and security findings are recorded without invented thresholds;
 - every result identifies the exact baseline, branch and environment.
 
-It is not a release or hosted QA candidate until the branch is pushed, reviewed, integrated with the
-QA remote, and hosted CI succeeds for the exact commit. This task does not merge the QA branch into
-another product or integration branch.
+The QA branch is pushed and has a successful exact-commit hosted run, but it is not a release
+candidate: peer review, the documented product/architecture gaps, native/deployed acceptance and
+real Board publication remain open. This task does not merge the QA branch into another product or
+integration branch.
 
 ## 15. Clean-clone reproduction
 

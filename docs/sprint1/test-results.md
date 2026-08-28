@@ -15,10 +15,11 @@
 | Latest product merge in QA only | `4525881d57653a022ca0fd3f097daad21079e171` |
 | Backend lint-only deltas | `a8ca74b31e7df6bc33cf2982354ea773508df484`, `e25e94377a4616772feadf5b9d1588fea706a9d0` |
 | Test implementation | `7f22ad75f091f44105bfcd4f35ffcdee523a1c5e`, `6ff9d1ddb60c75eceed3afaed23569b46f8e7950` |
-| Application CI | `5d80d2365b490e96f18a14dff0de04886d3cfe09`, `e9b743c76fef0c580cf87e3b7013c6fbefbdd15c` |
+| Application CI | `5d80d2365b490e96f18a14dff0de04886d3cfe09`, `e9b743c76fef0c580cf87e3b7013c6fbefbdd15c`, `ab5cb233660406bb06e6998084178fabbc724b07` |
 | Board Insights | `94b0534cee91d8e8e3fa907c08ce59e57748966a` |
-| Local evidence code head | `e9b743c76fef0c580cf87e3b7013c6fbefbdd15c` |
-| Hosted Application CI | Not Run at the local evidence boundary |
+| Local and hosted evidence code head | `ab5cb233660406bb06e6998084178fabbc724b07` |
+| Hosted Application CI | [Run 33180522542](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/actions/runs/33180522542): Pass, four of four jobs |
+| Hosted Board validation | [Run 33180016728](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/actions/runs/33180016728): Pass, credential-free validation only |
 | Hosted Board publication | Not Run; default-branch integration and credential required |
 
 The repository owner selected `origin/exe-archi-backend` as the authoritative source for both the
@@ -53,6 +54,9 @@ into `main`, `dev`, `exe-archi-backend` or the frontend member branch, and no ta
 | OpenAPI local references | 35 unique local references resolved | Pass | Published contract structure |
 | Markdown/workflow/JSON | 12 relative links, 0 broken; YAML and seed JSON parsed | Pass | Repository metadata |
 | Repository whitespace | working tree and empty-tree first-push simulation clean | Pass | Local Git evidence |
+| Hosted Application CI | Four of four jobs passed in 1m 50s | Pass | Exact pushed commit `ab5cb23` |
+| Hosted Board validation | Completed successfully in 14s | Pass | Secret-free validation; no ProjectV2 or Wiki publication |
+| Hosted runner annotations | Four Node.js 20 action-runtime deprecation notices | Warning | Pinned official Actions were forced to Node.js 24 by GitHub |
 | Mermaid browser rendering | Not Run locally | Not Run | Hosted publish job performs this before Wiki commit |
 | Real ProjectV2 GraphQL | Not Run locally | Not Run | Requires authorised token |
 | Native simulator/device | Not Run | Blocked | Local Web export is not native acceptance |
@@ -155,11 +159,12 @@ and repository evidence. Official Actions are pinned to immutable SHAs; PostgreS
 16.15-bookworm; Jest emits one coverage/test result; production Ruff is blocking; actionlint is
 downloaded with a fixed checksum. The live and in-process jobs never share a database.
 
-These workflow definitions and local validations are not hosted evidence. A hosted run URL and
-status must be recorded for the exact pushed commit before claiming Application CI Pass. Board
-publication additionally requires the workflow on the default branch, a least-privilege
-`BOARD_INSIGHTS_TOKEN`, successful ProjectV2 access, Mermaid rendering, one correct Wiki-page update
-and a second no-op run. Those conditions were not locally asserted.
+All four Application CI jobs passed for exact pushed commit `ab5cb23` in run 33180522542: frontend,
+PostgreSQL backend, isolated live/cross-stack, and repository evidence. Board run 33180016728 passed
+its credential-free validation job. Board publication still requires the workflow on the default
+branch, a least-privilege `BOARD_INSIGHTS_TOKEN`, successful ProjectV2 access, Mermaid rendering, one
+correct generated Wiki-page update and a second no-op run; none of those publication conditions was
+exercised by the validation run.
 
 ## Remaining owner actions
 
@@ -175,10 +180,10 @@ and a second no-op run. Those conditions were not locally asserted.
 
 ## Conclusion
 
-The selected product tree has reproducible local QA evidence for its implemented boundary, including
-PostgreSQL concurrency and a real TypeScript-client-to-Uvicorn journey. It is not described as
-perfect, complete, release-ready or production-ready: strict XFail, Todo, dependency findings,
-native/deployed gaps, hosted CI and hosted Board publication remain separate and explicit.
+The selected product tree has reproducible local and hosted QA evidence for its implemented
+boundary, including PostgreSQL concurrency and a real TypeScript-client-to-Uvicorn journey. It is
+not described as perfect, complete, release-ready or production-ready: strict XFail, Todo,
+dependency findings, native/deployed gaps and hosted Board publication remain separate and explicit.
 
 See [`test-approach.md`](test-approach.md) for the testing model, safety rules and clean-clone
 commands.
