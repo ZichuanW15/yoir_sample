@@ -4,19 +4,20 @@
 
 | Field | Value |
 |---|---|
-| Test date/time | 2026-08-29 00:12:33 AEST |
+| Test date/time | 2026-08-29 00:23:17 AEST |
 | Operating system | macOS 26.4.1, Build 25E253, arm64 |
 | Node.js / npm | 20.20.2 / 10.8.2 |
 | Python / pip | 3.12.13 / 25.0.1, isolated `backend/.venv` |
 | PostgreSQL | Homebrew PostgreSQL 16.15, local service |
 | Branch | `qa/sprint1-latest-evidence` |
-| Authoritative product source | `cdfc257be9121e1141689fa8e69fcb8d3ca41a0e` |
+| Authoritative product source | `f20192f02cf4d3eb968e131cf940422eefaebc06` |
 | QA integration starting point | `ab64d8a34d1a5d7fb446fecbe53dc9b02d2764b8` |
-| Backend lint-only delta | `a8ca74b31e7df6bc33cf2982354ea773508df484` |
-| Test implementation | `7f22ad75f091f44105bfcd4f35ffcdee523a1c5e` |
-| Application CI | `5d80d2365b490e96f18a14dff0de04886d3cfe09` |
+| Latest product merge in QA only | `4525881d57653a022ca0fd3f097daad21079e171` |
+| Backend lint-only deltas | `a8ca74b31e7df6bc33cf2982354ea773508df484`, `e25e94377a4616772feadf5b9d1588fea706a9d0` |
+| Test implementation | `7f22ad75f091f44105bfcd4f35ffcdee523a1c5e`, `6ff9d1ddb60c75eceed3afaed23569b46f8e7950` |
+| Application CI | `5d80d2365b490e96f18a14dff0de04886d3cfe09`, `e9b743c76fef0c580cf87e3b7013c6fbefbdd15c` |
 | Board Insights | `94b0534cee91d8e8e3fa907c08ce59e57748966a` |
-| Local evidence code head | `94b0534cee91d8e8e3fa907c08ce59e57748966a` |
+| Local evidence code head | `e9b743c76fef0c580cf87e3b7013c6fbefbdd15c` |
 | Hosted Application CI | Not Run at the local evidence boundary |
 | Hosted Board publication | Not Run; default-branch integration and credential required |
 
@@ -31,21 +32,21 @@ into `main`, `dev`, `exe-archi-backend` or the frontend member branch, and no ta
 | `npm ci --no-audit` | 1,091 packages installed from `package-lock.json` | Pass | Reproducible frontend/test install |
 | ESLint | Exit 0 | Pass | Frontend and QA TypeScript lint |
 | TypeScript | Exit 0 | Pass | Compile-time checking |
-| Jest coverage run | 10 suites passed, 1 live suite skipped; 58 Pass, 22 Todo, 1 Skip | Pass for 58 executable tests | Mock/component tests; live Skip separate |
-| Frontend coverage | 96.09% statements, 88.83% branches, 97.29% functions, 100% lines | Pass | Exceeds 90/80/90/90 gate over `app/**` and `src/**` |
+| Jest coverage run | 10 suites passed, 1 live suite skipped; 61 Pass, 20 Todo, 1 Skip | Pass for 61 executable tests | Mock/component tests; live Skip separate |
+| Frontend coverage | 96.19% statements, 89.05% branches, 97.29% functions, 100% lines | Pass | Exceeds 90/80/90/90 gate over `app/**` and `src/**` |
 | Expo Web export | One 1.03 MB bundle; nine static routes | Pass | Web build smoke, not native acceptance |
 | Full `npm audit` | 20 findings: 11 moderate, 9 high, 0 critical | Fail / owner action | Includes development dependencies |
 | Production critical audit gate | 19 findings: 10 moderate, 9 high, 0 critical; exit 0 | Gate Pass with findings | Critical-only CI gate; findings remain open |
 | Python compile | All backend modules compile | Pass | Syntax/import boundary |
 | QA Ruff | Backend tests and Board generator clean | Pass | QA-owned Python |
 | Production Ruff | Backend application clean | Pass | Blocking lint gate |
-| SQLite pytest | 60 Pass, 16 strict XFail, 1 Skip, 1 live deselected | Pass with exceptions | QA-created temporary SQLite only |
+| SQLite pytest | 60 Pass, 17 strict XFail, 1 Skip, 1 live deselected | Pass with exceptions | QA-created temporary SQLite only |
 | SQLite backend coverage | 93% including branches | Recorded | Not PostgreSQL evidence |
-| PostgreSQL pytest | 61 Pass, 16 strict XFail, 1 live deselected | Pass with strict XFail | Dedicated `yoir_test` on PostgreSQL 16.15 |
+| PostgreSQL pytest | 61 Pass, 17 strict XFail, 1 live deselected | Pass with strict XFail | Dedicated `yoir_test` on PostgreSQL 16.15 |
 | PostgreSQL concurrency | Two simultaneous orders: one 201, one 409, one stored Order | Pass | Real row-lock behaviour |
 | HTTPX live journey | 1 Pass | Pass | Real Uvicorn socket and `yoir_live_test` |
 | TypeScript client live journey | 1 Pass | Pass | Real `src/api/client.ts`, global `fetch`, no mock |
-| Live database isolation | before `4/7/21/0/0`; after `6/7/19/2/2` | Pass | users/services/open slots/orders/bookings; health remained 200 |
+| Live database isolation | before `6/7/21/0/0`; after `8/7/19/2/2` | Pass | users/services/open slots/orders/bookings; health remained 200 |
 | Board Insights offline suite | 49 Pass | Pass | Credential-free fixture boundary |
 | Action workflow syntax | All workflows clean with actionlint 1.7.12 | Pass | Local schema/static validation |
 | OpenAPI/traceability | 36 operations; exact 36-row semantic parity | Pass | Published contract structure |
@@ -61,7 +62,7 @@ upgrade and is outside QA authority.
 
 ## Frontend executable evidence
 
-The 58 passing tests cover request method/URL/body/encoding/error conversion, Bearer headers for
+The 61 passing tests cover request method/URL/body/encoding/error conversion, Bearer headers for
 order and payment, the demo adapter journey, AuthContext login/logout state, registration and login
 booking continuation, Marketplace loading/search/empty/error/retry, service detail and role-aware
 CTA behaviour, slot/order/payment screens, confirmation navigation and the registered route graph.
@@ -70,16 +71,16 @@ The normal suite retains the live client test as an explicit Skip when `LIVE_API
 The dedicated command fails before Jest when that variable is absent, so an explicitly requested
 cross-stack run cannot be reported as a skipped success.
 
-### Todo: 22, not Pass
+### Todo: 20, not Pass
 
 | Area | Unimplemented or unresolved boundary |
 |---|---|
 | API client | valid-JSON `null` fallback, runtime schema validation, timeout/abort, production URL fail-fast |
-| Login | invalid/non-scalar `serviceId`; non-Job-Seeker booking continuation |
+| Login | invalid/non-scalar `serviceId` |
 | Register | Counsellor registration with booking intent; invalid/non-scalar `serviceId` |
 | Marketplace | stale-response prevention for overlapping searches |
 | Service detail | missing-parameter recovery; stale data after a failed ID change |
-| Timeslots | deep-link role protection; modality choice; user timezone; preserved payment error; missing parameter |
+| Timeslots | modality choice; user timezone; preserved payment error; missing parameter |
 | Confirmation | required parameter validation; malformed time; trusted server-side confirmation data |
 | Session | expiry handling; persistence across restart; server-side logout invalidation |
 
@@ -99,7 +100,7 @@ live-only pytest selection did not initialise the destructive fixture or run `dr
 The TypeScript client has seven product methods and no health method. Health is covered by HTTPX and
 backend tests; this report does not call the frontend client an eight-method client.
 
-### Strict XFail: 16, not Pass
+### Strict XFail: 17, not Pass
 
 | XFail | Current defect |
 |---|---|
@@ -117,6 +118,7 @@ backend tests; this report does not call the frontend client an eight-method cli
 | Refresh credential | Refresh operation defines no request/cookie credential |
 | Error enum | Known runtime/frontend codes are absent from the contract enum |
 | Marketplace 503 | Frontend handles a 503 not published by `GET /services` |
+| Manual reset safety | `reset_db.py` drops the configured schema without test-name validation or reset opt-in |
 | Partial seed state | Existing users plus empty services can duplicate counsellor emails |
 | Default configuration | Insecure JWT, wildcard CORS and automatic seed are enabled by default |
 
@@ -133,6 +135,7 @@ the dependency owner adopts a reviewed lock strategy.
 - `backend/app/seed.py`: import-group whitespace normalised;
 - `backend/app/security.py`: FastAPI `Depends`/`Header` declarations expressed with `Annotated`, plus
   line wrapping.
+- `backend/reset_db.py`: one long seed-account output line wrapped for Ruff.
 
 All backend API, authentication, RBAC, ownership, SQLite, PostgreSQL and live tests passed within the
 counts above. The generated runtime OpenAPI JSON SHA-256 is identical before and after the lint-only
@@ -160,8 +163,9 @@ and a second no-op run. Those conditions were not locally asserted.
 
 ## Remaining owner actions
 
-- Product owners: resolve the 16 strict XFail defects and the 22 frontend Todos, especially the slot
-  invariant, hold expiry, session lifecycle, modality/timezone and confirmation validation.
+- Product owners: resolve the 17 strict XFail defects and the 20 frontend Todos, especially the slot
+  invariant, unsafe manual reset, hold expiry, session lifecycle, modality/timezone and confirmation
+  validation.
 - Architecture owners: replace or formally accept the handwritten client, introduce Alembic, and
   distinguish the current stub from the target provider/webhook payment architecture.
 - Dependency owners: plan compatible Expo/security upgrades and lock backend runtime dependencies.

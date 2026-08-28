@@ -18,16 +18,17 @@ the complete product tree, including the frontend code present on that branch.
 
 | Purpose | Exact source |
 |---|---|
-| Product baseline: frontend and backend | `origin/exe-archi-backend@cdfc257be9121e1141689fa8e69fcb8d3ca41a0e` |
+| Product baseline: frontend and backend | `origin/exe-archi-backend@f20192f02cf4d3eb968e131cf940422eefaebc06` |
 | Previously committed QA safety work | `qa/sprint1-test-evidence@c0c4960f0693a9c410f7cc0c0a87e9fec69839e3` |
 | QA integration starting point | `qa/sprint1-latest-evidence@ab64d8a34d1a5d7fb446fecbe53dc9b02d2764b8` |
-| Locally validated QA implementation | `qa/sprint1-latest-evidence@94b0534cee91d8e8e3fa907c08ce59e57748966a` |
-| New integration branch | `qa/sprint1-latest-evidence`, based directly on `cdfc257` |
+| Locally validated QA implementation | `qa/sprint1-latest-evidence@e9b743c76fef0c580cf87e3b7013c6fbefbdd15c` |
+| Latest product merge in QA only | `4525881d57653a022ca0fd3f097daad21079e171` |
+| New integration branch | `qa/sprint1-latest-evidence`; no other branch receives this integration |
 
 The earlier QA commit remains intact on its original branch. Its QA-only database protections and
-test infrastructure are ported to the new branch and then updated for the eight-operation product
-slice. No whole-branch merge is used, so older production files cannot overwrite the selected
-baseline.
+test infrastructure were ported without older production files. When the authoritative backend ref
+advanced during final verification, `f20192f` was merged only into the QA integration branch, then
+the affected tests and CI were refreshed. No QA commit was merged into a product branch.
 
 At the fetch used to establish this baseline, the other relevant refs were:
 
@@ -82,6 +83,7 @@ adapter is a product stub and is labelled as such at every level.
 The selected product baseline includes:
 
 - registration and login, including preservation of an optional booking `serviceId`;
+- post-login and direct-route booking gates that permit only Job Seekers;
 - Marketplace list/search and service detail;
 - unauthenticated booking continuation through login or registration;
 - service time-slot selection;
@@ -117,7 +119,8 @@ seven methods it actually implements; this is not described as client coverage o
 
 The backend includes JWT verification, Job Seeker role enforcement, order ownership enforcement,
 row locking of a selected slot, and persistence for users, services, availability slots, orders and
-bookings. It still uses SQLAlchemy `create_all()` rather than reviewed migrations.
+bookings. Seed data now includes two Job Seekers as well as four counsellors. The backend still uses
+SQLAlchemy `create_all()` rather than reviewed migrations.
 
 ### Published contract boundary
 
@@ -177,8 +180,8 @@ Executable tests cover:
 
 Known product behaviour is not rewritten by QA. Where a desired behaviour is absent or ambiguous,
 the test is a Todo or defect report rather than a fabricated Pass. Examples include runtime response
-schema validation, cancellation/timeouts, durable session storage, direct deep-link role handling,
-modality choice, dynamic timezone selection and confirmation parameter validation.
+schema validation, cancellation/timeouts, durable session storage, modality choice, dynamic
+timezone selection and confirmation parameter validation.
 
 Server-side logout (`DELETE /auth/sessions/current`) and refresh-token operations exist only in the
 target contract. Local logout clears React state but does not invalidate the issued stateless JWT.
@@ -295,7 +298,9 @@ pushed and GitHub Actions succeeds for the exact commit.
 
 - Product: the reviewed strict XFail/Todo catalogue includes the missing slot UNIQUE invariant,
   hold expiry, stable repeated-payment reference, response validation, dynamic modality/timezone,
-  durable session/refresh/server logout and confirmation validation.
+  durable session/refresh/server logout and confirmation validation. The new manual `reset_db.py`
+  imports the product engine and calls `drop_all()` without the QA database-name/reset-opt-in guard;
+  its safety requirement remains a strict XFail and the script must not target shared data.
 - Architecture: the client is handwritten, payment is a stub, persistence uses `create_all()`, and
   most of the 36-operation target contract has no runtime route.
 - Dependencies: QA tools are pinned, but `backend/requirements.txt` uses open lower bounds. A clean
@@ -310,7 +315,7 @@ pushed and GitHub Actions succeeds for the exact commit.
 
 This QA slice is ready for local review only when:
 
-- product behaviour remains that of `cdfc257`, with any style-only delta separately listed;
+- product behaviour remains that of `f20192f`, with any style-only delta separately listed;
 - frontend lint, typecheck and all implemented Jest tests pass;
 - backend QA Ruff passes;
 - SQLite and PostgreSQL pytest runs pass except reviewed strict XFail and explicit Skip;
@@ -371,8 +376,8 @@ Create the Python environment from the repository root:
 python3.12 -m venv backend/.venv
 backend/.venv/bin/python -m pip install --upgrade pip
 backend/.venv/bin/python -m pip install -r backend/requirements-test.txt
-backend/.venv/bin/python -m compileall -q backend/app
-backend/.venv/bin/ruff check backend/app backend/tests backend/pyproject.toml
+backend/.venv/bin/python -m compileall -q backend/app backend/reset_db.py
+backend/.venv/bin/ruff check backend/app backend/reset_db.py backend/tests backend/pyproject.toml
 ```
 
 SQLite fallback, which is never PostgreSQL evidence:
