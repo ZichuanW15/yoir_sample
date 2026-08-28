@@ -43,7 +43,16 @@ describe('Login screen', () => {
 
   test('continues a pending booking after login', async () => {
     paramsMock.mockReturnValue({ serviceId: 'service/one' });
-    loginMock.mockResolvedValueOnce(undefined);
+    loginMock.mockResolvedValueOnce({
+      accessToken: 'job-seeker-token',
+      expiresAt: '2026-08-29T01:00:00.000Z',
+      user: {
+        id: 'job-seeker-1',
+        name: 'Alex',
+        email: 'alex@example.com',
+        role: 'job_seeker',
+      },
+    });
     render(<LoginScreen />);
 
     expect(screen.getByText('Log in to choose a time and complete your booking.')).toBeTruthy();
@@ -97,6 +106,30 @@ describe('Login screen', () => {
     expect(replaceMock).not.toHaveBeenCalled();
   });
 
+  test('routes an authenticated non-job-seeker back to service detail', async () => {
+    paramsMock.mockReturnValue({ serviceId: 'service/one' });
+    loginMock.mockResolvedValueOnce({
+      accessToken: 'counsellor-token',
+      expiresAt: '2026-08-29T01:00:00.000Z',
+      user: {
+        id: 'counsellor-1',
+        name: 'Maya',
+        email: 'maya@example.com',
+        role: 'counsellor',
+      },
+    });
+    render(<LoginScreen />);
+
+    completeLoginForm();
+    fireEvent.press(screen.getByRole('button', { name: 'Log in' }));
+
+    await waitFor(() =>
+      expect(replaceMock).toHaveBeenCalledWith({
+        pathname: '/services/[serviceId]',
+        params: { serviceId: 'service/one' },
+      }),
+    );
+  });
+
   test.todo('rejects an invalid or non-scalar booking serviceId before redirecting');
-  test.todo('routes an authenticated non-job-seeker away from the booking flow');
 });

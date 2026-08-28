@@ -82,6 +82,27 @@ describe('Time-slot screen', () => {
     expect(listSlotsMock).not.toHaveBeenCalled();
   });
 
+  test.each(['counsellor', 'platform_owner'] as const)(
+    'redirects a %s away without loading booking data',
+    async (role) => {
+      useAuthMock.mockReturnValue({
+        session: { ...sessionFixture, user: { ...sessionFixture.user, role } },
+        login: jest.fn(),
+        logout: jest.fn(),
+      });
+      render(<TimeSlotsScreen />);
+
+      await waitFor(() =>
+        expect(replaceMock).toHaveBeenCalledWith({
+          pathname: '/services/[serviceId]',
+          params: { serviceId: 'service-1' },
+        }),
+      );
+      expect(getServiceMock).not.toHaveBeenCalled();
+      expect(listSlotsMock).not.toHaveBeenCalled();
+    },
+  );
+
   test('keeps payment disabled until the user selects a slot', async () => {
     render(<TimeSlotsScreen />);
 
@@ -150,7 +171,6 @@ describe('Time-slot screen', () => {
     ).toBeTruthy();
   });
 
-  test.todo('prevents counsellors and platform owners from loading the booking screen');
   test.todo('requires the user to choose a modality when a service offers more than one');
   test.todo('uses a user-selected IANA timezone instead of hard-coded Australia/Sydney');
   test.todo('keeps a payment failure visible after refreshing service and slot data');

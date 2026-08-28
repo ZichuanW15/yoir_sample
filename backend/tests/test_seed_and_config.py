@@ -18,13 +18,19 @@ BACKEND = Path(__file__).resolve().parents[1]
 
 def test_seed_json_references_and_domains_are_valid() -> None:
     data = json.loads((BACKEND / "app" / "seed_data.json").read_text())
+    job_seekers = data["job_seekers"]
     counsellors = data["counsellors"]
     services = data["services"]
+    job_seeker_emails = [row["email"].lower() for row in job_seekers]
     emails = [row["email"].lower() for row in counsellors]
 
+    assert len(job_seekers) == 2
     assert len(counsellors) == 4
     assert len(services) == 7
+    assert len(job_seeker_emails) == len(set(job_seeker_emails))
     assert len(emails) == len(set(emails))
+    assert set(job_seeker_emails).isdisjoint(emails)
+    assert all(row["name"] and row["password"] for row in job_seekers)
     assert all(row["counsellor_email"].lower() in emails for row in services)
     assert all(row["currency"] == "AUD" for row in services)
     assert all(set(row["modalities"]).issubset({"online", "in_person"}) for row in services)

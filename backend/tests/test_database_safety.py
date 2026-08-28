@@ -5,6 +5,7 @@ These tests exercise URL parsing only; they never connect to the supplied URLs.
 
 from __future__ import annotations
 
+import ast
 from pathlib import Path
 
 import pytest
@@ -81,3 +82,33 @@ def test_malformed_database_url_is_rejected() -> None:
             "postgresql+psycopg://[not-a-valid-host/yoir_test",
             allow_database_reset="true",
         )
+
+
+@pytest.mark.xfail(
+    strict=True,
+    reason=(
+        "reset_db.py imports the product engine and drops every table without validating a test "
+        "database name or requiring YOIR_QA_ALLOW_DATABASE_RESET=true"
+    ),
+)
+def test_manual_reset_script_validates_target_before_destructive_import() -> None:
+    reset_script = Path(__file__).resolve().parents[1] / "reset_db.py"
+    tree = ast.parse(reset_script.read_text(encoding="utf-8"))
+    imported_names = {
+        alias.name
+        for node in ast.walk(tree)
+        if isinstance(node, ast.ImportFrom)
+        for alias in node.names
+    }
+
+    assert "validate_database_reset_target" in imported_names
+    source_lines = reset_script.read_text(encoding="utf-8").splitlines()
+    validation_line = next(
+        index
+        for index, line in enumerate(source_lines)
+        if "validate_database_reset_target(" in line
+    )
+    product_db_import_line = next(
+        index for index, line in enumerate(source_lines) if "from app.db import" in line
+    )
+    assert validation_line < product_db_import_line
