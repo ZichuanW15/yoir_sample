@@ -13,7 +13,6 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.models import AvailabilitySlot, Service, User
-
 from app.security import hash_password
 
 _DATA_FILE = Path(__file__).parent / "seed_data.json"

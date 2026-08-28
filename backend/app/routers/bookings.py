@@ -30,9 +30,17 @@ def create_order(
     if slot is None or slot.service_id != service.id:
         raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Time slot not found.")
     if slot.status != "open":
-        raise ApiError(status.HTTP_409_CONFLICT, "SLOT_UNAVAILABLE", "This time slot is no longer available.")
+        raise ApiError(
+            status.HTTP_409_CONFLICT,
+            "SLOT_UNAVAILABLE",
+            "This time slot is no longer available.",
+        )
     if payload.modality not in (service.modalities or []):
-        raise ApiError(status.HTTP_400_BAD_REQUEST, "VALIDATION_ERROR", "Choose a supported service modality.")
+        raise ApiError(
+            status.HTTP_400_BAD_REQUEST,
+            "VALIDATION_ERROR",
+            "Choose a supported service modality.",
+        )
 
     slot.status = "held"
     order = Order(
@@ -82,7 +90,11 @@ def complete_stub_payment(
     service = db.get(Service, order.service_id)
     slot = db.get(AvailabilitySlot, order.slot_id)
     if service is None or slot is None:
-        raise ApiError(status.HTTP_409_CONFLICT, "INVALID_STATE_TRANSITION", "The order cannot be completed.")
+        raise ApiError(
+            status.HTTP_409_CONFLICT,
+            "INVALID_STATE_TRANSITION",
+            "The order cannot be completed.",
+        )
 
     existing = db.scalar(select(Booking).where(Booking.order_id == order.id))
     if existing is not None:
@@ -92,7 +104,11 @@ def complete_stub_payment(
             booking=_booking_out(existing, service),
         )
     if order.status != "awaiting_payment" or slot.status != "held":
-        raise ApiError(status.HTTP_409_CONFLICT, "INVALID_STATE_TRANSITION", "The order cannot be paid in its current state.")
+        raise ApiError(
+            status.HTTP_409_CONFLICT,
+            "INVALID_STATE_TRANSITION",
+            "The order cannot be paid in its current state.",
+        )
 
     order.status = "confirmed"
     order.payment_status = "paid"

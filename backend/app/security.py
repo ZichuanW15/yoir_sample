@@ -1,4 +1,5 @@
 from datetime import UTC, datetime, timedelta
+from typing import Annotated
 
 import jwt
 from argon2 import PasswordHasher
@@ -35,8 +36,8 @@ def create_access_token(user_id: str, role: str) -> tuple[str, datetime]:
 
 
 def get_current_user(
-    authorization: str | None = Header(default=None),
-    db: Session = Depends(get_db),
+    db: Annotated[Session, Depends(get_db)],
+    authorization: Annotated[str | None, Header()] = None,
 ) -> User:
     if not authorization or not authorization.startswith("Bearer "):
         raise ApiError(status.HTTP_401_UNAUTHORIZED, AUTHENTICATION_REQUIRED, "Log in to continue.")
@@ -48,14 +49,26 @@ def get_current_user(
         )
         user_id = payload.get("sub")
     except jwt.PyJWTError as exc:
-        raise ApiError(status.HTTP_401_UNAUTHORIZED, AUTHENTICATION_REQUIRED, "Your session is invalid or has expired.") from exc
+        raise ApiError(
+            status.HTTP_401_UNAUTHORIZED,
+            AUTHENTICATION_REQUIRED,
+            "Your session is invalid or has expired.",
+        ) from exc
     user = db.get(User, user_id)
     if user is None:
-        raise ApiError(status.HTTP_401_UNAUTHORIZED, AUTHENTICATION_REQUIRED, "Your session is invalid or has expired.")
+        raise ApiError(
+            status.HTTP_401_UNAUTHORIZED,
+            AUTHENTICATION_REQUIRED,
+            "Your session is invalid or has expired.",
+        )
     return user
 
 
-def require_job_seeker(user: User = Depends(get_current_user)) -> User:
+def require_job_seeker(user: Annotated[User, Depends(get_current_user)]) -> User:
     if user.role != "job_seeker":
-        raise ApiError(status.HTTP_403_FORBIDDEN, FORBIDDEN, "Only Job Seekers can book a service.")
+        raise ApiError(
+            status.HTTP_403_FORBIDDEN,
+            FORBIDDEN,
+            "Only Job Seekers can book a service.",
+        )
     return user
