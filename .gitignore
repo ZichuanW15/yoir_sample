@@ -1,8 +1,10 @@
 node_modules/
+__pycache__/
 .expo/
 dist/
 build/
 coverage/
+.coverage
 .env
 *.log
 .DS_Store
