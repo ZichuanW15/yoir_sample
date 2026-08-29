@@ -1,0 +1,7 @@
+# Keep binary formats out of text diffs so `git diff --check` never scans their streams.
+*.pdf  binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.gif  binary
+*.ico  binary

@@ -202,4 +202,3 @@ A story is done only when:
 - the feature is deployed to the agreed test environment;
 - user-facing behaviour works on the agreed target OS(es), supported versions, devices or simulators, and screen-size matrix;
 - the shared requirements and traceability records are updated if the delivered behaviour differs from the approved story.
-
