@@ -31,10 +31,7 @@ assessment.
 
 | Path | Contents |
 |---|---|
-| [app/](app/) | Expo Router screens: marketplace, service detail, time slots, login, register, booking confirmation |
-| [src/](src/) | Typed API client and demo adapter (`src/api/`), session provider (`src/auth/`), shared UI components and design tokens |
-| [__tests__/](__tests__/) | Jest suites for the API client, auth state, every screen, the route graph and the opt-in live TypeScript-client journey |
-| [assets/](assets/) | App icons and splash images |
+| [frontend/](frontend/) | Expo/React Native app — `app/` (Expo Router screens), `src/` (typed API client, demo adapter, session provider, shared UI), `__tests__/` (Jest), `assets/`; see [frontend/README.md](frontend/README.md) |
 | [backend/](backend/) | FastAPI backend — `app/` (routers, models, schemas, security, seed), `tests/` (pytest), `reset_db.py`, `docker-compose.yml` for a local PostgreSQL |
 | [scripts/](scripts/) | `check_repository_metadata.py` — OpenAPI/traceability parity, Markdown links, workflow YAML and seed JSON |
 | [docs/sprint1/](docs/sprint1/) | Sprint 1 documentation |
@@ -97,6 +94,7 @@ skeleton shortcuts are in [backend/README.md](backend/README.md).
 Prerequisites: Node.js 20 and npm.
 
 ```bash
+cd frontend
 npm install
 cp .env.example .env            # EXPO_PUBLIC_API_URL=http://<your-lan-ip>:8000/api/v1
 npm start
@@ -109,7 +107,8 @@ visible label; it is for UI-only work and is never evidence that the backend wor
 ### Test
 
 ```bash
-npm run lint && npm run typecheck && npm run test:coverage   # frontend, 90/80/90/90 coverage gate
+cd frontend && npm run lint && npm run typecheck \
+  && npm run test:coverage && cd ..                          # frontend, 90/80/90/90 coverage gate
 cd backend && .venv/bin/pip install -r requirements-test.txt \
   && .venv/bin/ruff check app tests reset_db.py \
   && .venv/bin/pytest tests && cd ..                         # backend on a temporary SQLite file

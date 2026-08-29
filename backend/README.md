@@ -68,7 +68,7 @@ uvicorn app.main:app --reload
 
 ## Connect the frontend
 
-In the repo root (the Expo app), set `.env`:
+In `frontend/` (the Expo app), set `.env`:
 
 ```text
 EXPO_PUBLIC_API_URL=http://<your-lan-ip>:8000/api/v1

@@ -34,7 +34,7 @@ The source of truth for paths, fields, enums, responses and errors is [`openapi.
 
 ## Connect the frontend
 
-Create `.env` from `.env.example`, then set:
+In `frontend/`, create `.env` from `.env.example`, then set:
 
 ```env
 EXPO_PUBLIC_API_URL=https://DEPLOYED_BACKEND/api/v1

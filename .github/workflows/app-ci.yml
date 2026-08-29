@@ -4,56 +4,26 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
-      - 'app/**'
-      - 'src/**'
-      - 'assets/**'
+      - 'frontend/**'
       - 'backend/**'
-      - '__tests__/**'
       - 'scripts/**'
       - '.github/**'
       - 'docs/**'
       - 'README.md'
       - '*.md'
-      - 'package.json'
-      - 'package-lock.json'
-      - 'app.json'
-      - 'app.config.*'
-      - 'babel.config.*'
-      - 'metro.config.*'
-      - 'eas.json'
-      - 'eslint.config.js'
-      - 'tsconfig.json'
-      - 'jest.config.js'
-      - 'expo-env.d.ts'
-      - '.env.example'
-      - '.npmrc'
       - '.gitignore'
+      - '.gitattributes'
   push:
     paths:
-      - 'app/**'
-      - 'src/**'
-      - 'assets/**'
+      - 'frontend/**'
       - 'backend/**'
-      - '__tests__/**'
       - 'scripts/**'
       - '.github/**'
       - 'docs/**'
       - 'README.md'
       - '*.md'
-      - 'package.json'
-      - 'package-lock.json'
-      - 'app.json'
-      - 'app.config.*'
-      - 'babel.config.*'
-      - 'metro.config.*'
-      - 'eas.json'
-      - 'eslint.config.js'
-      - 'tsconfig.json'
-      - 'jest.config.js'
-      - 'expo-env.d.ts'
-      - '.env.example'
-      - '.npmrc'
       - '.gitignore'
+      - '.gitattributes'
 
 permissions:
   contents: read
@@ -67,6 +37,9 @@ jobs:
     name: Frontend lint, typecheck, coverage, audit and export
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: frontend
     env:
       CI: 'true'
 
@@ -81,7 +54,7 @@ jobs:
         with:
           node-version: '20.20.2'
           cache: npm
-          cache-dependency-path: package-lock.json
+          cache-dependency-path: frontend/package-lock.json
 
       - name: Install dependencies
         id: frontend_install
@@ -120,10 +93,10 @@ jobs:
         with:
           name: frontend-evidence-${{ github.run_attempt }}
           path: |
-            coverage/
-            dist/qa-web-smoke/
-            artifacts/jest-results.json
-            artifacts/npm-audit-production.json
+            frontend/coverage/
+            frontend/dist/qa-web-smoke/
+            frontend/artifacts/jest-results.json
+            frontend/artifacts/npm-audit-production.json
           if-no-files-found: warn
           retention-days: 14
 
@@ -253,12 +226,12 @@ jobs:
         with:
           node-version: '20.20.2'
           cache: npm
-          cache-dependency-path: package-lock.json
+          cache-dependency-path: frontend/package-lock.json
 
       - name: Install live integration dependencies
         run: |
           python -m pip install -r backend/requirements-test.txt
-          npm ci --no-audit
+          npm --prefix frontend ci --no-audit
 
       - name: Create isolated live PostgreSQL database
         run: |
@@ -337,7 +310,7 @@ jobs:
           httpx_status=$?
 
           LIVE_API_BASE_URL="$LIVE_API_BASE_URL" \
-            npm run test:client:live \
+            npm --prefix frontend run test:client:live \
             2>&1 | tee "$RUNNER_TEMP/typescript-client-live.log"
           typescript_status=${PIPESTATUS[0]}
           set -e

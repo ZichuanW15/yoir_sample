@@ -139,7 +139,7 @@ are Planned or Blocked, not executable Passes.
 | Backend API | HTTP route to schema, security and SQLAlchemy | SQLite and PostgreSQL |
 | Contract | OpenAPI, traceability CSV and runtime route boundary | Executed |
 | Live HTTP | Separate Uvicorn process and full eight-operation journey | Isolated PostgreSQL database |
-| Cross-stack client | Real `src/api/client.ts` over `fetch` to Uvicorn | Opt-in, isolated PostgreSQL; never mocked |
+| Cross-stack client | Real `frontend/src/api/client.ts` over `fetch` to Uvicorn | Opt-in, isolated PostgreSQL; never mocked |
 | Hosted CI | GitHub Actions on an exact pushed commit | Not evidence until pushed and successful |
 | Native device/E2E | Built native app to deployed backend | Blocked |
 | Real payment | Provider intent, webhook and settlement | Blocked; stub only |
@@ -186,7 +186,7 @@ timezone selection and confirmation parameter validation.
 Server-side logout (`DELETE /auth/sessions/current`) and refresh-token operations exist only in the
 target contract. Local logout clears React state but does not invalidate the issued stateless JWT.
 
-Jest instruments all JavaScript/TypeScript under `app/**` and `src/**` and enforces non-regression
+Jest instruments all JavaScript/TypeScript under `frontend/app/**` and `frontend/src/**` and enforces non-regression
 minimums of 90% statements, 80% branches, 90% functions and 90% lines. The live client suite remains
 in the normal collection as an explicit environment Skip, and the dedicated live command fails fast
 when `LIVE_API_BASE_URL` is absent.
@@ -363,9 +363,10 @@ If port 5432 or that container name is already in use, stop and choose an isolat
 than reusing an unknown database. System PostgreSQL is acceptable only after the `yoir_test` and
 `yoir_live_test` databases and the `yoir` role are verified explicitly.
 
-Frontend, from the repository root:
+Frontend, from `frontend/`:
 
 ```bash
+cd frontend
 npm ci
 npm run lint
 npm run typecheck
@@ -373,6 +374,7 @@ npm run test:ci
 npm run test:coverage
 npx expo export --platform web --output-dir dist/qa-web-smoke
 npm audit
+cd ..
 ```
 
 Create the Python environment from the repository root:
@@ -422,7 +424,7 @@ Then, from the repository root, run the two real-network checks:
 LIVE_API_BASE_URL=http://127.0.0.1:8000/api/v1 \
   backend/.venv/bin/pytest backend/tests/test_live_api.py -q -ra
 LIVE_API_BASE_URL=http://127.0.0.1:8000/api/v1 \
-  npm run test:client:live
+  npm --prefix frontend run test:client:live
 ```
 
 Repository evidence, from the root:
