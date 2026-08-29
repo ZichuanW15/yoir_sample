@@ -41,7 +41,7 @@ assessment.
 | [docs/sprint1/executable-architecture/](docs/sprint1/executable-architecture/) | Published API contract (`openapi.yaml`), interface contract, requirement traceability, backend integration guide |
 | [docs/sprint1/qa/](docs/sprint1/qa/) | Test approach and recorded test results for the executable architecture |
 | [docs/sprint1/process/](docs/sprint1/process/) | Board Insights automation — how the project board is published to the wiki |
-| [docs/sprint1/design-by-concept/](docs/sprint1/design-by-concept/) | Architecture diagram and the design reasoning behind it |
+| [docs/sprint1/design-by-concept/](docs/sprint1/design-by-concept/) | Architecture diagram, the design reasoning behind it, and the database schema |
 | [docs/sprint1/project/](docs/sprint1/project/) | Background and scope, requirements, product backlog, user story map, risk register |
 | [docs/sprint1/meeting-minutes/](docs/sprint1/meeting-minutes/) | Client meeting and daily stand-up minutes |
 | [docs/sprint1/Client-email/](docs/sprint1/Client-email/) | Client communication evidence |
