@@ -1,0 +1,16 @@
+import { demoCompletePayment, demoCreateOrder, demoGetService, demoListServices, demoListSlots, demoLogin, demoRegister } from './demo';
+import { ApiErrorBody, AvailabilitySlot, Order, RegisterRequest, Service, Session, StubPaymentConfirmation, User } from './types';
+const apiUrl=(process.env.EXPO_PUBLIC_API_URL??'http://localhost:8000/api/v1').replace(/\/$/,'');
+export const isDemoApi=process.env.EXPO_PUBLIC_USE_DEMO_API==='true';
+export class ApiError extends Error{constructor(public status:number,public body:ApiErrorBody){super(body.message);this.name='ApiError'}}
+async function request<T>(path:string,init?:RequestInit,accessToken?:string):Promise<T>{const response=await fetch(`${apiUrl}${path}`,{...init,headers:{Accept:'application/json',...(init?.body?{'Content-Type':'application/json'}:{}),...(accessToken?{Authorization:`Bearer ${accessToken}`} :{}),...init?.headers}});if(!response.ok){let body:ApiErrorBody;try{body=await response.json() as ApiErrorBody}catch{body={code:'NETWORK_RESPONSE_ERROR',message:'The service returned an unexpected response.',requestId:'unknown'}}throw new ApiError(response.status,body)}if(response.status===204)return undefined as T;return response.json() as Promise<T>}
+export const api={
+  login:(email:string,password:string):Promise<Session>=>isDemoApi?demoLogin(email,password):request('/auth/sessions',{method:'POST',body:JSON.stringify({email,password})}),
+  register:(input:RegisterRequest):Promise<User>=>isDemoApi?demoRegister(input):request('/auth/users',{method:'POST',body:JSON.stringify(input)}),
+  listServices:(query=''):Promise<Service[]>=>isDemoApi?demoListServices(query):request(`/services${query.trim()?`?query=${encodeURIComponent(query.trim())}`:''}`),
+  getService:(id:string):Promise<Service>=>isDemoApi?demoGetService(id):request(`/services/${encodeURIComponent(id)}`),
+  listServiceSlots:(serviceId:string):Promise<AvailabilitySlot[]>=>isDemoApi?demoListSlots(serviceId):request(`/services/${encodeURIComponent(serviceId)}/slots`),
+  createOrder:(serviceId:string,slotId:string,modality:string,timezone:string,accessToken:string):Promise<Order>=>isDemoApi?demoCreateOrder(serviceId,slotId):request('/orders',{method:'POST',body:JSON.stringify({serviceId,slotId,modality,timezone})},accessToken),
+  completeStubPayment:(order:Order,accessToken:string):Promise<StubPaymentConfirmation>=>isDemoApi?demoCompletePayment(order):request(`/orders/${encodeURIComponent(order.id)}/payments/stub`,{method:'POST'},accessToken),
+};
+export function userFacingError(error:unknown):string{if(error instanceof ApiError){if(error.body.code==='INVALID_CREDENTIALS')return'The email or password is incorrect.';return error.body.message||'Something went wrong. Please try again.'}if(error instanceof TypeError)return'We could not reach Yoir. Check your connection and try again.';if(error instanceof Error)return error.message;return'Something went wrong. Please try again.'}

@@ -1,0 +1,38 @@
+[project]
+name = "yoir-backend"
+version = "0.1.0"
+description = "Yoir executable-architecture backend skeleton (FastAPI)"
+requires-python = ">=3.11"
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.ruff.lint.per-file-ignores]
+# Depends(...) in argument defaults is the intended FastAPI idiom.
+"app/routers/*" = ["B008"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-ra --strict-markers"
+markers = [
+    "live: black-box integration test against a separately managed server and database",
+]
+
+[tool.coverage.run]
+branch = true
+source = ["app"]
+
+[tool.coverage.report]
+show_missing = true
+skip_empty = true
+
+[tool.coverage.xml]
+output = "coverage/coverage.xml"
+
+[tool.coverage.html]
+directory = "coverage/htmlcov"

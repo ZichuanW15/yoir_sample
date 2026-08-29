@@ -1,0 +1,91 @@
+{
+  "data": {
+    "organization": {
+      "projectV2": {
+        "title": "Koala delivery board",
+        "updatedAt": "2026-08-28T04:00:00Z",
+        "fields": {
+          "pageInfo": {"hasNextPage": false, "endCursor": null},
+          "nodes": [
+            {
+              "__typename": "ProjectV2SingleSelectField",
+              "name": "Status",
+              "options": [
+                {"name": "Product Backlog"},
+                {"name": "Sprint Backlog"},
+                {"name": "In Progress"},
+                {"name": "Blocked"},
+                {"name": "Under Review"},
+                {"name": "Sprint 1"},
+                {"name": "Sprint 2"}
+              ]
+            },
+            {"__typename": "ProjectV2Field", "name": "Story Points", "dataType": "NUMBER"},
+            {
+              "__typename": "ProjectV2IterationField",
+              "name": "Sprint",
+              "configuration": {
+                "completedIterations": [],
+                "iterations": [
+                  {"title": "Sprint 1", "startDate": "2026-08-10", "duration": 21},
+                  {"title": "Sprint 2", "startDate": "2026-08-31", "duration": 17}
+                ]
+              }
+            },
+            {"__typename": "ProjectV2SingleSelectField", "name": "Epic", "options": [{"name": "A - Authentication"}]},
+            {"__typename": "ProjectV2SingleSelectField", "name": "Work Type", "options": [{"name": "Story"}, {"name": "Enabler"}]},
+            {"__typename": "ProjectV2SingleSelectField", "name": "Priority", "options": [{"name": "Must-have"}, {"name": "Should-have"}]}
+          ]
+        },
+        "items": {
+          "totalCount": 5,
+          "pageInfo": {"hasNextPage": false, "endCursor": null},
+          "nodes": [
+            {
+              "id": "project-item-3",
+              "content": {
+                "__typename": "Issue",
+                "id": "issue-3",
+                "number": 3,
+                "title": "[S1-02] Interface contract",
+                "state": "CLOSED",
+                "createdAt": "2026-08-10T01:00:00Z",
+                "updatedAt": "2026-08-25T01:00:00Z",
+                "closedAt": "2026-08-25T01:00:00Z",
+                "url": "https://github.example/issues/3"
+              },
+              "fieldValues": {
+                "pageInfo": {"hasNextPage": false, "endCursor": null},
+                "nodes": [
+                  {"__typename": "ProjectV2ItemFieldNumberValue", "number": 3, "field": {"name": "Story Points"}},
+                  {"__typename": "ProjectV2ItemFieldSingleSelectValue", "name": "Sprint 1", "field": {"name": "Status"}},
+                  {"__typename": "ProjectV2ItemFieldIterationValue", "title": "Sprint 1", "startDate": "2026-08-10", "duration": 21, "field": {"name": "Sprint"}}
+                ]
+              }
+            },
+            {
+              "id": "project-item-4",
+              "content": {
+                "__typename": "Issue",
+                "id": "issue-4",
+                "number": 4,
+                "title": "[S1-03] Review documentation",
+                "state": "OPEN",
+                "createdAt": "2026-08-20T01:00:00Z",
+                "updatedAt": "2026-08-28T03:00:00Z",
+                "closedAt": null,
+                "url": "https://github.example/issues/4"
+              },
+              "fieldValues": {
+                "pageInfo": {"hasNextPage": false, "endCursor": null},
+                "nodes": [
+                  {"__typename": "ProjectV2ItemFieldSingleSelectValue", "name": "Under Review", "field": {"name": "Status"}}
+                ]
+              }
+            }
+          ]
+        }
+      }
+    }
+  }
+}

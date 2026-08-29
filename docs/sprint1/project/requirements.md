@@ -143,7 +143,7 @@ Purpose: list all product-backlog user stories that are required for the backend
 
 ## Authentication & Accounts
 
-- **US-01** Job Seeker Registration — register as job seeker (form with name, email, password, role). 
+- **US-01** Job Seeker Registration — register as job seeker (form with name, email, password, role).
 - **US-02** Job Seeker Registration — create account, password hashed, redirect after success.
 - **US-03** Job Seeker Registration — handle duplicate email error.
 - **US-04** Career Counsellor Registration — register as counsellor (role-based onboarding).
@@ -229,4 +229,3 @@ Architecture:
 - **Redis** for cache and task queue
 - **JWT** for authentication
 - **RESTful API** with JSON responses
-

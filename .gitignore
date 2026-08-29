@@ -1,4 +1,11 @@
-build/
 node_modules/
+__pycache__/
+dist/
+build/
+coverage/
+.coverage
+.env
+*.log
+.DS_Store
 /understanding/
 /output/pdf/

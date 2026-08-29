@@ -1,0 +1,187 @@
+name: Board Insights
+
+# 19:15 UTC is 05:15 the next day in AEST and 06:15 in AEDT.
+# Repository issue events do not fire for every ProjectV2 field-only change;
+# the schedule and manual trigger provide the eventual refresh path.
+on:
+  pull_request:
+    paths:
+      - '.github/scripts/board-insights.py'
+      - '.github/scripts/tests/**'
+      - '.github/mermaid/puppeteer.json'
+      - '.github/workflows/board-insights.yml'
+      - 'docs/sprint1/process/board-insights-automation.md'
+  push:
+    branches:
+      - main
+      - dev
+      - 'feature/**'
+      - 'feat/**'
+      - 'fix/**'
+      - 'qa/**'
+      - 'chore/**'
+    paths:
+      - '.github/scripts/board-insights.py'
+      - '.github/scripts/tests/**'
+      - '.github/mermaid/puppeteer.json'
+      - '.github/workflows/board-insights.yml'
+      - 'docs/sprint1/process/board-insights-automation.md'
+  schedule:
+    - cron: '15 19 * * *'
+  issues:
+    types: [opened, closed, reopened, edited]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Offline generator validation
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    concurrency:
+      group: board-insights-validate-${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
+    steps:
+      - name: Check out the repository
+        # actions/checkout v4, pinned to an owner-verified commit.
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        # actions/setup-python v5, pinned to an owner-verified commit.
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+
+      - name: Compile and test without credentials or network data
+        run: |
+          set -euo pipefail
+          python3 -m py_compile .github/scripts/board-insights.py
+          python3 -B .github/scripts/tests/test_board_insights.py -v
+
+  publish:
+    name: Regenerate Wiki insights
+    if: >-
+      github.event_name == 'schedule' ||
+      github.event_name == 'issues' ||
+      github.event_name == 'workflow_dispatch'
+    needs: validate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    concurrency:
+      # Serialise every publishing event so two snapshots cannot race on the Wiki.
+      group: board-insights-publish
+      cancel-in-progress: false
+
+    steps:
+      - name: Check out the repository
+        # actions/checkout v4, pinned to an owner-verified commit.
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        # actions/setup-python v5, pinned to an owner-verified commit.
+        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065
+        with:
+          python-version: '3.12'
+
+      - name: Check the publishing credential is configured
+        env:
+          BOARD_INSIGHTS_TOKEN: ${{ secrets.BOARD_INSIGHTS_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${BOARD_INSIGHTS_TOKEN//[[:space:]]/}" ]; then
+            echo '::error::Repository secret BOARD_INSIGHTS_TOKEN is not configured.'
+            exit 1
+          fi
+
+      # GIT_ASKPASS keeps the token out of the clone URL, command line and Git config.
+      - name: Check out the Wiki
+        env:
+          BOARD_INSIGHTS_TOKEN: ${{ secrets.BOARD_INSIGHTS_TOKEN }}
+        run: |
+          set -euo pipefail
+          umask 077
+          cat > "$RUNNER_TEMP/board-insights-askpass.sh" <<'EOF'
+          #!/usr/bin/env bash
+          case "$1" in
+            *Username*) printf '%s\n' 'x-access-token' ;;
+            *Password*) printf '%s\n' "$BOARD_INSIGHTS_TOKEN" ;;
+            *) exit 1 ;;
+          esac
+          EOF
+          chmod 700 "$RUNNER_TEMP/board-insights-askpass.sh"
+          GIT_ASKPASS="$RUNNER_TEMP/board-insights-askpass.sh" \
+            GIT_TERMINAL_PROMPT=0 \
+            git clone "https://github.com/${GITHUB_REPOSITORY}.wiki.git" wiki
+
+      - name: Generate only the marker-delimited Wiki section
+        env:
+          GH_TOKEN: ${{ secrets.BOARD_INSIGHTS_TOKEN }}
+        run: |
+          set -euo pipefail
+          .github/scripts/board-insights.py \
+            --wiki wiki/Process-Documentation-and-Insights.md
+
+      - name: Set up Node.js
+        # actions/setup-node v4, pinned to an owner-verified commit.
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '20'
+
+      - name: Install the pinned Mermaid CLI
+        run: npm install --global @mermaid-js/mermaid-cli@11.16.0
+
+      # Mermaid CLI reads every fenced Mermaid block in the target Markdown.
+      # A render failure stops the job before the Wiki commit and push steps.
+      - name: Check the generated diagrams render
+        run: |
+          set -euo pipefail
+          mkdir -p build/insights
+          mmdc \
+            --puppeteerConfigFile .github/mermaid/puppeteer.json \
+            --input wiki/Process-Documentation-and-Insights.md \
+            --output build/insights/Process-Documentation-and-Insights.md
+
+      - name: Publish the generated block in the job summary
+        run: |
+          set -euo pipefail
+          sed -n \
+            '/board-insights:start/,/board-insights:end/p' \
+            wiki/Process-Documentation-and-Insights.md \
+            >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Commit and push only when the generated block changed
+        working-directory: wiki
+        env:
+          BOARD_INSIGHTS_TOKEN: ${{ secrets.BOARD_INSIGHTS_TOKEN }}
+        run: |
+          set -euo pipefail
+          page='Process-Documentation-and-Insights.md'
+          if git diff --quiet -- "$page"; then
+            echo 'No Project Board data changed since the previous Wiki snapshot.'
+            exit 0
+          fi
+
+          changes="$(git status --porcelain=v1 --untracked-files=all)"
+          expected=" M $page"
+          if [ "$changes" != "$expected" ]; then
+            echo '::error::The Wiki checkout contains changes other than the one target page.'
+            printf '%s\n' "$changes"
+            exit 1
+          fi
+
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- "$page"
+          git diff --cached --check
+          git commit -m 'docs(process): refresh project board insights'
+
+          GIT_ASKPASS="$RUNNER_TEMP/board-insights-askpass.sh" \
+            GIT_TERMINAL_PROMPT=0 \
+            git push origin HEAD

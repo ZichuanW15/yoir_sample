@@ -1,0 +1,21 @@
+# A local PostgreSQL 16 (the engine named in the design concept), for anyone
+# without a Postgres already installed.
+#
+#   docker compose up -d
+#   # in backend/.env:
+#   DATABASE_URL=postgresql+psycopg://yoir:yoir@localhost:5432/yoir
+#
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: yoir
+      POSTGRES_PASSWORD: yoir
+      POSTGRES_DB: yoir
+    ports:
+      - "5432:5432"
+    volumes:
+      - yoir_pg:/var/lib/postgresql/data
+
+volumes:
+  yoir_pg:

@@ -1,0 +1,932 @@
+openapi: 3.0.3
+info:
+  title: Yoir Executable Architecture API
+  version: 0.1.0
+  description: Sprint 1 published HTTP contract. Each operation declares baseline requirement IDs through x-requirement-ids.
+servers:
+  - url: /api/v1
+security:
+  - bearerAuth: []
+tags:
+  - name: Authentication
+  - name: Marketplace
+  - name: Orders
+  - name: Bookings
+  - name: Messaging
+  - name: Counsellor
+  - name: Administration
+paths:
+  /auth/sessions:
+    post:
+      tags: [Authentication]
+      operationId: login
+      security: []
+      x-requirement-ids: [US-06, US-07]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/LoginRequest'}
+      responses:
+        '200':
+          description: Authenticated session
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Session'}
+        '401': {$ref: '#/components/responses/InvalidCredentials'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+  /auth/users:
+    post:
+      tags: [Authentication]
+      operationId: register
+      security: []
+      x-requirement-ids: [US-01, US-02, US-03, US-04]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/RegisterRequest'}
+      responses:
+        '201':
+          description: Account created; caller proceeds to login
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/User'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /auth/sessions/refresh:
+    post:
+      tags: [Authentication]
+      operationId: refreshSession
+      x-requirement-ids: [US-06]
+      responses:
+        '200':
+          description: Rotated authenticated session
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Session'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+  /auth/password-reset-requests:
+    post:
+      tags: [Authentication]
+      operationId: requestPasswordReset
+      security: []
+      x-requirement-ids: [US-70]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email: {type: string, format: email}
+      responses:
+        '202': {description: Generic accepted response whether or not account exists}
+        '400': {$ref: '#/components/responses/BadRequest'}
+  /auth/sessions/current:
+    delete:
+      tags: [Authentication]
+      operationId: logout
+      x-requirement-ids: [US-08]
+      responses:
+        '204': {description: Session invalidated}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+  /services:
+    get:
+      tags: [Marketplace]
+      operationId: listServices
+      security: []
+      x-requirement-ids: [US-44, US-45]
+      parameters:
+        - {name: query, in: query, schema: {type: string}}
+        - {name: modality, in: query, schema: {$ref: '#/components/schemas/Modality'}}
+      responses:
+        '200':
+          description: Active public services
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/Service'}
+  /services/{serviceId}:
+    parameters:
+      - {$ref: '#/components/parameters/ServiceId'}
+    get:
+      tags: [Marketplace]
+      operationId: getService
+      security: []
+      x-requirement-ids: [US-46]
+      responses:
+        '200':
+          description: Public service detail
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Service'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /services/{serviceId}/slots:
+    parameters:
+      - {$ref: '#/components/parameters/ServiceId'}
+    get:
+      tags: [Marketplace]
+      operationId: listServiceSlots
+      security: []
+      x-requirement-ids: [US-40]
+      responses:
+        '200':
+          description: Currently open slots only
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/AvailabilitySlot'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /orders:
+    post:
+      tags: [Orders]
+      operationId: createOrder
+      x-required-role: job_seeker
+      x-requirement-ids: [US-41, US-47]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/CreateOrderRequest'}
+      responses:
+        '201':
+          description: Slot reserved and pending-payment order created
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Order'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /orders/{orderId}/payment-intents:
+    parameters:
+      - {$ref: '#/components/parameters/OrderId'}
+    post:
+      tags: [Orders]
+      operationId: createPaymentIntent
+      x-required-role: job_seeker
+      x-requirement-ids: [US-47]
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema: {type: string, minLength: 8, maxLength: 128}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+      responses:
+        '200':
+          description: Stripe Test PaymentIntent details for PaymentSheet; booking is not yet confirmed
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PaymentIntent'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '422': {$ref: '#/components/responses/PaymentFailed'}
+  /payments/stripe/webhook:
+    post:
+      tags: [Orders]
+      operationId: processStripeWebhook
+      security: []
+      x-authentication: Stripe-Signature over raw request body
+      x-requirement-ids: [US-41, US-47, US-68]
+      parameters:
+        - name: Stripe-Signature
+          in: header
+          required: true
+          schema: {type: string}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {type: object, additionalProperties: true}
+      responses:
+        '200': {description: Event processed or duplicate event acknowledged as a no-op}
+        '400': {$ref: '#/components/responses/BadRequest'}
+  /orders/{orderId}/payments/stub:
+    parameters:
+      - {$ref: '#/components/parameters/OrderId'}
+    post:
+      tags: [Orders]
+      operationId: completeStubPayment
+      x-required-role: job_seeker
+      x-requirement-ids: [US-47, US-68]
+      description: Development payment boundary used while CLIENT-02 remains unresolved. It accepts no card data and charges no real money.
+      responses:
+        '200':
+          description: Stub payment recorded and booking confirmed
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/StubPaymentConfirmation'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /me/bookings:
+    get:
+      tags: [Bookings]
+      operationId: listMyBookings
+      x-required-role: job_seeker_or_counsellor
+      x-requirement-ids: [US-42]
+      responses:
+        '200':
+          description: Caller-owned bookings
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/Booking'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+  /bookings/{bookingId}:
+    parameters:
+      - {$ref: '#/components/parameters/BookingId'}
+    get:
+      tags: [Bookings]
+      operationId: getBooking
+      x-required-role: participant_or_platform_owner
+      x-requirement-ids: [US-43, US-68]
+      responses:
+        '200':
+          description: Authorised booking detail
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Booking'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /bookings/{bookingId}/reschedule:
+    parameters:
+      - {$ref: '#/components/parameters/BookingId'}
+    post:
+      tags: [Bookings]
+      operationId: rescheduleBooking
+      x-required-role: booking_participant
+      x-requirement-ids: [US-69]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [newSlotId]
+              properties:
+                newSlotId: {type: string}
+      responses:
+        '200':
+          description: Booking moved atomically to new open slot
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Booking'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /bookings/{bookingId}/messages:
+    parameters:
+      - {$ref: '#/components/parameters/BookingId'}
+    get:
+      tags: [Messaging]
+      operationId: listMessages
+      x-required-role: booking_participant
+      x-requirement-ids: [US-49, US-50]
+      responses:
+        '200':
+          description: Order-linked message history
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/Message'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+    post:
+      tags: [Messaging]
+      operationId: sendMessage
+      x-required-role: booking_participant
+      x-requirement-ids: [US-50, US-62, US-63]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [content]
+              properties:
+                content: {type: string, minLength: 1, maxLength: 4000}
+      responses:
+        '201':
+          description: Message appended
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Message'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /bookings/{bookingId}/completion:
+    parameters:
+      - {$ref: '#/components/parameters/BookingId'}
+    post:
+      tags: [Bookings]
+      operationId: completeBooking
+      x-required-role: booked_counsellor
+      x-requirement-ids: [US-53]
+      responses:
+        '200':
+          description: Completed booking
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Booking'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /bookings/{bookingId}/review:
+    parameters:
+      - {$ref: '#/components/parameters/BookingId'}
+    post:
+      tags: [Bookings]
+      operationId: createReview
+      x-required-role: owning_job_seeker
+      x-requirement-ids: [US-53, US-54, US-55]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/CreateReviewRequest'}
+      responses:
+        '201':
+          description: Review stored and aggregates updated
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Review'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /me/services:
+    get:
+      tags: [Counsellor]
+      operationId: listOwnServices
+      x-required-role: counsellor
+      x-requirement-ids: [US-34, US-36]
+      responses:
+        '200':
+          description: Caller-owned services
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/Service'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+    post:
+      tags: [Counsellor]
+      operationId: createService
+      x-required-role: eligible_counsellor
+      x-requirement-ids: [US-34, US-35, US-37, US-38]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/CreateServiceRequest'}
+      responses:
+        '201':
+          description: Service created
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Service'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /me/availability-slots:
+    post:
+      tags: [Counsellor]
+      operationId: createAvailabilitySlot
+      x-required-role: counsellor
+      x-requirement-ids: [US-39]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [serviceId, startsAt, endsAt]
+              properties:
+                serviceId: {type: string}
+                startsAt: {type: string, format: date-time}
+                endsAt: {type: string, format: date-time}
+      responses:
+        '201':
+          description: Open availability slot created
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/AvailabilitySlot'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /counsellors/{counsellorId}:
+    get:
+      tags: [Marketplace]
+      operationId: getCounsellorProfile
+      security: []
+      x-requirement-ids: [US-30, US-44, US-46]
+      parameters:
+        - {name: counsellorId, in: path, required: true, schema: {type: string}}
+      responses:
+        '200':
+          description: Public professional profile
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/CounsellorSummary'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /me/counsellor-profile:
+    patch:
+      tags: [Counsellor]
+      operationId: updateOwnCounsellorProfile
+      x-required-role: counsellor
+      x-requirement-ids: [US-30]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                displayName: {type: string, maxLength: 120}
+                introduction: {type: string, maxLength: 5000}
+      responses:
+        '200':
+          description: Updated professional profile
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/CounsellorSummary'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /me/verification-submissions:
+    post:
+      tags: [Counsellor]
+      operationId: submitVerification
+      x-required-role: counsellor
+      x-requirement-ids: [US-31, US-32]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [linkedInUrl]
+              properties:
+                linkedInUrl: {type: string, format: uri}
+      responses:
+        '201':
+          description: Manual-review submission created
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/VerificationSubmission'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+  /forum/boards:
+    get:
+      tags: [Marketplace]
+      operationId: listForumBoards
+      security: []
+      x-requirement-ids: [US-14]
+      responses:
+        '200':
+          description: Public Forum boards
+          content:
+            application/json:
+              schema: {type: array, items: {$ref: '#/components/schemas/ForumBoard'}}
+  /forum/posts:
+    get:
+      tags: [Marketplace]
+      operationId: listForumPosts
+      security: []
+      x-requirement-ids: [US-15, US-22]
+      parameters:
+        - {name: boardId, in: query, schema: {type: string}}
+        - {name: query, in: query, schema: {type: string}}
+        - {name: sort, in: query, schema: {type: string, enum: [newest, oldest, most_liked]}}
+      responses:
+        '200':
+          description: Filtered public Forum posts
+          content:
+            application/json:
+              schema: {type: array, items: {$ref: '#/components/schemas/ForumPost'}}
+    post:
+      tags: [Marketplace]
+      operationId: createForumPost
+      x-required-role: job_seeker
+      x-requirement-ids: [US-16, US-17, US-19]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [boardId, title, content]
+              properties:
+                boardId: {type: string}
+                title: {type: string, minLength: 1, maxLength: 200}
+                content: {type: string, minLength: 1, maxLength: 10000}
+      responses:
+        '201': {description: Post persisted, content: {application/json: {schema: {$ref: '#/components/schemas/ForumPost'}}}}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /forum/posts/{postId}/replies:
+    post:
+      tags: [Marketplace]
+      operationId: replyToForumPost
+      x-required-role: authenticated_eligible_user
+      x-requirement-ids: [US-18, US-20]
+      parameters:
+        - {name: postId, in: path, required: true, schema: {type: string}}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {type: object, required: [content], properties: {content: {type: string, minLength: 1, maxLength: 10000}}}
+      responses:
+        '201': {description: Attributed reply persisted}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /forum/posts/{postId}/like:
+    put:
+      tags: [Marketplace]
+      operationId: toggleForumLike
+      x-requirement-ids: [US-21]
+      parameters:
+        - {name: postId, in: path, required: true, schema: {type: string}}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {type: object, required: [liked], properties: {liked: {type: boolean}}}
+      responses:
+        '200': {description: Requested like state and count returned}
+  /orders/{orderId}/disputes:
+    post:
+      tags: [Orders]
+      operationId: submitDispute
+      x-required-role: owning_job_seeker
+      x-requirement-ids: [US-51]
+      parameters:
+        - {$ref: '#/components/parameters/OrderId'}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {type: object, required: [reason], properties: {reason: {type: string, minLength: 1, maxLength: 5000}}}
+      responses:
+        '201': {description: Order-linked dispute recorded}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /admin/verifications:
+    get:
+      tags: [Administration]
+      operationId: listVerificationSubmissions
+      x-required-role: platform_owner
+      x-requirement-ids: [US-58]
+      responses:
+        '200':
+          description: Verification review queue
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/VerificationSubmission'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /admin/verifications/{submissionId}/decision:
+    parameters:
+      - {name: submissionId, in: path, required: true, schema: {type: string}}
+    post:
+      tags: [Administration]
+      operationId: decideVerification
+      x-required-role: platform_owner
+      x-requirement-ids: [US-32, US-58]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [decision]
+              properties:
+                decision: {type: string, enum: [verified, rejected]}
+                reason: {type: string, maxLength: 1000}
+      responses:
+        '200':
+          description: Decision recorded
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/VerificationSubmission'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /admin/payments:
+    get:
+      tags: [Administration]
+      operationId: listPaymentOversight
+      x-required-role: platform_owner
+      x-requirement-ids: [US-48]
+      responses:
+        '200':
+          description: Payment and order progress without payment credentials
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/PaymentOversight'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /admin/disputes/{disputeId}/resolution:
+    post:
+      tags: [Administration]
+      operationId: resolveDispute
+      x-required-role: platform_owner
+      x-requirement-ids: [US-52]
+      parameters:
+        - {name: disputeId, in: path, required: true, schema: {type: string}}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {type: object, required: [outcome], properties: {outcome: {type: string}, notes: {type: string, maxLength: 5000}}}
+      responses:
+        '200': {description: Resolution and related states updated}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /health:
+    get:
+      tags: [Administration]
+      operationId: healthCheck
+      security: []
+      x-requirement-ids: [NFR-02]
+      responses:
+        '200':
+          description: Process and database ready; contains no secrets
+          content:
+            application/json:
+              schema: {type: object, required: [status], properties: {status: {type: string, enum: [ok]}}}
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  parameters:
+    ServiceId: {name: serviceId, in: path, required: true, schema: {type: string}}
+    OrderId: {name: orderId, in: path, required: true, schema: {type: string}}
+    BookingId: {name: bookingId, in: path, required: true, schema: {type: string}}
+  responses:
+    BadRequest:
+      description: Validation error
+      content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}
+    Unauthorised:
+      description: Authentication required
+      content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}
+    InvalidCredentials:
+      description: Generic email-or-password failure
+      content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}
+    Forbidden:
+      description: Actor lacks role or resource permission
+      content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}
+    NotFound:
+      description: Resource not found
+      content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}
+    Conflict:
+      description: State or concurrency conflict
+      content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}
+    PaymentFailed:
+      description: Sandbox payment failed safely
+      content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}
+  schemas:
+    Role: {type: string, enum: [job_seeker, counsellor, platform_owner]}
+    Modality: {type: string, enum: [online, in_person]}
+    LoginRequest:
+      type: object
+      additionalProperties: false
+      required: [email, password]
+      properties:
+        email: {type: string, format: email}
+        password: {type: string, minLength: 1, format: password}
+    RegisterRequest:
+      type: object
+      additionalProperties: false
+      required: [name, email, password, passwordConfirmation, role]
+      properties:
+        name: {type: string, minLength: 1, maxLength: 120}
+        email: {type: string, format: email}
+        password: {type: string, minLength: 8, format: password}
+        passwordConfirmation: {type: string, minLength: 8, format: password}
+        role: {type: string, enum: [job_seeker, counsellor]}
+    User:
+      type: object
+      required: [id, name, email, role]
+      properties:
+        id: {type: string}
+        name: {type: string}
+        email: {type: string, format: email}
+        role: {$ref: '#/components/schemas/Role'}
+    Session:
+      type: object
+      required: [accessToken, expiresAt, user]
+      properties:
+        accessToken: {type: string}
+        expiresAt: {type: string, format: date-time}
+        user: {$ref: '#/components/schemas/User'}
+    CounsellorSummary:
+      type: object
+      required: [id, displayName, verificationStatus, reviewCount]
+      properties:
+        id: {type: string}
+        displayName: {type: string}
+        introduction: {type: string}
+        verificationStatus: {type: string, enum: [pending, verified, rejected]}
+        overallRating: {type: number, minimum: 1, maximum: 5, nullable: true}
+        reviewCount: {type: integer, minimum: 0}
+    Location:
+      type: object
+      required: [state, cityOrRegion]
+      properties:
+        state: {type: string}
+        cityOrRegion: {type: string}
+    Service:
+      type: object
+      required: [id, counsellor, title, description, priceMinor, currency, modalities, active, reviewCount]
+      properties:
+        id: {type: string}
+        counsellor: {$ref: '#/components/schemas/CounsellorSummary'}
+        title: {type: string}
+        description: {type: string}
+        priceMinor: {type: integer, minimum: 0}
+        currency: {type: string, enum: [AUD]}
+        modalities:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items: {$ref: '#/components/schemas/Modality'}
+        location: {$ref: '#/components/schemas/Location'}
+        active: {type: boolean}
+        averageRating: {type: number, minimum: 1, maximum: 5, nullable: true}
+        reviewCount: {type: integer, minimum: 0}
+    CreateServiceRequest:
+      type: object
+      additionalProperties: false
+      required: [title, description, priceMinor, currency, modalities]
+      properties:
+        title: {type: string, minLength: 1, maxLength: 120}
+        description: {type: string, minLength: 1, maxLength: 5000}
+        priceMinor: {type: integer, minimum: 0}
+        currency: {type: string, enum: [AUD]}
+        modalities:
+          type: array
+          minItems: 1
+          uniqueItems: true
+          items: {$ref: '#/components/schemas/Modality'}
+        location: {$ref: '#/components/schemas/Location'}
+    AvailabilitySlot:
+      type: object
+      required: [id, serviceId, startsAt, endsAt, status]
+      properties:
+        id: {type: string}
+        serviceId: {type: string}
+        startsAt: {type: string, format: date-time}
+        endsAt: {type: string, format: date-time}
+        status: {type: string, enum: [open, held, booked]}
+        holdExpiresAt: {type: string, format: date-time, nullable: true}
+    CreateOrderRequest:
+      type: object
+      additionalProperties: false
+      required: [serviceId, slotId, modality, timezone]
+      properties:
+        serviceId: {type: string}
+        slotId: {type: string}
+        modality: {$ref: '#/components/schemas/Modality'}
+        timezone: {type: string, example: Australia/Sydney}
+        preSessionNotes: {type: string, maxLength: 4000}
+    Order:
+      type: object
+      required: [id, serviceId, slotId, amountMinor, currency, status, paymentStatus]
+      properties:
+        id: {type: string}
+        serviceId: {type: string}
+        slotId: {type: string}
+        amountMinor: {type: integer, minimum: 0}
+        currency: {type: string, enum: [AUD]}
+        status: {type: string, enum: [pending, awaiting_payment, confirmed, completed, expired, cancelled, disputed]}
+        paymentStatus: {type: string, enum: [not_started, requires_action, processing, paid, failed, refunded]}
+    PaymentIntent:
+      type: object
+      required: [paymentIntentId, clientSecret, status]
+      properties:
+        paymentIntentId: {type: string}
+        clientSecret: {type: string, writeOnly: true}
+        status: {type: string, enum: [requires_payment_method, requires_action, processing]}
+    StubPaymentConfirmation:
+      type: object
+      required: [paymentId, paymentStatus, booking]
+      properties:
+        paymentId: {type: string}
+        paymentStatus: {type: string, enum: [paid]}
+        booking: {$ref: '#/components/schemas/StubBooking'}
+    StubBooking:
+      type: object
+      required: [id, orderId, serviceId, serviceTitle, startsAt, endsAt, timezone, modality, status, paymentStatus]
+      properties:
+        id: {type: string}
+        orderId: {type: string}
+        serviceId: {type: string}
+        serviceTitle: {type: string}
+        startsAt: {type: string, format: date-time}
+        endsAt: {type: string, format: date-time}
+        timezone: {type: string}
+        modality: {$ref: '#/components/schemas/Modality'}
+        status: {type: string, enum: [confirmed]}
+        paymentStatus: {type: string, enum: [paid]}
+    Booking:
+      type: object
+      required: [id, orderId, serviceTitle, jobSeekerId, counsellorId, startsAt, endsAt, timezone, modality, status, paymentStatus, conversationStatus]
+      properties:
+        id: {type: string}
+        orderId: {type: string}
+        serviceTitle: {type: string}
+        jobSeekerId: {type: string}
+        counsellorId: {type: string}
+        startsAt: {type: string, format: date-time}
+        endsAt: {type: string, format: date-time}
+        timezone: {type: string}
+        modality: {$ref: '#/components/schemas/Modality'}
+        deliveryInformation: {type: string, nullable: true}
+        status: {type: string, enum: [held, confirmed, completed, expired, cancelled, disputed]}
+        paymentStatus: {type: string, enum: [not_started, requires_action, processing, paid, failed, refunded]}
+        conversationStatus: {type: string, enum: [open, closed]}
+    Message:
+      type: object
+      required: [id, bookingId, senderId, content, createdAt]
+      properties:
+        id: {type: string}
+        bookingId: {type: string}
+        senderId: {type: string}
+        content: {type: string}
+        createdAt: {type: string, format: date-time}
+    CreateReviewRequest:
+      type: object
+      additionalProperties: false
+      required: [rating, comment]
+      properties:
+        rating: {type: integer, minimum: 1, maximum: 5}
+        comment: {type: string, minLength: 1, maxLength: 4000}
+    Review:
+      type: object
+      required: [id, bookingId, serviceId, jobSeekerId, rating, comment, createdAt]
+      properties:
+        id: {type: string}
+        bookingId: {type: string}
+        serviceId: {type: string}
+        jobSeekerId: {type: string}
+        rating: {type: integer, minimum: 1, maximum: 5}
+        comment: {type: string}
+        createdAt: {type: string, format: date-time}
+    VerificationSubmission:
+      type: object
+      required: [id, counsellorId, linkedInUrl, status, submittedAt]
+      properties:
+        id: {type: string}
+        counsellorId: {type: string}
+        linkedInUrl: {type: string, format: uri}
+        status: {type: string, enum: [pending, verified, rejected]}
+        submittedAt: {type: string, format: date-time}
+        decisionReason: {type: string, nullable: true}
+    PaymentOversight:
+      type: object
+      required: [paymentId, orderId, amountMinor, currency, paymentStatus, orderStatus]
+      properties:
+        paymentId: {type: string}
+        orderId: {type: string}
+        amountMinor: {type: integer}
+        currency: {type: string, enum: [AUD]}
+        paymentStatus: {type: string, enum: [not_started, requires_action, processing, paid, failed, refunded]}
+        orderStatus: {type: string, enum: [pending, awaiting_payment, confirmed, completed, expired, cancelled, disputed]}
+    ForumBoard:
+      type: object
+      required: [id, name]
+      properties:
+        id: {type: string}
+        name: {type: string}
+    ForumPost:
+      type: object
+      required: [id, boardId, authorId, title, content, likeCount, createdAt]
+      properties:
+        id: {type: string}
+        boardId: {type: string}
+        authorId: {type: string}
+        title: {type: string}
+        content: {type: string}
+        likeCount: {type: integer, minimum: 0}
+        createdAt: {type: string, format: date-time}
+    Error:
+      type: object
+      required: [code, message, requestId]
+      properties:
+        code:
+          type: string
+          enum: [VALIDATION_ERROR, AUTHENTICATION_REQUIRED, INVALID_CREDENTIALS, FORBIDDEN, NOT_FOUND, SLOT_UNAVAILABLE, INVALID_STATE_TRANSITION, ALREADY_REVIEWED, CONVERSATION_CLOSED, PAYMENT_FAILED]
+        message: {type: string}
+        fieldErrors:
+          type: object
+          additionalProperties: {type: string}
+        requestId: {type: string}
