@@ -331,9 +331,9 @@ The items still unconfirmed by the client, with the runtime consequence of each.
 |---|---|
 | Architecture diagram (source · export) | [`design-by-concept.drawio`](design-by-concept.drawio) · [`design-by-concept.png`](design-by-concept.png) |
 | Database design | [`database-schema.md`](database-schema.md) |
-| Interface contract | [`architecture/interface-contract.md`](../../architecture/interface-contract.md) |
-| Published API | [`api/openapi.yaml`](../../api/openapi.yaml) |
-| Interface traceability | [`traceability/interface-traceability.csv`](../../traceability/interface-traceability.csv) |
+| Interface contract | [`executable-architecture/interface-contract.md`](../executable-architecture/interface-contract.md) |
+| Published API | [`executable-architecture/openapi.yaml`](../executable-architecture/openapi.yaml) |
+| Interface traceability | [`executable-architecture/interface-traceability.csv`](../executable-architecture/interface-traceability.csv) |
 | Client decisions | [Client meeting minutes, 25 Aug 2026](../meeting-minutes/Client%20Meeting/2026-08-25-joint-client-meeting.md) |
 | Product backlog | [Requirements wiki](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements) |
 | Background and scope | [Project Background and Scope](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Project-Background-and-Scope) |

@@ -7,7 +7,7 @@ public marketplace -> service detail -> login when required -> choose time -> st
 ```
 
 It implements the published Sprint 1 contract in
-[`../docs/api/openapi.yaml`](../docs/api/openapi.yaml) for these operations only:
+[`../docs/sprint1/executable-architecture/openapi.yaml`](../docs/sprint1/executable-architecture/openapi.yaml) for these operations only:
 
 | Method | Path | Contract |
 |---|---|---|

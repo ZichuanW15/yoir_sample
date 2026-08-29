@@ -12,8 +12,9 @@ import yaml
 from app.main import app
 
 ROOT = Path(__file__).resolve().parents[2]
-OPENAPI_PATH = ROOT / "docs" / "api" / "openapi.yaml"
-TRACEABILITY_PATH = ROOT / "docs" / "traceability" / "interface-traceability.csv"
+CONTRACT_DIR = ROOT / "docs" / "sprint1" / "executable-architecture"
+OPENAPI_PATH = CONTRACT_DIR / "openapi.yaml"
+TRACEABILITY_PATH = CONTRACT_DIR / "interface-traceability.csv"
 HTTP_METHODS = {"get", "post", "put", "patch", "delete", "options", "head", "trace"}
 IMPLEMENTED_RUNTIME_OPERATION_IDS = {
     "completeStubPayment",

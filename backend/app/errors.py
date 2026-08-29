@@ -1,4 +1,5 @@
-"""Every error response follows the `Error` schema in docs/api/openapi.yaml:
+"""Every error response follows the `Error` schema published in
+docs/sprint1/executable-architecture/openapi.yaml:
 
     { "code": <string>, "message": <string>, "fieldErrors"?: {..}, "requestId": <string> }
 """

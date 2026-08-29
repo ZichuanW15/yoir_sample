@@ -10,7 +10,7 @@ on:
       - '.github/scripts/tests/**'
       - '.github/mermaid/puppeteer.json'
       - '.github/workflows/board-insights.yml'
-      - 'docs/board-insights-automation.md'
+      - 'docs/sprint1/process/board-insights-automation.md'
   push:
     branches:
       - main
@@ -25,7 +25,7 @@ on:
       - '.github/scripts/tests/**'
       - '.github/mermaid/puppeteer.json'
       - '.github/workflows/board-insights.yml'
-      - 'docs/board-insights-automation.md'
+      - 'docs/sprint1/process/board-insights-automation.md'
   schedule:
     - cron: '15 19 * * *'
   issues:

@@ -20,7 +20,7 @@ The backend needs to implement these operations first:
 | `createOrder` | `POST /api/v1/orders` | `US-41`, `US-47` |
 | `completeStubPayment` | `POST /api/v1/orders/{orderId}/payments/stub` | `US-47`, `US-68` |
 
-The source of truth for paths, fields, enums, responses and errors is [`api/openapi.yaml`](api/openapi.yaml). Coordinate a contract change before changing an endpoint or schema.
+The source of truth for paths, fields, enums, responses and errors is [`openapi.yaml`](openapi.yaml). Coordinate a contract change before changing an endpoint or schema.
 
 ## Integration expectations
 

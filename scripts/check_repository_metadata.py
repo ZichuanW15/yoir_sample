@@ -13,6 +13,7 @@ from urllib.parse import unquote
 import yaml
 
 ROOT = Path(__file__).resolve().parents[1]
+CONTRACT_DIR = ROOT / "docs" / "sprint1" / "executable-architecture"
 IGNORED_PARTS = {".git", ".expo", ".venv", "node_modules", "coverage", "dist", "build"}
 HTTP_METHODS = {"get", "post", "put", "patch", "delete", "options", "head", "trace"}
 MARKDOWN_LINK = re.compile(r"!?\[[^\]]*\]\(([^)]+)\)")
@@ -72,8 +73,8 @@ def resolve_ref(specification: dict, ref: str):
 
 
 def check_contract() -> tuple[int, int]:
-    openapi_path = ROOT / "docs" / "api" / "openapi.yaml"
-    traceability_path = ROOT / "docs" / "traceability" / "interface-traceability.csv"
+    openapi_path = CONTRACT_DIR / "openapi.yaml"
+    traceability_path = CONTRACT_DIR / "interface-traceability.csv"
     specification = yaml.safe_load(openapi_path.read_text())
     operations = [
         (definition["operationId"], method.upper(), path, definition)
