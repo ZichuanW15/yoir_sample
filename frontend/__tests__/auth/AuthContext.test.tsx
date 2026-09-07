@@ -5,10 +5,11 @@ import { AuthProvider, useAuth } from '@/src/auth/AuthContext';
 import { sessionFixture } from '../fixtures';
 
 jest.mock('@/src/api/client', () => ({
-  api: { login: jest.fn() },
+  api: { login: jest.fn(), logout: jest.fn().mockResolvedValue(undefined) },
 }));
 
 const loginApiMock = api.login as jest.MockedFunction<typeof api.login>;
+const logoutApiMock = api.logout as jest.MockedFunction<typeof api.logout>;
 
 function AuthProbe() {
   const { session, login, logout } = useAuth();
@@ -40,7 +41,7 @@ describe('AuthProvider', () => {
     fireEvent.press(screen.getByText('Sign in probe'));
 
     await waitFor(() => expect(screen.getByText('signed in as Alex Morgan')).toBeTruthy());
-    expect(loginApiMock).toHaveBeenCalledWith('alex@example.com', 'correct-password');
+    expect(loginApiMock).toHaveBeenCalledWith('alex@example.com', 'correct-password', undefined);
   });
 
   test('logout clears the in-memory session state', async () => {
@@ -56,6 +57,20 @@ describe('AuthProvider', () => {
     fireEvent.press(screen.getByText('Log out probe'));
 
     expect(screen.getByText('signed out')).toBeTruthy();
+    expect(logoutApiMock).toHaveBeenCalledWith('test-access-token');
+  });
+
+  test('logout without a session does not call the API boundary', () => {
+    render(
+      <AuthProvider>
+        <AuthProbe />
+      </AuthProvider>,
+    );
+
+    fireEvent.press(screen.getByText('Log out probe'));
+
+    expect(screen.getByText('signed out')).toBeTruthy();
+    expect(logoutApiMock).not.toHaveBeenCalled();
   });
 
   test('a failed login leaves the local session signed out', async () => {
@@ -74,5 +89,4 @@ describe('AuthProvider', () => {
 
   test.todo('expires the local session when expiresAt is reached');
   test.todo('persists a valid session across an application restart');
-  test.todo('invalidates the server session during logout');
 });
