@@ -1,5 +1,6 @@
 import {
   AvailabilitySlot,
+  CounsellorProfile,
   Order,
   Service,
   Session,
@@ -70,4 +71,30 @@ export const confirmationFixture: StubPaymentConfirmation = {
     status: 'confirmed',
     paymentStatus: 'paid',
   },
+};
+
+export const counsellorSessionFixture: Session = {
+  accessToken: 'counsellor-access-token',
+  expiresAt: '2026-08-28T07:00:00.000Z',
+  user: {
+    id: 'counsellor-1',
+    name: 'Maya Chen',
+    email: 'maya@example.com',
+    role: 'counsellor',
+  },
+};
+
+export const counsellorProfileFixture: CounsellorProfile = {
+  id: 'counsellor-1',
+  displayName: 'Maya Chen',
+  photoUrl: null,
+  linkedinUrl: 'https://www.linkedin.com/in/maya-chen',
+  introduction: 'Career counsellor specialising in interview preparation.',
+  background: 'Ten years in graduate recruitment.',
+  experience: 'Coached over 400 candidates.',
+  baseLocation: { state: 'VIC', cityOrRegion: 'Melbourne' },
+  defaultModality: 'online',
+  verificationStatus: 'verified',
+  overallRating: 4.9,
+  reviewCount: 46,
 };
