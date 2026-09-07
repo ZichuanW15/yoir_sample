@@ -1,0 +1,4 @@
+import { StyleSheet, Text, TextInput, TextInputProps, View } from 'react-native';
+import { colors, radius } from '@/src/theme';
+export function FormField({label,error,...props}:TextInputProps&{label:string;error?:string}){return <View style={styles.group}><Text style={styles.label}>{label}</Text><TextInput accessibilityLabel={label} placeholderTextColor={colors.muted} style={[styles.input,error&&styles.inputError]} {...props}/>{error?<Text accessibilityRole="alert" style={styles.error}>{error}</Text>:null}</View>}
+const styles=StyleSheet.create({group:{gap:7},label:{color:colors.ink,fontWeight:'700',fontSize:14},input:{minHeight:50,borderWidth:1,borderColor:colors.border,backgroundColor:colors.surface,borderRadius:radius.sm,paddingHorizontal:14,fontSize:16,color:colors.ink},inputError:{borderColor:colors.danger},error:{color:colors.danger,fontSize:13}});
