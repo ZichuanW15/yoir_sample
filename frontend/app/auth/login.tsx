@@ -1,13 +1,140 @@
-import { Link, router, useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { userFacingError } from '@/src/api/client';
 import { useAuth } from '@/src/auth/AuthContext';
-import { Button } from '@/src/components/Button';
-import { FormField } from '@/src/components/FormField';
-import { Notice } from '@/src/components/Notice';
-import { Screen } from '@/src/components/Screen';
-import { colors } from '@/src/theme';
+import { useChrome } from '@/src/chrome';
+import { Glyph } from '@/src/components/Glyph';
+import { Button, ErrorBanner, Field, IconButton, Press } from '@/src/components/ui';
+import { FadeUp, Pop, SheetUp } from '@/src/motion';
+import { colors, fonts, type } from '@/src/theme';
 
-export default function LoginScreen(){const{serviceId}=useLocalSearchParams<{serviceId?:string}>();const{login}=useAuth();const[email,setEmail]=useState('');const[password,setPassword]=useState('');const[error,setError]=useState('');const[loading,setLoading]=useState(false);async function submit(){if(!email.trim()||!password){setError('Enter your email and password.');return}setLoading(true);setError('');try{const s=await login(email.trim(),password);if(!serviceId){router.replace('/marketplace')}else if(s.user.role==='job_seeker'){router.replace({pathname:'/services/[serviceId]/timeslots',params:{serviceId}})}else{router.replace({pathname:'/services/[serviceId]',params:{serviceId}})}}catch(value){setError(userFacingError(value))}finally{setLoading(false)}}return <Screen><View style={styles.hero}><Text style={styles.eyebrow}>WELCOME BACK</Text><Text style={styles.title}>Continue your career journey</Text><Text style={styles.body}>{serviceId?'Log in to choose a time and complete your booking.':'Log in to book services and manage your Yoir activity.'}</Text></View>{error?<Notice tone="error" message={error}/>:null}<FormField label="Email" value={email} onChangeText={setEmail} placeholder="you@example.com" keyboardType="email-address" autoCapitalize="none" autoComplete="email"/><FormField label="Password" value={password} onChangeText={setPassword} placeholder="Your password" secureTextEntry autoComplete="current-password"/><Button label="Log in" onPress={submit} loading={loading}/><Text style={styles.center}>New to Yoir? <Link href={serviceId?{pathname:'/auth/register',params:{serviceId}}:'/auth/register'} style={styles.link}>Create an account</Link></Text></Screen>}
-const styles=StyleSheet.create({hero:{gap:8,marginVertical:12},eyebrow:{fontSize:12,fontWeight:'800',letterSpacing:1.5,color:colors.primary},title:{fontSize:30,lineHeight:36,fontWeight:'800',color:colors.ink},body:{fontSize:16,lineHeight:24,color:colors.muted},center:{textAlign:'center',color:colors.muted},link:{color:colors.primary,fontWeight:'700'}});
+type PublicRole = 'job_seeker' | 'counsellor';
+
+export default function LoginScreen() {
+  const { serviceId, role, email: prefill } = useLocalSearchParams<{ serviceId?: string; role?: PublicRole; email?: string }>();
+  const insets = useSafeAreaInsets();
+  const { login } = useAuth();
+  const { flash } = useChrome();
+  const [email, setEmail] = useState(prefill ?? '');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
+
+  async function submit() {
+    if (!email.trim() || !password) {
+      setError('Enter your email and password.');
+      return;
+    }
+    setBusy(true);
+    setError('');
+    try {
+      // The role picked on the entry screen decides which app an unrecognised email opens.
+      const session = await login(email.trim(), password, role);
+      // US-06: a counsellor cannot buy, so a booking held over the log in returns them to the listing.
+      if (serviceId) {
+        router.replace(
+          session.user.role === 'job_seeker'
+            ? { pathname: '/services/[serviceId]/timeslots', params: { serviceId } }
+            : { pathname: '/services/[serviceId]', params: { serviceId } },
+        );
+      } else {
+        router.replace(session.user.role === 'counsellor' ? '/counsellor' : '/marketplace');
+      }
+      flash(`Welcome, ${session.user.name.split(' ')[0]}`);
+    } catch (value) {
+      // US-07: whatever failed, the message never says which credential was wrong.
+      setError(userFacingError(value));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <SheetUp duration={500} style={[styles.screen, { paddingTop: insets.top }]}>
+      <View style={styles.bar}>
+        <IconButton label="Close" onPress={() => router.back()}>
+          <Glyph name="close" size={18} color={colors.green} />
+        </IconButton>
+        <Image source={require('@/assets/images/yoir-wordmark.png')} style={styles.wordmark} resizeMode="contain" accessibilityLabel="Yoir" />
+        <View style={styles.spacer} />
+      </View>
+
+      <KeyboardAvoidingView style={styles.fill} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
+        <ScrollView
+          contentContainerStyle={[styles.body, { paddingBottom: 24 + insets.bottom }]}
+          keyboardShouldPersistTaps="handled"
+        >
+          <FadeUp delay={100} style={styles.intro}>
+            <Text style={type.display36}>Welcome back</Text>
+            <Text style={type.body}>
+              {serviceId
+                ? 'Log in to choose a time and complete your booking.'
+                : 'Log in to book services and manage your Yoir activity.'}
+            </Text>
+          </FadeUp>
+
+          {error ? <Pop duration={300}><ErrorBanner message={error} /></Pop> : null}
+
+          <FadeUp delay={200} style={styles.form}>
+            <Field
+              label="Email"
+              value={email}
+              onChangeText={setEmail}
+              placeholder="you@example.com"
+              keyboardType="email-address"
+              autoCapitalize="none"
+              autoComplete="email"
+            />
+            <Field
+              label="Password"
+              value={password}
+              onChangeText={setPassword}
+              placeholder="Your password"
+              secureTextEntry
+              autoComplete="current-password"
+            />
+          </FadeUp>
+
+          <FadeUp delay={300}>
+            <Button label={busy ? 'Logging in' : 'Log in'} busy={busy} height={56} onPress={submit} />
+          </FadeUp>
+
+          <FadeUp delay={400} style={styles.switchRow}>
+            <Text style={styles.switchText}>New to Yoir? </Text>
+            <Press
+              accessibilityLabel="Create an account"
+              scaleTo={0.96}
+              onPress={() => router.push({
+                pathname: '/auth/register',
+                params: { ...(serviceId ? { serviceId } : {}), ...(role ? { role } : {}) },
+              })}
+            >
+              <Text style={styles.switchLink}>Create an account</Text>
+            </Press>
+          </FadeUp>
+
+          <Text style={styles.footnote}>
+            Demo: any email and password work. Counsellor emails (e.g. maya@yoir.test) open the workspace.
+          </Text>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SheetUp>
+  );
+}
+
+const styles = StyleSheet.create({
+  screen: { flex: 1, backgroundColor: colors.white },
+  fill: { flex: 1 },
+  bar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 10, paddingHorizontal: 16 },
+  wordmark: { width: 64, aspectRatio: 159 / 60 },
+  spacer: { width: 44 },
+  body: { flexGrow: 1, paddingTop: 12, paddingHorizontal: 24, gap: 22 },
+  intro: { gap: 10 },
+  form: { gap: 16 },
+  switchRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
+  switchText: { fontFamily: fonts.sans, fontSize: 14, color: colors.muted },
+  switchLink: { fontFamily: fonts.bold, fontSize: 14, color: colors.green },
+  footnote: { marginTop: 'auto', fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, color: colors.sub, textAlign: 'center' },
+});

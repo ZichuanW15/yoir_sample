@@ -69,7 +69,7 @@ describe('local demo API', () => {
     const allPending = demoListServices();
     await advanceDemoDelay();
     const all = await allPending;
-    expect(all).toHaveLength(2);
+    expect(all).toHaveLength(6);
 
     const titlePending = demoListServices('  RESUME  ');
     await advanceDemoDelay();
