@@ -18,7 +18,7 @@ from sqlalchemy.orm import Session
 from app.db import engine, get_db
 from app.main import app
 from app.models import AvailabilitySlot, Booking, Order, Service, User
-from app.security import create_access_token
+from app.security import create_access_token, verify_password
 
 REGISTER = {
     "name": "  Alex Tester  ",
@@ -99,31 +99,101 @@ def test_register_persists_normalised_account(
     assert user is not None
     assert user.email == "alex.tester@example.com"
     assert user.password_hash != REGISTER["password"]
+    assert REGISTER["password"] not in response.text
+    assert user.password_hash not in response.text
+    assert "set-cookie" not in response.headers
 
 
 @pytest.mark.parametrize(
     ("changes", "field"),
     [
+        ({"name": ""}, "name"),
+        ({"name": " \t\n\u2003 "}, "name"),
+        ({"name": "A" * 121}, "name"),
+        ({"email": ""}, "email"),
+        ({"email": "   "}, "email"),
         ({"email": "not-an-email"}, "email"),
+        ({"password": ""}, "password"),
         ({"password": "short", "passwordConfirmation": "short"}, "password"),
+        ({"passwordConfirmation": ""}, "passwordConfirmation"),
+        ({"passwordConfirmation": "short"}, "passwordConfirmation"),
+        ({"role": ""}, "role"),
         ({"role": "platform_owner"}, "role"),
+        ({"role": "admin"}, "role"),
         ({"passwordConfirmation": "different-password"}, "passwordConfirmation"),
+        *[({field: value}, field) for field in REGISTER for value in (None, 123)],
     ],
 )
 def test_register_rejects_invalid_input(
-    client: TestClient, changes: dict[str, str], field: str
+    client: TestClient, db_session: Session, changes: dict[str, Any], field: str
 ) -> None:
     response = client.post("/api/v1/auth/users", json={**REGISTER, **changes})
     body = assert_error_shape(response, 400, "VALIDATION_ERROR")
     assert field in body["fieldErrors"]
+    assert REGISTER["password"] not in response.text
+    assert db_session.scalars(select(User)).all() == []
 
 
-def test_register_rejects_missing_input(client: TestClient) -> None:
+def test_register_rejects_missing_input(client: TestClient, db_session: Session) -> None:
     response = client.post("/api/v1/auth/users", json={})
     body = assert_error_shape(response, 400, "VALIDATION_ERROR")
     assert {"name", "email", "password", "passwordConfirmation", "role"}.issubset(
         body["fieldErrors"]
     )
+    assert db_session.scalars(select(User)).all() == []
+
+
+@pytest.mark.parametrize("field", REGISTER)
+def test_register_requires_each_field(
+    client: TestClient, db_session: Session, field: str
+) -> None:
+    payload = {key: value for key, value in REGISTER.items() if key != field}
+    response = client.post("/api/v1/auth/users", json=payload)
+
+    body = assert_error_shape(response, 400, "VALIDATION_ERROR")
+    assert set(body["fieldErrors"]) == {field}
+    assert db_session.scalars(select(User)).all() == []
+
+
+@pytest.mark.parametrize("name", ["A", " \t" + "A" * 120 + "\n "])
+def test_register_accepts_name_length_boundaries_after_trimming(
+    client: TestClient, name: str
+) -> None:
+    response = client.post("/api/v1/auth/users", json={**REGISTER, "name": name})
+
+    assert response.status_code == 201
+    assert response.json()["name"] == name.strip()
+
+
+def test_register_preserves_password_whitespace(
+    client: TestClient, db_session: Session
+) -> None:
+    password = "  abcd  "
+    response = client.post(
+        "/api/v1/auth/users",
+        json={**REGISTER, "password": password, "passwordConfirmation": password},
+    )
+
+    assert response.status_code == 201
+    user = db_session.get(User, response.json()["id"])
+    assert user is not None
+    assert verify_password(password, user.password_hash)
+    assert not verify_password(password.strip(), user.password_hash)
+    assert password not in response.text
+    assert user.password_hash not in response.text
+
+
+def test_register_password_confirmation_requires_exact_match(
+    client: TestClient, db_session: Session
+) -> None:
+    response = client.post(
+        "/api/v1/auth/users",
+        json={**REGISTER, "passwordConfirmation": " " + REGISTER["password"] + " "},
+    )
+
+    body = assert_error_shape(response, 400, "VALIDATION_ERROR")
+    assert set(body["fieldErrors"]) == {"passwordConfirmation"}
+    assert db_session.scalars(select(User)).all() == []
 
 
 def test_register_duplicate_email_is_409(client: TestClient) -> None:
@@ -137,13 +207,11 @@ def test_register_duplicate_email_is_409(client: TestClient) -> None:
     assert body["fieldErrors"] == {"email": "Already registered."}
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="OpenAPI sets additionalProperties:false but the Pydantic model ignores extras",
-)
-def test_register_rejects_unknown_fields(client: TestClient) -> None:
+def test_register_rejects_unknown_fields(client: TestClient, db_session: Session) -> None:
     response = client.post("/api/v1/auth/users", json={**REGISTER, "actingUserId": "other"})
-    assert_error_shape(response, 400, "VALIDATION_ERROR")
+    body = assert_error_shape(response, 400, "VALIDATION_ERROR")
+    assert set(body["fieldErrors"]) == {"actingUserId"}
+    assert db_session.scalars(select(User)).all() == []
 
 
 @pytest.mark.xfail(

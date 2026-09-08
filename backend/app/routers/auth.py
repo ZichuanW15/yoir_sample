@@ -5,15 +5,43 @@ from sqlalchemy.orm import Session
 from app.db import get_db
 from app.errors import INVALID_CREDENTIALS, VALIDATION_ERROR, ApiError
 from app.models import User
-from app.schemas import LoginRequest, RegisterRequest, SessionOut, UserOut
+from app.schemas import LoginRequest, RegisterRequest, RegistrationErrorOut, SessionOut, UserOut
 from app.security import create_access_token, hash_password, verify_password
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
 
-@router.post("/users", status_code=status.HTTP_201_CREATED, response_model=UserOut)
+@router.post(
+    "/users",
+    status_code=status.HTTP_201_CREATED,
+    response_model=UserOut,
+    operation_id="register",
+    summary="Register an account",
+    response_description="Account created; no session is issued. Continue to log in.",
+    responses={
+        400: {
+            "model": RegistrationErrorOut,
+            "description": "Invalid or missing form fields, or mismatched passwords.",
+        },
+        409: {
+            "model": RegistrationErrorOut,
+            "description": "The email is already registered.",
+        },
+        # Our validation handler returns 400 in this envelope, not FastAPI's default 422.
+        "4XX": {
+            "model": RegistrationErrorOut,
+            "description": "Client errors use the same error envelope; validation returns 400.",
+        },
+    },
+    openapi_extra={"security": [], "x-requirement-ids": ["US-01", "US-02", "US-03", "US-04"]},
+)
 def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> User:
-    """US-01..US-04. Account created; caller then logs in."""
+    """Submit name, email, password, passwordConfirmation and role without authentication.
+
+    US-01 publishes and validates the registration request. The existing account
+    creation, duplicate-email and counsellor behaviour also serves US-02..US-04.
+    Errors contain English messages and camelCase fieldErrors for the form.
+    """
     if payload.password != payload.password_confirmation:
         raise ApiError(
             status.HTTP_400_BAD_REQUEST,
@@ -32,7 +60,7 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> User:
         )
 
     user = User(
-        name=payload.name.strip(),
+        name=payload.name,
         email=email,
         password_hash=hash_password(payload.password),
         role=payload.role,

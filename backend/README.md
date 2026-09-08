@@ -23,6 +23,11 @@ It implements the published Sprint 1 contract in
 Everything else in the contract (booking, payment, messaging, forum, reviews, verification,
 admin) is a follow-on slice and is deliberately absent.
 
+For the Sprint 2 registration form, see the
+[US-01 backend contract and verification guide](../docs/sprint2/backend/us01-registration.md).
+It documents the five-field request, English field errors, response examples and
+the tests for issue #86. The running API publishes this operation at `/docs`.
+
 ## Run
 
 Prerequisites: Python 3.11+ (3.12 per the design concept) and a running **PostgreSQL**.
