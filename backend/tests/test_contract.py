@@ -18,13 +18,18 @@ TRACEABILITY_PATH = CONTRACT_DIR / "interface-traceability.csv"
 HTTP_METHODS = {"get", "post", "put", "patch", "delete", "options", "head", "trace"}
 IMPLEMENTED_RUNTIME_OPERATION_IDS = {
     "completeStubPayment",
+    "createAvailabilitySlot",
     "createOrder",
+    "createService",
+    "deleteAvailabilitySlot",
     "getService",
     "healthCheck",
+    "listOwnServices",
     "listServices",
     "listServiceSlots",
     "login",
     "register",
+    "updateAvailabilitySlot",
 }
 
 
