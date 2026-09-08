@@ -9,6 +9,9 @@ module.exports = {
   clearMocks: true,
   restoreMocks: true,
   testMatch: ['<rootDir>/__tests__/**/*.(spec|test).[jt]s?(x)'],
+  // The live client test needs Node's real `fetch`, which this preset replaces
+  // with a stubbed `expo/fetch`. It runs under jest.config.live.js instead.
+  testPathIgnorePatterns: ['<rootDir>/__tests__/integration/live-client.test.ts'],
   // The screen suites were retired with the old design; the redesigned screens are
   // not under test yet. Coverage is scoped to the modules that still have suites so
   // the number means something instead of averaging in untested UI.
