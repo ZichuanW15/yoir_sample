@@ -1,5 +1,8 @@
+import sqlite3
+
 from fastapi import APIRouter, Depends, status
 from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.db import get_db
@@ -9,6 +12,32 @@ from app.schemas import LoginRequest, RegisterRequest, RegistrationErrorOut, Ses
 from app.security import create_access_token, hash_password, verify_password
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
+
+
+def _duplicate_email_error() -> ApiError:
+    return ApiError(
+        status.HTTP_409_CONFLICT,
+        VALIDATION_ERROR,
+        "An account with this email already exists.",
+        {"email": "Already registered."},
+    )
+
+
+def _is_duplicate_email_violation(error: IntegrityError) -> bool:
+    """Recognise only the users.email invariant, not unrelated write failures."""
+    original = error.orig
+    # PostgreSQL/psycopg2 supplies structured diagnostics, independent of language.
+    # User.email's existing unique=True, index=True creates ix_users_email.
+    if getattr(original, "pgcode", None) == "23505":
+        diagnostic = getattr(original, "diag", None)
+        return getattr(diagnostic, "constraint_name", None) == "ix_users_email"
+    # SQLite is supported by the isolated QA harness. Its diagnostic names columns
+    # rather than indexes; matching a generic "unique" message would hide other bugs.
+    return (
+        isinstance(original, sqlite3.IntegrityError)
+        and getattr(original, "sqlite_errorcode", None) == sqlite3.SQLITE_CONSTRAINT_UNIQUE
+        and str(original) == "UNIQUE constraint failed: users.email"
+    )
 
 
 @router.post(
@@ -25,7 +54,10 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
         },
         409: {
             "model": RegistrationErrorOut,
-            "description": "The email is already registered.",
+            "description": (
+                "The email is already registered, including concurrent registrations. "
+                "Returns VALIDATION_ERROR with fieldErrors.email; no extra account is created."
+            ),
         },
         # Our validation handler returns 400 in this envelope, not FastAPI's default 422.
         "4XX": {
@@ -39,8 +71,8 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> UserOut
     """Submit name, email, password, passwordConfirmation and role without authentication.
 
     US-01 validates the request; US-02 commits the account with only a password hash
-    and returns public user fields without a session. The shared endpoint also
-    preserves the existing duplicate-email and counsellor behaviour for US-03/US-04.
+    and returns public user fields without a session. US-03 maps both the pre-check
+    and database email-uniqueness conflicts to 409; US-04's counsellor path is preserved.
     Errors contain English messages and camelCase fieldErrors for the form.
     """
     if payload.password != payload.password_confirmation:
@@ -53,12 +85,7 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> UserOut
 
     email = payload.email.lower()
     if db.scalar(select(User).where(User.email == email)) is not None:
-        raise ApiError(
-            status.HTTP_409_CONFLICT,
-            VALIDATION_ERROR,
-            "An account with this email already exists.",
-            {"email": "Already registered."},
-        )
+        raise _duplicate_email_error()
 
     user = User(
         name=payload.name,
@@ -73,6 +100,13 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> UserOut
         # after the account is already saved, incorrectly telling the app to retry.
         result = UserOut.model_validate(user)
         db.commit()
+    except IntegrityError as error:
+        # Another request may have claimed this email after the pre-check. The
+        # database is authoritative; roll back before translating the known conflict.
+        db.rollback()
+        if _is_duplicate_email_violation(error):
+            raise _duplicate_email_error() from None
+        raise
     except Exception:
         db.rollback()
         raise

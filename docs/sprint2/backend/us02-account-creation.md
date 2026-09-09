@@ -22,8 +22,10 @@ the existing `counsellor` registration path remains supported for US-04.
 - The response is built from the public `UserOut` fields before commit; HTTP `201`
   is returned only after commit succeeds. There is no post-commit refresh that could
   report a failure after the account has already been created.
-- A failed write rolls back the transaction and propagates to the existing generic
-  HTTP `500` error handler. A hashing failure also returns an error, without inserting
+- A failed write rolls back the transaction. Unrecognised failures propagate to the
+  existing generic HTTP `500` error handler; email-uniqueness conflicts now return
+  HTTP `409` through the [US-03 follow-up](us03-duplicate-email.md).
+  A hashing failure also returns an error, without inserting
   an account. Internal exception details and credentials are not returned to the app.
 - Registration returns only `id`, `name`, `email` and `role`: no JWT, cookie, password
   or password hash. Login remains a separate `POST /api/v1/auth/sessions` call.
@@ -32,7 +34,8 @@ The `dev` frontend's `api.register` and `auth/register.tsx` already use this con
 they await the response, show the success screen and offer **Continue to log in**.
 The backend does not redirect or create a session. Validation errors retain HTTP
 `400` with English `message` and `fieldErrors`; ordinary duplicate emails retain
-HTTP `409`. The database uniqueness-race behaviour remains a separate US-03 task.
+HTTP `409`. The database uniqueness-race behaviour is covered by the separate
+[US-03 backend slice](us03-duplicate-email.md).
 
 A transport failure while acknowledging a database commit can still leave the
 outcome uncertain. This change removes the avoidable post-commit read; it does not
@@ -92,9 +95,10 @@ separate login, no token issuance during registration, validation before hashing
 safe hashing/write failures, explicit rollback and response independence from a
 post-commit read. US-01 tests retain the required-field and public-contract coverage.
 
-The US-03 strict-XFail test double now supports the flush/rollback boundary and
-asserts it reaches its simulated commit conflict; the known 409 race defect is not
-hidden or claimed fixed.
+At this slice's verification time, the US-03 strict-XFail test double supported the
+flush/rollback boundary without claiming the 409 race fixed. The US-03 follow-up
+replaces it with an actual database-conflict regression and removes that XFail.
+The historical results below describe the US-02 baseline before that follow-up.
 
 Frontend task #92 is already closed on GitHub. Device recordings and independent
 QA sign-off remain with [#94](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/94).

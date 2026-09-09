@@ -32,6 +32,11 @@ For US-02 account persistence, the Argon2id policy and failure-path evidence, se
 the [secure account creation guide](../docs/sprint2/backend/us02-account-creation.md)
 for issue #93. Registration returns a committed public user, without logging them in.
 
+For US-03 email uniqueness, including simultaneous registration requests, see the
+[duplicate-email guide](../docs/sprint2/backend/us03-duplicate-email.md) for issue #96.
+Both ordinary duplicates and database email conflicts return the same HTTP `409`
+form error, with no extra account and no changes to the existing account.
+
 ## Run
 
 Dependencies are managed with [uv](https://docs.astral.sh/uv/): `pyproject.toml` declares them

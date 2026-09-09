@@ -111,8 +111,9 @@ workflow, described in [the test approach](../../sprint1/qa/test-approach.md).
 
 The tests cover the public five-field request, validation failures without database
 writes, both existing public roles, exact password preservation, safe response fields
-and the published runtime contract. The pre-existing US-03 duplicate-email race is
-tracked separately as a strict XFail; ordinary duplicate-email handling remains tested.
+and the published runtime contract. The pre-existing US-03 duplicate-email race was
+tracked separately as a strict XFail at this slice's verification time. It is now
+covered by passing regressions in the [US-03 backend slice](us03-duplicate-email.md).
 
 Front-end device validation, processing indicators and iOS/Android evidence remain
 the responsibilities of #85 and #87. This backend change alone does not close the

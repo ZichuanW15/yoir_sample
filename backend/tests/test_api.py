@@ -7,12 +7,12 @@ from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime, timedelta
 from threading import Barrier
 from typing import Any
+from unittest.mock import Mock
 
 import jwt
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import inspect, select
-from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.db import engine, get_db
@@ -214,44 +214,29 @@ def test_register_rejects_unknown_fields(client: TestClient, db_session: Session
     assert db_session.scalars(select(User)).all() == []
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="The pre-check race is not converted from IntegrityError to a contract-shaped 409",
-)
-def test_register_database_uniqueness_race_is_409(client: TestClient) -> None:
-    class ConflictingSession:
-        commit_attempted = False
-
-        def scalar(self, _statement):
-            return None
-
-        def add(self, value) -> None:
-            self.user = value
-
-        def flush(self) -> None:
-            # Emulate the generated ID so response validation reaches the commit race.
-            self.user.id = "race-test-user-id"
-
-        def commit(self) -> None:
-            self.commit_attempted = True
-            raise IntegrityError("duplicate email", {}, Exception("unique violation"))
-
-        def rollback(self) -> None:
-            return None
-
-    db = ConflictingSession()
+def test_register_database_uniqueness_race_is_409(
+    client: TestClient, db_session: Session, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    created = client.post("/api/v1/auth/users", json=REGISTER)
+    assert created.status_code == 201
+    # Simulate a stale pre-check, but let the actual database reject the insert.
+    pre_check = Mock(return_value=None)
+    monkeypatch.setattr(db_session, "scalar", pre_check)
 
     def conflicting_db():
-        yield db
+        yield db_session
 
     app.dependency_overrides[get_db] = conflicting_db
     try:
         response = client.post("/api/v1/auth/users", json=REGISTER)
+        pre_check.assert_called_once()
+        assert_error_shape(response, 409, "VALIDATION_ERROR")
+        assert response.json()["fieldErrors"] == {"email": "Already registered."}
+        assert not db_session.in_transaction()
+        users = db_session.scalars(select(User)).all()
+        assert [user.id for user in users] == [created.json()["id"]]
     finally:
         app.dependency_overrides.pop(get_db, None)
-
-    assert db.commit_attempted
-    assert_error_shape(response, 409, "VALIDATION_ERROR")
 
 
 def test_login_returns_verifiable_expiring_jwt(client: TestClient) -> None:
