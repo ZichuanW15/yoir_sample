@@ -126,9 +126,10 @@ backend tests; this report does not call the frontend client an eight-method cli
 | Partial seed state | Existing users plus empty services can duplicate counsellor emails |
 | Default configuration | Insecure JWT, wildcard CORS and automatic seed are enabled by default |
 
-One Starlette TestClient deprecation warning was emitted by the resolved dependency set. Product
-runtime requirements use open lower bounds, so the same clean clone may resolve newer packages until
-the dependency owner adopts a reviewed lock strategy.
+One Starlette TestClient deprecation warning was emitted by the resolved dependency set. Runtime
+and QA dependencies are now pinned by `backend/uv.lock` and installed with `uv sync --locked`, so a
+clean clone resolves the same versions; `pyproject.toml` keeps open lower bounds, and a deliberate
+`uv lock --upgrade` is the reviewed step that moves them.
 
 ## Product-delta review
 

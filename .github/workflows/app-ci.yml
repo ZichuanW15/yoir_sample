@@ -34,7 +34,7 @@ concurrency:
 
 jobs:
   application:
-    name: Frontend lint, typecheck, coverage, audit and export
+    name: Frontend lint, typecheck, coverage, audit and deployable web build
     runs-on: ubuntu-latest
     timeout-minutes: 20
     defaults:
@@ -76,9 +76,15 @@ jobs:
             --json \
             --outputFile=artifacts/jest-results.json
 
-      - name: Expo Web export smoke
+      - name: Build the web bundle the backend serves
+        id: web_build
         if: ${{ always() && steps.frontend_install.outcome == 'success' }}
-        run: npx --no-install expo export --platform web --output-dir dist/qa-web-smoke
+        env:
+          # FastAPI serves this build at "/", so the API it calls is same-origin
+          # and the base URL is a path rather than an absolute URL.
+          EXPO_PUBLIC_API_URL: /api/v1
+          EXPO_PUBLIC_USE_DEMO_API: 'false'
+        run: npm run build:web
 
       - name: Production dependency audit (critical gate)
         if: ${{ always() && steps.frontend_install.outcome == 'success' }}
@@ -94,10 +100,18 @@ jobs:
           name: frontend-evidence-${{ github.run_attempt }}
           path: |
             frontend/coverage/
-            frontend/dist/qa-web-smoke/
             frontend/artifacts/jest-results.json
             frontend/artifacts/npm-audit-production.json
           if-no-files-found: warn
+          retention-days: 14
+
+      - name: Upload the deployable web build
+        if: ${{ always() && steps.web_build.outcome == 'success' }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: frontend-web-build-${{ github.run_attempt }}
+          path: frontend/dist/web/
+          if-no-files-found: error
           retention-days: 14
 
   backend:
@@ -119,7 +133,7 @@ jobs:
           --health-timeout 5s
           --health-retries 10
     env:
-      DATABASE_URL: postgresql+psycopg://yoir:yoir@localhost:5432/yoir_test
+      DATABASE_URL: postgresql://yoir:yoir@localhost:5432/yoir_test
       YOIR_QA_ALLOW_DATABASE_RESET: 'true'
       JWT_SECRET: qa-ci-secret-that-is-at-least-32-characters
       CORS_ALLOW_ORIGINS: http://localhost:8081
@@ -131,40 +145,40 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up Python
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
         with:
+          version: '0.12.10'
           python-version: '3.12.13'
-          cache: pip
-          cache-dependency-path: |
-            backend/requirements.txt
-            backend/requirements-test.txt
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
 
       - name: Install backend and QA dependencies
         id: backend_install
-        run: python -m pip install -r backend/requirements-test.txt
+        working-directory: backend
+        run: uv sync --locked
 
       - name: Compile backend modules
         if: ${{ always() && steps.backend_install.outcome == 'success' }}
         working-directory: backend
-        run: python -m compileall -q app reset_db.py
+        run: uv run --no-sync python -m compileall -q app reset_db.py
 
       - name: Check QA test code with Ruff
         if: ${{ always() && steps.backend_install.outcome == 'success' }}
         working-directory: backend
-        run: ruff check tests
+        run: uv run --no-sync ruff check tests
 
       - name: Check production backend with Ruff
         if: ${{ always() && steps.backend_install.outcome == 'success' }}
         working-directory: backend
-        run: ruff check app reset_db.py
+        run: uv run --no-sync ruff check app reset_db.py
 
       - name: Full backend suite on PostgreSQL with coverage
         if: ${{ always() && steps.backend_install.outcome == 'success' }}
         working-directory: backend
         run: |
           mkdir -p artifacts/backend
-          python -m pytest tests -m "not live" \
+          uv run --no-sync python -m pytest tests -m "not live" \
             --junitxml=artifacts/backend/pytest.xml \
             --cov=app \
             --cov-report=term-missing \
@@ -181,7 +195,7 @@ jobs:
           retention-days: 14
 
   live-integration:
-    name: Isolated PostgreSQL live HTTPX and TypeScript client
+    name: Isolated PostgreSQL live HTTPX, TypeScript client and served web build
     runs-on: ubuntu-latest
     timeout-minutes: 20
     services:
@@ -202,7 +216,7 @@ jobs:
       CI: 'true'
       LIVE_API_BASE_URL: http://127.0.0.1:8000/api/v1
       LIVE_DATABASE_DSN: postgresql://yoir:yoir@localhost:5432/yoir_live_test
-      LIVE_DATABASE_URL: postgresql+psycopg://yoir:yoir@localhost:5432/yoir_live_test
+      LIVE_DATABASE_URL: postgresql://yoir:yoir@localhost:5432/yoir_live_test
       JWT_SECRET: qa-ci-secret-that-is-at-least-32-characters
       CORS_ALLOW_ORIGINS: http://localhost:8081
 
@@ -212,14 +226,13 @@ jobs:
         with:
           persist-credentials: false
 
-      - name: Set up Python
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
         with:
+          version: '0.12.10'
           python-version: '3.12.13'
-          cache: pip
-          cache-dependency-path: |
-            backend/requirements.txt
-            backend/requirements-test.txt
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
 
       - name: Set up Node.js
         uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
@@ -230,24 +243,38 @@ jobs:
 
       - name: Install live integration dependencies
         run: |
-          python -m pip install -r backend/requirements-test.txt
+          uv sync --locked --project backend
           npm --prefix frontend ci --no-audit
+
+      - name: Build the web bundle into the backend static directory
+        env:
+          EXPO_PUBLIC_API_URL: /api/v1
+          EXPO_PUBLIC_USE_DEMO_API: 'false'
+        run: |
+          npm --prefix frontend run build:web
+          rm -rf backend/static
+          mv frontend/dist/web backend/static
 
       - name: Create isolated live PostgreSQL database
         run: |
-          python - <<'PY'
+          uv run --no-sync --project backend python - <<'PY'
           import os
 
-          import psycopg
+          import psycopg2
 
           admin_dsn = "postgresql://yoir:yoir@localhost:5432/postgres"
-          with psycopg.connect(admin_dsn, autocommit=True) as connection:
-              exists = connection.execute(
-                  "SELECT 1 FROM pg_database WHERE datname = %s",
-                  ("yoir_live_test",),
-              ).fetchone()
-              if exists is None:
-                  connection.execute("CREATE DATABASE yoir_live_test")
+          connection = psycopg2.connect(admin_dsn)
+          connection.autocommit = True
+          try:
+              with connection.cursor() as cursor:
+                  cursor.execute(
+                      "SELECT 1 FROM pg_database WHERE datname = %s",
+                      ("yoir_live_test",),
+                  )
+                  if cursor.fetchone() is None:
+                      cursor.execute("CREATE DATABASE yoir_live_test")
+          finally:
+              connection.close()
           assert os.environ["LIVE_DATABASE_DSN"].endswith("/yoir_live_test")
           PY
 
@@ -255,7 +282,7 @@ jobs:
         run: |
           DATABASE_URL="$LIVE_DATABASE_URL" \
             SEED_ON_STARTUP=true \
-            python -m uvicorn app.main:app \
+            uv run --no-sync --project backend python -m uvicorn app.main:app \
               --app-dir backend \
               --host 127.0.0.1 \
               --port 8000 \
@@ -275,24 +302,36 @@ jobs:
           done
           curl --fail --silent "$LIVE_API_BASE_URL/health" > /dev/null
 
-          python - <<'PY'
+          # One origin serves both: the app shell, a deep link into a dynamic
+          # route (`services/[serviceId]/timeslots.html` on disk), and an API
+          # path that stays a JSON 404 instead of falling back to the shell.
+          curl --fail --silent http://127.0.0.1:8000/ | grep -q 'id="root"'
+          curl --fail --silent http://127.0.0.1:8000/services/svc_1/timeslots \
+            | grep -q 'id="root"'
+          test "$(curl --silent --output /dev/null --write-out '%{http_code}' \
+            http://127.0.0.1:8000/api/v1/does-not-exist)" = '404'
+
+          uv run --no-sync --project backend python - <<'PY'
           import json
           import os
           from pathlib import Path
 
-          import psycopg
+          import psycopg2
 
           def database_counts() -> dict[str, int]:
-              with psycopg.connect(os.environ["LIVE_DATABASE_DSN"]) as connection:
-                  counts = {
-                      table: connection.execute(
-                          f'SELECT count(*) FROM "{table}"'
-                      ).fetchone()[0]
-                      for table in ("users", "services", "orders", "bookings")
-                  }
-                  counts["open_slots"] = connection.execute(
-                      "SELECT count(*) FROM availability_slots WHERE status = 'open'"
-                  ).fetchone()[0]
+              connection = psycopg2.connect(os.environ["LIVE_DATABASE_DSN"])
+              try:
+                  with connection.cursor() as cursor:
+                      counts = {}
+                      for table in ("users", "services", "orders", "bookings"):
+                          cursor.execute(f'SELECT count(*) FROM "{table}"')
+                          counts[table] = cursor.fetchone()[0]
+                      cursor.execute(
+                          "SELECT count(*) FROM availability_slots WHERE status = 'open'"
+                      )
+                      counts["open_slots"] = cursor.fetchone()[0]
+              finally:
+                  connection.close()
               return counts
 
           output = Path(os.environ["RUNNER_TEMP"]) / "yoir-live-before.json"
@@ -303,7 +342,7 @@ jobs:
           (
             cd backend
             LIVE_API_BASE_URL="$LIVE_API_BASE_URL" \
-              python -m pytest tests/test_live_api.py -q -ra \
+              uv run --no-sync python -m pytest tests/test_live_api.py -q -ra \
                 --junitxml="$RUNNER_TEMP/httpx-live.xml" \
                 2>&1 | tee "$RUNNER_TEMP/httpx-live.log"
           )
@@ -319,25 +358,28 @@ jobs:
 
           export HTTPX_STATUS="$httpx_status"
           export TYPESCRIPT_STATUS="$typescript_status"
-          python - <<'PY'
+          uv run --no-sync --project backend python - <<'PY'
           import json
           import os
           from pathlib import Path
 
-          import psycopg
+          import psycopg2
 
           before_path = Path(os.environ["RUNNER_TEMP"]) / "yoir-live-before.json"
           before = json.loads(before_path.read_text())
-          with psycopg.connect(os.environ["LIVE_DATABASE_DSN"]) as connection:
-              after = {
-                  table: connection.execute(
-                      f'SELECT count(*) FROM "{table}"'
-                  ).fetchone()[0]
-                  for table in ("users", "services", "orders", "bookings")
-              }
-              after["open_slots"] = connection.execute(
-                  "SELECT count(*) FROM availability_slots WHERE status = 'open'"
-              ).fetchone()[0]
+          connection = psycopg2.connect(os.environ["LIVE_DATABASE_DSN"])
+          try:
+              with connection.cursor() as cursor:
+                  after = {}
+                  for table in ("users", "services", "orders", "bookings"):
+                      cursor.execute(f'SELECT count(*) FROM "{table}"')
+                      after[table] = cursor.fetchone()[0]
+                  cursor.execute(
+                      "SELECT count(*) FROM availability_slots WHERE status = 'open'"
+                  )
+                  after["open_slots"] = cursor.fetchone()[0]
+          finally:
+              connection.close()
 
           output = Path(os.environ["RUNNER_TEMP"]) / "yoir-live-after.json"
           output.write_text(json.dumps(after, sort_keys=True))
@@ -394,13 +436,12 @@ jobs:
           fetch-depth: 0
           persist-credentials: false
 
-      - name: Set up Python
-        uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
         with:
+          version: '0.12.10'
           python-version: '3.12.13'
-
-      - name: Install metadata checker dependency
-        run: python -m pip install PyYAML==6.0.2
+          enable-cache: true
 
       - name: Install actionlint 1.7.12 with checksum verification
         run: |
@@ -419,12 +460,16 @@ jobs:
           "$RUNNER_TEMP/actionlint/actionlint" .github/workflows/*.yml
 
       - name: Check OpenAPI, traceability, links, workflows and JSON
-        run: python scripts/check_repository_metadata.py
+        run: |
+          uv run --no-project --python 3.12.13 --with PyYAML==6.0.2 \
+            python scripts/check_repository_metadata.py
 
       - name: Compile and test Board Insights generator
         run: |
-          python -m py_compile .github/scripts/board-insights.py
-          python -B .github/scripts/tests/test_board_insights.py -v
+          uv run --no-project --python 3.12.13 \
+            python -m py_compile .github/scripts/board-insights.py
+          uv run --no-project --python 3.12.13 \
+            python -B .github/scripts/tests/test_board_insights.py -v
 
       - name: Check whitespace across the complete event change
         env:

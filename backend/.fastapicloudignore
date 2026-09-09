@@ -1,0 +1,9 @@
+# `fastapi deploy` walks the upload with rignore, which honours .gitignore —
+# this repository's and the root one. The exported web build in static/ is
+# ignored by git on purpose (generated, never committed), and its own asset
+# tree contains directories the root .gitignore excludes as well, notably
+# `assets/node_modules/`. Whitelists here take precedence over .gitignore, so
+# both lines are needed: without them the deployment silently ships the API
+# with a missing or incomplete frontend.
+!static/
+!static/**
