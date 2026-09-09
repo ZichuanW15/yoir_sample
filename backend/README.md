@@ -23,6 +23,20 @@ It implements the published Sprint 1 contract in
 Everything else in the contract (booking, payment, messaging, forum, reviews, verification,
 admin) is a follow-on slice and is deliberately absent.
 
+For the Sprint 2 registration form, see the
+[US-01 backend contract and verification guide](../docs/sprint2/backend/us01-registration.md).
+It documents the five-field request, English field errors, response examples and
+the tests for issue #86. The running API publishes this operation at `/docs`.
+
+For US-02 account persistence, the Argon2id policy and failure-path evidence, see
+the [secure account creation guide](../docs/sprint2/backend/us02-account-creation.md)
+for issue #93. Registration returns a committed public user, without logging them in.
+
+For US-03 email uniqueness, including simultaneous registration requests, see the
+[duplicate-email guide](../docs/sprint2/backend/us03-duplicate-email.md) for issue #96.
+Both ordinary duplicates and database email conflicts return the same HTTP `409`
+form error, with no extra account and no changes to the existing account.
+
 ## Run
 
 Dependencies are managed with [uv](https://docs.astral.sh/uv/): `pyproject.toml` declares them

@@ -1,7 +1,7 @@
 from datetime import datetime
-from typing import Literal
+from typing import Annotated, Literal
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field
+from pydantic import BaseModel, ConfigDict, EmailStr, Field, StringConstraints
 from pydantic.alias_generators import to_camel
 
 Role = Literal["job_seeker", "counsellor", "platform_owner"]
@@ -21,10 +21,35 @@ class CamelModel(BaseModel):
 # --- requests -------------------------------------------------------------
 
 class RegisterRequest(CamelModel):
-    name: str = Field(min_length=1, max_length=120)
+    """The public registration form; additional fields are not accepted."""
+
+    model_config = ConfigDict(
+        extra="forbid",
+        json_schema_extra={
+            "examples": [{
+                "name": "Alex Morgan",
+                "email": "alex@example.com",
+                "password": "example-password",
+                "passwordConfirmation": "example-password",
+                "role": "job_seeker",
+            }],
+        },
+    )
+
+    name: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=120)]
     email: EmailStr
-    password: str = Field(min_length=8)
-    password_confirmation: str = Field(min_length=8)
+    password: str = Field(
+        min_length=8,
+        repr=False,
+        description="At least eight characters; whitespace is preserved.",
+        json_schema_extra={"format": "password", "writeOnly": True},
+    )
+    password_confirmation: str = Field(
+        min_length=8,
+        repr=False,
+        description="Must exactly match password, including whitespace.",
+        json_schema_extra={"format": "password", "writeOnly": True},
+    )
     role: Literal["job_seeker", "counsellor"]
 
 
@@ -34,6 +59,15 @@ class LoginRequest(CamelModel):
 
 
 # --- responses -----------------------------------------------------------
+
+class RegistrationErrorOut(CamelModel):
+    """Public error envelope returned by the registration endpoint."""
+
+    code: Literal["VALIDATION_ERROR"]
+    message: str
+    field_errors: dict[str, str] | None = None
+    request_id: str
+
 
 class UserOut(CamelModel):
     id: str
