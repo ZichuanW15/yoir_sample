@@ -4,6 +4,7 @@ from typing import Annotated
 import jwt
 from argon2 import PasswordHasher
 from argon2.exceptions import VerifyMismatchError
+from argon2.profiles import RFC_9106_LOW_MEMORY
 from fastapi import Depends, Header, status
 from sqlalchemy.orm import Session
 
@@ -13,10 +14,13 @@ from app.errors import AUTHENTICATION_REQUIRED, FORBIDDEN, ApiError
 from app.models import User
 
 settings = get_settings()
-_hasher = PasswordHasher()
+# US-02: make the existing Argon2id policy explicit rather than relying on defaults.
+# 64 MiB, 3 iterations, 4 lanes; each hash gets a fresh 16-byte random salt.
+_hasher = PasswordHasher.from_parameters(RFC_9106_LOW_MEMORY)
 
 
 def hash_password(password: str) -> str:
+    """Return an encoded salted hash; never trim or otherwise normalise credentials."""
     return _hasher.hash(password)
 
 
