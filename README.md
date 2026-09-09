@@ -32,7 +32,7 @@ assessment.
 | Path | Contents |
 |---|---|
 | [frontend/](frontend/) | Expo/React Native app — `app/` (Expo Router screens), `src/` (typed API client, demo adapter, session provider, shared UI), `__tests__/` (Jest), `assets/`; see [frontend/README.md](frontend/README.md) |
-| [backend/](backend/) | FastAPI backend — `app/` (routers, models, schemas, security, seed), `tests/` (pytest), `reset_db.py`, `docker-compose.yml` for a local PostgreSQL |
+| [backend/](backend/) | FastAPI backend — `app/` (routers, models, schemas, security, seed), `tests/` (pytest), `reset_db.py`, `pyproject.toml` + `uv.lock` (uv-managed dependencies), `docker-compose.yml` for a local PostgreSQL |
 | [scripts/](scripts/) | `check_repository_metadata.py` — OpenAPI/traceability parity, Markdown links, workflow YAML and seed JSON |
 | [docs/sprint1/](docs/sprint1/) | Sprint 1 documentation |
 | [docs/sprint1/executable-architecture/](docs/sprint1/executable-architecture/) | Published API contract (`openapi.yaml`), interface contract, requirement traceability, backend integration guide |
@@ -42,7 +42,7 @@ assessment.
 | [docs/sprint1/project/](docs/sprint1/project/) | Background and scope, requirements, product backlog, user story map, risk register |
 | [docs/sprint1/meeting-minutes/](docs/sprint1/meeting-minutes/) | Client meeting and daily stand-up minutes |
 | [docs/sprint1/Client-email/](docs/sprint1/Client-email/) | Client communication evidence |
-| [.github/workflows/](.github/workflows/) | CI workflows |
+| [.github/workflows/](.github/workflows/) | CI workflows and the FastAPI Cloud deploy on merge to `dev` |
 | [.github/scripts/](.github/scripts/) | Scripts the CI runs, also runnable locally |
 
 ## Executable architecture
@@ -55,7 +55,8 @@ public marketplace -> service detail -> login when required -> choose time -> st
 
 The frontend is React Native + Expo (SDK 54) in TypeScript with `expo-router`. The
 backend is FastAPI on Python 3.12 with SQLAlchemy 2.0 and PostgreSQL 16, Argon2 password
-hashing and JWT bearer sessions. They communicate over REST/JSON under `/api/v1` as
+hashing and JWT bearer sessions; its dependencies are managed by uv and it deploys to
+FastAPI Cloud. They communicate over REST/JSON under `/api/v1` as
 published in
 [openapi.yaml](docs/sprint1/executable-architecture/openapi.yaml); eight of the
 36 published operations are implemented at runtime (health, register, login, list
@@ -72,22 +73,34 @@ is the starting point for backend contributors.
 
 ### Run the backend
 
-Prerequisites: Python 3.11+ and a PostgreSQL server (or Docker: `docker compose up -d`
-inside `backend/` starts PostgreSQL 16 as `yoir/yoir` on 5432).
+Python dependencies are managed with [uv](https://docs.astral.sh/uv/): `backend/pyproject.toml`
+declares them and `backend/uv.lock` pins every resolved version, and both are committed. uv also
+downloads the pinned Python 3.12, so uv itself is the only prerequisite — plus a PostgreSQL
+server (or Docker: `docker compose up -d` inside `backend/` starts PostgreSQL 16 as `yoir/yoir`
+on 5432).
 
 ```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh   # once; or brew install uv
+
 cd backend
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env            # set DATABASE_URL for your PostgreSQL
-python reset_db.py              # create every table and load app/seed_data.json
-uvicorn app.main:app --reload   # http://localhost:8000/api/v1 · interactive docs at /docs
+uv sync                              # create .venv and install everything uv.lock pins
+cp .env.example .env                 # point DATABASE_URL at your PostgreSQL
+uv run python reset_db.py            # create every table and load app/seed_data.json
+uv run fastapi dev app/main.py       # http://localhost:8000/api/v1 · interactive docs at /docs
 ```
+
+`uv sync` builds `backend/.venv` and `uv run <cmd>` executes inside it, so there is nothing to
+activate. Re-run `uv sync` after any pull that touches `uv.lock`.
+
+Keep the `postgresql://` scheme in `DATABASE_URL`. The backend uses the `psycopg2-binary`
+driver, which is what SQLAlchemy selects for that scheme; a `postgresql+psycopg://` URL asks
+for psycopg 3 instead and fails with `ModuleNotFoundError: No module named 'psycopg'`.
 
 Seed logins (password `password123`): job seekers `alex@example.com` and
 `sam@example.com`; counsellors `maya@example.com`, `jordan@example.com`,
-`priya@example.com` and `tom@example.com`. Configuration, structure and the deliberate
-skeleton shortcuts are in [backend/README.md](backend/README.md).
+`priya@example.com` and `tom@example.com`. Configuration, the full uv command reference,
+FastAPI Cloud deployment, structure and the deliberate skeleton shortcuts are in
+[backend/README.md](backend/README.md).
 
 ### Run the frontend
 
@@ -109,10 +122,10 @@ visible label; it is for UI-only work and is never evidence that the backend wor
 ```bash
 cd frontend && npm run lint && npm run typecheck \
   && npm run test:coverage && cd ..                          # frontend, 90/80/90/90 coverage gate
-cd backend && .venv/bin/pip install -r requirements-test.txt \
-  && .venv/bin/ruff check app tests reset_db.py \
-  && .venv/bin/pytest tests && cd ..                         # backend on a temporary SQLite file
-backend/.venv/bin/python scripts/check_repository_metadata.py   # contract, links, workflow YAML, seed JSON
+cd backend && uv sync \
+  && uv run ruff check app tests reset_db.py \
+  && uv run pytest tests && cd ..                            # backend on a temporary SQLite file
+uv run --project backend python scripts/check_repository_metadata.py  # contract, links, workflow YAML, seed JSON
 ```
 
 The test fixtures refuse to reset a PostgreSQL database unless its name is exactly
@@ -163,12 +176,13 @@ before the item moves to Done. Full detail is on the
 
 **Application CI** ([.github/workflows/app-ci.yml](.github/workflows/app-ci.yml)) runs on
 every push and pull request that touches application, test, documentation or CI files.
-Four blocking jobs: frontend lint, typecheck, Jest coverage, Expo Web export and a
-critical-severity production audit; backend compile, Ruff and pytest with coverage on
-PostgreSQL 16; an isolated live Uvicorn exercised by HTTPX and by the real TypeScript
-client with unmocked `fetch`; and repository evidence — checksum-verified `actionlint`,
-OpenAPI/traceability parity, Markdown links, the Board Insights tests and whitespace.
-The frontend, backend and live jobs upload their evidence as build artifacts.
+Four blocking jobs: frontend lint, typecheck, Jest coverage, the deployable Expo Web build
+and a critical-severity production audit; backend compile, Ruff and pytest with coverage on
+PostgreSQL 16; an isolated live Uvicorn exercised by HTTPX, by the real TypeScript client
+with unmocked `fetch` and through the web build it serves at `/`; and repository evidence —
+checksum-verified `actionlint`, OpenAPI/traceability parity, Markdown links, the Board
+Insights tests and whitespace. The frontend, backend and live jobs upload their evidence as
+build artifacts, and the frontend job also uploads the web build itself.
 
 **Mermaid Diagrams** ([.github/workflows/mermaid.yml](.github/workflows/mermaid.yml)) runs
 on branch creation, on every push to any branch, and on every pull request. It renders
@@ -183,6 +197,15 @@ To run the same check locally:
 npm install -g @mermaid-js/mermaid-cli@11.16.0
 .github/scripts/render-mermaid.sh build/diagrams
 ```
+
+**Deploy to FastAPI Cloud** ([.github/workflows/deploy-dev.yml](.github/workflows/deploy-dev.yml))
+redeploys on every merge into `dev` that touches `backend/**` or `frontend/**`, and on manual
+dispatch. One deployment serves both halves: the job exports the Expo web build into
+`backend/static`, installs runtime dependencies with `uv sync --locked --no-default-groups` and
+runs `uv run fastapi deploy`, authenticating with the `FASTAPI_CLOUD_TOKEN` and
+`FASTAPI_CLOUD_APP_ID` repository secrets rather than an interactive login. Provisioning those
+secrets, how the build reaches the upload and the alternative of gating the deploy on a green
+Application CI run are described in [backend/README.md](backend/README.md).
 
 **Board Insights** ([.github/workflows/board-insights.yml](.github/workflows/board-insights.yml))
 validates the generator offline on relevant pushes and pull requests. On the daily
