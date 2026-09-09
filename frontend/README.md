@@ -34,6 +34,23 @@ EXPO_PUBLIC_USE_DEMO_API=true
 
 Demo mode is visibly labelled in the app and must not be used as evidence that the deployed backend works.
 
+## Web build
+
+`npm run build:web` exports the static web app into `dist/web`. FastAPI serves that build at
+`/` in the deployment, so the API is same-origin and the build is made with the base URL as a
+path rather than an absolute origin:
+
+```bash
+EXPO_PUBLIC_API_URL=/api/v1 npm run build:web
+```
+
+Application CI runs this build and uploads it as an artifact; the deploy workflow moves it into
+`backend/static` before deploying. Locally, `uv run yoir-dev` from `backend/` does the build and
+serves it with the API on one origin — see [`../backend/README.md`](../backend/README.md).
+
+The script passes `--clear`. `EXPO_PUBLIC_*` values are inlined at transform time and Metro
+caches the result, so without it a build can silently reuse the API URL from an earlier run.
+
 ## Quality assurance and CI
 
 - [`test-approach.md`](../docs/sprint1/qa/test-approach.md) defines the

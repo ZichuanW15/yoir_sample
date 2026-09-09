@@ -10,8 +10,8 @@ class Settings(BaseSettings):
 
     # PostgreSQL (the engine named in the design concept). Override in .env for
     # your local server, e.g. Postgres.app commonly listens on 5433:
-    #   postgresql+psycopg://evelyn@localhost:5433/yoir
-    database_url: str = "postgresql+psycopg://localhost:5432/yoir"
+    #   postgresql://evelyn@localhost:5433/yoir
+    database_url: str = "postgresql://localhost:5432/yoir"
 
     jwt_secret: str = "dev-only-insecure-secret-change-me-please-32b"
     jwt_algorithm: str = "HS256"
@@ -22,6 +22,11 @@ class Settings(BaseSettings):
 
     # Insert the two demo services on startup when the table is empty.
     seed_on_startup: bool = True
+
+    # Directory holding the exported Expo web build, served at "/" alongside the
+    # API. Relative paths resolve against the backend root; no build there means
+    # the API is served on its own.
+    frontend_dist: str = "static"
 
 
 @lru_cache

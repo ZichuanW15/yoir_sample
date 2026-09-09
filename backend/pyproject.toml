@@ -1,12 +1,48 @@
 [project]
 name = "yoir-backend"
 version = "0.1.0"
-description = "Yoir executable-architecture backend skeleton (FastAPI)"
-requires-python = ">=3.11"
+description = "Yoir backend - FastAPI"
+requires-python = "==3.12.*"
+dependencies = [
+    "argon2-cffi>=23.1",
+    "email-validator>=2.1",
+    "fastapi[standard]>=0.115",
+    "psycopg2-binary>=2.9.12",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "pyjwt>=2.8",
+    "sqlalchemy>=2.0.30",
+    "uvicorn[standard]>=0.30",
+]
+
+# Local development entry point: `uv run yoir-dev` builds the Expo web frontend
+# into static/ when it is stale, then serves it and the API on one origin.
+[project.scripts]
+yoir-dev = "app.dev:main"
+
+# Declared so the entry point above is installed. uv installs the project in
+# editable mode, so app/ is served from the working tree, not a copy.
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]
+
+# QA tooling. Installed by `uv sync` (default groups), excluded from the
+# deployed image by `uv sync --no-default-groups`.
+[dependency-groups]
+dev = [
+    "httpx==0.28.1",
+    "pytest==8.4.2",
+    "pytest-cov==6.2.1",
+    "PyYAML==6.0.2",
+    "ruff==0.12.12",
+]
 
 [tool.ruff]
 line-length = 100
-target-version = "py311"
+target-version = "py312"
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
