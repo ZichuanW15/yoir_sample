@@ -35,11 +35,12 @@ router = APIRouter(prefix="/auth", tags=["Authentication"])
     },
     openapi_extra={"security": [], "x-requirement-ids": ["US-01", "US-02", "US-03", "US-04"]},
 )
-def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> User:
+def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> UserOut:
     """Submit name, email, password, passwordConfirmation and role without authentication.
 
-    US-01 publishes and validates the registration request. The existing account
-    creation, duplicate-email and counsellor behaviour also serves US-02..US-04.
+    US-01 validates the request; US-02 commits the account with only a password hash
+    and returns public user fields without a session. The shared endpoint also
+    preserves the existing duplicate-email and counsellor behaviour for US-03/US-04.
     Errors contain English messages and camelCase fieldErrors for the form.
     """
     if payload.password != payload.password_confirmation:
@@ -65,10 +66,17 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> User:
         password_hash=hash_password(payload.password),
         role=payload.role,
     )
-    db.add(user)
-    db.commit()
-    db.refresh(user)
-    return user
+    try:
+        db.add(user)
+        db.flush()
+        # Build the safe response before committing. A post-commit refresh can fail
+        # after the account is already saved, incorrectly telling the app to retry.
+        result = UserOut.model_validate(user)
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    return result
 
 
 @router.post("/sessions", response_model=SessionOut)

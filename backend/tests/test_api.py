@@ -220,20 +220,29 @@ def test_register_rejects_unknown_fields(client: TestClient, db_session: Session
 )
 def test_register_database_uniqueness_race_is_409(client: TestClient) -> None:
     class ConflictingSession:
+        commit_attempted = False
+
         def scalar(self, _statement):
             return None
 
-        def add(self, _value) -> None:
-            return None
+        def add(self, value) -> None:
+            self.user = value
+
+        def flush(self) -> None:
+            # Emulate the generated ID so response validation reaches the commit race.
+            self.user.id = "race-test-user-id"
 
         def commit(self) -> None:
+            self.commit_attempted = True
             raise IntegrityError("duplicate email", {}, Exception("unique violation"))
 
-        def refresh(self, _value) -> None:
+        def rollback(self) -> None:
             return None
 
+    db = ConflictingSession()
+
     def conflicting_db():
-        yield ConflictingSession()
+        yield db
 
     app.dependency_overrides[get_db] = conflicting_db
     try:
@@ -241,6 +250,7 @@ def test_register_database_uniqueness_race_is_409(client: TestClient) -> None:
     finally:
         app.dependency_overrides.pop(get_db, None)
 
+    assert db.commit_attempted
     assert_error_shape(response, 409, "VALIDATION_ERROR")
 
 

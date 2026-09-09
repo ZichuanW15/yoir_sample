@@ -28,6 +28,10 @@ For the Sprint 2 registration form, see the
 It documents the five-field request, English field errors, response examples and
 the tests for issue #86. The running API publishes this operation at `/docs`.
 
+For US-02 account persistence, the Argon2id policy and failure-path evidence, see
+the [secure account creation guide](../docs/sprint2/backend/us02-account-creation.md)
+for issue #93. Registration returns a committed public user, without logging them in.
+
 ## Run
 
 Dependencies are managed with [uv](https://docs.astral.sh/uv/): `pyproject.toml` declares them

@@ -40,11 +40,13 @@ class RegisterRequest(CamelModel):
     email: EmailStr
     password: str = Field(
         min_length=8,
+        repr=False,
         description="At least eight characters; whitespace is preserved.",
         json_schema_extra={"format": "password", "writeOnly": True},
     )
     password_confirmation: str = Field(
         min_length=8,
+        repr=False,
         description="Must exactly match password, including whitespace.",
         json_schema_extra={"format": "password", "writeOnly": True},
     )
