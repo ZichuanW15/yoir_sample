@@ -24,6 +24,7 @@ IMPLEMENTED_RUNTIME_OPERATION_IDS = {
     "deleteAvailabilitySlot",
     "getService",
     "healthCheck",
+    "listOwnAvailabilitySlots",
     "listOwnServices",
     "listServices",
     "listServiceSlots",

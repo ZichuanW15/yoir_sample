@@ -20,6 +20,7 @@ completeBooking,POST,/bookings/{bookingId}/completion,Booked Counsellor,US-53,St
 createReview,POST,/bookings/{bookingId}/review,Owning Job Seeker,US-53;US-54;US-55,EA-06
 listOwnServices,GET,/me/services,Counsellor,US-34;US-36,Ownership contract test
 createService,POST,/me/services,Eligible Counsellor,US-34;US-35;US-37;US-38,Validation and role tests
+listOwnAvailabilitySlots,GET,/me/availability-slots,Counsellor,US-39,Ownership contract test
 createAvailabilitySlot,POST,/me/availability-slots,Counsellor,US-39,Overlap and validation tests
 updateAvailabilitySlot,PATCH,/me/availability-slots/{slotId},Counsellor,US-39,Ownership overlap and open-only tests
 deleteAvailabilitySlot,DELETE,/me/availability-slots/{slotId},Counsellor,US-39,Ownership and open-only tests

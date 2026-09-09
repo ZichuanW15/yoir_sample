@@ -401,6 +401,20 @@ paths:
         '400': {$ref: '#/components/responses/BadRequest'}
         '403': {$ref: '#/components/responses/Forbidden'}
   /me/availability-slots:
+    get:
+      tags: [Counsellor]
+      operationId: listOwnAvailabilitySlots
+      x-required-role: counsellor
+      x-requirement-ids: [US-39]
+      responses:
+        '200':
+          description: Every slot across the caller's services
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/AvailabilitySlot'}
+        '403': {$ref: '#/components/responses/Forbidden'}
     post:
       tags: [Counsellor]
       operationId: createAvailabilitySlot
