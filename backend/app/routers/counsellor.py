@@ -144,6 +144,22 @@ def _reject_overlap(
             )
 
 
+@router.get("/availability-slots", response_model=list[AvailabilitySlotOut])
+def list_own_availability_slots(
+    user: User = Depends(require_counsellor),
+    db: Session = Depends(get_db),
+) -> list[AvailabilitySlot]:
+    """US-39. Every slot across the caller's services, for the weekly calendar."""
+    return list(
+        db.scalars(
+            select(AvailabilitySlot)
+            .join(Service, AvailabilitySlot.service_id == Service.id)
+            .where(Service.counsellor_id == user.id)
+            .order_by(AvailabilitySlot.starts_at)
+        )
+    )
+
+
 @router.post(
     "/availability-slots",
     status_code=status.HTTP_201_CREATED,
