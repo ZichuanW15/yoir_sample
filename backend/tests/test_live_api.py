@@ -76,3 +76,45 @@ def test_live_register_login_marketplace_booking_and_payment() -> None:
         assert payment.status_code == 200
         assert payment.json()["paymentStatus"] == "paid"
         assert payment.json()["booking"]["status"] == "confirmed"
+
+
+def test_live_login_errors_and_current_session_logout() -> None:
+    email = f"qa-live-session-{uuid.uuid4()}@example.com"
+    password = "live-session-password"
+    with httpx.Client(base_url=BASE_URL, timeout=10) as client:
+        registered = client.post("/auth/users", json={
+            "name": "QA Live Session", "email": email, "password": password,
+            "passwordConfirmation": password, "role": "job_seeker",
+        })
+        assert registered.status_code == 201
+        failures = [
+            client.post("/auth/sessions", json=credentials)
+            for credentials in (
+                {"email": email, "password": "wrong-password"},
+                {"email": f"missing-{uuid.uuid4()}@example.com", "password": password},
+            )
+        ]
+        for failed in failures:
+            assert failed.status_code == 401
+            assert failed.json()["code"] == "INVALID_CREDENTIALS"
+            assert set(failed.json()) == {"code", "message", "requestId"}
+        assert failures[0].json()["message"] == failures[1].json()["message"]
+
+        sessions = [client.post("/auth/sessions", json={"email": email, "password": password})
+                    for _ in range(2)]
+        assert all(session.status_code == 200 for session in sessions)
+        first, second = [session.json()["accessToken"] for session in sessions]
+        assert first != second
+        headers = {"Authorization": f"Bearer {first}"}
+        probe = "/orders/missing-order/payments/stub"
+        assert client.post(probe, headers=headers).status_code == 404
+        for _ in range(2):
+            logout = client.delete("/auth/sessions/current", headers=headers)
+            assert logout.status_code == 204
+            assert logout.content == b""
+        for padding in ("", "=", "=="):
+            replay = client.post(probe, headers={"Authorization": f"Bearer {first}{padding}"})
+            assert replay.status_code == 401
+            assert replay.json()["code"] == "AUTHENTICATION_REQUIRED"
+        assert client.post(probe, headers={"Authorization": f"Bearer {second}"}).status_code == 404
+        assert client.get("/services").status_code == 200

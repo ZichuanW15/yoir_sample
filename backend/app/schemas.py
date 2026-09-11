@@ -54,8 +54,13 @@ class RegisterRequest(CamelModel):
 
 
 class LoginRequest(CamelModel):
+    model_config = ConfigDict(extra="forbid")
+
     email: EmailStr
-    password: str = Field(min_length=1)
+    password: str = Field(
+        min_length=1, repr=False,
+        json_schema_extra={"format": "password", "writeOnly": True},
+    )
 
 
 # --- responses -----------------------------------------------------------
@@ -64,6 +69,15 @@ class RegistrationErrorOut(CamelModel):
     """Public error envelope returned by the registration endpoint."""
 
     code: Literal["VALIDATION_ERROR"]
+    message: str
+    field_errors: dict[str, str] | None = None
+    request_id: str
+
+
+class AuthenticationErrorOut(CamelModel):
+    """Shared login/logout validation and unauthenticated response contract."""
+
+    code: Literal["VALIDATION_ERROR", "INVALID_CREDENTIALS", "AUTHENTICATION_REQUIRED"]
     message: str
     field_errors: dict[str, str] | None = None
     request_id: str

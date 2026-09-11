@@ -14,6 +14,7 @@ It implements the published Sprint 1 contract in
 | GET  | `/api/v1/health` | `{ "status": "ok" }` (NFR-02) |
 | POST | `/api/v1/auth/users` | register (US-01..04) → `201 User`, `400`, `409` |
 | POST | `/api/v1/auth/sessions` | login (US-06, US-07) → `200 Session`, `401 INVALID_CREDENTIALS` |
+| DELETE | `/api/v1/auth/sessions/current` | current-token logout (US-08) → empty `204`, `401 AUTHENTICATION_REQUIRED` |
 | GET  | `/api/v1/services` | list active services (US-44, US-45), `?query=`, `?modality=` |
 | GET  | `/api/v1/services/{serviceId}` | service detail (US-46) → `200 Service`, `404 NOT_FOUND` |
 | GET  | `/api/v1/services/{serviceId}/slots` | currently open time slots (US-40) |
@@ -36,6 +37,13 @@ For US-03 email uniqueness, including simultaneous registration requests, see th
 [duplicate-email guide](../docs/sprint2/backend/us03-duplicate-email.md) for issue #96.
 Both ordinary duplicates and database email conflicts return the same HTTP `409`
 form error, with no extra account and no changes to the existing account.
+
+For US-06/07/08 login, safe credential errors and persistent current-token logout,
+see the [authentication/session guide](../docs/sprint2/backend/us06-us08-auth-sessions.md)
+for issues #99, #102 and #105. Startup adds the `revoked_tokens` table without
+resetting existing data. Every protected request checks it; do not clear the table
+while unexpired tokens might still be in use. Tokens keep the existing default
+60-minute lifetime; refresh and all-device logout are not implemented in this slice.
 
 ## Run
 

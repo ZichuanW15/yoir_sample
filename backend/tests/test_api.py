@@ -283,10 +283,6 @@ def test_login_failure_is_generic_for_wrong_and_unknown_account(client: TestClie
     )
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="Malformed Argon2 hashes raise InvalidHashError instead of a generic 401",
-)
 def test_login_malformed_hash_is_generic_401(client: TestClient, db_session: Session) -> None:
     db_session.add(
         User(

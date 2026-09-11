@@ -36,6 +36,7 @@ engine: Any = None
 hash_password: Any = None
 
 _DATABASE_CLEANUP_ORDER = (
+    "revoked_tokens",
     "bookings",
     "orders",
     "availability_slots",

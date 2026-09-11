@@ -1,15 +1,32 @@
 import sqlite3
+from datetime import UTC, datetime, timedelta
 
-from fastapi import APIRouter, Depends, status
-from sqlalchemy import select
+from fastapi import APIRouter, Depends, Response, status
+from sqlalchemy import delete, select
+from sqlalchemy.dialects.postgresql import insert as pg_insert
+from sqlalchemy.dialects.sqlite import insert as sqlite_insert
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.db import get_db
 from app.errors import INVALID_CREDENTIALS, VALIDATION_ERROR, ApiError
-from app.models import User
-from app.schemas import LoginRequest, RegisterRequest, RegistrationErrorOut, SessionOut, UserOut
-from app.security import create_access_token, hash_password, verify_password
+from app.models import RevokedToken, User
+from app.schemas import (
+    AuthenticationErrorOut,
+    LoginRequest,
+    RegisterRequest,
+    RegistrationErrorOut,
+    SessionOut,
+    UserOut,
+)
+from app.security import (
+    AccessToken,
+    create_access_token,
+    get_access_token,
+    hash_password,
+    invalid_session,
+    verify_password,
+)
 
 router = APIRouter(prefix="/auth", tags=["Authentication"])
 
@@ -113,11 +130,22 @@ def register(payload: RegisterRequest, db: Session = Depends(get_db)) -> UserOut
     return result
 
 
-@router.post("/sessions", response_model=SessionOut)
-def login(payload: LoginRequest, db: Session = Depends(get_db)) -> SessionOut:
+@router.post(
+    "/sessions", response_model=SessionOut, operation_id="login",
+    responses={
+        400: {"model": AuthenticationErrorOut, "description": "Invalid login form fields."},
+        401: {"model": AuthenticationErrorOut, "description": "Generic email-or-password error."},
+        "4XX": {"model": AuthenticationErrorOut, "description": "Validation returns 400, not 422."},
+    },
+    openapi_extra={"security": [], "x-requirement-ids": ["US-06", "US-07"]},
+)
+def login(
+    payload: LoginRequest, response: Response, db: Session = Depends(get_db),
+) -> SessionOut:
     """US-06, US-07. Generic failure so the endpoint does not reveal account existence."""
     user = db.scalar(select(User).where(User.email == payload.email.lower()))
-    if user is None or not verify_password(payload.password, user.password_hash):
+    valid_password = verify_password(payload.password, user.password_hash if user else None)
+    if user is None or not valid_password:
         raise ApiError(
             status.HTTP_401_UNAUTHORIZED,
             INVALID_CREDENTIALS,
@@ -125,8 +153,54 @@ def login(payload: LoginRequest, db: Session = Depends(get_db)) -> SessionOut:
         )
 
     token, expires_at = create_access_token(user.id, user.role)
-    return SessionOut(
+    result = SessionOut(
         access_token=token,
         expires_at=expires_at,
         user=UserOut.model_validate(user),
     )
+    response.headers["Cache-Control"] = "no-store"
+    response.headers["Pragma"] = "no-cache"
+    return result
+
+
+@router.delete(
+    "/sessions/current", status_code=status.HTTP_204_NO_CONTENT, operation_id="logout",
+    responses={
+        204: {"description": "Current token durably invalidated; empty response."},
+        401: {"model": AuthenticationErrorOut, "description": "Missing or invalid session token."},
+    },
+    openapi_extra={"x-requirement-ids": ["US-08"]},
+)
+def logout(
+    token: AccessToken = Depends(get_access_token), db: Session = Depends(get_db),
+) -> Response:
+    """Revoke only this login. Repeating logout for a valid revoked JWT is harmless.
+
+    Intentionally validate signature/expiry/account but not the denylist here;
+    every other protected endpoint uses get_current_user and rejects revoked JWTs.
+    """
+    if db.get(User, token.subject) is None:
+        raise invalid_session()
+
+    dialect = db.get_bind().dialect.name
+    if dialect == "postgresql":
+        insert = pg_insert
+    elif dialect == "sqlite":
+        insert = sqlite_insert
+    else:
+        raise RuntimeError("Unsupported revocation database")
+    now = datetime.now(UTC)
+    statement = insert(RevokedToken).values(
+        token_digest=token.token_digest, expires_at=token.expires_at, revoked_at=now,
+    ).on_conflict_do_nothing(index_elements=[RevokedToken.token_digest])
+    try:
+        # Retain expired records for another day to tolerate modest worker clock
+        # skew. Cleanup and insertion are atomic; no valid revocation is purged.
+        db.execute(delete(RevokedToken).where(RevokedToken.expires_at <= now - timedelta(days=1)))
+        db.execute(statement)
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    # No post-commit reads: successful invalidation cannot be misreported by refresh.
+    return Response(status_code=status.HTTP_204_NO_CONTENT, headers={"Cache-Control": "no-store"})
