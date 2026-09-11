@@ -67,9 +67,17 @@ def create_service(
         review_count=0,
     )
     db.add(service)
-    db.commit()
-    db.refresh(service)
-    return service_to_out(service)
+    try:
+        db.flush()
+        # Build the response — including the counsellor relationship read — before
+        # committing. A failure here rolls back instead of leaving a saved service
+        # behind a 500, which would otherwise invite a duplicate-creating retry.
+        result = service_to_out(service)
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    return result
 
 
 # --- US-39: counsellor availability ----------------------------------------
@@ -81,17 +89,27 @@ def _as_utc(value: datetime) -> datetime:
 
 
 def _owned_service(db: Session, service_id: str, user: User) -> Service:
-    service = db.get(Service, service_id)
+    """Lock the service row so a concurrent create/update on it serialises: the
+    overlap check in _reject_overlap and the write that follows are only correct
+    read together as one atomic step, and locking a service row that always
+    exists (unlike its slots) also covers the empty-calendar case."""
+    service = db.scalar(select(Service).where(Service.id == service_id).with_for_update())
     if service is None or service.counsellor_id != user.id:
         raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Service not found.")
     return service
 
 
 def _owned_open_slot(db: Session, slot_id: str, user: User) -> tuple[AvailabilitySlot, Service]:
-    slot = db.get(AvailabilitySlot, slot_id)
+    """Lock both the slot and its service. The slot lock keeps this check-then-write
+    atomic with the booking flow's own with_for_update() on the same row (US-41), so
+    a slot cannot be edited/removed out from under a booking that is in flight. The
+    service lock serialises this write with any other create/update on its slots."""
+    slot = db.scalar(
+        select(AvailabilitySlot).where(AvailabilitySlot.id == slot_id).with_for_update()
+    )
     if slot is None:
         raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Time slot not found.")
-    service = db.get(Service, slot.service_id)
+    service = db.scalar(select(Service).where(Service.id == slot.service_id).with_for_update())
     if service is None or service.counsellor_id != user.id:
         raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Time slot not found.")
     if slot.status != "open":
@@ -169,9 +187,9 @@ def create_availability_slot(
     payload: CreateAvailabilitySlotRequest,
     user: User = Depends(require_counsellor),
     db: Session = Depends(get_db),
-) -> AvailabilitySlot:
+) -> AvailabilitySlotOut:
     """US-39. Add one open slot to a service the caller owns."""
-    _owned_service(db, payload.service_id, user)
+    _owned_service(db, payload.service_id, user)  # locks the service for the overlap check below
     _validate_window(payload.starts_at, payload.ends_at)
     _reject_overlap(db, payload.service_id, payload.starts_at, payload.ends_at)
 
@@ -182,9 +200,15 @@ def create_availability_slot(
         status="open",
     )
     db.add(slot)
-    db.commit()
-    db.refresh(slot)
-    return slot
+    try:
+        db.flush()
+        # Build the response before committing — see create_service for why.
+        result = AvailabilitySlotOut.model_validate(slot)
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    return result
 
 
 @router.patch("/availability-slots/{slot_id}", response_model=AvailabilitySlotOut)
@@ -193,7 +217,7 @@ def update_availability_slot(
     payload: UpdateAvailabilitySlotRequest,
     user: User = Depends(require_counsellor),
     db: Session = Depends(get_db),
-) -> AvailabilitySlot:
+) -> AvailabilitySlotOut:
     """US-39. Move an open slot's start/end; a reserved slot cannot be changed."""
     if payload.starts_at is None and payload.ends_at is None:
         raise ApiError(
@@ -202,6 +226,9 @@ def update_availability_slot(
             "Provide a new startsAt or endsAt.",
             {"_": "At least one of startsAt or endsAt is required."},
         )
+    # Locks the slot (so it cannot be booked out from under this edit) and its
+    # service (so this write and any concurrent create/update serialise) for the
+    # remainder of the transaction.
     slot, _service = _owned_open_slot(db, slot_id, user)
 
     starts_at = payload.starts_at or slot.starts_at
@@ -211,9 +238,14 @@ def update_availability_slot(
 
     slot.starts_at = _as_utc(starts_at)
     slot.ends_at = _as_utc(ends_at)
-    db.commit()
-    db.refresh(slot)
-    return slot
+    try:
+        db.flush()
+        result = AvailabilitySlotOut.model_validate(slot)
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    return result
 
 
 @router.delete("/availability-slots/{slot_id}", status_code=status.HTTP_204_NO_CONTENT)
