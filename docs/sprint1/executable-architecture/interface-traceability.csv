@@ -1,9 +1,9 @@
 operationId,method,path,actor,requirement_ids,verification
 register,POST,/auth/users,Public,US-01;US-02;US-03;US-04,EA-00 plus duplicate-email contract test
-login,POST,/auth/sessions,Public,US-06;US-07,Contract test plus EA-01
+login,POST,/auth/sessions,Public,US-06;US-07,Role-aware JWT and generic credential failure tests in test_login_sessions.py plus EA-01
 refreshSession,POST,/auth/sessions/refresh,Authenticated,US-06,Token rotation integration test
 requestPasswordReset,POST,/auth/password-reset-requests,Public,US-70,Non-enumeration and email-adapter test
-logout,DELETE,/auth/sessions/current,Authenticated,US-08,Integration test invalidates token
+logout,DELETE,/auth/sessions/current,Authenticated,US-08,Durable replay isolation concurrent logout and failure tests in test_logout_sessions.py plus live HTTP smoke
 listServices,GET,/services,Public,US-44;US-45,Public API contract test
 getService,GET,/services/{serviceId},Public,US-46,Public-field schema test
 listServiceSlots,GET,/services/{serviceId}/slots,Public,US-40,Open-slots-only integration test

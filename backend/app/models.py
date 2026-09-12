@@ -38,6 +38,22 @@ class User(Base):
     services: Mapped[list["Service"]] = relationship(back_populates="counsellor")
 
 
+class RevokedToken(Base):
+    """US-08: durable revocation of a verified JWT, without storing the credential."""
+
+    __tablename__ = "revoked_tokens"
+
+    # Digest of the signature-bound header.payload, not raw signature text (which
+    # can have equivalent base64url encodings). New JWT jti values separate logins.
+    token_digest: Mapped[str] = mapped_column(String(64), primary_key=True)
+    expires_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), nullable=False, index=True,
+    )
+    revoked_at: Mapped[datetime] = mapped_column(
+        DateTime(timezone=True), default=_now, nullable=False,
+    )
+
+
 class Service(Base):
     __tablename__ = "services"
 

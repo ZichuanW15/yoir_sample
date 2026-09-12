@@ -22,6 +22,11 @@ paths:
       operationId: login
       security: []
       x-requirement-ids: [US-06, US-07]
+      description: >-
+        Authenticate an existing account using its stored password hash and role.
+        Each successful login receives an independently revocable JWT; the default
+        lifetime is 60 minutes. The response does not set a cookie. Wrong passwords
+        and unknown emails both return the same generic 401 without field hints.
       requestBody:
         required: true
         content:
@@ -89,6 +94,11 @@ paths:
       tags: [Authentication]
       operationId: logout
       x-requirement-ids: [US-08]
+      description: >-
+        Invalidate only the presented bearer token on the server. Success returns
+        an empty 204 after the revocation is committed. Retrying logout with the
+        same correctly signed, unexpired revoked token also returns 204. Missing,
+        malformed or expired tokens return 401. Other login sessions remain valid.
       responses:
         '204': {description: Session invalidated}
         '401': {$ref: '#/components/responses/Unauthorised'}
@@ -702,7 +712,7 @@ components:
       required: [email, password]
       properties:
         email: {type: string, format: email}
-        password: {type: string, minLength: 1, format: password}
+        password: {type: string, minLength: 1, format: password, writeOnly: true}
     RegisterRequest:
       type: object
       additionalProperties: false

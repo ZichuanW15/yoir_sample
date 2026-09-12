@@ -24,6 +24,7 @@ IMPLEMENTED_RUNTIME_OPERATION_IDS = {
     "listServices",
     "listServiceSlots",
     "login",
+    "logout",
     "register",
 }
 

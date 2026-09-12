@@ -391,7 +391,9 @@ jobs:
           )
           if client_statuses == (0, 0):
               expected = {
-                  "users": before["users"] + 2,
+                  # HTTPX booking + HTTPX login/logout + TypeScript booking each
+                  # register one account; only the two booking journeys book slots.
+                  "users": before["users"] + 3,
                   "services": before["services"],
                   "orders": before["orders"] + 2,
                   "bookings": before["bookings"] + 2,
