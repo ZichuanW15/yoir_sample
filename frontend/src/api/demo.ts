@@ -300,9 +300,10 @@ export async function demoUpdateCounsellorProfile(counsellorId: string, update: 
   return profile;
 }
 
+/** A deactivated service has been "deleted" from the counsellor's own workspace. */
 export async function demoListOwnServices(counsellorId: string): Promise<Service[]> {
   await pause();
-  return state.services.filter((item) => item.counsellorId === counsellorId).map(toService);
+  return state.services.filter((item) => item.counsellorId === counsellorId && item.active).map(toService);
 }
 
 export async function demoCreateService(counsellorId: string, draft: ServiceDraft): Promise<Service> {
@@ -315,6 +316,32 @@ export async function demoCreateService(counsellorId: string, draft: ServiceDraf
   };
   state.services.push(created);
   return toService(created);
+}
+
+export async function demoUpdateService(serviceId: string, draft: ServiceDraft): Promise<Service> {
+  await pause();
+  const service = findService(serviceId);
+  if (!service) throw apiError(404, 'NOT_FOUND', 'This service no longer exists.');
+  service.title = draft.title;
+  service.description = draft.description;
+  service.priceMinor = draft.priceMinor;
+  service.currency = draft.currency;
+  service.modalities = draft.modalities;
+  if (draft.location) service.location = draft.location;
+  else delete service.location;
+  return toService(service);
+}
+
+/**
+ * "Delete" is a soft delete: the service is marked inactive rather than removed, so
+ * bookings, reviews and slot history already tied to its id stay intact. It disappears
+ * from the Marketplace and from the counsellor's own list from this point on.
+ */
+export async function demoDeleteService(serviceId: string): Promise<void> {
+  await pause();
+  const service = findService(serviceId);
+  if (!service) throw apiError(404, 'NOT_FOUND', 'This service no longer exists.');
+  service.active = false;
 }
 
 export async function demoListOwnSlots(counsellorId: string): Promise<AvailabilitySlot[]> {

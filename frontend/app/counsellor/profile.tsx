@@ -15,7 +15,7 @@ import { FadeUp, Pop, ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, shadow, type } from '@/src/theme';
 
 /**
- * US-31 â€” the Platform Owner verifies a counsellor from their LinkedIn profile,
+ * US-31 — the Platform Owner verifies a counsellor from their LinkedIn profile,
  * so the link is mandatory and asked for first. Anything whose host is
  * linkedin.com (or a subdomain of it) is accepted, typed with or without the
  * scheme, and normalised to a full https:// URL before it is sent.
@@ -92,11 +92,11 @@ export default function CounsellorProfileScreen() {
       const picked = result.assets[0]?.uri;
       if (picked) setPhoto(picked);
     } catch {
-      flash('The photo library is unavailable â€” paste an image URL instead.');
+      flash('The photo library is unavailable — paste an image URL instead.');
     }
   };
 
-  // Every message below is the prototype's, word for word â€” they are the product
+  // Every message below is the prototype's, word for word — they are the product
   // copy for what a listing needs before a buyer will trust it.
   const save = async () => {
     if (!linkedin.trim()) return setFormError('Add your LinkedIn profile URL so the Platform Owner can verify you.');
@@ -188,7 +188,7 @@ export default function CounsellorProfileScreen() {
                 label="Image URL"
                 value={photo}
                 onChangeText={setPhoto}
-                placeholder="https://â€¦"
+                placeholder="https://…"
                 autoCapitalize="none"
                 autoCorrect={false}
                 keyboardType="url"
