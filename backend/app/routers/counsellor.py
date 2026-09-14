@@ -88,30 +88,37 @@ def _as_utc(value: datetime) -> datetime:
     return value if value.tzinfo is not None else value.replace(tzinfo=UTC)
 
 
+def _lock_counsellor(db: Session, user: User) -> None:
+    """A counsellor is one person and can only be in one place at a time, so their
+    calendar spans every service they offer, not just the one being written. Lock
+    their row so any concurrent create/update of any of their slots — on any
+    service — serialises against this one, making the cross-service overlap check
+    in _reject_overlap atomic with the write that follows it."""
+    db.scalar(select(User).where(User.id == user.id).with_for_update())
+
+
 def _owned_service(db: Session, service_id: str, user: User) -> Service:
-    """Lock the service row so a concurrent create/update on it serialises: the
-    overlap check in _reject_overlap and the write that follows are only correct
-    read together as one atomic step, and locking a service row that always
-    exists (unlike its slots) also covers the empty-calendar case."""
-    service = db.scalar(select(Service).where(Service.id == service_id).with_for_update())
+    _lock_counsellor(db, user)
+    service = db.get(Service, service_id)
     if service is None or service.counsellor_id != user.id:
         raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Service not found.")
     return service
 
 
 def _owned_open_slot(db: Session, slot_id: str, user: User) -> tuple[AvailabilitySlot, Service]:
-    """Lock both the slot and its service. The slot lock keeps this check-then-write
-    atomic with the booking flow's own with_for_update() on the same row (US-41), so
-    a slot cannot be edited/removed out from under a booking that is in flight. The
-    service lock serialises this write with any other create/update on its slots."""
+    """Lock the slot itself, which keeps this check-then-write atomic with the
+    booking flow's own with_for_update() on the same row (US-41) so a slot cannot
+    be edited/removed out from under a booking that is in flight, and the
+    counsellor's row — see _lock_counsellor — for the cross-service overlap check."""
     slot = db.scalar(
         select(AvailabilitySlot).where(AvailabilitySlot.id == slot_id).with_for_update()
     )
     if slot is None:
         raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Time slot not found.")
-    service = db.scalar(select(Service).where(Service.id == slot.service_id).with_for_update())
+    service = db.get(Service, slot.service_id)
     if service is None or service.counsellor_id != user.id:
         raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Time slot not found.")
+    _lock_counsellor(db, user)
     if slot.status != "open":
         raise ApiError(
             status.HTTP_409_CONFLICT,
@@ -141,15 +148,21 @@ def _validate_window(starts_at: datetime, ends_at: datetime) -> None:
 
 def _reject_overlap(
     db: Session,
-    service_id: str,
+    counsellor_id: str,
     starts_at: datetime,
     ends_at: datetime,
     *,
     exclude_slot_id: str | None = None,
 ) -> None:
+    """US-41. Checked across every service the counsellor offers, not just the one
+    being written: two different services under the same counsellor still share
+    one calendar, so a slot on either can't be booked at the same time as a slot
+    on the other without double-booking the counsellor."""
     starts_at, ends_at = _as_utc(starts_at), _as_utc(ends_at)
     siblings = db.scalars(
-        select(AvailabilitySlot).where(AvailabilitySlot.service_id == service_id)
+        select(AvailabilitySlot)
+        .join(Service, AvailabilitySlot.service_id == Service.id)
+        .where(Service.counsellor_id == counsellor_id)
     )
     for other in siblings:
         if other.id == exclude_slot_id:
@@ -158,7 +171,7 @@ def _reject_overlap(
             raise ApiError(
                 status.HTTP_409_CONFLICT,
                 "SLOT_OVERLAP",
-                "This time overlaps an existing slot for the service.",
+                "This time overlaps an existing slot on your calendar.",
             )
 
 
@@ -189,9 +202,9 @@ def create_availability_slot(
     db: Session = Depends(get_db),
 ) -> AvailabilitySlotOut:
     """US-39. Add one open slot to a service the caller owns."""
-    _owned_service(db, payload.service_id, user)  # locks the service for the overlap check below
+    _owned_service(db, payload.service_id, user)  # locks the counsellor for the overlap check below
     _validate_window(payload.starts_at, payload.ends_at)
-    _reject_overlap(db, payload.service_id, payload.starts_at, payload.ends_at)
+    _reject_overlap(db, user.id, payload.starts_at, payload.ends_at)
 
     slot = AvailabilitySlot(
         service_id=payload.service_id,
@@ -226,15 +239,15 @@ def update_availability_slot(
             "Provide a new startsAt or endsAt.",
             {"_": "At least one of startsAt or endsAt is required."},
         )
-    # Locks the slot (so it cannot be booked out from under this edit) and its
-    # service (so this write and any concurrent create/update serialise) for the
-    # remainder of the transaction.
+    # Locks the slot (so it cannot be booked out from under this edit) and the
+    # counsellor (so this write and any concurrent create/update across every
+    # service they offer serialise) for the remainder of the transaction.
     slot, _service = _owned_open_slot(db, slot_id, user)
 
     starts_at = payload.starts_at or slot.starts_at
     ends_at = payload.ends_at or slot.ends_at
     _validate_window(starts_at, ends_at)
-    _reject_overlap(db, slot.service_id, starts_at, ends_at, exclude_slot_id=slot.id)
+    _reject_overlap(db, user.id, starts_at, ends_at, exclude_slot_id=slot.id)
 
     slot.starts_at = _as_utc(starts_at)
     slot.ends_at = _as_utc(ends_at)

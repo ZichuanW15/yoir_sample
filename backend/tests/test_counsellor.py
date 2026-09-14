@@ -15,7 +15,7 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.db import engine
-from app.models import AvailabilitySlot, Booking, Service
+from app.models import AvailabilitySlot, Booking, Service, User
 from app.schemas import AvailabilitySlotOut
 
 SERVICE_PAYLOAD = {
@@ -177,6 +177,144 @@ def test_postgresql_concurrent_slot_creation_on_empty_calendar_prevents_overlap(
     stored = list(
         db_session.scalars(
             select(AvailabilitySlot).where(AvailabilitySlot.service_id == service.id)
+        )
+    )
+    assert len(stored) == 1
+
+
+def second_service(db_session: Session, counsellor: User) -> Service:
+    other = Service(
+        counsellor_id=counsellor.id,
+        title="A second service",
+        description="A different service from the same counsellor.",
+        price_minor=7000,
+        currency="AUD",
+        modalities=["online"],
+        active=True,
+        review_count=0,
+    )
+    db_session.add(other)
+    db_session.commit()
+    db_session.refresh(other)
+    return other
+
+
+def test_create_availability_slot_rejects_overlap_on_another_service_same_counsellor(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    counsellor: User,
+    counsellor_headers: dict[str, str],
+) -> None:
+    """[P1] A counsellor is one person: two of their services must not schedule
+    the same time slot independently, or two job seekers could each book one and
+    double-book the counsellor's actual calendar."""
+    other = second_service(db_session, counsellor)
+    start = datetime.now(UTC) + timedelta(days=1)
+
+    first = client.post(
+        "/api/v1/me/availability-slots",
+        headers=counsellor_headers,
+        json={
+            "serviceId": service.id,
+            "startsAt": start.isoformat(),
+            "endsAt": (start + timedelta(hours=1)).isoformat(),
+        },
+    )
+    assert first.status_code == 201
+
+    second = client.post(
+        "/api/v1/me/availability-slots",
+        headers=counsellor_headers,
+        json={
+            "serviceId": other.id,
+            "startsAt": start.isoformat(),
+            "endsAt": (start + timedelta(hours=1)).isoformat(),
+        },
+    )
+
+    assert second.status_code == 409
+    assert second.json()["code"] == "SLOT_OVERLAP"
+    stored = list(
+        db_session.scalars(
+            select(AvailabilitySlot).where(AvailabilitySlot.service_id == other.id)
+        )
+    )
+    assert stored == []
+
+
+def test_update_availability_slot_rejects_overlap_on_another_service_same_counsellor(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    counsellor: User,
+    counsellor_headers: dict[str, str],
+) -> None:
+    other = second_service(db_session, counsellor)
+    base = datetime.now(UTC) + timedelta(days=1)
+    blocking_slot = add_slot(db_session, service, starts_at=base)
+    movable_slot = add_slot(db_session, other, starts_at=base + timedelta(hours=3))
+
+    response = client.patch(
+        f"/api/v1/me/availability-slots/{movable_slot.id}",
+        headers=counsellor_headers,
+        json={
+            "startsAt": blocking_slot.starts_at.isoformat(),
+            "endsAt": blocking_slot.ends_at.isoformat(),
+        },
+    )
+
+    assert response.status_code == 409
+    assert response.json()["code"] == "SLOT_OVERLAP"
+    db_session.expire_all()
+    stored = db_session.get(AvailabilitySlot, movable_slot.id)
+    assert stored is not None
+    assert stored.starts_at == movable_slot.starts_at
+
+
+def test_postgresql_concurrent_slot_creation_across_two_services_prevents_overlap(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    counsellor: User,
+    counsellor_headers: dict[str, str],
+) -> None:
+    """[P1] The empty-calendar race in the single-service version above, replayed
+    across two services owned by the same counsellor — the case a per-service lock
+    cannot catch because neither service's own slot list has anything to lock."""
+    if engine.dialect.name != "postgresql":
+        pytest.skip("PostgreSQL row-lock concurrency evidence requires PostgreSQL")
+
+    other = second_service(db_session, counsellor)
+    start = datetime.now(UTC) + timedelta(days=1)
+    window = {
+        "startsAt": start.isoformat(),
+        "endsAt": (start + timedelta(hours=1)).isoformat(),
+    }
+    start_together = Barrier(2)
+
+    def create(service_id: str) -> Any:
+        start_together.wait(timeout=5)
+        return client.post(
+            "/api/v1/me/availability-slots",
+            headers=counsellor_headers,
+            json={"serviceId": service_id, **window},
+        )
+
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        requests = [
+            executor.submit(create, service.id),
+            executor.submit(create, other.id),
+        ]
+        responses = [request.result(timeout=10) for request in requests]
+
+    assert sorted(response.status_code for response in responses) == [201, 409]
+    db_session.expire_all()
+    stored = list(
+        db_session.scalars(
+            select(AvailabilitySlot).where(
+                AvailabilitySlot.service_id.in_((service.id, other.id))
+            )
         )
     )
     assert len(stored) == 1
