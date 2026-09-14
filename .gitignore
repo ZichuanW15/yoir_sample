@@ -9,3 +9,5 @@ coverage/
 .DS_Store
 /understanding/
 /output/pdf/
+/.expo/
+/expo-env.d.ts

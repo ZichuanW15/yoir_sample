@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Annotated, Literal
 
-from pydantic import BaseModel, ConfigDict, EmailStr, Field, StringConstraints
+from pydantic import BaseModel, ConfigDict, EmailStr, Field, StringConstraints, field_validator
 from pydantic.alias_generators import to_camel
 
 Role = Literal["job_seeker", "counsellor", "platform_owner"]
@@ -110,6 +110,31 @@ class Location(CamelModel):
     city_or_region: str
 
 
+class CreateServiceRequest(CamelModel):
+    """US-34, US-35, US-37, US-38. Field-level rules live here; the "in-person needs
+    a location" rule is cross-field and enforced in the router."""
+
+    title: str = Field(min_length=1, max_length=120)
+    description: str = Field(min_length=1, max_length=5000)
+    price_minor: int = Field(ge=0)
+    currency: Literal["AUD"]
+    modalities: list[Modality] = Field(min_length=1)
+    location: Location | None = None
+
+    @field_validator("title", "description", mode="before")
+    @classmethod
+    def _trim_text(cls, value: object) -> object:
+        # Trim first so a whitespace-only value fails the min_length rule.
+        return value.strip() if isinstance(value, str) else value
+
+    @field_validator("modalities")
+    @classmethod
+    def _reject_duplicate_modalities(cls, value: list[str]) -> list[str]:
+        if len(value) != len(set(value)):
+            raise ValueError("List the same modality only once.")
+        return value
+
+
 class ServiceOut(CamelModel):
     id: str
     counsellor: CounsellorSummary
@@ -122,6 +147,21 @@ class ServiceOut(CamelModel):
     active: bool
     average_rating: float | None = None
     review_count: int
+
+
+class CreateAvailabilitySlotRequest(CamelModel):
+    """US-39. Add one bookable slot to a service the caller owns."""
+
+    service_id: str = Field(min_length=1)
+    starts_at: datetime
+    ends_at: datetime
+
+
+class UpdateAvailabilitySlotRequest(CamelModel):
+    """US-39. Move a slot's boundaries; both ends optional, at least one required."""
+
+    starts_at: datetime | None = None
+    ends_at: datetime | None = None
 
 
 class AvailabilitySlotOut(CamelModel):

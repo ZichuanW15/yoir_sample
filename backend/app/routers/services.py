@@ -10,7 +10,8 @@ from app.schemas import AvailabilitySlotOut, CounsellorSummary, Location, Servic
 router = APIRouter(tags=["Marketplace"])
 
 
-def _to_out(service: Service) -> ServiceOut:
+def service_to_out(service: Service) -> ServiceOut:
+    """Shared ORM -> wire mapping; also used by the counsellor-owned service routes."""
     location = None
     if service.location_state and service.location_city:
         location = Location(state=service.location_state, city_or_region=service.location_city)
@@ -49,7 +50,7 @@ def list_services(
         services = [s for s in services if term in f"{s.title} {s.counsellor.name}".lower()]
     if modality:
         services = [s for s in services if modality in (s.modalities or [])]
-    return [_to_out(s) for s in services]
+    return [service_to_out(s) for s in services]
 
 
 @router.get("/services/{service_id}", response_model=ServiceOut)
@@ -58,7 +59,7 @@ def get_service(service_id: str, db: Session = Depends(get_db)) -> ServiceOut:
     service = db.get(Service, service_id)
     if service is None or not service.active:
         raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Service not found.")
-    return _to_out(service)
+    return service_to_out(service)
 
 
 @router.get("/services/{service_id}/slots", response_model=list[AvailabilitySlotOut])

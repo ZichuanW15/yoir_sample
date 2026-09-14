@@ -7,7 +7,7 @@ from app.config import get_settings
 from app.db import Base, SessionLocal, engine
 from app.errors import register_error_handlers
 from app.frontend import dist_directory, mount_frontend
-from app.routers import auth, bookings, health, services
+from app.routers import auth, bookings, counsellor, health, services
 from app.seed import seed
 
 settings = get_settings()
@@ -46,6 +46,7 @@ app.include_router(health.router, prefix=API_V1)
 app.include_router(auth.router, prefix=API_V1)
 app.include_router(services.router, prefix=API_V1)
 app.include_router(bookings.router, prefix=API_V1)
+app.include_router(counsellor.router, prefix=API_V1)
 
 # Last, so "/" only receives the paths the routers above did not claim: the
 # exported Expo web build, served from the same origin as the API it calls.
