@@ -327,7 +327,10 @@ def test_postgresql_concurrent_delete_and_booking_have_mutually_exclusive_outcom
         delete_response = delete_future.result(timeout=10)
         order_response, payment_response = book_future.result(timeout=10)
 
-    db_session.expire_all()
+    # expunge, not expire: if delete won, the row is gone outright, and refreshing
+    # an expired-but-still-identity-mapped `slot` against a missing row raises
+    # ObjectDeletedError instead of the None a fresh query returns.
+    db_session.expunge_all()
     stored_slot = db_session.get(AvailabilitySlot, slot.id)
     stored_booking = db_session.scalar(select(Booking).where(Booking.slot_id == slot.id))
 
