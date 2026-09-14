@@ -250,25 +250,33 @@ def test_postgresql_concurrent_edit_and_booking_never_diverge(
             },
         )
 
-    def book() -> Any:
+    def book() -> tuple[Any, Any]:
         start_together.wait(timeout=5)
         order = client.post(
             "/api/v1/orders", headers=job_seeker_headers, json=order_payload(service, slot)
         )
-        if order.status_code != 201:
-            return None
-        return client.post(
-            f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers
-        )
+        payment = None
+        if order.status_code == 201:
+            payment = client.post(
+                f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers
+            )
+        return order, payment
 
     with ThreadPoolExecutor(max_workers=2) as executor:
         edit_future = executor.submit(edit)
         book_future = executor.submit(book)
         edit_response = edit_future.result(timeout=10)
-        payment_response = book_future.result(timeout=10)
+        order_response, payment_response = book_future.result(timeout=10)
 
     assert edit_response.status_code in (200, 409)
-    assert payment_response is None or payment_response.status_code in (200, 409)
+    # Editing never removes the slot or moves its status away from "open", so the
+    # booking side always has a slot to reserve regardless of which one the lock
+    # lets through first: order creation and payment must both succeed here. A
+    # non-201/200 response is a real failure, not a legitimate race outcome — it
+    # must not be swallowed into "no booking happened".
+    assert order_response.status_code == 201, order_response.text
+    assert payment_response is not None, "order succeeded but payment was never attempted"
+    assert payment_response.status_code == 200, payment_response.text
 
     db_session.expire_all()
     stored_slot = db_session.get(AvailabilitySlot, slot.id)
@@ -276,6 +284,74 @@ def test_postgresql_concurrent_edit_and_booking_never_diverge(
     assert stored_slot is not None
     # The bug this guards: a booking confirmed for one time while the slot backing
     # it silently moved to another. Whichever operation won, the two must agree.
-    if stored_booking is not None:
-        assert stored_booking.starts_at == stored_slot.starts_at
-        assert stored_booking.ends_at == stored_slot.ends_at
+    assert stored_booking is not None
+    assert stored_booking.starts_at == stored_slot.starts_at
+    assert stored_booking.ends_at == stored_slot.ends_at
+
+
+def test_postgresql_concurrent_delete_and_booking_have_mutually_exclusive_outcomes(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    job_seeker_headers: dict[str, str],
+    counsellor_headers: dict[str, str],
+) -> None:
+    if engine.dialect.name != "postgresql":
+        pytest.skip("PostgreSQL row-lock concurrency evidence requires PostgreSQL")
+
+    slot = add_slot(db_session, service)
+    original_start, original_end = slot.starts_at, slot.ends_at
+    start_together = Barrier(2)
+
+    def remove() -> Any:
+        start_together.wait(timeout=5)
+        return client.delete(
+            f"/api/v1/me/availability-slots/{slot.id}", headers=counsellor_headers
+        )
+
+    def book() -> tuple[Any, Any]:
+        start_together.wait(timeout=5)
+        order = client.post(
+            "/api/v1/orders", headers=job_seeker_headers, json=order_payload(service, slot)
+        )
+        payment = None
+        if order.status_code == 201:
+            payment = client.post(
+                f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers
+            )
+        return order, payment
+
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        delete_future = executor.submit(remove)
+        book_future = executor.submit(book)
+        delete_response = delete_future.result(timeout=10)
+        order_response, payment_response = book_future.result(timeout=10)
+
+    db_session.expire_all()
+    stored_slot = db_session.get(AvailabilitySlot, slot.id)
+    stored_booking = db_session.scalar(select(Booking).where(Booking.slot_id == slot.id))
+
+    # Unlike edit, delete removes the row outright, so the two legitimate outcomes
+    # diverge in shape rather than in a shared "both succeed" case. Enumerate both
+    # explicitly and fail loudly on anything else instead of masking it as "no
+    # booking happened".
+    if delete_response.status_code == 204:
+        # Delete won the lock: nothing was left for the booking side to reserve.
+        assert stored_slot is None
+        assert order_response.status_code == 404, order_response.text
+        assert payment_response is None
+        assert stored_booking is None
+    elif delete_response.status_code == 409:
+        # Booking won the lock: the slot survives, booked, at its original time.
+        assert stored_slot is not None
+        assert stored_slot.status == "booked"
+        assert order_response.status_code == 201, order_response.text
+        assert payment_response is not None, "order succeeded but payment was never attempted"
+        assert payment_response.status_code == 200, payment_response.text
+        assert stored_booking is not None
+        assert stored_booking.starts_at == original_start
+        assert stored_booking.ends_at == original_end
+    else:
+        pytest.fail(
+            f"unexpected delete status {delete_response.status_code}: {delete_response.text}"
+        )
