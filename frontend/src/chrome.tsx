@@ -9,10 +9,28 @@ import { Glyph } from '@/src/components/Glyph';
 import { useAnimatedValue } from '@/src/motion';
 import { colors, fonts, radius, shadow, type } from '@/src/theme';
 
+export interface ConfirmOptions {
+  title: string;
+  message: string;
+  confirmLabel?: string;
+  cancelLabel?: string;
+  /** Styles the confirm button as a destructive action (red), for things like deletion. */
+  destructive?: boolean;
+}
+
 interface ChromeValue {
   flash(message: string): void;
   openSheet(): void;
   closeSheet(): void;
+  /**
+   * A custom confirmation sheet, resolving true/false.
+   *
+   * `Alert.alert` is not an option here: react-native-web ships it as a bare no-op
+   * (`static alert() {}`), so on web it would silently do nothing at all — no dialog,
+   * no error, the tap just goes nowhere. This is the cross-platform replacement, built
+   * the same way as the account sheet below so it actually works on every platform.
+   */
+  confirm(options: ConfirmOptions): Promise<boolean>;
 }
 
 const ChromeContext = createContext<ChromeValue | undefined>(undefined);
@@ -23,10 +41,16 @@ export function useChrome() {
   return value;
 }
 
-/** Toast and the account sheet live above every screen, as in the prototype. */
+interface PendingConfirm {
+  options: ConfirmOptions;
+  resolve(value: boolean): void;
+}
+
+/** Toast, the account sheet and the confirm sheet live above every screen, as in the prototype. */
 export function ChromeProvider({ children }: PropsWithChildren) {
   const [toast, setToast] = useState('');
   const [sheet, setSheet] = useState(false);
+  const [pendingConfirm, setPendingConfirm] = useState<PendingConfirm | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const flash = useCallback((message: string) => {
@@ -37,9 +61,21 @@ export function ChromeProvider({ children }: PropsWithChildren) {
 
   useEffect(() => () => { if (timer.current) clearTimeout(timer.current); }, []);
 
+  const confirm = useCallback(
+    (options: ConfirmOptions) => new Promise<boolean>((resolve) => setPendingConfirm({ options, resolve })),
+    [],
+  );
+
+  const settleConfirm = useCallback((value: boolean) => {
+    setPendingConfirm((current) => {
+      current?.resolve(value);
+      return null;
+    });
+  }, []);
+
   const value = useMemo<ChromeValue>(
-    () => ({ flash, openSheet: () => setSheet(true), closeSheet: () => setSheet(false) }),
-    [flash],
+    () => ({ flash, openSheet: () => setSheet(true), closeSheet: () => setSheet(false), confirm }),
+    [flash, confirm],
   );
 
   return (
@@ -47,6 +83,13 @@ export function ChromeProvider({ children }: PropsWithChildren) {
       {children}
       {toast ? <Toast message={toast} /> : null}
       {sheet ? <AccountSheet onClose={() => setSheet(false)} /> : null}
+      {pendingConfirm ? (
+        <ConfirmSheet
+          options={pendingConfirm.options}
+          onCancel={() => settleConfirm(false)}
+          onConfirm={() => settleConfirm(true)}
+        />
+      ) : null}
     </ChromeContext.Provider>
   );
 }
@@ -132,6 +175,46 @@ function AccountSheet({ onClose }: { onClose(): void }) {
     </View>
   );
 }
+
+function ConfirmSheet({ options, onCancel, onConfirm }: { options: ConfirmOptions; onCancel(): void; onConfirm(): void }) {
+  const insets = useSafeAreaInsets();
+  const t = useAnimatedValue(0);
+
+  useEffect(() => {
+    Animated.timing(t, { toValue: 1, duration: 350, easing: Easing.bezier(0.2, 0, 0, 1), useNativeDriver: true }).start();
+  }, [t]);
+
+  return (
+    <View style={sheetS.host}>
+      <Animated.View style={[sheetS.scrim, { opacity: t }]}>
+        <Pressable accessibilityRole="button" accessibilityLabel="Cancel" style={StyleSheet.absoluteFill} onPress={onCancel} />
+      </Animated.View>
+      <Animated.View
+        style={[
+          sheetS.sheet,
+          { paddingBottom: insets.bottom + 24, transform: [{ translateY: t.interpolate({ inputRange: [0, 1], outputRange: [420, 0] }) }] },
+        ]}
+      >
+        <View style={sheetS.grip} />
+        <Text style={type.display24}>{options.title}</Text>
+        <Text style={confirmS.message}>{options.message}</Text>
+        <Button
+          label={options.confirmLabel ?? 'Confirm'}
+          tone={options.destructive ? 'danger' : 'primary'}
+          height={52}
+          onPress={onConfirm}
+          style={options.destructive ? confirmS.destructiveButton : undefined}
+        />
+        <Button label={options.cancelLabel ?? 'Cancel'} tone="quiet" height={48} onPress={onCancel} />
+      </Animated.View>
+    </View>
+  );
+}
+
+const confirmS = StyleSheet.create({
+  message: { fontFamily: fonts.sans, fontSize: 14, lineHeight: 21, color: colors.muted },
+  destructiveButton: { backgroundColor: colors.dangerBg },
+});
 
 const sheetS = StyleSheet.create({
   host: { position: 'absolute', top: 0, right: 0, bottom: 0, left: 0, zIndex: 40, justifyContent: 'flex-end' },

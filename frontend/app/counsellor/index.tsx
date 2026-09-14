@@ -26,7 +26,7 @@ interface Workspace {
 
 export default function CounsellorWorkspace() {
   const { session } = useAuth();
-  const { openSheet } = useChrome();
+  const { openSheet, confirm } = useChrome();
   const insets = useSafeAreaInsets();
   const [data, setData] = useState<Workspace | null>(null);
   const [error, setError] = useState('');
@@ -49,6 +49,24 @@ export default function CounsellorWorkspace() {
   // The workspace is the hub every counsellor screen returns to, so it re-reads
   // its data on focus rather than only on mount.
   useFocusEffect(useCallback(() => { void load(); }, [load]));
+
+  const removeService = useCallback(async (service: Service) => {
+    if (!session) return;
+    const sure = await confirm({
+      title: 'Delete this service?',
+      message: 'It will no longer appear in the Marketplace or in your own list. Bookings already made against it are not affected.',
+      confirmLabel: 'Delete',
+      destructive: true,
+    });
+    if (!sure) return;
+
+    try {
+      await api.deleteService(service.id, session.accessToken);
+      await load();
+    } catch (cause) {
+      setError(userFacingError(cause));
+    }
+  }, [session, load, confirm]);
 
   if (!session || session.user.role !== 'counsellor') return <Redirect href="/" />;
 
@@ -168,6 +186,26 @@ export default function CounsellorWorkspace() {
                   fg={colors.successInk}
                 />
               </View>
+              <View style={s.serviceActions}>
+                <Press
+                  onPress={() => router.push(`/counsellor/services/${service.id}/edit`)}
+                  scaleTo={0.95}
+                  accessibilityLabel={`Edit ${service.title}`}
+                  style={s.actionButton}
+                >
+                  <Glyph name="pencil" size={14} color={colors.green} />
+                  <Text style={s.actionButtonText}>Edit</Text>
+                </Press>
+                <Press
+                  onPress={() => { void removeService(service); }}
+                  scaleTo={0.95}
+                  accessibilityLabel={`Delete ${service.title}`}
+                  style={[s.actionButton, s.actionButtonDanger]}
+                >
+                  <Glyph name="trash" size={14} color={colors.danger} />
+                  <Text style={[s.actionButtonText, s.actionButtonDangerText]}>Delete</Text>
+                </Press>
+              </View>
             </View>
           </FadeUp>
         ))}
@@ -285,6 +323,11 @@ const s = StyleSheet.create({
   servicePrice: { fontFamily: fonts.extra, fontSize: 17, color: colors.green },
   serviceBody: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 20, color: colors.muted },
   tagRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
+  serviceActions: { flexDirection: 'row', gap: 8, marginTop: 2 },
+  actionButton: { flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 6, height: 40, borderRadius: radius.pill, backgroundColor: colors.greenTint },
+  actionButtonText: { fontFamily: fonts.bold, fontSize: 13, color: colors.green },
+  actionButtonDanger: { backgroundColor: colors.dangerBg },
+  actionButtonDangerText: { color: colors.danger },
 
   emptyServices: { alignItems: 'center', gap: 10, paddingVertical: 28, paddingHorizontal: 20, borderWidth: 1.5, borderStyle: 'dashed', borderColor: colors.mark, borderRadius: radius.xl },
   emptyMark: { alignItems: 'center' },

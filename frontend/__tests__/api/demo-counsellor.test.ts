@@ -4,6 +4,7 @@ import {
   demoCreateOrder,
   demoCreateService,
   demoCreateSlot,
+  demoDeleteService,
   demoDeleteSlot,
   demoGetCounsellorProfile,
   demoListOwnServices,
@@ -13,6 +14,7 @@ import {
   demoLogin,
   demoRegister,
   demoUpdateCounsellorProfile,
+  demoUpdateService,
   demoUpdateSlot,
   resetDemoState,
 } from '@/src/api/demo';
@@ -372,6 +374,52 @@ describe('local demo store: counsellor operations and booking integrity', () => 
           counsellor: expect.objectContaining({ introduction: 'Now coaching panel interviews.' }),
         }),
       ]);
+    });
+
+    test('updates a service in place and serves the change on the next read', async () => {
+      const updated = await settle(
+        demoUpdateService('svc_interview', serviceDraft({ title: 'Interview mastery intensive', priceMinor: 13000 })),
+      );
+
+      expect(updated).toMatchObject({ id: 'svc_interview', title: 'Interview mastery intensive', priceMinor: 13000 });
+      expect(await settle(demoListOwnServices('counsellor_maya'))).toEqual([updated]);
+    });
+
+    test('drops the location when an edit removes in-person delivery', async () => {
+      const created = await settle(
+        demoCreateService('counsellor_jordan', serviceDraft({
+          modalities: ['online', 'in_person'],
+          location: { state: 'VIC', cityOrRegion: 'Melbourne' },
+        })),
+      );
+
+      const updated = await settle(
+        demoUpdateService(created.id, serviceDraft({ modalities: ['online'], location: null })),
+      );
+
+      expect(updated.modalities).toEqual(['online']);
+      expect(updated).not.toHaveProperty('location');
+    });
+
+    test('rejects an update to a service that does not exist', async () => {
+      const error = await rejection(demoUpdateService('svc-missing', serviceDraft()));
+
+      expect(error.status).toBe(404);
+      expect(error.body).toMatchObject({ code: 'NOT_FOUND', message: 'This service no longer exists.' });
+    });
+
+    test('deleting a service is a soft delete: it disappears from the counsellor and the marketplace', async () => {
+      expect(await settle(demoDeleteService('svc_interview'))).toBeUndefined();
+
+      expect(await settle(demoListOwnServices('counsellor_maya'))).toEqual([]);
+      expect(await settle(demoListServices())).not.toContainEqual(expect.objectContaining({ id: 'svc_interview' }));
+    });
+
+    test('rejects deleting a service that does not exist', async () => {
+      const error = await rejection(demoDeleteService('svc-missing'));
+
+      expect(error.status).toBe(404);
+      expect(error.body).toMatchObject({ code: 'NOT_FOUND', message: 'This service no longer exists.' });
     });
   });
 

@@ -171,6 +171,31 @@ describe('counsellor API boundary', () => {
       });
     });
 
+    test('updateService PATCHes the URL-encoded service identifier', async () => {
+      fetchMock.mockResolvedValueOnce(jsonResponse(serviceFixture));
+      const { api } = loadClient();
+
+      await expect(api.updateService('service/one', serviceDraft, TOKEN)).resolves.toEqual(serviceFixture);
+
+      expect(fetchMock).toHaveBeenCalledWith(`${BASE}/me/services/service%2Fone`, {
+        method: 'PATCH',
+        body: JSON.stringify(serviceDraft),
+        headers: JSON_AUTH_HEADERS,
+      });
+    });
+
+    test('deleteService DELETEs the URL-encoded service and resolves on 204', async () => {
+      fetchMock.mockResolvedValueOnce(jsonResponse(undefined, 204));
+      const { api } = loadClient();
+
+      await expect(api.deleteService('service/one', TOKEN)).resolves.toBeUndefined();
+
+      expect(fetchMock).toHaveBeenCalledWith(`${BASE}/me/services/service%2Fone`, {
+        method: 'DELETE',
+        headers: AUTH_HEADERS,
+      });
+    });
+
     test('listOwnAvailabilitySlots reads the counsellor-scoped slot collection', async () => {
       fetchMock.mockResolvedValueOnce(jsonResponse([slotFixture]));
       const { api } = loadClient();
@@ -354,6 +379,27 @@ describe('counsellor API boundary', () => {
 
       const services = await settleLocal(api.listOwnServices('counsellor_maya', TOKEN));
       expect(services.map((service) => service.id)).toContain(created.id);
+      expect(preview.active).toBe(true);
+    });
+
+    test('updateService and deleteService fall back locally: an edit persists, a delete soft-removes it', async () => {
+      fetchMock.mockResolvedValue(unroutedResponse());
+      const { api, preview } = loadClient();
+
+      const created = await settleLocal(api.createService('counsellor_maya', serviceDraft, TOKEN));
+
+      const updated = await settleLocal(
+        api.updateService(created.id, { ...serviceDraft, title: 'Updated locally' }, TOKEN),
+      );
+      expect(updated.title).toBe('Updated locally');
+
+      const beforeDelete = await settleLocal(api.listOwnServices('counsellor_maya', TOKEN));
+      expect(beforeDelete.map((service) => service.id)).toContain(created.id);
+
+      await expect(settleLocal(api.deleteService(created.id, TOKEN))).resolves.toBeUndefined();
+
+      const afterDelete = await settleLocal(api.listOwnServices('counsellor_maya', TOKEN));
+      expect(afterDelete.map((service) => service.id)).not.toContain(created.id);
       expect(preview.active).toBe(true);
     });
 

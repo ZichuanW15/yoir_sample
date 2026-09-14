@@ -68,5 +68,8 @@ export interface ServiceDraft {
   location: Location | null;
 }
 
+/** What a counsellor sends when editing a service they already publish. Same shape as creation. */
+export type ServiceUpdate = ServiceDraft;
+
 /** US-39 — one bookable window on a counsellor's weekly calendar. */
 export interface SlotDraft { serviceId: string; startsAt: string; endsAt: string }

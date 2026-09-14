@@ -1,12 +1,12 @@
 import {
-  demoCompletePayment, demoCreateOrder, demoCreateService, demoCreateSlot, demoDeleteSlot,
+  demoCompletePayment, demoCreateOrder, demoCreateService, demoCreateSlot, demoDeleteService, demoDeleteSlot,
   demoGetCounsellorProfile, demoGetService, demoListOwnServices, demoListOwnSlots, demoListServices,
-  demoListSlots, demoLogin, demoLogout, demoRegister, demoUpdateCounsellorProfile, demoUpdateSlot,
+  demoListSlots, demoLogin, demoLogout, demoRegister, demoUpdateCounsellorProfile, demoUpdateService, demoUpdateSlot,
 } from './demo';
 import { ApiError } from './errors';
 import {
   ApiErrorBody, AvailabilitySlot, CounsellorProfile, CounsellorProfileUpdate, Order, RegisterRequest,
-  Role, Service, ServiceDraft, Session, SlotDraft, StubPaymentConfirmation, User,
+  Role, Service, ServiceDraft, ServiceUpdate, Session, SlotDraft, StubPaymentConfirmation, User,
 } from './types';
 
 export { ApiError };
@@ -147,6 +147,21 @@ export const api = {
       'ownServices',
       () => request('/me/services', { method: 'POST', body: JSON.stringify(draft) }, accessToken),
       () => demoCreateService(counsellorId, draft),
+    ),
+
+  updateService: (serviceId: string, draft: ServiceUpdate, accessToken: string): Promise<Service> =>
+    previewFallback(
+      'ownServices',
+      () => request(`/me/services/${encodeURIComponent(serviceId)}`, { method: 'PATCH', body: JSON.stringify(draft) }, accessToken),
+      () => demoUpdateService(serviceId, draft),
+    ),
+
+  /** Soft delete: the service is deactivated rather than removed. See `demoDeleteService`. */
+  deleteService: (serviceId: string, accessToken: string): Promise<void> =>
+    previewFallback(
+      'ownServices',
+      () => request(`/me/services/${encodeURIComponent(serviceId)}`, { method: 'DELETE' }, accessToken),
+      () => demoDeleteService(serviceId),
     ),
 
   listOwnAvailabilitySlots: (counsellorId: string, accessToken: string): Promise<AvailabilitySlot[]> =>
