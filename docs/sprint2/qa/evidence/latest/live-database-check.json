@@ -1,0 +1,47 @@
+{
+  "checkedAt": "2026-09-15T08:09:00.594554+00:00",
+  "database": "owned loopback PostgreSQL yoir_implemented_live_test; independent of test fixture database",
+  "before": {
+    "capturedAt": "2026-09-15T08:01:18.136500+00:00",
+    "database": {
+      "users": 6,
+      "services": 7,
+      "orders": 0,
+      "bookings": 0,
+      "open_slots": 21
+    },
+    "serverVersion": "16.15 (Homebrew)"
+  },
+  "after": {
+    "users": 10,
+    "services": 8,
+    "orders": 2,
+    "bookings": 2,
+    "open_slots": 19
+  },
+  "expected": {
+    "users": 10,
+    "services": 8,
+    "orders": 2,
+    "bookings": 2,
+    "open_slots": 19
+  },
+  "matchesExpected": true,
+  "staticServingChecks": [
+    {
+      "path": "/",
+      "status": 200,
+      "appRoot": true
+    },
+    {
+      "path": "/services/svc_1/timeslots",
+      "status": 200,
+      "appRoot": true
+    },
+    {
+      "path": "/api/v1/does-not-exist",
+      "status": 404,
+      "json": true
+    }
+  ]
+}

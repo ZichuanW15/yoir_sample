@@ -1,0 +1,32 @@
+{
+  "checks": [
+    {
+      "name": "workflow-actionlint",
+      "command": [
+        "/private/tmp/yoir-sprint2-qa/actionlint/actionlint",
+        ".github/workflows/app-ci.yml"
+      ],
+      "startedAt": "2026-09-15T08:06:34.536786+00:00",
+      "completedAt": "2026-09-15T08:06:34.542148+00:00",
+      "exitCode": 0,
+      "log": "workflow-actionlint.log"
+    },
+    {
+      "name": "qa-tooling-lint",
+      "command": [
+        "/private/tmp/yoir-sprint2-qa/venv/bin/python",
+        "-m",
+        "ruff",
+        "check",
+        "scripts/run_sprint2_qa.py",
+        "scripts/package_sprint2_qa.py",
+        "scripts/tests",
+        "frontend/e2e/serve.py"
+      ],
+      "startedAt": "2026-09-15T08:06:34.542168+00:00",
+      "completedAt": "2026-09-15T08:06:34.569707+00:00",
+      "exitCode": 0,
+      "log": "qa-tooling-lint.log"
+    }
+  ]
+}

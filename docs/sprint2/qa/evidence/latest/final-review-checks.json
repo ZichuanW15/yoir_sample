@@ -1,0 +1,37 @@
+{
+  "checkedAt": "2026-09-15T08:09:48.899700+00:00",
+  "baseline": "0ffa565e47d60fc2783a4618e5dce6cfe73a4b08",
+  "branch": "sprint2-qa",
+  "executionSourceHashesUnchanged": true,
+  "executionSourceCount": 145,
+  "businessSourceUnchanged": true,
+  "gitIndexEmpty": true,
+  "temporaryApiStopped": true,
+  "temporaryPostgresStopped": true,
+  "allCuratedEvidenceEligibleForGit": true,
+  "checks": [
+    {
+      "name": "final-report-links",
+      "startedAt": "2026-09-15T08:09:48.211128+00:00",
+      "completedAt": "2026-09-15T08:09:48.880752+00:00",
+      "exitCode": 0,
+      "command": [
+        "/private/tmp/yoir-sprint2-qa/venv/bin/python",
+        "scripts/check_repository_metadata.py"
+      ],
+      "log": "final-report-links.log"
+    },
+    {
+      "name": "final-diff-check",
+      "startedAt": "2026-09-15T08:09:48.880763+00:00",
+      "completedAt": "2026-09-15T08:09:48.891065+00:00",
+      "exitCode": 0,
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "log": "final-diff-check.log"
+    }
+  ]
+}

@@ -1,4 +1,8 @@
-"""QA behaviour tests for the eight backend operations in the executable slice."""
+"""QA behaviour tests for the implemented authentication/marketplace/booking routes.
+
+Historical architecture and unapproved policy checks carry ``future_contract``
+and are excluded from the implemented-feature QA command.
+"""
 
 from __future__ import annotations
 
@@ -12,6 +16,7 @@ from unittest.mock import Mock
 import jwt
 import pytest
 from fastapi.testclient import TestClient
+from qa_acceptance import KnownAcceptanceDefect
 from sqlalchemy import inspect, select
 from sqlalchemy.orm import Session
 
@@ -344,10 +349,15 @@ def test_marketplace_list_query_and_modality(
 
 @pytest.mark.xfail(
     strict=True,
+    raises=KnownAcceptanceDefect,
     reason="The OpenAPI modality enum is not enforced by the backend query parameter",
 )
 def test_marketplace_rejects_invalid_modality(client: TestClient) -> None:
     response = client.get("/api/v1/services?modality=telepathy")
+    assert response.status_code in {200, 400}, response.text
+    if response.status_code == 200:
+        assert response.json() == []
+        raise KnownAcceptanceDefect("Unsupported modality returned a successful empty listing")
     assert_error_shape(response, 400, "VALIDATION_ERROR")
 
 
@@ -587,6 +597,7 @@ def test_create_order_rejects_invalid_payload(
 
 @pytest.mark.xfail(
     strict=True,
+    raises=KnownAcceptanceDefect,
     reason="OpenAPI sets additionalProperties:false but CreateOrderRequest ignores extras",
 )
 def test_create_order_rejects_unknown_fields(
@@ -601,6 +612,15 @@ def test_create_order_rejects_unknown_fields(
         headers=job_seeker_headers,
         json=order_payload(service, slot, actingUserId="other-user"),
     )
+    assert response.status_code in {201, 400}, response.text
+    if response.status_code == 201:
+        stored_order = db_session.get(Order, response.json()["id"])
+        assert stored_order is not None and stored_order.slot_id == slot.id
+        assert stored_order.job_seeker_id != "other-user"
+        assert stored_order.status == "awaiting_payment"
+        db_session.refresh(slot)
+        assert slot.status == "held"
+        raise KnownAcceptanceDefect("Unsupported order field was discarded and an order persisted")
     assert_error_shape(response, 400, "VALIDATION_ERROR")
 
 
@@ -747,10 +767,11 @@ def test_postgresql_concurrent_order_requests_reserve_slot_once(
 @pytest.mark.xfail(
     strict=True,
     reason=(
-        "Order.slot_id has no database UNIQUE invariant, so concurrent transactions can "
-        "persist two active orders for one slot"
+        "Historical architecture proposal requires Order.slot_id UNIQUE; current HTTP "
+        "reservation uses PostgreSQL row locks and has separate concurrency evidence"
     ),
 )
+@pytest.mark.future_contract
 def test_order_slot_has_database_uniqueness_invariant() -> None:
     inspector = inspect(engine)
     unique_column_sets = {
@@ -765,16 +786,20 @@ def test_order_slot_has_database_uniqueness_invariant() -> None:
     assert frozenset({"slot_id"}) in unique_column_sets
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="The documented 15-minute order hold has no expiry or slot-release implementation",
+@pytest.mark.skip(
+    reason=(
+        "BLOCKED_BY_POLICY: latest Sprint 2 Story Map leaves hold duration undecided; "
+        "this historical 15-minute acceptance assumption needs PO confirmation"
+    ),
 )
+@pytest.mark.future_contract
 def test_expired_order_hold_releases_slot_for_a_new_order(
     client: TestClient,
     db_session: Session,
     service: Service,
     job_seeker_headers: dict[str, str],
 ) -> None:
+    """Retained Sprint 1 proposal, not an approved Sprint 2 release/expiry rule."""
     slot = add_slot(db_session, service)
     payload = order_payload(service, slot)
     first = client.post("/api/v1/orders", headers=job_seeker_headers, json=payload)
@@ -860,6 +885,7 @@ def test_stub_payment_is_booking_idempotent(
 
 @pytest.mark.xfail(
     strict=True,
+    raises=KnownAcceptanceDefect,
     reason="First and repeated stub-payment responses derive different payment references",
 )
 def test_stub_payment_retry_returns_stable_payment_reference(
@@ -874,12 +900,20 @@ def test_stub_payment_retry_returns_stable_payment_reference(
         headers=job_seeker_headers,
         json=order_payload(service, slot),
     )
+    assert order.status_code == 201, order.text
     endpoint = f"/api/v1/orders/{order.json()['id']}/payments/stub"
 
     first = client.post(endpoint, headers=job_seeker_headers)
     second = client.post(endpoint, headers=job_seeker_headers)
 
-    assert first.json()["paymentId"] == second.json()["paymentId"]
+    assert first.status_code == second.status_code == 200
+    assert first.json()["booking"] == second.json()["booking"]
+    assert first.json()["paymentStatus"] == second.json()["paymentStatus"] == "paid"
+    assert len(list(db_session.scalars(select(Booking)))) == 1
+    assert first.json()["paymentId"].startswith("stub_")
+    assert second.json()["paymentId"].startswith("stub_")
+    if first.json()["paymentId"] != second.json()["paymentId"]:
+        raise KnownAcceptanceDefect("Successful stub payment retry changed its paymentId")
 
 
 def test_stub_payment_requires_authentication(

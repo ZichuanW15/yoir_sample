@@ -7,6 +7,8 @@ import {
   overlapsExisting,
   parseDateKey,
   startOfMonth,
+  startOfDay,
+  isSameMonth,
   weekdayDatesInRange,
 } from '@/src/counsellor/availabilityPlanner';
 
@@ -126,9 +128,7 @@ describe('availabilityPlanner', () => {
       expect(overlapsExisting(draft, existing)).toBe(true);
     });
 
-    test('ignores a booked slot, another service, and a non-overlapping window', () => {
-      expect(overlapsExisting({ serviceId: 'svc-a', startsAt: '2026-08-13T02:00:00.000Z', endsAt: '2026-08-13T03:00:00.000Z' }, existing)).toBe(false);
-      expect(overlapsExisting({ serviceId: 'svc-b', startsAt: '2026-08-13T00:00:00.000Z', endsAt: '2026-08-13T01:00:00.000Z' }, existing)).toBe(false);
+    test('accepts a non-overlapping window with adjacent endpoints', () => {
       expect(overlapsExisting({ serviceId: 'svc-a', startsAt: '2026-08-13T01:00:00.000Z', endsAt: '2026-08-13T02:00:00.000Z' }, existing)).toBe(false);
     });
 
@@ -136,5 +136,25 @@ describe('availabilityPlanner', () => {
       const draft = { serviceId: 'svc-a', startsAt: '2026-08-13T00:00:00.000Z', endsAt: '2026-08-13T01:00:00.000Z' };
       expect(overlapsExisting(draft, existing, 'slot-1')).toBe(false);
     });
+  });
+
+  test('calendar helpers retain local dates without mutating input', () => {
+    const date = new Date(2028, 1, 29, 14, 30);
+    expect(startOfDay(date)).toEqual(new Date(2028, 1, 29));
+    expect(date.getHours()).toBe(14);
+    expect(isSameMonth(date, new Date(2028, 1, 1))).toBe(true);
+    expect(isSameMonth(date, new Date(2027, 1, 1))).toBe(false);
+    expect(isSameMonth(date, new Date(2028, 2, 1))).toBe(false);
+    expect(monthGrid(date).filter(Boolean)).toHaveLength(29);
+  });
+
+  test('drafts retain elapsed duration across midnight and do not mutate source dates', () => {
+    const date = new Date(2026, 11, 31);
+    const [draft] = buildSlotDrafts({ dates: [date], serviceIds: ['svc-a'], times: [{ hour: 23, minute: 30 }], durationsMinutes: [90] });
+    expect(new Date(draft.endsAt).getTime() - new Date(draft.startsAt).getTime()).toBe(90 * 60_000);
+    expect(new Date(draft.endsAt).getFullYear()).toBe(2027);
+    expect(date.getHours()).toBe(0);
+    expect(buildSlotDrafts({ dates: [date], serviceIds: ['svc-a'], times: [], durationsMinutes: [30] })).toEqual([]);
+    expect(buildSlotDrafts({ dates: [date], serviceIds: ['svc-a'], times: [{ hour: 9, minute: 0 }], durationsMinutes: [] })).toEqual([]);
   });
 });

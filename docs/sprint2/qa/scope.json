@@ -1,0 +1,190 @@
+{
+  "schemaVersion": 2,
+  "authority": "User request: test only currently implemented frontend/backend functions; QA-only local change set",
+  "platform": "Web (Chromium), component/API tests, PostgreSQL and SQLite",
+  "productCommit": "0ffa565e47d60fc2783a4618e5dce6cfe73a4b08",
+  "branch": "sprint2-qa",
+  "baseBranch": "dev",
+  "runtimeOperations": [
+    {
+      "method": "GET",
+      "path": "/api/v1/health"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/users"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/auth/sessions"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/auth/sessions/current"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/services"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/services/{service_id}"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/services/{service_id}/slots"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/orders"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/orders/{order_id}/payments/stub"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/services"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/me/services"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/me/availability-slots"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/me/availability-slots"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v1/me/availability-slots/{slot_id}"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v1/me/availability-slots/{slot_id}"
+    }
+  ],
+  "backendSelector": "not live and not future_contract",
+  "frontendNormal": "npm run test:coverage",
+  "frontendDefects": "npm run test:defects",
+  "browserNormal": "npm run test:web",
+  "browserDefects": "npm run test:web:defects",
+  "componentOnly": [
+    "counsellor profile read/save UI with mocked API seam",
+    "counsellor edit service UI with mocked API seam",
+    "demo-only behavior; not server persistence"
+  ],
+  "excluded": [
+    "unimplemented diagnosis, admin and counsellor directory/detail destinations",
+    "unimplemented profile persistence/upload and service PATCH/DELETE APIs",
+    "real or sandbox payment provider, commission and webhook integration",
+    "unimplemented category/duration/language fields, weekly calendar and pre-session brief",
+    "unapproved reload persistence, hold expiry, field presentation and prescribed storage policies",
+    "iOS/Android/device and multi-browser certification"
+  ],
+  "qaIssues": [
+    {
+      "story": "US-01",
+      "parentIssue": 4,
+      "qaIssue": 87
+    },
+    {
+      "story": "US-02",
+      "parentIssue": 5,
+      "qaIssue": 94
+    },
+    {
+      "story": "US-03",
+      "parentIssue": 6,
+      "qaIssue": 97
+    },
+    {
+      "story": "US-04",
+      "parentIssue": 7,
+      "qaIssue": 91
+    },
+    {
+      "story": "US-06",
+      "parentIssue": 9,
+      "qaIssue": 100
+    },
+    {
+      "story": "US-07",
+      "parentIssue": 10,
+      "qaIssue": 103
+    },
+    {
+      "story": "US-08",
+      "parentIssue": 11,
+      "qaIssue": 106
+    },
+    {
+      "story": "US-30",
+      "parentIssue": 24,
+      "qaIssue": 130
+    },
+    {
+      "story": "US-34",
+      "parentIssue": 29,
+      "qaIssue": 133
+    },
+    {
+      "story": "US-35",
+      "parentIssue": 30,
+      "qaIssue": 136
+    },
+    {
+      "story": "US-37",
+      "parentIssue": 32,
+      "qaIssue": 139
+    },
+    {
+      "story": "US-38",
+      "parentIssue": 33,
+      "qaIssue": 142
+    },
+    {
+      "story": "US-39",
+      "parentIssue": 34,
+      "qaIssue": 145
+    },
+    {
+      "story": "US-40",
+      "parentIssue": 35,
+      "qaIssue": 118
+    },
+    {
+      "story": "US-41",
+      "parentIssue": 36,
+      "qaIssue": 121
+    },
+    {
+      "story": "US-44",
+      "parentIssue": 41,
+      "qaIssue": 109
+    },
+    {
+      "story": "US-45",
+      "parentIssue": 42,
+      "qaIssue": 112
+    },
+    {
+      "story": "US-46",
+      "parentIssue": 43,
+      "qaIssue": 115
+    },
+    {
+      "story": "US-47",
+      "parentIssue": 44,
+      "qaIssue": 124
+    },
+    {
+      "story": "US-68",
+      "parentIssue": 39,
+      "qaIssue": 127
+    }
+  ]
+}

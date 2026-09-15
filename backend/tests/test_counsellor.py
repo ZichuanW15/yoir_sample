@@ -254,6 +254,10 @@ def test_update_availability_slot_rejects_overlap_on_another_service_same_counse
     base = datetime.now(UTC) + timedelta(days=1)
     blocking_slot = add_slot(db_session, service, starts_at=base)
     movable_slot = add_slot(db_session, other, starts_at=base + timedelta(hours=3))
+    movable_id = movable_slot.id
+    original_start = movable_slot.starts_at
+    original_end = movable_slot.ends_at
+    original_service_id = movable_slot.service_id
 
     response = client.patch(
         f"/api/v1/me/availability-slots/{movable_slot.id}",
@@ -267,9 +271,14 @@ def test_update_availability_slot_rejects_overlap_on_another_service_same_counse
     assert response.status_code == 409
     assert response.json()["code"] == "SLOT_OVERLAP"
     db_session.expire_all()
-    stored = db_session.get(AvailabilitySlot, movable_slot.id)
+    stored = db_session.get(AvailabilitySlot, movable_id)
     assert stored is not None
-    assert stored.starts_at == movable_slot.starts_at
+    # get() may return the same identity-mapped object as movable_slot. Compare
+    # against pre-request scalars, not another view of the freshly loaded row.
+    assert stored.starts_at == original_start
+    assert stored.ends_at == original_end
+    assert stored.service_id == original_service_id
+    assert stored.status == "open"
 
 
 def test_postgresql_concurrent_slot_creation_across_two_services_prevents_overlap(

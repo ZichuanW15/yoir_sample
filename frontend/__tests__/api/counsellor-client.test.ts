@@ -105,7 +105,7 @@ describe('counsellor API boundary', () => {
     else process.env.EXPO_PUBLIC_USE_DEMO_API = originalDemoFlag;
   });
 
-  describe('live requests', () => {
+  describe('HTTP request construction with mocked responses', () => {
     test('getOwnCounsellorProfile reads the counsellor by id with Bearer authentication', async () => {
       fetchMock.mockResolvedValueOnce(jsonResponse(counsellorProfileFixture));
       const { api, preview } = loadClient();
@@ -131,7 +131,7 @@ describe('counsellor API boundary', () => {
       });
     });
 
-    test('updateOwnCounsellorProfile PATCHes the published profile payload', async () => {
+    test('updateOwnCounsellorProfile PATCHes the implemented frontend profile payload', async () => {
       const updated = { ...counsellorProfileFixture, introduction: profileUpdate.introduction };
       fetchMock.mockResolvedValueOnce(jsonResponse(updated));
       const { api } = loadClient();
@@ -253,7 +253,7 @@ describe('counsellor API boundary', () => {
   });
 
   describe('logout', () => {
-    test('invalidates the server session and resolves to undefined', async () => {
+    test('requests server session invalidation and resolves on HTTP 204', async () => {
       fetchMock.mockResolvedValueOnce(jsonResponse(undefined, 204));
       const { api } = loadClient();
 
@@ -281,7 +281,7 @@ describe('counsellor API boundary', () => {
     });
   });
 
-  describe('preview fallback to the local store', () => {
+  describe('preview fallback characterization (local data, not backend persistence)', () => {
     beforeEach(() => {
       jest.useFakeTimers();
       jest.setSystemTime(new Date('2026-08-28T00:00:00.000Z'));
@@ -292,7 +292,7 @@ describe('counsellor API boundary', () => {
     });
 
     test.each([404, 405, 501])(
-      'a %i from an undeployed route serves local data and raises the preview flag',
+      'a simulated %i serves local data and raises the preview flag',
       async (status) => {
         fetchMock.mockResolvedValueOnce(status === 404 ? unroutedResponse() : errorResponse(status, 'NOT_IMPLEMENTED'));
         const { api, preview } = loadClient();
@@ -421,7 +421,7 @@ describe('counsellor API boundary', () => {
       expect(preview.active).toBe(true);
     });
 
-    test('a successful live call after a fallback lowers the preview flag again', async () => {
+    test('a successful mocked HTTP call after a fallback lowers the preview flag again', async () => {
       fetchMock
         .mockResolvedValueOnce(unroutedResponse())
         .mockResolvedValueOnce(jsonResponse([serviceFixture]));
@@ -446,10 +446,10 @@ describe('counsellor API boundary', () => {
       jest.useRealTimers();
     });
 
-    test('a 404 from a route that has shipped rejects instead of inventing a profile', async () => {
+    test('removing a route from the preview allowlist makes its 404 reject', async () => {
       fetchMock.mockResolvedValueOnce(errorResponse(404, 'NOT_FOUND', 'This counsellor profile is unavailable.'));
       const { api, preview, undeployedRoutes, ApiError } = loadClient();
-      // The backend has deployed this route, so a 404 is a genuinely missing resource.
+      // Exercise the exported allowlist seam; this is not a claim that this route is deployed.
       undeployedRoutes.delete('counsellorProfile');
 
       const pending = api.getOwnCounsellorProfile(counsellorUser, TOKEN);
@@ -459,7 +459,7 @@ describe('counsellor API boundary', () => {
       expect(preview.active).toBe(false);
     });
 
-    test('a 404 from a route that has shipped never consults local slot state', async () => {
+    test('removing availability from the preview allowlist makes its 404 reject', async () => {
       fetchMock.mockResolvedValueOnce(errorResponse(404, 'NOT_FOUND', 'This availability slot no longer exists.'));
       const { api, preview, undeployedRoutes } = loadClient();
       undeployedRoutes.delete('availability');
@@ -471,7 +471,7 @@ describe('counsellor API boundary', () => {
       expect(preview.active).toBe(false);
     });
 
-    test('a 501 falls back even from a route that has shipped', async () => {
+    test('a 501 still falls back when the route is outside the preview allowlist', async () => {
       fetchMock.mockResolvedValueOnce(errorResponse(501, 'NOT_IMPLEMENTED', 'Route not implemented.'));
       const { api, preview, undeployedRoutes } = loadClient();
       undeployedRoutes.delete('ownServices');
@@ -482,7 +482,7 @@ describe('counsellor API boundary', () => {
       expect(preview.active).toBe(true);
     });
 
-    test('a live success on one route does not clear the preview flag raised by another', async () => {
+    test('a mocked HTTP success on one route does not clear the preview flag raised by another', async () => {
       fetchMock
         .mockResolvedValueOnce(unroutedResponse())
         .mockResolvedValueOnce(jsonResponse([slotFixture]));

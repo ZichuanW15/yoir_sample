@@ -1,0 +1,161 @@
+{
+  "retrievedAt": "2026-09-15T08:00:32.994Z",
+  "pulls": [
+    {
+      "number": 152,
+      "title": "feat(backend): counsellor service and availability management (US-34, US-35, US-37, US-38, US-39, US 44 45 46)",
+      "state": "closed",
+      "mergedAt": "2026-09-14T09:25:39Z",
+      "updatedAt": "2026-09-14T09:25:39Z",
+      "base": "dev",
+      "head": "backend/counsellor-service-managemen",
+      "headSha": "64bb2a6a447b4e2b24604aa2a99c7183dd391509",
+      "mergeCommit": "0ffa565e47d60fc2783a4618e5dce6cfe73a4b08",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/152"
+    },
+    {
+      "number": 154,
+      "title": "feat(frontend): edit/delete services, bulk availability, and fixes",
+      "state": "closed",
+      "mergedAt": "2026-09-14T04:55:13Z",
+      "updatedAt": "2026-09-14T04:55:13Z",
+      "base": "dev",
+      "head": "feature/sprint2-edit-service-and-multipletime-selection",
+      "headSha": "5ba33094a7970ddc9b125db99f598966c08efdf3",
+      "mergeCommit": "bff8747b945198703d172caaa2a0149dee89b75c",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/154"
+    },
+    {
+      "number": 153,
+      "title": "[Backend] US-06–US-08: login, safe authentication errors and logout",
+      "state": "closed",
+      "mergedAt": "2026-09-12T07:23:09Z",
+      "updatedAt": "2026-09-12T07:23:09Z",
+      "base": "dev",
+      "head": "backend/auth-sessions",
+      "headSha": "5f224d5df981a9a505e72afc5920d3c2562365c3",
+      "mergeCommit": "c0df31460a69ae406835f6f960bb1e333364120b",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/153"
+    },
+    {
+      "number": 151,
+      "title": "feat(backend): complete US-01 to US-03 account registration",
+      "state": "closed",
+      "mergedAt": "2026-09-09T11:28:50Z",
+      "updatedAt": "2026-09-09T11:28:51Z",
+      "base": "dev",
+      "head": "backend/user-registration",
+      "headSha": "241f8a90bf470d5cb5f4323333c1c2c23bf56b08",
+      "mergeCommit": "f6e3bc34af7abcf49b4811e81b8833aa15cf7c37",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/151"
+    },
+    {
+      "number": 150,
+      "title": "feat(backend): complete US-01 to US-03 account registration",
+      "state": "closed",
+      "mergedAt": null,
+      "updatedAt": "2026-09-09T09:54:37Z",
+      "base": "dev",
+      "head": "JDD",
+      "headSha": "241f8a90bf470d5cb5f4323333c1c2c23bf56b08",
+      "mergeCommit": "a7537b1857c8d4f9dd780ada785ec5276832b790",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/150"
+    },
+    {
+      "number": 149,
+      "title": "feat: serve the Expo web build from FastAPI and deploy both together",
+      "state": "closed",
+      "mergedAt": "2026-09-09T05:52:52Z",
+      "updatedAt": "2026-09-09T07:42:50Z",
+      "base": "dev",
+      "head": "feat/deployment",
+      "headSha": "8f7f2aab9c1e292fef1c2e06284f020099125c0f",
+      "mergeCommit": "65db231f18ee5f820906df71053a3cd2a3519816",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/149"
+    },
+    {
+      "number": 146,
+      "title": "feat(backend): complete US-01 registration validation and contract",
+      "state": "closed",
+      "mergedAt": null,
+      "updatedAt": "2026-09-09T06:50:16Z",
+      "base": "dev",
+      "head": "codex/us01-registration-backend",
+      "headSha": "014c0d88d67adcc8ce19828d82c9ee662e83974b",
+      "mergeCommit": "0a0facaa83572e4b51944415fa2618ab00d6a214",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/146"
+    },
+    {
+      "number": 148,
+      "title": "Feature/sprint2 counsellor workspace",
+      "state": "closed",
+      "mergedAt": "2026-09-08T09:43:06Z",
+      "updatedAt": "2026-09-08T10:04:24Z",
+      "base": "dev",
+      "head": "feature/sprint2-counsellor-workspace",
+      "headSha": "777bc018a004bd2bae5dc90746ee0f0adc04cd35",
+      "mergeCommit": "f664d5ae9085865f08f62ddefbfd50ab81474232",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/148"
+    },
+    {
+      "number": 147,
+      "title": "feat(frontend): add counsellor workspace",
+      "state": "closed",
+      "mergedAt": null,
+      "updatedAt": "2026-09-08T09:05:13Z",
+      "base": "feature/sprint2-onboarding-marketplace",
+      "head": "feature/sprint2-counsellor-workspace",
+      "headSha": "17701cb1f234bde701c5d9816a584e16234a5339",
+      "mergeCommit": "ee79690c49033218fea6bc14a1ff18d19fe75424",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/147"
+    },
+    {
+      "number": 73,
+      "title": "Sprint 1 executable architecture: frontend, backend, tests, CI and documentation",
+      "state": "closed",
+      "mergedAt": "2026-08-29T13:41:04Z",
+      "updatedAt": "2026-09-04T05:30:18Z",
+      "base": "main",
+      "head": "integrate/sprint1-executable-architecture",
+      "headSha": "ab2bd37cdd576c29af7bb22f56fd8009adce500b",
+      "mergeCommit": "a1dde161ec27b9402afc42fdbe4408a08a871cb6",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/73"
+    },
+    {
+      "number": 70,
+      "title": "Feature/executable architecture frontend",
+      "state": "closed",
+      "mergedAt": null,
+      "updatedAt": "2026-08-29T13:49:13Z",
+      "base": "main",
+      "head": "feature/executable-architecture-frontend",
+      "headSha": "c4e1201ee376849453d3e16b06950451c1dabffa",
+      "mergeCommit": null,
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/70"
+    },
+    {
+      "number": 66,
+      "title": "EA and DBC merge with ",
+      "state": "closed",
+      "mergedAt": "2026-08-28T04:48:30Z",
+      "updatedAt": "2026-08-28T07:06:36Z",
+      "base": "main",
+      "head": "docs/exec-arch",
+      "headSha": "61484f61b850934d8388d2528a54f304c0a01345",
+      "mergeCommit": "4880b6b0a040fbbdddaf84d9ee3bc685dde71dbc",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/66"
+    },
+    {
+      "number": 65,
+      "title": "Add Mermaid diagram CI, project README and Sprint 1 client meeting minutes",
+      "state": "closed",
+      "mergedAt": "2026-08-26T04:39:36Z",
+      "updatedAt": "2026-08-27T08:13:52Z",
+      "base": "main",
+      "head": "ci/mermaid-diagrams",
+      "headSha": "3b81f9cc2afb1a786b543af0a395a66d965ada9d",
+      "mergeCommit": "ed873a745e7c28497bc0d5add54a5b6c9893e5d3",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/65"
+    }
+  ]
+}

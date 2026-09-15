@@ -64,6 +64,11 @@ def pytest_configure(config: pytest.Config) -> None:
         "markers",
         "live: black-box HTTP test against a separately managed server and database",
     )
+    config.addinivalue_line(
+        "markers",
+        "future_contract: retained architecture, unimplemented capability or unapproved "
+        "policy check; exclude from implemented-feature QA",
+    )
     _live_only_session = _is_live_only_selection(config)
     if _live_only_session:
         return

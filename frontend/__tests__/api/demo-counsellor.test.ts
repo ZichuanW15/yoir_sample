@@ -473,13 +473,8 @@ describe('local demo store: counsellor operations and booking integrity', () => 
         message: 'This window overlaps an availability slot you already offer.',
       });
 
-      // The clash is scoped to one service: the same window on another service is fine.
-      const second = await settle(demoCreateService('counsellor_maya', serviceDraft({ title: 'Second offering' })));
-      const twin = await settle(
-        demoCreateSlot({ serviceId: second.id, startsAt: first.startsAt, endsAt: first.endsAt }),
-      );
-      expect(twin).toMatchObject({ serviceId: second.id, startsAt: first.startsAt, status: 'open' });
-      expect(await settle(demoListOwnSlots('counsellor_maya'))).toHaveLength(4);
+      expect(await settle(demoListOwnSlots('counsellor_maya'))).toHaveLength(3);
+      // Cross-service rejection is correctly asserted in the defect suite (F11).
     });
 
     test('opens a window that clears the existing slots', async () => {
@@ -660,36 +655,8 @@ describe('local demo store: counsellor operations and booking integrity', () => 
       expect((await settle(demoListSlots('svc_interview'))).map((slot) => slot.id)).not.toContain(target.id);
     });
 
-    test('books a one-hour window from now when the order names no known slot', async () => {
-      const order = await settle(demoCreateOrder('svc_interview', 'demo-slot-missing'));
-      expect(order.slotId).toBe('demo-slot-missing');
-
-      const confirmation = await settle(demoCompletePayment(order));
-      expect(Date.parse(confirmation.booking.startsAt)).toBe(Date.now());
-      expect(Date.parse(confirmation.booking.endsAt) - Date.parse(confirmation.booking.startsAt)).toBe(HOUR);
-
-      // Nothing was held, so every seeded slot is still on offer.
-      expect(await settle(demoListSlots('svc_interview'))).toHaveLength(3);
-    });
-
-    test('current behaviour: an order may claim a slot that belongs to another service', async () => {
-      const foreign = { ...(await settle(demoListSlots('svc_resume')))[0] };
-
-      const order = await settle(demoCreateOrder('svc_interview', foreign.id));
-      expect(order).toMatchObject({ serviceId: 'svc_interview', slotId: foreign.id, amountMinor: 9500 });
-
-      // The other counsellor's window is held even though it was never offered for this service.
-      expect((await settle(demoListSlots('svc_resume'))).map((slot) => slot.id)).not.toContain(foreign.id);
-
-      const confirmation = await settle(demoCompletePayment(order));
-      expect(confirmation.booking).toMatchObject({
-        serviceId: 'svc_interview',
-        serviceTitle: 'Interview confidence coaching',
-        startsAt: foreign.startsAt,
-        endsAt: foreign.endsAt,
-      });
-      expect(await settle(demoListOwnSlots('counsellor_jordan'))).toContainEqual({ ...foreign, status: 'booked' });
-    });
+    // Unknown-slot and cross-service booking acceptance now run with correct
+    // rejection assertions in defects/demo-booking-acceptance.test.ts.
   });
 
   describe('resetDemoState', () => {

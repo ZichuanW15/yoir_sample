@@ -1,92 +1,78 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
-import { Pressable, Text, View } from 'react-native';
-import { api } from '@/src/api/client';
-import { AuthProvider, useAuth } from '@/src/auth/AuthContext';
-import { sessionFixture } from '../fixtures';
+import { apiFailure, AuthStatusProbe, callsTo, deferred, jsonResponse, renderPublic, reply } from '../public-screen-utils';
+import { act, fireEvent, renderHook, screen } from '@testing-library/react-native';
+import { useAuth } from '@/src/auth/AuthContext';
+import { counsellorSessionFixture, sessionFixture } from '../fixtures';
 
-jest.mock('@/src/api/client', () => ({
-  api: { login: jest.fn(), logout: jest.fn().mockResolvedValue(undefined) },
-}));
+const signIn = () => fireEvent.press(screen.getByRole('button', { name: 'Sign in probe' }));
+const logout = () => fireEvent.press(screen.getByRole('button', { name: 'Log out probe' }));
 
-const loginApiMock = api.login as jest.MockedFunction<typeof api.login>;
-const logoutApiMock = api.logout as jest.MockedFunction<typeof api.logout>;
-
-function AuthProbe() {
-  const { session, login, logout } = useAuth();
-  return (
-    <View>
-      <Text>{session ? `signed in as ${session.user.name}` : 'signed out'}</Text>
-      <Pressable
-        onPress={() => void login('alex@example.com', 'correct-password').catch(() => undefined)}
-      >
-        <Text>Sign in probe</Text>
-      </Pressable>
-      <Pressable onPress={logout}>
-        <Text>Log out probe</Text>
-      </Pressable>
-    </View>
-  );
-}
-
-describe('AuthProvider', () => {
-  test('stores the session returned by login', async () => {
-    loginApiMock.mockResolvedValueOnce(sessionFixture);
-    render(
-      <AuthProvider>
-        <AuthProbe />
-      </AuthProvider>,
-    );
-
-    expect(screen.getByText('signed out')).toBeTruthy();
-    fireEvent.press(screen.getByText('Sign in probe'));
-
-    await waitFor(() => expect(screen.getByText('signed in as Alex Morgan')).toBeTruthy());
-    expect(loginApiMock).toHaveBeenCalledWith('alex@example.com', 'correct-password', undefined);
+describe('AuthProvider through the HTTP boundary', () => {
+  test('reports a missing auth provider instead of allowing an undefined auth state', () => {
+    expect(() => renderHook(() => useAuth())).toThrow('useAuth must be used within AuthProvider.');
   });
 
-  test('logout clears the in-memory session state', async () => {
-    loginApiMock.mockResolvedValueOnce(sessionFixture);
-    render(
-      <AuthProvider>
-        <AuthProbe />
-      </AuthProvider>,
-    );
+  test('[QA-100] stores the returned session and resolves login to its authoritative role', async () => {
+    reply('POST', '/auth/sessions', jsonResponse(sessionFixture));
+    renderPublic(<AuthStatusProbe />);
+    expect(screen.getByText('signed out')).toBeOnTheScreen();
+    signIn();
+    expect(await screen.findByText('signed in as Alex Morgan')).toBeOnTheScreen();
+    expect(screen.getByText('returned job_seeker')).toBeOnTheScreen();
+    expect(JSON.parse(callsTo('POST', '/auth/sessions')[0][1]?.body as string)).toEqual({ email: 'alex@example.com', password: 'correct-password' });
+  });
 
-    fireEvent.press(screen.getByText('Sign in probe'));
+  test('[QA-100] preserves the role returned by a counsellor login', async () => {
+    reply('POST', '/auth/sessions', jsonResponse(counsellorSessionFixture));
+    renderPublic(<AuthStatusProbe />);
+    signIn();
+    expect(await screen.findByText('signed in as Maya Chen')).toBeOnTheScreen();
+    expect(screen.getByText('returned counsellor')).toBeOnTheScreen();
+  });
+
+  test('[QA-106] logout drops local identity immediately while server invalidation is pending', async () => {
+    const pending = deferred<Response>();
+    reply('POST', '/auth/sessions', jsonResponse(sessionFixture));
+    reply('DELETE', '/auth/sessions/current', pending.promise);
+    renderPublic(<AuthStatusProbe />);
+    signIn();
     await screen.findByText('signed in as Alex Morgan');
-    fireEvent.press(screen.getByText('Log out probe'));
-
-    expect(screen.getByText('signed out')).toBeTruthy();
-    expect(logoutApiMock).toHaveBeenCalledWith('test-access-token');
+    logout();
+    expect(screen.getByText('signed out')).toBeOnTheScreen();
+    expect(callsTo('DELETE', '/auth/sessions/current')[0][1]?.headers).toMatchObject({ Authorization: 'Bearer test-access-token' });
+    await act(async () => pending.resolve(jsonResponse(undefined, 204)));
+    expect(screen.getByText('signed out')).toBeOnTheScreen();
   });
 
-  test('logout without a session does not call the API boundary', () => {
-    render(
-      <AuthProvider>
-        <AuthProbe />
-      </AuthProvider>,
-    );
-
-    fireEvent.press(screen.getByText('Log out probe'));
-
-    expect(screen.getByText('signed out')).toBeTruthy();
-    expect(logoutApiMock).not.toHaveBeenCalled();
+  test('[QA-106] failed server invalidation does not restore the local identity', async () => {
+    reply('POST', '/auth/sessions', jsonResponse(sessionFixture));
+    reply('DELETE', '/auth/sessions/current', new TypeError('offline'));
+    renderPublic(<AuthStatusProbe />);
+    signIn();
+    await screen.findByText('signed in as Alex Morgan');
+    await act(async () => logout());
+    expect(screen.getByText('signed out')).toBeOnTheScreen();
   });
 
-  test('a failed login leaves the local session signed out', async () => {
-    loginApiMock.mockRejectedValueOnce(new TypeError('fetch failed'));
-    render(
-      <AuthProvider>
-        <AuthProbe />
-      </AuthProvider>,
-    );
-
-    fireEvent.press(screen.getByText('Sign in probe'));
-
-    await waitFor(() => expect(loginApiMock).toHaveBeenCalled());
-    expect(screen.getByText('signed out')).toBeTruthy();
+  test('[QA-106] logout without a session sends no authenticated request', () => {
+    renderPublic(<AuthStatusProbe />);
+    logout();
+    expect(screen.getByText('signed out')).toBeOnTheScreen();
+    expect(callsTo('DELETE', '/auth/sessions/current')).toHaveLength(0);
   });
 
-  test.todo('expires the local session when expiresAt is reached');
-  test.todo('persists a valid session across an application restart');
+  test('[QA-103] an invalid login rejects without authenticating the provider', async () => {
+    reply('POST', '/auth/sessions', apiFailure('INVALID_CREDENTIALS', 'Invalid credentials.', 401));
+    renderPublic(<AuthStatusProbe />);
+    signIn();
+    await screen.findByText('login failed');
+    expect(screen.getByText('signed out')).toBeOnTheScreen();
+  });
+
+  test('[QA-103] a transport error rejects without authenticating the provider', async () => {
+    reply('POST', '/auth/sessions', new TypeError('fetch failed'));
+    renderPublic(<AuthStatusProbe />);
+    signIn();
+    await screen.findByText('login failed');
+    expect(screen.getByText('signed out')).toBeOnTheScreen();
+  });
 });
