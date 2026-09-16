@@ -35,6 +35,7 @@ def source_fingerprints() -> dict[str, str]:
              ROOT / "backend/uv.lock", ROOT / "backend/pyproject.toml", ROOT / "backend/reset_db.py",
              ROOT / "docs/sprint2/qa/scope.json", ROOT / ".github/scripts/board-insights.py",
              ROOT / "scripts/check_sprint2_qa_traceability.py",
+             ROOT / "scripts/check_defect_report.cjs",
              ROOT / "docs/sprint2/qa/issue-evidence.json",
              ROOT / "docs/sprint2/qa/qa-issue-audit-20260916.json",
              ROOT / "docs/sprint2/qa/qa-matrix.md",
@@ -51,7 +52,7 @@ def source_fingerprints() -> dict[str, str]:
     for directory in ("frontend/__tests__", "frontend/e2e", "frontend/app", "frontend/src",
                       "backend/tests", "backend/app", "scripts/tests", ".github/scripts/tests"):
         files.extend(path for path in (ROOT / directory).rglob("*")
-                     if path.is_file() and path.suffix in {".py", ".ts", ".tsx", ".js", ".json"})
+                     if path.is_file() and path.suffix in {".py", ".ts", ".tsx", ".js", ".cjs", ".json"})
     return {str(path.relative_to(ROOT)): hashlib.sha256(path.read_bytes()).hexdigest()
             for path in sorted(set(files)) if path.is_file()}
 
@@ -189,6 +190,7 @@ def main() -> int:
     run("repository-metadata", [args.backend_python, "scripts/check_repository_metadata.py"])
     run("qa-issue-traceability", [args.backend_python, "scripts/check_sprint2_qa_traceability.py"])
     run("evidence-runner-tests", [args.backend_python, "-m", "unittest", "discover", "-s", "scripts/tests", "-v"])
+    run("defect-report-tests", ["node", "--test", "scripts/tests/test_defect_report.cjs"])
     run("board-tests", [args.backend_python, "-B", ".github/scripts/tests/test_board_insights.py", "-v"])
     run("web-build", ["npm", "run", "build:web"], "frontend",
         {"EXPO_PUBLIC_API_URL": "/api/v1", "EXPO_PUBLIC_USE_DEMO_API": "false"})

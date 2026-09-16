@@ -47,11 +47,29 @@ unmeasured cells only and retain NOT RUN until actually observed.
 
 ## Evidence semantics
 
-- Normal Jest and Chromium tests use ordinary assertions. Current defect probes also use ordinary assertions and genuinely fail while the product is incorrect. They run separately so the failure list remains readable.
+- Normal Jest and Chromium tests use ordinary assertions. Current defect probes also keep ordinary assertions and their actual failure results. They run separately so the failure list remains readable; advisory CI treatment does not convert failed cases into passes.
 - Each native preset runs its own ordinary and defect suites. Platform-specific assertions (such as native splash release) are registered only for explicit native runs. Jest does not launch a simulator, exercise real system permissions, or prove a signed native build works.
 - Backend known defects are `strict=True` xfails restricted to `KnownAcceptanceDefect`. A fixture error fails normally; a corrected behavior becomes a strict XPASS requiring marker review. Xfails are unresolved defects, never counted as passes.
 - Dependency/network failures, timeouts, missing browsers and stale Web builds are harness failures. The recorder returns nonzero and preserves them; a failed build blocks browser execution.
 - The runner records start/end UTC, command, duration, exit code, Git base and SHA-256 of application/tests/config before and after. Changed sources invalidate the run.
 - Unit/component seams, real HTTP clients, real browser+API, and PostgreSQL checks prove different boundaries. Their totals must not be summed into distinct product features or compared as one coverage denominator.
 
-Known defect gates remain blocking in the proposed CI. A local QA change can be reviewable while the product is not ready for sign-off; use a Draft PR and review the unresolved findings explicitly.
+## CI gate versus recorded test outcome
+
+On **16 September 2026**, the user requested that the separate shared, iOS,
+Android and Chromium defect suites become **advisory in CI**. They still run and
+retain their real assertion results, but those failures no longer block the
+workflow. This changes CI policy only; no business code is repaired and no
+historical evidence or manifest is rewritten.
+
+Ordinary regression, coverage, lint, type checking, builds and the other required
+checks remain blocking. Installation and startup failures, plus missing,
+malformed or incomplete reports, are checked through blocking execution/report
+validation. This validation checks execution and report structure; it cannot
+prove that every failed test is caused by a previously known product defect.
+Review new or changed diagnostics in the preserved evidence.
+
+The local `scripts/run_sprint2_qa.py` remains strict: a failing defect command
+still produces a nonzero recorder result. A green CI run means its current
+regression and health gates passed, not that defects are resolved or all parent
+acceptance criteria are satisfied. Keep product sign-off separate from QA review.

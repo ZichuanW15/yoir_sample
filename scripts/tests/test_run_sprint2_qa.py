@@ -138,6 +138,7 @@ class EvidenceRecorderTests(unittest.TestCase):
     def test_executed_helpers_fixtures_and_configuration_are_fingerprinted(self):
         dependencies = [
             "scripts/check_repository_metadata.py", ".github/scripts/board-insights.py",
+            "scripts/check_defect_report.cjs", "scripts/tests/test_defect_report.cjs",
             ".github/scripts/tests/test_board_insights.py",
             ".github/scripts/tests/fixtures/project-page-1.json",
             ".github/workflows/board-insights.yml", ".github/mermaid/puppeteer.json",

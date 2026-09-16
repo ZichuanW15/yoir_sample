@@ -59,7 +59,11 @@ git push origin sprint2-qa
 
 ## 4. 验收与证据发布边界
 
-既有缺陷仍可能使 CI 失败；这不等于 QA 没有提供证据，也不能通过删断言、跳过或反转期望来变绿。三端组件通过不等于完整三端实测；[剩余原生场景](native-acceptance-delta.md)均保留 NOT RUN。
+按用户 **2026 年 9 月 16 日**的明确要求，共享组件、iOS、Android 和 Chromium 的独立缺陷套件在 CI 中改为 **advisory（报告但不阻断）**。套件仍执行原断言并发布真实失败结果；这次变更调整 CI 门槛，不修复业务代码，也不把失败改成通过。
+
+正常回归、覆盖率、lint、类型检查、构建和其他必需检查仍是硬门槛。安装、启动失败，以及结果缺失、格式错误或执行不完整，仍由阻断性的执行／报告健康检查处理。这些检查不能自动区分每个失败用例的根因；新增或变化的诊断仍需审查。
+
+CI 绿色仅表示当前正常回归及 CI 健康门槛满足，不表示缺陷已解决或完整产品验收通过。本地 `scripts/run_sprint2_qa.py` 保持严格：缺陷命令失败仍返回非零，历史 recorder 返回 1、结果和 manifest 均不改写。三端组件通过不等于完整三端实测；[剩余原生场景](native-acceptance-delta.md)均保留 NOT RUN。
 
 完整原始工作目录仍位于 ignored artifacts。本次将经检查的 [16 September 结果](evidence/20260916-multiplatform/README.md) 复制到独立 evidence 目录，提交文件及 manifest 后随分支共享；省略项在 manifest 中说明。历史 `evidence/latest/` 保持不变。新 CI 会生成独立结果，不改写本地执行证据。
 

@@ -12,7 +12,20 @@ Updated 16 September 2026. Scope: currently implemented Web, iOS, Android and sh
 | Web browser | `npm run test:web`, `npm run test:web:defects` after a fresh Web export | Chromium navigation and real HTTP against an owned temporary database; not mobile Safari or native execution |
 | Shared backend | PostgreSQL pytest plus isolated HTTPX/TypeScript live suites | Authorization, persistence, validation and concurrency independently of the frontend device |
 
-Run frontend commands from `frontend/`; the repository recorder runs all these layers and saves independent logs/JSON. Shared cases running on two native presets are two executions, not twice as many unique product capabilities. Defect assertions remain ordinary failures and block CI; no blanket skips, inverted expectations or `continue-on-error` were added to hide them.
+Run frontend commands from `frontend/`; the repository recorder runs all these layers and saves independent logs/JSON. Shared cases running on two native presets are two executions, not twice as many unique product capabilities.
+
+At the user's request on **16 September 2026**, the separate shared, iOS, Android
+and Chromium defect suites are **advisory in CI**. Their assertions still run and
+report actual failures; those outcomes no longer block the workflow. Ordinary
+regression, coverage, lint, type checking, build and required execution/report
+health checks remain blocking. Installation/startup failures and missing,
+malformed or incomplete reports are not accepted as successful evidence. Report
+validation does not determine the cause of every individual failing test.
+
+This is a CI gate change, not a product repair or platform certification. Green
+means the current regression and CI-health gates passed, not that known defects
+or remaining native criteria are resolved. The local recorder stays strict and
+continues to return nonzero for defect failures; historical results stay intact.
 
 Code coverage is collected only by the shared normal Jest regression and backend pytest runs. The native presets disable coverage; browser and manual-device runs are not instrumented. The [coverage audit](coverage-audit-20260916.md) reports exact counts and issue-linked gaps without attributing shared percentages to each platform.
 

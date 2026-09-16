@@ -15,6 +15,25 @@ The [reviewed 16 September evidence](evidence/20260916-multiplatform/README.md) 
 
 The machine-readable boundary is [scope.json](scope.json). [Remote progress](remote-progress.json) and the [original issue snapshot](qa-issue-snapshot.json) are historical, not live repository state. The [16 September issue/parent-AC audit](qa-issue-audit-20260916.json) records 3 closed and 17 open QA tasks. Closed is not proof of full acceptance; open is not proof that a feature is absent.
 
+## CI policy — 16 September user-requested change
+
+At the user's request on **16 September 2026**, the separate shared, iOS,
+Android and Chromium defect suites are **advisory in CI**. They still execute
+their original assertions and publish real failures; those assertion outcomes
+no longer block CI. This changes the review gate, not the product or the defects.
+
+Normal regression, coverage, lint, type checking, build and other required checks
+remain blocking. Dependency installation, test startup and missing, malformed or
+incomplete result reports remain subject to blocking execution/report-health
+checks. These checks cannot establish the cause of every individual failed test;
+review the retained diagnostic output when a failure changes.
+
+A green workflow means the current regression and CI-health gates passed. It
+does not mean the recorded defects are resolved or full acceptance is complete.
+The local `scripts/run_sprint2_qa.py` recorder remains strict and returns nonzero
+for failed defect commands. Historical results, exit codes and manifests are
+unchanged by this CI policy update.
+
 ## Incremental reconciliation — no duplicate application run
 
 This update reuses the dated automated and manual results, corrects stale status

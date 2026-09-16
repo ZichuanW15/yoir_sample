@@ -187,7 +187,9 @@ build artifacts, and the frontend job also uploads the web build itself.
 
 Sprint 2 also runs Chromium acceptance journeys against an isolated API/database and a
 separate iOS/Android **component** matrix using Expo's platform presets. Native regression
-and defect results are retained independently; ordinary defect failures remain blocking.
+and defect results are retained independently. Defect-only CI steps are advisory;
+their report-health checks and all normal regressions remain blocking. See the
+[current QA policy](docs/sprint2/qa/ci-defect-policy-20260916.md).
 These matrix jobs do not launch simulators or certify device builds. The
 [platform matrix](docs/sprint2/qa/platform-test-matrix.md) records that evidence boundary.
 

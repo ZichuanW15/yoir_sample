@@ -63,6 +63,10 @@ jobs:
         id: frontend_install
         run: npm ci --no-audit
 
+      - name: Test advisory defect report validation
+        if: ${{ always() && steps.frontend_install.outcome == 'success' }}
+        run: node --test ../scripts/tests/test_defect_report.cjs
+
       - name: Lint
         if: ${{ always() && steps.frontend_install.outcome == 'success' }}
         run: npm run lint
@@ -89,11 +93,23 @@ jobs:
           EXPO_PUBLIC_USE_DEMO_API: 'false'
         run: npm run build:web
 
-      - name: Sprint 2 known acceptance defects (real failing assertions)
+      # Defect assertions are advisory by user policy; their raw failures are
+      # retained. The following report-health step remains a required failure.
+      - name: Record known acceptance defects (advisory)
+        id: frontend_defects
+        continue-on-error: true
         if: ${{ always() && steps.frontend_install.outcome == 'success' }}
         run: |
           mkdir -p artifacts
+          rm -f artifacts/jest-defects.json
           npm run test:defects -- --json --outputFile=artifacts/jest-defects.json
+
+      - name: Validate frontend defect report health
+        if: ${{ always() && steps.frontend_install.outcome == 'success' }}
+        run: >-
+          node ../scripts/check_defect_report.cjs --format jest
+          --report artifacts/jest-defects.json
+          --outcome '${{ steps.frontend_defects.outcome }}'
 
       - name: Production dependency audit (critical gate)
         if: ${{ always() && steps.frontend_install.outcome == 'success' }}
@@ -156,11 +172,20 @@ jobs:
         run: |
           mkdir -p artifacts
           npm run test:${{ matrix.platform }} -- --json --outputFile=artifacts/${{ matrix.platform }}-components.json
-      - name: Run platform defect assertions (blocking)
+      - name: Record platform defect assertions (advisory)
+        id: native_defects
+        continue-on-error: true
         if: ${{ always() && steps.native_install.outcome == 'success' }}
         run: |
           mkdir -p artifacts
+          rm -f artifacts/${{ matrix.platform }}-defects.json
           npm run test:${{ matrix.platform }}:defects -- --json --outputFile=artifacts/${{ matrix.platform }}-defects.json
+      - name: Validate platform defect report health
+        if: ${{ always() && steps.native_install.outcome == 'success' }}
+        run: >-
+          node ../scripts/check_defect_report.cjs --format jest
+          --report artifacts/${{ matrix.platform }}-defects.json
+          --outcome '${{ steps.native_defects.outcome }}'
       - name: Preserve platform evidence including failures
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -211,11 +236,21 @@ jobs:
       - name: Run browser regression
         if: ${{ always() && steps.browser_build.outcome == 'success' }}
         run: npm --prefix frontend run test:web
-      - name: Run browser acceptance defect checks
+      - name: Record browser acceptance defects (advisory)
+        id: browser_defects
+        continue-on-error: true
         if: ${{ always() && steps.browser_build.outcome == 'success' }}
         env:
           WEB_QA_OUTPUT_DIR: ${{ github.workspace }}/artifacts/qa/browser-web-defects
-        run: npm --prefix frontend run test:web:defects
+        run: |
+          rm -f artifacts/qa/browser-web-defects/results.json
+          npm --prefix frontend run test:web:defects
+      - name: Validate browser defect report health
+        if: ${{ always() && steps.browser_build.outcome == 'success' }}
+        run: >-
+          node scripts/check_defect_report.cjs --format playwright
+          --report artifacts/qa/browser-web-defects/results.json
+          --outcome '${{ steps.browser_defects.outcome }}'
       - name: Preserve browser evidence including failures
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4

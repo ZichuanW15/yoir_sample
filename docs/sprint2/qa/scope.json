@@ -195,5 +195,19 @@
       "parentIssue": 39,
       "qaIssue": 127
     }
-  ]
+  ],
+  "ciDefectPolicy": {
+    "mode": "advisory",
+    "authority": "User request on 2026-09-16: disregard defect assertions as CI blockers",
+    "appliesTo": [
+      "frontend-defects",
+      "ios-defects",
+      "android-defects",
+      "browser-web-defects"
+    ],
+    "normalRegressionGate": "blocking",
+    "reportHealthGate": "blocking",
+    "historicalResults": "Unchanged; failures are not reclassified as passing tests",
+    "localRecorder": "Retains strict nonzero exit on any failed suite; advisory aggregation is CI-only"
+  }
 }

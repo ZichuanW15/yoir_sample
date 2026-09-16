@@ -6,6 +6,23 @@ Tests, tooling, CI and evidence only; no product fix. Full verification/LinkedIn
 
 This updates the existing QA branch and PR #155 into `dev`. Source tests, failure assertions, procedures, issue mappings and selected original execution artifacts are included for team review.
 
+## CI policy change requested on 16 September
+
+The user requested that defect assertions stop blocking CI. The separate shared,
+iOS, Android and Chromium defect suites now run as advisory evidence: assertions
+and their reported failures remain intact. Normal regression, coverage, lint,
+type checking, builds and the other required checks retain their blocking gates.
+Execution/report-health checks still reject installation or startup failures and
+missing, malformed or incomplete result reports. They do not automatically
+classify every individual test failure; changed diagnostics still need review.
+
+This is a CI policy change, not a product fix. A green workflow establishes the
+current regression and CI-health gates, not resolved defects or complete product
+acceptance. The local recorder remains strict and continues to return nonzero
+for failing defect commands.
+
+See the [CI policy and reproduction commands](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/sprint2-qa/docs/sprint2/qa/ci-defect-policy-20260916.md) and [local tooling validation](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/sprint2-qa/docs/sprint2/qa/ci-defect-policy-validation-20260916.json).
+
 ## Evidence — retained, not rerun
 
 - [16 September original evidence and manifest](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/tree/sprint2-qa/docs/sprint2/qa/evidence/20260916-multiplatform): reviewed per-case results, logs, coverage and selected Web failure evidence, with original hashes and explicit omissions. Packaging these files does not create a new test execution.
@@ -16,7 +33,7 @@ This updates the existing QA branch and PR #155 into `dev`. Source tests, failur
 - [Delta-only verification](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/sprint2-qa/docs/sprint2/qa/reconciliation-results-20260916.md): new traceability checks only; no existing application suite repeated.
 - [Remaining native scenarios](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/sprint2-qa/docs/sprint2/qa/native-acceptance-delta.md): NOT RUN plan, not additional passes.
 
-The original automated recorder returned 1; known defect checks remain blocking. Strict xfails are unresolved defects, not successes. The selected original 16 September evidence is now included in this branch; the manifest records omitted regenerable reports and trace archives. Tracked `evidence/latest/` remains the historical **15 September** run. Native observations are documented separately; no saved native screenshots or full device sign-off are claimed.
+The original automated recorder returned 1; that historical result is unchanged by the advisory CI policy. Strict xfails are unresolved defects, not successes. The selected original 16 September evidence is now included in this branch; the manifest records omitted regenerable reports and trace archives. Tracked `evidence/latest/` remains the historical **15 September** run. Native observations are documented separately; no saved native screenshots or full device sign-off are claimed.
 
 ## Review focus
 
