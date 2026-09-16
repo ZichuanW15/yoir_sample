@@ -2,9 +2,13 @@
 
 ## Baseline
 
-The latest `dev` merge is backend PR #152 (`0ffa565`), following frontend PR #154, authentication PR #153 and registration PR #151. A successful fetch confirmed local HEAD and `origin/dev` have no divergence. The actual API exposes 15 operations, enumerated in [scope.json](scope.json); `backend/tests/test_contract.py` detects a runtime operation change requiring scope review.
+The reviewed product baseline is backend PR #152 (`0ffa565`), following frontend PR #154, authentication PR #153 and registration PR #151. The QA branch adds tests on top of that product code; it is not identical to `origin/dev`. The actual API exposes 15 operations, enumerated in [scope.json](scope.json); `backend/tests/test_contract.py` detects a runtime operation change requiring scope review.
 
 In scope: registration/login/logout; service catalogue and detail; current local frontend filters/sort and independent API query/modality parameters; slot selection; orders and stub payment; counsellor service creation/listing; availability creation/listing/edit/deletion; current profile/edit screen behavior at a clearly mocked boundary; demo functions; startup, formatting and error handling.
+
+Platform scope is Web, iOS and Android. Web has Chromium/API journeys; iOS/Android use separate Expo platform presets with platform/module-resolution guards and shared regressions. Device services remain mocked at component boundaries. Later [manual Expo Go simulator smoke results](native-device-results-20260916.md) are recorded separately from those component runs. See the [platform matrix](platform-test-matrix.md) for measured scope and remaining simulator/device checks.
+
+The team discussion defers the full verification/LinkedIn workflow to Sprint 3. It does not itself change the implemented backend gate: pending counsellors currently receive 403 on service creation. Preserve that regression as an implementation characterization, not a settled acceptance policy. Distinguish this from the independent defect where a missing profile API fabricates a Pending profile for an actually verified account.
 
 Excluded: missing diagnosis/admin/directory destinations; missing profile/upload and service update/delete APIs; provider payment/commission/webhooks; absent language/category/duration/brief fields; weekly calendar; unapproved persistence/expiry/validation-presentation policies. Archived frontend proposals are excluded by Jest and Playwright configuration. Ten backend `future_contract` checks are excluded explicitly. See [backend scope](../../../backend/tests/README.md) and [archived frontend probes](../../../frontend/__tests__/planned/README.md).
 
@@ -23,11 +27,28 @@ Test files contain the detailed executable steps, input values, setup and assert
 | ROBUSTNESS | Exercise malformed responses, unavailable network, nonzero cents, negative prices, empty slots, DST transitions, confirmation forgery and font startup errors. | Frontend `__tests__/defects/`, backend strict defect cases, browser `@defect` cases |
 | HARNESS / STATIC | Check recorder timestamps/source drift/failure retention, archive safety, database reset guard, types, lint, build and repository metadata. | `scripts/tests/`, `backend/tests/test_database_safety.py`, CI and recorder commands |
 
-Use [results](test-results.md) and its JSON/XML for exact case names; file links above describe suites rather than a blanket story acceptance claim.
+Use [historical results](test-results.md), [16 September results](test-results-multiplatform.md) and their JSON/XML for exact case names; file links above describe suites rather than a blanket story acceptance claim.
+
+## Parent requirements versus current implementation
+
+The [dated parent-AC audit](qa-issue-audit-20260916.json) preserves original
+requirements; [issue evidence](issue-evidence.json) separates passing boundaries,
+unresolved defects, exclusions and remaining device work for all 20 QA issues.
+US45 requires backend query/control mapping: local filter tests do not replace
+that requirement. US01 inline field feedback and US06 native secure storage are
+not certified by current global banners or in-memory auth. Missing capabilities
+remain excluded from this implemented-only run, not redefined as unnecessary.
+
+For the reconciliation increment, reuse existing results and run only
+`python3 -B scripts/check_sprint2_qa_traceability.py --verify-local-artifacts`
+and the new `test_qa_traceability.py` QA-tooling cases. This is not another
+application test run. [Native delta cases](native-acceptance-delta.md) specify
+unmeasured cells only and retain NOT RUN until actually observed.
 
 ## Evidence semantics
 
 - Normal Jest and Chromium tests use ordinary assertions. Current defect probes also use ordinary assertions and genuinely fail while the product is incorrect. They run separately so the failure list remains readable.
+- Each native preset runs its own ordinary and defect suites. Platform-specific assertions (such as native splash release) are registered only for explicit native runs. Jest does not launch a simulator, exercise real system permissions, or prove a signed native build works.
 - Backend known defects are `strict=True` xfails restricted to `KnownAcceptanceDefect`. A fixture error fails normally; a corrected behavior becomes a strict XPASS requiring marker review. Xfails are unresolved defects, never counted as passes.
 - Dependency/network failures, timeouts, missing browsers and stale Web builds are harness failures. The recorder returns nonzero and preserves them; a failed build blocks browser execution.
 - The runner records start/end UTC, command, duration, exit code, Git base and SHA-256 of application/tests/config before and after. Changed sources invalidate the run.

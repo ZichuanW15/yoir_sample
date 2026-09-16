@@ -1,8 +1,16 @@
 # Unresolved defects in implemented behavior
 
-These are current correctness assertions, not missing-feature checks. No application code was changed to fix them. Frontend/browser cases fail normally; backend cases are narrow strict xfails. The definitive execution evidence is linked from [test-results.md](test-results.md). Duplicate manifestations across layers are not separate defect discoveries.
+These are correctness assertions, not missing-feature checks. No application code was changed to fix them. Frontend/browser cases fail normally; backend cases are narrow strict xfails. The numbered counts/catalogs below preserve the original 15 September execution in [test-results.md](test-results.md), not the expanded 16 September platform run. See the [platform matrix](platform-test-matrix.md) for the added scope. Duplicate manifestations across layers are not separate defect discoveries.
+
+The multi-platform update adds `DEF-PROFILE-PROVENANCE` (real identity vs fabricated local verification state) and `DEF-RESOURCE-FALLBACK` (service/slot resource 404 must not mutate local preview or replace server error details). Browser integrity checks separately exercise profile provenance, nonzero cents and negative-price publication. Root font recovery is split into a shared rendered-tree assertion and an explicit native splash assertion; native configuration checks are not browser or device observations. Use the freshly generated JSON case names rather than the historical titles below for exact new selectors.
 
 ## Findings requiring product review
+
+Current per-issue links and exclusions are in [issue-evidence.json](issue-evidence.json)
+and [qa-matrix.md](qa-matrix.md). The issue reconciliation reuses the recorded
+failures; none was rerun, inverted, skipped or marked resolved to obtain a green
+result. The counts below stay historical. A closed QA child task does not erase
+a defect or prove its parent story's untested native criteria.
 
 - Booking integrity: seeded services can confirm overlapping bookings for one counsellor, elapsed slots remain bookable, and a forged confirmation URL claims success.
 - Incorrect values/status: negative prices change sign, displayed prices lose cents, payment retry references drift, and profile/availability fallbacks fabricate success/data.

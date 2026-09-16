@@ -1,0 +1,702 @@
+{
+  "schemaVersion": 1,
+  "checkedAt": "2026-09-16T06:40:30.446Z",
+  "sourceSnapshot": "qa-issue-audit-20260916.json",
+  "productCommit": "0ffa565e47d60fc2783a4618e5dce6cfe73a4b08",
+  "evidenceHead": "3e7f4b348c03504360af04d438202e37a5428e83",
+  "executionPolicy": "Reuse recorded results; no application test rerun in this reconciliation. New traceability checks are QA-tooling checks only.",
+  "automatedReport": "test-results-multiplatform.md",
+  "nativeReport": "native-device-results-20260916.md",
+  "nativeDeltaPlan": "native-acceptance-delta.md",
+  "originalSummary": {
+    "path": "artifacts/qa/sprint2/20260916-multiplatform-final/summary.json",
+    "sha256": "94f1d8707fbb3bd75aa99c1d41b0b22153ba5f2f50d81880dda63e61eba5a8de",
+    "publication": "Selected reviewed original outputs are included at evidence/20260916-multiplatform/; complete local working artifacts remain ignored. Publication is not a new run."
+  },
+  "issues": [
+    {
+      "qaIssue": 87,
+      "story": "US-01",
+      "parentIssue": 4,
+      "remoteState": "closed",
+      "assessment": "implemented-covered",
+      "fullAcceptance": false,
+      "passingEvidence": "Required inputs, password confirmation, role selection and real Web registration pass.",
+      "unresolvedDefects": [],
+      "deferredCriteria": [
+        "US01-AC2/3 inline field errors and client email-format probes are planned, not executed."
+      ],
+      "native": {
+        "ios": {
+          "observed": [],
+          "remainingCases": [
+            "N01"
+          ]
+        },
+        "android": {
+          "observed": [],
+          "remainingCases": [
+            "N01"
+          ]
+        }
+      },
+      "testFiles": [
+        "frontend/__tests__/screens/register.test.tsx",
+        "backend/tests/test_registration_contract.py"
+      ]
+    },
+    {
+      "qaIssue": 94,
+      "story": "US-02",
+      "parentIssue": 5,
+      "remoteState": "closed",
+      "assessment": "implemented-covered",
+      "fullAcceptance": false,
+      "passingEvidence": "Account persistence, Argon2 hash-only storage, validation rollback and no implicit login pass.",
+      "unresolvedDefects": [],
+      "deferredCriteria": [],
+      "native": {
+        "ios": {
+          "observed": [],
+          "remainingCases": [
+            "N01"
+          ]
+        },
+        "android": {
+          "observed": [],
+          "remainingCases": [
+            "N01"
+          ]
+        }
+      },
+      "testFiles": [
+        "backend/tests/test_account_creation.py",
+        "frontend/__tests__/screens/register.test.tsx"
+      ]
+    },
+    {
+      "qaIssue": 97,
+      "story": "US-03",
+      "parentIssue": 6,
+      "remoteState": "closed",
+      "assessment": "implemented-covered",
+      "fullAcceptance": false,
+      "passingEvidence": "Duplicate-email uniqueness, unchanged account, retained inputs and corrected retry pass.",
+      "unresolvedDefects": [],
+      "deferredCriteria": [],
+      "native": {
+        "ios": {
+          "observed": [],
+          "remainingCases": [
+            "N01"
+          ]
+        },
+        "android": {
+          "observed": [],
+          "remainingCases": [
+            "N01"
+          ]
+        }
+      },
+      "testFiles": [
+        "backend/tests/test_duplicate_email.py",
+        "frontend/__tests__/screens/register.test.tsx"
+      ]
+    },
+    {
+      "qaIssue": 91,
+      "story": "US-04",
+      "parentIssue": 7,
+      "remoteState": "open",
+      "assessment": "implemented-covered",
+      "fullAcceptance": false,
+      "passingEvidence": "Counsellor role/hash/pending registration and duplicate handling pass; current publish 403 is characterization, not policy sign-off.",
+      "unresolvedDefects": [],
+      "deferredCriteria": [
+        "Full verification/LinkedIn review is Sprint 3; publishing eligibility remains a PO decision."
+      ],
+      "native": {
+        "ios": {
+          "observed": [],
+          "remainingCases": [
+            "N01"
+          ]
+        },
+        "android": {
+          "observed": [],
+          "remainingCases": [
+            "N01"
+          ]
+        }
+      },
+      "testFiles": [
+        "backend/tests/test_sprint2_counsellor_acceptance.py",
+        "frontend/__tests__/screens/register.test.tsx"
+      ]
+    },
+    {
+      "qaIssue": 100,
+      "story": "US-06",
+      "parentIssue": 9,
+      "remoteState": "open",
+      "assessment": "implemented-covered",
+      "fullAcceptance": false,
+      "passingEvidence": "Current Job Seeker/Counsellor login destinations, auth guards and booking continuation pass.",
+      "unresolvedDefects": [],
+      "deferredCriteria": [
+        "Admin destination is absent; native secure storage required by parent US06 is not implemented. Relaunch policy remains undecided."
+      ],
+      "native": {
+        "ios": {
+          "observed": [
+            "Alex/Maya login and booking continuation."
+          ],
+          "remainingCases": [
+            "N09"
+          ]
+        },
+        "android": {
+          "observed": [
+            "Alex/Maya login with keyboard and booking continuation."
+          ],
+          "remainingCases": [
+            "N09"
+          ]
+        }
+      },
+      "testFiles": [
+        "backend/tests/test_login_sessions.py",
+        "frontend/__tests__/screens/login.test.tsx",
+        "frontend/src/auth/AuthContext.tsx"
+      ]
+    },
+    {
+      "qaIssue": 103,
+      "story": "US-07",
+      "parentIssue": 10,
+      "remoteState": "open",
+      "assessment": "implemented-covered",
+      "fullAcceptance": false,
+      "passingEvidence": "Wrong-password/unknown-email parity, no authenticated state and valid retry pass.",
+      "unresolvedDefects": [],
+      "deferredCriteria": [],
+      "native": {
+        "ios": {
+          "observed": [],
+          "remainingCases": [
+            "N02"
+          ]
+        },
+        "android": {
+          "observed": [
+            "Wrong password rejected; corrected password succeeds."
+          ],
+          "remainingCases": [
+            "N02"
+          ]
+        }
+      },
+      "testFiles": [
+        "backend/tests/test_login_sessions.py",
+        "frontend/__tests__/screens/login.test.tsx"
+      ]
+    },
+    {
+      "qaIssue": 106,
+      "story": "US-08",
+      "parentIssue": 11,
+      "remoteState": "open",
+      "assessment": "implemented-covered",
+      "fullAcceptance": false,
+      "passingEvidence": "Backend revocation/token replay and Web history/protected deep-link tests pass.",
+      "unresolvedDefects": [],
+      "deferredCriteria": [
+        "Secure-storage removal cannot be certified against the current in-memory session."
+      ],
+      "native": {
+        "ios": {
+          "observed": [
+            "Both-role logout; signed-out counsellor deep link redirects home."
+          ],
+          "remainingCases": [
+            "N03"
+          ]
+        },
+        "android": {
+          "observed": [
+            "Both-role logout; signed-out role-page Back returns home."
+          ],
+          "remainingCases": [
+            "N03"
+          ]
+        }
+      },
+      "testFiles": [
+        "backend/tests/test_logout_sessions.py",
+        "frontend/e2e/web.spec.ts"
+      ]
+    },
+    {
+      "qaIssue": 130,
+      "story": "US-30",
+      "parentIssue": 24,
+      "remoteState": "open",
+      "assessment": "component-and-native-ui-only",
+      "fullAcceptance": false,
+      "passingEvidence": "Existing profile UI has component tests; Android system Photo Picker launch/cancel was manually observed. Profile upload/save has no implemented backend persistence evidence.",
+      "unresolvedDefects": [
+        "Unavailable profile API falls back and falsely reports durable saved success."
+      ],
+      "deferredCriteria": [
+        "Profile CRUD/upload is absent; no persisted-profile or upload acceptance claimed."
+      ],
+      "native": {
+        "ios": {
+          "observed": [
+            "Profile/photo-edit entry only."
+          ],
+          "remainingCases": [
+            "N08"
+          ]
+        },
+        "android": {
+          "observed": [
+            "System picker opened; cancel leaves avatar/form unchanged."
+          ],
+          "remainingCases": [
+            "N08"
+          ]
+        }
+      },
+      "testFiles": [
+        "frontend/__tests__/screens/counsellor-profile.test.tsx",
+        "frontend/__tests__/defects/counsellor-issue-acceptance.test.tsx"
+      ]
+    },
+    {
+      "qaIssue": 133,
+      "story": "US-34",
+      "parentIssue": 29,
+      "remoteState": "open",
+      "assessment": "implemented-covered",
+      "fullAcceptance": false,
+      "passingEvidence": "Real Web create/read, ownership, reopen persistence and failed transport retry-once pass.",
+      "unresolvedDefects": [],
+      "deferredCriteria": [
+        "Pending-account publication policy is not decided by this test suite."
+      ],
+      "native": {
+        "ios": {
+          "observed": [
+            "Read existing two-service workspace."
+          ],
+          "remainingCases": [
+            "N06"
+          ]
+        },
+        "android": {
+          "observed": [
+            "Read existing two-service workspace."
+          ],
+          "remainingCases": [
+            "N06"
+          ]
+        }
+      },
+      "testFiles": [
+        "frontend/e2e/web.spec.ts",
+        "backend/tests/test_sprint2_counsellor_acceptance.py"
+      ]
+    },
+    {
+      "qaIssue": 136,
+      "story": "US-35",
+      "parentIssue": 30,
+      "remoteState": "open",
+      "assessment": "partial-with-defects",
+      "fullAcceptance": false,
+      "passingEvidence": "Implemented title/description/price/modality/location validation tested.",
+      "unresolvedDefects": [
+        "Negative price loses its sign; unsupported backend fields silently drop."
+      ],
+      "deferredCriteria": [
+        "Absent category/duration, edit API and inline-field presentation are not certified."
+      ],
+      "native": {
+        "ios": {
+          "observed": [],
+          "remainingCases": [
+            "N06"
+          ]
+        },
+        "android": {
+          "observed": [],
+          "remainingCases": [
+            "N06"
+          ]
+        }
+      },
+      "testFiles": [
+        "frontend/__tests__/counsellor/ServiceForm.test.tsx",
+        "frontend/__tests__/defects/counsellor-acceptance.test.tsx"
+      ]
+    },
+    {
+      "qaIssue": 139,
+      "story": "US-37",
+      "parentIssue": 32,
+      "remoteState": "open",
+      "assessment": "implemented-covered",
+      "fullAcceptance": false,
+      "passingEvidence": "Online/in-person/both creation, missing/invalid modality rejection and API readback pass.",
+      "unresolvedDefects": [],
+      "deferredCriteria": [
+        "US37-AC4 edit modality persistence requires absent PATCH; mocked edit is not API acceptance."
+      ],
+      "native": {
+        "ios": {
+          "observed": [],
+          "remainingCases": [
+            "N06"
+          ]
+        },
+        "android": {
+          "observed": [],
+          "remainingCases": [
+            "N06"
+          ]
+        }
+      },
+      "testFiles": [
+        "backend/tests/test_sprint2_counsellor_acceptance.py",
+        "frontend/__tests__/counsellor/ServiceForm.test.tsx"
+      ]
+    },
+    {
+      "qaIssue": 142,
+      "story": "US-38",
+      "parentIssue": 33,
+      "remoteState": "open",
+      "assessment": "implemented-covered",
+      "fullAcceptance": false,
+      "passingEvidence": "Conditional state/city validation and real Web/API meeting-area persistence pass.",
+      "unresolvedDefects": [],
+      "deferredCriteria": [
+        "Current form-level validation does not establish all parent field-associated presentation requirements."
+      ],
+      "native": {
+        "ios": {
+          "observed": [],
+          "remainingCases": [
+            "N06"
+          ]
+        },
+        "android": {
+          "observed": [],
+          "remainingCases": [
+            "N06"
+          ]
+        }
+      },
+      "testFiles": [
+        "frontend/__tests__/counsellor/ServiceForm.test.tsx",
+        "frontend/e2e/web.spec.ts"
+      ]
+    },
+    {
+      "qaIssue": 145,
+      "story": "US-39",
+      "parentIssue": 34,
+      "remoteState": "open",
+      "assessment": "partial-with-defects",
+      "fullAcceptance": false,
+      "passingEvidence": "Real availability CRUD/ownership, PostgreSQL races, timezone offsets and Web readback pass.",
+      "unresolvedDefects": [
+        "Planner overlap/DST precision, misleading network feedback and resource-404 fallback defects remain."
+      ],
+      "deferredCriteria": [
+        "Weekly calendar UI is absent."
+      ],
+      "native": {
+        "ios": {
+          "observed": [],
+          "remainingCases": [
+            "N07"
+          ]
+        },
+        "android": {
+          "observed": [],
+          "remainingCases": [
+            "N07"
+          ]
+        }
+      },
+      "testFiles": [
+        "backend/tests/test_counsellor.py",
+        "frontend/__tests__/screens/counsellor-availability.test.tsx",
+        "frontend/__tests__/defects/format-planner-acceptance.test.ts"
+      ]
+    },
+    {
+      "qaIssue": 118,
+      "story": "US-40",
+      "parentIssue": 35,
+      "remoteState": "open",
+      "assessment": "partial-with-defects",
+      "fullAcceptance": false,
+      "passingEvidence": "Open-slot selection, auth guard and correct reservation flow pass.",
+      "unresolvedDefects": [
+        "Empty picker lacks explanatory feedback; elapsed slots remain bookable; demo accepts unknown slots."
+      ],
+      "deferredCriteria": [
+        "Pre-session brief and unimplemented modality-choice requirements are not certified."
+      ],
+      "native": {
+        "ios": {
+          "observed": [
+            "One future online slot selected."
+          ],
+          "remainingCases": [
+            "N05"
+          ]
+        },
+        "android": {
+          "observed": [
+            "One future online slot selected."
+          ],
+          "remainingCases": [
+            "N05"
+          ]
+        }
+      },
+      "testFiles": [
+        "frontend/__tests__/screens/timeslots.test.tsx",
+        "backend/tests/test_sprint2_acceptance_regressions.py"
+      ]
+    },
+    {
+      "qaIssue": 121,
+      "story": "US-41",
+      "parentIssue": 36,
+      "remoteState": "open",
+      "assessment": "partial-with-defects",
+      "fullAcceptance": false,
+      "passingEvidence": "Same-slot PostgreSQL requests yield one reservation; payment concurrency produces one booking.",
+      "unresolvedDefects": [
+        "Seeded cross-service appointments can overlap; planner/demo conflict handling fails."
+      ],
+      "deferredCriteria": [],
+      "native": {
+        "ios": {
+          "observed": [
+            "Single booking only, not concurrency evidence."
+          ],
+          "remainingCases": [
+            "N05"
+          ]
+        },
+        "android": {
+          "observed": [
+            "Single booking only, not concurrency evidence."
+          ],
+          "remainingCases": [
+            "N05"
+          ]
+        }
+      },
+      "testFiles": [
+        "backend/tests/test_api.py",
+        "backend/tests/test_counsellor.py",
+        "backend/tests/test_sprint2_acceptance_regressions.py"
+      ]
+    },
+    {
+      "qaIssue": 109,
+      "story": "US-44",
+      "parentIssue": 41,
+      "remoteState": "open",
+      "assessment": "partial-with-defects",
+      "fullAcceptance": false,
+      "passingEvidence": "Public active services, loading/empty/retry and Web network recovery pass.",
+      "unresolvedDefects": [
+        "Malformed successful responses and null HTTP error bodies are mishandled."
+      ],
+      "deferredCriteria": [
+        "Counsellor directory is absent."
+      ],
+      "native": {
+        "ios": {
+          "observed": [
+            "Guest catalogue/detail."
+          ],
+          "remainingCases": [
+            "N09"
+          ]
+        },
+        "android": {
+          "observed": [
+            "Guest catalogue/detail."
+          ],
+          "remainingCases": [
+            "N09"
+          ]
+        }
+      },
+      "testFiles": [
+        "frontend/__tests__/screens/marketplace.test.tsx",
+        "frontend/__tests__/defects/client-acceptance.test.ts"
+      ]
+    },
+    {
+      "qaIssue": 112,
+      "story": "US-45",
+      "parentIssue": 42,
+      "remoteState": "open",
+      "assessment": "implemented-covered",
+      "fullAcceptance": false,
+      "passingEvidence": "Existing local filters/sort/empty recovery and backend query/modality tested separately.",
+      "unresolvedDefects": [
+        "Backend invalid-modality handling remains a strict xfail."
+      ],
+      "deferredCriteria": [
+        "Parent US45 explicitly requires server query/control mapping. Current local filtering does not satisfy that unimplemented integration."
+      ],
+      "native": {
+        "ios": {
+          "observed": [
+            "Keyword search only."
+          ],
+          "remainingCases": [
+            "N04"
+          ]
+        },
+        "android": {
+          "observed": [],
+          "remainingCases": [
+            "N04"
+          ]
+        }
+      },
+      "testFiles": [
+        "frontend/__tests__/screens/marketplace.test.tsx",
+        "frontend/__tests__/planned/public-search-and-selection.test.tsx",
+        "backend/tests/test_api.py"
+      ]
+    },
+    {
+      "qaIssue": 115,
+      "story": "US-46",
+      "parentIssue": 43,
+      "remoteState": "open",
+      "assessment": "partial-with-defects",
+      "fullAcceptance": false,
+      "passingEvidence": "Current detail fields, guest login redirect and booking continuation pass.",
+      "unresolvedDefects": [
+        "7050 minor units displayed as $71 instead of $70.50."
+      ],
+      "deferredCriteria": [
+        "Absent counsellor-detail destination and fields are excluded."
+      ],
+      "native": {
+        "ios": {
+          "observed": [
+            "Online detail/login continuation."
+          ],
+          "remainingCases": [
+            "N05"
+          ]
+        },
+        "android": {
+          "observed": [
+            "Online detail/login continuation."
+          ],
+          "remainingCases": [
+            "N05"
+          ]
+        }
+      },
+      "testFiles": [
+        "frontend/__tests__/screens/service-detail.test.tsx",
+        "frontend/__tests__/defects/format-planner-acceptance.test.ts"
+      ]
+    },
+    {
+      "qaIssue": 124,
+      "story": "US-47",
+      "parentIssue": 44,
+      "remoteState": "open",
+      "assessment": "partial-with-defects",
+      "fullAcceptance": false,
+      "passingEvidence": "Web/live clients and both simulators complete the labelled payment stub with persisted order/booking.",
+      "unresolvedDefects": [
+        "Payment reference changes on retry; post-commit reread can return 500; price display loses cents."
+      ],
+      "deferredCriteria": [
+        "Provider sandbox, commission and webhook integration are absent; no provider certification."
+      ],
+      "native": {
+        "ios": {
+          "observed": [
+            "One successful stub purchase, independently checked in owned DB."
+          ],
+          "remainingCases": [
+            "N10"
+          ]
+        },
+        "android": {
+          "observed": [
+            "One successful stub purchase, independently checked in separate owned DB."
+          ],
+          "remainingCases": [
+            "N10"
+          ]
+        }
+      },
+      "testFiles": [
+        "backend/tests/test_sprint2_acceptance_regressions.py",
+        "frontend/e2e/web.spec.ts"
+      ]
+    },
+    {
+      "qaIssue": 127,
+      "story": "US-68",
+      "parentIssue": 39,
+      "remoteState": "open",
+      "assessment": "partial-with-defects",
+      "fullAcceptance": false,
+      "passingEvidence": "Happy-path receipt display and persisted native booking references observed.",
+      "unresolvedDefects": [
+        "Forged anonymous confirmation claims success; displayed fields trust stale route parameters."
+      ],
+      "deferredCriteria": [
+        "Missing participant-protected booking read API is excluded."
+      ],
+      "native": {
+        "ios": {
+          "observed": [
+            "Successful booking reference matched DB."
+          ],
+          "remainingCases": [
+            "N03",
+            "N10"
+          ]
+        },
+        "android": {
+          "observed": [
+            "Successful booking reference matched DB; toolbar post-payment Back delivery unverified."
+          ],
+          "remainingCases": [
+            "N03",
+            "N10"
+          ]
+        }
+      },
+      "testFiles": [
+        "frontend/__tests__/defects/public-acceptance.test.tsx",
+        "frontend/e2e/web.spec.ts"
+      ]
+    }
+  ],
+  "coverageAudit": "coverage-audit-20260916.json",
+  "publishedEvidence": "evidence/20260916-multiplatform/manifest.json"
+}

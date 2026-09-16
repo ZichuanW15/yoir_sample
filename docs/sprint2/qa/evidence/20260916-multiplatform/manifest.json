@@ -1,0 +1,1180 @@
+{
+  "schemaVersion": 1,
+  "preparedAt": "2026-09-16T06:59:04.620131+00:00",
+  "purpose": "Reviewable publication copies of the existing 16 September automated run; no tests rerun.",
+  "sourceDirectory": "artifacts/qa/sprint2/20260916-multiplatform-final",
+  "publicationDirectory": "docs/sprint2/qa/evidence/20260916-multiplatform",
+  "run": {
+    "runId": "20260916T043532.423770Z",
+    "startedAt": "2026-09-16T04:35:32.424+00:00",
+    "completedAt": "2026-09-16T04:38:36.829+00:00",
+    "head": "3e7f4b348c03504360af04d438202e37a5428e83",
+    "branch": "sprint2-qa",
+    "scope": "Implemented Sprint 2 Web, iOS/Android components and shared API; planned features and policies excluded",
+    "platformEvidence": {
+      "web": "Chromium against a fresh export and isolated API/database",
+      "ios": "Jest Expo iOS preset: components/logic, mocked device boundaries",
+      "android": "Jest Expo Android preset: components/logic, mocked device boundaries",
+      "nativeDeviceExecution": "not run by this recorder; no simulator/device sign-off"
+    },
+    "database": "PostgreSQL",
+    "reproducible": true,
+    "changedDuringRun": []
+  },
+  "sourceSummarySha256": "94f1d8707fbb3bd75aa99c1d41b0b22153ba5f2f50d81880dda63e61eba5a8de",
+  "sourceSummaryBytes": 29122,
+  "outcomes": {
+    "frontend-tests": {
+      "numPassedTests": 265,
+      "numFailedTests": 0,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "numTotalTests": 265,
+      "success": true
+    },
+    "frontend-defects": {
+      "numPassedTests": 0,
+      "numFailedTests": 24,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "numTotalTests": 24,
+      "success": false
+    },
+    "ios-components": {
+      "numPassedTests": 274,
+      "numFailedTests": 0,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "numTotalTests": 274,
+      "success": true
+    },
+    "ios-defects": {
+      "numPassedTests": 0,
+      "numFailedTests": 25,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "numTotalTests": 25,
+      "success": false
+    },
+    "android-components": {
+      "numPassedTests": 274,
+      "numFailedTests": 0,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "numTotalTests": 274,
+      "success": true
+    },
+    "android-defects": {
+      "numPassedTests": 0,
+      "numFailedTests": 25,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "numTotalTests": 25,
+      "success": false
+    },
+    "typescript-live": {
+      "numPassedTests": 2,
+      "numFailedTests": 0,
+      "numPendingTests": 0,
+      "numTodoTests": 0,
+      "numTotalTests": 2,
+      "success": true
+    },
+    "browser-web": {
+      "startTime": "2026-09-16T04:36:56.164Z",
+      "duration": 51346.867,
+      "expected": 14,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "browser-web-defects": {
+      "startTime": "2026-09-16T04:37:47.925Z",
+      "duration": 46728.695999999996,
+      "expected": 0,
+      "skipped": 0,
+      "unexpected": 5,
+      "flaky": 0
+    },
+    "backend-tests": {
+      "tests": "366",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "19",
+      "time": "15.677",
+      "knownXfails": 19
+    },
+    "httpx-live": {
+      "tests": "2",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "time": "0.317",
+      "knownXfails": 0
+    }
+  },
+  "interpretation": "Defect failures and strict xfails remain unresolved findings, never passing acceptance. Native preset runs are component tests, not simulator evidence.",
+  "fileCount": 47,
+  "publishedOriginalBytes": 2496626,
+  "files": [
+    {
+      "path": "android-components.json",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/android-components.json",
+      "sourceSha256": "be79bb0eec6ffa41f19c01fa3604013dcdba1ac97261592c937a867c93dc8b34",
+      "publishedSha256": "be79bb0eec6ffa41f19c01fa3604013dcdba1ac97261592c937a867c93dc8b34",
+      "bytes": 122894,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "android-components.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/android-components.log",
+      "sourceSha256": "b2158b3a993298f14fb57b7fceb11db1368c48e43a7eaedef754a730fd86ab71",
+      "publishedSha256": "b2158b3a993298f14fb57b7fceb11db1368c48e43a7eaedef754a730fd86ab71",
+      "bytes": 2069,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "android-defects.json",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/android-defects.json",
+      "sourceSha256": "5bf273260248d16e3292f67e74cf38da0e91bd07df1c53dd92782c7c940e85ed",
+      "publishedSha256": "5bf273260248d16e3292f67e74cf38da0e91bd07df1c53dd92782c7c940e85ed",
+      "bytes": 87491,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "android-defects.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/android-defects.log",
+      "sourceSha256": "72e7d4b2ac84770da2ff79fd21123e7e5701c15b2d7deb17ac615acea1b1fbdb",
+      "publishedSha256": "72e7d4b2ac84770da2ff79fd21123e7e5701c15b2d7deb17ac615acea1b1fbdb",
+      "bytes": 28934,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "backend-coverage.json",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/backend-coverage.json",
+      "sourceSha256": "1d5a5dce3b0227067f0d42b67c9f65f5466b5026dcbe91b19c64b48c7e1b78f9",
+      "publishedSha256": "1d5a5dce3b0227067f0d42b67c9f65f5466b5026dcbe91b19c64b48c7e1b78f9",
+      "bytes": 95514,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "backend-source-lint.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/backend-source-lint.log",
+      "sourceSha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "publishedSha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "backend-test-lint.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/backend-test-lint.log",
+      "sourceSha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "publishedSha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "backend-tests.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/backend-tests.log",
+      "sourceSha256": "be54b940de94459fe0a869858e7cbbdd8d6ca4e319c7d0164e9b6f5fa81b2222",
+      "publishedSha256": "be54b940de94459fe0a869858e7cbbdd8d6ca4e319c7d0164e9b6f5fa81b2222",
+      "bytes": 8185,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "backend-tests.xml",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/backend-tests.xml",
+      "sourceSha256": "804e94e694021741fde312aad6b74f5241d87a797a51d808d173292b6ccfe935",
+      "publishedSha256": "804e94e694021741fde312aad6b74f5241d87a797a51d808d173292b6ccfe935",
+      "bytes": 55464,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "board-tests.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/board-tests.log",
+      "sourceSha256": "e157ce7c94182baef979d72a33839c4d29fbde9e600d7e6e3327e6ba092a2831",
+      "publishedSha256": "e157ce7c94182baef979d72a33839c4d29fbde9e600d7e6e3327e6ba092a2831",
+      "bytes": 6671,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "browser-web/results.json",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web/results.json",
+      "sourceSha256": "407578b3d7dbee302c392850f0853781cb4479a8ed11e10867f8db99aa42df47",
+      "publishedSha256": "407578b3d7dbee302c392850f0853781cb4479a8ed11e10867f8db99aa42df47",
+      "bytes": 620581,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "browser-web-defects/attachments/integrity-DEF-MONEY-CENTS--853a2-e-and-service-detail-defect-chromium-web/error-context.md",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/attachments/integrity-DEF-MONEY-CENTS--853a2-e-and-service-detail-defect-chromium-web/error-context.md",
+      "sourceSha256": "8abd599be83a71d72101441ad201ff9f8f5524a90fa7f80ca0a12e971a448802",
+      "publishedSha256": "8abd599be83a71d72101441ad201ff9f8f5524a90fa7f80ca0a12e971a448802",
+      "bytes": 11231,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "browser-web-defects/attachments/integrity-DEF-MONEY-CENTS--853a2-e-and-service-detail-defect-chromium-web/test-failed-1.png",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/attachments/integrity-DEF-MONEY-CENTS--853a2-e-and-service-detail-defect-chromium-web/test-failed-1.png",
+      "sourceSha256": "456400b47aed15a62650b155df22424c2535be96bb8c76c1db87402309ed8200",
+      "publishedSha256": "456400b47aed15a62650b155df22424c2535be96bb8c76c1db87402309ed8200",
+      "bytes": 78766,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "browser-web-defects/attachments/integrity-DEF-PRICE-SIGN-n-6d5e5-sitive-price-service-defect-chromium-web/error-context.md",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/attachments/integrity-DEF-PRICE-SIGN-n-6d5e5-sitive-price-service-defect-chromium-web/error-context.md",
+      "sourceSha256": "695538c5ab60b0dd9e897e987426a8984301b916e2fe4d35257f9b7fddddfb62",
+      "publishedSha256": "695538c5ab60b0dd9e897e987426a8984301b916e2fe4d35257f9b7fddddfb62",
+      "bytes": 13247,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "browser-web-defects/attachments/integrity-DEF-PRICE-SIGN-n-6d5e5-sitive-price-service-defect-chromium-web/test-failed-1.png",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/attachments/integrity-DEF-PRICE-SIGN-n-6d5e5-sitive-price-service-defect-chromium-web/test-failed-1.png",
+      "sourceSha256": "31dee70ad56703bb43feca9bbee93ddf9fe0adda3f9a60409c14f52286829cf8",
+      "publishedSha256": "31dee70ad56703bb43feca9bbee93ddf9fe0adda3f9a60409c14f52286829cf8",
+      "bytes": 68641,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "browser-web-defects/attachments/integrity-DEF-PROFILE-PROV-ebd26-ding-by-preview-data-defect-chromium-web/error-context.md",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/attachments/integrity-DEF-PROFILE-PROV-ebd26-ding-by-preview-data-defect-chromium-web/error-context.md",
+      "sourceSha256": "9d34694dbf907dfbd1fb6c2a04e37db0ddc80e9906af771a975993ff48a8679a",
+      "publishedSha256": "9d34694dbf907dfbd1fb6c2a04e37db0ddc80e9906af771a975993ff48a8679a",
+      "bytes": 12796,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "browser-web-defects/attachments/integrity-DEF-PROFILE-PROV-ebd26-ding-by-preview-data-defect-chromium-web/test-failed-1.png",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/attachments/integrity-DEF-PROFILE-PROV-ebd26-ding-by-preview-data-defect-chromium-web/test-failed-1.png",
+      "sourceSha256": "4e59f549dc97ffc85c3200f8050288bf8f0b32e63d1c4bbaa4d15d48ce76fa5d",
+      "publishedSha256": "4e59f549dc97ffc85c3200f8050288bf8f0b32e63d1c4bbaa4d15d48ce76fa5d",
+      "bytes": 75502,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "browser-web-defects/attachments/web--QA-118-US40-AC4-real--0fe75-an-explanatory-state-defect-chromium-web/error-context.md",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/attachments/web--QA-118-US40-AC4-real--0fe75-an-explanatory-state-defect-chromium-web/error-context.md",
+      "sourceSha256": "f81d2a1f5a26f1eeeebbcb2dd2cfae056f99e52f0c10fa8afa17a6f9203c550f",
+      "publishedSha256": "f81d2a1f5a26f1eeeebbcb2dd2cfae056f99e52f0c10fa8afa17a6f9203c550f",
+      "bytes": 8983,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "browser-web-defects/attachments/web--QA-118-US40-AC4-real--0fe75-an-explanatory-state-defect-chromium-web/test-failed-1.png",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/attachments/web--QA-118-US40-AC4-real--0fe75-an-explanatory-state-defect-chromium-web/test-failed-1.png",
+      "sourceSha256": "b3dec882878e0c8002f93394e7b5b9e6b90fb90d02b6bb7f96646690ed9d3781",
+      "publishedSha256": "b3dec882878e0c8002f93394e7b5b9e6b90fb90d02b6bb7f96646690ed9d3781",
+      "bytes": 37154,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "browser-web-defects/attachments/web-US68-forged-anonymous--cb9aa-st-not-claim-success-defect-chromium-web/error-context.md",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/attachments/web-US68-forged-anonymous--cb9aa-st-not-claim-success-defect-chromium-web/error-context.md",
+      "sourceSha256": "b7975f13301e18597a63bad001603d841c454051c93181f8357069f5cadf09d9",
+      "publishedSha256": "b7975f13301e18597a63bad001603d841c454051c93181f8357069f5cadf09d9",
+      "bytes": 9350,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "browser-web-defects/attachments/web-US68-forged-anonymous--cb9aa-st-not-claim-success-defect-chromium-web/test-failed-1.png",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/attachments/web-US68-forged-anonymous--cb9aa-st-not-claim-success-defect-chromium-web/test-failed-1.png",
+      "sourceSha256": "2e925afdb843bf820ff418e211bf3390db0a07a1362cda644dd38571946b827d",
+      "publishedSha256": "2e925afdb843bf820ff418e211bf3390db0a07a1362cda644dd38571946b827d",
+      "bytes": 48114,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "browser-web-defects/results.json",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/results.json",
+      "sourceSha256": "3a93305e3bc15b319766cf183a6dd3ba633442146dbc21c00f00a366df38c29a",
+      "publishedSha256": "3a93305e3bc15b319766cf183a6dd3ba633442146dbc21c00f00a366df38c29a",
+      "bytes": 158268,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "browser-web-defects.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects.log",
+      "sourceSha256": "d68f8a2a17866c4d2f49e04b22561bf9db59e18e74dc7ceaa2196a4801b2640d",
+      "publishedSha256": "d68f8a2a17866c4d2f49e04b22561bf9db59e18e74dc7ceaa2196a4801b2640d",
+      "bytes": 22226,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "browser-web.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web.log",
+      "sourceSha256": "b8d1307ea66f3a1af64b0013eb248073713e851aca4465471c066ea2100b7a19",
+      "publishedSha256": "b8d1307ea66f3a1af64b0013eb248073713e851aca4465471c066ea2100b7a19",
+      "bytes": 2066,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "diff-check.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/diff-check.log",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "publishedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "evidence-runner-tests.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/evidence-runner-tests.log",
+      "sourceSha256": "c5ae05e9ece6bc197978170093f1010da2744375fd1e329c11ea9dc50e6942e2",
+      "publishedSha256": "c5ae05e9ece6bc197978170093f1010da2744375fd1e329c11ea9dc50e6942e2",
+      "bytes": 4106,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "frontend-coverage/coverage-summary.json",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/coverage-summary.json",
+      "sourceSha256": "5f164713560923825c5939baf5e38deffcac154c53bc95869effa8d486395069",
+      "publishedSha256": "5f164713560923825c5939baf5e38deffcac154c53bc95869effa8d486395069",
+      "bytes": 10409,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "frontend-coverage/lcov.info",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov.info",
+      "sourceSha256": "1f4d56116ac8041e6597bdd825932439710d802506ab8a2fe8f07f3f46ba99fd",
+      "publishedSha256": "1f4d56116ac8041e6597bdd825932439710d802506ab8a2fe8f07f3f46ba99fd",
+      "bytes": 49448,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "frontend-defects.json",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-defects.json",
+      "sourceSha256": "05e69db0720efcbadbbd6e54cf2e761a2f787a0ea307b0af3ff397bf7fe14580",
+      "publishedSha256": "05e69db0720efcbadbbd6e54cf2e761a2f787a0ea307b0af3ff397bf7fe14580",
+      "bytes": 84407,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "frontend-defects.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-defects.log",
+      "sourceSha256": "0009eb0c599dc64f11647647f4d80f829356812d20f32690215240b522c01328",
+      "publishedSha256": "0009eb0c599dc64f11647647f4d80f829356812d20f32690215240b522c01328",
+      "bytes": 28113,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "frontend-lint.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-lint.log",
+      "sourceSha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd",
+      "publishedSha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd",
+      "bytes": 39,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "frontend-production-audit.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-production-audit.log",
+      "sourceSha256": "8b950f79849688e6c816056ec3a81e203624d8e1a6202449a0b94c3cfb145a0e",
+      "publishedSha256": "8b950f79849688e6c816056ec3a81e203624d8e1a6202449a0b94c3cfb145a0e",
+      "bytes": 9924,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "frontend-tests.json",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-tests.json",
+      "sourceSha256": "bd45d3bacfbc9ce0443a9fd3829769dcf59c9714d1abdfddde0f44027c0fc613",
+      "publishedSha256": "bd45d3bacfbc9ce0443a9fd3829769dcf59c9714d1abdfddde0f44027c0fc613",
+      "bytes": 459314,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "frontend-tests.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-tests.log",
+      "sourceSha256": "3876da49a07ab76ba989bbcb76f8633c8d35202b81f8122d746136f0e11a4bf2",
+      "publishedSha256": "3876da49a07ab76ba989bbcb76f8633c8d35202b81f8122d746136f0e11a4bf2",
+      "bytes": 1666,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "frontend-typecheck.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-typecheck.log",
+      "sourceSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+      "publishedSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+      "bytes": 47,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "httpx-live.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/httpx-live.log",
+      "sourceSha256": "1d2bfb9611973d1c2501cfe4924125b91360d1f01898a2062f33c0da6a11e809",
+      "publishedSha256": "1d2bfb9611973d1c2501cfe4924125b91360d1f01898a2062f33c0da6a11e809",
+      "bytes": 236,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "httpx-live.xml",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/httpx-live.xml",
+      "sourceSha256": "315fac1842d26c01e89afcd60b4cf428b8dcb5763960c58edd8b592ac70b3626",
+      "publishedSha256": "315fac1842d26c01e89afcd60b4cf428b8dcb5763960c58edd8b592ac70b3626",
+      "bytes": 498,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "ios-components.json",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/ios-components.json",
+      "sourceSha256": "d27ab7cb907ca0f2a4a8d1da8c0b5e67bc5224d620a4bc2bec9bbc8665836202",
+      "publishedSha256": "d27ab7cb907ca0f2a4a8d1da8c0b5e67bc5224d620a4bc2bec9bbc8665836202",
+      "bytes": 122871,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "ios-components.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/ios-components.log",
+      "sourceSha256": "df184e20c8e68076586c02a604b501b5928047dd33e03604ab597deef8d0e7b4",
+      "publishedSha256": "df184e20c8e68076586c02a604b501b5928047dd33e03604ab597deef8d0e7b4",
+      "bytes": 1954,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "ios-defects.json",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/ios-defects.json",
+      "sourceSha256": "e2f7c4a56dbaa8be120ac4466a9c8f76342a941521e774c20af0a48eab6e56d1",
+      "publishedSha256": "e2f7c4a56dbaa8be120ac4466a9c8f76342a941521e774c20af0a48eab6e56d1",
+      "bytes": 87479,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "ios-defects.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/ios-defects.log",
+      "sourceSha256": "b234b3fa40261dfdf9037988c4ea8eeb86b9e8c1f88bb0d2b2de539cd281cfda",
+      "publishedSha256": "b234b3fa40261dfdf9037988c4ea8eeb86b9e8c1f88bb0d2b2de539cd281cfda",
+      "bytes": 28882,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "repository-metadata.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/repository-metadata.log",
+      "sourceSha256": "e097bb3d3a778336fcb86e4072191d192f4753e75d5c05f9ee22587b3c1f7b8c",
+      "publishedSha256": "e097bb3d3a778336fcb86e4072191d192f4753e75d5c05f9ee22587b3c1f7b8c",
+      "bytes": 138,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "runtime-versions.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/runtime-versions.log",
+      "sourceSha256": "773c13dd5a03fcf0536f39d5b49fd91f82260a31876ba0adf9f7bfb0df0e7338",
+      "publishedSha256": "773c13dd5a03fcf0536f39d5b49fd91f82260a31876ba0adf9f7bfb0df0e7338",
+      "bytes": 210,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "summary.json",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/summary.json",
+      "sourceSha256": "94f1d8707fbb3bd75aa99c1d41b0b22153ba5f2f50d81880dda63e61eba5a8de",
+      "publishedSha256": "94f1d8707fbb3bd75aa99c1d41b0b22153ba5f2f50d81880dda63e61eba5a8de",
+      "bytes": 29122,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "typescript-live.json",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/typescript-live.json",
+      "sourceSha256": "b062d040bdfea9214732cf90f28446d44c55cdd1676d5c0df29d67e269172b32",
+      "publishedSha256": "b062d040bdfea9214732cf90f28446d44c55cdd1676d5c0df29d67e269172b32",
+      "bytes": 1660,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "typescript-live.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/typescript-live.log",
+      "sourceSha256": "b7f413e8a11aefb670c0c31453a1dd0378d804c9907f7cf24e2519df3c20bc84",
+      "publishedSha256": "b7f413e8a11aefb670c0c31453a1dd0378d804c9907f7cf24e2519df3c20bc84",
+      "bytes": 903,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    },
+    {
+      "path": "web-build.log",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/web-build.log",
+      "sourceSha256": "0efe270dcbbe44bdd32a3900b52304dc9881a562c7699f4ee2bf31d188149be6",
+      "publishedSha256": "0efe270dcbbe44bdd32a3900b52304dc9881a562c7699f4ee2bf31d188149be6",
+      "bytes": 1015,
+      "content": "unaltered-original",
+      "derived": false,
+      "redactions": []
+    }
+  ],
+  "redactionPolicy": "All selected files are byte-for-byte originals. No redaction, rewriting or path normalization was applied. Original absolute paths are historical source locations, not links to all published attachments.",
+  "sensitiveDataReview": {
+    "reviewedAt": "2026-09-16T06:59:04.620321+00:00",
+    "scope": "All 42 selected UTF-8 JSON/XML/log/lcov/Markdown files and five Web failure PNG screenshots; omitted trace archives were not approved or copied.",
+    "patterns": [
+      "JWT-shaped credentials",
+      "GitHub tokens",
+      "AWS access key IDs",
+      "PEM private-key headers",
+      "Bearer values",
+      "credentials embedded in URLs",
+      "password/secret/access-token/API-key assignments",
+      "Stripe and Slack token forms"
+    ],
+    "highConfidenceCredentialFindings": 0,
+    "reviewedFixtureMatches": [
+      {
+        "source": "frontend/__tests__/fixtures.ts",
+        "description": "Static non-JWT mock session token serialized in parametrized test titles."
+      },
+      {
+        "source": "frontend/e2e/integrity.spec.ts",
+        "description": "Fixed local-only generated-account test password in error source context."
+      },
+      {
+        "source": "backend/app/seed_data.json",
+        "description": "Seed counsellor example.com identity and password, already declared as disposable local fixtures."
+      },
+      {
+        "source": "backend/tests/test_logout_sessions.py",
+        "description": "Malformed Bearer credential parameter label, not an issued session credential."
+      }
+    ],
+    "manualVisualReview": "Five existing Web failure screenshots show fixture-only application screens and no credentials; no native screenshots are included.",
+    "limits": "Pattern scanning is not a universal secret detector. Candidate assignment matches were checked against test/seed sources; no environment dump, database or live credential was selected. Existing local workspace paths and machine hostname remain as non-secret provenance."
+  },
+  "omissions": [
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web/attachments/.last-run.json",
+      "bytes": 45,
+      "reason": "Runner cache omitted; per-case results are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web/html/data/075a1a8ec8ce2cee8a0dcdc6421af231261c00bf.png",
+      "bytes": 52004,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web/html/data/2c9792c1ad6736e02142f66107b20504972554fa.png",
+      "bytes": 8135,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web/html/data/46b0137e8654e81c3bd70da4fae38b7f3f40211b.png",
+      "bytes": 9285,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web/html/data/48c034b71655bf2f0a1884f7b01e94e96da3ccd8.png",
+      "bytes": 49680,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web/html/data/7276493f491282b77bab1fb204d7a8624d62e54f.png",
+      "bytes": 8843,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web/html/data/8c226f6366d1170dc8c2a0ae0e2dc420f6c21cea.png",
+      "bytes": 29700,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web/html/data/9b8199ab5851af8b89f1a100d797a4c0946d25a8.png",
+      "bytes": 11070,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web/html/data/b58a1c055a6c588e9bca32d9c0ae60f1fbb873ad.png",
+      "bytes": 28707,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web/html/data/bc4235c0c323b0fa5469257d31106f77f8cf4945.png",
+      "bytes": 18529,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web/html/data/c2d0ae35345549dffab2ac5340a1901599930130.png",
+      "bytes": 77521,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web/html/data/c6001cb9b4b5aed6218fa34c06a76224b7795acb.png",
+      "bytes": 68822,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web/html/data/d61009168e2ad355fb64354931fd224c3a9cd141.png",
+      "bytes": 75047,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web/html/data/fa2e1ef7e83b74ba417f6315bf7e84fff011eb84.png",
+      "bytes": 12640,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web/html/index.html",
+      "bytes": 547807,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/attachments/.last-run.json",
+      "bytes": 292,
+      "reason": "Runner cache omitted; per-case results are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/attachments/integrity-DEF-MONEY-CENTS--853a2-e-and-service-detail-defect-chromium-web/trace.zip",
+      "bytes": 2118923,
+      "reason": "Trace archive omitted: large redundant diagnostics and possible transient request credentials; not approved for publication."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/attachments/integrity-DEF-PRICE-SIGN-n-6d5e5-sitive-price-service-defect-chromium-web/trace.zip",
+      "bytes": 3871809,
+      "reason": "Trace archive omitted: large redundant diagnostics and possible transient request credentials; not approved for publication."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/attachments/integrity-DEF-PROFILE-PROV-ebd26-ding-by-preview-data-defect-chromium-web/trace.zip",
+      "bytes": 2558401,
+      "reason": "Trace archive omitted: large redundant diagnostics and possible transient request credentials; not approved for publication."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/attachments/web--QA-118-US40-AC4-real--0fe75-an-explanatory-state-defect-chromium-web/trace.zip",
+      "bytes": 1057444,
+      "reason": "Trace archive omitted: large redundant diagnostics and possible transient request credentials; not approved for publication."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/attachments/web-US68-forged-anonymous--cb9aa-st-not-claim-success-defect-chromium-web/trace.zip",
+      "bytes": 623228,
+      "reason": "Trace archive omitted: large redundant diagnostics and possible transient request credentials; not approved for publication."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/data/1761d26f52841d083e82c41917ee67316bfdc88f.zip",
+      "bytes": 1057444,
+      "reason": "Trace archive omitted: large redundant diagnostics and possible transient request credentials; not approved for publication."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/data/4a08188bd1261e2e560820acba6d55085382a329.zip",
+      "bytes": 3871809,
+      "reason": "Trace archive omitted: large redundant diagnostics and possible transient request credentials; not approved for publication."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/data/65147a52f08cf6c4a5fa32bc968d6f9875b1b613.png",
+      "bytes": 78766,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/data/6754502f8fd12e6aec72b23b889555aed7ae11be.png",
+      "bytes": 37154,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/data/720b6262dd6d17c5cdfb0008bfa2648caf05724e.md",
+      "bytes": 8983,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/data/7ab0b68fc0d74835b0b8bd4cad726ca8e60ad64e.md",
+      "bytes": 9350,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/data/899d22e22efc2842184f6a78de3ee3493e24b5bf.png",
+      "bytes": 68641,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/data/8ca4c76b346461167df3f303b2caa3758cb3ed19.md",
+      "bytes": 13247,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/data/911ea74db2c60eadc9d470c4ddb96cc4df078e75.png",
+      "bytes": 75502,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/data/97bf401f274a6b53ff941ac9d3429f3fa8ad66cd.md",
+      "bytes": 11231,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/data/bce62059efb5ccc9a95b39f114c59d331a7c7ad0.zip",
+      "bytes": 2558401,
+      "reason": "Trace archive omitted: large redundant diagnostics and possible transient request credentials; not approved for publication."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/data/ca2b4ad4cc6c410a222dd7ec072823b4a2f01a77.md",
+      "bytes": 12796,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/data/de2fc5b6b52a00a9005fc26bf252c5e08e88db92.zip",
+      "bytes": 2118923,
+      "reason": "Trace archive omitted: large redundant diagnostics and possible transient request credentials; not approved for publication."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/data/df01d2fd103049ea8f077c8aeb3c63e57a0af413.png",
+      "bytes": 48114,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/data/f99597d4758664ffa3056c05ea29a38dbce54db3.zip",
+      "bytes": 623228,
+      "reason": "Trace archive omitted: large redundant diagnostics and possible transient request credentials; not approved for publication."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/index.html",
+      "bytes": 538031,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/trace/assets/codeMirrorModule-BbkfBe3n.js",
+      "bytes": 307393,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/trace/assets/defaultSettingsView-Ds6CBOo0.js",
+      "bytes": 654294,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/trace/assets/urlMatch-L3liM589.js",
+      "bytes": 2510,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/trace/codeMirrorModule.-QdMvsKi.css",
+      "bytes": 6251,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/trace/codicon.DCmgc-ay.ttf",
+      "bytes": 80340,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/trace/defaultSettingsView.Bqk9acqE.css",
+      "bytes": 107049,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/trace/index.B4cLoZK3.js",
+      "bytes": 6628,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/trace/index.B_TqY17P.css",
+      "bytes": 2055,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/trace/index.html",
+      "bytes": 2363,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/trace/manifest.webmanifest",
+      "bytes": 429,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/trace/playwright-logo.svg",
+      "bytes": 5033,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/trace/snapshot.B_Jk1wbt.js",
+      "bytes": 650,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/trace/snapshot.html",
+      "bytes": 389,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/trace/sw.bundle.js",
+      "bytes": 95459,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/trace/uiMode.CU5KtEkS.js",
+      "bytes": 38057,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/trace/uiMode.CyMfwkXJ.css",
+      "bytes": 54590,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/trace/uiMode.html",
+      "bytes": 727,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/html/trace/xtermModule.kHJ-D0s7.css",
+      "bytes": 2853,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/_layout.tsx.html",
+      "bytes": 11145,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/auth/index.html",
+      "bytes": 5815,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/auth/login.tsx.html",
+      "bytes": 22351,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/auth/register.tsx.html",
+      "bytes": 31007,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/auth/welcome.tsx.html",
+      "bytes": 14798,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/bookings/checkout.tsx.html",
+      "bytes": 32301,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/bookings/confirmation.tsx.html",
+      "bytes": 22997,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/bookings/index.html",
+      "bytes": 5181,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/counsellor/availability.tsx.html",
+      "bytes": 110692,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/counsellor/index.html",
+      "bytes": 5873,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/counsellor/index.tsx.html",
+      "bytes": 53707,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/counsellor/profile.tsx.html",
+      "bytes": 46186,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/counsellor/services/[serviceId]/edit.tsx.html",
+      "bytes": 14836,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/counsellor/services/[serviceId]/index.html",
+      "bytes": 4553,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/counsellor/services/index.html",
+      "bytes": 4481,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/counsellor/services/new.tsx.html",
+      "bytes": 4475,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/index.html",
+      "bytes": 5079,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/index.tsx.html",
+      "bytes": 18927,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/marketplace/index.html",
+      "bytes": 4473,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/marketplace/index.tsx.html",
+      "bytes": 63904,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/services/[serviceId]/index.html",
+      "bytes": 4535,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/services/[serviceId]/timeslots.tsx.html",
+      "bytes": 36388,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/services/[serviceId].tsx.html",
+      "bytes": 46460,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/app/services/index.html",
+      "bytes": 4490,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/base.css",
+      "bytes": 5394,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/block-navigation.js",
+      "bytes": 2655,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/favicon.png",
+      "bytes": 445,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/index.html",
+      "bytes": 14275,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/prettify.css",
+      "bytes": 676,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/prettify.js",
+      "bytes": 17590,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/sort-arrow-sprite.png",
+      "bytes": 138,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/sorter.js",
+      "bytes": 6731,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/api/client.ts.html",
+      "bytes": 31710,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/api/demo.ts.html",
+      "bytes": 59614,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/api/errors.ts.html",
+      "bytes": 4499,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/api/index.html",
+      "bytes": 6455,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/api/types.ts.html",
+      "bytes": 13132,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/auth/AuthContext.tsx.html",
+      "bytes": 8111,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/auth/index.html",
+      "bytes": 4461,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/chrome.tsx.html",
+      "bytes": 35472,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/components/Glyph.tsx.html",
+      "bytes": 40530,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/components/Scenes.tsx.html",
+      "bytes": 46472,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/components/booking.tsx.html",
+      "bytes": 14868,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/components/index.html",
+      "bytes": 6513,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/components/ui.tsx.html",
+      "bytes": 32263,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/counsellor/ServiceForm.tsx.html",
+      "bytes": 38916,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/counsellor/availabilityPlanner.ts.html",
+      "bytes": 18318,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/counsellor/index.html",
+      "bytes": 5217,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/format.ts.html",
+      "bytes": 9789,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/index.html",
+      "bytes": 6467,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/marketplace/filters.ts.html",
+      "bytes": 11670,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/marketplace/index.html",
+      "bytes": 4476,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/motion.tsx.html",
+      "bytes": 20855,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    },
+    {
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov-report/src/theme.ts.html",
+      "bytes": 15749,
+      "reason": "Generated HTML/assets omitted: raw results, coverage summary and lcov are retained."
+    }
+  ],
+  "nativeEvidence": {
+    "report": "../../native-device-results-20260916.md",
+    "status": "Later limited iOS/Android Expo Go simulator observations are recorded in the separate report and original task conversation. No independent native screenshot/video/database artifact is claimed or included.",
+    "notCovered": "No full native acceptance or standalone release-build sign-off is added by publishing the automated results."
+  },
+  "historicalEvidence": "../latest remains the separate 15 September run and is unchanged."
+}

@@ -41,21 +41,27 @@ export built with the API settings above.
   retry after one deliberately failed transport request.
 - Availability creation, time/duration editing and removal through the browser,
   with independent API reads after each operation and Melbourne time checks.
+- A newly registered pending counsellor's current publish-403 path: draft retained,
+  no claimed success and no service persisted. This characterizes today's backend
+  gate, not the final policy for the deferred Sprint 3 verification workflow.
 
 Only the two `@injected-network` tests intercept browser requests. They abort a
 request to exercise failure handling, then remove interception and use the real
 API for recovery. Other tests use no mocked transport responses.
 
-The defect group verifies two existing screen behaviours: an empty slot result
-needs a useful explanation, and an anonymous forged confirmation URL must not
-claim a successful booking. Planned backend-driven Web filtering and automatic
+The defect group checks empty-slot feedback and forged-confirmation claims, plus
+three integrity cases: a real verified identity must not be silently labelled
+Pending by local profile fallback, persisted prices must retain cents on both
+marketplace/detail, and negative input must not be converted to a positive price
+and published. These use the actual local API, not successful response mocks.
+Planned backend-driven Web filtering and automatic
 session restoration are preserved in [planned acceptance proposals](planned/acceptance-proposals.md)
 and are outside this run.
 
 ## Evidence
 
-Each output directory contains `results.json`, an HTML report, a final screenshot
-attachment for each executed test, and screenshots plus traces for failures.
+Each output directory contains `results.json`, an HTML report, explicitly attached
+journey screenshots where a case captures them, and screenshots plus traces for failures.
 Open the HTML report with `npx playwright show-report <output>/html`, or inspect
 a failure with `npx playwright show-trace <path-to-trace.zip>`.
 

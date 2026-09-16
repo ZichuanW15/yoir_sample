@@ -124,6 +124,52 @@ jobs:
           if-no-files-found: error
           retention-days: 90
 
+  native-components:
+    name: Sprint 2 ${{ matrix.platform }} components (not device E2E)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ios, android]
+    defaults:
+      run:
+        working-directory: frontend
+    env:
+      CI: 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '20.20.2'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install locked dependencies
+        id: native_install
+        run: npm ci --no-audit
+      - name: Run platform component regression
+        if: ${{ always() && steps.native_install.outcome == 'success' }}
+        run: |
+          mkdir -p artifacts
+          npm run test:${{ matrix.platform }} -- --json --outputFile=artifacts/${{ matrix.platform }}-components.json
+      - name: Run platform defect assertions (blocking)
+        if: ${{ always() && steps.native_install.outcome == 'success' }}
+        run: |
+          mkdir -p artifacts
+          npm run test:${{ matrix.platform }}:defects -- --json --outputFile=artifacts/${{ matrix.platform }}-defects.json
+      - name: Preserve platform evidence including failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ${{ matrix.platform }}-component-evidence-${{ github.run_attempt }}
+          path: frontend/artifacts/${{ matrix.platform }}-*.json
+          if-no-files-found: warn
+          retention-days: 90
+
   browser-web:
     name: Sprint 2 Chromium Web acceptance (isolated API and database)
     runs-on: ubuntu-latest
@@ -543,6 +589,8 @@ jobs:
 
       - name: Check QA evidence recorder
         run: |
+          uv run --no-project --python 3.12.13 \
+            python scripts/check_sprint2_qa_traceability.py
           uv run --no-project --python 3.12.13 \
             python -m unittest discover -s scripts/tests -v
 

@@ -1,0 +1,35 @@
+
+> yoir-mobile@0.1.0 test:coverage
+> jest --ci --runInBand --coverage --json --outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint2/20260916-multiplatform-final/frontend-tests.json --coverageDirectory=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage
+
+PASS __tests__/screens/counsellor-availability.test.tsx (5.333 s)
+PASS __tests__/screens/counsellor-profile.test.tsx
+PASS __tests__/counsellor/ServiceForm.test.tsx
+PASS __tests__/screens/register.test.tsx
+PASS __tests__/screens/counsellor-dashboard.test.tsx
+PASS __tests__/screens/counsellor-edit-service.test.tsx
+PASS __tests__/screens/marketplace.test.tsx
+PASS __tests__/screens/root-layout.test.tsx
+PASS __tests__/screens/checkout.test.tsx
+PASS __tests__/screens/timeslots.test.tsx
+PASS __tests__/screens/login.test.tsx
+PASS __tests__/screens/service-detail.test.tsx
+PASS __tests__/screens/confirmation.test.tsx
+PASS __tests__/api/counsellor-client.test.ts
+PASS __tests__/screens/navigation.test.tsx
+PASS __tests__/screens/welcome.test.tsx
+PASS __tests__/auth/AuthContext.test.tsx
+PASS __tests__/api/demo-counsellor.test.ts
+PASS __tests__/api/client.test.ts
+PASS __tests__/api/real-client-write-safety.test.ts
+PASS __tests__/api/demo.test.ts
+PASS __tests__/counsellor/availabilityPlanner.test.ts
+PASS __tests__/marketplace/filters.test.ts
+PASS __tests__/format.test.ts
+
+Test Suites: 24 passed, 24 total
+Tests:       265 passed, 265 total
+Snapshots:   0 total
+Time:        13.875 s, estimated 14 s
+Ran all test suites.
+Test results written to: ../artifacts/qa/sprint2/20260916-multiplatform-final/frontend-tests.json

@@ -15,6 +15,8 @@ module.exports = {
     '<rootDir>/__tests__/integration/live-client.test.ts',
     '<rootDir>/__tests__/defects/',
     '<rootDir>/__tests__/planned/',
+    // Native-only controls are run with the actual iOS/Android Expo presets.
+    '<rootDir>/__tests__/native/',
   ],
   // Report the complete app, including previously omitted screens and counsellor
   // components. Keep the established 90/80/90/90 gate for each original core area;

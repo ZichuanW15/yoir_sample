@@ -64,6 +64,8 @@ class PackageTests(unittest.TestCase):
     def test_complete_qa_overlay_reconstructs_from_manifest_and_verifies(self):
         self.write(".gitattributes", b"docs/sprint2/qa/evidence/**/*.log -whitespace\n", tracked=True)
         self.write("frontend/jest.config.planned.js", b"module.exports = {};\n", tracked=True)
+        for name in ("native", "ios", "android", "ios-defects", "android-defects"):
+            self.write(f"frontend/jest.config.{name}.js", b"module.exports = {};\n")
         self.write("backend/tests/new_test.py", b"def test_example(): pass\n")
         self.write("docs/sprint2/qa/result.json", b'{"result":"passed"}\n')
         self.output.mkdir()  # A deliberately chosen empty directory is supported.

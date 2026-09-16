@@ -13,8 +13,9 @@ const submit = () => fireEvent.press(screen.getByRole('button', { name: 'Create 
 
 describe('registration screen', () => {
   // Characterization only: the current global banner is not evidence of the
-  // per-field error association required by US-01 AC2/3. The defects suite
-  // retains those stronger acceptance assertions and fails until implemented.
+  // per-field error association required by US-01 AC2/3. Those stronger probes
+  // are in planned/auth-issue-acceptance.test.tsx, excluded from this implemented-
+  // scope run. Excluded criteria are NOT passing parent-story acceptance.
   test.each(['Full name', 'Email', 'Password', 'Confirm password'])('[QA-87][characterization] rejects empty %s with the current form-level banner', (label) => {
     renderPublic(<RegisterScreen />);
     completeForm();

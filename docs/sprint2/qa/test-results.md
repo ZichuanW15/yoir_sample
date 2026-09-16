@@ -1,4 +1,6 @@
-# Latest test results — implemented Sprint 2 features
+# Historical test results — 15 September Web/API baseline
+
+This report and `evidence/latest/` retain the original execution unchanged. They do not certify the later iOS/Android component matrix; see [16 September results](test-results-multiplatform.md) and [platform scope](platform-test-matrix.md).
 
 **Baseline:** `0ffa565e47d60fc2783a4618e5dce6cfe73a4b08` · **branch:** `sprint2-qa` · **run:** `20260915T080621.058365Z`.
 

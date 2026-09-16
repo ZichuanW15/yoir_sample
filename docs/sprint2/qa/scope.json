@@ -1,7 +1,11 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
   "authority": "User request: test only currently implemented frontend/backend functions; QA-only local change set",
-  "platform": "Web (Chromium), component/API tests, PostgreSQL and SQLite",
+  "platform": "Web (Chromium), iOS and Android platform-preset components, shared API, PostgreSQL and SQLite",
+  "nativeDeviceEvidence": "Limited manual Expo Go smoke on separate iOS and Android simulators on 2026-09-16; not full device acceptance or standalone-build certification. See native-device-results-20260916.md and native-acceptance-delta.md.",
+  "issueEvidence": "issue-evidence.json",
+  "issueSnapshot": "qa-issue-audit-20260916.json",
+  "verificationBoundary": "Full verification workflow is deferred to Sprint 3. Existing backend verified-counsellor publishing gate remains characterized, not removed or endorsed as final policy. UI must not present fabricated fallback status as authoritative.",
   "productCommit": "0ffa565e47d60fc2783a4618e5dce6cfe73a4b08",
   "branch": "sprint2-qa",
   "baseBranch": "dev",
@@ -70,6 +74,10 @@
   "backendSelector": "not live and not future_contract",
   "frontendNormal": "npm run test:coverage",
   "frontendDefects": "npm run test:defects",
+  "iosNormal": "npm run test:ios",
+  "iosDefects": "npm run test:ios:defects",
+  "androidNormal": "npm run test:android",
+  "androidDefects": "npm run test:android:defects",
   "browserNormal": "npm run test:web",
   "browserDefects": "npm run test:web:defects",
   "componentOnly": [
@@ -82,8 +90,9 @@
     "unimplemented profile persistence/upload and service PATCH/DELETE APIs",
     "real or sandbox payment provider, commission and webhook integration",
     "unimplemented category/duration/language fields, weekly calendar and pre-session brief",
-    "unapproved reload persistence, hold expiry, field presentation and prescribed storage policies",
-    "iOS/Android/device and multi-browser certification"
+    "undecided automatic relogin and hold expiry; unimplemented inline-field errors, native secure storage and backend-driven search (still required where specified by parent issues, not certified by current-scope tests)",
+    "unimplemented Sprint 3 verification/LinkedIn review workflow",
+    "multi-browser certification beyond Chromium"
   ],
   "qaIssues": [
     {

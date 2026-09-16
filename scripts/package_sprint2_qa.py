@@ -26,8 +26,11 @@ ALLOWED = ("backend/tests/", "frontend/__tests__/", "frontend/e2e/",
 EXACT = {".github/workflows/app-ci.yml", ".gitignore", ".gitattributes", "README.md",
          "frontend/package.json", "frontend/package-lock.json", "frontend/jest.config.js",
          "frontend/jest.config.defects.js", "frontend/jest.config.planned.js",
+         "frontend/jest.config.native.js", "frontend/jest.config.ios.js",
+         "frontend/jest.config.android.js", "frontend/jest.config.ios-defects.js",
+         "frontend/jest.config.android-defects.js",
          "frontend/playwright.config.ts", "scripts/run_sprint2_qa.py",
-         "scripts/package_sprint2_qa.py"}
+         "scripts/package_sprint2_qa.py", "scripts/check_sprint2_qa_traceability.py"}
 
 
 class PackageError(ValueError):
@@ -129,7 +132,7 @@ def create_package(output: Path) -> Path:
     manifest = {
         "schemaVersion": 1,
         "createdAt": datetime.now(UTC).isoformat(),
-        "scope": "Implemented Sprint 2 Web/API capabilities; archived planned probes are not current test evidence",
+        "scope": "Implemented Sprint 2 Web, iOS/Android components and shared API, plus separately recorded limited simulator smoke; no full native sign-off; planned probes are not current evidence",
         "baseline": baseline, "branch": branch,
         "gitWrites": False, "publication": "local only",
         "reconstruction": "Copy working-tree/ over a fresh checkout at baseline. Install dependencies from its lockfiles. No deletions are encoded.",

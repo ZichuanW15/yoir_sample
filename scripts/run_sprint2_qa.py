@@ -28,12 +28,17 @@ def utc_now() -> str:
 
 
 def source_fingerprints() -> dict[str, str]:
-    """Hash executed code, test inputs and config, not generated evidence/prose."""
+    """Hash executed code/config and reconciliation inputs, not generated run output."""
     files = [ROOT / "scripts/run_sprint2_qa.py", ROOT / "scripts/package_sprint2_qa.py",
              ROOT / "scripts/check_repository_metadata.py", ROOT / "frontend/package-lock.json",
              ROOT / "frontend/package.json", ROOT / "frontend/playwright.config.ts",
              ROOT / "backend/uv.lock", ROOT / "backend/pyproject.toml", ROOT / "backend/reset_db.py",
              ROOT / "docs/sprint2/qa/scope.json", ROOT / ".github/scripts/board-insights.py",
+             ROOT / "scripts/check_sprint2_qa_traceability.py",
+             ROOT / "docs/sprint2/qa/issue-evidence.json",
+             ROOT / "docs/sprint2/qa/qa-issue-audit-20260916.json",
+             ROOT / "docs/sprint2/qa/qa-matrix.md",
+             ROOT / "docs/sprint2/qa/native-acceptance-delta.md",
              ROOT / ".github/mermaid/puppeteer.json",
              ROOT / "docs/sprint1/executable-architecture/openapi.yaml",
              ROOT / "docs/sprint1/executable-architecture/interface-traceability.csv"]
@@ -118,7 +123,13 @@ def main() -> int:
         env.update(DATABASE_URL=args.postgres_url, YOIR_QA_ALLOW_DATABASE_RESET="true")
     results = []
     summary = {"runId": run_id, "startedAt": utc_now(), "completedAt": None,
-               "status": "running", "scope": "Implemented Sprint 2 Web/API capabilities; planned features and policies excluded",
+               "status": "running", "scope": "Implemented Sprint 2 Web, iOS/Android components and shared API; planned features and policies excluded",
+               "platformEvidence": {
+                   "web": "Chromium against a fresh export and isolated API/database",
+                   "ios": "Jest Expo iOS preset: components/logic, mocked device boundaries",
+                   "android": "Jest Expo Android preset: components/logic, mocked device boundaries",
+                   "nativeDeviceExecution": "not run by this recorder; no simulator/device sign-off",
+               },
                "head": subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip(),
                "branch": subprocess.check_output(["git", "branch", "--show-current"], cwd=ROOT, text=True).strip(),
                "database": "PostgreSQL" if args.postgres_url else "temporary SQLite (no concurrency evidence)",
@@ -164,6 +175,11 @@ def main() -> int:
     run("frontend-typecheck", ["npm", "run", "typecheck"], "frontend")
     run("frontend-tests", ["npm", "run", "test:coverage", "--", "--json", f"--outputFile={output / 'frontend-tests.json'}", f"--coverageDirectory={output / 'frontend-coverage'}"], "frontend")
     run("frontend-defects", ["npm", "run", "test:defects", "--", "--json", f"--outputFile={output / 'frontend-defects.json'}"], "frontend")
+    for platform in ("ios", "android"):
+        for suffix in ("", ":defects"):
+            name = f"{platform}-{'defects' if suffix else 'components'}"
+            run(name, ["npm", "run", f"test:{platform}{suffix}", "--", "--json",
+                       f"--outputFile={output / (name + '.json')}"], "frontend")
     run("frontend-production-audit", ["npm", "audit", "--omit=dev", "--audit-level=critical", "--json"], "frontend")
     run("backend-test-lint", [args.backend_python, "-m", "ruff", "check", "tests"], "backend")
     run("backend-source-lint", [args.backend_python, "-m", "ruff", "check", "app", "reset_db.py"], "backend")
@@ -171,6 +187,7 @@ def main() -> int:
                           f"--junitxml={output / 'backend-tests.xml'}", "--cov=app",
                           "--cov-report=term-missing", f"--cov-report=json:{output / 'backend-coverage.json'}"], "backend")
     run("repository-metadata", [args.backend_python, "scripts/check_repository_metadata.py"])
+    run("qa-issue-traceability", [args.backend_python, "scripts/check_sprint2_qa_traceability.py"])
     run("evidence-runner-tests", [args.backend_python, "-m", "unittest", "discover", "-s", "scripts/tests", "-v"])
     run("board-tests", [args.backend_python, "-B", ".github/scripts/tests/test_board_insights.py", "-v"])
     run("web-build", ["npm", "run", "build:web"], "frontend",

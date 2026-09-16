@@ -90,6 +90,30 @@ class EvidenceRecorderTests(unittest.TestCase):
         self.assertEqual(len(list((self.root / "artifacts/qa/sprint2").glob("*/summary.json"))), 2)
         self.assertEqual(first.read_bytes(), first_bytes)
 
+    def test_both_native_presets_are_recorded_without_claiming_device_execution(self):
+        destination = self.root / "native-evidence"
+        _, calls = self.invoke("--output", str(destination))
+        commands = [call.args[0] for call in calls]
+        for platform in ("ios", "android"):
+            for suffix in ("", ":defects"):
+                command = next(c for c in commands if f"test:{platform}{suffix}" in c)
+                name = f"{platform}-{'defects' if suffix else 'components'}"
+                self.assertIn(f"--outputFile={destination.resolve() / (name + '.json')}", command)
+        data = json.loads((destination / "summary.json").read_text())
+        self.assertIn("not run", data["platformEvidence"]["nativeDeviceExecution"])
+
+    def test_native_failures_remain_nonzero_without_stopping_other_platforms(self):
+        def execute(command, **_):
+            return subprocess.CompletedProcess(command, int(any(
+                script in command for script in ("test:ios:defects", "test:android:defects"))))
+        destination = self.root / "native-failures"
+        code, calls = self.invoke("--output", str(destination), run_callback=execute)
+        self.assertEqual(code, 1)
+        data = json.loads((destination / "summary.json").read_text())
+        self.assertEqual([x["name"] for x in data["checks"] if x["exitCode"]],
+                         ["ios-defects", "android-defects"])
+        self.assertEqual(calls[-1].args[0], ["git", "diff", "--check"])
+
     def test_current_feature_run_excludes_future_contract_and_planned_proposals(self):
         _, calls = self.invoke()
         commands = [call.args[0] for call in calls]
@@ -119,6 +143,9 @@ class EvidenceRecorderTests(unittest.TestCase):
             ".github/workflows/board-insights.yml", ".github/mermaid/puppeteer.json",
             "backend/reset_db.py", "frontend/app.json", "frontend/tsconfig.json",
             "frontend/eslint.config.js", "frontend/babel.config.js", "frontend/metro.config.js",
+            "frontend/jest.config.native.js", "frontend/jest.config.ios.js",
+            "frontend/jest.config.android.js", "frontend/jest.config.ios-defects.js",
+            "frontend/jest.config.android-defects.js",
             "docs/sprint1/executable-architecture/openapi.yaml",
             "docs/sprint1/executable-architecture/interface-traceability.csv",
         ]

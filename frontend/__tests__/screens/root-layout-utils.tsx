@@ -1,4 +1,7 @@
-/** Native startup/router boundaries only; the root layout and both providers are real. */
+/** Component evidence only: fonts, splash and router are mocked boundaries.
+ * The root layout and providers are real; this is neither a browser render nor a
+ * device launch. Native-only assertions run under the explicit native presets.
+ */
 import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -39,6 +42,9 @@ jest.mock('expo-router', () => {
 export { RootLayout, SplashScreen };
 export const fontsMock = jest.mocked(useFonts);
 export const routeRegistration = jest.mocked(Stack.Screen);
+export const nativeQaPlatform = (globalThis as typeof globalThis & {
+  __QA_NATIVE_PLATFORM__?: 'ios' | 'android';
+}).__QA_NATIVE_PLATFORM__;
 // The production module calls this before the first render. Capture that event
 // before Jest's per-test clearMocks resets module-initialisation call history.
 export const autoHideCallsOnImport = jest.mocked(SplashScreen.preventAutoHideAsync).mock.calls.length;

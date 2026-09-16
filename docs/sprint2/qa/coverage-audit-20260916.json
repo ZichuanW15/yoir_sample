@@ -1,0 +1,2444 @@
+{
+  "schemaVersion": 1,
+  "reviewedAt": "2026-09-16T06:44:11.951112+00:00",
+  "mode": "Retained-evidence coverage review; no application/device test rerun and no remote write",
+  "productCommit": "0ffa565e47d60fc2783a4618e5dce6cfe73a4b08",
+  "qaHead": "3e7f4b348c03504360af04d438202e37a5428e83",
+  "originalAutomatedRun": {
+    "id": "20260916T043532.423770Z",
+    "startedAt": "2026-09-16T04:35:32.424+00:00",
+    "completedAt": "2026-09-16T04:38:36.829+00:00",
+    "checks": 22,
+    "originalReproducible": true,
+    "originalChangedDuringRun": []
+  },
+  "sources": [
+    {
+      "path": "artifacts/qa/sprint2/20260916-multiplatform-final/summary.json",
+      "sha256": "94f1d8707fbb3bd75aa99c1d41b0b22153ba5f2f50d81880dda63e61eba5a8de",
+      "availability": "retained local ignored artifact"
+    },
+    {
+      "path": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-tests.json",
+      "sha256": "bd45d3bacfbc9ce0443a9fd3829769dcf59c9714d1abdfddde0f44027c0fc613",
+      "availability": "retained local ignored artifact"
+    },
+    {
+      "path": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-defects.json",
+      "sha256": "05e69db0720efcbadbbd6e54cf2e761a2f787a0ea307b0af3ff397bf7fe14580",
+      "availability": "retained local ignored artifact"
+    },
+    {
+      "path": "artifacts/qa/sprint2/20260916-multiplatform-final/ios-components.json",
+      "sha256": "d27ab7cb907ca0f2a4a8d1da8c0b5e67bc5224d620a4bc2bec9bbc8665836202",
+      "availability": "retained local ignored artifact"
+    },
+    {
+      "path": "artifacts/qa/sprint2/20260916-multiplatform-final/ios-defects.json",
+      "sha256": "e2f7c4a56dbaa8be120ac4466a9c8f76342a941521e774c20af0a48eab6e56d1",
+      "availability": "retained local ignored artifact"
+    },
+    {
+      "path": "artifacts/qa/sprint2/20260916-multiplatform-final/android-components.json",
+      "sha256": "be79bb0eec6ffa41f19c01fa3604013dcdba1ac97261592c937a867c93dc8b34",
+      "availability": "retained local ignored artifact"
+    },
+    {
+      "path": "artifacts/qa/sprint2/20260916-multiplatform-final/android-defects.json",
+      "sha256": "5bf273260248d16e3292f67e74cf38da0e91bd07df1c53dd92782c7c940e85ed",
+      "availability": "retained local ignored artifact"
+    },
+    {
+      "path": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web/results.json",
+      "sha256": "407578b3d7dbee302c392850f0853781cb4479a8ed11e10867f8db99aa42df47",
+      "availability": "retained local ignored artifact"
+    },
+    {
+      "path": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/results.json",
+      "sha256": "3a93305e3bc15b319766cf183a6dd3ba633442146dbc21c00f00a366df38c29a",
+      "availability": "retained local ignored artifact"
+    },
+    {
+      "path": "artifacts/qa/sprint2/20260916-multiplatform-final/backend-tests.xml",
+      "sha256": "804e94e694021741fde312aad6b74f5241d87a797a51d808d173292b6ccfe935",
+      "availability": "retained local ignored artifact"
+    },
+    {
+      "path": "artifacts/qa/sprint2/20260916-multiplatform-final/httpx-live.xml",
+      "sha256": "315fac1842d26c01e89afcd60b4cf428b8dcb5763960c58edd8b592ac70b3626",
+      "availability": "retained local ignored artifact"
+    },
+    {
+      "path": "artifacts/qa/sprint2/20260916-multiplatform-final/typescript-live.json",
+      "sha256": "b062d040bdfea9214732cf90f28446d44c55cdd1676d5c0df29d67e269172b32",
+      "availability": "retained local ignored artifact"
+    },
+    {
+      "path": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/coverage-summary.json",
+      "sha256": "5f164713560923825c5939baf5e38deffcac154c53bc95869effa8d486395069",
+      "availability": "retained local ignored artifact"
+    },
+    {
+      "path": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-coverage/lcov.info",
+      "sha256": "1f4d56116ac8041e6597bdd825932439710d802506ab8a2fe8f07f3f46ba99fd",
+      "availability": "retained local ignored artifact"
+    },
+    {
+      "path": "artifacts/qa/sprint2/20260916-multiplatform-final/backend-coverage.json",
+      "sha256": "1d5a5dce3b0227067f0d42b67c9f65f5466b5026dcbe91b19c64b48c7e1b78f9",
+      "availability": "retained local ignored artifact"
+    }
+  ],
+  "automated": {
+    "frontend-tests": {
+      "passed": 265,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "suites": 24,
+      "runtimeErrorSuites": 0,
+      "logTotals": "265 passed, 265 total",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-tests.json"
+    },
+    "frontend-defects": {
+      "passed": 0,
+      "failed": 24,
+      "skipped": 0,
+      "todo": 0,
+      "suites": 8,
+      "runtimeErrorSuites": 0,
+      "logTotals": "24 failed, 24 total",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/frontend-defects.json"
+    },
+    "ios-components": {
+      "passed": 274,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "suites": 25,
+      "runtimeErrorSuites": 0,
+      "logTotals": "274 passed, 274 total",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/ios-components.json"
+    },
+    "ios-defects": {
+      "passed": 0,
+      "failed": 25,
+      "skipped": 0,
+      "todo": 0,
+      "suites": 8,
+      "runtimeErrorSuites": 0,
+      "logTotals": "25 failed, 25 total",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/ios-defects.json"
+    },
+    "android-components": {
+      "passed": 274,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "suites": 25,
+      "runtimeErrorSuites": 0,
+      "logTotals": "274 passed, 274 total",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/android-components.json"
+    },
+    "android-defects": {
+      "passed": 0,
+      "failed": 25,
+      "skipped": 0,
+      "todo": 0,
+      "suites": 8,
+      "runtimeErrorSuites": 0,
+      "logTotals": "25 failed, 25 total",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/android-defects.json"
+    },
+    "typescript-live": {
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "todo": 0,
+      "suites": 1,
+      "runtimeErrorSuites": 0,
+      "logTotals": "2 passed, 2 total",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/typescript-live.json"
+    },
+    "browser-web": {
+      "passed": 14,
+      "failed": 0,
+      "skipped": 0,
+      "flaky": 0,
+      "runnerErrors": 0,
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web/results.json"
+    },
+    "browser-web-defects": {
+      "passed": 0,
+      "failed": 5,
+      "skipped": 0,
+      "flaky": 0,
+      "runnerErrors": 0,
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/browser-web-defects/results.json"
+    },
+    "backend-tests": {
+      "passed": 347,
+      "failed": 0,
+      "skipped": 0,
+      "xfail": 19,
+      "deselected": 12,
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/backend-tests.xml"
+    },
+    "httpx-live": {
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "xfail": 0,
+      "deselected": 0,
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/httpx-live.xml"
+    },
+    "evidence-runner-tests": {
+      "passed": 23,
+      "failed": 0,
+      "skipped": 0,
+      "basis": "unittest log ends OK",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/evidence-runner-tests.log"
+    },
+    "board-tests": {
+      "passed": 49,
+      "failed": 0,
+      "skipped": 0,
+      "basis": "unittest log ends OK",
+      "source": "artifacts/qa/sprint2/20260916-multiplatform-final/board-tests.log"
+    }
+  },
+  "coverage": {
+    "sharedFrontend": {
+      "lines": {
+        "total": 1270,
+        "covered": 1221,
+        "skipped": 0,
+        "pct": 96.14
+      },
+      "statements": {
+        "total": 1524,
+        "covered": 1428,
+        "skipped": 0,
+        "pct": 93.7
+      },
+      "functions": {
+        "total": 491,
+        "covered": 441,
+        "skipped": 0,
+        "pct": 89.81
+      },
+      "branches": {
+        "total": 940,
+        "covered": 820,
+        "skipped": 0,
+        "pct": 87.23
+      },
+      "branchesTrue": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "sharedFrontendComputedFromRawMap": {
+      "statements": {
+        "total": 1524,
+        "covered": 1428
+      },
+      "functions": {
+        "total": 491,
+        "covered": 441
+      },
+      "branches": {
+        "total": 940,
+        "covered": 820
+      },
+      "lines": {
+        "total": 1270,
+        "covered": 1221
+      }
+    },
+    "rawMapMatchesSummary": true,
+    "ios": null,
+    "android": null,
+    "browser": null,
+    "nativeDevices": null,
+    "missingMetricsExplanation": "Native configs set collectCoverage=false; Chromium and manual simulator runs have no instrumented coverage. Shared 96.14% line coverage cannot be attributed to each platform.",
+    "gateScope": "90/80/90/90 thresholds apply separately to src/api, src/marketplace, src/auth and src/format.ts, not whole-app UI.",
+    "backendContext": {
+      "statementsPercent": 95.15151515151516,
+      "linePercent": 95.15151515151516,
+      "branchPercent": 90.38461538461539,
+      "combinedLineBranchPercent": 94.39347604485219,
+      "functionsPercent": null,
+      "note": "coverage.py native report measures executable statements/lines and branches; 94.39% is their combined metric, not line-only coverage. PostgreSQL-specific collection can leave SQLite branches unhit; this is not evidence those branches have never been tested."
+    },
+    "instrumentationBoundary": "All frontend file percentages and uncovered branches below come only from the shared NORMAL Jest regression instrumentation. Defect, native, browser and manual executions are not merged into this coverage. An unhit branch here does not prove it was never exercised elsewhere."
+  },
+  "frontendPerFile": {
+    "frontend/app/_layout.tsx": {
+      "lines": {
+        "total": 5,
+        "covered": 5,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 2,
+        "covered": 2,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 8,
+        "covered": 8,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 4,
+        "covered": 4,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "frontend/app/index.tsx": {
+      "lines": {
+        "total": 9,
+        "covered": 9,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 4,
+        "covered": 4,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 10,
+        "covered": 10,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 4,
+        "covered": 4,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "frontend/app/auth/login.tsx": {
+      "lines": {
+        "total": 25,
+        "covered": 24,
+        "skipped": 0,
+        "pct": 96
+      },
+      "functions": {
+        "total": 4,
+        "covered": 3,
+        "skipped": 0,
+        "pct": 75
+      },
+      "statements": {
+        "total": 25,
+        "covered": 24,
+        "skipped": 0,
+        "pct": 96
+      },
+      "branches": {
+        "total": 24,
+        "covered": 21,
+        "skipped": 0,
+        "pct": 87.5
+      }
+    },
+    "frontend/app/auth/register.tsx": {
+      "lines": {
+        "total": 34,
+        "covered": 33,
+        "skipped": 0,
+        "pct": 97.05
+      },
+      "functions": {
+        "total": 6,
+        "covered": 5,
+        "skipped": 0,
+        "pct": 83.33
+      },
+      "statements": {
+        "total": 34,
+        "covered": 33,
+        "skipped": 0,
+        "pct": 97.05
+      },
+      "branches": {
+        "total": 34,
+        "covered": 32,
+        "skipped": 0,
+        "pct": 94.11
+      }
+    },
+    "frontend/app/auth/welcome.tsx": {
+      "lines": {
+        "total": 11,
+        "covered": 11,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 5,
+        "covered": 5,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 11,
+        "covered": 11,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 4,
+        "covered": 4,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "frontend/app/bookings/checkout.tsx": {
+      "lines": {
+        "total": 43,
+        "covered": 41,
+        "skipped": 0,
+        "pct": 95.34
+      },
+      "functions": {
+        "total": 11,
+        "covered": 10,
+        "skipped": 0,
+        "pct": 90.9
+      },
+      "statements": {
+        "total": 48,
+        "covered": 44,
+        "skipped": 0,
+        "pct": 91.66
+      },
+      "branches": {
+        "total": 22,
+        "covered": 17,
+        "skipped": 0,
+        "pct": 77.27
+      }
+    },
+    "frontend/app/bookings/confirmation.tsx": {
+      "lines": {
+        "total": 19,
+        "covered": 19,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 7,
+        "covered": 7,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 22,
+        "covered": 21,
+        "skipped": 0,
+        "pct": 95.45
+      },
+      "branches": {
+        "total": 12,
+        "covered": 10,
+        "skipped": 0,
+        "pct": 83.33
+      }
+    },
+    "frontend/app/counsellor/availability.tsx": {
+      "lines": {
+        "total": 207,
+        "covered": 190,
+        "skipped": 0,
+        "pct": 91.78
+      },
+      "functions": {
+        "total": 80,
+        "covered": 60,
+        "skipped": 0,
+        "pct": 75
+      },
+      "statements": {
+        "total": 260,
+        "covered": 221,
+        "skipped": 0,
+        "pct": 85
+      },
+      "branches": {
+        "total": 155,
+        "covered": 120,
+        "skipped": 0,
+        "pct": 77.41
+      }
+    },
+    "frontend/app/counsellor/index.tsx": {
+      "lines": {
+        "total": 50,
+        "covered": 49,
+        "skipped": 0,
+        "pct": 98
+      },
+      "functions": {
+        "total": 19,
+        "covered": 18,
+        "skipped": 0,
+        "pct": 94.73
+      },
+      "statements": {
+        "total": 57,
+        "covered": 55,
+        "skipped": 0,
+        "pct": 96.49
+      },
+      "branches": {
+        "total": 42,
+        "covered": 38,
+        "skipped": 0,
+        "pct": 90.47
+      }
+    },
+    "frontend/app/counsellor/profile.tsx": {
+      "lines": {
+        "total": 78,
+        "covered": 75,
+        "skipped": 0,
+        "pct": 96.15
+      },
+      "functions": {
+        "total": 15,
+        "covered": 14,
+        "skipped": 0,
+        "pct": 93.33
+      },
+      "statements": {
+        "total": 92,
+        "covered": 87,
+        "skipped": 0,
+        "pct": 94.56
+      },
+      "branches": {
+        "total": 75,
+        "covered": 69,
+        "skipped": 0,
+        "pct": 92
+      }
+    },
+    "frontend/app/counsellor/services/new.tsx": {
+      "lines": {
+        "total": 3,
+        "covered": 3,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 1,
+        "covered": 1,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 4,
+        "covered": 4,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 4,
+        "covered": 4,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "frontend/app/counsellor/services/[serviceId]/edit.tsx": {
+      "lines": {
+        "total": 26,
+        "covered": 26,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 9,
+        "covered": 9,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 35,
+        "covered": 33,
+        "skipped": 0,
+        "pct": 94.28
+      },
+      "branches": {
+        "total": 24,
+        "covered": 19,
+        "skipped": 0,
+        "pct": 79.16
+      }
+    },
+    "frontend/app/marketplace/index.tsx": {
+      "lines": {
+        "total": 75,
+        "covered": 65,
+        "skipped": 0,
+        "pct": 86.66
+      },
+      "functions": {
+        "total": 46,
+        "covered": 37,
+        "skipped": 0,
+        "pct": 80.43
+      },
+      "statements": {
+        "total": 98,
+        "covered": 85,
+        "skipped": 0,
+        "pct": 86.73
+      },
+      "branches": {
+        "total": 60,
+        "covered": 48,
+        "skipped": 0,
+        "pct": 80
+      }
+    },
+    "frontend/app/services/[serviceId].tsx": {
+      "lines": {
+        "total": 46,
+        "covered": 45,
+        "skipped": 0,
+        "pct": 97.82
+      },
+      "functions": {
+        "total": 15,
+        "covered": 14,
+        "skipped": 0,
+        "pct": 93.33
+      },
+      "statements": {
+        "total": 53,
+        "covered": 50,
+        "skipped": 0,
+        "pct": 94.33
+      },
+      "branches": {
+        "total": 46,
+        "covered": 38,
+        "skipped": 0,
+        "pct": 82.6
+      }
+    },
+    "frontend/app/services/[serviceId]/timeslots.tsx": {
+      "lines": {
+        "total": 55,
+        "covered": 54,
+        "skipped": 0,
+        "pct": 98.18
+      },
+      "functions": {
+        "total": 17,
+        "covered": 15,
+        "skipped": 0,
+        "pct": 88.23
+      },
+      "statements": {
+        "total": 63,
+        "covered": 59,
+        "skipped": 0,
+        "pct": 93.65
+      },
+      "branches": {
+        "total": 53,
+        "covered": 50,
+        "skipped": 0,
+        "pct": 94.33
+      }
+    },
+    "frontend/src/chrome.tsx": {
+      "lines": {
+        "total": 49,
+        "covered": 48,
+        "skipped": 0,
+        "pct": 97.95
+      },
+      "functions": {
+        "total": 24,
+        "covered": 21,
+        "skipped": 0,
+        "pct": 87.5
+      },
+      "statements": {
+        "total": 63,
+        "covered": 57,
+        "skipped": 0,
+        "pct": 90.47
+      },
+      "branches": {
+        "total": 26,
+        "covered": 19,
+        "skipped": 0,
+        "pct": 73.07
+      }
+    },
+    "frontend/src/format.ts": {
+      "lines": {
+        "total": 30,
+        "covered": 30,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 14,
+        "covered": 14,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 35,
+        "covered": 35,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 6,
+        "covered": 6,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "frontend/src/motion.tsx": {
+      "lines": {
+        "total": 37,
+        "covered": 37,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 18,
+        "covered": 18,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 42,
+        "covered": 41,
+        "skipped": 0,
+        "pct": 97.61
+      },
+      "branches": {
+        "total": 15,
+        "covered": 11,
+        "skipped": 0,
+        "pct": 73.33
+      }
+    },
+    "frontend/src/theme.ts": {
+      "lines": {
+        "total": 7,
+        "covered": 7,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 7,
+        "covered": 7,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "frontend/src/api/client.ts": {
+      "lines": {
+        "total": 71,
+        "covered": 69,
+        "skipped": 0,
+        "pct": 97.18
+      },
+      "functions": {
+        "total": 45,
+        "covered": 44,
+        "skipped": 0,
+        "pct": 97.77
+      },
+      "statements": {
+        "total": 83,
+        "covered": 81,
+        "skipped": 0,
+        "pct": 97.59
+      },
+      "branches": {
+        "total": 55,
+        "covered": 55,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "frontend/src/api/demo.ts": {
+      "lines": {
+        "total": 132,
+        "covered": 132,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 52,
+        "covered": 52,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 165,
+        "covered": 164,
+        "skipped": 0,
+        "pct": 99.39
+      },
+      "branches": {
+        "total": 84,
+        "covered": 77,
+        "skipped": 0,
+        "pct": 91.66
+      }
+    },
+    "frontend/src/api/errors.ts": {
+      "lines": {
+        "total": 4,
+        "covered": 4,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 2,
+        "covered": 2,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 4,
+        "covered": 4,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "frontend/src/api/types.ts": {
+      "lines": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 0,
+        "covered": 0,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "frontend/src/auth/AuthContext.tsx": {
+      "lines": {
+        "total": 14,
+        "covered": 14,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 5,
+        "covered": 5,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 16,
+        "covered": 16,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 4,
+        "covered": 4,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "frontend/src/components/Glyph.tsx": {
+      "lines": {
+        "total": 10,
+        "covered": 5,
+        "skipped": 0,
+        "pct": 50
+      },
+      "functions": {
+        "total": 7,
+        "covered": 2,
+        "skipped": 0,
+        "pct": 28.57
+      },
+      "statements": {
+        "total": 10,
+        "covered": 5,
+        "skipped": 0,
+        "pct": 50
+      },
+      "branches": {
+        "total": 9,
+        "covered": 1,
+        "skipped": 0,
+        "pct": 11.11
+      }
+    },
+    "frontend/src/components/Scenes.tsx": {
+      "lines": {
+        "total": 62,
+        "covered": 62,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 27,
+        "covered": 27,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 73,
+        "covered": 73,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 7,
+        "covered": 5,
+        "skipped": 0,
+        "pct": 71.42
+      }
+    },
+    "frontend/src/components/booking.tsx": {
+      "lines": {
+        "total": 10,
+        "covered": 10,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 5,
+        "covered": 5,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 12,
+        "covered": 12,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 12,
+        "covered": 12,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "frontend/src/components/ui.tsx": {
+      "lines": {
+        "total": 27,
+        "covered": 24,
+        "skipped": 0,
+        "pct": 88.88
+      },
+      "functions": {
+        "total": 14,
+        "covered": 11,
+        "skipped": 0,
+        "pct": 78.57
+      },
+      "statements": {
+        "total": 29,
+        "covered": 25,
+        "skipped": 0,
+        "pct": 86.2
+      },
+      "branches": {
+        "total": 44,
+        "covered": 40,
+        "skipped": 0,
+        "pct": 90.9
+      }
+    },
+    "frontend/src/counsellor/ServiceForm.tsx": {
+      "lines": {
+        "total": 57,
+        "covered": 56,
+        "skipped": 0,
+        "pct": 98.24
+      },
+      "functions": {
+        "total": 13,
+        "covered": 12,
+        "skipped": 0,
+        "pct": 92.3
+      },
+      "statements": {
+        "total": 67,
+        "covered": 65,
+        "skipped": 0,
+        "pct": 97.01
+      },
+      "branches": {
+        "total": 70,
+        "covered": 68,
+        "skipped": 0,
+        "pct": 97.14
+      }
+    },
+    "frontend/src/counsellor/availabilityPlanner.ts": {
+      "lines": {
+        "total": 52,
+        "covered": 52,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 13,
+        "covered": 13,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 63,
+        "covered": 63,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 13,
+        "covered": 13,
+        "skipped": 0,
+        "pct": 100
+      }
+    },
+    "frontend/src/marketplace/filters.ts": {
+      "lines": {
+        "total": 22,
+        "covered": 22,
+        "skipped": 0,
+        "pct": 100
+      },
+      "functions": {
+        "total": 11,
+        "covered": 11,
+        "skipped": 0,
+        "pct": 100
+      },
+      "statements": {
+        "total": 35,
+        "covered": 35,
+        "skipped": 0,
+        "pct": 100
+      },
+      "branches": {
+        "total": 32,
+        "covered": 31,
+        "skipped": 0,
+        "pct": 96.87
+      }
+    }
+  },
+  "backendCoverage": {
+    "totals": {
+      "covered_lines": 785,
+      "num_statements": 825,
+      "percent_covered": 94.39347604485219,
+      "percent_covered_display": "94",
+      "missing_lines": 40,
+      "excluded_lines": 0,
+      "percent_statements_covered": 95.15151515151516,
+      "percent_statements_covered_display": "95",
+      "num_branches": 156,
+      "num_partial_branches": 7,
+      "covered_branches": 141,
+      "missing_branches": 15,
+      "percent_branches_covered": 90.38461538461539,
+      "percent_branches_covered_display": "90"
+    },
+    "perFile": {
+      "app/__init__.py": {
+        "summary": {
+          "covered_lines": 0,
+          "num_statements": 0,
+          "percent_covered": 100.0,
+          "percent_covered_display": "100",
+          "missing_lines": 0,
+          "excluded_lines": 0,
+          "percent_statements_covered": 100.0,
+          "percent_statements_covered_display": "100",
+          "num_branches": 0,
+          "num_partial_branches": 0,
+          "covered_branches": 0,
+          "missing_branches": 0,
+          "percent_branches_covered": 100.0,
+          "percent_branches_covered_display": "100"
+        },
+        "missing_lines": [],
+        "excluded_lines": [],
+        "missing_branches": []
+      },
+      "app/config.py": {
+        "summary": {
+          "covered_lines": 14,
+          "num_statements": 14,
+          "percent_covered": 100.0,
+          "percent_covered_display": "100",
+          "missing_lines": 0,
+          "excluded_lines": 0,
+          "percent_statements_covered": 100.0,
+          "percent_statements_covered_display": "100",
+          "num_branches": 0,
+          "num_partial_branches": 0,
+          "covered_branches": 0,
+          "missing_branches": 0,
+          "percent_branches_covered": 100.0,
+          "percent_branches_covered_display": "100"
+        },
+        "missing_lines": [],
+        "excluded_lines": [],
+        "missing_branches": []
+      },
+      "app/db.py": {
+        "summary": {
+          "covered_lines": 15,
+          "num_statements": 15,
+          "percent_covered": 100.0,
+          "percent_covered_display": "100",
+          "missing_lines": 0,
+          "excluded_lines": 0,
+          "percent_statements_covered": 100.0,
+          "percent_statements_covered_display": "100",
+          "num_branches": 0,
+          "num_partial_branches": 0,
+          "covered_branches": 0,
+          "missing_branches": 0,
+          "percent_branches_covered": 100.0,
+          "percent_branches_covered_display": "100"
+        },
+        "missing_lines": [],
+        "excluded_lines": [],
+        "missing_branches": []
+      },
+      "app/dev.py": {
+        "summary": {
+          "covered_lines": 38,
+          "num_statements": 66,
+          "percent_covered": 60.46511627906977,
+          "percent_covered_display": "60",
+          "missing_lines": 28,
+          "excluded_lines": 0,
+          "percent_statements_covered": 57.57575757575758,
+          "percent_statements_covered_display": "58",
+          "num_branches": 20,
+          "num_partial_branches": 0,
+          "covered_branches": 14,
+          "missing_branches": 6,
+          "percent_branches_covered": 70.0,
+          "percent_branches_covered_display": "70"
+        },
+        "missing_lines": [
+          74,
+          75,
+          76,
+          82,
+          83,
+          87,
+          88,
+          93,
+          94,
+          95,
+          96,
+          97,
+          101,
+          105,
+          106,
+          107,
+          110,
+          113,
+          117,
+          119,
+          120,
+          121,
+          123,
+          124,
+          125,
+          127,
+          128,
+          130
+        ],
+        "excluded_lines": [],
+        "missing_branches": [
+          [
+            93,
+            94
+          ],
+          [
+            93,
+            95
+          ],
+          [
+            120,
+            121
+          ],
+          [
+            120,
+            123
+          ],
+          [
+            124,
+            125
+          ],
+          [
+            124,
+            127
+          ]
+        ]
+      },
+      "app/errors.py": {
+        "summary": {
+          "covered_lines": 47,
+          "num_statements": 47,
+          "percent_covered": 100.0,
+          "percent_covered_display": "100",
+          "missing_lines": 0,
+          "excluded_lines": 0,
+          "percent_statements_covered": 100.0,
+          "percent_statements_covered_display": "100",
+          "num_branches": 4,
+          "num_partial_branches": 0,
+          "covered_branches": 4,
+          "missing_branches": 0,
+          "percent_branches_covered": 100.0,
+          "percent_branches_covered_display": "100"
+        },
+        "missing_lines": [],
+        "excluded_lines": [],
+        "missing_branches": []
+      },
+      "app/frontend.py": {
+        "summary": {
+          "covered_lines": 55,
+          "num_statements": 56,
+          "percent_covered": 97.5,
+          "percent_covered_display": "98",
+          "missing_lines": 1,
+          "excluded_lines": 0,
+          "percent_statements_covered": 98.21428571428571,
+          "percent_statements_covered_display": "98",
+          "num_branches": 24,
+          "num_partial_branches": 1,
+          "covered_branches": 23,
+          "missing_branches": 1,
+          "percent_branches_covered": 95.83333333333333,
+          "percent_branches_covered_display": "96"
+        },
+        "missing_lines": [
+          94
+        ],
+        "excluded_lines": [],
+        "missing_branches": [
+          [
+            90,
+            94
+          ]
+        ]
+      },
+      "app/main.py": {
+        "summary": {
+          "covered_lines": 25,
+          "num_statements": 27,
+          "percent_covered": 89.65517241379311,
+          "percent_covered_display": "90",
+          "missing_lines": 2,
+          "excluded_lines": 0,
+          "percent_statements_covered": 92.5925925925926,
+          "percent_statements_covered_display": "93",
+          "num_branches": 2,
+          "num_partial_branches": 1,
+          "covered_branches": 1,
+          "missing_branches": 1,
+          "percent_branches_covered": 50.0,
+          "percent_branches_covered_display": "50"
+        },
+        "missing_lines": [
+          23,
+          24
+        ],
+        "excluded_lines": [],
+        "missing_branches": [
+          [
+            22,
+            23
+          ]
+        ]
+      },
+      "app/models.py": {
+        "summary": {
+          "covered_lines": 77,
+          "num_statements": 77,
+          "percent_covered": 100.0,
+          "percent_covered_display": "100",
+          "missing_lines": 0,
+          "excluded_lines": 0,
+          "percent_statements_covered": 100.0,
+          "percent_statements_covered_display": "100",
+          "num_branches": 0,
+          "num_partial_branches": 0,
+          "covered_branches": 0,
+          "missing_branches": 0,
+          "percent_branches_covered": 100.0,
+          "percent_branches_covered_display": "100"
+        },
+        "missing_lines": [],
+        "excluded_lines": [],
+        "missing_branches": []
+      },
+      "app/routers/__init__.py": {
+        "summary": {
+          "covered_lines": 0,
+          "num_statements": 0,
+          "percent_covered": 100.0,
+          "percent_covered_display": "100",
+          "missing_lines": 0,
+          "excluded_lines": 0,
+          "percent_statements_covered": 100.0,
+          "percent_statements_covered_display": "100",
+          "num_branches": 0,
+          "num_partial_branches": 0,
+          "covered_branches": 0,
+          "missing_branches": 0,
+          "percent_branches_covered": 100.0,
+          "percent_branches_covered_display": "100"
+        },
+        "missing_lines": [],
+        "excluded_lines": [],
+        "missing_branches": []
+      },
+      "app/routers/auth.py": {
+        "summary": {
+          "covered_lines": 72,
+          "num_statements": 75,
+          "percent_covered": 93.4065934065934,
+          "percent_covered_display": "93",
+          "missing_lines": 3,
+          "excluded_lines": 0,
+          "percent_statements_covered": 96.0,
+          "percent_statements_covered_display": "96",
+          "num_branches": 16,
+          "num_partial_branches": 1,
+          "covered_branches": 13,
+          "missing_branches": 3,
+          "percent_branches_covered": 81.25,
+          "percent_branches_covered_display": "81"
+        },
+        "missing_lines": [
+          188,
+          189,
+          191
+        ],
+        "excluded_lines": [],
+        "missing_branches": [
+          [
+            186,
+            188
+          ],
+          [
+            188,
+            189
+          ],
+          [
+            188,
+            191
+          ]
+        ]
+      },
+      "app/routers/bookings.py": {
+        "summary": {
+          "covered_lines": 53,
+          "num_statements": 54,
+          "percent_covered": 97.22222222222223,
+          "percent_covered_display": "97",
+          "missing_lines": 1,
+          "excluded_lines": 0,
+          "percent_statements_covered": 98.14814814814815,
+          "percent_statements_covered_display": "98",
+          "num_branches": 18,
+          "num_partial_branches": 1,
+          "covered_branches": 17,
+          "missing_branches": 1,
+          "percent_branches_covered": 94.44444444444444,
+          "percent_branches_covered_display": "94"
+        },
+        "missing_lines": [
+          93
+        ],
+        "excluded_lines": [],
+        "missing_branches": [
+          [
+            92,
+            93
+          ]
+        ]
+      },
+      "app/routers/counsellor.py": {
+        "summary": {
+          "covered_lines": 108,
+          "num_statements": 109,
+          "percent_covered": 98.47328244274809,
+          "percent_covered_display": "98",
+          "missing_lines": 1,
+          "excluded_lines": 0,
+          "percent_statements_covered": 99.08256880733946,
+          "percent_statements_covered_display": "99",
+          "num_branches": 22,
+          "num_partial_branches": 1,
+          "covered_branches": 21,
+          "missing_branches": 1,
+          "percent_branches_covered": 95.45454545454545,
+          "percent_branches_covered_display": "95"
+        },
+        "missing_lines": [
+          236
+        ],
+        "excluded_lines": [],
+        "missing_branches": [
+          [
+            235,
+            236
+          ]
+        ]
+      },
+      "app/routers/health.py": {
+        "summary": {
+          "covered_lines": 9,
+          "num_statements": 9,
+          "percent_covered": 100.0,
+          "percent_covered_display": "100",
+          "missing_lines": 0,
+          "excluded_lines": 0,
+          "percent_statements_covered": 100.0,
+          "percent_statements_covered_display": "100",
+          "num_branches": 0,
+          "num_partial_branches": 0,
+          "covered_branches": 0,
+          "missing_branches": 0,
+          "percent_branches_covered": 100.0,
+          "percent_branches_covered_display": "100"
+        },
+        "missing_lines": [],
+        "excluded_lines": [],
+        "missing_branches": []
+      },
+      "app/routers/services.py": {
+        "summary": {
+          "covered_lines": 34,
+          "num_statements": 34,
+          "percent_covered": 100.0,
+          "percent_covered_display": "100",
+          "missing_lines": 0,
+          "excluded_lines": 0,
+          "percent_statements_covered": 100.0,
+          "percent_statements_covered_display": "100",
+          "num_branches": 10,
+          "num_partial_branches": 0,
+          "covered_branches": 10,
+          "missing_branches": 0,
+          "percent_branches_covered": 100.0,
+          "percent_branches_covered_display": "100"
+        },
+        "missing_lines": [],
+        "excluded_lines": [],
+        "missing_branches": []
+      },
+      "app/schemas.py": {
+        "summary": {
+          "covered_lines": 118,
+          "num_statements": 118,
+          "percent_covered": 100.0,
+          "percent_covered_display": "100",
+          "missing_lines": 0,
+          "excluded_lines": 0,
+          "percent_statements_covered": 100.0,
+          "percent_statements_covered_display": "100",
+          "num_branches": 2,
+          "num_partial_branches": 0,
+          "covered_branches": 2,
+          "missing_branches": 0,
+          "percent_branches_covered": 100.0,
+          "percent_branches_covered_display": "100"
+        },
+        "missing_lines": [],
+        "excluded_lines": [],
+        "missing_branches": []
+      },
+      "app/security.py": {
+        "summary": {
+          "covered_lines": 84,
+          "num_statements": 84,
+          "percent_covered": 100.0,
+          "percent_covered_display": "100",
+          "missing_lines": 0,
+          "excluded_lines": 0,
+          "percent_statements_covered": 100.0,
+          "percent_statements_covered_display": "100",
+          "num_branches": 24,
+          "num_partial_branches": 0,
+          "covered_branches": 24,
+          "missing_branches": 0,
+          "percent_branches_covered": 100.0,
+          "percent_branches_covered_display": "100"
+        },
+        "missing_lines": [],
+        "excluded_lines": [],
+        "missing_branches": []
+      },
+      "app/seed.py": {
+        "summary": {
+          "covered_lines": 36,
+          "num_statements": 40,
+          "percent_covered": 88.88888888888889,
+          "percent_covered_display": "89",
+          "missing_lines": 4,
+          "excluded_lines": 0,
+          "percent_statements_covered": 90.0,
+          "percent_statements_covered_display": "90",
+          "num_branches": 14,
+          "num_partial_branches": 2,
+          "covered_branches": 12,
+          "missing_branches": 2,
+          "percent_branches_covered": 85.71428571428571,
+          "percent_branches_covered_display": "86"
+        },
+        "missing_lines": [
+          23,
+          43,
+          44,
+          45
+        ],
+        "excluded_lines": [],
+        "missing_branches": [
+          [
+            22,
+            23
+          ],
+          [
+            42,
+            43
+          ]
+        ]
+      }
+    }
+  },
+  "lowestBusinessCoverage": [
+    {
+      "file": "frontend/app/marketplace/index.tsx",
+      "qaIssues": [
+        109,
+        112
+      ],
+      "metrics": {
+        "lines": {
+          "total": 75,
+          "covered": 65,
+          "skipped": 0,
+          "pct": 86.66
+        },
+        "functions": {
+          "total": 46,
+          "covered": 37,
+          "skipped": 0,
+          "pct": 80.43
+        },
+        "statements": {
+          "total": 98,
+          "covered": 85,
+          "skipped": 0,
+          "pct": 86.73
+        },
+        "branches": {
+          "total": 60,
+          "covered": 48,
+          "skipped": 0,
+          "pct": 80
+        }
+      },
+      "uncoveredStatementStartLines": [
+        91,
+        139,
+        140,
+        146,
+        154,
+        166,
+        325,
+        328,
+        329,
+        333
+      ],
+      "uncoveredFunctions": [
+        {
+          "name": "(anonymous_16)",
+          "line": 91
+        },
+        {
+          "name": "(anonymous_19)",
+          "line": 139
+        },
+        {
+          "name": "(anonymous_20)",
+          "line": 140
+        },
+        {
+          "name": "(anonymous_22)",
+          "line": 146
+        },
+        {
+          "name": "(anonymous_25)",
+          "line": 154
+        },
+        {
+          "name": "(anonymous_28)",
+          "line": 166
+        },
+        {
+          "name": "(anonymous_43)",
+          "line": 328
+        },
+        {
+          "name": "(anonymous_44)",
+          "line": 329
+        },
+        {
+          "name": "(anonymous_45)",
+          "line": 333
+        }
+      ],
+      "actionableReview": [
+        "Individual reset filters: Any/Online, Anywhere, Any price/rating callbacks at 139/140/146/154/166",
+        "Guest direct login callback at 91; unmount-before-request completion branches 41-45",
+        "Some deficit is decorative shimmer/layout at 324-334, not a missing business feature"
+      ]
+    },
+    {
+      "file": "frontend/app/counsellor/availability.tsx",
+      "qaIssues": [
+        145
+      ],
+      "metrics": {
+        "lines": {
+          "total": 207,
+          "covered": 190,
+          "skipped": 0,
+          "pct": 91.78
+        },
+        "functions": {
+          "total": 80,
+          "covered": 60,
+          "skipped": 0,
+          "pct": 75
+        },
+        "statements": {
+          "total": 260,
+          "covered": 221,
+          "skipped": 0,
+          "pct": 85
+        },
+        "branches": {
+          "total": 155,
+          "covered": 120,
+          "skipped": 0,
+          "pct": 77.41
+        }
+      },
+      "uncoveredStatementStartLines": [
+        147,
+        149,
+        155,
+        173,
+        190,
+        198,
+        206,
+        212,
+        213,
+        214,
+        215,
+        221,
+        227,
+        249,
+        250,
+        251,
+        252,
+        254,
+        258,
+        276,
+        298,
+        370,
+        378,
+        398,
+        428,
+        452,
+        460,
+        510,
+        559,
+        571,
+        590
+      ],
+      "uncoveredFunctions": [
+        {
+          "name": "(anonymous_26)",
+          "line": 211
+        },
+        {
+          "name": "(anonymous_27)",
+          "line": 212
+        },
+        {
+          "name": "(anonymous_32)",
+          "line": 226
+        },
+        {
+          "name": "(anonymous_33)",
+          "line": 227
+        },
+        {
+          "name": "(anonymous_34)",
+          "line": 227
+        },
+        {
+          "name": "(anonymous_38)",
+          "line": 298
+        },
+        {
+          "name": "(anonymous_43)",
+          "line": 370
+        },
+        {
+          "name": "(anonymous_44)",
+          "line": 378
+        },
+        {
+          "name": "(anonymous_45)",
+          "line": 378
+        },
+        {
+          "name": "(anonymous_49)",
+          "line": 398
+        },
+        {
+          "name": "(anonymous_54)",
+          "line": 428
+        },
+        {
+          "name": "(anonymous_56)",
+          "line": 452
+        },
+        {
+          "name": "(anonymous_57)",
+          "line": 452
+        },
+        {
+          "name": "(anonymous_58)",
+          "line": 460
+        },
+        {
+          "name": "(anonymous_59)",
+          "line": 460
+        },
+        {
+          "name": "(anonymous_65)",
+          "line": 510
+        },
+        {
+          "name": "(anonymous_66)",
+          "line": 510
+        },
+        {
+          "name": "(anonymous_74)",
+          "line": 559
+        },
+        {
+          "name": "(anonymous_76)",
+          "line": 571
+        },
+        {
+          "name": "(anonymous_78)",
+          "line": 590
+        }
+      ],
+      "actionableReview": [
+        "Edit with deleted/inactive service or non-future time; update/delete rejection catch paths at 149/155/173/190",
+        "Start-minute changes, remove added time, duration toggle, calendar navigation and switching recurrence mode",
+        "Bulk empty-dimension validation at 249-258; same-batch failures and choice combinations require targeted assertions; some guards may be unreachable through disabled controls"
+      ]
+    },
+    {
+      "file": "frontend/app/bookings/checkout.tsx",
+      "qaIssues": [
+        121,
+        124
+      ],
+      "metrics": {
+        "lines": {
+          "total": 43,
+          "covered": 41,
+          "skipped": 0,
+          "pct": 95.34
+        },
+        "functions": {
+          "total": 11,
+          "covered": 10,
+          "skipped": 0,
+          "pct": 90.9
+        },
+        "statements": {
+          "total": 48,
+          "covered": 44,
+          "skipped": 0,
+          "pct": 91.66
+        },
+        "branches": {
+          "total": 22,
+          "covered": 17,
+          "skipped": 0,
+          "pct": 77.27
+        }
+      },
+      "uncoveredStatementStartLines": [
+        36,
+        42,
+        46,
+        89
+      ],
+      "uncoveredFunctions": [
+        {
+          "name": "backToSlots",
+          "line": 88
+        }
+      ],
+      "actionableReview": [
+        "15-minute UI countdown expiry, disabled-payment transition and Choose another time callback at 36/88-89/107/156",
+        "Failed initial service load catch at 46",
+        "Testing expiry UI must not assert backend hold release, which is not implemented"
+      ]
+    },
+    {
+      "file": "frontend/app/auth/login.tsx",
+      "qaIssues": [
+        100,
+        103
+      ],
+      "metrics": {
+        "lines": {
+          "total": 25,
+          "covered": 24,
+          "skipped": 0,
+          "pct": 96
+        },
+        "functions": {
+          "total": 4,
+          "covered": 3,
+          "skipped": 0,
+          "pct": 75
+        },
+        "statements": {
+          "total": 25,
+          "covered": 24,
+          "skipped": 0,
+          "pct": 96
+        },
+        "branches": {
+          "total": 24,
+          "covered": 21,
+          "skipped": 0,
+          "pct": 87.5
+        }
+      },
+      "uncoveredStatementStartLines": [
+        57
+      ],
+      "uncoveredFunctions": [
+        {
+          "name": "(anonymous_2)",
+          "line": 57
+        }
+      ],
+      "actionableReview": [
+        "Close/back callback at 57; platform-specific keyboard branches not in shared coverage",
+        "Native preset pass counts provide separate platform behavior evidence but no native coverage percentage"
+      ]
+    },
+    {
+      "file": "frontend/app/counsellor/profile.tsx",
+      "qaIssues": [
+        130
+      ],
+      "metrics": {
+        "lines": {
+          "total": 78,
+          "covered": 75,
+          "skipped": 0,
+          "pct": 96.15
+        },
+        "functions": {
+          "total": 15,
+          "covered": 14,
+          "skipped": 0,
+          "pct": 93.33
+        },
+        "statements": {
+          "total": 92,
+          "covered": 87,
+          "skipped": 0,
+          "pct": 94.56
+        },
+        "branches": {
+          "total": 75,
+          "covered": 69,
+          "skipped": 0,
+          "pct": 92
+        }
+      },
+      "uncoveredStatementStartLines": [
+        25,
+        92,
+        93,
+        138
+      ],
+      "uncoveredFunctions": [
+        {
+          "name": "(anonymous_6)",
+          "line": 138
+        }
+      ],
+      "actionableReview": [
+        "Successful native picker asset URI selection/preview at 92-93 remains unhit by shared suite",
+        "Picker permission grant/denial/selection remain native device gaps; only Android opening/cancel observed",
+        "Profile UI has component and limited manual native evidence; backend profile CRUD/upload persistence is absent."
+      ]
+    },
+    {
+      "file": "frontend/app/services/[serviceId].tsx",
+      "qaIssues": [
+        115,
+        118
+      ],
+      "metrics": {
+        "lines": {
+          "total": 46,
+          "covered": 45,
+          "skipped": 0,
+          "pct": 97.82
+        },
+        "functions": {
+          "total": 15,
+          "covered": 14,
+          "skipped": 0,
+          "pct": 93.33
+        },
+        "statements": {
+          "total": 53,
+          "covered": 50,
+          "skipped": 0,
+          "pct": 94.33
+        },
+        "branches": {
+          "total": 46,
+          "covered": 38,
+          "skipped": 0,
+          "pct": 82.6
+        }
+      },
+      "uncoveredStatementStartLines": [
+        42,
+        60,
+        94
+      ],
+      "uncoveredFunctions": [
+        {
+          "name": "(anonymous_9)",
+          "line": 94
+        }
+      ],
+      "actionableReview": [
+        "Invalid/missing service ID and request resolution after unmount",
+        "Back navigation callback at 94 and missing optional detail field variants"
+      ]
+    },
+    {
+      "file": "frontend/src/chrome.tsx",
+      "qaIssues": [
+        100,
+        106
+      ],
+      "metrics": {
+        "lines": {
+          "total": 49,
+          "covered": 48,
+          "skipped": 0,
+          "pct": 97.95
+        },
+        "functions": {
+          "total": 24,
+          "covered": 21,
+          "skipped": 0,
+          "pct": 87.5
+        },
+        "statements": {
+          "total": 63,
+          "covered": 57,
+          "skipped": 0,
+          "pct": 90.47
+        },
+        "branches": {
+          "total": 26,
+          "covered": 19,
+          "skipped": 0,
+          "pct": 73.07
+        }
+      },
+      "uncoveredStatementStartLines": [
+        40,
+        59,
+        77,
+        136,
+        164
+      ],
+      "uncoveredFunctions": [
+        {
+          "name": "(anonymous_3)",
+          "line": 59
+        },
+        {
+          "name": "(anonymous_12)",
+          "line": 77
+        },
+        {
+          "name": "(anonymous_20)",
+          "line": 164
+        }
+      ],
+      "actionableReview": [
+        "Counsellor account sheet Open my workspace callback at 164 and closing-sheet paths",
+        "Some uncovered branches are animation/boundary guards, not unimplemented product functions"
+      ]
+    }
+  ],
+  "coverageDoesNotMeanCorrectness": [
+    {
+      "file": "frontend/src/format.ts",
+      "lines": 100,
+      "branches": 100,
+      "knownFailure": "7050 AUD minor units renders $71; QA #115/#124"
+    },
+    {
+      "file": "frontend/src/counsellor/availabilityPlanner.ts",
+      "lines": 100,
+      "branches": 100,
+      "knownFailure": "Adjacent ISO precision, booked/cross-service conflicts and DST recurrence; QA #121/#145"
+    },
+    {
+      "file": "frontend/app/bookings/confirmation.tsx",
+      "lines": 100,
+      "knownFailure": "Forged anonymous route can display paid success; QA #127"
+    }
+  ],
+  "freshness": {
+    "recordedFiles": 157,
+    "matchingRecordedFiles": 152,
+    "changedRecordedFiles": [
+      {
+        "file": ".github/workflows/app-ci.yml",
+        "recordedSha256": "b8aab5c15489830ba600508a819065ba0bc7c5f0cbbbca39e96db31db0762b68",
+        "currentSha256": "caacc84ddf7a51f92b8473c6e1729884966c181bfece6b2396c44ae81773a657"
+      },
+      {
+        "file": "docs/sprint2/qa/scope.json",
+        "recordedSha256": "5a7b67847687b56051a202ef4b09583bef276044a803c14dc455a1ca83a7b1b9",
+        "currentSha256": "bbfbd93adb14e847b72e746ae743166df6c0664ce14d99f16e868107e8a7d0ce"
+      },
+      {
+        "file": "frontend/__tests__/screens/register.test.tsx",
+        "recordedSha256": "4df9ca0b226200d912b278d64bb8458e2432b1992a8fab387906082bac5e315e",
+        "currentSha256": "1e645d253f9148c186b434371639f69aa811c55e16fcd2556b273ece2810efce"
+      },
+      {
+        "file": "scripts/package_sprint2_qa.py",
+        "recordedSha256": "20eae00c70d282824a106c92b28b539941e9c84a43a41e00078e1c50c33f22fc",
+        "currentSha256": "3f80dc3a378a81b615542ed8edf69df6719a7b81759b32df6945d9e32a45d506"
+      },
+      {
+        "file": "scripts/run_sprint2_qa.py",
+        "recordedSha256": "614d1f04573ec136dcaa6029d6f885f7e77b131f53a14566f53f1c4aad196c19",
+        "currentSha256": "bb23d0c39c6bcf810c236b2b6a280c0a0e30f7495052f32fbbf7552d808b99a3"
+      }
+    ],
+    "matchingProductFiles": 49,
+    "productFiles": {
+      "backend/app/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "backend/app/config.py": "03f325c80ba17a6db908641c2893588c9d1f699be53f81600909a4303cdedbdb",
+      "backend/app/db.py": "c942f491f7e76d1574484fe8d6c5a3b76d1c8f9fff21c157774d48dd827cad11",
+      "backend/app/dev.py": "4b9aa7a4604f24294ffeff6eb633d679a840ac1c044733b111bad89bff6c2b09",
+      "backend/app/errors.py": "d74fd67849b072ef2c91964c5025c5ad33db0822440f13b86419e0d5776b4461",
+      "backend/app/frontend.py": "f2598bcec918b7ad6c50c81e4f34e40a8c8d4403f5a8ed1b85a79e20f48f7685",
+      "backend/app/main.py": "dd0c799525af9a79c7e860a2868bc180d1f57fcd6d8257b2e3ce80a464d96700",
+      "backend/app/models.py": "2342bab4f56ab28a8e7adbe2698b5fcc73fc224789a5a44734b470cc02a0976f",
+      "backend/app/routers/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "backend/app/routers/auth.py": "9758e45042c902ce24fd11d37dbc0484e095cfca8f2e24f58c5e10dde4330d37",
+      "backend/app/routers/bookings.py": "31553bd1d4d27e2cbef46927ee5da4ab4231e6e40eadece93db84c7abf569d00",
+      "backend/app/routers/counsellor.py": "ea33a7d0a6ebebf56e270ca7af4d4565840c7ee1c2c20dcc77950eadbd2d8992",
+      "backend/app/routers/health.py": "bad9a027d20b36df7874d556bdaf34c6b4bf0a3ab297d153dc48546407c3ad09",
+      "backend/app/routers/services.py": "a667062bbb07672b666b61379304d0bfae680121ec9cd50d5f90e0b5da201bde",
+      "backend/app/schemas.py": "4523c7c867c9159ab8d7beab54b526c57499ce55631cb704247c36290f71951a",
+      "backend/app/security.py": "5f10f72b15c5251d33f20ab8ad365ee95d857410f24b270c48419804d224aaab",
+      "backend/app/seed.py": "9de7c5cc70ef038bde9c3898aed60422746a4bb233e13280fe5540e5416aee25",
+      "backend/app/seed_data.json": "19505a0ed540a6160d1e061b1686eaa55a21ebf57f20194a69b9fd6771226b45",
+      "frontend/app/_layout.tsx": "da0a3c1c10880fa72aed603f8af12e285d09c5ef3ebe7c5d7171ed65e13ac1a3",
+      "frontend/app/auth/login.tsx": "c8fd186d031a3da0e502f8178596fd1d023b7edc51b2b09b8662115c5bc3e27f",
+      "frontend/app/auth/register.tsx": "f7307a48a0fa24b3bc8436d4737912565c9337fe8498a8e218efb6b5545ac314",
+      "frontend/app/auth/welcome.tsx": "f32edd3b22732dfda23eb1c1cd9e7b13bf18eb168429b8a0a47dbe96bf10e3e7",
+      "frontend/app/bookings/checkout.tsx": "ed0dcb4ce7f5f46951ebb3a7be22d2c5a6a4140223be6b7af948a81fc1fb2216",
+      "frontend/app/bookings/confirmation.tsx": "4fe3ef74cbd7a76078a0958b5aa0e3d60e53c36b05ee09188a7d9fdca274392c",
+      "frontend/app/counsellor/availability.tsx": "f9bc08e6b2dd0eaf5236c1e46c69649ca87bbbb8224fe533672725d5d4ff63df",
+      "frontend/app/counsellor/index.tsx": "e5e7f29796f3d13eb33f743e469cbc769840a22c8834e41f72ab9c08af5b0697",
+      "frontend/app/counsellor/profile.tsx": "3a83ca3ea6e8fe5f97502c7408cee51aba6d515eee6f9a3919b221ce9182f40c",
+      "frontend/app/counsellor/services/[serviceId]/edit.tsx": "fde8c9bcc31c8f3e97f3133b04faf6939b28c02b5b77ff7ec5119b2ba4185813",
+      "frontend/app/counsellor/services/new.tsx": "925c3625953332245ec046f1880a1c13bbccad0cb0dca0669414bcec216caff0",
+      "frontend/app/index.tsx": "b4ed77300b9f1e743cb596b1574cccefee50ef7409076c1ace5ccbba0d9789a5",
+      "frontend/app/marketplace/index.tsx": "738664420afb9bd003167b4ad221d0256129fc0f8958838546ed39d8815a05be",
+      "frontend/app/services/[serviceId]/timeslots.tsx": "355dbc57e2804f31668750f6e30be2358c580ba06c3212ccf6592d72c07cc615",
+      "frontend/app/services/[serviceId].tsx": "cf488eb735446c894005eb113f1b4030aa4ef9d346b5dda3d8ec95d567b00716",
+      "frontend/src/api/client.ts": "2726f8842ad80c8f662040814c355918031ae2aa2c64f98f79a3bb39addc419e",
+      "frontend/src/api/demo.ts": "355b74ca7b3079c2d565ef2b20ac14003d6d791011ea63dc4b1c393b912a2e87",
+      "frontend/src/api/errors.ts": "5d4ee78775de5d83b8f842d7cf75bc0df58db8c6b10b890ff1ebb925f74cff51",
+      "frontend/src/api/types.ts": "585a593202eb65ea81994a015fb01394017d986a6377e85ebfdd0af2231dfb5a",
+      "frontend/src/auth/AuthContext.tsx": "ea283bf1dfad55bfe432635d6e24c8da3139d4541bb4e13cacf799045d5c9ae4",
+      "frontend/src/chrome.tsx": "d8149a58eee55b5ff15c3447e62330e5297a7d64bd5bcf2d2aaafa2b4802919c",
+      "frontend/src/components/Glyph.tsx": "19227b21f6690a9b06c7ea13ebc8cd9c89493d5f96fa3188c91cb419544dc3c1",
+      "frontend/src/components/Scenes.tsx": "07af14c750d08b0296ab8b97d8501b55fecd48415b89aa5bd113fec502bac8bb",
+      "frontend/src/components/booking.tsx": "b43138db49b8a97c042177943d89da9e4291a2212cea7912030400503ceb6ec4",
+      "frontend/src/components/ui.tsx": "d60144f6d480f58009177d9891d59d38283f26e2a7d8b5a0b35ea1ae4619be3b",
+      "frontend/src/counsellor/ServiceForm.tsx": "232d9fd03848d42481168e6f205ed925d0791e8a1037a8bc5e59ead6883ef30e",
+      "frontend/src/counsellor/availabilityPlanner.ts": "20892627a8e50902c67763fac2b8f7a829e8e66cb8826684fbf7c1b7f4bba0ba",
+      "frontend/src/format.ts": "fc769af56b75de033c986afce8ade708ed57046d33c6e77a3ae153ff2b37ee93",
+      "frontend/src/marketplace/filters.ts": "adc26ec5df63715a66947144a6446d764b2f450b55d7cb31d13feb34c5a15152",
+      "frontend/src/motion.tsx": "02b7fb40440e59590025c4168195041c9f15fd9d4531afa1f7b70ec15787c2cf",
+      "frontend/src/theme.ts": "9349b243b71762bffbffed2622231442038c513a56bd23cc9ac429b45041c1b8"
+    },
+    "scope": "Original results belong to their dated run. Later QA-tooling/metadata edits are not a new full-suite run.",
+    "registerChangeProvenCommentOnly": true
+  },
+  "issues": {
+    "checkedAt": "2026-09-16T06:40:30.446Z",
+    "qaStateCounts": {
+      "closed": 3,
+      "open": 17
+    },
+    "closedQaIssues": [
+      87,
+      94,
+      97
+    ],
+    "parentStateCounts": {
+      "open": 20
+    },
+    "mappedQaIssues": 20,
+    "parentAcCount": 94,
+    "remoteDeltaCount": 0,
+    "localAssessments": {
+      "implemented-covered": 11,
+      "component-and-native-ui-only": 1,
+      "partial-with-defects": 8
+    },
+    "fullAcceptanceClaims": 0,
+    "note": "Mapping coverage, code coverage, GitHub state and full acceptance are distinct. No per-AC pass percentage is asserted."
+  },
+  "native": {
+    "reviewedAt": "2026-09-16T06:42:18.632423+00:00",
+    "execution": {
+      "platformsWithRecordedManualExpoGoSmoke": 2,
+      "recordedPersistedSmokeBookings": 2,
+      "currentlyIndependentlyRecheckedBookingDatabases": 1,
+      "iosJourneyTable": {
+        "observedRows": 7,
+        "notRunRows": 0,
+        "warning": "Rows summarize multiple actions, not separately named automated test cases; untested cases are enumerated elsewhere."
+      },
+      "androidJourneyTable": {
+        "observedRows": 10,
+        "notVerifiedRows": 1,
+        "notTestedRows": 1,
+        "warning": "Rows summarize manual observations, not automated acceptance cases."
+      },
+      "fullNativeIssueSignOffClaimed": 0,
+      "remainingPlanGroups": [
+        "N01",
+        "N02",
+        "N03",
+        "N04",
+        "N05",
+        "N06",
+        "N07",
+        "N08",
+        "N09",
+        "N10"
+      ]
+    },
+    "androidReadOnlyRecheck": {
+      "path": "/private/var/folders/5h/35gmrt4n5zq84_8vh5md45nm0000gn/T/yoir-web-qa-9pqgyb7h/web_test.db",
+      "exists": true,
+      "access": "sqlite3 mode=ro; no writes",
+      "counts": {
+        "services": 7,
+        "orders": 1,
+        "bookings": 1,
+        "open_slots": 20,
+        "held_slots": 0,
+        "booked_slots": 1
+      },
+      "bookingRows": [
+        {
+          "booking_id": "606db395-7fda-4cc9-9f9f-007915a6b779",
+          "order_id": "2754855a-5179-44c2-be94-c889876e5983",
+          "slot_id": "3c124bd7-f20d-40f9-8620-b0a19d7485f6",
+          "title": "Interview confidence coaching",
+          "amount_minor": 9500,
+          "currency": "AUD",
+          "order_status": "confirmed",
+          "order_payment_status": "paid",
+          "booking_status": "confirmed",
+          "booking_payment_status": "paid",
+          "slot_status": "booked",
+          "starts_at": "2026-09-17 09:00:00.000000",
+          "ends_at": "2026-09-17 10:00:00.000000",
+          "timezone": "Australia/Melbourne",
+          "modality": "online",
+          "created_at": "2026-09-16 05:53:58.095729",
+          "relationships_consistent": 1
+        }
+      ],
+      "matchesReport": true,
+      "retention": "Temporary, owner may remove it later; review JSON is a read-only result, not a full DB archive."
+    },
+    "iosDatabaseRetention": {
+      "path": "/private/var/folders/5h/35gmrt4n5zq84_8vh5md45nm0000gn/T/yoir-web-qa-s7e51gyr/web_test.db",
+      "exists": false,
+      "state": "Removed by its owning launcher, consistent with report. Historical report records 1 order/1 booking/20 open/0 held/1 booked; raw DB not retained.",
+      "recordedBookingId": "96305945-927b-4523-94b5-4a8a44865dce",
+      "recordedOrderId": "0ae10675-eacc-4b02-8b84-f3b9c6aefc9e"
+    },
+    "visualEvidence": "Measured screenshots/accessibility observations are described in the task conversation; no saved native screenshot/video files were available for this audit. Web screenshots are not native proof.",
+    "relevantSourceHashesMatch": {
+      "checked": 10,
+      "matched": 10,
+      "details": [
+        {
+          "path": "frontend/app/auth/login.tsx",
+          "recordedSha256": "c8fd186d031a3da0e502f8178596fd1d023b7edc51b2b09b8662115c5bc3e27f",
+          "currentSha256": "c8fd186d031a3da0e502f8178596fd1d023b7edc51b2b09b8662115c5bc3e27f",
+          "matches": true
+        },
+        {
+          "path": "frontend/app/services/[serviceId]/timeslots.tsx",
+          "recordedSha256": "355dbc57e2804f31668750f6e30be2358c580ba06c3212ccf6592d72c07cc615",
+          "currentSha256": "355dbc57e2804f31668750f6e30be2358c580ba06c3212ccf6592d72c07cc615",
+          "matches": true
+        },
+        {
+          "path": "frontend/app/bookings/checkout.tsx",
+          "recordedSha256": "ed0dcb4ce7f5f46951ebb3a7be22d2c5a6a4140223be6b7af948a81fc1fb2216",
+          "currentSha256": "ed0dcb4ce7f5f46951ebb3a7be22d2c5a6a4140223be6b7af948a81fc1fb2216",
+          "matches": true
+        },
+        {
+          "path": "frontend/app/bookings/confirmation.tsx",
+          "recordedSha256": "4fe3ef74cbd7a76078a0958b5aa0e3d60e53c36b05ee09188a7d9fdca274392c",
+          "currentSha256": "4fe3ef74cbd7a76078a0958b5aa0e3d60e53c36b05ee09188a7d9fdca274392c",
+          "matches": true
+        },
+        {
+          "path": "frontend/app/counsellor/index.tsx",
+          "recordedSha256": "e5e7f29796f3d13eb33f743e469cbc769840a22c8834e41f72ab9c08af5b0697",
+          "currentSha256": "e5e7f29796f3d13eb33f743e469cbc769840a22c8834e41f72ab9c08af5b0697",
+          "matches": true
+        },
+        {
+          "path": "frontend/app/counsellor/profile.tsx",
+          "recordedSha256": "3a83ca3ea6e8fe5f97502c7408cee51aba6d515eee6f9a3919b221ce9182f40c",
+          "currentSha256": "3a83ca3ea6e8fe5f97502c7408cee51aba6d515eee6f9a3919b221ce9182f40c",
+          "matches": true
+        },
+        {
+          "path": "frontend/src/api/client.ts",
+          "recordedSha256": "2726f8842ad80c8f662040814c355918031ae2aa2c64f98f79a3bb39addc419e",
+          "currentSha256": "2726f8842ad80c8f662040814c355918031ae2aa2c64f98f79a3bb39addc419e",
+          "matches": true
+        },
+        {
+          "path": "backend/app/routers/bookings.py",
+          "recordedSha256": "31553bd1d4d27e2cbef46927ee5da4ab4231e6e40eadece93db84c7abf569d00",
+          "currentSha256": "31553bd1d4d27e2cbef46927ee5da4ab4231e6e40eadece93db84c7abf569d00",
+          "matches": true
+        },
+        {
+          "path": "frontend/e2e/serve.py",
+          "recordedSha256": "8ab88c80857a4a2777170bf32b102b1d1e9b26419f25b2db1aceaea63640b99f",
+          "currentSha256": "8ab88c80857a4a2777170bf32b102b1d1e9b26419f25b2db1aceaea63640b99f",
+          "matches": true
+        },
+        {
+          "path": "frontend/app.json",
+          "recordedSha256": "c75de92770a1d1941b5d79e7210a38ef9e4f926f22494570137236ae02144141",
+          "currentSha256": "c75de92770a1d1941b5d79e7210a38ef9e4f926f22494570137236ae02144141",
+          "matches": true
+        }
+      ]
+    },
+    "note": "Observation-linked issue cells and journey rows are not counts of accepted QA issues.",
+    "platformIssueMapping": {
+      "ios": {
+        "observedQaIssues": [
+          100,
+          106,
+          130,
+          133,
+          118,
+          121,
+          109,
+          112,
+          115,
+          124,
+          127
+        ],
+        "unobservedQaIssues": [
+          87,
+          94,
+          97,
+          91,
+          103,
+          136,
+          139,
+          142,
+          145
+        ],
+        "issuesWithRemainingCases": [
+          87,
+          94,
+          97,
+          91,
+          100,
+          103,
+          106,
+          130,
+          133,
+          136,
+          139,
+          142,
+          145,
+          118,
+          121,
+          109,
+          112,
+          115,
+          124,
+          127
+        ]
+      },
+      "android": {
+        "observedQaIssues": [
+          100,
+          103,
+          106,
+          130,
+          133,
+          118,
+          121,
+          109,
+          115,
+          124,
+          127
+        ],
+        "unobservedQaIssues": [
+          87,
+          94,
+          97,
+          91,
+          136,
+          139,
+          142,
+          145,
+          112
+        ],
+        "issuesWithRemainingCases": [
+          87,
+          94,
+          97,
+          91,
+          100,
+          103,
+          106,
+          130,
+          133,
+          136,
+          139,
+          142,
+          145,
+          118,
+          121,
+          109,
+          112,
+          115,
+          124,
+          127
+        ]
+      }
+    }
+  },
+  "laterPublication": {
+    "manifest": "evidence/20260916-multiplatform/manifest.json",
+    "note": "Selected retained original outputs prepared for the authorized QA push; metrics and original execution timestamps remain unchanged. Source availability fields describe the audit-time local copies."
+  }
+}
