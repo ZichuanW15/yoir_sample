@@ -42,6 +42,10 @@ export default function RootLayout() {
               <Stack.Screen name="auth/login" options={{ animation: 'slide_from_bottom' }} />
               <Stack.Screen name="auth/register" options={{ animation: 'slide_from_bottom' }} />
               <Stack.Screen name="marketplace/index" />
+              <Stack.Screen name="job-seeker/index" options={{ animation: 'fade' }} />
+              <Stack.Screen name="job-seeker/bookings" options={{ animation: 'fade' }} />
+              <Stack.Screen name="job-seeker/notifications" options={{ animation: 'fade' }} />
+              <Stack.Screen name="job-seeker/profile" options={{ animation: 'fade' }} />
               <Stack.Screen name="services/[serviceId]" />
               <Stack.Screen name="services/[serviceId]/timeslots" />
               <Stack.Screen name="bookings/checkout" />

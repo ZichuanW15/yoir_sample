@@ -23,7 +23,8 @@ export type GlyphName =
   | 'search' | 'filter' | 'check' | 'close' | 'chevronRight' | 'arrowRight'
   | 'star' | 'shieldCheck' | 'video' | 'pin' | 'calendar' | 'clock'
   | 'wallet' | 'receipt' | 'seeker' | 'mentor' | 'eye' | 'briefcase'
-  | 'plus' | 'pencil' | 'trash' | 'logout' | 'sparkle' | 'lock' | 'refresh';
+  | 'plus' | 'pencil' | 'trash' | 'logout' | 'sparkle' | 'lock' | 'refresh'
+  | 'home' | 'bell';
 
 function Frame({ size, color, children, viewBox = '0 0 24 24' }: {
   size: number;
@@ -35,6 +36,19 @@ function Frame({ size, color, children, viewBox = '0 0 24 24' }: {
 }
 
 const paths: Record<GlyphName, ReactNode> = {
+  home: (
+    <>
+      <Path d="M3.5 11.2L12 4l8.5 7.2" {...STROKE} />
+      <Path d="M5.8 10.2v9.2h12.4v-9.2" {...STROKE} />
+      <Path d="M9.6 19.4v-5.8h4.8v5.8" {...STROKE} />
+    </>
+  ),
+  bell: (
+    <>
+      <Path d="M6.2 10.4a5.8 5.8 0 0111.6 0c0 4 1.7 5.2 2.2 6.1H4c.5-.9 2.2-2.1 2.2-6.1z" {...STROKE} />
+      <Path d="M9.5 19a2.8 2.8 0 005 0" {...STROKE} />
+    </>
+  ),
   search: (
     <>
       <Circle cx={10.5} cy={10.5} r={6} {...STROKE} />

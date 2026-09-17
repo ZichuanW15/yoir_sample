@@ -7,6 +7,7 @@ import { ApiError } from './errors';
 import {
   ApiErrorBody, AvailabilitySlot, CounsellorProfile, CounsellorProfileUpdate, Order, RegisterRequest,
   Role, Service, ServiceDraft, ServiceUpdate, Session, SlotDraft, StubPaymentConfirmation, User,
+  TriageRecommendation, TriageSubmission,
 } from './types';
 
 export { ApiError };
@@ -67,6 +68,30 @@ export const preview = {
  */
 export const undeployedRoutes = new Set(['counsellorProfile', 'ownServices', 'availability']);
 
+async function previewTriage(input: TriageSubmission): Promise<TriageRecommendation> {
+  const services = await demoListServices();
+  const terms: Record<TriageSubmission['goal'], string[]> = {
+    direction: ['career', 'planning', 'clarity'],
+    resume: ['resume', 'cv', 'application'],
+    interview: ['interview', 'confidence', 'practice'],
+    career_change: ['career', 'transition', 'planning'],
+  };
+  const wanted = terms[input.goal];
+  const scored = services
+    .filter((service) => input.modality === 'any' || service.modalities.includes(input.modality))
+    .map((service) => ({
+      service,
+      score: wanted.filter((term) => `${service.title} ${service.description}`.toLowerCase().includes(term)).length,
+    }))
+    .sort((a, b) => b.score - a.score || (b.service.averageRating ?? 0) - (a.service.averageRating ?? 0));
+  return {
+    summary: `A focused ${input.goal.replace('_', ' ')} session is a useful next step for your ${input.careerStage.replace('_', ' ')} journey.`,
+    suggestedSearchTerms: wanted,
+    services: scored.slice(0, 3).map(({ service }) => service),
+    source: 'preview',
+  };
+}
+
 function isUndeployedRoute(route: string, error: unknown): boolean {
   if (!(error instanceof ApiError)) return false;
   if (error.status === 405 || error.status === 501) return true;
@@ -122,6 +147,27 @@ export const api = {
     isDemoApi
       ? demoCompletePayment(order)
       : request(`/orders/${encodeURIComponent(order.id)}/payments/stub`, { method: 'POST' }, accessToken),
+
+  /**
+   * Planned backend boundary for the Home triage. Until POST /triage/recommendations
+   * ships, a 404/405/501 produces a visibly labelled local recommendation.
+   */
+  getTriageRecommendations: async (input: TriageSubmission, accessToken?: string): Promise<TriageRecommendation> => {
+    if (isDemoApi) return previewTriage(input);
+    try {
+      const result = await request<Omit<TriageRecommendation, 'source'>>(
+        '/triage/recommendations',
+        { method: 'POST', body: JSON.stringify(input) },
+        accessToken,
+      );
+      return { ...result, source: 'live' };
+    } catch (error) {
+      const unavailable = error instanceof TypeError
+        || (error instanceof ApiError && [404, 405, 501].includes(error.status));
+      if (!unavailable) throw error;
+      return previewTriage(input);
+    }
+  },
 
   // --- counsellor workspace (contract-published, backend pending) ---
 

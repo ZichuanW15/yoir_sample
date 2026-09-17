@@ -9,6 +9,7 @@ import { Service } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
 import { Glyph } from '@/src/components/Glyph';
+import { JobSeekerNav } from '@/src/components/JobSeekerNav';
 import { EmptySearchMark } from '@/src/components/Scenes';
 import { Avatar, Card, Chip, ErrorBanner, Press, Tag } from '@/src/components/ui';
 import { initials, modalityLabel, money } from '@/src/format';
@@ -223,6 +224,7 @@ export default function MarketplaceScreen() {
           </View>
         )}
       </ScrollView>
+      <JobSeekerNav />
     </ScreenIn>
   );
 }

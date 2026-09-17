@@ -1,4 +1,5 @@
 import { Redirect, router } from 'expo-router';
+import type { Href } from 'expo-router';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '@/src/auth/AuthContext';
@@ -34,7 +35,8 @@ export default function EntryScreen() {
   const { session } = useAuth();
   const insets = useSafeAreaInsets();
 
-  if (session) return <Redirect href={session.user.role === 'counsellor' ? '/counsellor' : '/marketplace'} />;
+  if (session?.user.role === 'counsellor') return <Redirect href="/counsellor" />;
+  if (session) return <Redirect href={'/job-seeker' as Href} />;
 
   return (
     <ScreenIn duration={500} style={[styles.screen, { paddingTop: insets.top }]}>

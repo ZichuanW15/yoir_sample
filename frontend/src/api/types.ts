@@ -36,6 +36,20 @@ export interface Order { id: string; serviceId: string; slotId: string; amountMi
 export interface Booking { id: string; orderId: string; serviceId: string; serviceTitle: string; startsAt: string; endsAt: string; timezone: string; modality: Modality; status: 'confirmed'; paymentStatus: 'paid' }
 export interface StubPaymentConfirmation { paymentId: string; paymentStatus: 'paid'; booking: Booking }
 
+/** Planned triage contract: answers sent by Home to the future recommendation service. */
+export interface TriageSubmission {
+  careerStage: 'student' | 'early_career' | 'career_change' | 'returning';
+  goal: 'direction' | 'resume' | 'interview' | 'career_change';
+  modality: 'any' | Modality;
+}
+
+export interface TriageRecommendation {
+  summary: string;
+  suggestedSearchTerms: string[];
+  services: Service[];
+  source: 'live' | 'preview';
+}
+
 /** US-30 — the professional profile a counsellor maintains. */
 export interface CounsellorProfile {
   id: string;

@@ -14,7 +14,7 @@ export function Press({ onPress, children, style, scaleTo = 0.97, disabled, acce
   scaleTo?: number;
   disabled?: boolean;
   accessibilityLabel?: string;
-  accessibilityRole?: 'button' | 'radio' | 'checkbox';
+  accessibilityRole?: 'button' | 'radio' | 'checkbox' | 'tab';
   accessibilityState?: object;
 }>) {
   const s = useAnimatedValue(1);

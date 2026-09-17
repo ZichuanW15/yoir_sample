@@ -286,6 +286,29 @@ describe('API client HTTP boundary', () => {
     }
   });
 
+  test('posts triage answers to the reserved recommendation contract', async () => {
+    fetchMock.mockResolvedValueOnce(jsonResponse({
+      summary: 'Start with interview preparation.',
+      suggestedSearchTerms: ['interview'],
+      services: [serviceFixture],
+    }));
+    const { api } = loadClient();
+    const answers = { careerStage: 'early_career' as const, goal: 'interview' as const, modality: 'online' as const };
+
+    await expect(api.getTriageRecommendations(answers, 'access-token')).resolves.toMatchObject({
+      source: 'live', services: [serviceFixture],
+    });
+    expect(fetchMock).toHaveBeenCalledWith('https://api.example.test/api/v1/triage/recommendations', {
+      method: 'POST',
+      body: JSON.stringify(answers),
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer access-token',
+      },
+    });
+  });
+
   test.todo('uses a deterministic fallback when an error response is valid JSON null');
   test.todo('rejects a successful response that does not match the published schema');
   test.todo('aborts a request after the configured timeout');
