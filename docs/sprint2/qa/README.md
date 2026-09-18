@@ -1,6 +1,6 @@
 # Sprint 2 QA — implemented Web, iOS, Android and API features
 
-This review tests the frontend and backend actually present at `0ffa565e47d60fc2783a4618e5dce6cfe73a4b08` (`dev`). The local working branch is `sprint2-qa`. Product sources are unchanged. Missing features and unsettled policies are excluded from current pass/fail totals.
+The current branch merges `dev` at `776899c8e59669c831b8608513c0567921cb339f`. Start with the [18 September review fixes and fresh validation](dev-sync-review-20260918.md) and [machine-readable results](dev-sync-validation-20260918.json). Production behavior from dev is preserved (one trailing blank line was normalized for whitespace CI). The reports below describe the earlier `0ffa565` baseline and remain historical; their counts and findings must not be used as evidence for the merged branch.
 
 ## Review order
 
@@ -34,7 +34,7 @@ The local `scripts/run_sprint2_qa.py` recorder remains strict and returns nonzer
 for failed defect commands. Historical results, exit codes and manifests are
 unchanged by this CI policy update.
 
-## Incremental reconciliation — no duplicate application run
+## Historical 16 September reconciliation — no duplicate application run
 
 This update reuses the dated automated and manual results, corrects stale status
 and scope descriptions, and adds a read-only traceability guard. Only the new

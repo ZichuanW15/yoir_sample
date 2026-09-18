@@ -1,4 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
+import { goBack } from '@/src/navigation';
 import { useState } from 'react';
 import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -54,7 +55,7 @@ export default function LoginScreen() {
   return (
     <SheetUp duration={500} style={[styles.screen, { paddingTop: insets.top }]}>
       <View style={styles.bar}>
-        <IconButton label="Close" onPress={() => router.back()}>
+        <IconButton label="Close" onPress={() => goBack('/auth/welcome')}>
           <Glyph name="close" size={18} color={colors.green} />
         </IconButton>
         <Image source={require('@/assets/images/yoir-wordmark.png')} style={styles.wordmark} resizeMode="contain" accessibilityLabel="Yoir" />
@@ -97,8 +98,15 @@ export default function LoginScreen() {
             />
           </FadeUp>
 
-          <FadeUp delay={300}>
+          <FadeUp delay={300} style={styles.actions}>
             <Button label={busy ? 'Logging in' : 'Log in'} busy={busy} height={56} onPress={submit} />
+            <Press
+              accessibilityLabel="Forgot your password?"
+              scaleTo={0.96}
+              onPress={() => router.push({ pathname: '/auth/forgot', params: email.trim() ? { email: email.trim() } : {} })}
+            >
+              <Text style={styles.forgot}>Forgot your password?</Text>
+            </Press>
           </FadeUp>
 
           <FadeUp delay={400} style={styles.switchRow}>
@@ -114,10 +122,6 @@ export default function LoginScreen() {
               <Text style={styles.switchLink}>Create an account</Text>
             </Press>
           </FadeUp>
-
-          <Text style={styles.footnote}>
-            Demo: any email and password work. Counsellor emails (e.g. maya@yoir.test) open the workspace.
-          </Text>
         </ScrollView>
       </KeyboardAvoidingView>
     </SheetUp>
@@ -133,8 +137,9 @@ const styles = StyleSheet.create({
   body: { flexGrow: 1, paddingTop: 12, paddingHorizontal: 24, gap: 22 },
   intro: { gap: 10 },
   form: { gap: 16 },
+  actions: { gap: 14 },
+  forgot: { fontFamily: fonts.bold, fontSize: 14, color: colors.green, textAlign: 'center' },
   switchRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
   switchText: { fontFamily: fonts.sans, fontSize: 14, color: colors.muted },
   switchLink: { fontFamily: fonts.bold, fontSize: 14, color: colors.green },
-  footnote: { marginTop: 'auto', fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, color: colors.sub, textAlign: 'center' },
 });

@@ -6,7 +6,7 @@ import { useAuth } from '@/src/auth/AuthContext';
 import { initials } from '@/src/format';
 import { Button } from '@/src/components/ui';
 import { Glyph } from '@/src/components/Glyph';
-import { useAnimatedValue } from '@/src/motion';
+import { useAnimatedValue, USE_NATIVE_DRIVER } from '@/src/motion';
 import { colors, fonts, radius, shadow, type } from '@/src/theme';
 
 export interface ConfirmOptions {
@@ -45,6 +45,12 @@ interface PendingConfirm {
   options: ConfirmOptions;
   resolve(value: boolean): void;
 }
+
+const roleLabel: Record<string, string> = {
+  job_seeker: 'Job Seeker',
+  counsellor: 'Career Counsellor',
+  platform_owner: 'Platform Owner',
+};
 
 /** Toast, the account sheet and the confirm sheet live above every screen, as in the prototype. */
 export function ChromeProvider({ children }: PropsWithChildren) {
@@ -98,7 +104,7 @@ function Toast({ message }: { message: string }) {
   const insets = useSafeAreaInsets();
   const t = useAnimatedValue(0);
   useEffect(() => {
-    Animated.timing(t, { toValue: 1, duration: 400, easing: Easing.bezier(0.2, 0, 0, 1), useNativeDriver: true }).start();
+    Animated.timing(t, { toValue: 1, duration: 400, easing: Easing.bezier(0.2, 0, 0, 1), useNativeDriver: USE_NATIVE_DRIVER }).start();
   }, [t]);
   return (
     <Animated.View
@@ -130,7 +136,7 @@ function AccountSheet({ onClose }: { onClose(): void }) {
   const t = useAnimatedValue(0);
 
   useEffect(() => {
-    Animated.timing(t, { toValue: 1, duration: 450, easing: Easing.bezier(0.2, 0, 0, 1), useNativeDriver: true }).start();
+    Animated.timing(t, { toValue: 1, duration: 450, easing: Easing.bezier(0.2, 0, 0, 1), useNativeDriver: USE_NATIVE_DRIVER }).start();
   }, [t]);
 
   if (!session) return null;
@@ -155,14 +161,28 @@ function AccountSheet({ onClose }: { onClose(): void }) {
           <View style={sheetS.identityCopy}>
             <Text style={type.display24}>{session.user.name}</Text>
             <View style={sheetS.roleTag}>
-              <Text style={sheetS.roleText}>{counsellor ? 'Career Counsellor' : 'Job Seeker'}</Text>
+              <Text style={sheetS.roleText}>{roleLabel[session.user.role]}</Text>
             </View>
           </View>
         </View>
 
+        {session.user.role === 'platform_owner' ? (
+          <Button label="Open the admin panel" tone="soft" height={52} onPress={() => { onClose(); router.replace('/admin'); }} />
+        ) : null}
+
         {counsellor ? (
           <Button label="Open my workspace" tone="soft" height={52} onPress={() => { onClose(); router.replace('/counsellor'); }} />
         ) : null}
+
+        {session.user.role === 'platform_owner' ? null : (
+          <Button
+            label="My sessions"
+            tone="outline"
+            height={52}
+            icon={<Glyph name="calendar" size={18} color={colors.green} />}
+            onPress={() => { onClose(); router.push('/bookings'); }}
+          />
+        )}
 
         <Button
           label="Log out"
@@ -181,7 +201,7 @@ function ConfirmSheet({ options, onCancel, onConfirm }: { options: ConfirmOption
   const t = useAnimatedValue(0);
 
   useEffect(() => {
-    Animated.timing(t, { toValue: 1, duration: 350, easing: Easing.bezier(0.2, 0, 0, 1), useNativeDriver: true }).start();
+    Animated.timing(t, { toValue: 1, duration: 350, easing: Easing.bezier(0.2, 0, 0, 1), useNativeDriver: USE_NATIVE_DRIVER }).start();
   }, [t]);
 
   return (

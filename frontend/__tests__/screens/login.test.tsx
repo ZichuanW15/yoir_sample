@@ -1,6 +1,7 @@
 import { apiFailure, AuthStatusProbe, callsTo, deferred, jsonResponse, navigation, renderPublic, reply, routeParams } from '../public-screen-utils';
 import { act, fireEvent, screen, waitFor } from '@testing-library/react-native';
 import LoginScreen from '@/app/auth/login';
+import { Platform } from 'react-native';
 import { counsellorSessionFixture, sessionFixture } from '../fixtures';
 
 const enterCredentials = () => {
@@ -9,8 +10,8 @@ const enterCredentials = () => {
 };
 
 describe('login screen', () => {
-  test('[QA-103] missing credentials are rejected before the HTTP request', () => {
-    renderPublic(<LoginScreen />);
+  test('[QA-103] missing credentials are rejected before the HTTP request', async () => {
+    await renderPublic(<LoginScreen />);
     fireEvent.press(screen.getByRole('button', { name: 'Log in' }));
     expect(screen.getByText('Enter your email and password.')).toBeOnTheScreen();
     expect(callsTo('POST', '/auth/sessions')).toHaveLength(0);
@@ -18,11 +19,11 @@ describe('login screen', () => {
 
   test('[QA-100] successful login authenticates the real provider and opens Marketplace', async () => {
     reply('POST', '/auth/sessions', jsonResponse(sessionFixture));
-    renderPublic(<LoginScreen />);
+    await renderPublic(<LoginScreen />);
     enterCredentials();
     fireEvent.press(screen.getByRole('button', { name: 'Log in' }));
     await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith('/marketplace'));
-    expect(JSON.parse(callsTo('POST', '/auth/sessions')[0][1]?.body as string)).toEqual({ email: 'alex@example.com', password: 'correct-password' });
+    expect(JSON.parse(callsTo('POST', '/auth/sessions')[0][1]?.body as string)).toEqual({ email: 'alex@example.com', password: 'correct-password', client: Platform.OS === 'web' ? 'web' : 'native' });
     expect(screen.getByText('Welcome, Alex')).toBeOnTheScreen();
   });
 
@@ -32,7 +33,7 @@ describe('login screen', () => {
   ] as const)('[QA-100] a pending booking returns %s to the appropriate route', async (_role, session, pathname) => {
     routeParams({ serviceId: 'service-1' });
     reply('POST', '/auth/sessions', jsonResponse(session));
-    renderPublic(<LoginScreen />);
+    await renderPublic(<LoginScreen />);
     enterCredentials();
     fireEvent.press(screen.getByRole('button', { name: 'Log in' }));
     await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith({ pathname, params: { serviceId: 'service-1' } }));
@@ -40,7 +41,7 @@ describe('login screen', () => {
 
   test('[QA-100] a counsellor login without a booking opens the workspace', async () => {
     reply('POST', '/auth/sessions', jsonResponse(counsellorSessionFixture));
-    renderPublic(<LoginScreen />);
+    await renderPublic(<LoginScreen />);
     enterCredentials();
     fireEvent.press(screen.getByRole('button', { name: 'Log in' }));
     await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith('/counsellor'));
@@ -48,7 +49,7 @@ describe('login screen', () => {
 
   test('[QA-103] invalid credentials show the generic safe message and allow retry', async () => {
     reply('POST', '/auth/sessions', apiFailure('INVALID_CREDENTIALS', 'Do not expose account existence', 401));
-    renderPublic(<><LoginScreen /><AuthStatusProbe /></>);
+    await renderPublic(<><LoginScreen /><AuthStatusProbe /></>);
     enterCredentials();
     fireEvent.press(screen.getByRole('button', { name: 'Log in' }));
     expect(await screen.findByText('The email or password is incorrect.')).toBeOnTheScreen();
@@ -63,7 +64,7 @@ describe('login screen', () => {
 
   test('[QA-103] offline failure retains the entered email and offers another submit', async () => {
     reply('POST', '/auth/sessions', new TypeError('fetch failed'));
-    renderPublic(<><LoginScreen /><AuthStatusProbe /></>);
+    await renderPublic(<><LoginScreen /><AuthStatusProbe /></>);
     enterCredentials();
     fireEvent.press(screen.getByRole('button', { name: 'Log in' }));
     expect(await screen.findByText('We could not reach Yoir. Check your connection and try again.')).toBeOnTheScreen();
@@ -76,7 +77,7 @@ describe('login screen', () => {
   test('[QA-100] submitting twice while authentication is pending sends one request', async () => {
     const request = deferred<Response>();
     reply('POST', '/auth/sessions', request.promise);
-    renderPublic(<><LoginScreen /><AuthStatusProbe /></>);
+    await renderPublic(<><LoginScreen /><AuthStatusProbe /></>);
     enterCredentials();
     fireEvent.press(screen.getByRole('button', { name: 'Log in' }));
     const pending = screen.getByRole('button', { name: 'Logging in' });
@@ -89,9 +90,9 @@ describe('login screen', () => {
     await waitFor(() => expect(navigation.replace).toHaveBeenCalledTimes(1));
   });
 
-  test('[QA-87] switching to registration preserves the booking and selected role', () => {
+  test('[QA-87] switching to registration preserves the booking and selected role', async () => {
     routeParams({ serviceId: 'service-1', role: 'counsellor', email: 'prefilled@example.com' });
-    renderPublic(<LoginScreen />);
+    await renderPublic(<LoginScreen />);
     expect(screen.getByLabelText('Email')).toHaveProp('value', 'prefilled@example.com');
     fireEvent.press(screen.getByText('Create an account'));
     expect(navigation.push).toHaveBeenCalledWith({ pathname: '/auth/register', params: { serviceId: 'service-1', role: 'counsellor' } });

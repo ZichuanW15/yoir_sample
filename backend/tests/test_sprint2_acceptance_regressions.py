@@ -20,24 +20,28 @@ from sqlalchemy.orm import Session
 
 from app.db import SessionLocal, engine, get_db
 from app.main import app
-from app.models import AvailabilitySlot, Booking, Order, Service, User
+from app.models import AvailabilityWindow, Booking, Order, Service, User
+from app.payments.jobs import release_expired_holds
 from app.security import create_access_token
 from app.seed import seed
 
 
-def new_slot(db: Session, service: Service, start: datetime) -> AvailabilitySlot:
-    slot = AvailabilitySlot(
-        service_id=service.id, starts_at=start, ends_at=start + timedelta(hours=1), status="open"
+def new_window(db: Session, service: Service, start: datetime) -> AvailabilityWindow:
+    window = AvailabilityWindow(
+        counsellor_id=service.counsellor_id,
+        starts_at=start,
+        ends_at=start + timedelta(hours=1),
+        modalities=["online", "in_person"],
     )
-    db.add(slot)
+    db.add(window)
     db.commit()
-    return slot
+    return window
 
 
-def order_input(service_id: str, slot_id: str) -> dict[str, str]:
+def order_input(service_id: str, start: datetime | str) -> dict[str, str]:
     return {
         "serviceId": service_id,
-        "slotId": slot_id,
+        "startsAt": start.isoformat() if isinstance(start, datetime) else start,
         "modality": "online",
         "timezone": "Australia/Melbourne",
     }
@@ -47,66 +51,67 @@ def utc(value: datetime) -> datetime:
     return value.replace(tzinfo=UTC) if value.tzinfo is None else value.astimezone(UTC)
 
 
-@pytest.mark.xfail(
-    strict=True,
-    raises=KnownAcceptanceDefect,
-    reason="S2-BE-SEED-OVERLAP: seed assigns identical times to a counsellor's services",
-)
 def test_seeded_calendar_has_no_cross_service_counsellor_overlap(db_session: Session) -> None:
+    """The seed now declares each person's working windows once, across all services."""
     seed(db_session)
     with SessionLocal() as db:
-        services = {s.id: s for s in db.scalars(select(Service))}
-        slots = list(db.scalars(select(AvailabilitySlot)))
-        assert services and slots
-        assert all(slot.service_id in services for slot in slots)
+        services = list(db.scalars(select(Service)))
+        windows = list(db.scalars(select(AvailabilityWindow)))
+        owners = {service.counsellor_id for service in services}
+        assert services and windows
+        assert all(window.counsellor_id in owners for window in windows)
         overlapping = [
             (a.id, b.id)
-            for a, b in combinations(slots, 2)
-            if services[a.service_id].counsellor_id == services[b.service_id].counsellor_id
+            for a, b in combinations(windows, 2)
+            if a.counsellor_id == b.counsellor_id
             and utc(a.starts_at) < utc(b.ends_at)
             and utc(b.starts_at) < utc(a.ends_at)
         ]
-    if overlapping:
-        raise KnownAcceptanceDefect(f"Seed produced {len(overlapping)} same-counsellor overlaps")
+    assert overlapping == []
 
 
-@pytest.mark.xfail(
-    strict=True,
-    raises=KnownAcceptanceDefect,
-    reason="S2-BE-DOUBLE-BOOKING: overlapping seeded services can both be purchased",
-)
-def test_seeded_slots_cannot_confirm_overlapping_bookings_for_one_counsellor(
+def test_seeded_starts_cannot_confirm_overlapping_bookings_for_one_counsellor(
     client: TestClient,
     db_session: Session,
 ) -> None:
-    """Exercise public slots and both HTTP writes; no mocked booking or payment."""
+    """Exercise derived public starts and HTTP reservations in the payment stub mode."""
     seed(db_session)
     buyer = db_session.scalar(select(User).where(User.role == "job_seeker"))
-    assert buyer is not None
+    assert buyer is not None and buyer.email_verified_at is not None
     token, _ = create_access_token(buyer.id, buyer.role)
     headers = {"Authorization": f"Bearer {token}"}
-    listing = client.get("/api/v1/services")
+    listing = client.get("/api/v1/services", params={"modality": "online"})
     assert listing.status_code == 200 and listing.json()
     confirmed_ids = []
+    rejected_overlaps = 0
+    # Read every offer before making a reservation. These are intentionally stale
+    # snapshots, so both same-service and cross-service overlapping starts get tried.
+    candidates = []
     for service in listing.json():
-        slots = client.get(f"/api/v1/services/{service['id']}/slots")
-        assert slots.status_code == 200
-        for slot in slots.json():
-            order = client.post(
-                "/api/v1/orders", headers=headers, json=order_input(service["id"], slot["id"])
-            )
-            # Only an intentional reservation conflict may prevent purchase.
-            assert order.status_code in {201, 409}, order.text
-            if order.status_code == 409:
-                assert order.json()["code"] == "SLOT_UNAVAILABLE"
-                continue
-            assert order.json()["slotId"] == slot["id"]
-            payment = client.post(
-                f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=headers
-            )
-            assert payment.status_code == 200, payment.text
-            confirmed_ids.append(payment.json()["booking"]["id"])
-    assert confirmed_ids
+        starts = client.get(
+            f"/api/v1/services/{service['id']}/slots", params={"modality": "online"}
+        )
+        assert starts.status_code == 200 and starts.json()
+        candidates.extend((service, start) for start in starts.json()[:3])
+    for service, start in candidates:
+        order = client.post(
+            "/api/v1/orders",
+            headers=headers,
+            json=order_input(service["id"], start["startsAt"]),
+        )
+        assert order.status_code in {201, 409}, order.text
+        if order.status_code == 409:
+            assert order.json()["code"] == "SLOT_UNAVAILABLE"
+            rejected_overlaps += 1
+            continue
+        assert utc(datetime.fromisoformat(order.json()["startsAt"])) == utc(
+            datetime.fromisoformat(start["startsAt"])
+        )
+        assert "windowId" in order.json() and "slotId" not in order.json()
+        payment = client.post(f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=headers)
+        assert payment.status_code == 200, payment.text
+        confirmed_ids.append(payment.json()["booking"]["id"])
+    assert confirmed_ids and rejected_overlaps
     with SessionLocal() as db:
         bookings = list(db.scalars(select(Booking)))
         assert {b.id for b in bookings} == set(confirmed_ids)
@@ -118,108 +123,81 @@ def test_seeded_slots_cannot_confirm_overlapping_bookings_for_one_counsellor(
             and utc(a.starts_at) < utc(b.ends_at)
             and utc(b.starts_at) < utc(a.ends_at)
         ]
-    if collisions:
-        raise KnownAcceptanceDefect(f"Confirmed {len(collisions)} overlapping booking pairs")
+    assert collisions == []
 
 
-@pytest.mark.xfail(
-    strict=True,
-    raises=KnownAcceptanceDefect,
-    reason="S2-BE-PAST-SLOT-LIST: public availability includes past open slots",
-)
-def test_public_availability_omits_past_open_slots(
+def test_public_availability_omits_past_window_starts(
     client: TestClient,
     db_session: Session,
     service: Service,
 ) -> None:
-    past = new_slot(db_session, service, datetime.now(UTC) - timedelta(days=2))
-    future = new_slot(db_session, service, datetime.now(UTC) + timedelta(days=2))
+    past = new_window(db_session, service, datetime.now(UTC) - timedelta(days=2))
+    future = new_window(db_session, service, datetime.now(UTC) + timedelta(days=2))
     response = client.get(f"/api/v1/services/{service.id}/slots")
     assert response.status_code == 200
-    ids = {row["id"] for row in response.json()}
-    assert future.id in ids
-    if past.id in ids:
-        raise KnownAcceptanceDefect("A past open slot is still advertised to buyers")
-    assert ids == {future.id}
+    starts = {utc(datetime.fromisoformat(row["startsAt"])) for row in response.json()}
+    assert utc(past.starts_at) not in starts
+    assert starts == {utc(future.starts_at)}
+    assert all(set(row) == {"startsAt", "endsAt"} for row in response.json())
 
 
-@pytest.mark.xfail(
-    strict=True,
-    raises=KnownAcceptanceDefect,
-    reason="S2-BE-PAST-SLOT-ORDER: orders accept elapsed open slots",
-)
-def test_order_rejects_a_past_open_slot_without_holding_it(
+def test_order_rejects_a_past_window_start_without_creating_a_hold(
     client: TestClient,
     db_session: Session,
     service: Service,
     job_seeker_headers: dict[str, str],
 ) -> None:
-    past = new_slot(db_session, service, datetime.now(UTC) - timedelta(days=2))
+    past = new_window(db_session, service, datetime.now(UTC) - timedelta(days=2))
     response = client.post(
-        "/api/v1/orders", headers=job_seeker_headers, json=order_input(service.id, past.id)
+        "/api/v1/orders", headers=job_seeker_headers, json=order_input(service.id, past.starts_at)
     )
-    assert response.status_code in {201, 400, 409}, response.text
+    assert response.status_code == 400, response.text
+    assert response.json()["code"] == "VALIDATION_ERROR"
     with SessionLocal() as db:
-        stored = db.get(AvailabilitySlot, past.id)
-        assert stored is not None
-        orders = list(db.scalars(select(Order)))
-        if response.status_code == 201:
-            assert len(orders) == 1 and orders[0].id == response.json()["id"]
-            assert stored.status == "held"
-            raise KnownAcceptanceDefect("A past slot was reserved and persisted as an order")
-        assert response.json()["code"] in {"VALIDATION_ERROR", "SLOT_UNAVAILABLE"}
-        assert orders == [] and stored.status == "open"
+        stored = db.get(AvailabilityWindow, past.id)
+        assert stored is not None and utc(stored.starts_at) == utc(past.starts_at)
+        assert list(db.scalars(select(Order))) == []
+        assert list(db.scalars(select(Booking))) == []
 
 
-@pytest.mark.xfail(
-    strict=True,
-    raises=KnownAcceptanceDefect,
-    reason="S2-BE-SLOT-SERVICE: PATCH silently ignores a requested service change",
-)
-def test_slot_patch_does_not_silently_ignore_service_reassignment(
+def test_window_edit_rederives_availability_for_every_owned_service(
     client: TestClient,
     db_session: Session,
     service: Service,
     counsellor_headers: dict[str, str],
 ) -> None:
-    destination = Service(
+    """There is no per-service calendar assignment to silently ignore any more."""
+    second = Service(
         counsellor_id=service.counsellor_id,
-        title="Destination service",
-        description="Another owned service",
+        title="Shorter service",
+        description="Preparation",
         price_minor=8000,
+        duration_minutes=30,
         currency="AUD",
         modalities=["online"],
         active=True,
     )
-    db_session.add(destination)
+    db_session.add(second)
     db_session.commit()
-    start = datetime.now(UTC) + timedelta(days=3)
-    slot = new_slot(db_session, service, start)
-    moved = start + timedelta(days=1)
+    window = new_window(db_session, service, datetime.now(UTC) + timedelta(days=3))
+    moved = window.starts_at + timedelta(days=1)
     response = client.patch(
-        f"/api/v1/me/availability-slots/{slot.id}",
+        f"/api/v1/me/availability-windows/{window.id}",
         headers=counsellor_headers,
-        json={
-            "serviceId": destination.id,
-            "startsAt": moved.isoformat(),
-            "endsAt": (moved + timedelta(hours=1)).isoformat(),
-        },
+        json={"startsAt": moved.isoformat(), "endsAt": (moved + timedelta(hours=1)).isoformat()},
     )
-    assert response.status_code in {200, 400}, response.text
+    assert response.status_code == 200, response.text
+    assert response.json()["id"] == window.id and "serviceId" not in response.json()
     with SessionLocal() as db:
-        stored = db.get(AvailabilitySlot, slot.id)
-        assert stored is not None
-        if response.status_code == 400:
-            # Until reassignment is supported, rejecting the unhandled field is honest.
-            assert response.json()["code"] == "VALIDATION_ERROR"
-            assert "serviceId" in response.json()["fieldErrors"]
-            assert stored.service_id == service.id and utc(stored.starts_at) == utc(start)
-        else:
-            assert response.json()["id"] == slot.id
-            assert utc(stored.starts_at) == utc(moved)
-            assert response.json()["serviceId"] == stored.service_id
-            if stored.service_id != destination.id:
-                raise KnownAcceptanceDefect("PATCH returned 200 but retained the original service")
+        stored = db.get(AvailabilityWindow, window.id)
+        assert stored is not None and stored.counsellor_id == service.counsellor_id
+        assert utc(stored.starts_at) == utc(moved)
+    for item, minutes in ((service, (0,)), (second, (0, 15, 30))):
+        offers = client.get(f"/api/v1/services/{item.id}/slots")
+        assert offers.status_code == 200
+        assert [utc(datetime.fromisoformat(row["startsAt"])) for row in offers.json()] == [
+            utc(moved) + timedelta(minutes=offset) for offset in minutes
+        ]
 
 
 @pytest.mark.xfail(
@@ -238,6 +216,7 @@ def test_service_creation_rejects_unpublished_fields_instead_of_silently_droppin
             "title": "New service",
             "description": "Preparation",
             "priceMinor": 5000,
+            "durationMinutes": 60,
             "currency": "AUD",
             "modalities": ["online"],
             "unexpectedClientField": "not-supported",
@@ -316,7 +295,7 @@ def test_unexpected_failure_preserves_request_id_in_body_and_response_header(
 
 
 @pytest.mark.parametrize("operation", ["create_order", "pay_order"])
-def test_failed_booking_commit_rolls_back_order_payment_and_slot_together(
+def test_failed_booking_commit_rolls_back_order_payment_and_hold_together(
     client: TestClient,
     db_session: Session,
     service: Service,
@@ -324,9 +303,9 @@ def test_failed_booking_commit_rolls_back_order_payment_and_slot_together(
     monkeypatch: pytest.MonkeyPatch,
     operation: str,
 ) -> None:
-    slot = new_slot(db_session, service, datetime.now(UTC) + timedelta(days=2))
+    window = new_window(db_session, service, datetime.now(UTC) + timedelta(days=2))
     path = "/api/v1/orders"
-    payload = order_input(service.id, slot.id)
+    payload = order_input(service.id, window.starts_at)
     order_id = None
     if operation == "pay_order":
         created = client.post(path, headers=job_seeker_headers, json=payload)
@@ -356,51 +335,55 @@ def test_failed_booking_commit_rolls_back_order_payment_and_slot_together(
     assert "qa failed booking commit" not in response.text
     with SessionLocal() as db:
         assert list(db.scalars(select(Booking))) == []
-        persisted_slot = db.get(AvailabilitySlot, slot.id)
-        assert persisted_slot is not None
+        persisted_window = db.get(AvailabilityWindow, window.id)
+        assert persisted_window is not None
+        assert utc(persisted_window.starts_at) == utc(window.starts_at)
         if operation == "create_order":
             assert list(db.scalars(select(Order))) == []
-            assert persisted_slot.status == "open"
+            offers = client.get(f"/api/v1/services/{service.id}/slots")
+            assert offers.status_code == 200 and len(offers.json()) == 1
         else:
             orders = list(db.scalars(select(Order)))
             assert len(orders) == 1 and orders[0].id == order_id
             assert orders[0].status == "awaiting_payment"
             assert orders[0].payment_status == "not_started"
-            assert persisted_slot.status == "held"
+            assert orders[0].hold_expires_at > datetime.now(UTC)
+            offers = client.get(f"/api/v1/services/{service.id}/slots")
+            assert offers.status_code == 200 and offers.json() == []
 
 
-def test_aged_unpaid_hold_characterization_does_not_claim_expiry_or_release(
+def test_expired_unpaid_hold_restores_public_time_before_cleanup(
     client: TestClient,
     db_session: Session,
     service: Service,
     job_seeker_headers: dict[str, str],
 ) -> None:
-    """Current behavior only: the latest Story Map leaves hold duration undecided.
-
-    This is not acceptance of indefinite holds or of the old 15-minute proposal.
-    A browser leaving checkout does not execute a server release operation.
-    """
-    slot = new_slot(db_session, service, datetime.now(UTC) + timedelta(days=2))
-    payload = order_input(service.id, slot.id)
+    """Availability obeys hold_expires_at; the cleanup job subsequently cancels the order."""
+    window = new_window(db_session, service, datetime.now(UTC) + timedelta(days=2))
+    payload = order_input(service.id, window.starts_at)
     first = client.post("/api/v1/orders", headers=job_seeker_headers, json=payload)
     assert first.status_code == 201, first.text
-    order_id = first.json()["id"]
-    persisted = db_session.get(Order, order_id)
-    assert persisted is not None
-    persisted.created_at = datetime.now(UTC) - timedelta(minutes=16)
+    persisted = db_session.get(Order, first.json()["id"])
+    assert persisted is not None and persisted.hold_expires_at > datetime.now(UTC)
+    offered = client.get(f"/api/v1/services/{service.id}/slots")
+    assert offered.status_code == 200 and offered.json() == []
+    persisted.hold_expires_at = datetime.now(UTC) - timedelta(seconds=1)
     db_session.commit()
-
+    restored = client.get(f"/api/v1/services/{service.id}/slots")
+    assert restored.status_code == 200 and len(restored.json()) == 1
+    assert utc(datetime.fromisoformat(restored.json()[0]["startsAt"])) == utc(window.starts_at)
     retry = client.post("/api/v1/orders", headers=job_seeker_headers, json=payload)
-    assert retry.status_code == 409, retry.text
-    assert retry.json()["code"] == "SLOT_UNAVAILABLE"
+    assert retry.status_code == 201, retry.text
+    assert retry.json()["id"] != first.json()["id"]
+    assert release_expired_holds(db_session) == 1
     with SessionLocal() as db:
-        orders = list(db.scalars(select(Order)))
-        assert len(orders) == 1 and orders[0].id == order_id
-        assert orders[0].status == "awaiting_payment"
-        assert orders[0].payment_status == "not_started"
-        held = db.get(AvailabilitySlot, slot.id)
-        assert held is not None and held.status == "held"
+        expired = db.get(Order, first.json()["id"])
+        active = db.get(Order, retry.json()["id"])
+        assert expired is not None and expired.status == "cancelled"
+        assert active is not None and active.status == "awaiting_payment"
+        assert active.hold_expires_at > datetime.now(UTC)
         assert list(db.scalars(select(Booking))) == []
+        assert db.get(AvailabilityWindow, window.id) is not None
 
 
 @pytest.mark.xfail(
@@ -424,8 +407,8 @@ def test_committed_booking_write_does_not_depend_on_a_second_database_read(
     Flush/commit failures have a separate rollback test above. Payment retry is
     checked here against fresh rows; no payment provider or browser is simulated.
     """
-    slot = new_slot(db_session, service, datetime.now(UTC) + timedelta(days=2))
-    payload = order_input(service.id, slot.id)
+    window = new_window(db_session, service, datetime.now(UTC) + timedelta(days=2))
+    payload = order_input(service.id, window.starts_at)
     path = "/api/v1/orders"
     original_order_id = None
     if operation == "pay_order":
@@ -481,17 +464,18 @@ def test_committed_booking_write_does_not_depend_on_a_second_database_read(
         bookings = list(db.scalars(select(Booking)))
         assert len(orders) == 1
         stored_order = orders[0]
-        assert stored_order.slot_id == slot.id
-        stored_slot = db.get(AvailabilitySlot, slot.id)
-        assert stored_slot is not None
+        assert stored_order.window_id == window.id
+        stored_window = db.get(AvailabilityWindow, window.id)
+        assert stored_window is not None
+        assert utc(stored_window.starts_at) == utc(window.starts_at)
         if operation == "create_order":
             assert stored_order.status == "awaiting_payment"
             assert stored_order.payment_status == "not_started"
-            assert stored_slot.status == "held" and bookings == []
+            assert stored_order.hold_expires_at > datetime.now(UTC) and bookings == []
         else:
             assert stored_order.id == original_order_id
             assert stored_order.status == "confirmed" and stored_order.payment_status == "paid"
-            assert stored_slot.status == "booked"
+            assert stored_order.window_id == window.id
             assert len(bookings) == 1 and bookings[0].order_id == original_order_id
             booking_id = bookings[0].id
 
@@ -533,9 +517,9 @@ def test_postgresql_simultaneous_payment_retries_confirm_one_booking(
 ) -> None:
     if engine.dialect.name != "postgresql":
         pytest.skip("Payment row-lock concurrency evidence requires PostgreSQL")
-    slot = new_slot(db_session, service, datetime.now(UTC) + timedelta(days=2))
+    window = new_window(db_session, service, datetime.now(UTC) + timedelta(days=2))
     order = client.post(
-        "/api/v1/orders", headers=job_seeker_headers, json=order_input(service.id, slot.id)
+        "/api/v1/orders", headers=job_seeker_headers, json=order_input(service.id, window.starts_at)
     )
     assert order.status_code == 201
     order_id = order.json()["id"]
@@ -556,6 +540,7 @@ def test_postgresql_simultaneous_payment_retries_confirm_one_booking(
         assert len(bookings) == 1 and bookings[0].id in booking_ids
         assert bookings[0].order_id == order_id and bookings[0].payment_status == "paid"
         persisted_order = db.get(Order, order_id)
-        persisted_slot = db.get(AvailabilitySlot, slot.id)
+        persisted_window = db.get(AvailabilityWindow, window.id)
         assert persisted_order is not None and persisted_order.status == "confirmed"
-        assert persisted_slot is not None and persisted_slot.status == "booked"
+        assert persisted_window is not None
+        assert bookings[0].window_id == persisted_window.id

@@ -10,14 +10,14 @@ describe('Counsellor dashboard UI — QA #133 (mocked API boundary)', () => {
     await renderCounsellor(<Dashboard />, session); expect(screen.getByTestId('redirect')).toHaveTextContent('/');
     expect(screen.queryByRole('button', { name: 'New' })).toBeNull();
   });
-  test('loads the signed-in counsellor services, profile completion and only open slot counts', async () => {
-    apiMock.listOwnAvailabilitySlots.mockResolvedValue([
-      { id: 'open', serviceId: 'service-1', startsAt: '2030-09-20T09:00:00Z', endsAt: '2030-09-20T10:00:00Z', status: 'open' },
-      { id: 'booked', serviceId: 'service-1', startsAt: '2030-09-19T09:00:00Z', endsAt: '2030-09-19T10:00:00Z', status: 'booked' },
+  test('loads the signed-in counsellor services, profile completion and availability window counts', async () => {
+    apiMock.listOwnAvailabilityWindows.mockResolvedValue([
+      { id: 'open', modalities: ['online'], startsAt: '2030-09-20T09:00:00Z', endsAt: '2030-09-20T10:00:00Z', hasBookings: false },
+      { id: 'booked', modalities: ['online'], startsAt: '2030-09-19T09:00:00Z', endsAt: '2030-09-19T10:00:00Z', hasBookings: true },
     ]);
     await renderCounsellor(<Dashboard />); await screen.findByText(serviceFixture.title);
     expect(apiMock.listOwnServices).toHaveBeenCalledWith('counsellor-1', 'counsellor-access-token');
-    expect(screen.getByText('Verified counsellor')).toBeTruthy(); expect(screen.getByText('5/5')).toBeTruthy(); expect(screen.getByText('1 open slots')).toBeTruthy();
+    expect(screen.getByText('Verified counsellor')).toBeTruthy(); expect(screen.getByText('5/5')).toBeTruthy(); expect(screen.getByText(/2 open slots\. Next on/)).toBeTruthy();
     fireEvent.press(screen.getByRole('button', { name: 'New' })); expect(router.push).toHaveBeenLastCalledWith('/counsellor/services/new');
     fireEvent.press(screen.getByRole('button', { name: `Edit ${serviceFixture.title}` })); expect(router.push).toHaveBeenLastCalledWith('/counsellor/services/service-1/edit');
     fireEvent.press(screen.getByRole('button', { name: 'Professional profile' })); expect(router.push).toHaveBeenLastCalledWith('/counsellor/profile');

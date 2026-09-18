@@ -361,6 +361,8 @@ jobs:
     env:
       CI: 'true'
       LIVE_API_BASE_URL: http://127.0.0.1:8000/api/v1
+      LIVE_API_VERIFIED_EMAIL: alex@example.com
+      LIVE_API_VERIFIED_PASSWORD: password123
       LIVE_DATABASE_DSN: postgresql://yoir:yoir@localhost:5432/yoir_live_test
       LIVE_DATABASE_URL: postgresql://yoir:yoir@localhost:5432/yoir_live_test
       JWT_SECRET: qa-ci-secret-that-is-at-least-32-characters
@@ -473,9 +475,9 @@ jobs:
                           cursor.execute(f'SELECT count(*) FROM "{table}"')
                           counts[table] = cursor.fetchone()[0]
                       cursor.execute(
-                          "SELECT count(*) FROM availability_slots WHERE status = 'open'"
+                          "SELECT count(*) FROM availability_windows"
                       )
-                      counts["open_slots"] = cursor.fetchone()[0]
+                      counts["windows"] = cursor.fetchone()[0]
               finally:
                   connection.close()
               return counts
@@ -522,9 +524,9 @@ jobs:
                       cursor.execute(f'SELECT count(*) FROM "{table}"')
                       after[table] = cursor.fetchone()[0]
                   cursor.execute(
-                      "SELECT count(*) FROM availability_slots WHERE status = 'open'"
+                      "SELECT count(*) FROM availability_windows"
                   )
-                  after["open_slots"] = cursor.fetchone()[0]
+                  after["windows"] = cursor.fetchone()[0]
           finally:
               connection.close()
 
@@ -540,12 +542,13 @@ jobs:
               expected = {
                   # HTTPX registers two seekers; TypeScript registers a seeker
                   # and pending counsellor, then publishes one verified service.
-                  # Its temporary availability is created, moved and deleted.
+                  # Its temporary window is created, moved and deleted; bookings
+                  # consume time inside windows without deleting those windows.
                   "users": before["users"] + 4,
                   "services": before["services"] + 1,
                   "orders": before["orders"] + 2,
                   "bookings": before["bookings"] + 2,
-                  "open_slots": before["open_slots"] - 2,
+                  "windows": before["windows"],
               }
               if after != expected:
                   raise SystemExit(

@@ -7,6 +7,13 @@ import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import RootLayout from '@/app/_layout';
 
+jest.mock('@/src/auth/sessionStore', () => ({
+  readSession: jest.fn(async () => null), writeSession: jest.fn(async () => undefined), clearSession: jest.fn(async () => undefined),
+}));
+jest.mock('@/src/api/client', () => {
+  const actual = jest.requireActual('@/src/api/client');
+  return { ...actual, api: { ...actual.api, getPaymentConfig: jest.fn(async () => ({ provider: 'stub', publishableKey: null, merchantDisplayName: 'Yoir', merchantCountryCode: 'AU', currency: 'AUD', slotHoldMinutes: 10, cancellationFullRefundHours: 24, cancellationLateRefundPercent: 0 })) } };
+});
 jest.mock('expo-font', () => ({ useFonts: jest.fn() }));
 jest.mock('expo-splash-screen', () => ({
   preventAutoHideAsync: jest.fn().mockResolvedValue(undefined),
@@ -14,6 +21,10 @@ jest.mock('expo-splash-screen', () => ({
 }));
 jest.mock('expo-status-bar', () => ({ StatusBar: () => null }));
 jest.mock('react-native-safe-area-context', () => jest.requireActual('react-native-safe-area-context/jest/mock').default);
+jest.mock('@/src/payments/sheet', () => ({
+  PaymentSheetHost: ({ children }: import('react').PropsWithChildren) => children,
+  usePaymentSheet: () => ({ present: jest.fn(), supported: false }),
+}));
 jest.mock('expo-router', () => {
   const React = jest.requireActual<typeof import('react')>('react');
   const { Pressable, Text, View } = jest.requireActual<typeof import('react-native')>('react-native');

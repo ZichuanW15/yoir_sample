@@ -1,4 +1,6 @@
-# Unresolved defects in implemented behavior
+# Historical defects in implemented behavior
+
+**18 September update:** [Current dev validation](dev-sync-review-20260918.md) supersedes the statuses below. Demo APIs were removed upstream; profile/resource fallbacks and several slot-model defects no longer reproduce. The numbered catalogs remain the original dated records, not the current failure list.
 
 These are correctness assertions, not missing-feature checks. No application code was changed to fix them. Frontend/browser cases fail normally; backend cases are narrow strict xfails. The numbered counts/catalogs below preserve the original 15 September execution in [test-results.md](test-results.md), not the expanded 16 September platform run. See the [platform matrix](platform-test-matrix.md) for the added scope. Duplicate manifestations across layers are not separate defect discoveries.
 

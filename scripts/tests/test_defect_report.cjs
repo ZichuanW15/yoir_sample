@@ -155,13 +155,55 @@ test('Playwright recursively validates nested suites', () => {
   assert.equal(validateReport('playwright', report, 'failure').failed, 1);
 });
 
-test('per-test fixture exceptions cannot always be distinguished from assertions', () => {
+test('Playwright rejects an identifiable beforeEach failure', () => {
   const report = playwrightReport();
   pwAttempt(report).errors = [{ message: 'Failure from a beforeEach helper' }];
-  // This is an explicit boundary of report-only classification, not a claim
-  // that arbitrary test/fixture exceptions prove a healthy environment.
+  assert.throws(() => validateReport('playwright', report, 'failure'), /execution\/setup failure/);
+});
+
+test('unclassified per-test errors still need human review', () => {
+  const report = playwrightReport();
+  pwAttempt(report).errors = [{ message: 'A custom domain error with no execution metadata' }];
+  // Report-only classification cannot prove whether an arbitrary custom Error
+  // came from the product or a helper; do not claim this certifies every fixture.
   assert.equal(validateReport('playwright', report, 'failure').failed, 1);
 });
+
+for (const [format, makeReport] of [['jest', jestReport], ['playwright', playwrightReport]]) {
+  for (const message of [
+    "TypeError: Cannot read properties of undefined (reading 'user')",
+    '\u001b[31mReferenceError: AvailabilitySlot is not defined\u001b[39m',
+    'SyntaxError: Unexpected end of JSON input',
+    'Error: Unconfigured HTTP request: POST /auth/sessions',
+    'Error: Cannot find module @/src/api/demo',
+    'Error: beforeEach hook failed to create a session',
+    'Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:43117/',
+    'Error: browserType.launch: Executable does not exist',
+  ]) {
+    test(`${format} rejects per-test execution failure: ${message}`, () => {
+      const report = makeReport();
+      if (format === 'jest') report.testResults[0].assertionResults[0].failureMessages = [message];
+      else pwAttempt(report).errors = [{ message }];
+      assert.throws(() => validateReport(format, report, 'failure'), /execution\/setup failure/);
+    });
+  }
+
+  test(`${format} still accepts an assertion that compares a TypeError`, () => {
+    const report = makeReport();
+    const message = 'Error: expect(received).rejects.toBeInstanceOf(expected)\n\nExpected constructor: ApiError\nReceived constructor: TypeError';
+    if (format === 'jest') report.testResults[0].assertionResults[0].failureMessages = [message];
+    else pwAttempt(report).errors = [{ message }];
+    assert.equal(validateReport(format, report, 'failure').failed, 1);
+  });
+
+  test(`${format} an assertion does not mask an additional teardown exception`, () => {
+    const report = makeReport();
+    const message = 'TypeError: Cannot read properties of undefined (reading "close")';
+    if (format === 'jest') report.testResults[0].assertionResults[0].failureMessages.push(message);
+    else pwAttempt(report).errors.push({ message });
+    assert.throws(() => validateReport(format, report, 'failure'), /execution\/setup failure/);
+  });
+}
 
 test('CLI rejects unknown, incomplete and duplicate arguments', () => {
   for (const args of [[], ['--format'], ['--format', '--report'], ['--unknown', 'x'],

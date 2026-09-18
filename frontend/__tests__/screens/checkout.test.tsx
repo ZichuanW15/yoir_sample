@@ -7,7 +7,7 @@ const paymentPath = '/orders/order-1/payments/stub';
 const pay = () => fireEvent.press(screen.getByRole('button', { name: 'Pay $95' }));
 
 function checkoutParams() {
-  return { orderId: orderFixture.id, serviceId: serviceFixture.id, slotId: slotFixture.id, modality: 'online', amountMinor: '9500', startsAt: slotFixture.startsAt, endsAt: slotFixture.endsAt };
+  return { orderId: orderFixture.id, serviceId: serviceFixture.id, modality: 'online', amountMinor: '9500', startsAt: slotFixture.startsAt, endsAt: slotFixture.endsAt };
 }
 
 describe('checkout screen', () => {
@@ -17,7 +17,7 @@ describe('checkout screen', () => {
   });
 
   test('[QA-124] shows the selected order, session details and explicit test-mode payment', async () => {
-    renderPublic(<CheckoutScreen />, sessionFixture);
+    await renderPublic(<CheckoutScreen />, sessionFixture);
     await screen.findByText(serviceFixture.title);
     expect(screen.getByText('Test-mode payment')).toBeOnTheScreen();
     expect(screen.getByText('Yoir test payment')).toBeOnTheScreen();
@@ -29,13 +29,13 @@ describe('checkout screen', () => {
 
   test('[QA-124/127] successful payment submits the held order token and replaces checkout with confirmation', async () => {
     reply('POST', paymentPath, jsonResponse(confirmationFixture));
-    renderPublic(<CheckoutScreen />, sessionFixture);
+    await renderPublic(<CheckoutScreen />, sessionFixture);
     await screen.findByText(serviceFixture.title);
     pay();
     await tick();
     expect(callsTo('POST', paymentPath)[0][1]?.headers).toMatchObject({ Authorization: 'Bearer test-access-token' });
     expect(navigation.replace).toHaveBeenCalledWith({
-      pathname: '/bookings/confirmation', params: { bookingId: 'booking-1', paymentId: 'stub-payment-1', serviceId: 'service-1', modality: 'online', startsAt: slotFixture.startsAt, endsAt: slotFixture.endsAt, amountMinor: '9500' },
+      pathname: '/bookings/confirmation', params: { bookingId: 'booking-1', paymentId: 'stub-payment-1', serviceId: 'service-1', modality: 'online', startsAt: slotFixture.startsAt, endsAt: slotFixture.endsAt, amountMinor: '9500', pending: '' },
     });
     expect(callsTo('POST', '/orders')).toHaveLength(0);
   });
@@ -43,7 +43,7 @@ describe('checkout screen', () => {
   test('[QA-124] duplicate pay presses while pending send only one payment request', async () => {
     const pending = deferred<Response>();
     reply('POST', paymentPath, pending.promise);
-    renderPublic(<CheckoutScreen />, sessionFixture);
+    await renderPublic(<CheckoutScreen />, sessionFixture);
     await screen.findByText(serviceFixture.title);
     pay();
     expect(screen.getByRole('button', { name: 'Pay $95' })).toBeDisabled();
@@ -56,7 +56,7 @@ describe('checkout screen', () => {
 
   test('[QA-124] a failed payment remains on checkout and retry uses the same order', async () => {
     reply('POST', paymentPath, apiFailure('PAYMENT_FAILED', 'The test payment could not be completed.', 402));
-    renderPublic(<CheckoutScreen />, sessionFixture);
+    await renderPublic(<CheckoutScreen />, sessionFixture);
     await screen.findByText(serviceFixture.title);
     pay();
     await tick();
@@ -72,7 +72,7 @@ describe('checkout screen', () => {
 
   test('[QA-124] a network failure shows recovery guidance without displaying success', async () => {
     reply('POST', paymentPath, new TypeError('offline'));
-    renderPublic(<CheckoutScreen />, sessionFixture);
+    await renderPublic(<CheckoutScreen />, sessionFixture);
     await screen.findByText(serviceFixture.title);
     pay();
     await tick();
@@ -81,7 +81,7 @@ describe('checkout screen', () => {
   });
 
   test('[QA-124] an unauthenticated checkout cannot send a payment', async () => {
-    renderPublic(<CheckoutScreen />);
+    await renderPublic(<CheckoutScreen />);
     await screen.findByText(serviceFixture.title);
     pay();
     expect(callsTo('POST', paymentPath)).toHaveLength(0);
@@ -91,7 +91,7 @@ describe('checkout screen', () => {
   test('[QA-127] in-person checkout shows the meeting area and supports returning to the previous screen', async () => {
     routeParams({ ...checkoutParams(), modality: 'in_person' });
     reply('GET', '/services/service-1', jsonResponse({ ...serviceFixture, modalities: ['in_person'], location: { state: 'VIC', cityOrRegion: 'Melbourne' } }));
-    renderPublic(<CheckoutScreen />, sessionFixture);
+    await renderPublic(<CheckoutScreen />, sessionFixture);
     expect(await screen.findByText('Melbourne, VIC')).toBeOnTheScreen();
     fireEvent.press(screen.getByRole('button', { name: 'Go back' }));
     expect(navigation.back).toHaveBeenCalledTimes(1);

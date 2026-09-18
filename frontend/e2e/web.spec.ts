@@ -3,18 +3,6 @@ import { randomUUID } from 'node:crypto';
 
 const password = 'qa-browser-password';
 
-type SlotRecord = { id: string; serviceId: string; startsAt: string; endsAt: string; status: string };
-
-function expectStoredSlot(rows: SlotRecord[], expected: SlotRecord) {
-  expect(rows).toHaveLength(1);
-  // SQLite stores these UTC datetimes without the offset. PostgreSQL contract
-  // coverage is separate; here compare the stored instant, not that dialect's
-  // serialization spelling. UI write responses retain their own timezone checks.
-  const utc = (value: string) => new Date(/(?:Z|[+-]\d{2}:\d{2})$/i.test(value) ? value : `${value}Z`).toISOString();
-  const normalize = (slot: SlotRecord) => ({ ...slot, startsAt: utc(slot.startsAt), endsAt: utc(slot.endsAt) });
-  expect(normalize(rows[0])).toEqual(normalize(expected));
-}
-
 async function account(request: APIRequestContext) {
   const email = `web-${randomUUID()}@example.com`;
   const result = await request.post('/api/v1/auth/users', { data: {
@@ -125,7 +113,7 @@ test('US06/08 Web login, logout and server-side revoked-token replay', async ({ 
 test('US40/41/47/68 real browser booking to stub receipt (not provider acceptance)', async ({ page, request }) => {
   const services = await (await request.get('/api/v1/services')).json();
   const service = services[0];
-  await login(page, await account(request), `/auth/login?serviceId=${service.id}`);
+  await login(page, 'alex@example.com', `/auth/login?serviceId=${service.id}`, 'password123');
   await expect(page.getByText('When suits you?')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Continue to payment' })).toBeDisabled();
   await page.getByRole('radio').filter({ hasText: /min/ }).first().click();
@@ -142,7 +130,7 @@ test('US40/41/47/68 real browser booking to stub receipt (not provider acceptanc
   const receipt = await paymentResponse.json();
   expect(receipt.booking.orderId).toBe(order.id);
   expect(receipt.booking.status).toBe('confirmed');
-  await expect(page.getByText("You're booked", { exact: true })).toBeVisible();
+  await expect(page.getByText("You’re booked", { exact: true })).toBeVisible();
   await expect(page.getByText(receipt.booking.id, { exact: true })).toBeVisible();
   await expect(page.getByText(/No real money was charged/)).toBeVisible();
 });
@@ -236,95 +224,65 @@ test('US34 counsellor publishing preserves the draft after a transport failure a
   expect(saved[0]).toMatchObject({ title, description, priceMinor: 8425, modalities: ['online'], location: null });
 });
 
-test('US39 real Web availability create, time edit and removal persist through the API', async ({ page, request }) => {
+test('US39 real Web availability windows create, derive service starts and remove through the API', async ({ page, request }) => {
   const session = await login(page, 'maya@example.com', '/auth/login', 'password123');
   await expect(page).toHaveURL(/\/counsellor$/);
   const headers = { Authorization: `Bearer ${session.accessToken}` };
   const create = await request.post('/api/v1/me/services', { headers, data: {
-    title: `Browser slot lifecycle ${randomUUID()}`,
-    description: 'A dedicated real service for testing the implemented availability lifecycle.',
-    priceMinor: 8800, currency: 'AUD', modalities: ['online'], location: null,
+    title: `Browser window lifecycle ${randomUUID()}`,
+    description: 'A dedicated service for checking starts derived from shared availability.',
+    priceMinor: 8800, durationMinutes: 60, currency: 'AUD', modalities: ['online'], location: null,
   } });
   expect(create.status()).toBe(201);
   const service = await create.json();
-  const own = await request.get('/api/v1/me/services', { headers });
-  expect(own.status()).toBe(200);
-  const services: { id: string; title: string }[] = await own.json();
-  const loadedServices = page.waitForResponse(r => r.url().endsWith('/me/services') && r.request().method() === 'GET');
-  const loadedSlots = page.waitForResponse(r => r.url().endsWith('/me/availability-slots') && r.request().method() === 'GET');
+  const loaded = page.waitForResponse(r => r.url().endsWith('/me/availability-windows') && r.request().method() === 'GET');
   await page.getByRole('button', { name: 'Availability', exact: true }).click();
-  expect((await loadedServices).status()).toBe(200);
-  expect((await loadedSlots).status()).toBe(200);
-  await expect(page.getByText('Your availability', { exact: true })).toBeVisible();
-  await page.getByRole('button', { name: 'Add availability', exact: true }).click();
-  await expect(page.getByText('New availability', { exact: true })).toBeVisible();
-  // Today's date is selected by default; choose a future date outside the seed's
-  // upcoming fortnight. Browser date formatting uses the declared Melbourne zone.
+  expect((await loaded).status()).toBe(200);
+  await expect(page.getByText('When do you work?', { exact: true })).toBeVisible();
+  // Choose a day outside the seed's upcoming fortnight, in the browser's timezone.
   const futureLabel = await page.evaluate(() => {
     const now = new Date();
     return new Date(now.getFullYear(), now.getMonth() + 1, 15).toLocaleDateString('en-AU', {
       weekday: 'long', day: 'numeric', month: 'long',
     });
   });
-  const todayLabel = await page.evaluate(() => new Date().toLocaleDateString('en-AU', {
-    weekday: 'long', day: 'numeric', month: 'long',
-  }));
-  await page.getByRole('checkbox', { name: todayLabel, exact: true }).click();
   await page.getByRole('button', { name: 'Next month', exact: true }).click();
-  await page.getByRole('checkbox', { name: futureLabel, exact: true }).click();
-  // The form initially selects the first service returned by the API.
-  if (services[0].id !== service.id) {
-    await page.getByRole('checkbox', { name: services[0].title, exact: true }).click();
-    await page.getByRole('checkbox', { name: service.title, exact: true }).click();
-  }
-  await page.getByRole('radio', { name: '9', exact: true }).click();
-  await page.getByRole('radio', { name: ':15', exact: true }).click();
-  await page.getByRole('button', { name: /^Add 9:15\s*am$/ }).click();
-  await expect(page.getByText('This creates 1 slot across 1 date.', { exact: true })).toBeVisible();
-  const createdReply = page.waitForResponse(r => r.url().endsWith('/me/availability-slots') && r.request().method() === 'POST');
-  await page.getByRole('button', { name: 'Save availability', exact: true }).click();
+  await page.getByRole('button', { name: futureLabel, exact: true }).click();
+  await expect(page.getByText('1 day, 9:00 to 12:00', { exact: true })).toBeVisible();
+  const createdReply = page.waitForResponse(r => r.url().endsWith('/me/availability-windows') && r.request().method() === 'POST');
+  await page.getByRole('button', { name: 'Add availability', exact: true }).click();
   const createdResponse = await createdReply;
   expect(createdResponse.status()).toBe(201);
-  const slot = await createdResponse.json();
-  expect(slot).toMatchObject({ serviceId: service.id, status: 'open' });
+  const window = await createdResponse.json();
+  expect(window).toMatchObject({ modalities: ['online', 'in_person'], hasBookings: false });
+  expect(window).not.toHaveProperty('serviceId');
   const localTime = (iso: string) => new Intl.DateTimeFormat('en-AU', {
     timeZone: 'Australia/Melbourne', hour: '2-digit', minute: '2-digit', hour12: false,
   }).format(new Date(iso));
-  expect(localTime(slot.startsAt)).toBe('09:15');
-  expect(new Date(slot.endsAt).getTime() - new Date(slot.startsAt).getTime()).toBe(60 * 60_000);
-  let persisted = await request.get(`/api/v1/services/${service.id}/slots`);
-  expect(persisted.status()).toBe(200);
-  expectStoredSlot(await persisted.json(), slot);
-  const slotRow = page.getByRole('button').filter({ hasText: service.title });
-  await expect(slotRow).toBeVisible();
-  await expect(slotRow).toContainText(/9:15\s*am\s*–\s*10:15\s*am/);
-  await slotRow.click();
-  await expect(page.getByText(/^Edit slot ·/)).toBeVisible();
-  await page.getByRole('radio', { name: '11', exact: true }).click();
-  await page.getByRole('radio', { name: ':30', exact: true }).click();
-  await page.getByRole('radio', { name: '30 min', exact: true }).click();
-  const updatedReply = page.waitForResponse(r => r.url().endsWith(`/me/availability-slots/${slot.id}`) && r.request().method() === 'PATCH');
-  await page.getByRole('button', { name: 'Save changes', exact: true }).click();
-  const updatedResponse = await updatedReply;
-  expect(updatedResponse.status()).toBe(200);
-  const updated = await updatedResponse.json();
-  expect(updated.id).toBe(slot.id);
-  expect(updated.serviceId).toBe(service.id);
-  expect(localTime(updated.startsAt)).toBe('11:30');
-  expect(new Date(updated.endsAt).getTime() - new Date(updated.startsAt).getTime()).toBe(30 * 60_000);
-  persisted = await request.get(`/api/v1/services/${service.id}/slots`);
-  expect(persisted.status()).toBe(200);
-  expectStoredSlot(await persisted.json(), updated);
-  await expect(slotRow).toContainText(/11:30\s*am\s*–\s*12:00\s*pm/);
-  await slotRow.click();
-  const deletedReply = page.waitForResponse(r => r.url().endsWith(`/me/availability-slots/${slot.id}`) && r.request().method() === 'DELETE');
-  await page.getByRole('button', { name: 'Remove slot', exact: true }).click();
+  expect(localTime(window.startsAt)).toBe('09:00');
+  expect(localTime(window.endsAt)).toBe('12:00');
+  const own = await request.get('/api/v1/me/availability-windows', { headers });
+  expect(own.status()).toBe(200);
+  expect((await own.json()).map((row: { id: string }) => row.id)).toContain(window.id);
+  const starts = async () => {
+    const response = await request.get(`/api/v1/services/${service.id}/slots?modality=online`);
+    expect(response.status()).toBe(200);
+    return (await response.json() as { startsAt: string; endsAt: string }[])
+      .filter(row => new Date(row.startsAt).getTime() >= new Date(window.startsAt).getTime()
+        && new Date(row.endsAt).getTime() <= new Date(window.endsAt).getTime());
+  };
+  const available = await starts();
+  expect(available.length).toBeGreaterThan(1);
+  expect(available.every(row => new Date(row.endsAt).getTime() - new Date(row.startsAt).getTime() === service.durationMinutes * 60_000)).toBe(true);
+  const remove = page.getByRole('button', { name: new RegExp(`^Remove ${futureLabel} `) });
+  await expect(remove).toBeVisible();
+  await remove.click();
+  await expect(page.getByText('Remove this availability?', { exact: true })).toBeVisible();
+  const deletedReply = page.waitForResponse(r => r.url().endsWith(`/me/availability-windows/${window.id}`) && r.request().method() === 'DELETE');
+  await page.getByRole('button', { name: 'Remove', exact: true }).click();
   expect((await deletedReply).status()).toBe(204);
-  await expect(page.getByText('Your availability', { exact: true })).toBeVisible();
-  await expect(slotRow).toHaveCount(0);
-  persisted = await request.get(`/api/v1/services/${service.id}/slots`);
-  expect(persisted.status()).toBe(200);
-  expect(await persisted.json()).toEqual([]);
+  await expect(remove).toHaveCount(0);
+  expect(await starts()).toEqual([]);
 });
 
 test('[QA-106][US08-AC3] logout prevents browser history and protected deep-link access', async ({ page, request }) => {
@@ -387,12 +345,20 @@ test('[QA-118][US40-AC4] real empty availability has an explanatory state @defec
   const { accessToken } = await auth.json();
   const create = await request.post('/api/v1/me/services', {
     headers: { Authorization: `Bearer ${accessToken}` },
-    data: { title: `Empty calendar ${randomUUID()}`, description: 'A new service with no availability for the empty-state acceptance check.', priceMinor: 7500, currency: 'AUD', modalities: ['online'], location: null },
+    data: { title: `Empty calendar ${randomUUID()}`, description: 'A new service with no availability for the empty-state acceptance check.', priceMinor: 7500, currency: 'AUD', durationMinutes: 60, modalities: ['online'], location: null },
   });
   expect(create.status()).toBe(201);
   const service = await create.json();
+  // Remove this counsellor's windows in the isolated defect database so this is
+  // genuinely empty under the shared-window model, even for a new service.
+  const headers = { Authorization: `Bearer ${accessToken}` };
+  const windows = await request.get('/api/v1/me/availability-windows', { headers });
+  expect(windows.status()).toBe(200);
+  for (const window of await windows.json()) {
+    expect((await request.delete(`/api/v1/me/availability-windows/${window.id}`, { headers })).status()).toBe(204);
+  }
   expect(await (await request.get(`/api/v1/services/${service.id}/slots`)).json()).toEqual([]);
-  await login(page, await account(request), `/auth/login?serviceId=${service.id}`);
+  await login(page, 'alex@example.com', `/auth/login?serviceId=${service.id}`, 'password123');
   await expect(page.getByText('When suits you?')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Continue to payment' })).toBeDisabled();
   await expect(page.getByText(/no (?:\w+ ){0,3}(?:slots|times|sessions)|fully booked/i)).toBeVisible();
@@ -404,5 +370,5 @@ test('US68 forged anonymous confirmation URL must not claim success @defect', as
   await page.goto(`/bookings/confirmation?${params}`);
   // A real app screen must be present before checking the negative assertion.
   await expect(page.getByRole('button', { name: 'Back to Marketplace' })).toBeVisible();
-  await expect(page.getByText("You're booked", { exact: true })).toHaveCount(0);
+  await expect(page.getByText("You’re booked", { exact: true })).toHaveCount(0);
 });

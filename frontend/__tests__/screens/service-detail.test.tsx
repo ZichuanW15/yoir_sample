@@ -9,7 +9,7 @@ describe('service detail screen', () => {
   test('[QA-115] loads the selected public service, counsellor and delivery information', async () => {
     const pending = deferred<Response>();
     reply('GET', '/services/service-1', pending.promise);
-    renderPublic(<ServiceDetailScreen />);
+    await renderPublic(<ServiceDetailScreen />);
     expect(screen.queryByText(serviceFixture.title)).toBeNull();
     await act(async () => pending.resolve(jsonResponse({ ...serviceFixture, modalities: ['online', 'in_person'], location: { state: 'VIC', cityOrRegion: 'Melbourne' } })));
     expect(await screen.findByText(serviceFixture.title)).toBeOnTheScreen();
@@ -22,7 +22,7 @@ describe('service detail screen', () => {
 
   test('[QA-115] not-found errors offer a retry and never expose a booking button', async () => {
     reply('GET', '/services/service-1', apiFailure('NOT_FOUND', 'Service not found.', 404));
-    renderPublic(<ServiceDetailScreen />);
+    await renderPublic(<ServiceDetailScreen />);
     expect(await screen.findByText('Service not found.')).toBeOnTheScreen();
     expect(screen.queryByRole('button', { name: 'Book this service' })).toBeNull();
     reply('GET', '/services/service-1', jsonResponse(serviceFixture));
@@ -32,21 +32,21 @@ describe('service detail screen', () => {
 
   test('[QA-100/115] guest booking continues through login with the service ID', async () => {
     reply('GET', '/services/service-1', jsonResponse(serviceFixture));
-    renderPublic(<ServiceDetailScreen />);
+    await renderPublic(<ServiceDetailScreen />);
     fireEvent.press(await screen.findByRole('button', { name: 'Book this service' }));
     expect(navigation.push).toHaveBeenCalledWith({ pathname: '/auth/login', params: { serviceId: serviceFixture.id } });
   });
 
   test('[QA-118] a signed-in job seeker continues to available times', async () => {
     reply('GET', '/services/service-1', jsonResponse(serviceFixture));
-    renderPublic(<ServiceDetailScreen />, sessionFixture);
+    await renderPublic(<ServiceDetailScreen />, sessionFixture);
     fireEvent.press(await screen.findByRole('button', { name: 'Book this service' }));
     expect(navigation.push).toHaveBeenCalledWith({ pathname: '/services/[serviceId]/timeslots', params: { serviceId: serviceFixture.id } });
   });
 
   test('[QA-100] counsellors cannot continue into the buyer booking flow', async () => {
     reply('GET', '/services/service-1', jsonResponse(serviceFixture));
-    renderPublic(<ServiceDetailScreen />, counsellorSessionFixture);
+    await renderPublic(<ServiceDetailScreen />, counsellorSessionFixture);
     fireEvent.press(await screen.findByRole('button', { name: 'Book this service' }));
     expect(screen.getByText('Only Job Seekers can book a service.')).toBeOnTheScreen();
     expect(navigation.push).not.toHaveBeenCalled();
@@ -54,7 +54,7 @@ describe('service detail screen', () => {
 
   test('[QA-115] unrated pending counsellors do not acquire invented ratings or verification', async () => {
     reply('GET', '/services/service-1', jsonResponse({ ...serviceFixture, averageRating: null, reviewCount: 0, counsellor: { ...serviceFixture.counsellor, verificationStatus: 'pending', overallRating: null, reviewCount: 0 } }));
-    renderPublic(<ServiceDetailScreen />);
+    await renderPublic(<ServiceDetailScreen />);
     expect(await screen.findByText('New on Yoir')).toBeOnTheScreen();
     expect(screen.getByText('No reviews yet')).toBeOnTheScreen();
     expect(screen.getByText('Verification pending')).toBeOnTheScreen();

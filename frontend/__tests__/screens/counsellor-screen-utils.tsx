@@ -1,7 +1,6 @@
 /** Screen-level evidence: real providers, forms, validators and controls; only API,
- * routing, safe-area measurements, photo picker and animation timing are seams.
- * Mocked profile/edit/delete results verify frontend behaviour only; their backend
- * routes are absent at the current revision, so these are not persistence evidence. */
+ * routing, device storage, safe-area measurements, photo picker and animation timing are seams.
+ * Mocked writes verify frontend behaviour; backend persistence is covered separately. */
 import React, { PropsWithChildren, useEffect, useState } from 'react';
 import { Animated, Text } from 'react-native';
 import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
@@ -15,7 +14,7 @@ jest.mock('expo-router', () => {
   const React = jest.requireActual('react');
   const { Text } = jest.requireActual('react-native');
   return {
-    router: { push: jest.fn(), replace: jest.fn(), back: jest.fn() },
+    router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: jest.fn(() => true) },
     Redirect: ({ href }: { href: string }) => React.createElement(Text, { testID: 'redirect' }, href),
     useFocusEffect: (callback: () => void) => React.useEffect(callback, [callback]),
     useLocalSearchParams: jest.fn(() => ({ serviceId: 'service-1' })),
@@ -23,6 +22,9 @@ jest.mock('expo-router', () => {
 });
 jest.mock('react-native-safe-area-context', () => ({
   useSafeAreaInsets: () => ({ top: 0, bottom: 0, left: 0, right: 0 }),
+}));
+jest.mock('@/src/auth/sessionStore', () => ({
+  readSession: jest.fn(async () => null), writeSession: jest.fn(async () => undefined), clearSession: jest.fn(async () => undefined),
 }));
 jest.mock('expo-image-picker', () => ({
   requestMediaLibraryPermissionsAsync: jest.fn(), launchImageLibraryAsync: jest.fn(),
@@ -55,8 +57,13 @@ export async function renderCounsellor(element: React.ReactElement, session: Ses
     expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(),
   } : null;
   if (activeSession) apiMock.login.mockResolvedValueOnce(activeSession);
-  const result = render(<AuthProvider><ChromeProvider><LoginBoundary session={activeSession}>{element}</LoginBoundary></ChromeProvider></AuthProvider>);
-  await waitFor(() => expect(screen.queryByText('Establishing test session')).toBeNull());
+  let ready = false;
+  function ReadyBoundary({ children }: PropsWithChildren) {
+    useEffect(() => { ready = true; }, []);
+    return <>{children}</>;
+  }
+  const result = render(<AuthProvider><ChromeProvider><LoginBoundary session={activeSession}><ReadyBoundary>{element}</ReadyBoundary></LoginBoundary></ChromeProvider></AuthProvider>);
+  await waitFor(() => expect(ready).toBe(true));
   return result;
 }
 
@@ -64,12 +71,13 @@ export function setupCounsellorMocks() {
   for (const fn of Object.values(apiMock)) if (jest.isMockFunction(fn)) fn.mockReset();
   apiMock.getOwnCounsellorProfile.mockResolvedValue({ ...counsellorProfileFixture });
   apiMock.listOwnServices.mockResolvedValue([{ ...serviceFixture }]);
-  apiMock.listOwnAvailabilitySlots.mockResolvedValue([]);
+  apiMock.listOwnAvailabilityWindows.mockResolvedValue([]);
+  apiMock.getPayoutStatus.mockResolvedValue({ stripeAccountId: 'acct-test', chargesEnabled: true, payoutsEnabled: true, onboardingRequired: false, abn: null, gstRegistered: false });
   apiMock.createService.mockResolvedValue(serviceFixture);
   apiMock.updateService.mockResolvedValue(serviceFixture);
   apiMock.deleteService.mockResolvedValue(undefined);
   apiMock.updateOwnCounsellorProfile.mockResolvedValue(counsellorProfileFixture);
-  apiMock.deleteAvailabilitySlot.mockResolvedValue(undefined);
+  apiMock.deleteAvailabilityWindow.mockResolvedValue(undefined);
   // Keep real animation components and hooks while removing native timing/loops.
   jest.spyOn(Animated, 'timing').mockImplementation((value: any, config: any) => ({
     start: (done?: (value: { finished: boolean }) => void) => { value.setValue(config.toValue); done?.({ finished: true }); },

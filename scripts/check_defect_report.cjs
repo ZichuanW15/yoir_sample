@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 'use strict';
 
-// Defect assertions are advisory; incomplete/aborted reports are not. This does
-// not certify the product or identify every fixture/beforeEach error: reporters
-// can serialize those as ordinary failed tests, just like assertion failures.
+// Defect assertions are advisory; incomplete reports and identifiable setup/runtime
+// failures are not. Reporters can serialize a fixture exception as a failed test,
+// so completion alone is insufficient. This is not a full setup-error classifier.
 // Callers must remove an old report before running the command being assessed.
 const fs = require('node:fs');
 
@@ -39,6 +39,18 @@ function timestamp(value, label) {
 function checkOutcome(outcome, failed) {
   requireThat(outcome === 'success' || outcome === 'failure', 'outcome must be success or failure');
   requireThat((outcome === 'failure') === (failed > 0), 'Step outcome disagrees with the reported final failures');
+}
+
+function rejectExecutionFailure(message, label) {
+  // Only inspect the exception headline, never the expected/received values or
+  // stack: an actual matcher failure may legitimately compare a TypeError, name
+  // a beforeEach helper, or explain an unavailable network response.
+  const headline = message.replace(/\u001b\[[0-9;]*m/g, '').trimStart().split(/\r?\n/, 1)[0];
+  const runtimeException = /^(?:(?:Uncaught|Unhandled)\s+)?(?:TypeError|ReferenceError|SyntaxError|RangeError|EvalError|URIError|TimeoutError):/.test(headline);
+  const setupFailure = /^(?:Error:\s*)?(?:Unconfigured HTTP request:|Cannot find module\b|.*\b(?:beforeEach|beforeAll|afterEach|afterAll)\b.*(?:failed|failure|timed out)|Failure from a (?:beforeEach|beforeAll|afterEach|afterAll) helper\b)/i.test(headline);
+  const browserTransportFailure = /^(?:Error:\s*)?(?:page\.(?:goto|reload|waitForResponse)|browserType\.launch|browser\.newContext):/.test(headline);
+  requireThat(!runtimeException && !setupFailure && !browserTransportFailure,
+    `${label} reports an execution/setup failure, not a completed acceptance assertion: ${headline}`);
 }
 
 function validateJest(report, outcome) {
@@ -87,7 +99,10 @@ function validateJest(report, outcome) {
       array(assertion.failureMessages, 'Jest failureMessages');
       if (assertion.status === 'failed') {
         requireThat(assertion.failureMessages.length > 0, 'Jest failed test has no failure details');
-        assertion.failureMessages.forEach(message => text(message, 'Jest failure message'));
+        assertion.failureMessages.forEach(message => {
+          text(message, 'Jest failure message');
+          rejectExecutionFailure(message, `Jest test "${assertion.fullName}"`);
+        });
         suiteFailures += 1;
         failed += 1;
       } else {
@@ -164,6 +179,11 @@ function validatePlaywright(report, outcome) {
               object(error, 'Playwright test error');
               requireThat(['message', 'value', 'stack'].some(key => typeof error[key] === 'string' && error[key].trim()),
                 'Playwright failure details are empty');
+              for (const key of ['message', 'value', 'stack']) {
+                if (typeof error[key] === 'string' && error[key].trim()) {
+                  rejectExecutionFailure(error[key], `Playwright test "${spec.title}"`);
+                }
+              }
             }
             priorFailures += 1;
             failedAttempts += 1;
@@ -224,6 +244,7 @@ function main(args = process.argv.slice(2), env = process.env) {
     summary = `Defect report (${result.format}): ${result.passed} passed, ${result.failed} failed, ${result.skipped} skipped; `
       + `${result.flaky} flaky, ${result.failedAttempts} failed attempts.\n`
       + 'Advisory: completed defect assertions do not block CI; failed tests remain failed. '
+      + 'Identifiable runtime/setup failures block this check; other failures still need review. '
       + 'This report check does not certify product acceptance or every fixture/setup failure.';
     process.stdout.write(`${summary}\n`);
   } catch (error) {

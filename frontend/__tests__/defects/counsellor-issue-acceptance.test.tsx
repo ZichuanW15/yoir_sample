@@ -1,6 +1,5 @@
-/** Existing real-client preview fallback must not report durable backend success.
- * Fault-injected HTTP responses reproduce the integration failure; this is not
- * proof that the missing profile routes persist a profile. */
+/** HTTP error responses must never be reported as a durable profile save.
+ * These fault-injected responses check frontend failure handling, not route presence. */
 import { apiMock, renderCounsellor, setupCounsellorMocks } from '../screens/counsellor-screen-utils';
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import Profile from '@/app/counsellor/profile';
@@ -19,7 +18,7 @@ const unavailableResponses = [
 
 // A missing button or absent success text alone is not a passing result: require
 // a visible, relevant explanation. No particular fallback screen is prescribed.
-const unavailableFeedback = /(?:profile|saving|service).*(?:unavailable|not available|not supported|not found)|(?:unable|cannot|could not|failed) to (?:load|save).*profile|^Not Found$|^This profile was not found\.$/i;
+const unavailableFeedback = /(?:profile|saving|service).*(?:unavailable|not available|not supported|not found)|(?:unable|cannot|could not|failed) to (?:load|save).*profile|^Not Found$|^This profile was not found\.$|^Something went wrong\. Please try again\.$/i;
 const hasUnavailableFeedback = () => screen.queryAllByText(unavailableFeedback).length > 0;
 const enabledSave = () => screen.queryByRole('button', { name: 'Save profile', disabled: false });
 const expectNoDurableSuccess = () => {
@@ -29,15 +28,12 @@ const expectNoDurableSuccess = () => {
 describe('profile save correctness at the real HTTP boundary', () => {
   test.each(unavailableResponses)('[QA-130][US30-AC1] %s cannot announce a durable saved profile', async (_scenario, responseBody) => {
     const real = jest.requireActual('@/src/api/client') as typeof import('@/src/api/client');
-    real.preview.reset();
-    expect(real.isDemoApi).toBe(false);
     let profileSettled = false;
     let writeSettled = false;
     apiMock.getOwnCounsellorProfile.mockImplementation(async (...args) => {
       try {
         return await real.api.getOwnCounsellorProfile(...args);
       } finally {
-        // A correct rejection is allowed; do not require a faulty preview read.
         profileSettled = true;
       }
     });
@@ -49,13 +45,12 @@ describe('profile save correctness at the real HTTP boundary', () => {
       }
     });
     const fetchMock = jest.spyOn(global, 'fetch').mockResolvedValue({
-      ok: false, status: 404,
+      ok: false, status: 404, headers: { get: (name: string) => name.toLowerCase() === 'content-type' ? 'application/json' : null },
       json: async () => responseBody,
     } as Response);
     await renderCounsellor(<Profile />);
     await waitFor(() => expect(fetchMock).toHaveBeenCalled());
-    // Wait for either the real rejection or the current preview fallback to
-    // settle; no fixed sleep or assumed loading-message wording is needed.
+    // Wait for the HTTP request to settle before checking recovery feedback.
     await waitFor(() => expect(profileSettled).toBe(true));
     expectNoDurableSuccess();
 

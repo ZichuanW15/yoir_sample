@@ -1,4 +1,4 @@
-import type { ServiceDraft, SlotDraft } from '@/src/api/types';
+import type { ServiceDraft, WindowDraft } from '@/src/api/types';
 import { counsellorProfileFixture, serviceFixture } from '../fixtures';
 import {
   accessToken, apiBase, type ClientModule, httpResponse, loadRealClient, settleBoundaryRequest, useRealClientBoundary,
@@ -6,15 +6,14 @@ import {
 
 const serviceDraft: ServiceDraft = {
   title: serviceFixture.title, description: serviceFixture.description,
-  priceMinor: serviceFixture.priceMinor, currency: 'AUD', modalities: ['online'], location: null,
+  priceMinor: serviceFixture.priceMinor, durationMinutes: serviceFixture.durationMinutes, currency: 'AUD', modalities: ['online'], location: null,
 };
-const slotDraft: SlotDraft = {
-  serviceId: serviceFixture.id, startsAt: '2026-10-20T00:00:00.000Z', endsAt: '2026-10-20T01:00:00.000Z',
+const windowDraft: WindowDraft = {
+  modalities: ['online'], startsAt: '2026-10-20T00:00:00.000Z', endsAt: '2026-10-20T01:00:00.000Z',
 };
 
-// Profile/service edits are frontend operations only. A mocked rejection checks
-// that the existing client honours authorization; it does not require these
-// currently missing backend endpoints or the Sprint 3 verification workflow.
+// Mocked HTTP rejection verifies client error propagation; backend authorization
+// and window ownership are validated separately by backend acceptance tests.
 const deniedWrites: {
   operation: string; method: string; path: string;
   invoke: (api: ClientModule['api']) => Promise<unknown>;
@@ -23,9 +22,9 @@ const deniedWrites: {
   { operation: 'service create', method: 'POST', path: '/me/services', invoke: (api) => api.createService('counsellor-1', serviceDraft, accessToken) },
   { operation: 'service edit', method: 'PATCH', path: '/me/services/service-1', invoke: (api) => api.updateService('service-1', serviceDraft, accessToken) },
   { operation: 'service delete', method: 'DELETE', path: '/me/services/service-1', invoke: (api) => api.deleteService('service-1', accessToken) },
-  { operation: 'slot create', method: 'POST', path: '/me/availability-slots', invoke: (api) => api.createAvailabilitySlot(slotDraft, accessToken) },
-  { operation: 'slot edit', method: 'PATCH', path: '/me/availability-slots/slot-1', invoke: (api) => api.updateAvailabilitySlot('slot-1', slotDraft, accessToken) },
-  { operation: 'slot delete', method: 'DELETE', path: '/me/availability-slots/slot-1', invoke: (api) => api.deleteAvailabilitySlot('slot-1', accessToken) },
+  { operation: 'window create', method: 'POST', path: '/me/availability-windows', invoke: (api) => api.createAvailabilityWindow(windowDraft, accessToken) },
+  { operation: 'window edit', method: 'PATCH', path: '/me/availability-windows/window-1', invoke: (api) => api.updateAvailabilityWindow('window-1', windowDraft, accessToken) },
+  { operation: 'window delete', method: 'DELETE', path: '/me/availability-windows/window-1', invoke: (api) => api.deleteAvailabilityWindow('window-1', accessToken) },
 ];
 
 describe('shared real-client write safety (mocked HTTP, no backend/device claim)', () => {
@@ -34,7 +33,7 @@ describe('shared real-client write safety (mocked HTTP, no backend/device claim)
   test.each(deniedWrites)('$operation: HTTP 403 never becomes a local save or success', async ({ invoke, method, path }) => {
     const body = { code: 'FORBIDDEN', message: 'You may not change this resource.', requestId: 'qa-denied-write' };
     fetchMock.mockResolvedValueOnce(httpResponse(body, 403));
-    const { api, preview, ApiError } = loadRealClient();
+    const { api, ApiError } = loadRealClient();
     const outcome = await settleBoundaryRequest(invoke(api));
     expect(outcome).toMatchObject({ outcome: 'rejected', error: { status: 403, body } });
     if (outcome.outcome === 'rejected') expect(outcome.error).toBeInstanceOf(ApiError);
@@ -42,8 +41,6 @@ describe('shared real-client write safety (mocked HTTP, no backend/device claim)
     expect(fetchMock).toHaveBeenCalledWith(`${apiBase}${path}`, expect.objectContaining({
       method, headers: expect.objectContaining({ Authorization: `Bearer ${accessToken}` }),
     }));
-    expect(preview.active).toBe(false);
-    expect([...preview.routes]).toEqual([]);
   });
 
   test.each([
@@ -52,9 +49,8 @@ describe('shared real-client write safety (mocked HTTP, no backend/device claim)
   ])('$operation: a genuine HTTP 404 retains its server error', async ({ path, invoke }) => {
     const body = { code: 'NOT_FOUND', message: 'This service no longer exists.', requestId: 'qa-public-resource-404' };
     fetchMock.mockResolvedValueOnce(httpResponse(body, 404));
-    const { api, preview } = loadRealClient();
+    const { api } = loadRealClient();
     expect(await settleBoundaryRequest<unknown>(invoke(api))).toMatchObject({ outcome: 'rejected', error: { status: 404, body } });
     expect(fetchMock).toHaveBeenCalledWith(`${apiBase}${path}`, { headers: { Accept: 'application/json' } });
-    expect(preview.active).toBe(false);
   });
 });

@@ -23,6 +23,10 @@ def main():
         os.environ.update(
             DATABASE_URL=f"sqlite:///{temporary}/web_test.db",
             SEED_ON_STARTUP="true",
+            STRIPE_SECRET_KEY="",
+            MAILGUN_API_KEY="",
+            ADMIN_EMAIL="",
+            ADMIN_PASSWORD="",
             JWT_SECRET="isolated-browser-qa-secret-at-least-32-characters",
             CORS_ALLOW_ORIGINS=f"http://127.0.0.1:{port}",
             FRONTEND_DIST=str(dist),

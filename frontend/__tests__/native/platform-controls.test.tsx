@@ -30,15 +30,15 @@ function ConfirmationDriver() {
 }
 
 describe('native platform controls (Jest component scope)', () => {
-  test('the preset really selects this platform and its source extensions', () => {
+  test('the preset really selects this platform and its source extensions', async () => {
     expect(Platform.OS).toBe(__QA_NATIVE_PLATFORM__);
     expect(resolvedPlatform).toBe(__QA_NATIVE_PLATFORM__);
     expect(Platform.select({ ios: 'ios', android: 'android', default: 'not-native' })).toBe(__QA_NATIVE_PLATFORM__);
   });
 
   test.each([['login', Login], ['register', Register]] as const)(
-    '%s preserves native keyboard configuration and secure password entry', (_name, Screen) => {
-      renderPublic(<Screen />);
+    '%s preserves native keyboard configuration and secure password entry', async (_name, Screen) => {
+      await renderPublic(<Screen />);
       // This proves configuration, not that a real keyboard never obscures UI.
       expect(screen.UNSAFE_getByType(KeyboardAvoidingView).props.behavior)
         .toBe(__QA_NATIVE_PLATFORM__ === 'ios' ? 'padding' : undefined);
@@ -50,7 +50,7 @@ describe('native platform controls (Jest component scope)', () => {
   );
 
   test.each(['Keep draft', 'Cancel'])('confirmation cancellation via %s resolves false without accepting', async (label) => {
-    renderPublic(<ConfirmationDriver />);
+    await renderPublic(<ConfirmationDriver />);
     fireEvent.press(screen.getByRole('button', { name: 'Request confirmation' }));
     expect(screen.getByText('Proceed with this action?')).toBeOnTheScreen();
     expect(screen.getByText('undecided')).toBeOnTheScreen();
@@ -61,7 +61,7 @@ describe('native platform controls (Jest component scope)', () => {
   });
 
   test('the real cross-platform confirmation sheet requires explicit acceptance', async () => {
-    renderPublic(<ConfirmationDriver />);
+    await renderPublic(<ConfirmationDriver />);
     fireEvent.press(screen.getByRole('button', { name: 'Request confirmation' }));
     expect(screen.getByText('undecided')).toBeOnTheScreen();
     fireEvent.press(screen.getByRole('button', { name: 'Proceed' }));

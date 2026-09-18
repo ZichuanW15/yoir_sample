@@ -38,17 +38,17 @@ function hasAssociatedEnglishError(label: string, error: RegExp): boolean {
 }
 
 describe('field-error association assertion controls', () => {
-  test('accepts English feedback in a field group without prescribing an error component', () => {
+  test('accepts English feedback in a field group without prescribing an error component', async () => {
     render(<View><View><TextInput accessibilityLabel="Email" /><Text>Enter a valid email.</Text></View><TextInput accessibilityLabel="Full name" /></View>);
     expect(hasAssociatedEnglishError('Email', /valid.*email/i)).toBe(true);
   });
 
-  test('accepts an input accessibility hint as associated English feedback', () => {
+  test('accepts an input accessibility hint as associated English feedback', async () => {
     render(<View><TextInput accessibilityLabel="Email" accessibilityHint="Enter a valid email." /><TextInput accessibilityLabel="Full name" /></View>);
     expect(hasAssociatedEnglishError('Email', /valid.*email/i)).toBe(true);
   });
 
-  test('does not attribute a form-wide banner to every input', () => {
+  test('does not attribute a form-wide banner to every input', async () => {
     render(<View><Text>Complete all required fields.</Text><View><TextInput accessibilityLabel="Email" /></View><View><TextInput accessibilityLabel="Full name" /></View></View>);
     expect(hasAssociatedEnglishError('Email', /required/i)).toBe(false);
   });
@@ -59,7 +59,7 @@ describe('planned registration validation UX', () => {
     // A valid API error prevents an unconfigured-request exception from being
     // mistaken for the defect. The failing assertion is the forbidden HTTP call.
     reply('POST', '/auth/users', apiFailure('VALIDATION_ERROR', 'Email is invalid.', 400, { email: 'Enter a valid email.' }));
-    renderPublic(<RegisterScreen />);
+    await renderPublic(<RegisterScreen />);
     completeRegistration();
     fireEvent.changeText(screen.getByLabelText('Email'), email);
     await act(async () => fireEvent.press(screen.getByRole('button', { name: 'Create account' })));
@@ -68,8 +68,8 @@ describe('planned registration validation UX', () => {
     expect(navigation.replace).not.toHaveBeenCalled();
   });
 
-  test.each(fieldLabels)('[QA-87][US01-AC2] missing %s is identified at its own field', (label) => {
-    renderPublic(<RegisterScreen />);
+  test.each(fieldLabels)('[QA-87][US01-AC2] missing %s is identified at its own field', async (label) => {
+    await renderPublic(<RegisterScreen />);
     completeRegistration();
     fireEvent.changeText(screen.getByLabelText(label), '');
     fireEvent.press(screen.getByRole('button', { name: 'Create account' }));
@@ -78,15 +78,15 @@ describe('planned registration validation UX', () => {
       .toEqual({ field: label, associatedError: true });
   });
 
-  test('[QA-87][US01-AC2] submitting an empty form identifies every missing field', () => {
-    renderPublic(<RegisterScreen />);
+  test('[QA-87][US01-AC2] submitting an empty form identifies every missing field', async () => {
+    await renderPublic(<RegisterScreen />);
     fireEvent.press(screen.getByRole('button', { name: 'Create account' }));
     expect(callsTo('POST', '/auth/users')).toHaveLength(0);
     expect(fieldLabels.filter(label => !hasAssociatedEnglishError(label, /required|enter|provide|complete|empty|missing/i))).toEqual([]);
   });
 
-  test('[QA-87][US01-AC3] a mismatch is associated with password confirmation and sends no request', () => {
-    renderPublic(<RegisterScreen />);
+  test('[QA-87][US01-AC3] a mismatch is associated with password confirmation and sends no request', async () => {
+    await renderPublic(<RegisterScreen />);
     completeRegistration();
     fireEvent.changeText(screen.getByLabelText('Confirm password'), 'different-password');
     fireEvent.press(screen.getByRole('button', { name: 'Create account' }));

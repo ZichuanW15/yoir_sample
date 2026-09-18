@@ -46,7 +46,7 @@ async function serviceDraft(page: Page, title: string, price: string) {
   await page.getByLabel('Price (AUD)', { exact: true }).fill(price);
 }
 
-test('DEF-PROFILE-PROVENANCE: live verified identity is not silently labelled pending by preview data @defect', async ({ page, request }) => {
+test('DEF-PROFILE-PROVENANCE: live verified identity agrees with the persisted counsellor profile', async ({ page, request }) => {
   const session = await login(page);
   const services = await ownServices(request, session.accessToken);
   const service = services.find(item => item.counsellor.id === session.user.id);
@@ -54,18 +54,7 @@ test('DEF-PROFILE-PROVENANCE: live verified identity is not silently labelled pe
   expect(service!.counsellor.verificationStatus).toBe('verified');
   await expect(page.getByRole('button', { name: `Edit ${service!.title}`, exact: true })).toBeVisible();
 
-  // This checks truth/provenance of an already-rendered dashboard, NOT completion
-  // of the deferred verification workflow or the missing counsellor profile API.
-  // A verified status, an explicit unknown/unavailable status, or a visible label
-  // explaining that the profile/verification is local preview data are all valid.
-  const verified = page.getByText('Verified counsellor', { exact: true });
-  const unknown = page.getByText(/verification (?:status )?(?:unknown|unavailable|not available)/i);
-  const preview = page.getByText(
-    /(?:profile|verification).*(?:preview|demo|local data)|(?:preview|demo|local data).*(?:profile|verification)/i,
-  );
-  await expect(verified.or(unknown).or(preview).filter({ visible: true }).first(),
-    'Real verified API data must not be contradicted by an unlabelled local Pending profile',
-  ).toBeVisible();
+  await expect(page.getByText('Verified counsellor', { exact: true })).toBeVisible();
 });
 
 test('CURRENT-IMPLEMENTATION: newly registered counsellor receives publish 403 with no saved or falsely successful service', async ({ page, request }) => {
@@ -108,7 +97,7 @@ test('DEF-MONEY-CENTS: real persisted cents remain visible in the marketplace an
   const created = await request.post('/api/v1/me/services', {
     headers: { Authorization: `Bearer ${session.accessToken}` },
     data: { title, description: 'An actual API-created service whose price includes fifty cents.',
-      priceMinor: 7050, currency: 'AUD', modalities: ['online'], location: null },
+      priceMinor: 7050, durationMinutes: 60, currency: 'AUD', modalities: ['online'], location: null },
   });
   expect(created.status()).toBe(201);
   const service: Service = await created.json();

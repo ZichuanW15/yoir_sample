@@ -1,4 +1,5 @@
 import { Redirect, router, useLocalSearchParams } from 'expo-router';
+import { goBack } from '@/src/navigation';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -54,7 +55,7 @@ export default function EditServiceScreen() {
     return (
       <ScreenIn style={s.screen}>
         <View style={[s.topBar, { paddingTop: insets.top + 10 }]}>
-          <IconButton onPress={() => router.back()} tone="white" label="Back">
+          <IconButton onPress={() => goBack('/counsellor')} tone="white" label="Back">
             <Svg width={20} height={20} viewBox="0 0 24 24">
               <Polyline points="14.5,5 7.5,12 14.5,19" fill="none" stroke={colors.green} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
             </Svg>

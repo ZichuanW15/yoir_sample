@@ -16,15 +16,15 @@ describe('time-slot selection', () => {
   beforeEach(() => routeParams({ serviceId: serviceFixture.id }));
 
   test('[QA-118] a guest deep link returns to login before reading slots', async () => {
-    renderPublic(<TimeSlotsScreen />);
+    await renderPublic(<TimeSlotsScreen />);
     await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith({ pathname: '/auth/login', params: { serviceId: 'service-1' } }));
     expect(callsTo('GET', slotsPath)).toHaveLength(0);
   });
 
-  test('[QA-118] only open slots are selectable and payment requires a selection', async () => {
+  test('[QA-118] server-derived starts are selectable and payment requires a selection', async () => {
     available();
-    reply('GET', slotsPath, jsonResponse([slotFixture, { ...slotFixture, id: 'held', status: 'held' }, { ...slotFixture, id: 'booked', status: 'booked' }]));
-    renderPublic(<TimeSlotsScreen />, sessionFixture);
+    reply('GET', slotsPath, jsonResponse([slotFixture]));
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
     const slot = await screen.findByRole('radio', { name: /60 min$/ });
     expect(screen.getAllByRole('radio')).toHaveLength(1);
     expect(screen.getByRole('button', { name: 'Continue to payment' })).toBeDisabled();
@@ -37,7 +37,7 @@ describe('time-slot selection', () => {
     available();
     reply('GET', '/services/service-1', jsonResponse({ ...serviceFixture, modalities: ['online', 'in_person'], location: { state: 'VIC', cityOrRegion: 'Melbourne' } }));
     reply('POST', orderPath, jsonResponse({ ...orderFixture, amountMinor: 10500 }, 201));
-    renderPublic(<TimeSlotsScreen />, sessionFixture);
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
     await screen.findByRole('radio', { name: /60 min$/ });
     fireEvent.press(screen.getByRole('radio', { name: 'In person' }));
     expect(screen.getByText('Meeting area: Melbourne, VIC')).toBeOnTheScreen();
@@ -46,16 +46,16 @@ describe('time-slot selection', () => {
     await tick();
     const [, init] = callsTo('POST', orderPath)[0];
     expect(init?.headers).toMatchObject({ Authorization: 'Bearer test-access-token' });
-    expect(JSON.parse(init?.body as string)).toEqual({ serviceId: 'service-1', slotId: 'slot-1', modality: 'in_person', timezone: expect.any(String) });
+    expect(JSON.parse(init?.body as string)).toEqual({ serviceId: 'service-1', startsAt: slotFixture.startsAt, modality: 'in_person', timezone: expect.any(String) });
     expect(navigation.push).toHaveBeenCalledWith({
-      pathname: '/bookings/checkout', params: { orderId: 'order-1', serviceId: 'service-1', slotId: 'slot-1', modality: 'in_person', amountMinor: '10500', startsAt: slotFixture.startsAt, endsAt: slotFixture.endsAt },
+      pathname: '/bookings/checkout', params: { orderId: 'order-1', serviceId: 'service-1', modality: 'in_person', amountMinor: '10500', startsAt: slotFixture.startsAt, endsAt: slotFixture.endsAt, holdExpiresAt: '' },
     });
   });
 
   test('[QA-121] a reservation conflict refreshes availability, clears selection and keeps the reason', async () => {
     available();
-    reply('POST', orderPath, apiFailure('SLOT_UNAVAILABLE', 'That time was just reserved.', 409, { slotId: 'Choose another available slot.' }));
-    renderPublic(<TimeSlotsScreen />, sessionFixture);
+    reply('POST', orderPath, apiFailure('SLOT_UNAVAILABLE', 'That time was just reserved.', 409, { startsAt: 'Choose another available slot.' }));
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
     await screen.findByRole('radio', { name: /60 min$/ });
     choose();
     reply('GET', slotsPath, jsonResponse([]));
@@ -64,7 +64,7 @@ describe('time-slot selection', () => {
     expect(screen.getByText('That time was just reserved. Choose another available slot.')).toBeOnTheScreen();
     expect(screen.queryAllByRole('radio')).toHaveLength(0);
     expect(screen.getByRole('button', { name: 'Continue to payment' })).toBeDisabled();
-    expect(callsTo('GET', slotsPath)).toHaveLength(2);
+    expect(callsTo('GET', slotsPath)).toHaveLength(3);
     expect(navigation.push).not.toHaveBeenCalled();
   });
 
@@ -72,7 +72,7 @@ describe('time-slot selection', () => {
     available();
     const pending = deferred<Response>();
     reply('POST', orderPath, pending.promise);
-    renderPublic(<TimeSlotsScreen />, sessionFixture);
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
     await screen.findByRole('radio', { name: /60 min$/ });
     choose();
     reserve();
@@ -87,7 +87,7 @@ describe('time-slot selection', () => {
   test('[QA-118] connection failures are displayed without enabling an unselected booking', async () => {
     available();
     reply('GET', slotsPath, new TypeError('offline'));
-    renderPublic(<TimeSlotsScreen />, sessionFixture);
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
     expect(await screen.findByText('We could not reach Yoir. Check your connection and try again.')).toBeOnTheScreen();
     expect(screen.getByRole('button', { name: 'Continue to payment' })).toBeDisabled();
   });
@@ -95,7 +95,7 @@ describe('time-slot selection', () => {
   test('[QA-100/121] a server role rejection cannot advance to checkout', async () => {
     available();
     reply('POST', orderPath, apiFailure('FORBIDDEN', 'Only Job Seekers can book services.', 403));
-    renderPublic(<TimeSlotsScreen />, counsellorSessionFixture);
+    await renderPublic(<TimeSlotsScreen />, counsellorSessionFixture);
     await screen.findByRole('radio', { name: /60 min$/ });
     choose();
     reserve();

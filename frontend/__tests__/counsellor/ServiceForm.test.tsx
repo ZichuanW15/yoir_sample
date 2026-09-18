@@ -1,3 +1,4 @@
+import { httpResponse } from '../real-client-boundary-utils';
 import { apiMock, deferred, fillService, renderCounsellor, serviceFixture, setupCounsellorMocks, settle } from '../screens/counsellor-screen-utils';
 import { fireEvent, screen } from '@testing-library/react-native';
 import { router } from 'expo-router';
@@ -8,16 +9,16 @@ beforeEach(setupCounsellorMocks);
 describe('ServiceForm UI — QA #133 #136 #139 #142 (mocked API/HTTP boundary)', () => {
   test('creates a trimmed online service and announces success only after the API confirms', async () => {
     const real = jest.requireActual('@/src/api/client') as typeof import('@/src/api/client');
-    expect(real.isDemoApi).toBe(false); apiMock.createService.mockImplementation(real.api.createService);
+    apiMock.createService.mockImplementation(real.api.createService);
     const pending = deferred<Response>(); const fetchMock = jest.spyOn(global, 'fetch').mockReturnValueOnce(pending.promise);
     await renderCounsellor(form()); fillService({ title: '  Interview coaching  ' });
     fireEvent.press(screen.getByRole('button', { name: 'Publish service' }));
-    expect(apiMock.createService).toHaveBeenCalledWith('counsellor-1', { title: 'Interview coaching', description: 'A practical coaching session with individual interview feedback.', priceMinor: 9525, currency: 'AUD', modalities: ['online'], location: null }, 'counsellor-access-token');
+    expect(apiMock.createService).toHaveBeenCalledWith('counsellor-1', { title: 'Interview coaching', description: 'A practical coaching session with individual interview feedback.', priceMinor: 9525, durationMinutes: 60, currency: 'AUD', modalities: ['online'], location: null }, 'counsellor-access-token');
     expect(screen.getByRole('button', { name: 'Publish service' })).toBeDisabled();
     expect(router.replace).not.toHaveBeenCalled(); expect(screen.queryByText('Service published')).toBeNull();
     fireEvent.press(screen.getByRole('button', { name: 'Publish service' })); expect(apiMock.createService).toHaveBeenCalledTimes(1);
-    expect(fetchMock).toHaveBeenCalledWith(expect.stringMatching(/\/api\/v1\/me\/services$/), expect.objectContaining({ method: 'POST', headers: expect.objectContaining({ Authorization: 'Bearer counsellor-access-token' }), body: JSON.stringify({ title: 'Interview coaching', description: 'A practical coaching session with individual interview feedback.', priceMinor: 9525, currency: 'AUD', modalities: ['online'], location: null }) }));
-    await settle(pending, { ok: true, status: 201, json: async () => serviceFixture } as Response); expect(router.replace).toHaveBeenCalledWith('/counsellor'); expect(screen.getByText('Service published')).toBeTruthy();
+    expect(fetchMock).toHaveBeenCalledWith(expect.stringMatching(/\/api\/v1\/me\/services$/), expect.objectContaining({ method: 'POST', headers: expect.objectContaining({ Authorization: 'Bearer counsellor-access-token' }), body: JSON.stringify({ title: 'Interview coaching', description: 'A practical coaching session with individual interview feedback.', priceMinor: 9525, durationMinutes: 60, currency: 'AUD', modalities: ['online'], location: null }) }));
+    await settle(pending, httpResponse(serviceFixture, 201)); expect(router.replace).toHaveBeenCalledWith('/counsellor'); expect(screen.getByText('Service published')).toBeTruthy();
   });
   test.each([
     [{ title: 'abcd' }, 'Give the service a clear title of at least 5 characters.'],

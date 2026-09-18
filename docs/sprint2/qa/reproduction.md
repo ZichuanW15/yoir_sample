@@ -4,20 +4,7 @@ Use Node 20.20.2, npm 10.8.2, Python 3.12, locked `backend/uv.lock` and `fronten
 
 ## 1. Install once from the repository root
 
-**Do not reinstall or run the full suites just for the 16 September issue
-reconciliation.** Reuse unchanged-baseline evidence; only its new tooling check
-and tests need execution:
-
-```sh
-python3 -B scripts/check_sprint2_qa_traceability.py --verify-local-artifacts
-python3 -B -m unittest discover -s scripts/tests -p test_qa_traceability.py -v
-```
-
-The artifact flag verifies the retained summary's checksum without executing any
-product tests. In a fresh checkout lacking ignored local artifacts, omit that
-flag; the resulting check proves record consistency only, not access to the raw
-run. The full-run instructions below are for a separately needed new baseline or
-targeted product change, not a requirement to repeat existing work.
+The 18 September dev merge requires fresh checks. See [current validation](dev-sync-review-20260918.md); the older tooling-only reconciliation instructions do not apply to this changed application baseline.
 
 ```sh
 uv sync --locked --project backend
@@ -51,6 +38,7 @@ In terminal A, from the repository root:
 ```sh
 DATABASE_URL=postgresql://yoir_qa@127.0.0.1:55435/yoir_live_test \
 SEED_ON_STARTUP=true \
+STRIPE_SECRET_KEY= MAILGUN_API_KEY= \
 JWT_SECRET=local-qa-test-secret-at-least-32-characters \
 backend/.venv/bin/python -m uvicorn app.main:app --app-dir backend \
   --host 127.0.0.1 --port 58005
@@ -58,11 +46,15 @@ backend/.venv/bin/python -m uvicorn app.main:app --app-dir backend \
 
 Wait for `/api/v1/health` to return `{"status":"ok"}`. Stop this owned server with Ctrl-C after the run. Shut down your temporary PostgreSQL server when finished. Do not reuse a live database for the destructive in-process suite.
 
+The live HTTPX booking journey uses the verified fixture buyer `alex@example.com`; the TypeScript journey uses `sam@example.com`. Both use `password123` in this disposable seeded database. Newly registered users are separately checked for the email-verification gate.
+
 ## 4. Record the full run
 
 In terminal B, from the repository root:
 
 ```sh
+LIVE_API_VERIFIED_EMAIL=alex@example.com \
+LIVE_API_VERIFIED_PASSWORD=password123 \
 backend/.venv/bin/python scripts/run_sprint2_qa.py \
   --postgres-url postgresql://yoir_qa@127.0.0.1:55435/yoir_qa_test \
   --live-api-url http://127.0.0.1:58005/api/v1

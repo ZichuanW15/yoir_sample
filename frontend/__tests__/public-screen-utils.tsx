@@ -1,5 +1,6 @@
-/** Real screens, auth, chrome, API client and UI primitives; only HTTP/navigation/native layout are replaced. */
-import { act, render } from '@testing-library/react-native';
+/** Real screens, auth, chrome, API client and UI primitives. HTTP, navigation,
+ * device storage/layout and the Stripe SDK host are controlled test boundaries. */
+import { act, render, waitFor } from '@testing-library/react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { PropsWithChildren, ReactElement, useEffect, useRef, useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
@@ -7,9 +8,13 @@ import { Session } from '@/src/api/types';
 import { AuthProvider, useAuth } from '@/src/auth/AuthContext';
 import { ChromeProvider } from '@/src/chrome';
 
+jest.mock('@/src/payments/sheet', () => ({
+  PaymentSheetHost: ({ children }: import('react').PropsWithChildren) => children,
+  usePaymentSheet: () => ({ present: jest.fn(), supported: false }),
+}));
 jest.mock('expo-router', () => {
   const navigation = {
-    push: jest.fn(), replace: jest.fn(), back: jest.fn(), dismissAll: jest.fn(), canDismiss: jest.fn(() => false),
+    push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: jest.fn(() => true), dismissAll: jest.fn(), canDismiss: jest.fn(() => false),
   };
   return {
     router: navigation,
@@ -21,6 +26,9 @@ jest.mock('expo-router', () => {
     },
   };
 });
+jest.mock('@/src/auth/sessionStore', () => ({
+  readSession: jest.fn(async () => null), writeSession: jest.fn(async () => undefined), clearSession: jest.fn(async () => undefined),
+}));
 jest.mock('react-native-safe-area-context', () => jest.requireActual('react-native-safe-area-context/jest/mock').default);
 
 export const navigation = router as jest.Mocked<typeof router>;
@@ -30,7 +38,12 @@ const replies = new Map<string, Reply>();
 const originalFetch = global.fetch;
 
 export function jsonResponse(body: unknown, status = 200): Response {
-  return { ok: status >= 200 && status < 300, status, json: async () => body } as Response;
+  const empty = status === 204 || status === 205;
+  return {
+    ok: status >= 200 && status < 300, status,
+    headers: { get: (name: string) => !empty && name.toLowerCase() === 'content-type' ? 'application/json; charset=utf-8' : null },
+    json: async () => { if (empty) throw new SyntaxError('Unexpected end of JSON input'); return body; },
+  } as Response;
 }
 export function apiFailure(code: string, message: string, status = 400, fields?: Record<string, string>): Response {
   return jsonResponse({ code, message, requestId: 'public-screen-test', ...(fields ? { fieldErrors: fields } : {}) }, status);
@@ -39,7 +52,7 @@ export function reply(method: string, path: string, value: Reply) {
   replies.set(`${method} ${path}`, value);
 }
 export function callsTo(method: string, path: string) {
-  return fetchMock.mock.calls.filter(([url, init]) => (init?.method ?? 'GET') === method && String(url).endsWith(path));
+  return fetchMock.mock.calls.filter(([url, init]) => (init?.method ?? 'GET') === method && new URL(String(url), 'http://localhost').pathname.endsWith(path));
 }
 export function routeParams(params: Record<string, string>) {
   jest.mocked(useLocalSearchParams).mockReturnValue(params);
@@ -64,6 +77,7 @@ beforeEach(() => {
   navigation.push.mockReset();
   navigation.replace.mockReset();
   navigation.back.mockReset();
+  navigation.canGoBack.mockReset().mockReturnValue(true);
   navigation.dismissAll.mockReset();
   navigation.canDismiss.mockReset().mockReturnValue(false);
   jest.mocked(useLocalSearchParams).mockReset().mockReturnValue({});
@@ -95,15 +109,22 @@ function SessionBootstrap({ session, children }: PropsWithChildren<{ session?: S
   return children;
 }
 
-export function renderPublic(element: ReactElement, session?: Session) {
+export async function renderPublic(element: ReactElement, session?: Session) {
   if (session) reply('POST', '/auth/sessions', jsonResponse({ ...session, expiresAt: '2030-01-01T00:00:00Z' }));
-  return render(
+  let ready = false;
+  function ReadyBoundary({ children }: PropsWithChildren) {
+    useEffect(() => { ready = true; }, []);
+    return children;
+  }
+  const result = render(
     <AuthProvider>
       <ChromeProvider>
-        <SessionBootstrap session={session}>{element}</SessionBootstrap>
+        <SessionBootstrap session={session}><ReadyBoundary>{element}</ReadyBoundary></SessionBootstrap>
       </ChromeProvider>
     </AuthProvider>,
   );
+  await waitFor(() => { if (!ready) throw new Error('Waiting for test session restoration'); });
+  return result;
 }
 
 /** An observer/driver for the real provider; no session state is injected. */

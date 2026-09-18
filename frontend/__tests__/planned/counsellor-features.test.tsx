@@ -1,10 +1,10 @@
 /** Historical requirement probes for fields and views absent from this revision.
  * Excluded from the current implemented-feature QA scope. */
-import { apiMock, counsellorProfileFixture, renderCounsellor, serviceFixture, setupCounsellorMocks } from '../screens/counsellor-screen-utils';
+import { apiMock, counsellorProfileFixture, renderCounsellor, setupCounsellorMocks } from '../screens/counsellor-screen-utils';
 import { screen } from '@testing-library/react-native';
 import Profile from '@/app/counsellor/profile';
 import Availability from '@/app/counsellor/availability';
-import { AvailabilitySlot } from '@/src/api/types';
+import { AvailabilityWindow } from '@/src/api/types';
 
 beforeEach(setupCounsellorMocks);
 async function openProfile() {
@@ -49,20 +49,16 @@ describe('planned counsellor fields and weekly view', () => {
     try {
       const start = new Date(2026, 8, 15, 12);
       const later = new Date(2026, 8, 29, 12);
-      const slots: AvailabilitySlot[] = [start, later].map((date, index) => ({
-        id: `week-slot-${index}`, serviceId: `week-service-${index}`, status: 'open',
+      const slots: AvailabilityWindow[] = [start, later].map((date, index) => ({
+        id: `week-window-${index}`, modalities: ['online'],
         startsAt: date.toISOString(), endsAt: new Date(date.getTime() + 3600000).toISOString(),
       }));
-      apiMock.listOwnServices.mockResolvedValue([
-        { ...serviceFixture, id: 'week-service-0', title: 'First weekly slot service' },
-        { ...serviceFixture, id: 'week-service-1', title: 'Later weekly slot service' },
-      ]);
-      apiMock.listOwnAvailabilitySlots.mockResolvedValue(slots);
+      apiMock.listOwnAvailabilityWindows.mockResolvedValue(slots);
       await renderCounsellor(<Availability />);
-      await screen.findByText('First weekly slot service');
-      expect(apiMock.listOwnAvailabilitySlots).toHaveBeenCalledTimes(1);
-      const displayedWeeks = Number(screen.queryByText('First weekly slot service') !== null)
-        + Number(screen.queryByText('Later weekly slot service') !== null);
+      await screen.findByText('2 on your calendar');
+      expect(apiMock.listOwnAvailabilityWindows).toHaveBeenCalledTimes(1);
+      const displayedWeeks = Number(screen.queryByRole('button', { name: /^Remove .*15/ }) !== null)
+        + Number(screen.queryByRole('button', { name: /^Remove .*29/ }) !== null);
       // Exactly one loaded week sentinel: neither a blank screen nor the current
       // unbounded chronological list can satisfy this weekly-view boundary.
       expect(displayedWeeks).toBe(1);

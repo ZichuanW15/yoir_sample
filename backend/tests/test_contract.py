@@ -18,21 +18,52 @@ OPENAPI_PATH = CONTRACT_DIR / "openapi.yaml"
 TRACEABILITY_PATH = CONTRACT_DIR / "interface-traceability.csv"
 HTTP_METHODS = {"get", "post", "put", "patch", "delete", "options", "head", "trace"}
 IMPLEMENTED_RUNTIME_OPERATION_IDS = {
+    "cancelBooking",
     "completeStubPayment",
-    "createAvailabilitySlot",
+    "createAvailabilityWindow",
     "createOrder",
+    "createPaymentIntent",
     "createService",
-    "deleteAvailabilitySlot",
+    "decideVerification",
+    "deleteAvailabilityWindow",
+    "deleteService",
+    "getBooking",
+    "getBookingReceipt",
+    "getCommissionStatement",
+    "getCounsellorProfile",
+    "getOrder",
+    "getPaymentConfig",
+    "getPayoutStatus",
+    "getPlatformStats",
     "getService",
     "healthCheck",
-    "listOwnAvailabilitySlots",
+    "listAllBookings",
+    "listAllCounsellors",
+    "listMyBookings",
+    "listOwnAvailabilityWindows",
     "listOwnServices",
+    "listPaymentOversight",
     "listServices",
     "listServiceSlots",
+    "listVerificationSubmissions",
     "login",
     "logout",
+    "processStripeConnectWebhook",
+    "processStripeWebhook",
+    "refreshSession",
     "register",
-    "updateAvailabilitySlot",
+    "requestEmailVerification",
+    "requestPasswordReset",
+    "resetPassword",
+    "startStripeOnboarding",
+    "stripeOnboardingRefresh",
+    "stripeOnboardingReturn",
+    "submitVerification",
+    "updateAvailabilityWindow",
+    "updateOwnCounsellorProfile",
+    "updateService",
+    "updateTaxDetails",
+    "verifyEmail",
 }
 
 
@@ -211,24 +242,18 @@ def test_every_implemented_protected_operation_publishes_401(specification: dict
         raise KnownAcceptanceDefect(f"Implemented operations omit 401: {missing}")
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="A response-only PaymentIntent clientSecret is marked writeOnly",
-)
-@pytest.mark.future_contract
 def test_payment_client_secret_is_response_visible(specification: dict) -> None:
+    """Closed with the payment implementation: PaymentSheet reads clientSecret out of
+    the createPaymentIntent response, and writeOnly hid it from generated clients."""
     client_secret = specification["components"]["schemas"]["PaymentIntent"]["properties"][
         "clientSecret"
     ]
     assert client_secret.get("writeOnly") is not True
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="Refresh has no body or cookie carrying a refresh credential",
-)
-@pytest.mark.future_contract
 def test_refresh_operation_defines_refresh_credential(specification: dict) -> None:
+    """Closed with the refresh implementation: the operation now names the credential
+    it runs on, rather than describing a rotation with no way to ask for one."""
     refresh = specification["paths"]["/auth/sessions/refresh"]["post"]
     cookie_parameters = [
         parameter
@@ -263,9 +288,9 @@ def test_marketplace_contract_publishes_service_unavailable(specification: dict)
 
 @pytest.mark.parametrize(("method", "path"), [
     ("get", "/me/services"), ("post", "/me/services"),
-    ("get", "/me/availability-slots"), ("post", "/me/availability-slots"),
-    ("patch", "/me/availability-slots/{slot_id}"),
-    ("delete", "/me/availability-slots/{slot_id}"),
+    ("get", "/me/availability-windows"), ("post", "/me/availability-windows"),
+    ("patch", "/me/availability-windows/{window_id}"),
+    ("delete", "/me/availability-windows/{window_id}"),
 ])
 def test_every_counsellor_operation_publishes_real_bearer_auth(method: str, path: str) -> None:
     runtime = app.openapi()
@@ -288,13 +313,13 @@ def test_public_marketplace_operations_do_not_advertise_required_auth(path: str)
 )
 @pytest.mark.parametrize(("method", "path", "payload"), [
     ("post", "/me/services", {}),
-    ("post", "/me/availability-slots", {}),
-    ("patch", "/me/availability-slots/{slot_id}", {"startsAt": "invalid-datetime"}),
+    ("post", "/me/availability-windows", {}),
+    ("patch", "/me/availability-windows/{window_id}", {"startsAt": "invalid-datetime"}),
 ])
 def test_counsellor_openapi_documents_the_actual_validation_status(
     client, counsellor_headers: dict[str, str], method: str, path: str, payload: dict,
 ) -> None:
-    response = client.request(method, "/api/v1" + path.format(slot_id="missing-slot"),
+    response = client.request(method, "/api/v1" + path.format(window_id="missing-window"),
                               headers=counsellor_headers, json=payload)
     assert response.status_code == 400
     assert response.json()["code"] == "VALIDATION_ERROR"

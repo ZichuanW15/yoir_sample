@@ -1,7 +1,7 @@
 /** Historical probes for stricter field-error and timezone-label UX.
  * Not implemented in this revision; excluded from current implemented-feature QA.
  * Missing fields and the weekly calendar are archived under ../planned/. */
-import { apiMock, counsellorProfileFixture, fillService, renderCounsellor, serviceFixture, setupCounsellorMocks } from '../screens/counsellor-screen-utils';
+import { apiMock, counsellorProfileFixture, fillService, renderCounsellor, setupCounsellorMocks } from '../screens/counsellor-screen-utils';
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import Profile from '@/app/counsellor/profile';
 import Availability from '@/app/counsellor/availability';
@@ -40,7 +40,7 @@ describe('planned counsellor validation and timezone UX', () => {
     fireEvent.press(screen.getByRole('button', { name: 'Publish service' }));
     expect(apiMock.createService).not.toHaveBeenCalled();
     // Use the form's existing messages; assert all missing fields, not merely
-    // its first generic banner. Category/duration remain separately blocked.
+    // its first generic banner. Category remains separately blocked; duration now has a default.
     expect(screen.queryByText('Give the service a clear title of at least 5 characters.')).not.toBeNull();
     expect(screen.queryByText('Describe what the buyer gets in at least 30 characters.')).not.toBeNull();
     expect(screen.queryByText('Enter a price greater than zero.')).not.toBeNull();
@@ -77,12 +77,12 @@ describe('planned counsellor validation and timezone UX', () => {
 
   test('[QA-145][US39-AC1] availability times include a visible timezone', async () => {
     const start = new Date(Date.now() + 86400000);
-    apiMock.listOwnAvailabilitySlots.mockResolvedValue([{
-      id: 'zone-slot', serviceId: serviceFixture.id, status: 'open',
+    apiMock.listOwnAvailabilityWindows.mockResolvedValue([{
+      id: 'zone-window', modalities: ['online'],
       startsAt: start.toISOString(), endsAt: new Date(start.getTime() + 3600000).toISOString(),
     }]);
     await renderCounsellor(<Availability />);
-    await screen.findByText(serviceFixture.title);
+    await screen.findByText('1 on your calendar');
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
     const abbreviation = new Intl.DateTimeFormat('en-AU', { timeZoneName: 'short' })
       .formatToParts(start).find(part => part.type === 'timeZoneName')?.value;

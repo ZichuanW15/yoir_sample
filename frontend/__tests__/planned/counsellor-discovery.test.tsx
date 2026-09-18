@@ -9,7 +9,7 @@ import { serviceFixture } from '../fixtures';
 describe('planned public counsellor discovery routes', () => {
   test('[QA-109][US44-AC2] public marketplace offers a separate counsellor-list entry', async () => {
     reply('GET', '/services', jsonResponse([serviceFixture]));
-    renderPublic(<MarketplaceScreen />);
+    await renderPublic(<MarketplaceScreen />);
     await tick();
     const entries = (['button', 'tab', 'link'] as const).flatMap(role => screen.queryAllByRole(role, { name: /^(browse |view |all )?counsellors$/i }));
     expect(entries.length).toBeGreaterThan(0);
@@ -18,7 +18,7 @@ describe('planned public counsellor discovery routes', () => {
   test('[QA-115][US46-AC2] service detail exposes an actionable counsellor-detail entry', async () => {
     routeParams({ serviceId: serviceFixture.id });
     reply('GET', '/services/service-1', jsonResponse(serviceFixture));
-    renderPublic(<DetailScreen />);
+    await renderPublic(<DetailScreen />);
     await screen.findByText(serviceFixture.counsellor.displayName);
     const entries = (['button', 'link'] as const).flatMap(role => [
       ...screen.queryAllByRole(role, { name: serviceFixture.counsellor.displayName }),

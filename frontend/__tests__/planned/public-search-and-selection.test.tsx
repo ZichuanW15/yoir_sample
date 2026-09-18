@@ -17,7 +17,7 @@ function listingRequests() {
 describe('planned public search integration and explicit delivery choice', () => {
   test('[QA-112][US45-AC1] keyword is sent to the backend and only its response is displayed', async () => {
     reply('GET', '/services', jsonResponse([serviceFixture]));
-    renderPublic(<MarketplaceScreen />);
+    await renderPublic(<MarketplaceScreen />);
     await tick();
     const serverResult = { ...serviceFixture, id: 'server-result', title: 'Server-selected coaching' };
     reply('GET', '/services', jsonResponse([serverResult]));
@@ -31,7 +31,7 @@ describe('planned public search integration and explicit delivery choice', () =>
 
   test('[QA-112][US45-AC2] supported modality filter is sent to the backend', async () => {
     reply('GET', '/services', jsonResponse([serviceFixture]));
-    renderPublic(<MarketplaceScreen />);
+    await renderPublic(<MarketplaceScreen />);
     await tick();
     reply('GET', '/services', jsonResponse([]));
     fireEvent.press(screen.getByRole('button', { name: 'Show filters' }));
@@ -44,7 +44,7 @@ describe('planned public search integration and explicit delivery choice', () =>
 
   test('[QA-112][US45-AC6] failed search reports the server error, not a locally filtered old catalogue', async () => {
     reply('GET', '/services', jsonResponse([serviceFixture]));
-    renderPublic(<MarketplaceScreen />);
+    await renderPublic(<MarketplaceScreen />);
     await tick();
     reply('GET', '/services', apiFailure('UNAVAILABLE', 'Search service is unavailable.', 503));
     fireEvent.changeText(screen.getByLabelText('Search services or counsellors'), 'coaching');
@@ -55,7 +55,7 @@ describe('planned public search integration and explicit delivery choice', () =>
 
   test('[QA-112][US45-AC5] server-confirmed empty search retains criteria without an error', async () => {
     reply('GET', '/services', jsonResponse([serviceFixture]));
-    renderPublic(<MarketplaceScreen />);
+    await renderPublic(<MarketplaceScreen />);
     await tick();
     reply('GET', '/services', jsonResponse([]));
     fireEvent.changeText(screen.getByLabelText('Search services or counsellors'), 'no matching result');
@@ -73,7 +73,7 @@ describe('planned public search integration and explicit delivery choice', () =>
     reply('GET', '/services/service-1', jsonResponse({ ...serviceFixture, modalities: ['online', 'in_person'], location: { state: 'VIC', cityOrRegion: 'Melbourne' } }));
     reply('GET', '/services/service-1/slots', jsonResponse([slotFixture]));
     reply('POST', '/orders', jsonResponse(orderFixture, 201));
-    renderPublic(<TimeSlotsScreen />, sessionFixture);
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
     await tick();
     fireEvent.press(screen.getByRole('radio', { name: /60 min$/ }));
     // Both disabled controls and click-time validation are valid implementations.

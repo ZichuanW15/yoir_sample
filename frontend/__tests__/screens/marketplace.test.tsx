@@ -13,7 +13,7 @@ const catalogue = [serviceFixture, inPerson];
 const listing = (title: string) => screen.getByRole('button', { name: new RegExp(`^${title} by`) });
 async function load() {
   reply('GET', '/services', jsonResponse(catalogue));
-  renderPublic(<MarketplaceScreen />);
+  await renderPublic(<MarketplaceScreen />);
   await tick();
 }
 
@@ -21,7 +21,7 @@ describe('Marketplace screen', () => {
   test('[QA-109] guests see loading then public services without authentication', async () => {
     const pending = deferred<Response>();
     reply('GET', '/services', pending.promise);
-    renderPublic(<MarketplaceScreen />);
+    await renderPublic(<MarketplaceScreen />);
     expect(screen.getByText('Loading services')).toBeOnTheScreen();
     await act(async () => pending.resolve(jsonResponse(catalogue)));
     await tick();
@@ -34,7 +34,7 @@ describe('Marketplace screen', () => {
 
   test('[QA-109] a failed catalogue request shows a retry that restores the list', async () => {
     reply('GET', '/services', apiFailure('SERVER_ERROR', 'Catalogue is temporarily unavailable.', 503));
-    renderPublic(<MarketplaceScreen />);
+    await renderPublic(<MarketplaceScreen />);
     await tick();
     expect(screen.getByText('Catalogue is temporarily unavailable.')).toBeOnTheScreen();
     reply('GET', '/services', jsonResponse(catalogue));
@@ -47,7 +47,7 @@ describe('Marketplace screen', () => {
 
   test('[QA-109] an empty catalogue has an explicit empty state', async () => {
     reply('GET', '/services', jsonResponse([]));
-    renderPublic(<MarketplaceScreen />);
+    await renderPublic(<MarketplaceScreen />);
     await tick();
     expect(screen.getByText('No services match your search.')).toBeOnTheScreen();
     expect(screen.getByText('0 of 0 services')).toBeOnTheScreen();
@@ -91,7 +91,7 @@ describe('Marketplace screen', () => {
   test('[QA-106] a signed-in user can open the real account sheet and log out', async () => {
     reply('GET', '/services', jsonResponse(catalogue));
     reply('DELETE', '/auth/sessions/current', jsonResponse(undefined, 204));
-    renderPublic(<MarketplaceScreen />, sessionFixture);
+    await renderPublic(<MarketplaceScreen />, sessionFixture);
     await screen.findByRole('button', { name: 'Account, Alex Morgan' });
     fireEvent.press(screen.getByRole('button', { name: 'Account, Alex Morgan' }));
     fireEvent.press(screen.getByRole('button', { name: 'Log out' }));
