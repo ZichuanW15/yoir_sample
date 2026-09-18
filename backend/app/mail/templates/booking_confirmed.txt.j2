@@ -1,0 +1,39 @@
+You're booked
+
+{{ service_title }} with {{ counsellor_name }}
+
+Hi {{ name }},
+
+Your session is confirmed and paid for. {{ counsellor_name }} can see it too.
+
+{% for label, value in details %}
+{{ label }}: {{ value }}
+{% endfor %}
+
+{% if meeting_url %}
+JOINING YOUR SESSION
+Use this link at the scheduled time. Nothing to install.
+
+{{ meeting_url }}
+{% elif meeting_area %}
+This is an in-person session in {{ meeting_area }}. {{ counsellor_name }} will
+confirm the exact meeting point before you meet.
+{% endif %}
+
+{% if receipt.is_tax_invoice %}TAX INVOICE{% else %}RECEIPT{% endif %} - {{ receipt.receipt_number }}
+
+Supplier: {{ receipt.supplier_name }}
+{% if receipt.is_tax_invoice and receipt.supplier_abn %}
+ABN: {{ receipt.supplier_abn }}
+{% endif %}
+To: {{ receipt.buyer_name }}
+
+{{ receipt.description }}
+Total ({{ receipt.currency }}): {{ receipt.total_minor | money }}
+{% if receipt.is_tax_invoice %}
+Includes GST: {{ receipt.gst_minor | money }}
+{% else %}
+No GST has been charged on this supply.
+{% endif %}
+
+{{ cancellation_note }}

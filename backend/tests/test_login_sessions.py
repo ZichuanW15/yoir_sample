@@ -26,13 +26,19 @@ def persist_account(
     role: str = "job_seeker",
     password: str = PASSWORD,
     password_hash: str | None = None,
+    email_verified: bool = True,
 ) -> User:
-    """Create an existing account, not a public platform-owner provisioning flow."""
+    """Create an existing account, not a public platform-owner provisioning flow.
+
+    Verified by default: these tests are about roles and sessions, and leaving the
+    address unconfirmed would make them fail on the booking gate instead.
+    """
     account = User(
         name="Session Tester",
         email="session.tester@example.com",
         password_hash=password_hash if password_hash is not None else hash_password(password),
         role=role,
+        email_verified_at=datetime.now(UTC) if email_verified else None,
     )
     db.add(account)
     db.commit()
@@ -68,12 +74,24 @@ def test_login_returns_only_public_user_fields_and_signed_expiring_session(
 
     assert response.status_code == 200
     body = response.json()
-    assert set(body) == {"accessToken", "expiresAt", "user"}
+    # US-06: login also issues the refresh token that lets the session slide, so a
+    # mobile app is not asked for a password every hour. The set is still pinned, so
+    # a future field cannot leak into this response unnoticed.
+    assert set(body) == {
+        "accessToken", "expiresAt", "user", "refreshToken", "refreshExpiresAt",
+    }
+    # Returned exactly once, here; it is stored only as a digest and can never be
+    # read back out of the API.
+    assert body["refreshToken"]
+    assert body["refreshToken"] != body["accessToken"]
     assert body["user"] == {
         "id": account.id,
         "name": account.name,
         "email": account.email,
         "role": role,
+        # The app needs this to know whether to prompt for confirmation, and it is
+        # derived from a timestamp the session response must not expose.
+        "emailVerified": True,
     }
     assert "set-cookie" not in response.headers
     assert PASSWORD not in response.text
@@ -333,7 +351,7 @@ def test_protected_booking_permissions_follow_database_role_not_token_role(
             headers=headers,
             json={
                 "serviceId": "does-not-exist",
-                "slotId": "does-not-exist",
+                "startsAt": "2030-01-01T09:00:00Z",
                 "modality": "online",
                 "timezone": "Australia/Melbourne",
             },

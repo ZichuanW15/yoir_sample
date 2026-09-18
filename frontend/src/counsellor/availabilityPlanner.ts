@@ -1,9 +1,13 @@
-import { AvailabilitySlot, SlotDraft } from '@/src/api/types';
+import { AvailabilityWindow, Modality, WindowDraft } from '@/src/api/types';
 
 /**
- * Bulk availability creation: an "alarm app" style picker where a counsellor chooses
- * many dates (or days of the week), many services, many start times and many
- * durations at once, and every combination becomes one slot draft.
+ * Bulk availability creation: a counsellor picks many dates (or days of the week)
+ * and the hours they work, and each becomes one window.
+ *
+ * No services and no durations. Availability belongs to the counsellor, and how long
+ * a session runs is a property of the service someone books — so the old product of
+ * dates x services x times x durations, which could only ever emit overlapping rows,
+ * is now dates x one daily span.
  *
  * Weekdays are indexed Monday-first (0 = Monday .. 6 = Sunday), matching the day
  * strip already used on the availability screen: `(date.getDay() + 6) % 7`.
@@ -78,42 +82,52 @@ export function weekdayDatesInRange(weekdays: number[], start: Date, weeks: numb
   return dates;
 }
 
-export interface BuildSlotDraftsInput {
+export interface BuildWindowDraftsInput {
   dates: Date[];
-  serviceIds: string[];
-  times: TimeOfDay[];
-  durationsMinutes: number[];
+  /** The hours worked on each of those dates, as a single span. */
+  from: TimeOfDay;
+  to: TimeOfDay;
+  /** How the counsellor can deliver in those hours. */
+  modalities: Modality[];
 }
 
-/** The full cartesian product of dates × services × start times × durations, deduplicated and sorted. */
-export function buildSlotDrafts({ dates, serviceIds, times, durationsMinutes }: BuildSlotDraftsInput): SlotDraft[] {
-  const drafts: SlotDraft[] = [];
+/**
+ * One window per chosen date, deduplicated and sorted.
+ *
+ * Windows that touch are merged, matching what the server does on save: 9-11 and
+ * 10-12 describe one stretch of availability, not two conflicting ones.
+ */
+export function buildWindowDrafts(
+  { dates, from, to, modalities }: BuildWindowDraftsInput,
+): WindowDraft[] {
+  const drafts: WindowDraft[] = [];
   for (const date of dates) {
-    for (const serviceId of serviceIds) {
-      for (const time of times) {
-        for (const minutes of durationsMinutes) {
-          const start = new Date(date);
-          start.setHours(time.hour, time.minute, 0, 0);
-          const end = new Date(start.getTime() + minutes * 60_000);
-          drafts.push({ serviceId, startsAt: start.toISOString(), endsAt: end.toISOString() });
-        }
-      }
-    }
+    const start = new Date(date);
+    start.setHours(from.hour, from.minute, 0, 0);
+    const end = new Date(date);
+    end.setHours(to.hour, to.minute, 0, 0);
+    if (end <= start) continue;
+    drafts.push({ startsAt: start.toISOString(), endsAt: end.toISOString(), modalities });
   }
 
-  const seen = new Set<string>();
-  const unique = drafts.filter((draft) => {
-    const key = `${draft.serviceId}|${draft.startsAt}|${draft.endsAt}`;
-    if (seen.has(key)) return false;
-    seen.add(key);
-    return true;
-  });
-  unique.sort((a, b) => a.startsAt.localeCompare(b.startsAt) || a.serviceId.localeCompare(b.serviceId));
-  return unique;
+  drafts.sort((a, b) => a.startsAt.localeCompare(b.startsAt));
+  return drafts.reduce<WindowDraft[]>((merged, draft) => {
+    const previous = merged[merged.length - 1];
+    // Only windows offering the same ways to meet describe the same availability.
+    if (previous && draft.startsAt <= previous.endsAt
+      && previous.modalities.join() === draft.modalities.join()) {
+      previous.endsAt = draft.endsAt > previous.endsAt ? draft.endsAt : previous.endsAt;
+      return merged;
+    }
+    merged.push({ ...draft });
+    return merged;
+  }, []);
 }
 
-/** Whether `draft` would overlap a still-offerable (non-booked) slot already on that service. */
-export function overlapsExisting(draft: SlotDraft, existing: AvailabilitySlot[], ignoreId?: string): boolean {
-  return existing.some((slot) => slot.id !== ignoreId && slot.serviceId === draft.serviceId && slot.status !== 'booked'
-    && draft.startsAt < slot.endsAt && slot.startsAt < draft.endsAt);
+/** Whether `draft` touches a window already on the calendar, and would merge with it. */
+export function mergesWithExisting(
+  draft: WindowDraft, existing: AvailabilityWindow[], ignoreId?: string,
+): boolean {
+  return existing.some((window) => window.id !== ignoreId
+    && draft.startsAt <= window.endsAt && window.startsAt <= draft.endsAt);
 }

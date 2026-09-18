@@ -1,13 +1,14 @@
 import { useEffect } from 'react';
 import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 import Svg, { Circle, G, Line, Path, Polyline, Rect } from 'react-native-svg';
+import { createAnimatedSvg } from '@/src/components/animatedSvg';
 import { Float, Pop, Pulse, Wiggle, useAnimatedValue } from '@/src/motion';
 import { colors, fonts } from '@/src/theme';
 
-const ACircle = Animated.createAnimatedComponent(Circle);
-const APath = Animated.createAnimatedComponent(Path);
-const APolyline = Animated.createAnimatedComponent(Polyline);
-const AG = Animated.createAnimatedComponent(G);
+const ACircle = createAnimatedSvg(Circle);
+const APath = createAnimatedSvg(Path);
+const APolyline = createAnimatedSvg(Polyline);
+const AG = createAnimatedSvg(G);
 const EASE = Easing.bezier(0.2, 0, 0, 1);
 
 /** Draws a dashed stroke on, from fully hidden to fully drawn. */
@@ -73,13 +74,16 @@ function PopGroup({ x, y, delay, duration = 700, children }: { x: number; y: num
     return () => anim.stop();
   }, [t, delay, duration]);
   return (
-    <AG
-      opacity={t.interpolate({ inputRange: [0, 0.35, 1], outputRange: [0, 1, 1] })}
-      originX={x}
-      originY={y}
-      scale={t.interpolate({ inputRange: [0, 0.7, 1], outputRange: [0.4, 1.12, 1] })}
-    >
-      {children}
+    // Scaling about (x, y) written as translate -> scale -> translate back, rather
+    // than with originX/originY: react-native-svg turns those into a kebab-case
+    // `transform-origin` DOM attribute that React rejects on web. The nesting is the
+    // same transform, expressed only in props that survive both platforms.
+    <AG opacity={t.interpolate({ inputRange: [0, 0.35, 1], outputRange: [0, 1, 1] })}>
+      <G x={x} y={y}>
+        <AG scale={t.interpolate({ inputRange: [0, 0.7, 1], outputRange: [0.4, 1.12, 1] })}>
+          <G x={-x} y={-y}>{children}</G>
+        </AG>
+      </G>
     </AG>
   );
 }
@@ -96,9 +100,15 @@ function PulseCircle({ cx, cy, r, fill, opacity, duration = 4000 }: { cx: number
     return () => anim.stop();
   }, [t, duration]);
   return (
-    <AG originX={cx} originY={cy} scale={t.interpolate({ inputRange: [0, 1], outputRange: [1, 1.18] })}>
-      <Circle cx={cx} cy={cy} r={r} fill={fill} opacity={opacity} />
-    </AG>
+    // Scaling a circle about its own centre is exactly a change of radius, so the
+    // group transform is unnecessary here — and with it goes the transform-origin.
+    <ACircle
+      cx={cx}
+      cy={cy}
+      r={t.interpolate({ inputRange: [0, 1], outputRange: [r, r * 1.18] })}
+      fill={fill}
+      opacity={opacity}
+    />
   );
 }
 

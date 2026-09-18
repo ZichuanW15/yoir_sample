@@ -17,21 +17,52 @@ OPENAPI_PATH = CONTRACT_DIR / "openapi.yaml"
 TRACEABILITY_PATH = CONTRACT_DIR / "interface-traceability.csv"
 HTTP_METHODS = {"get", "post", "put", "patch", "delete", "options", "head", "trace"}
 IMPLEMENTED_RUNTIME_OPERATION_IDS = {
+    "cancelBooking",
     "completeStubPayment",
-    "createAvailabilitySlot",
+    "createAvailabilityWindow",
     "createOrder",
+    "createPaymentIntent",
     "createService",
-    "deleteAvailabilitySlot",
+    "decideVerification",
+    "deleteAvailabilityWindow",
+    "deleteService",
+    "getBooking",
+    "getBookingReceipt",
+    "getCommissionStatement",
+    "getCounsellorProfile",
+    "getOrder",
+    "getPaymentConfig",
+    "getPayoutStatus",
+    "getPlatformStats",
     "getService",
     "healthCheck",
-    "listOwnAvailabilitySlots",
+    "listAllBookings",
+    "listAllCounsellors",
+    "listMyBookings",
+    "listOwnAvailabilityWindows",
     "listOwnServices",
+    "listPaymentOversight",
     "listServices",
     "listServiceSlots",
+    "listVerificationSubmissions",
     "login",
     "logout",
+    "processStripeConnectWebhook",
+    "processStripeWebhook",
+    "refreshSession",
     "register",
-    "updateAvailabilitySlot",
+    "requestEmailVerification",
+    "requestPasswordReset",
+    "resetPassword",
+    "startStripeOnboarding",
+    "stripeOnboardingRefresh",
+    "stripeOnboardingReturn",
+    "submitVerification",
+    "updateAvailabilityWindow",
+    "updateOwnCounsellorProfile",
+    "updateService",
+    "updateTaxDetails",
+    "verifyEmail",
 }
 
 
@@ -198,22 +229,18 @@ def test_every_protected_operation_publishes_401(specification: dict) -> None:
     assert missing == []
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="A response-only PaymentIntent clientSecret is marked writeOnly",
-)
 def test_payment_client_secret_is_response_visible(specification: dict) -> None:
+    """Closed with the payment implementation: PaymentSheet reads clientSecret out of
+    the createPaymentIntent response, and writeOnly hid it from generated clients."""
     client_secret = specification["components"]["schemas"]["PaymentIntent"]["properties"][
         "clientSecret"
     ]
     assert client_secret.get("writeOnly") is not True
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="Refresh has no body or cookie carrying a refresh credential",
-)
 def test_refresh_operation_defines_refresh_credential(specification: dict) -> None:
+    """Closed with the refresh implementation: the operation now names the credential
+    it runs on, rather than describing a rotation with no way to ask for one."""
     refresh = specification["paths"]["/auth/sessions/refresh"]["post"]
     cookie_parameters = [
         parameter

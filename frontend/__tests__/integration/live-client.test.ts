@@ -43,12 +43,11 @@ describe('TypeScript client to live backend', () => {
       process.env.EXPO_PUBLIC_USE_DEMO_API = 'false';
       jest.resetModules();
 
-      const { api, isDemoApi } = require('@/src/api/client') as ClientModule;
+      const { api } = require('@/src/api/client') as ClientModule;
       const unique = `${Date.now()}-${Math.random().toString(16).slice(2)}`;
       const email = `qa-client-live-${unique}@example.com`;
       const password = 'correct-password';
 
-      expect(isDemoApi).toBe(false);
 
       const registered = await api.register({
         name: 'QA TypeScript Client',
@@ -82,14 +81,14 @@ describe('TypeScript client to live backend', () => {
 
       const order = await api.createOrder(
         service.id,
-        slot.id,
+        slot.startsAt,
         service.modalities[0],
         'Australia/Melbourne',
         session.accessToken,
       );
       expect(order).toMatchObject({
         serviceId: service.id,
-        slotId: slot.id,
+        slotId: slot.startsAt,
         status: 'awaiting_payment',
         paymentStatus: 'not_started',
       });

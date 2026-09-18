@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 import pytest
@@ -71,3 +72,44 @@ def test_default_configuration_is_safe_for_shared_environment(monkeypatch) -> No
     assert settings.jwt_secret != "dev-only-insecure-secret-change-me-please-32b"
     assert settings.cors_allow_origins != "*"
     assert settings.seed_on_startup is False
+
+
+def test_env_example_documents_every_setting() -> None:
+    """`.env.example` is the only place the settings are explained, so drift in it is
+    silent and expensive.
+
+    A key was once named SMTP_API_KEY in a developer's .env while the application read
+    MAILGUN_API_KEY. Nothing failed: mail was quietly disabled and every message was
+    logged and discarded, which looked exactly like a broken mail provider.
+    """
+    from pathlib import Path
+
+    from app.config import Settings
+
+    text = (Path(__file__).resolve().parents[1] / ".env.example").read_text()
+    assigned = {match.group(1) for match in re.finditer(r"^([A-Z][A-Z0-9_]*)=", text, re.M)}
+    expected = {name.upper() for name in Settings.model_fields}
+
+    assert expected - assigned == set(), "settings with no line in .env.example"
+    assert assigned - expected == set(), "lines in .env.example that are not settings"
+
+
+def test_env_example_loads_as_written() -> None:
+    """The file is copied to .env and used, so a malformed line or an invalid value
+    is a broken startup rather than a documentation nit."""
+    import shutil
+    import tempfile
+    from pathlib import Path
+
+    from app.config import Settings
+
+    source = Path(__file__).resolve().parents[1] / ".env.example"
+    with tempfile.TemporaryDirectory() as directory:
+        target = Path(directory) / ".env"
+        shutil.copy(source, target)
+        settings = Settings(_env_file=str(target))
+
+    # The defaults promise an application that runs with no credentials at all.
+    assert settings.payments_enabled is False
+    assert settings.mail_enabled is False
+    assert settings.admin_bootstrap_enabled is False

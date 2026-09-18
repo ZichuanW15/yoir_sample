@@ -1,11 +1,19 @@
 import { PropsWithChildren, useEffect, useState } from 'react';
-import { Animated, Easing, StyleProp, ViewStyle } from 'react-native';
+import { Animated, Easing, Platform, StyleProp, ViewStyle } from 'react-native';
 
 /**
  * The prototype's keyframes, ported to React Native's Animated. One easing curve
  * throughout — cubic-bezier(.2,0,0,1) — and the same durations and delays.
  */
 const EASE = Easing.bezier(0.2, 0, 0, 1);
+
+/**
+ * The native driver runs an animation off the JS thread, which only exists on a
+ * device. react-native-web has no such thread and warns on every animation that
+ * asks for one, so the answer is platform-dependent rather than a constant. Web
+ * animations are unaffected — they were always running on the main thread.
+ */
+export const USE_NATIVE_DRIVER = Platform.OS !== 'web';
 
 /** A stable Animated.Value for the life of the component. */
 export function useAnimatedValue(initial = 0) {
@@ -16,7 +24,7 @@ export function useAnimatedValue(initial = 0) {
 function useEntrance(delay: number, duration: number) {
   const t = useAnimatedValue(0);
   useEffect(() => {
-    const anim = Animated.timing(t, { toValue: 1, duration, delay, easing: EASE, useNativeDriver: true });
+    const anim = Animated.timing(t, { toValue: 1, duration, delay, easing: EASE, useNativeDriver: USE_NATIVE_DRIVER });
     anim.start();
     return () => anim.stop();
   }, [t, delay, duration]);
@@ -73,8 +81,8 @@ function useLoop(duration: number, delay: number) {
   useEffect(() => {
     const anim = Animated.loop(
       Animated.sequence([
-        Animated.timing(t, { toValue: 1, duration: duration / 2, delay, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
-        Animated.timing(t, { toValue: 0, duration: duration / 2, easing: Easing.inOut(Easing.ease), useNativeDriver: true }),
+        Animated.timing(t, { toValue: 1, duration: duration / 2, delay, easing: Easing.inOut(Easing.ease), useNativeDriver: USE_NATIVE_DRIVER }),
+        Animated.timing(t, { toValue: 0, duration: duration / 2, easing: Easing.inOut(Easing.ease), useNativeDriver: USE_NATIVE_DRIVER }),
       ]),
     );
     anim.start();
@@ -124,7 +132,7 @@ export function useSpin(active: boolean) {
   useEffect(() => {
     if (!active) return;
     t.setValue(0);
-    const anim = Animated.loop(Animated.timing(t, { toValue: 1, duration: 800, easing: Easing.linear, useNativeDriver: true }));
+    const anim = Animated.loop(Animated.timing(t, { toValue: 1, duration: 800, easing: Easing.linear, useNativeDriver: USE_NATIVE_DRIVER }));
     anim.start();
     return () => anim.stop();
   }, [t, active]);

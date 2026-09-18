@@ -1,6 +1,7 @@
 import { Redirect, router } from 'expo-router';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Role } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { Glyph, GlyphName } from '@/src/components/Glyph';
 import { EntryScene } from '@/src/components/Scenes';
@@ -9,6 +10,13 @@ import { FadeUp, ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, shadow, type } from '@/src/theme';
 
 type PublicRole = 'job_seeker' | 'counsellor';
+
+/** Where each role's app actually starts. A Platform Owner has no marketplace to browse. */
+function homeFor(role: Role): '/counsellor' | '/admin' | '/marketplace' {
+  if (role === 'counsellor') return '/counsellor';
+  if (role === 'platform_owner') return '/admin';
+  return '/marketplace';
+}
 
 const roles: { role: PublicRole; glyph: GlyphName; holder: string; ink: string; title: string; description: string }[] = [
   {
@@ -34,7 +42,7 @@ export default function EntryScreen() {
   const { session } = useAuth();
   const insets = useSafeAreaInsets();
 
-  if (session) return <Redirect href={session.user.role === 'counsellor' ? '/counsellor' : '/marketplace'} />;
+  if (session) return <Redirect href={homeFor(session.user.role)} />;
 
   return (
     <ScreenIn duration={500} style={[styles.screen, { paddingTop: insets.top }]}>

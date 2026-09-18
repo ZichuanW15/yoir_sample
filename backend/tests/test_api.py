@@ -17,7 +17,8 @@ from sqlalchemy.orm import Session
 
 from app.db import engine, get_db
 from app.main import app
-from app.models import AvailabilitySlot, Booking, Order, Service, User
+from app.models import AvailabilityWindow, Booking, Order, Service, User
+from app.payments.jobs import release_expired_holds
 from app.security import create_access_token, verify_password
 
 REGISTER = {
@@ -29,34 +30,36 @@ REGISTER = {
 }
 
 
-def add_slot(
+def add_window(
     db_session: Session,
     service: Service,
     *,
     starts_at: datetime | None = None,
-    status: str = "open",
-) -> AvailabilitySlot:
+    hours: int = 3,
+) -> AvailabilityWindow:
+    """Availability belongs to the counsellor who owns the service, and any of their
+    services fits inside it."""
     start = starts_at or datetime.now(UTC) + timedelta(days=1)
-    slot = AvailabilitySlot(
-        service_id=service.id,
+    window = AvailabilityWindow(
+        counsellor_id=service.counsellor_id,
         starts_at=start,
-        ends_at=start + timedelta(hours=1),
-        status=status,
+        ends_at=start + timedelta(hours=hours),
     )
-    db_session.add(slot)
+    db_session.add(window)
     db_session.commit()
-    db_session.refresh(slot)
-    return slot
+    db_session.refresh(window)
+    return window
 
 
 def order_payload(
     service: Service,
-    slot: AvailabilitySlot,
+    window: AvailabilityWindow,
     **overrides: Any,
 ) -> dict[str, Any]:
     return {
         "serviceId": service.id,
-        "slotId": slot.id,
+        # The chosen start; the end follows from the service's own duration.
+        "startsAt": window.starts_at.isoformat(),
         "modality": "online",
         "timezone": "Australia/Melbourne",
         **overrides,
@@ -94,6 +97,7 @@ def test_register_persists_normalised_account(
         "name": "Alex Tester",
         "email": "alex.tester@example.com",
         "role": role,
+        "emailVerified": False,
     }
     user = db_session.get(User, response.json()["id"])
     assert user is not None
@@ -381,24 +385,36 @@ def test_inactive_service_detail_is_not_public(
     assert_error_shape(response, 404, "NOT_FOUND")
 
 
-def test_service_slots_returns_only_open_slots_in_start_order(
+def test_service_slots_returns_bookable_starts_in_order(
     client: TestClient,
     db_session: Session,
     service: Service,
+    job_seeker_headers: dict[str, str],
 ) -> None:
-    start = datetime.now(UTC) + timedelta(days=1)
-    later = add_slot(db_session, service, starts_at=start + timedelta(hours=2))
-    earlier = add_slot(db_session, service, starts_at=start)
-    add_slot(db_session, service, starts_at=start + timedelta(hours=1), status="held")
-    add_slot(db_session, service, starts_at=start + timedelta(hours=3), status="booked")
+    """US-40. Offers are derived from the counsellor's windows and this service's
+    duration, soonest first, and a time already taken is not among them."""
+    later = add_window(db_session, service, starts_at=datetime.now(UTC) + timedelta(days=3))
+    earlier = add_window(db_session, service, starts_at=datetime.now(UTC) + timedelta(days=1))
 
-    response = client.get(f"/api/v1/services/{service.id}/slots")
+    offers = client.get(f"/api/v1/services/{service.id}/slots").json()
 
-    assert response.status_code == 200
-    assert [item["id"] for item in response.json()] == [earlier.id, later.id]
-    assert all(item["serviceId"] == service.id for item in response.json())
-    assert all(item["status"] == "open" for item in response.json())
-    assert all(item["endsAt"] > item["startsAt"] for item in response.json())
+    assert offers
+    starts = [item["startsAt"] for item in offers]
+    assert starts == sorted(starts)
+    assert starts[0] == earlier.starts_at.isoformat().replace("+00:00", "Z")
+    assert any(s.startswith(later.starts_at.date().isoformat()) for s in starts)
+    # Each offer runs for exactly the service's duration.
+    assert all(item["endsAt"] > item["startsAt"] for item in offers)
+
+    booked = starts[0]
+    order = client.post(
+        "/api/v1/orders", headers=job_seeker_headers, json=order_payload(service, earlier),
+    )
+    client.post(f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers)
+
+    after = [item["startsAt"] for item in client.get(
+        f"/api/v1/services/{service.id}/slots").json()]
+    assert booked not in after
 
 
 @pytest.mark.parametrize("missing_id", ["does-not-exist", ""])
@@ -433,12 +449,12 @@ def test_create_order_requires_valid_bearer_authentication(
     service: Service,
     headers: dict[str, str],
 ) -> None:
-    slot = add_slot(db_session, service)
+    window = add_window(db_session, service)
 
     response = client.post(
         "/api/v1/orders",
         headers=headers,
-        json=order_payload(service, slot),
+        json=order_payload(service, window),
     )
 
     assert_error_shape(response, 401, "AUTHENTICATION_REQUIRED")
@@ -452,7 +468,7 @@ def test_create_order_rejects_unusable_jwt(
     job_seeker: User,
     token_kind: str,
 ) -> None:
-    slot = add_slot(db_session, service)
+    window = add_window(db_session, service)
     if token_kind == "expired":
         token = jwt.encode(
             {
@@ -479,7 +495,7 @@ def test_create_order_rejects_unusable_jwt(
     response = client.post(
         "/api/v1/orders",
         headers={"Authorization": f"Bearer {token}"},
-        json=order_payload(service, slot),
+        json=order_payload(service, window),
     )
 
     assert_error_shape(response, 401, "AUTHENTICATION_REQUIRED")
@@ -491,13 +507,13 @@ def test_create_order_authorises_from_persisted_role_not_token_claim(
     service: Service,
     counsellor: User,
 ) -> None:
-    slot = add_slot(db_session, service)
+    window = add_window(db_session, service)
     forged_role_token, _ = create_access_token(counsellor.id, "job_seeker")
 
     response = client.post(
         "/api/v1/orders",
         headers={"Authorization": f"Bearer {forged_role_token}"},
-        json=order_payload(service, slot),
+        json=order_payload(service, window),
     )
 
     assert_error_shape(response, 403, "FORBIDDEN")
@@ -509,30 +525,30 @@ def test_counsellor_cannot_create_order(
     service: Service,
     counsellor_headers: dict[str, str],
 ) -> None:
-    slot = add_slot(db_session, service)
+    window = add_window(db_session, service)
 
     response = client.post(
         "/api/v1/orders",
         headers=counsellor_headers,
-        json=order_payload(service, slot),
+        json=order_payload(service, window),
     )
 
     assert_error_shape(response, 403, "FORBIDDEN")
 
 
-def test_create_order_holds_slot_and_snapshots_commercial_values(
+def test_create_order_holds_the_time_and_snapshots_commercial_values(
     client: TestClient,
     db_session: Session,
     service: Service,
     job_seeker: User,
     job_seeker_headers: dict[str, str],
 ) -> None:
-    slot = add_slot(db_session, service)
+    window = add_window(db_session, service)
 
     response = client.post(
         "/api/v1/orders",
         headers=job_seeker_headers,
-        json=order_payload(service, slot),
+        json=order_payload(service, window),
     )
 
     assert response.status_code == 201
@@ -540,21 +556,38 @@ def test_create_order_holds_slot_and_snapshots_commercial_values(
     assert body == {
         "id": body["id"],
         "serviceId": service.id,
-        "slotId": slot.id,
+        "windowId": window.id,
+        "startsAt": body["startsAt"],
+        "endsAt": body["endsAt"],
         "amountMinor": 9500,
         "currency": "AUD",
         "status": "awaiting_payment",
         "paymentStatus": "not_started",
+        # Payments spec §5/§6: the hold deadline and the commission split are frozen
+        # onto the order when it is created, so the app counts down to a deadline the
+        # server set and nothing recalculates the money later.
+        "holdExpiresAt": body["holdExpiresAt"],
+        "amounts": {
+            "totalMinor": 9500,
+            "sessionGstMinor": 0,
+            "platformFeeMinor": 1900,
+            "platformFeeGstMinor": 173,
+            "counsellorPayoutMinor": 7600,
+        },
+        "paymentProvider": "stub",
+        "paymentIntentClientSecret": None,
     }
+    assert body["holdExpiresAt"] is not None
     db_session.expire_all()
     stored_order = db_session.get(Order, body["id"])
-    stored_slot = db_session.get(AvailabilitySlot, slot.id)
     assert stored_order is not None
     assert stored_order.job_seeker_id == job_seeker.id
     assert stored_order.amount_minor == 9500
     assert stored_order.timezone == "Australia/Melbourne"
     assert stored_order.modality == "online"
-    assert stored_slot is not None and stored_slot.status == "held"
+    # The hold is the order itself now — there is no row to flag "held".
+    assert stored_order.hold_expires_at > datetime.now(UTC)
+    assert stored_order.starts_at.isoformat().replace("+00:00", "Z") == body["startsAt"]
 
 
 @pytest.mark.parametrize(
@@ -562,7 +595,7 @@ def test_create_order_holds_slot_and_snapshots_commercial_values(
     [
         ({"timezone": ""}, "timezone"),
         ({"modality": "telepathy"}, "modality"),
-        ({"slotId": None}, "slotId"),
+        ({"startsAt": None}, "startsAt"),
     ],
 )
 def test_create_order_rejects_invalid_payload(
@@ -573,12 +606,12 @@ def test_create_order_rejects_invalid_payload(
     payload_change: dict[str, Any],
     field: str,
 ) -> None:
-    slot = add_slot(db_session, service)
+    window = add_window(db_session, service)
 
     response = client.post(
         "/api/v1/orders",
         headers=job_seeker_headers,
-        json=order_payload(service, slot, **payload_change),
+        json=order_payload(service, window, **payload_change),
     )
 
     body = assert_error_shape(response, 400, "VALIDATION_ERROR")
@@ -595,11 +628,11 @@ def test_create_order_rejects_unknown_fields(
     service: Service,
     job_seeker_headers: dict[str, str],
 ) -> None:
-    slot = add_slot(db_session, service)
+    window = add_window(db_session, service)
     response = client.post(
         "/api/v1/orders",
         headers=job_seeker_headers,
-        json=order_payload(service, slot, actingUserId="other-user"),
+        json=order_payload(service, window, actingUserId="other-user"),
     )
     assert_error_shape(response, 400, "VALIDATION_ERROR")
 
@@ -610,12 +643,12 @@ def test_create_order_rejects_modality_not_offered_by_service(
     service: Service,
     job_seeker_headers: dict[str, str],
 ) -> None:
-    slot = add_slot(db_session, service)
+    window = add_window(db_session, service)
 
     response = client.post(
         "/api/v1/orders",
         headers=job_seeker_headers,
-        json=order_payload(service, slot, modality="in_person"),
+        json=order_payload(service, window, modality="in_person"),
     )
 
     assert_error_shape(response, 400, "VALIDATION_ERROR")
@@ -627,70 +660,71 @@ def test_create_order_rejects_inactive_or_missing_service(
     service: Service,
     job_seeker_headers: dict[str, str],
 ) -> None:
-    slot = add_slot(db_session, service)
+    window = add_window(db_session, service)
     service.active = False
     db_session.commit()
 
     inactive = client.post(
         "/api/v1/orders",
         headers=job_seeker_headers,
-        json=order_payload(service, slot),
+        json=order_payload(service, window),
     )
     missing = client.post(
         "/api/v1/orders",
         headers=job_seeker_headers,
-        json=order_payload(service, slot, serviceId="does-not-exist"),
+        json=order_payload(service, window, serviceId="does-not-exist"),
     )
 
     assert_error_shape(inactive, 404, "NOT_FOUND")
     assert_error_shape(missing, 404, "NOT_FOUND")
 
 
-def test_create_order_rejects_slot_from_another_service(
-    client: TestClient,
-    db_session: Session,
-    service: Service,
-    counsellor: User,
-    job_seeker_headers: dict[str, str],
-) -> None:
-    other_service = Service(
-        counsellor_id=counsellor.id,
-        title="Other service",
-        description="A different service.",
-        price_minor=5000,
-        currency="AUD",
-        modalities=["online"],
-        active=True,
-        review_count=0,
-    )
-    db_session.add(other_service)
-    db_session.commit()
-    db_session.refresh(other_service)
-    other_slot = add_slot(db_session, other_service)
-
-    response = client.post(
-        "/api/v1/orders",
-        headers=job_seeker_headers,
-        json=order_payload(service, other_slot),
-    )
-
-    assert_error_shape(response, 404, "NOT_FOUND")
-
-
-@pytest.mark.parametrize("slot_status", ["held", "booked"])
-def test_create_order_rejects_unavailable_slot(
+def test_create_order_rejects_a_time_outside_every_window(
     client: TestClient,
     db_session: Session,
     service: Service,
     job_seeker_headers: dict[str, str],
-    slot_status: str,
 ) -> None:
-    slot = add_slot(db_session, service, status=slot_status)
+    """A time nobody has taken is still not bookable if the counsellor never said
+    they were available for it."""
+    window = add_window(db_session, service)
 
     response = client.post(
         "/api/v1/orders",
         headers=job_seeker_headers,
-        json=order_payload(service, slot),
+        json=order_payload(
+            service, window, startsAt=(window.ends_at + timedelta(hours=1)).isoformat(),
+        ),
+    )
+
+    assert_error_shape(response, 409, "SLOT_UNAVAILABLE")
+
+
+@pytest.mark.parametrize("settle", [False, True])
+def test_create_order_rejects_a_time_already_taken(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    job_seeker_headers: dict[str, str],
+    settle: bool,
+) -> None:
+    """Both an unpaid hold and a confirmed booking make a time unavailable.
+
+    Neither is a flag on a shared row any more: the first is the earlier order's live
+    hold, the second its booking, and the availability query accounts for both.
+    """
+    window = add_window(db_session, service)
+    first = client.post(
+        "/api/v1/orders", headers=job_seeker_headers, json=order_payload(service, window),
+    )
+    assert first.status_code == 201
+    if settle:
+        client.post(
+            f"/api/v1/orders/{first.json()['id']}/payments/stub", headers=job_seeker_headers,
+        )
+
+    response = client.post(
+        "/api/v1/orders", headers=job_seeker_headers, json=order_payload(service, window),
     )
 
     assert_error_shape(response, 409, "SLOT_UNAVAILABLE")
@@ -702,8 +736,8 @@ def test_second_sequential_order_for_same_slot_is_rejected(
     service: Service,
     job_seeker_headers: dict[str, str],
 ) -> None:
-    slot = add_slot(db_session, service)
-    payload = order_payload(service, slot)
+    window = add_window(db_session, service)
+    payload = order_payload(service, window)
 
     first = client.post("/api/v1/orders", headers=job_seeker_headers, json=payload)
     second = client.post("/api/v1/orders", headers=job_seeker_headers, json=payload)
@@ -722,8 +756,8 @@ def test_postgresql_concurrent_order_requests_reserve_slot_once(
     if engine.dialect.name != "postgresql":
         pytest.skip("PostgreSQL row-lock concurrency evidence requires PostgreSQL")
 
-    slot = add_slot(db_session, service)
-    payload = order_payload(service, slot)
+    window = add_window(db_session, service)
+    payload = order_payload(service, window)
     start_together = Barrier(3)
 
     def reserve() -> Any:
@@ -739,67 +773,88 @@ def test_postgresql_concurrent_order_requests_reserve_slot_once(
     conflict = next(response for response in responses if response.status_code == 409)
     assert_error_shape(conflict, 409, "SLOT_UNAVAILABLE")
     db_session.expire_all()
-    assert len(list(db_session.scalars(select(Order)))) == 1
-    stored_slot = db_session.get(AvailabilitySlot, slot.id)
-    assert stored_slot is not None and stored_slot.status == "held"
+    orders = list(db_session.scalars(select(Order)))
+    assert len(orders) == 1
+    # The winner holds the time; the hold is the order itself, not a flag elsewhere.
+    assert orders[0].hold_expires_at > datetime.now(UTC)
 
 
 @pytest.mark.xfail(
     strict=True,
     reason=(
-        "Order.slot_id has no database UNIQUE invariant, so concurrent transactions can "
-        "persist two active orders for one slot"
+        "Two live orders overlapping on one counsellor's calendar are prevented only by "
+        "the application's row lock, not by a database exclusion constraint"
     ),
 )
-def test_order_slot_has_database_uniqueness_invariant() -> None:
+def test_orders_have_a_database_invariant_against_overlapping_holds() -> None:
+    """The same gap the slot-uniqueness check described, restated for windows.
+
+    A slot was one row, so a UNIQUE on orders.slot_id would have expressed "one live
+    order per slot". A window is a span, and the rule is now "no two live orders whose
+    times overlap for one counsellor" — which no single-column UNIQUE can state. In
+    PostgreSQL the honest answer is an EXCLUDE constraint over a tstzrange with
+    btree_gist; until there is one, correctness rests entirely on the counsellor-row
+    lock taken in create_order.
+    """
     inspector = inspect(engine)
+    constraint_types = {
+        constraint.get("type") for constraint in inspector.get_check_constraints("orders")
+    }
     unique_column_sets = {
         frozenset(constraint["column_names"])
         for constraint in inspector.get_unique_constraints("orders")
     }
-    unique_column_sets.update(
-        frozenset(index["column_names"])
-        for index in inspector.get_indexes("orders")
-        if index.get("unique")
+    assert (
+        "EXCLUDE" in constraint_types
+        or frozenset({"window_id", "starts_at"}) in unique_column_sets
     )
-    assert frozenset({"slot_id"}) in unique_column_sets
 
 
-@pytest.mark.xfail(
-    strict=True,
-    reason="The documented 15-minute order hold has no expiry or slot-release implementation",
-)
-def test_expired_order_hold_releases_slot_for_a_new_order(
+def test_an_expired_hold_puts_the_time_back_on_offer(
     client: TestClient,
     db_session: Session,
     service: Service,
     job_seeker_headers: dict[str, str],
 ) -> None:
-    slot = add_slot(db_session, service)
-    payload = order_payload(service, slot)
+    """The hold is a deadline the server sets, and a lapsed one simply stops counting.
+
+    Nothing has to be reclaimed: availability is derived, so an order whose hold has
+    passed no longer occupies its time and the next person can book it straight away.
+    The background job tidies the dead order up afterwards (payments spec §9).
+    """
+    window = add_window(db_session, service)
+    payload = order_payload(service, window)
     first = client.post("/api/v1/orders", headers=job_seeker_headers, json=payload)
     assert first.status_code == 201
     stored_order = db_session.get(Order, first.json()["id"])
     assert stored_order is not None
-    stored_order.created_at = datetime.now(UTC) - timedelta(minutes=16)
+    stored_order.hold_expires_at = datetime.now(UTC) - timedelta(minutes=1)
     db_session.commit()
 
     second = client.post("/api/v1/orders", headers=job_seeker_headers, json=payload)
     assert second.status_code == 201
+    assert second.json()["id"] != first.json()["id"]
+
+    db_session.expire_all()
+    # The abandoned order is left for the release job, not cancelled by the new one.
+    assert db_session.get(Order, first.json()["id"]).status == "awaiting_payment"
+    assert release_expired_holds(db_session) == 1
+    db_session.expire_all()
+    assert db_session.get(Order, first.json()["id"]).status == "cancelled"
 
 
-def test_stub_payment_confirms_exactly_one_booking_and_books_slot(
+def test_stub_payment_confirms_exactly_one_booking_and_takes_the_time(
     client: TestClient,
     db_session: Session,
     service: Service,
     job_seeker: User,
     job_seeker_headers: dict[str, str],
 ) -> None:
-    slot = add_slot(db_session, service)
+    window = add_window(db_session, service)
     order = client.post(
         "/api/v1/orders",
         headers=job_seeker_headers,
-        json=order_payload(service, slot),
+        json=order_payload(service, window),
     )
     assert order.status_code == 201
 
@@ -823,16 +878,28 @@ def test_stub_payment_confirms_exactly_one_booking_and_books_slot(
         "modality": "online",
         "status": "confirmed",
         "paymentStatus": "paid",
+        "amountMinor": 9500,
+        "refundedMinor": 0,
+        "cancelledByRole": None,
+        # An online booking is confirmed with somewhere to actually meet.
+        "meetingUrl": f"https://meet.jit.si/yoir-{body['booking']['id'].replace('-', '')}",
+        # The payment response answers about an order, not about somebody's diary,
+        # so it names no counterparty.
+        "counterpartyName": "",
+        "counterpartyRole": None,
+        "meetingArea": "",
     }
     db_session.expire_all()
     stored_order = db_session.get(Order, order.json()["id"])
-    stored_slot = db_session.get(AvailabilitySlot, slot.id)
     stored_bookings = list(db_session.scalars(select(Booking)))
     assert stored_order is not None
     assert stored_order.job_seeker_id == job_seeker.id
     assert (stored_order.status, stored_order.payment_status) == ("confirmed", "paid")
-    assert stored_slot is not None and stored_slot.status == "booked"
     assert len(stored_bookings) == 1
+    # The time is gone from what the service offers, without any row being flagged.
+    assert body["booking"]["startsAt"] not in [
+        item["startsAt"] for item in client.get(f"/api/v1/services/{service.id}/slots").json()
+    ]
     assert stored_bookings[0].id == body["booking"]["id"]
 
 
@@ -842,11 +909,11 @@ def test_stub_payment_is_booking_idempotent(
     service: Service,
     job_seeker_headers: dict[str, str],
 ) -> None:
-    slot = add_slot(db_session, service)
+    window = add_window(db_session, service)
     order = client.post(
         "/api/v1/orders",
         headers=job_seeker_headers,
-        json=order_payload(service, slot),
+        json=order_payload(service, window),
     )
     endpoint = f"/api/v1/orders/{order.json()['id']}/payments/stub"
 
@@ -868,11 +935,11 @@ def test_stub_payment_retry_returns_stable_payment_reference(
     service: Service,
     job_seeker_headers: dict[str, str],
 ) -> None:
-    slot = add_slot(db_session, service)
+    window = add_window(db_session, service)
     order = client.post(
         "/api/v1/orders",
         headers=job_seeker_headers,
-        json=order_payload(service, slot),
+        json=order_payload(service, window),
     )
     endpoint = f"/api/v1/orders/{order.json()['id']}/payments/stub"
 
@@ -888,11 +955,11 @@ def test_stub_payment_requires_authentication(
     service: Service,
     job_seeker_headers: dict[str, str],
 ) -> None:
-    slot = add_slot(db_session, service)
+    window = add_window(db_session, service)
     order = client.post(
         "/api/v1/orders",
         headers=job_seeker_headers,
-        json=order_payload(service, slot),
+        json=order_payload(service, window),
     )
 
     response = client.post(f"/api/v1/orders/{order.json()['id']}/payments/stub")
@@ -906,11 +973,11 @@ def test_stub_payment_enforces_order_ownership(
     service: Service,
     job_seeker_headers: dict[str, str],
 ) -> None:
-    slot = add_slot(db_session, service)
+    window = add_window(db_session, service)
     order = client.post(
         "/api/v1/orders",
         headers=job_seeker_headers,
-        json=order_payload(service, slot),
+        json=order_payload(service, window),
     )
     other_registration = client.post(
         "/api/v1/auth/users",
@@ -957,30 +1024,26 @@ def test_stub_payment_missing_order_is_404(
     assert_error_shape(response, 404, "NOT_FOUND")
 
 
-@pytest.mark.parametrize(
-    ("order_status", "slot_status"),
-    [("cancelled", "held"), ("awaiting_payment", "open"), ("confirmed", "booked")],
-)
+@pytest.mark.parametrize("order_status", ["cancelled", "confirmed"])
 def test_stub_payment_rejects_invalid_state_transition(
     client: TestClient,
     db_session: Session,
     service: Service,
     job_seeker_headers: dict[str, str],
     order_status: str,
-    slot_status: str,
 ) -> None:
-    slot = add_slot(db_session, service)
+    """Only an order still awaiting payment can be paid. There is no longer a second
+    status on a slot row to disagree with it."""
+    window = add_window(db_session, service)
     order = client.post(
         "/api/v1/orders",
         headers=job_seeker_headers,
-        json=order_payload(service, slot),
+        json=order_payload(service, window),
     )
     db_session.expire_all()
     stored_order = db_session.get(Order, order.json()["id"])
-    stored_slot = db_session.get(AvailabilitySlot, slot.id)
-    assert stored_order is not None and stored_slot is not None
+    assert stored_order is not None
     stored_order.status = order_status
-    stored_slot.status = slot_status
     db_session.commit()
 
     response = client.post(

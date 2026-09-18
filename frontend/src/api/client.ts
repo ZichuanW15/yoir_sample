@@ -1,21 +1,20 @@
-import {
-  demoCompletePayment, demoCreateOrder, demoCreateService, demoCreateSlot, demoDeleteService, demoDeleteSlot,
-  demoGetCounsellorProfile, demoGetService, demoListOwnServices, demoListOwnSlots, demoListServices,
-  demoListSlots, demoLogin, demoLogout, demoRegister, demoUpdateCounsellorProfile, demoUpdateService, demoUpdateSlot,
-} from './demo';
+import { adoptSession, currentSession, platformClient, refreshOnce } from './authBridge';
 import { ApiError } from './errors';
 import {
-  ApiErrorBody, AvailabilitySlot, CounsellorProfile, CounsellorProfileUpdate, Order, RegisterRequest,
-  Role, Service, ServiceDraft, ServiceUpdate, Session, SlotDraft, StubPaymentConfirmation, User,
+  AdminBooking, AdminCounsellor,
+  ApiErrorBody, AvailabilityWindow, BookableStart, CancelBookingResult, Booking, CounsellorProfile, CounsellorProfileUpdate,
+  Order, OrderStatusResponse, PaymentConfig, PaymentIntent, PaymentOversight, PayoutStatus,
+  PlatformStats, Receipt, RegisterRequest,
+  Role, Service, ServiceDraft, ServiceUpdate, Session, StripeOnboarding,
+  StubPaymentConfirmation, TaxDetailsUpdate, User, VerificationSubmission, WindowDraft,
 } from './types';
 
 export { ApiError };
 
 const apiUrl = (process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:8000/api/v1').replace(/\/$/, '');
-export const isDemoApi = process.env.EXPO_PUBLIC_USE_DEMO_API === 'true';
 
-async function request<T>(path: string, init?: RequestInit, accessToken?: string): Promise<T> {
-  const response = await fetch(`${apiUrl}${path}`, {
+function send(path: string, init?: RequestInit, accessToken?: string): Promise<Response> {
+  return fetch(`${apiUrl}${path}`, {
     ...init,
     headers: {
       Accept: 'application/json',
@@ -24,6 +23,47 @@ async function request<T>(path: string, init?: RequestInit, accessToken?: string
       ...init?.headers,
     },
   });
+}
+
+/**
+ * Exchange the stored refresh token for a new session, at most once at a time.
+ *
+ * Returns the new access token, or null when there is nothing to refresh with and
+ * the person genuinely has to sign in again — in which case the local session is
+ * dropped so the app stops showing signed-in screens it cannot serve.
+ */
+async function refreshAccessToken(): Promise<string | null> {
+  const session = currentSession();
+  if (!session?.refreshToken) return null;
+
+  const renewed = await refreshOnce(async () => {
+    const response = await send('/auth/sessions/refresh', {
+      method: 'POST',
+      body: JSON.stringify({ refreshToken: session.refreshToken, client: platformClient }),
+    });
+    if (!response.ok) {
+      // The token is spent, revoked or expired. Nothing to recover.
+      adoptSession(null);
+      return null;
+    }
+    const next = (await response.json()) as Session;
+    adoptSession(next);
+    return next;
+  });
+  return renewed?.accessToken ?? null;
+}
+
+async function request<T>(path: string, init?: RequestInit, accessToken?: string): Promise<T> {
+  let response = await send(path, init, accessToken);
+
+  // An access token lives an hour; a session lives far longer. A 401 on a call that
+  // carried a token normally means only that the short one lapsed, so it is renewed
+  // and the original request retried — once. A second 401 is a real rejection.
+  if (response.status === 401 && accessToken && !path.startsWith('/auth/')) {
+    const renewed = await refreshAccessToken();
+    if (renewed) response = await send(path, init, renewed);
+  }
+
   if (!response.ok) {
     let body: ApiErrorBody;
     try {
@@ -33,160 +73,206 @@ async function request<T>(path: string, init?: RequestInit, accessToken?: string
     }
     throw new ApiError(response.status, body);
   }
-  if (response.status === 204) return undefined as T;
+  // Whether there is a body to parse is not something the status code can be
+  // trusted for: 204 says so, but the generic "accepted" replies answer 202 with an
+  // empty body too, and calling json() on one throws "Unexpected end of JSON input"
+  // where the caller expected a resolved promise. The Content-Type is what actually
+  // reports whether a body was sent.
+  if (response.status === 204 || response.status === 205) return undefined as T;
+  if (!(response.headers?.get('content-type') ?? '').includes('json')) return undefined as T;
   return response.json() as Promise<T>;
 }
 
-/**
- * The counsellor operations below are published in the interface contract but are
- * not served by the deployed backend yet. An operation whose route is missing falls
- * back to the local store so the Sprint 2 counsellor journey stays demonstrable,
- * and records itself in `preview.routes` so a screen can say plainly that it is
- * showing local data. The backend is shipping these routes one at a time, so the
- * record is per route: a live success clears only its own entry.
- */
-const previewRoutes = new Set<string>();
 
-export const preview = {
-  active: false,
-  routes: previewRoutes,
-  reset() {
-    previewRoutes.clear();
-    preview.active = false;
-  },
-};
-
-/**
- * The contract routes the deployed backend has not shipped yet.
- *
- * A 404 cannot be read as "this route does not exist": the API maps an unrouted path
- * and a genuinely missing resource to the same `{ code: 'NOT_FOUND' }` body, so a
- * status-only rule would answer a wrong id with invented local data. This set is the
- * explicit record instead. Delete an entry the moment its route ships — from then on
- * a 404 from it is a real missing resource and surfaces as an error.
- */
-export const undeployedRoutes = new Set(['counsellorProfile', 'ownServices', 'availability']);
-
-function isUndeployedRoute(route: string, error: unknown): boolean {
-  if (!(error instanceof ApiError)) return false;
-  if (error.status === 405 || error.status === 501) return true;
-  return error.status === 404 && undeployedRoutes.has(route);
-}
-
-async function previewFallback<T>(route: string, live: () => Promise<T>, local: () => Promise<T>): Promise<T> {
-  if (isDemoApi) return local();
-  try {
-    const result = await live();
-    previewRoutes.delete(route);
-    preview.active = previewRoutes.size > 0;
-    return result;
-  } catch (error) {
-    if (!isUndeployedRoute(route, error)) throw error;
-    previewRoutes.add(route);
-    preview.active = true;
-    return local();
-  }
-}
 
 export const api = {
   /** `roleHint` only steers the local store; the deployed API derives the role itself. */
   login: (email: string, password: string, roleHint?: Role): Promise<Session> =>
-    isDemoApi
-      ? demoLogin(email, password, roleHint)
-      : request('/auth/sessions', { method: 'POST', body: JSON.stringify({ email, password }) }),
+    request('/auth/sessions', {
+          method: 'POST',
+          // The platform decides how long the server lets the session slide.
+          body: JSON.stringify({ email, password, client: platformClient }),
+        }),
 
   register: (input: RegisterRequest): Promise<User> =>
-    isDemoApi ? demoRegister(input) : request('/auth/users', { method: 'POST', body: JSON.stringify(input) }),
+    request('/auth/users', { method: 'POST', body: JSON.stringify(input) }),
 
   /** US-08 — invalidate the server session; a missing route must not block local sign-out. */
-  logout: (accessToken: string): Promise<void> =>
-    isDemoApi
-      ? demoLogout()
-      : request<void>('/auth/sessions/current', { method: 'DELETE' }, accessToken).catch(() => undefined),
+  logout: (accessToken: string, refreshToken?: string | null): Promise<void> =>
+    request<void>(
+          '/auth/sessions/current',
+          // Without the refresh token the session could simply be minted again, so
+          // signing out has to name it too.
+          { method: 'DELETE', body: JSON.stringify({ refreshToken: refreshToken ?? null }) },
+          accessToken,
+        ).catch(() => undefined),
 
   listServices: (query = ''): Promise<Service[]> =>
-    isDemoApi ? demoListServices(query) : request(`/services${query.trim() ? `?query=${encodeURIComponent(query.trim())}` : ''}`),
+    request(`/services${query.trim() ? `?query=${encodeURIComponent(query.trim())}` : ''}`),
 
   getService: (id: string): Promise<Service> =>
-    isDemoApi ? demoGetService(id) : request(`/services/${encodeURIComponent(id)}`),
+    request(`/services/${encodeURIComponent(id)}`),
 
-  listServiceSlots: (serviceId: string): Promise<AvailabilitySlot[]> =>
-    isDemoApi ? demoListSlots(serviceId) : request(`/services/${encodeURIComponent(serviceId)}/slots`),
+  /** When this service can be booked. Derived server-side from the counsellor's
+   *  windows and this service's duration, so it changes as bookings are made. */
+  listServiceSlots: (serviceId: string, modality?: string): Promise<BookableStart[]> =>
+    request(
+      `/services/${encodeURIComponent(serviceId)}/slots`
+      + (modality ? `?modality=${encodeURIComponent(modality)}` : ''),
+    ),
 
-  createOrder: (serviceId: string, slotId: string, modality: string, timezone: string, accessToken: string): Promise<Order> =>
-    isDemoApi
-      ? demoCreateOrder(serviceId, slotId)
-      : request('/orders', { method: 'POST', body: JSON.stringify({ serviceId, slotId, modality, timezone }) }, accessToken),
+  /** `startsAt` is the chosen time; its end follows from the service's duration. */
+  createOrder: (serviceId: string, startsAt: string, modality: string, timezone: string, accessToken: string): Promise<Order> =>
+    request('/orders', { method: 'POST', body: JSON.stringify({ serviceId, startsAt, modality, timezone }) }, accessToken),
 
   completeStubPayment: (order: Order, accessToken: string): Promise<StubPaymentConfirmation> =>
-    isDemoApi
-      ? demoCompletePayment(order)
-      : request(`/orders/${encodeURIComponent(order.id)}/payments/stub`, { method: 'POST' }, accessToken),
+    request(`/orders/${encodeURIComponent(order.id)}/payments/stub`, { method: 'POST' }, accessToken),
+
+  // --- payments (US-47) ---------------------------------------------------
+
+  /**
+   * Whether this backend takes card payments, and the publishable key to do it with.
+   * Fetched rather than bundled so a key rotation does not need a new app build.
+   */
+  getPaymentConfig: (): Promise<PaymentConfig> =>
+    request('/payments/config'),
+
+  /**
+   * Open the Stripe payment for an order that is already holding its slot. Safe to
+   * call again after a dropped connection: the backend keys it on the order, so
+   * Stripe replays the same PaymentIntent rather than opening a second charge.
+   */
+  createPaymentIntent: (orderId: string, accessToken: string): Promise<PaymentIntent> =>
+    request(`/orders/${encodeURIComponent(orderId)}/payment-intents`, { method: 'POST' }, accessToken),
+
+  /**
+   * The source of truth after PaymentSheet closes. PaymentSheet succeeding only means
+   * Stripe accepted the card; the booking exists once the backend has processed the
+   * webhook, which is what this reports.
+   */
+  getOrderStatus: (orderId: string, accessToken: string): Promise<OrderStatusResponse> =>
+    request(`/orders/${encodeURIComponent(orderId)}`, undefined, accessToken),
+
+  listMyBookings: (accessToken: string): Promise<Booking[]> =>
+    request('/me/bookings', undefined, accessToken),
+
+  cancelBooking: (bookingId: string, reason: string | null, accessToken: string): Promise<CancelBookingResult> =>
+    request(
+          `/bookings/${encodeURIComponent(bookingId)}/cancel`,
+          { method: 'POST', body: JSON.stringify({ reason }) },
+          accessToken,
+        ),
+
+  getBooking: (bookingId: string, accessToken: string): Promise<Booking> =>
+    request(`/bookings/${encodeURIComponent(bookingId)}`, {}, accessToken),
+
+  getBookingReceipt: (bookingId: string, accessToken: string): Promise<Receipt> =>
+    request(`/bookings/${encodeURIComponent(bookingId)}/receipt`, undefined, accessToken),
+
+  // --- counsellor payouts (US-47) ----------------------------------------
+
+  getPayoutStatus: (accessToken: string): Promise<PayoutStatus> =>
+    request('/me/payout-status', undefined, accessToken),
+
+  /**
+   * Always returns a new link: Account Links are single-use and expire in minutes.
+   * `returnTo` says where this platform wants the counsellor back; the backend
+   * honours it only for the app's own scheme or an origin it serves.
+   */
+  startStripeOnboarding: (accessToken: string, returnTo?: string): Promise<StripeOnboarding> =>
+    request('/me/stripe-onboarding', { method: 'POST', body: JSON.stringify({ returnTo: returnTo ?? null }) }, accessToken),
+
+  updateTaxDetails: (update: TaxDetailsUpdate, accessToken: string): Promise<PayoutStatus> =>
+    request('/me/tax-details', { method: 'PUT', body: JSON.stringify(update) }, accessToken),
 
   // --- counsellor workspace (contract-published, backend pending) ---
 
   getOwnCounsellorProfile: (user: User, accessToken: string): Promise<CounsellorProfile> =>
-    previewFallback(
-      'counsellorProfile',
-      () => request(`/counsellors/${encodeURIComponent(user.id)}`, undefined, accessToken),
-      () => demoGetCounsellorProfile(user.id, user.name),
-    ),
+    request(`/counsellors/${encodeURIComponent(user.id)}`, undefined, accessToken),
 
   updateOwnCounsellorProfile: (counsellorId: string, update: CounsellorProfileUpdate, accessToken: string): Promise<CounsellorProfile> =>
-    previewFallback(
-      'counsellorProfile',
-      () => request('/me/counsellor-profile', { method: 'PATCH', body: JSON.stringify(update) }, accessToken),
-      () => demoUpdateCounsellorProfile(counsellorId, update),
-    ),
+    request('/me/counsellor-profile', { method: 'PATCH', body: JSON.stringify(update) }, accessToken),
 
   listOwnServices: (counsellorId: string, accessToken: string): Promise<Service[]> =>
-    previewFallback('ownServices', () => request('/me/services', undefined, accessToken), () => demoListOwnServices(counsellorId)),
+    request('/me/services', undefined, accessToken),
 
   createService: (counsellorId: string, draft: ServiceDraft, accessToken: string): Promise<Service> =>
-    previewFallback(
-      'ownServices',
-      () => request('/me/services', { method: 'POST', body: JSON.stringify(draft) }, accessToken),
-      () => demoCreateService(counsellorId, draft),
-    ),
+    request('/me/services', { method: 'POST', body: JSON.stringify(draft) }, accessToken),
 
   updateService: (serviceId: string, draft: ServiceUpdate, accessToken: string): Promise<Service> =>
-    previewFallback(
-      'ownServices',
-      () => request(`/me/services/${encodeURIComponent(serviceId)}`, { method: 'PATCH', body: JSON.stringify(draft) }, accessToken),
-      () => demoUpdateService(serviceId, draft),
-    ),
+    request(`/me/services/${encodeURIComponent(serviceId)}`, { method: 'PATCH', body: JSON.stringify(draft) }, accessToken),
 
   /** Soft delete: the service is deactivated rather than removed. See `demoDeleteService`. */
   deleteService: (serviceId: string, accessToken: string): Promise<void> =>
-    previewFallback(
-      'ownServices',
-      () => request(`/me/services/${encodeURIComponent(serviceId)}`, { method: 'DELETE' }, accessToken),
-      () => demoDeleteService(serviceId),
+    request(`/me/services/${encodeURIComponent(serviceId)}`, { method: 'DELETE' }, accessToken),
+
+  // --- US-39: the counsellor's calendar -----------------------------------
+  // Windows, not per-service slots: one stretch of time serves every service they
+  // offer, and booking any of them consumes it for all.
+
+  listOwnAvailabilityWindows: (counsellorId: string, accessToken: string): Promise<AvailabilityWindow[]> =>
+    request('/me/availability-windows', undefined, accessToken),
+
+  createAvailabilityWindow: (draft: WindowDraft, accessToken: string): Promise<AvailabilityWindow> =>
+    request('/me/availability-windows', { method: 'POST', body: JSON.stringify(draft) }, accessToken),
+
+  updateAvailabilityWindow: (windowId: string, draft: Partial<WindowDraft>, accessToken: string): Promise<AvailabilityWindow> =>
+    request(`/me/availability-windows/${encodeURIComponent(windowId)}`, { method: 'PATCH', body: JSON.stringify(draft) }, accessToken),
+
+  deleteAvailabilityWindow: (windowId: string, accessToken: string): Promise<void> =>
+    request(`/me/availability-windows/${encodeURIComponent(windowId)}`, { method: 'DELETE' }, accessToken),
+
+  // --- confirming an address, and recovering an account --------------------
+
+  /** Spends the link and hands back a session: the link is itself proof of ownership. */
+  verifyEmail: (token: string): Promise<Session> =>
+    request('/auth/email-verifications', { method: 'POST', body: JSON.stringify({ token }) }),
+
+  /** Always resolves, whether or not the address has an account. */
+  requestEmailVerification: (email: string): Promise<void> =>
+    request<void>('/auth/email-verification-requests', { method: 'POST', body: JSON.stringify({ email }) }),
+
+  requestPasswordReset: (email: string): Promise<void> =>
+    request<void>('/auth/password-reset-requests', { method: 'POST', body: JSON.stringify({ email }) }),
+
+  /** Sets a new password and ends every other session, on every device. */
+  resetPassword: (token: string, password: string, passwordConfirmation: string): Promise<void> =>
+    request<void>('/auth/password-resets', {
+      method: 'POST',
+      body: JSON.stringify({ token, password, passwordConfirmation }),
+    }),
+
+  submitVerification: (linkedInUrl: string, accessToken: string): Promise<VerificationSubmission> =>
+    request('/me/verification-submissions', { method: 'POST', body: JSON.stringify({ linkedInUrl }) }, accessToken),
+
+  // --- administration ------------------------------------------------------
+
+  getPlatformStats: (accessToken: string): Promise<PlatformStats> =>
+    request('/admin/stats', {}, accessToken),
+
+  listVerificationSubmissions: (status: string, accessToken: string): Promise<VerificationSubmission[]> =>
+    request(`/admin/verifications?status=${encodeURIComponent(status)}`, {}, accessToken),
+
+  decideVerification: (
+    submissionId: string,
+    decision: 'verified' | 'rejected',
+    reason: string,
+    accessToken: string,
+  ): Promise<VerificationSubmission> =>
+    request(
+      `/admin/verifications/${encodeURIComponent(submissionId)}/decision`,
+      { method: 'POST', body: JSON.stringify({ decision, reason }) },
+      accessToken,
     ),
 
-  listOwnAvailabilitySlots: (counsellorId: string, accessToken: string): Promise<AvailabilitySlot[]> =>
-    previewFallback('availability', () => request('/me/availability-slots', undefined, accessToken), () => demoListOwnSlots(counsellorId)),
+  listPaymentOversight: (accessToken: string): Promise<PaymentOversight[]> =>
+    request('/admin/payments', {}, accessToken),
 
-  createAvailabilitySlot: (draft: SlotDraft, accessToken: string): Promise<AvailabilitySlot> =>
-    previewFallback(
-      'availability',
-      () => request('/me/availability-slots', { method: 'POST', body: JSON.stringify(draft) }, accessToken),
-      () => demoCreateSlot(draft),
-    ),
+  listAllBookings: (accessToken: string): Promise<AdminBooking[]> =>
+    request('/admin/bookings', {}, accessToken),
 
-  updateAvailabilitySlot: (slotId: string, draft: SlotDraft, accessToken: string): Promise<AvailabilitySlot> =>
-    previewFallback(
-      'availability',
-      () => request(`/me/availability-slots/${encodeURIComponent(slotId)}`, { method: 'PATCH', body: JSON.stringify(draft) }, accessToken),
-      () => demoUpdateSlot(slotId, draft),
-    ),
-
-  deleteAvailabilitySlot: (slotId: string, accessToken: string): Promise<void> =>
-    previewFallback(
-      'availability',
-      () => request(`/me/availability-slots/${encodeURIComponent(slotId)}`, { method: 'DELETE' }, accessToken),
-      () => demoDeleteSlot(slotId),
-    ),
+  listAllCounsellors: (accessToken: string): Promise<AdminCounsellor[]> =>
+    request('/admin/counsellors', {}, accessToken),
 };
 
 /** Field-level errors published by the API, keyed by the form field they belong to. */
