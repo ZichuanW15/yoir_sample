@@ -190,6 +190,9 @@ def counsellor_profile_out(user: User) -> CounsellorProfileOut:
         introduction=user.introduction or "",
         background=user.background or "",
         experience=user.experience or "",
+        qualifications=user.qualifications or [],
+        expertise=user.expertise or [],
+        languages=user.languages or [],
         base_location=location,
         default_modality=user.default_modality or "online",
         verification_status=user.verification_status,
@@ -225,6 +228,9 @@ def update_own_counsellor_profile(
     user.introduction = payload.introduction
     user.background = payload.background
     user.experience = payload.experience
+    user.qualifications = payload.qualifications
+    user.expertise = payload.expertise
+    user.languages = payload.languages
     user.base_location_state = payload.base_location.state if payload.base_location else None
     user.base_location_city = (
         payload.base_location.city_or_region if payload.base_location else None
@@ -542,7 +548,7 @@ def update_tax_details(
         raise ApiError(
             status.HTTP_400_BAD_REQUEST,
             VALIDATION_ERROR,
-            "A GST-registered counsellor needs an ABN on their tax invoices.",
+            "A GST-registered Career Professional needs an ABN on their tax invoices.",
             {"abn": "Required when you are registered for GST."},
         )
     user.abn = payload.abn

@@ -151,7 +151,7 @@ def require_counsellor(user: Annotated[User, Depends(get_current_user)]) -> User
         raise ApiError(
             status.HTTP_403_FORBIDDEN,
             FORBIDDEN,
-            "Only counsellors can manage services.",
+            "Only Career Professionals can manage services.",
         )
     return user
 
@@ -176,7 +176,7 @@ def require_verified_counsellor(
         raise ApiError(
             status.HTTP_403_FORBIDDEN,
             FORBIDDEN,
-            "Your counsellor account must be verified before you can create a service.",
+            "Your Career Professional account must be verified before you can create a service.",
         )
     return user
 

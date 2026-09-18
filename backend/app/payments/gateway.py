@@ -251,7 +251,9 @@ def create_transfer(
     try:
         return _api().Transfer.create(**params)
     except stripe.StripeError as error:
-        raise _fail("Transfer.create", "We could not pay the counsellor.", error) from error
+        raise _fail(
+            "Transfer.create", "We could not pay the Career Professional.", error,
+        ) from error
 
 
 def reverse_transfer(transfer_id: str, amount_minor: int, *, idempotency_key: str) -> Any:
@@ -264,7 +266,9 @@ def reverse_transfer(transfer_id: str, amount_minor: int, *, idempotency_key: st
         )
     except stripe.StripeError as error:
         raise _fail(
-            "Transfer.create_reversal", "We could not reverse the counsellor payout.", error,
+            "Transfer.create_reversal",
+            "We could not reverse the Career Professional payout.",
+            error,
         ) from error
 
 

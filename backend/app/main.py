@@ -10,7 +10,17 @@ from app.frontend import dist_directory, mount_frontend
 from app.mail import sender as mail_sender
 from app.migrations import upgrade_database
 from app.payments.scheduler import payment_jobs
-from app.routers import admin, auth, bookings, counsellor, health, payments, services, webhooks
+from app.routers import (
+    admin,
+    auth,
+    bookings,
+    counsellor,
+    health,
+    job_seeker,
+    payments,
+    services,
+    webhooks,
+)
 from app.seed import ensure_platform_owner, seed
 
 settings = get_settings()
@@ -57,6 +67,7 @@ app.include_router(auth.router, prefix=API_V1)
 app.include_router(services.router, prefix=API_V1)
 app.include_router(bookings.router, prefix=API_V1)
 app.include_router(counsellor.router, prefix=API_V1)
+app.include_router(job_seeker.router, prefix=API_V1)
 app.include_router(admin.router, prefix=API_V1)
 app.include_router(payments.router, prefix=API_V1)
 

@@ -130,7 +130,7 @@ def decide_verification(
         raise ApiError(
             status.HTTP_400_BAD_REQUEST,
             VALIDATION_ERROR,
-            "Say why, so the counsellor knows what to change.",
+            "Say why, so the Career Professional knows what to change.",
             {"reason": "A reason is required when rejecting."},
         )
 

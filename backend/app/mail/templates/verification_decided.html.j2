@@ -3,7 +3,7 @@
 
 {% block subject %}{% if approved %}You're verified{% else %}About your verification{% endif %} · {{ brand }}{% endblock %}
 {% block preview %}
-{% if approved %}Your counsellor account is approved — you can publish services now.
+{% if approved %}Your Career Professional account is approved — you can publish services now.
 {% else %}We need something changed before we can approve your account.{% endif %}
 {% endblock %}
 {% block heading %}{% if approved %}You're verified{% else %}We couldn't verify you yet{% endif %}{% endblock %}
@@ -41,5 +41,5 @@
 {% endblock %}
 
 {% block footer %}
-  You are receiving this because you applied to offer counselling on {{ brand }}.
+  You are receiving this because you applied to be a Career Professional on {{ brand }}.
 {% endblock %}

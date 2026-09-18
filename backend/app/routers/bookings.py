@@ -147,7 +147,8 @@ def create_order(
         raise ApiError(
             status.HTTP_409_CONFLICT,
             "COUNSELLOR_PAYOUTS_UNAVAILABLE",
-            "This counsellor cannot accept bookings yet. Please try another counsellor.",
+            "This Career Professional cannot accept bookings yet. "
+            "Please try another Career Professional.",
         )
 
     starts_at = payload.starts_at if payload.starts_at.tzinfo else payload.starts_at.replace(
