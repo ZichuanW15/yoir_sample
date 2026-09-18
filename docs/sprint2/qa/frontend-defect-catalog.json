@@ -1,0 +1,96 @@
+{
+  "source": "evidence/latest/frontend-defects.json",
+  "cases": [
+    {
+      "file": "frontend/__tests__/defects/counsellor-issue-acceptance.test.tsx",
+      "name": "profile save correctness at the real HTTP boundary [QA-130][US30-AC1] a missing profile backend cannot announce a durable saved profile",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/public-acceptance.test.tsx",
+      "name": "known booking confirmation acceptance gaps [QA-127][DEF-CONFIRM-UNVERIFIED] a direct confirmation URL without a receipt cannot claim payment success",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/public-acceptance.test.tsx",
+      "name": "known booking confirmation acceptance gaps [QA-127][DEF-CONFIRM-RECEIPT] confirmation uses the server-confirmed booking time and modality",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/client-acceptance.test.ts",
+      "name": "unresolved real API boundary acceptance F06 / QA #109: null HTTP error body remains a structured response failure",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/client-acceptance.test.ts",
+      "name": "unresolved real API boundary acceptance F07 / QA #109: malformed success payload cannot reach the service list as valid data",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/client-acceptance.test.ts",
+      "name": "unresolved real API boundary acceptance F08 / QA #145: a real availability 404 is surfaced instead of inventing local data",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/counsellor-acceptance.test.tsx",
+      "name": "Counsellor known defects \u2014 correct acceptance expectations QA #136 rejects a negative price instead of silently changing its sign",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/counsellor-acceptance.test.tsx",
+      "name": "Counsellor known defects \u2014 correct acceptance expectations QA #145 reports a network failure rather than falsely claiming all new slots overlap",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/public-issue-acceptance.test.tsx",
+      "name": "implemented slot picker empty-response feedback [QA-118][US40-AC4] no open slots has an explicit empty state, not an unexplained blank picker",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/root-layout-acceptance.test.tsx",
+      "name": "root layout startup availability DEF-STARTUP-FONT: a font load error releases the splash and leaves a visible application or recovery screen",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/demo-booking-acceptance.test.ts",
+      "name": "demo booking integrity must not teach invalid booking behaviour F09 / QA #118: an unknown demo slot cannot produce an order",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/demo-booking-acceptance.test.ts",
+      "name": "demo booking integrity must not teach invalid booking behaviour F10 / QA #121: a demo order cannot reserve another service\u2019s slot",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/demo-booking-acceptance.test.ts",
+      "name": "demo booking integrity must not teach invalid booking behaviour F11 / QA #121 #145: demo availability rejects overlap across one counsellor\u2019s services",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/format-planner-acceptance.test.ts",
+      "name": "unresolved price and availability acceptance F01 / QA #115 #124: displayed AUD prices preserve the charged cents",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/format-planner-acceptance.test.ts",
+      "name": "unresolved price and availability acceptance F02 / QA #145: equal endpoints are adjacent regardless of ISO millisecond precision",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/format-planner-acceptance.test.ts",
+      "name": "unresolved price and availability acceptance F03 / QA #121 #145: a booked appointment still occupies the counsellor calendar",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/format-planner-acceptance.test.ts",
+      "name": "unresolved price and availability acceptance F04 / QA #121 #145: another service in the same own calendar cannot overlap",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/format-planner-acceptance.test.ts",
+      "name": "unresolved price and availability acceptance F05 / QA #145: weekday recurrence visits every local day once across DST end",
+      "status": "failed"
+    }
+  ],
+  "runId": "20260915T080621.058365Z"
+}

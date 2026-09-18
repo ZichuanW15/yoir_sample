@@ -1,0 +1,32 @@
+{% extends "_layout.html.j2" %}
+{% import "_ui.html.j2" as ui %}
+
+{% block subject %}Confirm your email · {{ brand }}{% endblock %}
+{% block preview %}One tap to confirm your address and start booking.{% endblock %}
+{% block heading %}Confirm your email{% endblock %}
+
+{% block content %}
+<p style="margin:0 0 14px 0;">Hi {{ name }},</p>
+
+<p style="margin:0 0 14px 0;">
+  Welcome to {{ brand }}. Confirming your address lets us reach you about the sessions
+  you book — and lets counsellors reach you about the ones they are delivering.
+</p>
+
+{{ ui.button(verify_url, "Confirm my email") }}
+
+<p style="margin:0 0 14px 0; font-size:13px; color:#66756B;">
+  The link works once and expires in {{ expires_in_hours }} hours. If it has already
+  lapsed, ask for a new one from your account screen.
+</p>
+
+<p style="margin:0; font-size:13px; color:#66756B;">
+  If the button does not work, paste this into your browser:<br />
+  <span style="word-break:break-all; color:#2E6B4F;">{{ verify_url }}</span>
+</p>
+{% endblock %}
+
+{% block footer %}
+  You are receiving this because someone signed up for {{ brand }} with this address.
+  If that was not you, you can ignore this email and nothing further will happen.
+{% endblock %}

@@ -4,9 +4,7 @@ atomic with both the booking flow and each other."""
 
 from __future__ import annotations
 
-from concurrent.futures import ThreadPoolExecutor
 from datetime import UTC, datetime, timedelta
-from threading import Barrier
 from typing import Any
 
 import pytest
@@ -14,9 +12,7 @@ from fastapi.testclient import TestClient
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.db import engine
-from app.models import AvailabilitySlot, Booking, Service, User
-from app.schemas import AvailabilitySlotOut
+from app.models import AvailabilityWindow, Service, User
 
 SERVICE_PAYLOAD = {
     "title": "Interview confidence coaching",
@@ -27,33 +23,43 @@ SERVICE_PAYLOAD = {
 }
 
 
+def assert_error_shape(response, expected_status: int, expected_code: str) -> dict:
+    assert response.status_code == expected_status
+    body = response.json()
+    assert body["code"] == expected_code
+    return body
+
+
 def service_payload(**overrides: Any) -> dict[str, Any]:
     return {**SERVICE_PAYLOAD, **overrides}
 
 
-def add_slot(
+def add_window(
     db_session: Session,
-    service: Service,
+    counsellor: User,
     *,
     starts_at: datetime | None = None,
-) -> AvailabilitySlot:
+    hours: int = 3,
+) -> AvailabilityWindow:
+    """A stretch of the counsellor's own time. Any service they offer fits inside it."""
     start = starts_at or datetime.now(UTC) + timedelta(days=1)
-    slot = AvailabilitySlot(
-        service_id=service.id,
+    window = AvailabilityWindow(
+        counsellor_id=counsellor.id,
         starts_at=start,
-        ends_at=start + timedelta(hours=1),
-        status="open",
+        ends_at=start + timedelta(hours=hours),
     )
-    db_session.add(slot)
+    db_session.add(window)
     db_session.commit()
-    db_session.refresh(slot)
-    return slot
+    db_session.refresh(window)
+    return window
 
 
-def order_payload(service: Service, slot: AvailabilitySlot, **overrides: Any) -> dict[str, Any]:
+def order_payload(
+    service: Service, window: AvailabilityWindow, **overrides: Any,
+) -> dict[str, Any]:
     return {
         "serviceId": service.id,
-        "slotId": slot.id,
+        "startsAt": window.starts_at.isoformat(),
         "modality": "online",
         "timezone": "Australia/Melbourne",
         **overrides,
@@ -72,7 +78,7 @@ def test_create_service_rolls_back_when_response_preparation_fails(
     def boom(*_args: Any, **_kwargs: Any) -> None:
         raise RuntimeError("simulated failure preparing the response")
 
-    monkeypatch.setattr("app.routers.counsellor.service_to_out", boom)
+    monkeypatch.setattr("app.routers.counsellor.own_service_to_out", boom)
 
     response = client.post(
         "/api/v1/me/services", headers=counsellor_headers, json=service_payload()
@@ -83,416 +89,537 @@ def test_create_service_rolls_back_when_response_preparation_fails(
     assert list(db_session.scalars(select(Service))) == []
 
 
-def test_create_availability_slot_rolls_back_when_response_preparation_fails(
+
+# --- US-39: availability windows --------------------------------------------
+
+
+def test_create_availability_window_rolls_back_when_response_preparation_fails(
     client: TestClient,
     db_session: Session,
-    service: Service,
+    counsellor: Any,
     counsellor_headers: dict[str, str],
-    monkeypatch: Any,
+    monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    def boom(*_args: Any, **_kwargs: Any) -> None:
-        raise RuntimeError("simulated failure preparing the response")
+    """A failure while building the response must not leave a saved window behind a
+    500, which would invite a duplicate-creating retry."""
+    def boom(*_args: Any, **_kwargs: Any) -> Any:
+        raise RuntimeError("response preparation failed")
 
-    monkeypatch.setattr(AvailabilitySlotOut, "model_validate", boom)
+    monkeypatch.setattr("app.routers.counsellor._window_out", boom)
+    starts_at = datetime.now(UTC) + timedelta(days=2)
 
-    start = datetime.now(UTC) + timedelta(days=1)
     response = client.post(
-        "/api/v1/me/availability-slots",
+        "/api/v1/me/availability-windows",
         headers=counsellor_headers,
         json={
-            "serviceId": service.id,
-            "startsAt": start.isoformat(),
-            "endsAt": (start + timedelta(hours=1)).isoformat(),
-        },
-    )
-
-    assert response.status_code == 500
-    assert list(db_session.scalars(select(AvailabilitySlot))) == []
-
-
-def test_update_availability_slot_rolls_back_when_response_preparation_fails(
-    client: TestClient,
-    db_session: Session,
-    service: Service,
-    counsellor_headers: dict[str, str],
-    monkeypatch: Any,
-) -> None:
-    slot = add_slot(db_session, service)
-    original_start = slot.starts_at
-
-    def boom(*_args: Any, **_kwargs: Any) -> None:
-        raise RuntimeError("simulated failure preparing the response")
-
-    monkeypatch.setattr(AvailabilitySlotOut, "model_validate", boom)
-
-    new_start = original_start + timedelta(hours=1)
-    response = client.patch(
-        f"/api/v1/me/availability-slots/{slot.id}",
-        headers=counsellor_headers,
-        json={
-            "startsAt": new_start.isoformat(),
-            "endsAt": (new_start + timedelta(hours=1)).isoformat(),
+            "startsAt": starts_at.isoformat(),
+            "endsAt": (starts_at + timedelta(hours=3)).isoformat(),
         },
     )
 
     assert response.status_code == 500
     db_session.expire_all()
-    stored = db_session.get(AvailabilitySlot, slot.id)
-    assert stored is not None
-    assert stored.starts_at == original_start
+    assert list(db_session.scalars(select(AvailabilityWindow))) == []
 
 
-# --- [P1] overlap prevention is atomic with the write ------------------------
-
-
-def test_postgresql_concurrent_slot_creation_on_empty_calendar_prevents_overlap(
+def test_two_services_can_be_offered_in_the_same_window(
     client: TestClient,
     db_session: Session,
     service: Service,
-    counsellor_headers: dict[str, str],
+    counsellor: Any,
 ) -> None:
-    if engine.dialect.name != "postgresql":
-        pytest.skip("PostgreSQL row-lock concurrency evidence requires PostgreSQL")
+    """The point of the redesign.
 
-    start = datetime.now(UTC) + timedelta(days=1)
-    payload = {
-        "serviceId": service.id,
-        "startsAt": start.isoformat(),
-        "endsAt": (start + timedelta(hours=1)).isoformat(),
-    }
-    start_together = Barrier(2)
-
-    def create() -> Any:
-        start_together.wait(timeout=5)
-        return client.post(
-            "/api/v1/me/availability-slots", headers=counsellor_headers, json=payload
-        )
-
-    with ThreadPoolExecutor(max_workers=2) as executor:
-        requests = [executor.submit(create) for _ in range(2)]
-        responses = [request.result(timeout=10) for request in requests]
-
-    assert sorted(response.status_code for response in responses) == [201, 409]
-    db_session.expire_all()
-    stored = list(
-        db_session.scalars(
-            select(AvailabilitySlot).where(AvailabilitySlot.service_id == service.id)
-        )
-    )
-    assert len(stored) == 1
-
-
-def second_service(db_session: Session, counsellor: User) -> Service:
+    Availability is the counsellor's calendar, so every service they offer is
+    bookable inside one window — the old per-service slots made this impossible,
+    because a second service at the same time was rejected as an overlap.
+    """
     other = Service(
         counsellor_id=counsellor.id,
-        title="A second service",
-        description="A different service from the same counsellor.",
-        price_minor=7000,
+        title="Resume review",
+        description="A shorter session.",
+        price_minor=4500,
+        duration_minutes=30,
         currency="AUD",
         modalities=["online"],
         active=True,
-        review_count=0,
     )
     db_session.add(other)
     db_session.commit()
-    db_session.refresh(other)
-    return other
+    window = add_window(db_session, counsellor)
+
+    first = client.get(f"/api/v1/services/{service.id}/slots").json()
+    second = client.get(f"/api/v1/services/{other.id}/slots").json()
+
+    assert first and second
+    # Both start when the window opens, from the same three hours.
+    assert first[0]["startsAt"] == second[0]["startsAt"] == window.starts_at.isoformat().replace(
+        "+00:00", "Z"
+    )
+    # The shorter service fits more sessions into the same time.
+    assert len(second) > len(first)
 
 
-def test_create_availability_slot_rejects_overlap_on_another_service_same_counsellor(
+def test_booking_one_service_dissolves_the_time_for_every_other(
     client: TestClient,
     db_session: Session,
     service: Service,
-    counsellor: User,
+    counsellor: Any,
+    job_seeker_headers: dict[str, str],
+) -> None:
+    other = Service(
+        counsellor_id=counsellor.id,
+        title="Resume review",
+        description="A shorter session.",
+        price_minor=4500,
+        duration_minutes=30,
+        currency="AUD",
+        modalities=["online"],
+        active=True,
+    )
+    db_session.add(other)
+    db_session.commit()
+    window = add_window(db_session, counsellor)
+    taken = window.starts_at.isoformat().replace("+00:00", "Z")
+
+    order = client.post(
+        "/api/v1/orders", headers=job_seeker_headers, json=order_payload(service, window),
+    )
+    assert order.status_code == 201
+    client.post(
+        f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers,
+    )
+
+    # The hour is gone for the service that was booked and for the other one alike.
+    assert taken not in [s["startsAt"] for s in client.get(
+        f"/api/v1/services/{service.id}/slots").json()]
+    assert taken not in [s["startsAt"] for s in client.get(
+        f"/api/v1/services/{other.id}/slots").json()]
+
+
+def test_overlapping_windows_are_merged_rather_than_refused(
+    client: TestClient,
+    db_session: Session,
+    counsellor: Any,
     counsellor_headers: dict[str, str],
 ) -> None:
-    """[P1] A counsellor is one person: two of their services must not schedule
-    the same time slot independently, or two job seekers could each book one and
-    double-book the counsellor's actual calendar."""
-    other = second_service(db_session, counsellor)
-    start = datetime.now(UTC) + timedelta(days=1)
+    """Two stretches of availability that meet describe one longer stretch.
 
-    first = client.post(
-        "/api/v1/me/availability-slots",
-        headers=counsellor_headers,
-        json={
-            "serviceId": service.id,
-            "startsAt": start.isoformat(),
-            "endsAt": (start + timedelta(hours=1)).isoformat(),
-        },
-    )
-    assert first.status_code == 201
-
-    second = client.post(
-        "/api/v1/me/availability-slots",
-        headers=counsellor_headers,
-        json={
-            "serviceId": other.id,
-            "startsAt": start.isoformat(),
-            "endsAt": (start + timedelta(hours=1)).isoformat(),
-        },
-    )
-
-    assert second.status_code == 409
-    assert second.json()["code"] == "SLOT_OVERLAP"
-    stored = list(
-        db_session.scalars(
-            select(AvailabilitySlot).where(AvailabilitySlot.service_id == other.id)
+    The slots this replaces rejected any overlap, which made a calendar awkward to
+    express for no benefit — there is nothing contradictory about saying "I am free
+    9-11" and then "I am free 10-12".
+    """
+    first = datetime.now(UTC) + timedelta(days=2)
+    for offset_hours, length in ((0, 2), (1, 2)):
+        response = client.post(
+            "/api/v1/me/availability-windows",
+            headers=counsellor_headers,
+            json={
+                "startsAt": (first + timedelta(hours=offset_hours)).isoformat(),
+                "endsAt": (first + timedelta(hours=offset_hours + length)).isoformat(),
+            },
         )
-    )
-    assert stored == []
+        assert response.status_code == 201
+
+    db_session.expire_all()
+    windows = list(db_session.scalars(select(AvailabilityWindow)))
+    assert len(windows) == 1
+    assert windows[0].ends_at - windows[0].starts_at == timedelta(hours=3)
 
 
-def test_update_availability_slot_rejects_overlap_on_another_service_same_counsellor(
+def test_adjacent_windows_are_joined(
+    client: TestClient,
+    db_session: Session,
+    counsellor: Any,
+    counsellor_headers: dict[str, str],
+) -> None:
+    """9-10 followed by 10-11 is three hours of availability, not two separate ones —
+    and a session may then run across what used to be the boundary."""
+    first = datetime.now(UTC) + timedelta(days=2)
+    for offset in (0, 1):
+        client.post(
+            "/api/v1/me/availability-windows",
+            headers=counsellor_headers,
+            json={
+                "startsAt": (first + timedelta(hours=offset)).isoformat(),
+                "endsAt": (first + timedelta(hours=offset + 1)).isoformat(),
+            },
+        )
+
+    db_session.expire_all()
+    windows = list(db_session.scalars(select(AvailabilityWindow)))
+    assert len(windows) == 1
+    assert windows[0].ends_at - windows[0].starts_at == timedelta(hours=2)
+
+
+def test_a_window_cannot_be_shortened_past_a_booked_session(
     client: TestClient,
     db_session: Session,
     service: Service,
-    counsellor: User,
+    counsellor: Any,
     counsellor_headers: dict[str, str],
+    job_seeker_headers: dict[str, str],
 ) -> None:
-    other = second_service(db_session, counsellor)
-    base = datetime.now(UTC) + timedelta(days=1)
-    blocking_slot = add_slot(db_session, service, starts_at=base)
-    movable_slot = add_slot(db_session, other, starts_at=base + timedelta(hours=3))
+    """Someone has paid for that time; the way out is to cancel the booking."""
+    window = add_window(db_session, counsellor)
+    order = client.post(
+        "/api/v1/orders", headers=job_seeker_headers, json=order_payload(service, window),
+    )
+    client.post(f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers)
 
     response = client.patch(
-        f"/api/v1/me/availability-slots/{movable_slot.id}",
+        f"/api/v1/me/availability-windows/{window.id}",
         headers=counsellor_headers,
-        json={
-            "startsAt": blocking_slot.starts_at.isoformat(),
-            "endsAt": blocking_slot.ends_at.isoformat(),
-        },
+        json={"startsAt": (window.starts_at + timedelta(hours=2)).isoformat()},
     )
 
     assert response.status_code == 409
-    assert response.json()["code"] == "SLOT_OVERLAP"
-    db_session.expire_all()
-    stored = db_session.get(AvailabilitySlot, movable_slot.id)
-    assert stored is not None
-    assert stored.starts_at == movable_slot.starts_at
+    assert response.json()["code"] == "SLOT_UNAVAILABLE"
 
 
-def test_postgresql_concurrent_slot_creation_across_two_services_prevents_overlap(
+def test_a_window_with_a_booking_cannot_be_deleted(
     client: TestClient,
     db_session: Session,
     service: Service,
-    counsellor: User,
+    counsellor: Any,
+    counsellor_headers: dict[str, str],
+    job_seeker_headers: dict[str, str],
+) -> None:
+    window = add_window(db_session, counsellor)
+    order = client.post(
+        "/api/v1/orders", headers=job_seeker_headers, json=order_payload(service, window),
+    )
+    client.post(f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers)
+
+    response = client.delete(
+        f"/api/v1/me/availability-windows/{window.id}", headers=counsellor_headers,
+    )
+
+    assert response.status_code == 409
+    db_session.expire_all()
+    assert db_session.get(AvailabilityWindow, window.id) is not None
+
+
+def test_an_empty_window_can_be_withdrawn(
+    client: TestClient,
+    db_session: Session,
+    counsellor: Any,
     counsellor_headers: dict[str, str],
 ) -> None:
-    """[P1] The empty-calendar race in the single-service version above, replayed
-    across two services owned by the same counsellor — the case a per-service lock
-    cannot catch because neither service's own slot list has anything to lock."""
-    if engine.dialect.name != "postgresql":
-        pytest.skip("PostgreSQL row-lock concurrency evidence requires PostgreSQL")
+    window = add_window(db_session, counsellor)
+    # Held separately: reading window.id after the row is gone raises rather than
+    # returning the value.
+    window_id = window.id
 
-    other = second_service(db_session, counsellor)
-    start = datetime.now(UTC) + timedelta(days=1)
-    window = {
-        "startsAt": start.isoformat(),
-        "endsAt": (start + timedelta(hours=1)).isoformat(),
+    assert client.delete(
+        f"/api/v1/me/availability-windows/{window_id}", headers=counsellor_headers,
+    ).status_code == 204
+    db_session.expire_all()
+    assert db_session.scalar(
+        select(AvailabilityWindow).where(AvailabilityWindow.id == window_id)
+    ) is None
+
+
+def test_one_counsellor_cannot_touch_anothers_calendar(
+    client: TestClient,
+    db_session: Session,
+    counsellor: Any,
+) -> None:
+    from app.security import create_access_token, hash_password
+
+    window = add_window(db_session, counsellor)
+    intruder = User(
+        name="Other", email="other.calendar@example.com",
+        password_hash=hash_password("password123"), role="counsellor",
+        verification_status="verified",
+    )
+    db_session.add(intruder)
+    db_session.commit()
+    token, _ = create_access_token(intruder.id, intruder.role)
+    headers = {"Authorization": f"Bearer {token}"}
+
+    assert client.patch(
+        f"/api/v1/me/availability-windows/{window.id}", headers=headers,
+        json={"endsAt": (window.ends_at + timedelta(hours=1)).isoformat()},
+    ).status_code == 404
+    assert client.delete(
+        f"/api/v1/me/availability-windows/{window.id}", headers=headers,
+    ).status_code == 404
+
+
+def test_a_window_must_be_in_the_future_and_end_after_it_starts(
+    client: TestClient, counsellor_headers: dict[str, str],
+) -> None:
+    past = datetime.now(UTC) - timedelta(hours=1)
+    assert client.post(
+        "/api/v1/me/availability-windows", headers=counsellor_headers,
+        json={"startsAt": past.isoformat(), "endsAt": (past + timedelta(hours=1)).isoformat()},
+    ).status_code == 400
+
+    future = datetime.now(UTC) + timedelta(days=1)
+    assert client.post(
+        "/api/v1/me/availability-windows", headers=counsellor_headers,
+        json={"startsAt": future.isoformat(), "endsAt": future.isoformat()},
+    ).status_code == 400
+
+
+# --- US-36: editing and withdrawing a service -------------------------------
+
+
+def service_body(**overrides: Any) -> dict[str, Any]:
+    return {
+        "title": "Interview confidence coaching",
+        "description": "Behavioural questions, delivery and practical feedback.",
+        "priceMinor": 9500,
+        "currency": "AUD",
+        "modalities": ["online"],
+        **overrides,
     }
-    start_together = Barrier(2)
 
-    def create(service_id: str) -> Any:
-        start_together.wait(timeout=5)
-        return client.post(
-            "/api/v1/me/availability-slots",
-            headers=counsellor_headers,
-            json={"serviceId": service_id, **window},
-        )
 
-    with ThreadPoolExecutor(max_workers=2) as executor:
-        requests = [
-            executor.submit(create, service.id),
-            executor.submit(create, other.id),
-        ]
-        responses = [request.result(timeout=10) for request in requests]
-
-    assert sorted(response.status_code for response in responses) == [201, 409]
-    db_session.expire_all()
-    stored = list(
-        db_session.scalars(
-            select(AvailabilitySlot).where(
-                AvailabilitySlot.service_id.in_((service.id, other.id))
-            )
-        )
+def test_update_service_replaces_the_listing(
+    client: TestClient, db_session: Session, service: Service,
+    counsellor_headers: dict[str, str],
+) -> None:
+    response = client.patch(
+        f"/api/v1/me/services/{service.id}",
+        headers=counsellor_headers,
+        json=service_body(title="Senior interview coaching", priceMinor=12500),
     )
-    assert len(stored) == 1
+
+    assert response.status_code == 200
+    assert response.json()["title"] == "Senior interview coaching"
+    db_session.expire_all()
+    stored = db_session.get(Service, service.id)
+    assert stored.price_minor == 12500
 
 
-def test_postgresql_concurrent_slot_updates_prevent_overlap(
-    client: TestClient,
-    db_session: Session,
-    service: Service,
+def test_update_service_clears_a_location_the_form_left_empty(
+    client: TestClient, db_session: Session, service: Service,
     counsellor_headers: dict[str, str],
 ) -> None:
-    if engine.dialect.name != "postgresql":
-        pytest.skip("PostgreSQL row-lock concurrency evidence requires PostgreSQL")
+    """The body is the whole service, so an omitted location means "remove it"."""
+    service.location_state, service.location_city = "VIC", "Melbourne"
+    service.modalities = ["online", "in_person"]
+    db_session.commit()
 
-    base = datetime.now(UTC) + timedelta(days=1)
-    slot_a = add_slot(db_session, service, starts_at=base)
-    slot_b = add_slot(db_session, service, starts_at=base + timedelta(hours=3))
-    target = base + timedelta(hours=6)
-    start_together = Barrier(2)
-
-    def move(slot: AvailabilitySlot) -> Any:
-        start_together.wait(timeout=5)
-        return client.patch(
-            f"/api/v1/me/availability-slots/{slot.id}",
-            headers=counsellor_headers,
-            json={
-                "startsAt": target.isoformat(),
-                "endsAt": (target + timedelta(hours=1)).isoformat(),
-            },
-        )
-
-    with ThreadPoolExecutor(max_workers=2) as executor:
-        requests = [executor.submit(move, slot_a), executor.submit(move, slot_b)]
-        responses = [request.result(timeout=10) for request in requests]
-
-    assert sorted(response.status_code for response in responses) == [200, 409]
-    db_session.expire_all()
-    refreshed = (
-        db_session.get(AvailabilitySlot, slot_a.id),
-        db_session.get(AvailabilitySlot, slot_b.id),
+    client.patch(
+        f"/api/v1/me/services/{service.id}",
+        headers=counsellor_headers,
+        json=service_body(modalities=["online"]),
     )
-    moved = [s for s in refreshed if s is not None and s.starts_at == target]
-    assert len(moved) == 1
-
-
-# --- [P1] slot edit/delete is atomic with the booking flow -------------------
-
-
-def test_postgresql_concurrent_edit_and_booking_never_diverge(
-    client: TestClient,
-    db_session: Session,
-    service: Service,
-    job_seeker_headers: dict[str, str],
-    counsellor_headers: dict[str, str],
-) -> None:
-    if engine.dialect.name != "postgresql":
-        pytest.skip("PostgreSQL row-lock concurrency evidence requires PostgreSQL")
-
-    slot = add_slot(db_session, service)
-    moved_start = slot.starts_at + timedelta(hours=2)
-    start_together = Barrier(2)
-
-    def edit() -> Any:
-        start_together.wait(timeout=5)
-        return client.patch(
-            f"/api/v1/me/availability-slots/{slot.id}",
-            headers=counsellor_headers,
-            json={
-                "startsAt": moved_start.isoformat(),
-                "endsAt": (moved_start + timedelta(hours=1)).isoformat(),
-            },
-        )
-
-    def book() -> tuple[Any, Any]:
-        start_together.wait(timeout=5)
-        order = client.post(
-            "/api/v1/orders", headers=job_seeker_headers, json=order_payload(service, slot)
-        )
-        payment = None
-        if order.status_code == 201:
-            payment = client.post(
-                f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers
-            )
-        return order, payment
-
-    with ThreadPoolExecutor(max_workers=2) as executor:
-        edit_future = executor.submit(edit)
-        book_future = executor.submit(book)
-        edit_response = edit_future.result(timeout=10)
-        order_response, payment_response = book_future.result(timeout=10)
-
-    assert edit_response.status_code in (200, 409)
-    # Editing never removes the slot or moves its status away from "open", so the
-    # booking side always has a slot to reserve regardless of which one the lock
-    # lets through first: order creation and payment must both succeed here. A
-    # non-201/200 response is a real failure, not a legitimate race outcome — it
-    # must not be swallowed into "no booking happened".
-    assert order_response.status_code == 201, order_response.text
-    assert payment_response is not None, "order succeeded but payment was never attempted"
-    assert payment_response.status_code == 200, payment_response.text
 
     db_session.expire_all()
-    stored_slot = db_session.get(AvailabilitySlot, slot.id)
-    stored_booking = db_session.scalar(select(Booking).where(Booking.slot_id == slot.id))
-    assert stored_slot is not None
-    # The bug this guards: a booking confirmed for one time while the slot backing
-    # it silently moved to another. Whichever operation won, the two must agree.
-    assert stored_booking is not None
-    assert stored_booking.starts_at == stored_slot.starts_at
-    assert stored_booking.ends_at == stored_slot.ends_at
+    stored = db_session.get(Service, service.id)
+    assert (stored.location_state, stored.location_city) == (None, None)
 
 
-def test_postgresql_concurrent_delete_and_booking_have_mutually_exclusive_outcomes(
+def test_an_in_person_service_still_needs_a_meeting_area_when_edited(
+    client: TestClient, service: Service, counsellor_headers: dict[str, str],
+) -> None:
+    response = client.patch(
+        f"/api/v1/me/services/{service.id}",
+        headers=counsellor_headers,
+        json=service_body(modalities=["in_person"]),
+    )
+
+    assert response.status_code == 400
+    assert "location" in response.json()["fieldErrors"]
+
+
+def test_deleting_a_service_withdraws_it_without_erasing_it(
+    client: TestClient, db_session: Session, service: Service,
+    counsellor_headers: dict[str, str],
+) -> None:
+    """A soft delete: bookings and receipts still reference the row."""
+    response = client.delete(f"/api/v1/me/services/{service.id}", headers=counsellor_headers)
+
+    assert response.status_code == 204
+    db_session.expire_all()
+    stored = db_session.get(Service, service.id)
+    assert stored is not None and stored.active is False
+    # Gone from the Marketplace, but still listed in the counsellor's own workspace.
+    assert client.get("/api/v1/services").json() == []
+    assert client.get(f"/api/v1/services/{service.id}").status_code == 404
+    own = client.get("/api/v1/me/services", headers=counsellor_headers).json()
+    assert [s["id"] for s in own] == [service.id]
+
+
+def test_deleting_a_service_twice_is_not_an_error(
+    client: TestClient, service: Service, counsellor_headers: dict[str, str],
+) -> None:
+    assert client.delete(
+        f"/api/v1/me/services/{service.id}", headers=counsellor_headers,
+    ).status_code == 204
+    assert client.delete(
+        f"/api/v1/me/services/{service.id}", headers=counsellor_headers,
+    ).status_code == 204
+
+
+def test_a_counsellor_cannot_edit_or_delete_someone_elses_service(
+    client: TestClient, db_session: Session, service: Service,
+) -> None:
+    from app.security import create_access_token, hash_password
+
+    intruder = User(
+        name="Other Counsellor", email="other.counsellor@example.com",
+        password_hash=hash_password("password123"), role="counsellor",
+        verification_status="verified",
+    )
+    db_session.add(intruder)
+    db_session.commit()
+    token, _ = create_access_token(intruder.id, intruder.role)
+    headers = {"Authorization": f"Bearer {token}"}
+
+    # Reported as missing, not forbidden: whether the id exists is not theirs to learn.
+    assert client.patch(
+        f"/api/v1/me/services/{service.id}", headers=headers, json=service_body(),
+    ).status_code == 404
+    assert client.delete(f"/api/v1/me/services/{service.id}", headers=headers).status_code == 404
+
+    db_session.expire_all()
+    assert db_session.get(Service, service.id).active is True
+
+
+def test_editing_a_service_needs_a_counsellor_session(
+    client: TestClient, service: Service, job_seeker_headers: dict[str, str],
+) -> None:
+    assert client.patch(
+        f"/api/v1/me/services/{service.id}", json=service_body(),
+    ).status_code == 401
+    assert client.delete(
+        f"/api/v1/me/services/{service.id}", headers=job_seeker_headers,
+    ).status_code == 403
+
+
+# --- US-39: availability can differ by how the session is delivered ----------
+
+
+def test_availability_can_differ_by_modality_but_time_is_shared(
+    client: TestClient,
+    db_session: Session,
+    counsellor: Any,
+    job_seeker_headers: dict[str, str],
+) -> None:
+    """A counsellor in the office on some days only, but online throughout.
+
+    The two halves pull in different directions and both matter: what can be offered
+    depends on how they can deliver at that hour, but the hour itself is one person's
+    time — so booking either kind takes it away from both.
+    """
+    online_only = Service(
+        counsellor_id=counsellor.id, title="Online coaching", description="d",
+        price_minor=9500, duration_minutes=60, currency="AUD",
+        modalities=["online"], active=True,
+    )
+    in_person = Service(
+        counsellor_id=counsellor.id, title="In-person coaching", description="d",
+        price_minor=9500, duration_minutes=60, currency="AUD",
+        modalities=["in_person"], active=True,
+        location_state="VIC", location_city="Melbourne",
+    )
+    db_session.add_all([online_only, in_person])
+    db_session.commit()
+
+    home_day = add_window(db_session, counsellor, starts_at=datetime.now(UTC) + timedelta(days=1))
+    home_day.modalities = ["online"]
+    office_day = add_window(
+        db_session, counsellor, starts_at=datetime.now(UTC) + timedelta(days=2),
+    )
+    office_day.modalities = ["online", "in_person"]
+    db_session.commit()
+
+    online_offers = [s["startsAt"] for s in client.get(
+        f"/api/v1/services/{online_only.id}/slots").json()]
+    in_person_offers = [s["startsAt"] for s in client.get(
+        f"/api/v1/services/{in_person.id}/slots").json()]
+
+    home_morning = home_day.starts_at.isoformat().replace("+00:00", "Z")
+    office_morning = office_day.starts_at.isoformat().replace("+00:00", "Z")
+
+    # The home day is online-only, so only one of them is offered then.
+    assert home_morning in online_offers
+    assert home_morning not in in_person_offers
+    # The office day permits both.
+    assert office_morning in online_offers
+    assert office_morning in in_person_offers
+
+    # Book the in-person session on the office day...
+    order = client.post(
+        "/api/v1/orders",
+        headers=job_seeker_headers,
+        json={
+            "serviceId": in_person.id, "startsAt": office_morning,
+            "modality": "in_person", "timezone": "Australia/Melbourne",
+        },
+    )
+    assert order.status_code == 201
+    client.post(f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers)
+
+    # ...and the online service loses that hour too. One person, one calendar.
+    after = [s["startsAt"] for s in client.get(f"/api/v1/services/{online_only.id}/slots").json()]
+    assert office_morning not in after
+
+
+def test_an_order_is_refused_in_a_window_that_does_not_allow_that_modality(
     client: TestClient,
     db_session: Session,
     service: Service,
+    counsellor: Any,
     job_seeker_headers: dict[str, str],
+) -> None:
+    """Covering the time is not enough; the window has to permit the way of meeting."""
+    service.modalities = ["online", "in_person"]
+    window = add_window(db_session, counsellor)
+    window.modalities = ["online"]
+    db_session.commit()
+
+    response = client.post(
+        "/api/v1/orders",
+        headers=job_seeker_headers,
+        json={
+            "serviceId": service.id,
+            "startsAt": window.starts_at.isoformat(),
+            "modality": "in_person",
+            "timezone": "Australia/Melbourne",
+        },
+    )
+
+    assert_error_shape(response, 409, "SLOT_UNAVAILABLE")
+
+
+def test_windows_offering_different_modalities_are_not_merged(
+    client: TestClient,
+    db_session: Session,
+    counsellor: Any,
     counsellor_headers: dict[str, str],
 ) -> None:
-    if engine.dialect.name != "postgresql":
-        pytest.skip("PostgreSQL row-lock concurrency evidence requires PostgreSQL")
+    """An online-only morning and an any-modality afternoon are two statements.
 
-    slot = add_slot(db_session, service)
-    original_start, original_end = slot.starts_at, slot.ends_at
-    start_together = Barrier(2)
+    Merging them would silently widen one, quietly offering in-person time the
+    counsellor never agreed to.
+    """
+    first = datetime.now(UTC) + timedelta(days=2)
+    client.post(
+        "/api/v1/me/availability-windows", headers=counsellor_headers,
+        json={
+            "startsAt": first.isoformat(),
+            "endsAt": (first + timedelta(hours=2)).isoformat(),
+            "modalities": ["online"],
+        },
+    )
+    client.post(
+        "/api/v1/me/availability-windows", headers=counsellor_headers,
+        json={
+            "startsAt": (first + timedelta(hours=1)).isoformat(),
+            "endsAt": (first + timedelta(hours=3)).isoformat(),
+            "modalities": ["online", "in_person"],
+        },
+    )
 
-    def remove() -> Any:
-        start_together.wait(timeout=5)
-        return client.delete(
-            f"/api/v1/me/availability-slots/{slot.id}", headers=counsellor_headers
-        )
-
-    def book() -> tuple[Any, Any]:
-        start_together.wait(timeout=5)
-        order = client.post(
-            "/api/v1/orders", headers=job_seeker_headers, json=order_payload(service, slot)
-        )
-        payment = None
-        if order.status_code == 201:
-            payment = client.post(
-                f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers
-            )
-        return order, payment
-
-    with ThreadPoolExecutor(max_workers=2) as executor:
-        delete_future = executor.submit(remove)
-        book_future = executor.submit(book)
-        delete_response = delete_future.result(timeout=10)
-        order_response, payment_response = book_future.result(timeout=10)
-
-    # expunge, not expire: if delete won, the row is gone outright, and refreshing
-    # an expired-but-still-identity-mapped `slot` against a missing row raises
-    # ObjectDeletedError instead of the None a fresh query returns.
-    db_session.expunge_all()
-    stored_slot = db_session.get(AvailabilitySlot, slot.id)
-    stored_booking = db_session.scalar(select(Booking).where(Booking.slot_id == slot.id))
-
-    # Unlike edit, delete removes the row outright, so the two legitimate outcomes
-    # diverge in shape rather than in a shared "both succeed" case. Enumerate both
-    # explicitly and fail loudly on anything else instead of masking it as "no
-    # booking happened".
-    if delete_response.status_code == 204:
-        # Delete won the lock: nothing was left for the booking side to reserve.
-        assert stored_slot is None
-        assert order_response.status_code == 404, order_response.text
-        assert payment_response is None
-        assert stored_booking is None
-    elif delete_response.status_code == 409:
-        # Booking won the lock: the slot survives, booked, at its original time.
-        assert stored_slot is not None
-        assert stored_slot.status == "booked"
-        assert order_response.status_code == 201, order_response.text
-        assert payment_response is not None, "order succeeded but payment was never attempted"
-        assert payment_response.status_code == 200, payment_response.text
-        assert stored_booking is not None
-        assert stored_booking.starts_at == original_start
-        assert stored_booking.ends_at == original_end
-    else:
-        pytest.fail(
-            f"unexpected delete status {delete_response.status_code}: {delete_response.text}"
-        )
+    db_session.expire_all()
+    windows = list(db_session.scalars(select(AvailabilityWindow)))
+    assert len(windows) == 2
+    assert {frozenset(w.modalities) for w in windows} == {
+        frozenset(["online"]), frozenset(["online", "in_person"]),
+    }

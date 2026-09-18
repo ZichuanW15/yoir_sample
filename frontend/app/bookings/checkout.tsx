@@ -1,9 +1,10 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { useCallback, useEffect, useState } from 'react';
+import { goBack } from '@/src/navigation';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { api, userFacingError } from '@/src/api/client';
-import { Modality, Order, Service } from '@/src/api/types';
+import { Modality, Service } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { BackBar, beat, BookingSteps, mono, PAY_MS } from '@/src/components/booking';
 import { CountdownRing } from '@/src/components/Scenes';
@@ -11,32 +12,50 @@ import { Glyph } from '@/src/components/Glyph';
 import { Button, ErrorBanner } from '@/src/components/ui';
 import { countdown, deviceTimezone, fmtLong, modalityLabel, money, timeRange } from '@/src/format';
 import { FadeUp, Pop, ScreenIn } from '@/src/motion';
+import { usePaymentConfig, usePaymentSheet } from '@/src/payments';
+import { waitForBooking } from '@/src/payments/waitForBooking';
 import { colors, fonts, HOLD_MS, radius, shadow, type } from '@/src/theme';
 
 export default function CheckoutScreen() {
   const params = useLocalSearchParams<{
-    orderId: string; serviceId: string; slotId: string; modality: Modality;
-    amountMinor: string; startsAt: string; endsAt: string;
+    orderId: string; serviceId: string; modality: Modality;
+    amountMinor: string; startsAt: string; endsAt: string; holdExpiresAt?: string;
   }>();
   const { session } = useAuth();
   const insets = useSafeAreaInsets();
+  const { config } = usePaymentConfig();
+  const { present, supported } = usePaymentSheet();
   const [service, setService] = useState<Service | null>(null);
   const [payError, setPayError] = useState('');
   const [busy, setBusy] = useState(false);
 
   const amountMinor = Number(params.amountMinor ?? 0);
-  const [remaining, setRemaining] = useState(HOLD_MS);
 
-  // US-41 — the hold is a wall-clock deadline, so the ring counts the real time left.
+  /**
+   * US-41 — the hold is a deadline the server set, so the ring counts down to that
+   * rather than to a timer started when this screen happened to open. A buyer who
+   * backgrounds the app and comes back sees the time that is really left.
+   */
+  const deadline = useMemo(() => {
+    const parsed = params.holdExpiresAt ? Date.parse(params.holdExpiresAt) : NaN;
+    return Number.isFinite(parsed) ? parsed : null;
+  }, [params.holdExpiresAt]);
+  // The ring's full sweep is the hold length the server is configured for, not a
+  // measurement taken here — reading the clock during render is not idempotent.
+  const total = (config?.slotHoldMinutes ?? HOLD_MS / 60_000) * 60_000;
+  const [remaining, setRemaining] = useState(total);
+
   useEffect(() => {
-    const heldFrom = Date.now();
-    const tick = setInterval(() => {
-      const left = Math.max(0, HOLD_MS - (Date.now() - heldFrom));
+    const endsAt = deadline ?? Date.now() + total;
+    const measure = () => {
+      const left = Math.max(0, endsAt - Date.now());
       setRemaining(left);
-      if (left <= 0) clearInterval(tick);
-    }, 1000);
+      return left;
+    };
+    measure();
+    const tick = setInterval(() => { if (measure() <= 0) clearInterval(tick); }, 1000);
     return () => clearInterval(tick);
-  }, []);
+  }, [deadline, total]);
 
   const load = useCallback(async () => {
     if (!params.serviceId) return;
@@ -55,28 +74,70 @@ export default function CheckoutScreen() {
   const expired = remaining <= 0;
   const meetingArea = service?.location ? `${service.location.cityOrRegion}, ${service.location.state}` : '';
   const showMeetingArea = params.modality === 'in_person' && !!meetingArea;
+  const byCard = config?.provider === 'stripe';
+  // Both platforms take cards — the native PaymentSheet on a device, Stripe.js
+  // Elements in a browser. This is only false if the server says it takes cards
+  // but published no publishable key to take them with.
+  const cardUnavailableHere = byCard && !supported;
+
+  function goToConfirmation(bookingId: string, paymentReference: string, pending = false) {
+    // The confirmation replaces checkout: a paid booking can never be paid twice.
+    router.replace({
+      pathname: '/bookings/confirmation',
+      params: {
+        bookingId, paymentId: paymentReference, serviceId: params.serviceId,
+        modality: params.modality, startsAt: params.startsAt, endsAt: params.endsAt,
+        amountMinor: String(amountMinor), pending: pending ? '1' : '',
+      },
+    });
+  }
+
+  async function payByCard() {
+    if (!session) return;
+    const intent = await api.createPaymentIntent(params.orderId, session.accessToken);
+    const result = await present({
+      clientSecret: intent.clientSecret,
+      customerName: session.user.name,
+    });
+
+    if (result.outcome === 'cancelled') return;  // Closing the sheet is not a failure.
+    if (result.outcome !== 'paid') {
+      setPayError(result.message ?? 'The payment could not be completed.');
+      return;
+    }
+
+    // Stripe took the card; the backend confirms the booking off the webhook.
+    const booking = await waitForBooking(params.orderId, session.accessToken);
+    if (booking) {
+      goToConfirmation(booking.id, intent.paymentIntentId);
+      return;
+    }
+    // The money moved but confirmation has not caught up. Never silently claim
+    // failure over a successful payment — the confirmation screen says it is pending.
+    goToConfirmation('', intent.paymentIntentId, true);
+  }
+
+  async function payByStub() {
+    if (!session) return;
+    const receipt = await api.completeStubPayment(
+      {
+        id: params.orderId, serviceId: params.serviceId, windowId: '',
+        startsAt: params.startsAt, endsAt: params.endsAt, amountMinor,
+        currency: 'AUD', status: 'awaiting_payment', paymentStatus: 'not_started',
+      },
+      session.accessToken,
+    );
+    goToConfirmation(receipt.booking.id, receipt.paymentId);
+  }
 
   async function pay() {
-    if (!session || expired) return;
+    if (!session || expired || cardUnavailableHere) return;
     setBusy(true);
     setPayError('');
     const busy1100 = beat(PAY_MS);
     try {
-      const order: Order = {
-        id: params.orderId, serviceId: params.serviceId, slotId: params.slotId, amountMinor,
-        currency: 'AUD', status: 'awaiting_payment', paymentStatus: 'not_started',
-      };
-      const receipt = await api.completeStubPayment(order, session.accessToken);
+      await (byCard ? payByCard() : payByStub());
       await busy1100;
-      // The confirmation replaces checkout: a paid booking can never be paid twice.
-      router.replace({
-        pathname: '/bookings/confirmation',
-        params: {
-          bookingId: receipt.booking.id, paymentId: receipt.paymentId, serviceId: params.serviceId,
-          modality: params.modality, startsAt: params.startsAt, endsAt: params.endsAt,
-          amountMinor: String(amountMinor),
-        },
-      });
     } catch (error) {
       await busy1100;
       setPayError(userFacingError(error));
@@ -91,7 +152,7 @@ export default function CheckoutScreen() {
 
   return (
     <ScreenIn style={s.screen}>
-      <BackBar title="Review and pay" onBack={() => router.back()} />
+      <BackBar title="Review and pay" onBack={() => goBack({ pathname: '/services/[serviceId]/timeslots', params: { serviceId: params.serviceId } })} />
 
       <ScrollView contentContainerStyle={s.body} showsVerticalScrollIndicator={false}>
         <FadeUp><BookingSteps step={1} /></FadeUp>
@@ -101,7 +162,7 @@ export default function CheckoutScreen() {
             <Text style={type.display34}>Almost there</Text>
             <Text style={s.heroBody}>Your slot is reserved while the timer runs.</Text>
           </View>
-          <CountdownRing remaining={remaining} total={HOLD_MS} label={countdown(remaining)} />
+          <CountdownRing remaining={remaining} total={total} label={countdown(remaining)} />
         </FadeUp>
 
         {expired ? (
@@ -133,29 +194,78 @@ export default function CheckoutScreen() {
           </View>
         </FadeUp>
 
-        <FadeUp delay={240} style={s.stub}>
-          <View style={s.stubHeading}>
-            <Glyph name="lock" size={18} color={colors.amberInk} />
-            <Text style={s.stubTitle}>Test-mode payment</Text>
+        {/* Spec §12 — the cancellation policy is shown before the money moves,
+            not afterwards on a receipt. */}
+        <FadeUp delay={200} style={s.policy}>
+          <View style={s.policyHeading}>
+            <Glyph name="shieldCheck" size={18} color={colors.green} />
+            <Text style={s.policyTitle}>Cancellation policy</Text>
           </View>
-          <Text style={s.stubBody}>
-            Yoir never collects or stores card details. This build uses the backend payment stub, so no real money moves.
+          <Text style={s.policyBody}>
+            Cancel at least {config?.cancellationFullRefundHours ?? 24} hours before the session for a
+            full refund of {money(amountMinor)}.{' '}
+            {(config?.cancellationLateRefundPercent ?? 0) > 0
+              ? `Cancel later and ${config?.cancellationLateRefundPercent}% is refunded.`
+              : 'Cancelling later than that is not refunded.'}
+            {' '}If your counsellor cancels, you are always refunded in full.
           </Text>
-          <View style={s.stubRow}>
-            <Text style={s.stubKey}>Method</Text>
-            <Text style={s.stubValue}>Yoir test payment</Text>
-          </View>
-          <View style={s.stubRow}>
-            <Text style={s.stubKey}>Order reference</Text>
-            <Text style={[s.stubValue, s.reference]}>{params.orderId}</Text>
-          </View>
         </FadeUp>
+
+        {byCard ? (
+          <FadeUp delay={240} style={s.method}>
+            <View style={s.methodHeading}>
+              <Glyph name="lock" size={18} color={colors.green} />
+              <Text style={s.methodTitle}>Secure card payment</Text>
+            </View>
+            <Text style={s.methodBody}>
+              Card details are entered directly with Stripe and never reach Yoir&apos;s servers.
+              Your counsellor is paid after the session takes place.
+            </Text>
+            {cardUnavailableHere ? (
+              <Text style={s.methodWarning}>
+                Card payments are not set up on this server yet. Your slot stays reserved
+                while the timer runs.
+              </Text>
+            ) : null}
+            <View style={s.methodRow}>
+              <Text style={s.methodKey}>Booking reference</Text>
+              <Text style={[s.methodValue, s.reference]}>{params.orderId}</Text>
+            </View>
+          </FadeUp>
+        ) : (
+          <FadeUp delay={240} style={s.stub}>
+            <View style={s.stubHeading}>
+              <Glyph name="lock" size={18} color={colors.amberInk} />
+              <Text style={s.stubTitle}>Test-mode payment</Text>
+            </View>
+            <Text style={s.stubBody}>
+              Yoir never collects or stores card details. This build uses the backend payment stub, so no real money moves.
+            </Text>
+            <View style={s.stubRow}>
+              <Text style={s.stubKey}>Method</Text>
+              <Text style={s.stubValue}>Yoir test payment</Text>
+            </View>
+            <View style={s.stubRow}>
+              <Text style={s.stubKey}>Order reference</Text>
+              <Text style={[s.stubValue, s.reference]}>{params.orderId}</Text>
+            </View>
+          </FadeUp>
+        )}
       </ScrollView>
 
       <View style={[s.footer, { paddingBottom: insets.bottom + 22 }]}>
         {expired
           ? <Button label="Choose another time" height={58} onPress={backToSlots} />
-          : <Button label={`Pay ${money(amountMinor)}`} height={58} busy={busy} onPress={pay} style={shadow.toast} />}
+          : (
+            <Button
+              label={`Pay ${money(amountMinor)}`}
+              height={58}
+              busy={busy}
+              disabled={cardUnavailableHere}
+              onPress={pay}
+              style={shadow.toast}
+            />
+          )}
       </View>
     </ScreenIn>
   );
@@ -191,6 +301,20 @@ const s = StyleSheet.create({
   totalRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   totalLabel: { fontFamily: fonts.bold, fontSize: 15, color: colors.ink },
   totalValue: { fontFamily: fonts.serif, fontSize: 30, lineHeight: 34, color: colors.green },
+
+  policy: { padding: 18, gap: 10, backgroundColor: colors.greenTint, borderRadius: radius.lg },
+  policyHeading: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  policyTitle: { fontFamily: fonts.bold, fontSize: 15, color: colors.ink },
+  policyBody: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 20, color: colors.ink },
+
+  method: { padding: 20, gap: 12, backgroundColor: colors.chip, borderRadius: radius.xl },
+  methodHeading: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  methodTitle: { fontFamily: fonts.bold, fontSize: 15, color: colors.ink },
+  methodBody: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 20, color: colors.muted },
+  methodWarning: { fontFamily: fonts.bold, fontSize: 13, lineHeight: 20, color: colors.dangerInk },
+  methodRow: { flexDirection: 'row', justifyContent: 'space-between', gap: 16 },
+  methodKey: { fontFamily: fonts.sans, fontSize: 13, color: colors.muted },
+  methodValue: { flexShrink: 1, fontFamily: fonts.bold, fontSize: 13, color: colors.ink, textAlign: 'right' },
 
   stub: { padding: 20, gap: 12, backgroundColor: colors.yellowTint, borderRadius: radius.xl },
   stubHeading: { flexDirection: 'row', alignItems: 'center', gap: 8 },

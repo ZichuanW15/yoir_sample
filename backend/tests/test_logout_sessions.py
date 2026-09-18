@@ -216,7 +216,7 @@ def test_logout_protects_existing_booking_endpoints_without_blocking_public_brow
             headers=headers,
             json={
                 "serviceId": service.id,
-                "slotId": "missing-slot",
+                "startsAt": "2099-01-01T00:00:00Z",
                 "timezone": "Australia/Melbourne",
                 "modality": "online",
             },

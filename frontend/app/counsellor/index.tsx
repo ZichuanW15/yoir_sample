@@ -3,17 +3,19 @@ import { useCallback, useEffect, useState } from 'react';
 import { Animated, Easing, Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Defs, RadialGradient, Stop } from 'react-native-svg';
+import { createAnimatedSvg } from '@/src/components/animatedSvg';
 import { api, userFacingError } from '@/src/api/client';
-import { AvailabilitySlot, CounsellorProfile, Service } from '@/src/api/types';
+import { AvailabilityWindow, CounsellorProfile, PayoutStatus, Service } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
 import { Glyph } from '@/src/components/Glyph';
+import { VerifyEmailBanner } from '@/src/components/VerifyEmailBanner';
 import { Avatar, ErrorBanner, Eyebrow, Press, Tag } from '@/src/components/ui';
 import { fmtDay, initials, modalityLabel, money } from '@/src/format';
 import { FadeUp, Float, Pop, Pulse, ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, type } from '@/src/theme';
 
-const ACircle = Animated.createAnimatedComponent(Circle);
+const ACircle = createAnimatedSvg(Circle);
 /** LinkedIn URL, introduction, background, experience, base location. */
 const TOTAL_SECTIONS = 5;
 const RING = 264;
@@ -21,7 +23,9 @@ const RING = 264;
 interface Workspace {
   profile: CounsellorProfile;
   services: Service[];
-  slots: AvailabilitySlot[];
+  windows: AvailabilityWindow[];
+  /** Null when this backend has no payouts endpoint yet; the card then stays hidden. */
+  payouts: PayoutStatus | null;
 }
 
 export default function CounsellorWorkspace() {
@@ -34,12 +38,14 @@ export default function CounsellorWorkspace() {
   const load = useCallback(async () => {
     if (!session) return;
     try {
-      const [profile, services, slots] = await Promise.all([
+      const [profile, services, windows, payouts] = await Promise.all([
         api.getOwnCounsellorProfile(session.user, session.accessToken),
         api.listOwnServices(session.user.id, session.accessToken),
-        api.listOwnAvailabilitySlots(session.user.id, session.accessToken),
+        api.listOwnAvailabilityWindows(session.user.id, session.accessToken),
+        // Payout readiness must never block the rest of the workspace from loading.
+        api.getPayoutStatus(session.accessToken).catch(() => null),
       ]);
-      setData({ profile, services, slots });
+      setData({ profile, services, windows, payouts });
       setError('');
     } catch (cause) {
       setError(userFacingError(cause));
@@ -77,9 +83,12 @@ export default function CounsellorWorkspace() {
     ? [data.profile.linkedinUrl, data.profile.introduction, data.profile.background, data.profile.experience, data.profile.baseLocation?.state]
       .filter(Boolean).length
     : 0;
-  const services = data?.services ?? [];
-  const openSlots = (data?.slots ?? [])
-    .filter((slot) => slot.status === 'open')
+  // /me/services deliberately returns withdrawn services too, so a restore
+  // feature can find them. The workspace shows only live ones, which is what
+  // the delete confirmation promises.
+  const services = (data?.services ?? []).filter((service) => service.active);
+  // Availability is the counsellor's own calendar now, not a per-service list.
+  const upcomingWindows = [...(data?.windows ?? [])]
     .sort((a, b) => a.startsAt.localeCompare(b.startsAt));
 
   return (
@@ -131,6 +140,48 @@ export default function CounsellorWorkspace() {
           </View>
         </FadeUp>
 
+        {/* US-47 — a counsellor who cannot be paid cannot be found either, so the
+            prompt to finish payout setup sits above everything else they might do. */}
+        {data?.payouts && !data.payouts.payoutsEnabled ? (
+          <FadeUp delay={140}>
+            <Press
+              onPress={() => router.push('/counsellor/payouts')}
+              scaleTo={0.98}
+              accessibilityLabel="Set up payouts"
+              style={s.payoutCard}
+            >
+              <View style={s.payoutTile}><Glyph name="lock" size={18} color={colors.amberInk} /></View>
+              <View style={s.payoutCopy}>
+                <Text style={s.payoutTitle}>
+                  {data.payouts.stripeAccountId ? 'Finish payout setup' : 'Set up payouts'}
+                </Text>
+                <Text style={s.payoutBody}>
+                  Your services stay hidden from the Marketplace until Stripe can pay you.
+                </Text>
+              </View>
+              <View style={s.payoutPill}><Text style={s.payoutPillText}>Start</Text></View>
+            </Press>
+          </FadeUp>
+        ) : null}
+
+        <VerifyEmailBanner what="publish a service" />
+
+        <FadeUp delay={150}>
+          <Press
+            onPress={() => router.push('/bookings')}
+            scaleTo={0.98}
+            accessibilityLabel="Sessions you are delivering"
+            style={s.profileCard}
+          >
+            <View style={s.payoutTileReady}><Glyph name="calendar" size={18} color={colors.green} /></View>
+            <View style={s.profileCopy}>
+              <Text style={s.rowTitle}>My sessions</Text>
+              <Text style={s.rowSub}>Everything booked with you, and how to join it.</Text>
+            </View>
+            <View style={s.profilePill}><Text style={s.profilePillText}>Open</Text></View>
+          </Press>
+        </FadeUp>
+
         <FadeUp delay={160}>
           <Press
             onPress={() => router.push('/counsellor/profile')}
@@ -148,6 +199,26 @@ export default function CounsellorWorkspace() {
             <View style={s.profilePill}><Text style={s.profilePillText}>{done ? 'Edit' : 'Set up'}</Text></View>
           </Press>
         </FadeUp>
+
+        {data?.payouts?.payoutsEnabled ? (
+          <FadeUp delay={180}>
+            <Press
+              onPress={() => router.push('/counsellor/payouts')}
+              scaleTo={0.98}
+              accessibilityLabel="Payouts and tax details"
+              style={s.profileCard}
+            >
+              <View style={s.payoutTileReady}><Glyph name="shieldCheck" size={18} color={colors.green} /></View>
+              <View style={s.profileCopy}>
+                <Text style={s.rowTitle}>Payouts</Text>
+                <Text style={s.rowSub}>
+                  {data.payouts.gstRegistered ? 'Ready · GST registered' : 'Ready · not GST registered'}
+                </Text>
+              </View>
+              <View style={s.profilePill}><Text style={s.profilePillText}>Manage</Text></View>
+            </Press>
+          </FadeUp>
+        ) : null}
 
         <FadeUp delay={220} style={s.sectionHead}>
           <View style={s.sectionCopy}>
@@ -181,7 +252,7 @@ export default function CounsellorWorkspace() {
                   />
                 ) : null}
                 <Tag
-                  label={`${(data?.slots ?? []).filter((slot) => slot.serviceId === service.id && slot.status === 'open').length} open slots`}
+                  label={`${upcomingWindows.length} available`}
                   bg={colors.greenTint}
                   fg={colors.successInk}
                 />
@@ -236,8 +307,8 @@ export default function CounsellorWorkspace() {
             <View style={s.availCopy}>
               <Text style={s.availTitle}>Availability</Text>
               <Text style={s.availHint}>
-                {openSlots.length
-                  ? `${openSlots.length} open slots. Next on ${fmtDay(openSlots[0].startsAt)}.`
+                {upcomingWindows.length
+                  ? `${upcomingWindows.length} open slots. Next on ${fmtDay(upcomingWindows[0].startsAt)}.`
                   : 'No open slots. Add availability so buyers can choose a time.'}
               </Text>
             </View>
@@ -300,6 +371,15 @@ const s = StyleSheet.create({
   verifyBody: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 20, color: colors.onDarkMuted },
 
   profileCard: { flexDirection: 'row', alignItems: 'center', gap: 16, padding: 20, backgroundColor: colors.white, borderWidth: 1, borderColor: colors.lineSoft, borderRadius: radius.xl },
+
+  payoutCard: { flexDirection: 'row', alignItems: 'center', gap: 16, padding: 20, backgroundColor: colors.yellowTint, borderRadius: radius.xl },
+  payoutTile: { width: 42, height: 42, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.white, borderRadius: radius.md },
+  payoutTileReady: { width: 42, height: 42, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.greenTint, borderRadius: radius.md },
+  payoutCopy: { flex: 1, gap: 4 },
+  payoutTitle: { fontFamily: fonts.bold, fontSize: 16, color: colors.amberDeep },
+  payoutBody: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 19, color: colors.amberDeep },
+  payoutPill: { paddingHorizontal: 14, paddingVertical: 8, backgroundColor: colors.amberInk, borderRadius: radius.pill },
+  payoutPillText: { fontFamily: fonts.bold, fontSize: 13, color: colors.white },
   ring: { width: 64, height: 64 },
   ringSvg: { transform: [{ rotate: '-90deg' }] },
   ringLabel: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, alignItems: 'center', justifyContent: 'center' },

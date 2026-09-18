@@ -1,5 +1,4 @@
 import { Redirect, router } from 'expo-router';
-import type { Href } from 'expo-router';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '@/src/auth/AuthContext';
@@ -7,6 +6,7 @@ import { Glyph, GlyphName } from '@/src/components/Glyph';
 import { EntryScene } from '@/src/components/Scenes';
 import { Card, Press } from '@/src/components/ui';
 import { FadeUp, ScreenIn } from '@/src/motion';
+import { homeFor } from '@/src/navigation';
 import { colors, fonts, radius, shadow, type } from '@/src/theme';
 
 type PublicRole = 'job_seeker' | 'counsellor';
@@ -35,8 +35,7 @@ export default function EntryScreen() {
   const { session } = useAuth();
   const insets = useSafeAreaInsets();
 
-  if (session?.user.role === 'counsellor') return <Redirect href="/counsellor" />;
-  if (session) return <Redirect href={'/job-seeker' as Href} />;
+  if (session) return <Redirect href={homeFor(session.user.role)} />;
 
   return (
     <ScreenIn duration={500} style={[styles.screen, { paddingTop: insets.top }]}>
@@ -89,6 +88,20 @@ export default function EntryScreen() {
             <Glyph name="eye" size={18} color={colors.green} />
             <Text style={styles.guestLabel}>Just looking? Browse as a guest</Text>
           </Press>
+
+          {/* The two cards above are for people choosing a role, which someone who
+              already has an account has done once. It is also the only way in for a
+              Platform Owner, whose role is never offered here and never registered. */}
+          <Press
+            scaleTo={0.96}
+            style={styles.signIn}
+            accessibilityLabel="Already have an account? Log in"
+            onPress={() => router.push('/auth/login')}
+          >
+            <Text style={styles.signInLabel}>
+              Already have an account? <Text style={styles.signInAccent}>Log in</Text>
+            </Text>
+          </Press>
         </FadeUp>
       </ScrollView>
     </ScreenIn>
@@ -115,4 +128,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 22, flexDirection: 'row', alignItems: 'center', gap: 8,
   },
   guestLabel: { fontFamily: fonts.bold, fontSize: 14, color: colors.green },
+  signIn: { paddingVertical: 8, paddingHorizontal: 10 },
+  signInLabel: { fontFamily: fonts.sans, fontSize: 14, color: colors.muted },
+  signInAccent: { fontFamily: fonts.bold, color: colors.green },
 });

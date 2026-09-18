@@ -1,0 +1,27 @@
+You have a new booking
+
+
+Hi {{ name }},
+
+{{ job_seeker_name }} has booked and paid for {{ service_title }}. The time is held
+in your calendar and no longer offered to anyone else.
+
+{% for label, value in details %}
+{{ label }}: {{ value }}
+{% endfor %}
+
+{% if meeting_url %}
+JOINING THE SESSION
+Join at the scheduled time using the same room your client has.
+
+{{ meeting_url }}
+{% elif meeting_area %}
+This is an in-person session in {{ meeting_area }}. Confirm the exact meeting point
+with your client before you meet — they are expecting to hear from you.
+{% endif %}
+
+You earn {{ payout_minor | money }} for this session, paid out {{ payout_delay_hours }} hours after it takes place. {{ brand }}'s commission is already deducted from that figure.
+
+If you cancel, your client is refunded in full.
+
+You are receiving this because someone booked a service you publish on {{ brand }}.

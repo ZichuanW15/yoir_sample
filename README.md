@@ -37,6 +37,7 @@ assessment.
 | [docs/sprint1/](docs/sprint1/) | Sprint 1 documentation |
 | [docs/sprint1/executable-architecture/](docs/sprint1/executable-architecture/) | Published API contract (`openapi.yaml`), interface contract, requirement traceability, backend integration guide |
 | [docs/sprint1/qa/](docs/sprint1/qa/) | Test approach and recorded test results for the executable architecture |
+| [docs/sprint2/qa/](docs/sprint2/qa/) | Implemented Sprint 2 Web, iOS/Android components and shared API QA, plus separate limited native simulator smoke evidence |
 | [docs/sprint1/process/](docs/sprint1/process/) | Board Insights automation — how the project board is published to the wiki |
 | [docs/sprint1/design-by-concept/](docs/sprint1/design-by-concept/) | Architecture diagram, the design reasoning behind it, and the database schema |
 | [docs/sprint1/project/](docs/sprint1/project/) | Background and scope, requirements, product backlog, user story map, risk register |
@@ -176,13 +177,21 @@ before the item moves to Done. Full detail is on the
 
 **Application CI** ([.github/workflows/app-ci.yml](.github/workflows/app-ci.yml)) runs on
 every push and pull request that touches application, test, documentation or CI files.
-Four blocking jobs: frontend lint, typecheck, Jest coverage, the deployable Expo Web build
+Blocking checks cover frontend lint, typecheck, Jest coverage, the deployable Expo Web build
 and a critical-severity production audit; backend compile, Ruff and pytest with coverage on
 PostgreSQL 16; an isolated live Uvicorn exercised by HTTPX, by the real TypeScript client
 with unmocked `fetch` and through the web build it serves at `/`; and repository evidence —
 checksum-verified `actionlint`, OpenAPI/traceability parity, Markdown links, the Board
 Insights tests and whitespace. The frontend, backend and live jobs upload their evidence as
 build artifacts, and the frontend job also uploads the web build itself.
+
+Sprint 2 also runs Chromium acceptance journeys against an isolated API/database and a
+separate iOS/Android **component** matrix using Expo's platform presets. Native regression
+and defect results are retained independently. Defect-only CI steps are advisory;
+their report-health checks and all normal regressions remain blocking. See the
+[current QA policy](docs/sprint2/qa/ci-defect-policy-20260916.md).
+These matrix jobs do not launch simulators or certify device builds. The
+[platform matrix](docs/sprint2/qa/platform-test-matrix.md) records that evidence boundary.
 
 **Mermaid Diagrams** ([.github/workflows/mermaid.yml](.github/workflows/mermaid.yml)) runs
 on branch creation, on every push to any branch, and on every pull request. It renders

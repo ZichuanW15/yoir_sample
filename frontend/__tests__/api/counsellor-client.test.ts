@@ -1,7 +1,7 @@
 import {
   CounsellorProfileUpdate,
   ServiceDraft,
-  SlotDraft,
+  WindowDraft,
   User,
 } from '@/src/api/types';
 
@@ -9,14 +9,13 @@ import {
   counsellorProfileFixture,
   counsellorSessionFixture,
   serviceFixture,
-  slotFixture,
+  windowFixture,
 } from '../fixtures';
 
 type ClientModule = typeof import('@/src/api/client');
 
 const originalFetch = global.fetch;
 const originalApiUrl = process.env.EXPO_PUBLIC_API_URL;
-const originalDemoFlag = process.env.EXPO_PUBLIC_USE_DEMO_API;
 const fetchMock = jest.fn();
 
 const BASE = 'https://api.example.test/api/v1';
@@ -47,15 +46,16 @@ const serviceDraft: ServiceDraft = {
   title: 'Interview confidence coaching',
   description: 'Practical interview preparation and feedback.',
   priceMinor: 9500,
+  durationMinutes: 60,
   currency: 'AUD',
   modalities: ['online'],
   location: null,
 };
 
-const slotDraft: SlotDraft = {
-  serviceId: serviceFixture.id,
-  startsAt: '2026-09-09T00:00:00.000Z',
-  endsAt: '2026-09-09T01:00:00.000Z',
+const windowDraft: WindowDraft = {
+  startsAt: '2026-10-03T01:00:00.000Z',
+  endsAt: '2026-10-03T04:00:00.000Z',
+  modalities: ['online', 'in_person'],
 };
 
 function jsonResponse(body: unknown, status = 200): Response {
@@ -63,6 +63,7 @@ function jsonResponse(body: unknown, status = 200): Response {
     ok: status >= 200 && status < 300,
     status,
     json: jest.fn().mockResolvedValue(body),
+    headers: new Headers({ 'content-type': 'application/json' }),
   } as unknown as Response;
 }
 
@@ -70,22 +71,8 @@ function errorResponse(status: number, code = 'NOT_FOUND', message = 'This route
   return jsonResponse({ code, message, requestId: `request-${status}` }, status);
 }
 
-/**
- * What an undeployed path actually answers: the framework's own 404, which carries
- * no published error code. A 404 that *does* carry NOT_FOUND is a missing resource.
- */
-function unroutedResponse(status = 404): Response {
-  return jsonResponse({ detail: 'Not Found' }, status);
-}
-
 function loadClient(): ClientModule {
   return require('@/src/api/client') as ClientModule;
-}
-
-/** demo.ts pauses 300ms before resolving, so a local resolution needs the fake clock moved on. */
-async function settleLocal<T>(pending: Promise<T>): Promise<T> {
-  await jest.advanceTimersByTimeAsync(300);
-  return pending;
 }
 
 describe('counsellor API boundary', () => {
@@ -94,21 +81,18 @@ describe('counsellor API boundary', () => {
     fetchMock.mockReset();
     global.fetch = fetchMock as typeof fetch;
     process.env.EXPO_PUBLIC_API_URL = 'https://api.example.test/api/v1/';
-    delete process.env.EXPO_PUBLIC_USE_DEMO_API;
   });
 
   afterAll(() => {
     global.fetch = originalFetch;
     if (originalApiUrl === undefined) delete process.env.EXPO_PUBLIC_API_URL;
     else process.env.EXPO_PUBLIC_API_URL = originalApiUrl;
-    if (originalDemoFlag === undefined) delete process.env.EXPO_PUBLIC_USE_DEMO_API;
-    else process.env.EXPO_PUBLIC_USE_DEMO_API = originalDemoFlag;
   });
 
   describe('live requests', () => {
     test('getOwnCounsellorProfile reads the counsellor by id with Bearer authentication', async () => {
       fetchMock.mockResolvedValueOnce(jsonResponse(counsellorProfileFixture));
-      const { api, preview } = loadClient();
+      const { api } = loadClient();
 
       await expect(api.getOwnCounsellorProfile(counsellorUser, TOKEN)).resolves.toEqual(
         counsellorProfileFixture,
@@ -117,7 +101,6 @@ describe('counsellor API boundary', () => {
       expect(fetchMock).toHaveBeenCalledWith(`${BASE}/counsellors/counsellor-1`, {
         headers: AUTH_HEADERS,
       });
-      expect(preview.active).toBe(false);
     });
 
     test('getOwnCounsellorProfile URL-encodes the counsellor identifier', async () => {
@@ -196,54 +179,54 @@ describe('counsellor API boundary', () => {
       });
     });
 
-    test('listOwnAvailabilitySlots reads the counsellor-scoped slot collection', async () => {
-      fetchMock.mockResolvedValueOnce(jsonResponse([slotFixture]));
+    test('listOwnAvailabilityWindows reads the calendar that belongs to the counsellor', async () => {
+      fetchMock.mockResolvedValueOnce(jsonResponse([windowFixture]));
       const { api } = loadClient();
 
-      await expect(api.listOwnAvailabilitySlots(counsellorUser.id, TOKEN)).resolves.toEqual([
-        slotFixture,
+      await expect(api.listOwnAvailabilityWindows(counsellorUser.id, TOKEN)).resolves.toEqual([
+        windowFixture,
       ]);
 
-      expect(fetchMock).toHaveBeenCalledWith(`${BASE}/me/availability-slots`, {
+      expect(fetchMock).toHaveBeenCalledWith(`${BASE}/me/availability-windows`, {
         headers: AUTH_HEADERS,
       });
     });
 
-    test('createAvailabilitySlot POSTs the slot draft', async () => {
-      fetchMock.mockResolvedValueOnce(jsonResponse(slotFixture, 201));
+    test('createAvailabilityWindow POSTs the window draft', async () => {
+      fetchMock.mockResolvedValueOnce(jsonResponse(windowFixture, 201));
       const { api } = loadClient();
 
-      await expect(api.createAvailabilitySlot(slotDraft, TOKEN)).resolves.toEqual(slotFixture);
+      await expect(api.createAvailabilityWindow(windowDraft, TOKEN)).resolves.toEqual(windowFixture);
 
-      expect(fetchMock).toHaveBeenCalledWith(`${BASE}/me/availability-slots`, {
+      expect(fetchMock).toHaveBeenCalledWith(`${BASE}/me/availability-windows`, {
         method: 'POST',
-        body: JSON.stringify(slotDraft),
+        body: JSON.stringify(windowDraft),
         headers: JSON_AUTH_HEADERS,
       });
     });
 
-    test('updateAvailabilitySlot PATCHes the URL-encoded slot identifier', async () => {
-      fetchMock.mockResolvedValueOnce(jsonResponse(slotFixture));
+    test('updateAvailabilityWindow PATCHes the URL-encoded window identifier', async () => {
+      fetchMock.mockResolvedValueOnce(jsonResponse(windowFixture));
       const { api } = loadClient();
 
-      await expect(api.updateAvailabilitySlot('slot/one', slotDraft, TOKEN)).resolves.toEqual(
-        slotFixture,
+      await expect(api.updateAvailabilityWindow('slot/one', windowDraft, TOKEN)).resolves.toEqual(
+        windowFixture,
       );
 
-      expect(fetchMock).toHaveBeenCalledWith(`${BASE}/me/availability-slots/slot%2Fone`, {
+      expect(fetchMock).toHaveBeenCalledWith(`${BASE}/me/availability-windows/slot%2Fone`, {
         method: 'PATCH',
-        body: JSON.stringify(slotDraft),
+        body: JSON.stringify(windowDraft),
         headers: JSON_AUTH_HEADERS,
       });
     });
 
-    test('deleteAvailabilitySlot DELETEs the URL-encoded slot and resolves on 204', async () => {
+    test('deleteAvailabilityWindow DELETEs the URL-encoded window and resolves on 204', async () => {
       fetchMock.mockResolvedValueOnce(jsonResponse(undefined, 204));
       const { api } = loadClient();
 
-      await expect(api.deleteAvailabilitySlot('slot/one', TOKEN)).resolves.toBeUndefined();
+      await expect(api.deleteAvailabilityWindow('slot/one', TOKEN)).resolves.toBeUndefined();
 
-      expect(fetchMock).toHaveBeenCalledWith(`${BASE}/me/availability-slots/slot%2Fone`, {
+      expect(fetchMock).toHaveBeenCalledWith(`${BASE}/me/availability-windows/slot%2Fone`, {
         method: 'DELETE',
         headers: AUTH_HEADERS,
       });
@@ -257,11 +240,14 @@ describe('counsellor API boundary', () => {
       fetchMock.mockResolvedValueOnce(jsonResponse(undefined, 204));
       const { api } = loadClient();
 
-      await expect(api.logout(TOKEN)).resolves.toBeUndefined();
+      await expect(api.logout(TOKEN, 'refresh-token')).resolves.toBeUndefined();
 
       expect(fetchMock).toHaveBeenCalledWith(`${BASE}/auth/sessions/current`, {
         method: 'DELETE',
-        headers: AUTH_HEADERS,
+        // US-06: the refresh token goes too. Denylisting the access token alone
+        // would end nothing, since the session could be minted again seconds later.
+        body: JSON.stringify({ refreshToken: 'refresh-token' }),
+        headers: { ...AUTH_HEADERS, 'Content-Type': 'application/json' },
       });
     });
 
@@ -281,345 +267,41 @@ describe('counsellor API boundary', () => {
     });
   });
 
-  describe('preview fallback to the local store', () => {
-    beforeEach(() => {
-      jest.useFakeTimers();
-      jest.setSystemTime(new Date('2026-08-28T00:00:00.000Z'));
-    });
 
-    afterEach(() => {
-      jest.useRealTimers();
-    });
-
-    test.each([404, 405, 501])(
-      'a %i from an undeployed route serves local data and raises the preview flag',
-      async (status) => {
-        fetchMock.mockResolvedValueOnce(status === 404 ? unroutedResponse() : errorResponse(status, 'NOT_IMPLEMENTED'));
-        const { api, preview } = loadClient();
-        expect(preview.active).toBe(false);
-
-        const services = await settleLocal(api.listOwnServices('counsellor_maya', TOKEN));
-
-        expect(fetchMock).toHaveBeenCalledWith(`${BASE}/me/services`, { headers: AUTH_HEADERS });
-        expect(services).toEqual([expect.objectContaining({ id: 'svc_interview' })]);
-        expect(preview.active).toBe(true);
-      },
-    );
-
-    test('getOwnCounsellorProfile falls back to a local profile seeded from the signed-in user', async () => {
-      fetchMock.mockResolvedValueOnce(unroutedResponse());
-      const { api, preview } = loadClient();
-
-      const profile = await settleLocal(api.getOwnCounsellorProfile(counsellorUser, TOKEN));
-
-      expect(profile).toMatchObject({
-        id: counsellorUser.id,
-        displayName: counsellorUser.name,
-        verificationStatus: 'pending',
-      });
-      expect(preview.active).toBe(true);
-    });
-
-    test('updateOwnCounsellorProfile falls back to a local write that is readable again', async () => {
-      fetchMock.mockResolvedValue(unroutedResponse());
-      const { api, preview } = loadClient();
-
-      await settleLocal(api.getOwnCounsellorProfile(counsellorUser, TOKEN));
-      const updated = await settleLocal(
-        api.updateOwnCounsellorProfile(
-          counsellorUser.id,
-          { ...profileUpdate, introduction: 'Updated locally.' },
-          TOKEN,
-        ),
-      );
-
-      expect(updated.introduction).toBe('Updated locally.');
-      expect(updated.baseLocation).toEqual({ state: 'VIC', cityOrRegion: 'Melbourne' });
-      expect(preview.active).toBe(true);
-    });
-
-    test('the slot lifecycle falls back locally: create, list, update and delete', async () => {
-      fetchMock.mockResolvedValue(errorResponse(501, 'NOT_IMPLEMENTED', 'Route not implemented.'));
-      const { api, preview } = loadClient();
-
-      const created = await settleLocal(
-        api.createAvailabilitySlot(
-          { serviceId: 'svc_interview', startsAt: '2026-10-01T00:00:00.000Z', endsAt: '2026-10-01T01:00:00.000Z' },
-          TOKEN,
-        ),
-      );
-      expect(created).toMatchObject({ serviceId: 'svc_interview', status: 'open' });
-
-      const listed = await settleLocal(api.listOwnAvailabilitySlots('counsellor_maya', TOKEN));
-      expect(listed.map((slot) => slot.id)).toContain(created.id);
-
-      const updated = await settleLocal(
-        api.updateAvailabilitySlot(
-          created.id,
-          { serviceId: 'svc_interview', startsAt: '2026-10-02T00:00:00.000Z', endsAt: '2026-10-02T01:00:00.000Z' },
-          TOKEN,
-        ),
-      );
-      expect(updated.startsAt).toBe('2026-10-02T00:00:00.000Z');
-
-      await expect(settleLocal(api.deleteAvailabilitySlot(created.id, TOKEN))).resolves.toBeUndefined();
-
-      const remaining = await settleLocal(api.listOwnAvailabilitySlots('counsellor_maya', TOKEN));
-      expect(remaining.map((slot) => slot.id)).not.toContain(created.id);
-      expect(preview.active).toBe(true);
-    });
-
-    test('createService falls back locally and the new service appears in the local list', async () => {
-      fetchMock.mockResolvedValue(errorResponse(405, 'METHOD_NOT_ALLOWED', 'Method not allowed.'));
-      const { api, preview } = loadClient();
-
-      const created = await settleLocal(api.createService('counsellor_maya', serviceDraft, TOKEN));
-      expect(created).toMatchObject({ title: serviceDraft.title, active: true });
-      expect(created.counsellor.id).toBe('counsellor_maya');
-
-      const services = await settleLocal(api.listOwnServices('counsellor_maya', TOKEN));
-      expect(services.map((service) => service.id)).toContain(created.id);
-      expect(preview.active).toBe(true);
-    });
-
-    test('updateService and deleteService fall back locally: an edit persists, a delete soft-removes it', async () => {
-      fetchMock.mockResolvedValue(unroutedResponse());
-      const { api, preview } = loadClient();
-
-      const created = await settleLocal(api.createService('counsellor_maya', serviceDraft, TOKEN));
-
-      const updated = await settleLocal(
-        api.updateService(created.id, { ...serviceDraft, title: 'Updated locally' }, TOKEN),
-      );
-      expect(updated.title).toBe('Updated locally');
-
-      const beforeDelete = await settleLocal(api.listOwnServices('counsellor_maya', TOKEN));
-      expect(beforeDelete.map((service) => service.id)).toContain(created.id);
-
-      await expect(settleLocal(api.deleteService(created.id, TOKEN))).resolves.toBeUndefined();
-
-      const afterDelete = await settleLocal(api.listOwnServices('counsellor_maya', TOKEN));
-      expect(afterDelete.map((service) => service.id)).not.toContain(created.id);
-      expect(preview.active).toBe(true);
-    });
-
-    test('a local validation failure still surfaces as a rejection behind the fallback', async () => {
-      fetchMock.mockResolvedValue(unroutedResponse());
-      const { api, preview } = loadClient();
-
-      const pending = api.createAvailabilitySlot(
-        { serviceId: 'svc_interview', startsAt: '2026-10-03T02:00:00.000Z', endsAt: '2026-10-03T01:00:00.000Z' },
-        TOKEN,
-      );
-      const rejection = pending.catch((error: unknown) => error);
-      await jest.advanceTimersByTimeAsync(300);
-
-      await expect(rejection).resolves.toMatchObject({
-        status: 400,
-        body: { code: 'VALIDATION_ERROR', fieldErrors: { endsAt: 'Choose an end time after the start time.' } },
-      });
-      expect(preview.active).toBe(true);
-    });
-
-    test('a successful live call after a fallback lowers the preview flag again', async () => {
-      fetchMock
-        .mockResolvedValueOnce(unroutedResponse())
-        .mockResolvedValueOnce(jsonResponse([serviceFixture]));
-      const { api, preview } = loadClient();
-
-      await settleLocal(api.listOwnServices('counsellor_maya', TOKEN));
-      expect(preview.active).toBe(true);
-
-      await expect(api.listOwnServices('counsellor_maya', TOKEN)).resolves.toEqual([serviceFixture]);
-      expect(preview.active).toBe(false);
-      expect(fetchMock).toHaveBeenCalledTimes(2);
-    });
-  });
-
-  describe('a missing resource is not a missing route', () => {
-    beforeEach(() => {
-      jest.useFakeTimers();
-      jest.setSystemTime(new Date('2026-08-28T00:00:00.000Z'));
-    });
-
-    afterEach(() => {
-      jest.useRealTimers();
-    });
-
-    test('a 404 from a route that has shipped rejects instead of inventing a profile', async () => {
-      fetchMock.mockResolvedValueOnce(errorResponse(404, 'NOT_FOUND', 'This counsellor profile is unavailable.'));
-      const { api, preview, undeployedRoutes, ApiError } = loadClient();
-      // The backend has deployed this route, so a 404 is a genuinely missing resource.
-      undeployedRoutes.delete('counsellorProfile');
-
-      const pending = api.getOwnCounsellorProfile(counsellorUser, TOKEN);
-
-      await expect(pending).rejects.toBeInstanceOf(ApiError);
-      await expect(pending).rejects.toMatchObject({ status: 404, body: { code: 'NOT_FOUND' } });
-      expect(preview.active).toBe(false);
-    });
-
-    test('a 404 from a route that has shipped never consults local slot state', async () => {
-      fetchMock.mockResolvedValueOnce(errorResponse(404, 'NOT_FOUND', 'This availability slot no longer exists.'));
-      const { api, preview, undeployedRoutes } = loadClient();
-      undeployedRoutes.delete('availability');
-
-      await expect(api.deleteAvailabilitySlot('slot-1', TOKEN)).rejects.toMatchObject({
-        status: 404,
-        body: { code: 'NOT_FOUND' },
-      });
-      expect(preview.active).toBe(false);
-    });
-
-    test('a 501 falls back even from a route that has shipped', async () => {
-      fetchMock.mockResolvedValueOnce(errorResponse(501, 'NOT_IMPLEMENTED', 'Route not implemented.'));
-      const { api, preview, undeployedRoutes } = loadClient();
-      undeployedRoutes.delete('ownServices');
-
-      const services = await settleLocal(api.listOwnServices('counsellor_maya', TOKEN));
-
-      expect(services).toEqual([expect.objectContaining({ id: 'svc_interview' })]);
-      expect(preview.active).toBe(true);
-    });
-
-    test('a live success on one route does not clear the preview flag raised by another', async () => {
-      fetchMock
-        .mockResolvedValueOnce(unroutedResponse())
-        .mockResolvedValueOnce(jsonResponse([slotFixture]));
-      const { api, preview } = loadClient();
-
-      await settleLocal(api.listOwnServices('counsellor_maya', TOKEN));
-      expect(preview.routes.has('ownServices')).toBe(true);
-
-      await expect(api.listOwnAvailabilitySlots('counsellor_maya', TOKEN)).resolves.toEqual([slotFixture]);
-
-      expect(preview.active).toBe(true);
-      expect(preview.routes.has('ownServices')).toBe(true);
-      expect(preview.routes.has('availability')).toBe(false);
-    });
-  });
 
   describe('failures that are not a missing route', () => {
     test.each([
       [403, 'FORBIDDEN', 'You do not have access to this counsellor workspace.'],
       [500, 'SERVER_ERROR', 'Something went wrong. Please try again.'],
-    ])('a %i rejects and leaves the preview flag down', async (status, code, message) => {
+    ])("a %i preserves the server's failure", async (status, code, message) => {
       fetchMock.mockResolvedValueOnce(errorResponse(status, code, message));
-      const { api, preview, ApiError } = loadClient();
+      const { api, ApiError } = loadClient();
 
       const pending = api.listOwnServices('counsellor_maya', TOKEN);
 
       await expect(pending).rejects.toBeInstanceOf(ApiError);
       await expect(pending).rejects.toMatchObject({ status, body: { code, message } });
-      expect(preview.active).toBe(false);
       expect(fetchMock).toHaveBeenCalledTimes(1);
     });
 
     test('a 403 on the profile route rejects rather than inventing a local profile', async () => {
       fetchMock.mockResolvedValueOnce(errorResponse(403, 'FORBIDDEN', 'Counsellor access required.'));
-      const { api, preview } = loadClient();
+      const { api } = loadClient();
 
       await expect(api.getOwnCounsellorProfile(counsellorUser, TOKEN)).rejects.toMatchObject({
         status: 403,
       });
-      expect(preview.active).toBe(false);
     });
 
     test('a network error propagates instead of falling back', async () => {
       const networkError = new TypeError('fetch failed');
       fetchMock.mockRejectedValueOnce(networkError);
-      const { api, preview } = loadClient();
+      const { api } = loadClient();
 
-      await expect(api.listOwnAvailabilitySlots('counsellor_maya', TOKEN)).rejects.toBe(networkError);
-      expect(preview.active).toBe(false);
+      await expect(api.listOwnAvailabilityWindows('counsellor_maya', TOKEN)).rejects.toBe(networkError);
     });
   });
 
-  describe('demo mode', () => {
-    test('every counsellor operation stays local and no request is issued', async () => {
-      jest.useFakeTimers();
-      try {
-        jest.setSystemTime(new Date('2026-08-28T00:00:00.000Z'));
-        process.env.EXPO_PUBLIC_USE_DEMO_API = 'true';
-        jest.resetModules();
-        const { api, isDemoApi, preview } = loadClient();
-
-        expect(isDemoApi).toBe(true);
-
-        const demoUser: User = {
-          id: 'counsellor_maya',
-          name: 'Maya Chen',
-          email: 'maya@yoir.test',
-          role: 'counsellor',
-        };
-
-        const profile = await settleLocal(api.getOwnCounsellorProfile(demoUser, 'ignored-demo-token'));
-        expect(profile).toMatchObject({ id: 'counsellor_maya', displayName: 'Maya Chen' });
-
-        const updated = await settleLocal(
-          api.updateOwnCounsellorProfile(
-            demoUser.id,
-            { ...profileUpdate, introduction: 'Demo introduction.' },
-            'ignored-demo-token',
-          ),
-        );
-        expect(updated.introduction).toBe('Demo introduction.');
-
-        const owned = await settleLocal(api.listOwnServices(demoUser.id, 'ignored-demo-token'));
-        expect(owned).toEqual([expect.objectContaining({ id: 'svc_interview' })]);
-
-        const created = await settleLocal(
-          api.createService(demoUser.id, serviceDraft, 'ignored-demo-token'),
-        );
-        expect(created.counsellor.id).toBe('counsellor_maya');
-
-        const slots = await settleLocal(
-          api.listOwnAvailabilitySlots(demoUser.id, 'ignored-demo-token'),
-        );
-        expect(slots.length).toBeGreaterThan(0);
-
-        const slot = await settleLocal(
-          api.createAvailabilitySlot(
-            { serviceId: created.id, startsAt: '2026-10-05T00:00:00.000Z', endsAt: '2026-10-05T01:00:00.000Z' },
-            'ignored-demo-token',
-          ),
-        );
-        expect(slot).toMatchObject({ serviceId: created.id, status: 'open' });
-
-        const movedSlot = await settleLocal(
-          api.updateAvailabilitySlot(
-            slot.id,
-            { serviceId: created.id, startsAt: '2026-10-05T02:00:00.000Z', endsAt: '2026-10-05T03:00:00.000Z' },
-            'ignored-demo-token',
-          ),
-        );
-        expect(movedSlot.endsAt).toBe('2026-10-05T03:00:00.000Z');
-
-        await expect(
-          settleLocal(api.deleteAvailabilitySlot(slot.id, 'ignored-demo-token')),
-        ).resolves.toBeUndefined();
-
-        expect(fetchMock).not.toHaveBeenCalled();
-        expect(preview.active).toBe(false);
-      } finally {
-        jest.useRealTimers();
-      }
-    });
-
-    test('logout stays local in demo mode', async () => {
-      jest.useFakeTimers();
-      try {
-        process.env.EXPO_PUBLIC_USE_DEMO_API = 'true';
-        jest.resetModules();
-        const { api } = loadClient();
-
-        await expect(settleLocal(api.logout('ignored-demo-token'))).resolves.toBeUndefined();
-        expect(fetchMock).not.toHaveBeenCalled();
-      } finally {
-        jest.useRealTimers();
-      }
-    });
-  });
 
   describe('fieldErrors', () => {
     test('returns the field-level map published alongside an ApiError', () => {

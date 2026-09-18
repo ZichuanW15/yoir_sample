@@ -9,6 +9,7 @@ import { Service } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
 import { Glyph } from '@/src/components/Glyph';
+import { VerifyEmailBanner } from '@/src/components/VerifyEmailBanner';
 import { JobSeekerNav } from '@/src/components/JobSeekerNav';
 import { EmptySearchMark } from '@/src/components/Scenes';
 import { Avatar, Card, Chip, ErrorBanner, Press, Tag } from '@/src/components/ui';
@@ -105,6 +106,8 @@ export default function MarketplaceScreen() {
           <Text style={type.eyebrow}>Career marketplace</Text>
           <Text style={type.display34}>{greeting}</Text>
         </FadeUp>
+
+        <VerifyEmailBanner what="book a session" />
 
         <FadeUp delay={120} style={styles.searchRow}>
           <View style={styles.searchField}>

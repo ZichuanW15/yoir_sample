@@ -4,19 +4,26 @@
     python reset_db.py
 
 Drops and recreates every table in the database named by DATABASE_URL, then seeds
-counsellors, job seekers, services and availability slots from app/seed_data.json.
+counsellors, job seekers, services and availability windows from app/seed_data.json.
 Other databases on the server are untouched.
 """
-from sqlalchemy import func, select
+from sqlalchemy import MetaData, func, select
 
 from app import models  # noqa: F401  — registers tables on Base
-from app.db import Base, SessionLocal, engine
+from app.db import SessionLocal, engine
+from app.migrations import upgrade_database
 from app.seed import seed
 
 
 def main() -> None:
-    Base.metadata.drop_all(bind=engine)
-    Base.metadata.create_all(bind=engine)
+    # Drop by reflection rather than from the models, so tables a past schema left
+    # behind go too — dropping only what the models still declare is what stranded
+    # availability_slots the last time the schema changed.
+    reflected = MetaData()
+    reflected.reflect(bind=engine)
+    reflected.drop_all(bind=engine)
+    # Rebuild through migrations, so a reset database is identical to a deployed one.
+    upgrade_database(engine)
     with SessionLocal() as db:
         seed(db)
         rows = {
@@ -28,8 +35,8 @@ def main() -> None:
                 select(func.count()).where(models.User.role == "counsellor")
             ),
             "services": db.scalar(select(func.count()).select_from(models.Service)),
-            "availability_slots": db.scalar(
-                select(func.count()).select_from(models.AvailabilitySlot)
+            "availability_windows": db.scalar(
+                select(func.count()).select_from(models.AvailabilityWindow)
             ),
             "orders": db.scalar(select(func.count()).select_from(models.Order)),
             "bookings": db.scalar(select(func.count()).select_from(models.Booking)),

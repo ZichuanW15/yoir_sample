@@ -12,7 +12,8 @@ Backend contributors should start with [`backend-integration.md`](../docs/sprint
 
 ## Run
 
-Prerequisites: Node.js 20+ and npm. From this directory:
+Prerequisites: **Node.js 20.20.2** (the version in `.nvmrc`, and the one CI uses —
+`nvm use` picks it up) and its bundled npm. From this directory:
 
 ```bash
 npm install
@@ -33,6 +34,18 @@ EXPO_PUBLIC_USE_DEMO_API=true
 ```
 
 Demo mode is visibly labelled in the app and must not be used as evidence that the deployed backend works.
+
+### Committing a dependency change
+
+Install and regenerate the lock file on Node 20, not a newer one. npm 10 and npm 11
+resolve peer dependencies differently, and a lock written by npm 11 can be one npm 10
+rejects outright — `npm ci` then fails in CI with `Missing: <package> from lock file`
+while working perfectly on the machine that wrote it. If you are on a newer Node:
+
+```bash
+npx npm@10 install --package-lock-only
+npx npm@10 ci --dry-run          # what CI will do
+```
 
 ## Web build
 

@@ -1,4 +1,5 @@
 import { router } from 'expo-router';
+import { goBack } from '@/src/navigation';
 import { useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -13,6 +14,9 @@ import { FadeUp, Pop, ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, shadow, type } from '@/src/theme';
 
 const OPTIONS: Modality[] = ['online', 'in_person'];
+
+/** Quarter-hour steps, matching the granularity the calendar offers. */
+const DURATIONS = [15, 30, 45, 60, 90, 120];
 
 interface ServiceFormProps {
   counsellorId: string;
@@ -34,6 +38,9 @@ export default function ServiceForm({ counsellorId, accessToken, service }: Serv
   const [title, setTitle] = useState(service?.title ?? '');
   const [description, setDescription] = useState(service?.description ?? '');
   const [price, setPrice] = useState(service ? String(service.priceMinor / 100) : '');
+  // Duration belongs to the service, not to the counsellor's calendar: it decides
+  // which start times can be offered inside their availability.
+  const [duration, setDuration] = useState(service?.durationMinutes ?? 60);
   const [modalities, setModalities] = useState<Modality[]>(service?.modalities ?? ['online']);
   const [state, setState] = useState(service?.location?.state ?? '');
   const [city, setCity] = useState(service?.location?.cityOrRegion ?? '');
@@ -60,6 +67,7 @@ export default function ServiceForm({ counsellorId, accessToken, service }: Serv
       title: title.trim(),
       description: description.trim(),
       priceMinor: minor,
+      durationMinutes: duration,
       currency: 'AUD' as const,
       modalities,
       location: inPerson ? { state, cityOrRegion: city.trim() } : null,
@@ -107,7 +115,7 @@ export default function ServiceForm({ counsellorId, accessToken, service }: Serv
   return (
     <ScreenIn style={s.screen}>
       <View style={[s.topBar, { paddingTop: insets.top + 10 }]}>
-        <IconButton onPress={() => router.back()} tone="white" label="Back">
+        <IconButton onPress={() => goBack('/counsellor')} tone="white" label="Back">
           <Svg width={20} height={20} viewBox="0 0 24 24">
             <Polyline points="14.5,5 7.5,12 14.5,19" fill="none" stroke={colors.green} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
           </Svg>
@@ -154,6 +162,21 @@ export default function ServiceForm({ counsellorId, accessToken, service }: Serv
             </View>
             <Text style={s.priceHint}>The full price of one session, in Australian dollars.</Text>
           </View>
+
+          <Text style={s.durationLabel}>How long is a session?</Text>
+          <View style={s.durationRow}>
+            {DURATIONS.map((option) => (
+              <Chip
+                key={option}
+                label={option >= 60 && option % 60 === 0 ? `${option / 60} hr` : `${option} min`}
+                selected={duration === option}
+                onPress={() => setDuration(option)}
+              />
+            ))}
+          </View>
+          <Text style={s.priceHint}>
+            Job seekers are offered start times that fit this length inside your availability.
+          </Text>
         </FadeUp>
 
         <FadeUp delay={260} style={s.card}>
@@ -238,6 +261,8 @@ const s = StyleSheet.create({
   priceBox: { flexDirection: 'row', alignItems: 'center', gap: 6, height: 54, borderWidth: 1.5, borderColor: colors.line, borderRadius: radius.md, backgroundColor: colors.field, paddingHorizontal: 16 },
   priceSymbol: { fontFamily: fonts.extra, fontSize: 16, color: colors.green },
   priceInput: { flex: 1, height: '100%', fontFamily: fonts.bold, fontSize: 16, color: colors.ink },
+  durationLabel: { fontFamily: fonts.bold, fontSize: 14, color: colors.ink, marginTop: 14 },
+  durationRow: { flexDirection: 'row', flexWrap: 'wrap', gap: 8, marginTop: 8 },
   priceHint: { fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, color: colors.sub },
 
   option: { flexDirection: 'row', alignItems: 'center', gap: 12, minHeight: 56, paddingHorizontal: 16, borderRadius: 18, borderWidth: 1.5 },

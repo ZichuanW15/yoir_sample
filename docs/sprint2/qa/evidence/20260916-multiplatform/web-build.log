@@ -1,0 +1,33 @@
+
+> yoir-mobile@0.1.0 build:web
+> expo export --platform web --clear --output-dir dist/web
+
+Starting Metro Bundler
+
+warning: Bundler cache is empty, rebuilding (this may take a minute)
+Static rendering is enabled. Learn more: https://docs.expo.dev/router/web/static-rendering/
+λ Bundled 7856ms node_modules/expo/node_modules/@expo/cli/node_modules/@expo/router-server/node/render.js (903 modules)
+Web Bundled 8149ms node_modules/expo-router/entry.js (872 modules)
+
+› web bundles (1):
+_expo/static/js/web/entry-c8caba8c8fbdfdd5ecbbfd4ad1fb4f0a.js (1.4MB)
+
+› Static routes (16):
+/ (index) (35KB)
+/_sitemap (24KB)
+/+not-found (24KB)
+/auth/login (31KB)
+/auth/welcome (32KB)
+/auth/register (37KB)
+/counsellor (29KB)
+/bookings/checkout (35KB)
+/marketplace (34KB)
+/counsellor/profile (30KB)
+/services/[serviceId] (31KB)
+/bookings/confirmation (35KB)
+/counsellor/availability (28KB)
+/counsellor/services/new (30KB)
+/services/[serviceId]/timeslots (34KB)
+/counsellor/services/[serviceId]/edit (30KB)
+
+Exported: dist/web

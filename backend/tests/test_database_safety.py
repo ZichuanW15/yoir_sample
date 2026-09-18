@@ -91,6 +91,7 @@ def test_malformed_database_url_is_rejected() -> None:
         "database name or requiring YOIR_QA_ALLOW_DATABASE_RESET=true"
     ),
 )
+@pytest.mark.future_contract
 def test_manual_reset_script_validates_target_before_destructive_import() -> None:
     reset_script = Path(__file__).resolve().parents[1] / "reset_db.py"
     tree = ast.parse(reset_script.read_text(encoding="utf-8"))

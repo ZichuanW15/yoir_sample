@@ -1,0 +1,66 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.14, pytest-8.4.2, pluggy-1.6.0
+rootdir: /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend
+configfile: pyproject.toml
+plugins: cov-6.2.1, anyio-4.15.1
+collected 378 items / 12 deselected / 366 selected
+
+tests/test_account_creation.py ..................                        [  4%]
+tests/test_api.py .............................................x........ [ 19%]
+..........x......s..x.......                                             [ 27%]
+tests/test_auth_contract.py ..                                           [ 27%]
+tests/test_contract.py ..xxx.........xxx                                 [ 32%]
+tests/test_counsellor.py ...s..ssss                                      [ 35%]
+tests/test_database_safety.py .........                                  [ 37%]
+tests/test_dev_launcher.py .....                                         [ 39%]
+tests/test_duplicate_email.py ..................................         [ 48%]
+tests/test_frontend_static.py ...............                            [ 52%]
+tests/test_login_sessions.py ...................................         [ 62%]
+tests/test_logout_sessions.py .......................................... [ 73%]
+...                                                                      [ 74%]
+tests/test_registration_contract.py ....                                 [ 75%]
+tests/test_seed_and_config.py .x                                         [ 75%]
+tests/test_sprint2_acceptance_regressions.py xxxxxx.x...xxs              [ 79%]
+tests/test_sprint2_counsellor_acceptance.py ............................ [ 87%]
+....................sss.......................                           [100%]
+
+=============================== warnings summary ===============================
+../../../../../private/tmp/yoir-sprint2-qa/venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /private/tmp/yoir-sprint2-qa/venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+../../../../../private/tmp/yoir-sprint2-qa/venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /private/tmp/yoir-sprint2-qa/venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+--- generated xml file: /private/tmp/sprint2-implemented-backend-sqlite.xml ----
+=========================== short test summary info ============================
+SKIPPED [1] tests/test_api.py:743: PostgreSQL row-lock concurrency evidence requires PostgreSQL
+SKIPPED [1] tests/test_counsellor.py:155: PostgreSQL row-lock concurrency evidence requires PostgreSQL
+SKIPPED [1] tests/test_counsellor.py:295: PostgreSQL row-lock concurrency evidence requires PostgreSQL
+SKIPPED [1] tests/test_counsellor.py:339: PostgreSQL row-lock concurrency evidence requires PostgreSQL
+SKIPPED [1] tests/test_counsellor.py:383: PostgreSQL row-lock concurrency evidence requires PostgreSQL
+SKIPPED [1] tests/test_counsellor.py:447: PostgreSQL row-lock concurrency evidence requires PostgreSQL
+SKIPPED [1] tests/test_sprint2_acceptance_regressions.py:535: Payment row-lock concurrency evidence requires PostgreSQL
+SKIPPED [3] tests/test_sprint2_counsellor_acceptance.py:469: Timezone-aware database round trips require the supported PostgreSQL engine
+XFAIL tests/test_api.py::test_marketplace_rejects_invalid_modality - The OpenAPI modality enum is not enforced by the backend query parameter
+XFAIL tests/test_api.py::test_create_order_rejects_unknown_fields - OpenAPI sets additionalProperties:false but CreateOrderRequest ignores extras
+XFAIL tests/test_api.py::test_stub_payment_retry_returns_stable_payment_reference - First and repeated stub-payment responses derive different payment references
+XFAIL tests/test_contract.py::test_backend_current_paths_match_published_parameter_names - FastAPI publishes snake_case path parameters while the contract uses camelCase
+XFAIL tests/test_contract.py::test_every_implemented_protected_operation_publishes_401 - Implemented counsellor operations omit a published 401 response
+XFAIL tests/test_contract.py::test_runtime_internal_error_code_is_published - The implemented backend 500 handler emits unpublished INTERNAL_ERROR
+XFAIL tests/test_contract.py::test_counsellor_openapi_documents_the_actual_validation_status[post-/me/services-payload0] - S2-BE-RUNTIME-400: counsellor OpenAPI advertises 422 while real validation returns 400
+XFAIL tests/test_contract.py::test_counsellor_openapi_documents_the_actual_validation_status[post-/me/availability-slots-payload1] - S2-BE-RUNTIME-400: counsellor OpenAPI advertises 422 while real validation returns 400
+XFAIL tests/test_contract.py::test_counsellor_openapi_documents_the_actual_validation_status[patch-/me/availability-slots/{slot_id}-payload2] - S2-BE-RUNTIME-400: counsellor OpenAPI advertises 422 while real validation returns 400
+XFAIL tests/test_seed_and_config.py::test_seed_is_safe_when_users_exist_but_services_are_empty - seed() only checks the services table and duplicates existing counsellor emails
+XFAIL tests/test_sprint2_acceptance_regressions.py::test_seeded_calendar_has_no_cross_service_counsellor_overlap - S2-BE-SEED-OVERLAP: seed assigns identical times to a counsellor's services
+XFAIL tests/test_sprint2_acceptance_regressions.py::test_seeded_slots_cannot_confirm_overlapping_bookings_for_one_counsellor - S2-BE-DOUBLE-BOOKING: overlapping seeded services can both be purchased
+XFAIL tests/test_sprint2_acceptance_regressions.py::test_public_availability_omits_past_open_slots - S2-BE-PAST-SLOT-LIST: public availability includes past open slots
+XFAIL tests/test_sprint2_acceptance_regressions.py::test_order_rejects_a_past_open_slot_without_holding_it - S2-BE-PAST-SLOT-ORDER: orders accept elapsed open slots
+XFAIL tests/test_sprint2_acceptance_regressions.py::test_slot_patch_does_not_silently_ignore_service_reassignment - S2-BE-SLOT-SERVICE: PATCH silently ignores a requested service change
+XFAIL tests/test_sprint2_acceptance_regressions.py::test_service_creation_rejects_unpublished_fields_instead_of_silently_dropping_them - S2-BE-SERVICE-EXTRAS: published additionalProperties=false is not enforced
+XFAIL tests/test_sprint2_acceptance_regressions.py::test_unexpected_failure_preserves_request_id_in_body_and_response_header - S2-BE-ERROR-REQUEST-ID: unexpected failures omit the correlation response header
+XFAIL tests/test_sprint2_acceptance_regressions.py::test_committed_booking_write_does_not_depend_on_a_second_database_read[create_order] - S2-BE-POST-COMMIT-READ: a successful booking write is reported as 500 when its subsequent response read fails
+XFAIL tests/test_sprint2_acceptance_regressions.py::test_committed_booking_write_does_not_depend_on_a_second_database_read[pay_order] - S2-BE-POST-COMMIT-READ: a successful booking write is reported as 500 when its subsequent response read fails
+=== 337 passed, 10 skipped, 12 deselected, 19 xfailed, 2 warnings in 14.14s ====

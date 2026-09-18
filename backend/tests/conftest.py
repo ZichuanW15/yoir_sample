@@ -11,12 +11,13 @@ import os
 import shutil
 import tempfile
 from collections.abc import Iterator
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
 import pytest
 from qa_database_safety import ALLOW_DATABASE_RESET_ENV, validate_database_reset_target
-from sqlalchemy import delete
+from sqlalchemy import delete, text
 from sqlalchemy.orm import Session
 
 _temporary_database_dir: Path | None = None
@@ -36,11 +37,14 @@ engine: Any = None
 hash_password: Any = None
 
 _DATABASE_CLEANUP_ORDER = (
+    "processed_webhook_events",
     "revoked_tokens",
+    "refresh_tokens",
     "bookings",
     "orders",
-    "availability_slots",
+    "availability_windows",
     "services",
+    "single_use_tokens",
     "users",
 )
 
@@ -64,6 +68,11 @@ def pytest_configure(config: pytest.Config) -> None:
         "markers",
         "live: black-box HTTP test against a separately managed server and database",
     )
+    config.addinivalue_line(
+        "markers",
+        "future_contract: retained architecture, unimplemented capability or unapproved "
+        "policy check; exclude from implemented-feature QA",
+    )
     _live_only_session = _is_live_only_selection(config)
     if _live_only_session:
         return
@@ -86,6 +95,26 @@ def pytest_configure(config: pytest.Config) -> None:
     os.environ.setdefault("JWT_SECRET", "qa-test-secret-that-is-at-least-32-characters")
     os.environ.setdefault("SEED_ON_STARTUP", "false")
     os.environ.setdefault("CORS_ALLOW_ORIGINS", "http://localhost:8081")
+
+    # Settings read backend/.env, and a developer working on payments will have real
+    # Stripe keys in theirs. STRIPE_SECRET_KEY is what switches the whole app from
+    # the payment stub to live card payments, so without this the suite would behave
+    # differently on their machine than in CI — and would reach out to Stripe.
+    # Assigned, not setdefault: an inherited value has to be overridden too. The
+    # payment tests opt back in explicitly via the `stripe_enabled` fixture.
+    # The same applies to Mailgun, and more sharply: with a key and domain present
+    # the suite does not merely behave differently, it makes live HTTP calls to the
+    # provider and tries to send real email to fixture addresses. Assigned, not
+    # setdefault: an inherited value has to be overridden too.
+    for third_party_variable in (
+        "STRIPE_SECRET_KEY",
+        "STRIPE_PUBLISHABLE_KEY",
+        "STRIPE_WEBHOOK_SECRET",
+        "STRIPE_CONNECT_WEBHOOK_SECRET",
+        "MAILGUN_API_KEY",
+        "MAILGUN_DOMAIN",
+    ):
+        os.environ[third_party_variable] = ""
 
     from app.db import Base as ProductBase
     from app.db import SessionLocal as ProductSessionLocal
@@ -117,6 +146,10 @@ def client() -> Iterator[Any]:
         yield test_client
 
     Base.metadata.drop_all(bind=engine)
+    # Alembic owns this table outside ORM metadata. Leaving it stamped at head
+    # after dropping the product tables prevents the next QA run migrating them.
+    with engine.begin() as connection:
+        connection.execute(text("DROP TABLE IF EXISTS alembic_version"))
     engine.dispose()
     if _temporary_database_dir is not None:
         shutil.rmtree(_temporary_database_dir)
@@ -153,6 +186,7 @@ def counsellor(db_session: Session) -> Any:
         email="maya@example.com",
         password_hash=hash_password("password123"),
         role="counsellor",
+        email_verified_at=datetime.now(UTC),
         introduction="Career counsellor specialising in interviews.",
         verification_status="verified",
         overall_rating=4.9,
@@ -190,11 +224,35 @@ def job_seeker(db_session: Session) -> Any:
         email="alex.jobseeker@example.com",
         password_hash=hash_password("password123"),
         role="job_seeker",
+        email_verified_at=datetime.now(UTC),
     )
     db_session.add(user)
     db_session.commit()
     db_session.refresh(user)
     return user
+
+
+@pytest.fixture
+def platform_owner(db_session: Session) -> Any:
+    """The administration role. Registration never hands it out, so it only ever
+    exists because somebody put it in the database deliberately."""
+    user = User(
+        name="Yoir Admin",
+        email="admin@example.com",
+        password_hash=hash_password("password123"),
+        role="platform_owner",
+        email_verified_at=datetime.now(UTC),
+    )
+    db_session.add(user)
+    db_session.commit()
+    db_session.refresh(user)
+    return user
+
+
+@pytest.fixture
+def platform_owner_headers(platform_owner: Any) -> dict[str, str]:
+    token, _ = create_access_token(platform_owner.id, platform_owner.role)
+    return {"Authorization": f"Bearer {token}"}
 
 
 @pytest.fixture

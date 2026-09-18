@@ -1,4 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
+import { goBack } from '@/src/navigation';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Polyline } from 'react-native-svg';
@@ -32,7 +33,7 @@ export default function WelcomeScreen() {
   return (
     <ScreenIn style={[styles.screen, { paddingTop: insets.top }]}>
       <View style={styles.bar}>
-        <IconButton tone="white" label="Back" onPress={() => router.back()}>
+        <IconButton tone="white" label="Back" onPress={() => goBack('/')}>
           <Svg width={20} height={20} viewBox="0 0 24 24">
             <Polyline points="14.5,5 7.5,12 14.5,19" fill="none" stroke={colors.green} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
           </Svg>
