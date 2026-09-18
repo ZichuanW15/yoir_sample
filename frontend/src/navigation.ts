@@ -1,4 +1,5 @@
 import { Href, router } from 'expo-router';
+import { Role } from '@/src/api/types';
 
 /**
  * Go back, or go somewhere sensible when there is nowhere to go back to.
@@ -20,4 +21,11 @@ export function goBack(fallback: Href): void {
   // `replace`, not `push`: this stands in for a step backwards, so it should not
   // add another entry for the person to have to come back through.
   router.replace(fallback);
+}
+
+/** Where each role's app actually starts. A Platform Owner has no marketplace to browse. */
+export function homeFor(role: Role): '/counsellor' | '/admin' | '/marketplace' {
+  if (role === 'counsellor') return '/counsellor';
+  if (role === 'platform_owner') return '/admin';
+  return '/marketplace';
 }

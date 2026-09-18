@@ -166,10 +166,6 @@ function AccountSheet({ onClose }: { onClose(): void }) {
           </View>
         </View>
 
-        {session.user.role === 'platform_owner' ? (
-          <Button label="Open the admin panel" tone="soft" height={52} onPress={() => { onClose(); router.replace('/admin'); }} />
-        ) : null}
-
         {counsellor ? (
           <Button label="Open my workspace" tone="soft" height={52} onPress={() => { onClose(); router.replace('/counsellor'); }} />
         ) : null}
