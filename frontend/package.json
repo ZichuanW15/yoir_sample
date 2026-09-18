@@ -14,7 +14,15 @@
     "test": "jest",
     "test:ci": "jest --ci --runInBand",
     "test:coverage": "jest --ci --runInBand --coverage",
-    "test:client:live": "node -e \"if (!process.env.LIVE_API_BASE_URL) throw new Error('LIVE_API_BASE_URL is required for the live TypeScript client test')\" && jest --ci --runInBand --config jest.config.live.js"
+    "test:defects": "jest --ci --runInBand --config jest.config.defects.js",
+    "test:ios": "jest --ci --runInBand --config jest.config.ios.js",
+    "test:android": "jest --ci --runInBand --config jest.config.android.js",
+    "test:ios:defects": "jest --ci --runInBand --config jest.config.ios-defects.js",
+    "test:android:defects": "jest --ci --runInBand --config jest.config.android-defects.js",
+    "test:web": "playwright test --config playwright.config.ts --grep-invert '@defect'",
+    "test:web:defects": "playwright test --config playwright.config.ts --grep @defect",
+    "test:client:live": "node -e \"if (!process.env.LIVE_API_BASE_URL) throw new Error('LIVE_API_BASE_URL is required for the live TypeScript client test')\" && jest --ci --runInBand --config jest.config.live.js",
+    "test:planned": "jest --ci --runInBand --config jest.config.planned.js"
   },
   "dependencies": {
     "@expo-google-fonts/instrument-serif": "^0.4.1",
@@ -45,6 +53,7 @@
     "react-native-web": "~0.21.0"
   },
   "devDependencies": {
+    "@playwright/test": "1.63.0",
     "@testing-library/react-native": "^13.3.3",
     "@types/jest": "^29.5.14",
     "@types/react": "~19.2.4",

@@ -1,0 +1,36 @@
+
+> yoir-mobile@0.1.0 test:android
+> jest --ci --runInBand --config jest.config.android.js --json --outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint2/20260916-multiplatform-final/android-components.json
+
+PASS android-components __tests__/screens/counsellor-profile.test.tsx
+PASS android-components __tests__/screens/counsellor-availability.test.tsx
+PASS android-components __tests__/counsellor/ServiceForm.test.tsx
+PASS android-components __tests__/screens/register.test.tsx
+PASS android-components __tests__/screens/counsellor-dashboard.test.tsx
+PASS android-components __tests__/screens/counsellor-edit-service.test.tsx
+PASS android-components __tests__/api/demo-counsellor.test.ts
+PASS android-components __tests__/screens/marketplace.test.tsx
+PASS android-components __tests__/api/real-client-write-safety.test.ts
+PASS android-components __tests__/screens/root-layout.test.tsx
+PASS android-components __tests__/screens/timeslots.test.tsx
+PASS android-components __tests__/screens/checkout.test.tsx
+PASS android-components __tests__/screens/login.test.tsx
+PASS android-components __tests__/screens/service-detail.test.tsx
+PASS android-components __tests__/api/counsellor-client.test.ts
+PASS android-components __tests__/screens/confirmation.test.tsx
+PASS android-components __tests__/screens/navigation.test.tsx
+PASS android-components __tests__/auth/AuthContext.test.tsx
+PASS android-components __tests__/screens/welcome.test.tsx
+PASS android-components __tests__/native/platform-controls.test.tsx
+PASS android-components __tests__/api/client.test.ts
+PASS android-components __tests__/counsellor/availabilityPlanner.test.ts
+PASS android-components __tests__/api/demo.test.ts
+PASS android-components __tests__/marketplace/filters.test.ts
+PASS android-components __tests__/format.test.ts
+
+Test Suites: 25 passed, 25 total
+Tests:       274 passed, 274 total
+Snapshots:   0 total
+Time:        9.22 s, estimated 11 s
+Ran all test suites.
+Test results written to: ../artifacts/qa/sprint2/20260916-multiplatform-final/android-components.json

@@ -262,5 +262,3 @@ def cancel_booking(
         if recipient is not None:
             notifications.booking_cancelled(booking, recipient, refunded_now)
     return refunded_now
-
-

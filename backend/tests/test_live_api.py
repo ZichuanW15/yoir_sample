@@ -1,7 +1,8 @@
 """Black-box HTTP smoke for a separately running backend.
 
-Set LIVE_API_BASE_URL to opt in.  The database engine used by that server must
-be reported separately; this test alone is not PostgreSQL evidence.
+Set LIVE_API_BASE_URL to opt in. Booking requires LIVE_API_VERIFIED_EMAIL and
+LIVE_API_VERIFIED_PASSWORD for a seeded, verified buyer on the isolated live server.
+The database engine must be reported separately; this alone is not PostgreSQL evidence.
 """
 
 from __future__ import annotations
@@ -52,20 +53,34 @@ def test_live_register_login_marketplace_booking_and_payment() -> None:
         assert detail.status_code == 200
         assert detail.json()["id"] == services.json()[0]["id"]
 
-        slots = client.get(f"/services/{detail.json()['id']}/slots")
+        modality = detail.json()["modalities"][0]
+        slots = client.get(f"/services/{detail.json()['id']}/slots", params={"modality": modality})
         assert slots.status_code == 200
         assert slots.json()
 
-        order = client.post(
-            "/orders",
-            headers=headers,
-            json={
-                "serviceId": detail.json()["id"],
-                "slotId": slots.json()[0]["id"],
-                "modality": detail.json()["modalities"][0],
-                "timezone": "Australia/Melbourne",
-            },
+        payload = {
+            "serviceId": detail.json()["id"],
+            "startsAt": slots.json()[0]["startsAt"],
+            "modality": modality,
+            "timezone": "Australia/Melbourne",
+        }
+        unverified = client.post("/orders", headers=headers, json=payload)
+        assert unverified.status_code == 403, unverified.text
+        assert unverified.json()["code"] == "EMAIL_NOT_VERIFIED"
+
+        verified_email = os.getenv("LIVE_API_VERIFIED_EMAIL")
+        verified_password = os.getenv("LIVE_API_VERIFIED_PASSWORD")
+        assert verified_email and verified_password, (
+            "Set LIVE_API_VERIFIED_EMAIL and LIVE_API_VERIFIED_PASSWORD to a verified "
+            "buyer on the isolated live server for the booking acceptance smoke"
         )
+        verified = client.post("/auth/sessions", json={
+            "email": verified_email, "password": verified_password,
+        })
+        assert verified.status_code == 200, verified.text
+        assert verified.json()["user"]["emailVerified"] is True
+        headers = {"Authorization": f"Bearer {verified.json()['accessToken']}"}
+        order = client.post("/orders", headers=headers, json=payload)
         assert order.status_code == 201
         assert order.json()["status"] == "awaiting_payment"
 

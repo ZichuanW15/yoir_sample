@@ -9,14 +9,13 @@ import {
   counsellorProfileFixture,
   counsellorSessionFixture,
   serviceFixture,
-  slotFixture,
+  windowFixture,
 } from '../fixtures';
 
 type ClientModule = typeof import('@/src/api/client');
 
 const originalFetch = global.fetch;
 const originalApiUrl = process.env.EXPO_PUBLIC_API_URL;
-const originalDemoFlag = process.env.EXPO_PUBLIC_USE_DEMO_API;
 const fetchMock = jest.fn();
 
 const BASE = 'https://api.example.test/api/v1';
@@ -72,22 +71,8 @@ function errorResponse(status: number, code = 'NOT_FOUND', message = 'This route
   return jsonResponse({ code, message, requestId: `request-${status}` }, status);
 }
 
-/**
- * What an undeployed path actually answers: the framework's own 404, which carries
- * no published error code. A 404 that *does* carry NOT_FOUND is a missing resource.
- */
-function unroutedResponse(status = 404): Response {
-  return jsonResponse({ detail: 'Not Found' }, status);
-}
-
 function loadClient(): ClientModule {
   return require('@/src/api/client') as ClientModule;
-}
-
-/** demo.ts pauses 300ms before resolving, so a local resolution needs the fake clock moved on. */
-async function settleLocal<T>(pending: Promise<T>): Promise<T> {
-  await jest.advanceTimersByTimeAsync(300);
-  return pending;
 }
 
 describe('counsellor API boundary', () => {
@@ -96,15 +81,12 @@ describe('counsellor API boundary', () => {
     fetchMock.mockReset();
     global.fetch = fetchMock as typeof fetch;
     process.env.EXPO_PUBLIC_API_URL = 'https://api.example.test/api/v1/';
-    delete process.env.EXPO_PUBLIC_USE_DEMO_API;
   });
 
   afterAll(() => {
     global.fetch = originalFetch;
     if (originalApiUrl === undefined) delete process.env.EXPO_PUBLIC_API_URL;
     else process.env.EXPO_PUBLIC_API_URL = originalApiUrl;
-    if (originalDemoFlag === undefined) delete process.env.EXPO_PUBLIC_USE_DEMO_API;
-    else process.env.EXPO_PUBLIC_USE_DEMO_API = originalDemoFlag;
   });
 
   describe('live requests', () => {
@@ -198,11 +180,11 @@ describe('counsellor API boundary', () => {
     });
 
     test('listOwnAvailabilityWindows reads the calendar that belongs to the counsellor', async () => {
-      fetchMock.mockResolvedValueOnce(jsonResponse([slotFixture]));
+      fetchMock.mockResolvedValueOnce(jsonResponse([windowFixture]));
       const { api } = loadClient();
 
       await expect(api.listOwnAvailabilityWindows(counsellorUser.id, TOKEN)).resolves.toEqual([
-        slotFixture,
+        windowFixture,
       ]);
 
       expect(fetchMock).toHaveBeenCalledWith(`${BASE}/me/availability-windows`, {
@@ -211,10 +193,10 @@ describe('counsellor API boundary', () => {
     });
 
     test('createAvailabilityWindow POSTs the window draft', async () => {
-      fetchMock.mockResolvedValueOnce(jsonResponse(slotFixture, 201));
+      fetchMock.mockResolvedValueOnce(jsonResponse(windowFixture, 201));
       const { api } = loadClient();
 
-      await expect(api.createAvailabilityWindow(windowDraft, TOKEN)).resolves.toEqual(slotFixture);
+      await expect(api.createAvailabilityWindow(windowDraft, TOKEN)).resolves.toEqual(windowFixture);
 
       expect(fetchMock).toHaveBeenCalledWith(`${BASE}/me/availability-windows`, {
         method: 'POST',
@@ -224,11 +206,11 @@ describe('counsellor API boundary', () => {
     });
 
     test('updateAvailabilityWindow PATCHes the URL-encoded window identifier', async () => {
-      fetchMock.mockResolvedValueOnce(jsonResponse(slotFixture));
+      fetchMock.mockResolvedValueOnce(jsonResponse(windowFixture));
       const { api } = loadClient();
 
       await expect(api.updateAvailabilityWindow('slot/one', windowDraft, TOKEN)).resolves.toEqual(
-        slotFixture,
+        windowFixture,
       );
 
       expect(fetchMock).toHaveBeenCalledWith(`${BASE}/me/availability-windows/slot%2Fone`, {
@@ -291,7 +273,7 @@ describe('counsellor API boundary', () => {
     test.each([
       [403, 'FORBIDDEN', 'You do not have access to this counsellor workspace.'],
       [500, 'SERVER_ERROR', 'Something went wrong. Please try again.'],
-    ])('a %i rejects and leaves the preview flag down', async (status, code, message) => {
+    ])("a %i preserves the server's failure", async (status, code, message) => {
       fetchMock.mockResolvedValueOnce(errorResponse(status, code, message));
       const { api, ApiError } = loadClient();
 

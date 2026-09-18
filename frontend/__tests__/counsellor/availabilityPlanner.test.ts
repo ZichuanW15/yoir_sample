@@ -42,6 +42,15 @@ describe('planning availability', () => {
     test('no weeks means no dates', () => {
       expect(weekdayDatesInRange([0, 1], new Date(2026, 8, 1), 0)).toEqual([]);
     });
+
+    test('leap-day calendar helpers preserve the original date', () => {
+      const date = new Date(2028, 1, 29, 14, 30);
+      expect(startOfDay(date)).toEqual(new Date(2028, 1, 29));
+      expect(startOfMonth(date)).toEqual(new Date(2028, 1, 1));
+      expect(date.getHours()).toBe(14);
+      expect(monthGrid(date).filter(Boolean)).toHaveLength(29);
+      expect(isSameMonth(date, new Date(2027, 1, 1))).toBe(false);
+    });
   });
 
   describe('building windows', () => {
@@ -97,6 +106,20 @@ describe('planning availability', () => {
       });
       expect(drafts).toHaveLength(1);
     });
+
+    test('uses the chosen local hours and modalities without mutating the source dates', () => {
+      const date = new Date(2026, 11, 31, 14, 30);
+      const [draft] = buildWindowDrafts({
+        dates: [date], from: { hour: 9, minute: 30 }, to: { hour: 17, minute: 0 },
+        modalities: ['online', 'in_person'],
+      });
+      expect(new Date(draft.startsAt)).toEqual(new Date(2026, 11, 31, 9, 30));
+      expect(new Date(draft.endsAt)).toEqual(new Date(2026, 11, 31, 17, 0));
+      expect(draft.modalities).toEqual(['online', 'in_person']);
+      expect(date).toEqual(new Date(2026, 11, 31, 14, 30));
+      expect(draft).not.toHaveProperty('serviceId');
+      expect(draft).not.toHaveProperty('durationMinutes');
+    });
   });
 
   describe('merging with the existing calendar', () => {
@@ -132,6 +155,13 @@ describe('planning availability', () => {
         existing,
         'w1',
       )).toBe(false);
+    });
+
+    test('a window containing bookings still participates in calendar merging', () => {
+      expect(mergesWithExisting(
+        { startsAt: '2026-10-03T10:00:00.000Z', endsAt: '2026-10-03T11:00:00.000Z', modalities: ['online'] },
+        [{ ...existing[0], hasBookings: true }],
+      )).toBe(true);
     });
   });
 });

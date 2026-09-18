@@ -7,6 +7,9 @@ import re
 from pathlib import Path
 
 import pytest
+from qa_acceptance import KnownAcceptanceDefect
+from sqlalchemy import select
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.config import Settings
@@ -41,6 +44,7 @@ def test_seed_json_references_and_domains_are_valid() -> None:
 
 @pytest.mark.xfail(
     strict=True,
+    raises=KnownAcceptanceDefect,
     reason="seed() only checks the services table and duplicates existing counsellor emails",
 )
 def test_seed_is_safe_when_users_exist_but_services_are_empty(db_session: Session) -> None:
@@ -53,13 +57,25 @@ def test_seed_is_safe_when_users_exist_but_services_are_empty(db_session: Sessio
         )
     )
     db_session.commit()
-    seed(db_session)
+    try:
+        seed(db_session)
+    except IntegrityError as error:
+        db_session.rollback()
+        # A connection error or unrelated constraint regression is not this defect.
+        assert "unique" in str(error.orig).lower()
+        users = list(db_session.scalars(select(User)))
+        assert len(users) == 1 and users[0].email == "maya@example.com"
+        raise KnownAcceptanceDefect("Seed duplicates an existing counsellor email") from error
+    users = list(db_session.scalars(select(User)))
+    assert len({user.email for user in users}) == len(users)
+    assert any(user.email == "maya@example.com" and user.name == "Existing Maya" for user in users)
 
 
 @pytest.mark.xfail(
     strict=True,
     reason="Backend defaults enable wildcard CORS, automatic seed and an insecure JWT secret",
 )
+@pytest.mark.future_contract
 def test_default_configuration_is_safe_for_shared_environment(monkeypatch) -> None:
     for key in (
         "DATABASE_URL",

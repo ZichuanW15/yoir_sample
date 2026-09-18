@@ -249,8 +249,7 @@ describe('API client HTTP boundary', () => {
   });
 
 
-  test.todo('uses a deterministic fallback when an error response is valid JSON null');
-  test.todo('rejects a successful response that does not match the published schema');
-  test.todo('aborts a request after the configured timeout');
-  test.todo('fails fast instead of publishing localhost as a production API URL');
+  // Correct assertions for malformed responses run in test:defects. Request
+  // timeout and production URL policy remain documented hardening gaps; a todo
+  // is not executable QA evidence.
 });

@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "scope": "QA metadata/tooling and retained-evidence verification only; no application/device rerun",
+  "startedAt": "2026-09-16T06:48:03.332Z",
+  "completedAt": "2026-09-16T06:49:13.636Z",
+  "status": "passed",
+  "checks": [
+    {
+      "name": "traceability",
+      "command": "/private/tmp/yoir-sprint2-qa/venv/bin/python -B scripts/check_sprint2_qa_traceability.py --verify-local-artifacts",
+      "startedAt": "2026-09-16T06:48:03.332Z",
+      "completedAt": "2026-09-16T06:48:03.425Z",
+      "exitCode": 0,
+      "output": "QA traceability consistent: 20 issues; 3 closed / 17 open; no full-device sign-off. Product tests were not executed.\n"
+    },
+    {
+      "name": "traceability-tests",
+      "command": "/private/tmp/yoir-sprint2-qa/venv/bin/python -B -m unittest discover -s scripts/tests -p test_qa_traceability.py -v",
+      "startedAt": "2026-09-16T06:48:03.332Z",
+      "completedAt": "2026-09-16T06:48:03.560Z",
+      "exitCode": 0,
+      "output": "test_checker_is_an_explicit_qa_package_member (test_qa_traceability.TraceabilityTests.test_checker_is_an_explicit_qa_package_member) ... ok\ntest_cli_has_honest_success_message_and_failure_exit (test_qa_traceability.TraceabilityTests.test_cli_has_honest_success_message_and_failure_exit) ... ok\ntest_consistent_record_needs_no_local_artifacts_or_product_execution (test_qa_traceability.TraceabilityTests.test_consistent_record_needs_no_local_artifacts_or_product_execution) ... ok\ntest_local_digest_verification_is_explicit_and_detects_tampering (test_qa_traceability.TraceabilityTests.test_local_digest_verification_is_explicit_and_detects_tampering) ... ok\ntest_missing_and_duplicate_issues_are_rejected (test_qa_traceability.TraceabilityTests.test_missing_and_duplicate_issues_are_rejected) ... ok\ntest_missing_test_source_is_not_passing_evidence (test_qa_traceability.TraceabilityTests.test_missing_test_source_is_not_passing_evidence) ... ok\ntest_parent_acceptance_source_cannot_disappear (test_qa_traceability.TraceabilityTests.test_parent_acceptance_source_cannot_disappear) ... ok\ntest_remote_closure_does_not_imply_acceptance (test_qa_traceability.TraceabilityTests.test_remote_closure_does_not_imply_acceptance) ... ok\ntest_remote_state_and_parent_mapping_drift_are_rejected (test_qa_traceability.TraceabilityTests.test_remote_state_and_parent_mapping_drift_are_rejected) ... ok\ntest_stale_matrix_cannot_disagree_with_structured_evidence (test_qa_traceability.TraceabilityTests.test_stale_matrix_cannot_disagree_with_structured_evidence) ... ok\ntest_stale_native_scope_is_rejected (test_qa_traceability.TraceabilityTests.test_stale_native_scope_is_rejected) ... ok\ntest_traversal_absolute_and_escaping_symlink_are_rejected (test_qa_traceability.TraceabilityTests.test_traversal_absolute_and_escaping_symlink_are_rejected) ... ok\ntest_unknown_or_erased_native_gaps_are_rejected (test_qa_traceability.TraceabilityTests.test_unknown_or_erased_native_gaps_are_rejected) ... ok\n\n----------------------------------------------------------------------\nRan 13 tests in 0.117s\n\nOK\n"
+    },
+    {
+      "name": "traceability-lint",
+      "command": "/private/tmp/yoir-sprint2-qa/venv/bin/python -B -m ruff check --no-cache scripts/check_sprint2_qa_traceability.py",
+      "startedAt": "2026-09-16T06:48:03.332Z",
+      "completedAt": "2026-09-16T06:48:03.479Z",
+      "exitCode": 0,
+      "output": "All checks passed!\n"
+    },
+    {
+      "name": "repository-metadata",
+      "command": "/private/tmp/yoir-sprint2-qa/venv/bin/python -B scripts/check_repository_metadata.py",
+      "startedAt": "2026-09-16T06:48:03.332Z",
+      "completedAt": "2026-09-16T06:48:05.079Z",
+      "exitCode": 0,
+      "output": "OpenAPI/traceability: 39 operations, 36 local refs, Pass\nMarkdown relative links: 208 checked, 0 broken\nWorkflow YAML and seed JSON: Pass\n"
+    },
+    {
+      "name": "diff-whitespace",
+      "command": "git diff --check",
+      "startedAt": "2026-09-16T06:48:03.332Z",
+      "completedAt": "2026-09-16T06:48:03.435Z",
+      "exitCode": 0,
+      "output": ""
+    }
+  ],
+  "retainedEvidenceVerification": {
+    "method": "Read source files and compare SHA-256, original JSON metrics, baseline working-file hashes and git diff. No application, browser or native sessions were started.",
+    "originalSourceDigestsMatched": 15,
+    "productFileDigestsMatched": 49,
+    "originalInputsMatched": 152,
+    "originalInputsRecorded": 157,
+    "registrationTestChangeProvenCommentOnly": true,
+    "frontendPerFileMetricsMatched": 31,
+    "backendPerFileMetricsMatched": 17,
+    "historicalEvidence": {
+      "historicalEvidenceHashesVerified": 45,
+      "newReportFilesWhitespaceChecked": 3
+    },
+    "productAndHistoricalEvidenceDiffEmpty": true,
+    "priorWorkingChangesPreserved": true
+  },
+  "interpretation": "13 traceability unit tests passed; 208 Markdown links had no broken targets. Contract checks are static metadata checks, not product API acceptance. Existing application pass/failure totals are unchanged. No new commit, push, PR edit or issue update was performed.",
+  "reviewer": "Independent read-only coverage review found no blocking metric/provenance mismatch; narrowed per-file location wording to the seven prioritized business files.",
+  "remoteSnapshotAt": "2026-09-16T06:40:30.446Z"
+}

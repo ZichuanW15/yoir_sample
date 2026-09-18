@@ -17,7 +17,7 @@ from typing import Any
 
 import pytest
 from qa_database_safety import ALLOW_DATABASE_RESET_ENV, validate_database_reset_target
-from sqlalchemy import delete
+from sqlalchemy import delete, text
 from sqlalchemy.orm import Session
 
 _temporary_database_dir: Path | None = None
@@ -67,6 +67,11 @@ def pytest_configure(config: pytest.Config) -> None:
     config.addinivalue_line(
         "markers",
         "live: black-box HTTP test against a separately managed server and database",
+    )
+    config.addinivalue_line(
+        "markers",
+        "future_contract: retained architecture, unimplemented capability or unapproved "
+        "policy check; exclude from implemented-feature QA",
     )
     _live_only_session = _is_live_only_selection(config)
     if _live_only_session:
@@ -141,6 +146,10 @@ def client() -> Iterator[Any]:
         yield test_client
 
     Base.metadata.drop_all(bind=engine)
+    # Alembic owns this table outside ORM metadata. Leaving it stamped at head
+    # after dropping the product tables prevents the next QA run migrating them.
+    with engine.begin() as connection:
+        connection.execute(text("DROP TABLE IF EXISTS alembic_version"))
     engine.dispose()
     if _temporary_database_dir is not None:
         shutil.rmtree(_temporary_database_dir)

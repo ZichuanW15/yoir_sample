@@ -1,0 +1,89 @@
+
+> yoir-mobile@0.1.0 test:web:defects
+> playwright test --config playwright.config.ts --grep @defect
+
+
+Running 2 tests using 1 worker
+
+  ✘  1 [chromium-web] › e2e/web.spec.ts:384:5 › [QA-118][US40-AC4] real empty availability has an explanatory state @defect (6.4s)
+  ✘  2 [chromium-web] › e2e/web.spec.ts:401:5 › US68 forged anonymous confirmation URL must not claim success @defect (5.3s)
+
+
+  1) [chromium-web] › e2e/web.spec.ts:384:5 › [QA-118][US40-AC4] real empty availability has an explanatory state @defect 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText(/no (?:\w+ ){0,3}(?:slots|times|sessions)|fully booked/i)
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText(/no (?:\w+ ){0,3}(?:slots|times|sessions)|fully booked/i) with timeout 5000ms
+      - waiting for getByText(/no (?:\w+ ){0,3}(?:slots|times|sessions)|fully booked/i)
+
+
+      396 |   await expect(page.getByText('When suits you?')).toBeVisible();
+      397 |   await expect(page.getByRole('button', { name: 'Continue to payment' })).toBeDisabled();
+    > 398 |   await expect(page.getByText(/no (?:\w+ ){0,3}(?:slots|times|sessions)|fully booked/i)).toBeVisible();
+          |                                                                                          ^
+      399 | });
+      400 |
+      401 | test('US68 forged anonymous confirmation URL must not claim success @defect', async ({ page }) => {
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/web.spec.ts:398:90
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint2/implemented-final-20260915/browser-web-defects/attachments/web--QA-118-US40-AC4-real--0fe75-an-explanatory-state-defect-chromium-web/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../artifacts/qa/sprint2/implemented-final-20260915/browser-web-defects/attachments/web--QA-118-US40-AC4-real--0fe75-an-explanatory-state-defect-chromium-web/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint2/implemented-final-20260915/browser-web-defects/attachments/web--QA-118-US40-AC4-real--0fe75-an-explanatory-state-defect-chromium-web/trace.zip
+    Usage:
+
+        npx playwright show-trace ../artifacts/qa/sprint2/implemented-final-20260915/browser-web-defects/attachments/web--QA-118-US40-AC4-real--0fe75-an-explanatory-state-defect-chromium-web/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium-web] › e2e/web.spec.ts:401:5 › US68 forged anonymous confirmation URL must not claim success @defect 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByText('You\'re booked', { exact: true })
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByText('You\'re booked', { exact: true }) with timeout 5000ms
+      - waiting for getByText('You\'re booked', { exact: true })
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      405 |   // A real app screen must be present before checking the negative assertion.
+      406 |   await expect(page.getByRole('button', { name: 'Back to Marketplace' })).toBeVisible();
+    > 407 |   await expect(page.getByText("You're booked", { exact: true })).toHaveCount(0);
+          |                                                                  ^
+      408 | });
+      409 |
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/web.spec.ts:407:66
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint2/implemented-final-20260915/browser-web-defects/attachments/web-US68-forged-anonymous--cb9aa-st-not-claim-success-defect-chromium-web/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../artifacts/qa/sprint2/implemented-final-20260915/browser-web-defects/attachments/web-US68-forged-anonymous--cb9aa-st-not-claim-success-defect-chromium-web/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint2/implemented-final-20260915/browser-web-defects/attachments/web-US68-forged-anonymous--cb9aa-st-not-claim-success-defect-chromium-web/trace.zip
+    Usage:
+
+        npx playwright show-trace ../artifacts/qa/sprint2/implemented-final-20260915/browser-web-defects/attachments/web-US68-forged-anonymous--cb9aa-st-not-claim-success-defect-chromium-web/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [chromium-web] › e2e/web.spec.ts:384:5 › [QA-118][US40-AC4] real empty availability has an explanatory state @defect 
+    [chromium-web] › e2e/web.spec.ts:401:5 › US68 forged anonymous confirmation URL must not claim success @defect 

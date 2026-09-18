@@ -28,6 +28,9 @@ on:
 permissions:
   contents: read
 
+env:
+  TZ: Australia/Melbourne
+
 concurrency:
   group: application-ci-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
@@ -60,6 +63,10 @@ jobs:
         id: frontend_install
         run: npm ci --no-audit
 
+      - name: Test advisory defect report validation
+        if: ${{ always() && steps.frontend_install.outcome == 'success' }}
+        run: node --test ../scripts/tests/test_defect_report.cjs
+
       - name: Lint
         if: ${{ always() && steps.frontend_install.outcome == 'success' }}
         run: npm run lint
@@ -86,6 +93,24 @@ jobs:
           EXPO_PUBLIC_USE_DEMO_API: 'false'
         run: npm run build:web
 
+      # Defect assertions are advisory by user policy; their raw failures are
+      # retained. The following report-health step remains a required failure.
+      - name: Record known acceptance defects (advisory)
+        id: frontend_defects
+        continue-on-error: true
+        if: ${{ always() && steps.frontend_install.outcome == 'success' }}
+        run: |
+          mkdir -p artifacts
+          rm -f artifacts/jest-defects.json
+          npm run test:defects -- --json --outputFile=artifacts/jest-defects.json
+
+      - name: Validate frontend defect report health
+        if: ${{ always() && steps.frontend_install.outcome == 'success' }}
+        run: >-
+          node ../scripts/check_defect_report.cjs --format jest
+          --report artifacts/jest-defects.json
+          --outcome '${{ steps.frontend_defects.outcome }}'
+
       - name: Production dependency audit (critical gate)
         if: ${{ always() && steps.frontend_install.outcome == 'success' }}
         run: |
@@ -101,9 +126,10 @@ jobs:
           path: |
             frontend/coverage/
             frontend/artifacts/jest-results.json
+            frontend/artifacts/jest-defects.json
             frontend/artifacts/npm-audit-production.json
           if-no-files-found: warn
-          retention-days: 14
+          retention-days: 90
 
       - name: Upload the deployable web build
         if: ${{ always() && steps.web_build.outcome == 'success' }}
@@ -112,7 +138,127 @@ jobs:
           name: frontend-web-build-${{ github.run_attempt }}
           path: frontend/dist/web/
           if-no-files-found: error
-          retention-days: 14
+          retention-days: 90
+
+  native-components:
+    name: Sprint 2 ${{ matrix.platform }} components (not device E2E)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        platform: [ios, android]
+    defaults:
+      run:
+        working-directory: frontend
+    env:
+      CI: 'true'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '20.20.2'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install locked dependencies
+        id: native_install
+        run: npm ci --no-audit
+      - name: Run platform component regression
+        if: ${{ always() && steps.native_install.outcome == 'success' }}
+        run: |
+          mkdir -p artifacts
+          npm run test:${{ matrix.platform }} -- --json --outputFile=artifacts/${{ matrix.platform }}-components.json
+      - name: Record platform defect assertions (advisory)
+        id: native_defects
+        continue-on-error: true
+        if: ${{ always() && steps.native_install.outcome == 'success' }}
+        run: |
+          mkdir -p artifacts
+          rm -f artifacts/${{ matrix.platform }}-defects.json
+          npm run test:${{ matrix.platform }}:defects -- --json --outputFile=artifacts/${{ matrix.platform }}-defects.json
+      - name: Validate platform defect report health
+        if: ${{ always() && steps.native_install.outcome == 'success' }}
+        run: >-
+          node ../scripts/check_defect_report.cjs --format jest
+          --report artifacts/${{ matrix.platform }}-defects.json
+          --outcome '${{ steps.native_defects.outcome }}'
+      - name: Preserve platform evidence including failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: ${{ matrix.platform }}-component-evidence-${{ github.run_attempt }}
+          path: frontend/artifacts/${{ matrix.platform }}-*.json
+          if-no-files-found: warn
+          retention-days: 90
+
+  browser-web:
+    name: Sprint 2 Chromium Web acceptance (isolated API and database)
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      CI: 'true'
+      WEB_QA_OUTPUT_DIR: ${{ github.workspace }}/artifacts/qa/browser-web
+      YOIR_QA_PYTHON: ${{ github.workspace }}/backend/.venv/bin/python
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '20.20.2'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        with:
+          version: '0.12.10'
+          python-version: '3.12.13'
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
+      - name: Install locked test dependencies
+        run: |
+          uv sync --locked --project backend
+          npm --prefix frontend ci --no-audit
+          cd frontend
+          npx playwright install --with-deps chromium
+      - name: Build Web (real same-origin API)
+        id: browser_build
+        env:
+          EXPO_PUBLIC_API_URL: /api/v1
+          EXPO_PUBLIC_USE_DEMO_API: 'false'
+        run: npm --prefix frontend run build:web
+      - name: Run browser regression
+        if: ${{ always() && steps.browser_build.outcome == 'success' }}
+        run: npm --prefix frontend run test:web
+      - name: Record browser acceptance defects (advisory)
+        id: browser_defects
+        continue-on-error: true
+        if: ${{ always() && steps.browser_build.outcome == 'success' }}
+        env:
+          WEB_QA_OUTPUT_DIR: ${{ github.workspace }}/artifacts/qa/browser-web-defects
+        run: |
+          rm -f artifacts/qa/browser-web-defects/results.json
+          npm --prefix frontend run test:web:defects
+      - name: Validate browser defect report health
+        if: ${{ always() && steps.browser_build.outcome == 'success' }}
+        run: >-
+          node scripts/check_defect_report.cjs --format playwright
+          --report artifacts/qa/browser-web-defects/results.json
+          --outcome '${{ steps.browser_defects.outcome }}'
+      - name: Preserve browser evidence including failures
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: browser-web-evidence-${{ github.run_attempt }}
+          path: artifacts/qa/browser-web*/
+          if-no-files-found: warn
+          retention-days: 90
 
   backend:
     name: Backend compile, Ruff, PostgreSQL tests and coverage
@@ -178,7 +324,7 @@ jobs:
         working-directory: backend
         run: |
           mkdir -p artifacts/backend
-          uv run --no-sync python -m pytest tests -m "not live" \
+          uv run --no-sync python -m pytest tests -m "not live and not future_contract" \
             --junitxml=artifacts/backend/pytest.xml \
             --cov=app \
             --cov-report=term-missing \
@@ -192,7 +338,7 @@ jobs:
           name: backend-evidence-${{ github.run_attempt }}
           path: backend/artifacts/backend/
           if-no-files-found: warn
-          retention-days: 14
+          retention-days: 90
 
   live-integration:
     name: Isolated PostgreSQL live HTTPX, TypeScript client and served web build
@@ -215,6 +361,8 @@ jobs:
     env:
       CI: 'true'
       LIVE_API_BASE_URL: http://127.0.0.1:8000/api/v1
+      LIVE_API_VERIFIED_EMAIL: alex@example.com
+      LIVE_API_VERIFIED_PASSWORD: password123
       LIVE_DATABASE_DSN: postgresql://yoir:yoir@localhost:5432/yoir_live_test
       LIVE_DATABASE_URL: postgresql://yoir:yoir@localhost:5432/yoir_live_test
       JWT_SECRET: qa-ci-secret-that-is-at-least-32-characters
@@ -327,9 +475,9 @@ jobs:
                           cursor.execute(f'SELECT count(*) FROM "{table}"')
                           counts[table] = cursor.fetchone()[0]
                       cursor.execute(
-                          "SELECT count(*) FROM availability_slots WHERE status = 'open'"
+                          "SELECT count(*) FROM availability_windows"
                       )
-                      counts["open_slots"] = cursor.fetchone()[0]
+                      counts["windows"] = cursor.fetchone()[0]
               finally:
                   connection.close()
               return counts
@@ -350,6 +498,7 @@ jobs:
 
           LIVE_API_BASE_URL="$LIVE_API_BASE_URL" \
             npm --prefix frontend run test:client:live \
+            -- --json --outputFile="$RUNNER_TEMP/typescript-client-live.json" \
             2>&1 | tee "$RUNNER_TEMP/typescript-client-live.log"
           typescript_status=${PIPESTATUS[0]}
           set -e
@@ -375,9 +524,9 @@ jobs:
                       cursor.execute(f'SELECT count(*) FROM "{table}"')
                       after[table] = cursor.fetchone()[0]
                   cursor.execute(
-                      "SELECT count(*) FROM availability_slots WHERE status = 'open'"
+                      "SELECT count(*) FROM availability_windows"
                   )
-                  after["open_slots"] = cursor.fetchone()[0]
+                  after["windows"] = cursor.fetchone()[0]
           finally:
               connection.close()
 
@@ -391,13 +540,15 @@ jobs:
           )
           if client_statuses == (0, 0):
               expected = {
-                  # HTTPX booking + HTTPX login/logout + TypeScript booking each
-                  # register one account; only the two booking journeys book slots.
-                  "users": before["users"] + 3,
-                  "services": before["services"],
+                  # HTTPX registers two seekers; TypeScript registers a seeker
+                  # and pending counsellor, then publishes one verified service.
+                  # Its temporary window is created, moved and deleted; bookings
+                  # consume time inside windows without deleting those windows.
+                  "users": before["users"] + 4,
+                  "services": before["services"] + 1,
                   "orders": before["orders"] + 2,
                   "bookings": before["bookings"] + 2,
-                  "open_slots": before["open_slots"] - 2,
+                  "windows": before["windows"],
               }
               if after != expected:
                   raise SystemExit(
@@ -421,10 +572,11 @@ jobs:
             ${{ runner.temp }}/httpx-live.log
             ${{ runner.temp }}/httpx-live.xml
             ${{ runner.temp }}/typescript-client-live.log
+            ${{ runner.temp }}/typescript-client-live.json
             ${{ runner.temp }}/yoir-live-before.json
             ${{ runner.temp }}/yoir-live-after.json
           if-no-files-found: warn
-          retention-days: 14
+          retention-days: 90
 
   repository-evidence:
     name: Contract, Board and repository evidence
@@ -472,6 +624,13 @@ jobs:
             python -m py_compile .github/scripts/board-insights.py
           uv run --no-project --python 3.12.13 \
             python -B .github/scripts/tests/test_board_insights.py -v
+
+      - name: Check QA evidence recorder
+        run: |
+          uv run --no-project --python 3.12.13 \
+            python scripts/check_sprint2_qa_traceability.py
+          uv run --no-project --python 3.12.13 \
+            python -m unittest discover -s scripts/tests -v
 
       - name: Check whitespace across the complete event change
         env:

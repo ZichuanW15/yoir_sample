@@ -1,5 +1,6 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
 import { Pressable, Text, View } from 'react-native';
+import { adoptSession, currentSession } from '@/src/api/authBridge';
 import { api } from '@/src/api/client';
 import { AuthProvider, useAuth } from '@/src/auth/AuthContext';
 import { clearSession, readSession, writeSession } from '@/src/auth/sessionStore';
@@ -39,7 +40,7 @@ async function renderRestored() {
 }
 
 function AuthProbe() {
-  const { session, login, logout } = useAuth();
+  const { session, login, logout, adopt } = useAuth();
   return (
     <View>
       <Text>{session ? `signed in as ${session.user.name}` : 'signed out'}</Text>
@@ -51,11 +52,37 @@ function AuthProbe() {
       <Pressable onPress={logout}>
         <Text>Log out probe</Text>
       </Pressable>
+      <Pressable onPress={() => void adopt(sessionFixture)}>
+        <Text>Adopt verified session</Text>
+      </Pressable>
     </View>
   );
 }
 
 describe('AuthProvider', () => {
+  test('adopts a verification-link session and persists it without a password login', async () => {
+    await renderRestored();
+    await act(async () => fireEvent.press(screen.getByText('Adopt verified session')));
+    expect(screen.getByText('signed in as Alex Morgan')).toBeTruthy();
+    expect(currentSession()).toEqual(sessionFixture);
+    expect(writeSessionMock).toHaveBeenCalledWith(JSON.stringify(sessionFixture));
+    expect(loginApiMock).not.toHaveBeenCalled();
+  });
+
+  test('client refresh persists the rotated session and a refused refresh clears it', async () => {
+    await renderRestored();
+    const renewed = { ...sessionFixture, accessToken: 'renewed', refreshToken: 'rotated' };
+    await act(async () => adoptSession(renewed));
+    expect(currentSession()).toEqual(renewed);
+    expect(screen.getByText('signed in as Alex Morgan')).toBeTruthy();
+    expect(writeSessionMock).toHaveBeenCalledWith(JSON.stringify(renewed));
+    clearSessionMock.mockClear();
+    await act(async () => adoptSession(null));
+    expect(currentSession()).toBeNull();
+    expect(screen.getByText('signed out')).toBeTruthy();
+    expect(clearSessionMock).toHaveBeenCalledTimes(1);
+  });
+
   test('stores the session returned by login', async () => {
     loginApiMock.mockResolvedValueOnce(sessionFixture);
     await renderRestored();
@@ -100,6 +127,26 @@ describe('AuthProvider', () => {
   });
 
   describe('surviving a reload', () => {
+    test('an expired access token is restored while its refresh token is valid', async () => {
+      const stored = { ...sessionFixture, expiresAt: '2020-01-01T00:00:00Z',
+        refreshToken: 'refresh-valid', refreshExpiresAt: validUntil() };
+      readSessionMock.mockResolvedValueOnce(JSON.stringify(stored));
+      await renderRestored();
+      expect(currentSession()).toEqual(stored);
+      expect(screen.getByText('signed in as Alex Morgan')).toBeTruthy();
+      expect(loginApiMock).not.toHaveBeenCalled();
+    });
+
+    test.each([undefined, 'not-a-date', '2020-01-01T00:00:00Z'])(
+      'an invalid or expired refresh expiry %s cannot restore an expired session', async (refreshExpiresAt) => {
+        readSessionMock.mockResolvedValueOnce(JSON.stringify({ ...sessionFixture,
+          expiresAt: '2020-01-01T00:00:00Z', refreshToken: 'expired', refreshExpiresAt }));
+        await renderRestored();
+        expect(screen.getByText('signed out')).toBeTruthy();
+        expect(clearSessionMock).toHaveBeenCalled();
+      },
+    );
+
     test('a stored session is restored, so a browser refresh stays signed in', async () => {
       readSessionMock.mockResolvedValueOnce(
         JSON.stringify({ ...sessionFixture, expiresAt: validUntil() }),

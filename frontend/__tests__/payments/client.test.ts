@@ -36,6 +36,19 @@ describe('payment operations on the HTTP boundary', () => {
     else process.env.EXPO_PUBLIC_USE_DEMO_API = originalDemoFlag;
   });
 
+  test.each([
+    ['getBooking', ''], ['getBookingReceipt', '/receipt'],
+  ] as const)('%s reads the authenticated booking with an escaped identifier', async (method, suffix) => {
+    const payload = { id: 'booking/1', receiptNumber: 'R-001' };
+    fetchMock.mockResolvedValueOnce(jsonResponse(payload));
+    const { api } = loadClient();
+    await expect(api[method]('booking/1', token)).resolves.toEqual(payload);
+    expect(fetchMock).toHaveBeenCalledWith(
+      `https://api.example.test/api/v1/bookings/booking%2F1${suffix}`,
+      { headers: { Accept: 'application/json', Authorization: `Bearer ${token}` } },
+    );
+  });
+
   test('payment config is public, so it is requested without a bearer token', async () => {
     const config = {
       provider: 'stripe', publishableKey: 'pk_test_123', merchantDisplayName: 'Yoir',
