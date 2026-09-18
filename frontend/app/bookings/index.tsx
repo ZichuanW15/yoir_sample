@@ -8,6 +8,7 @@ import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
 import { Glyph } from '@/src/components/Glyph';
 import { BackBar } from '@/src/components/booking';
+import { CounsellorNav } from '@/src/components/CounsellorNav';
 import { JobSeekerNav } from '@/src/components/JobSeekerNav';
 import { TopBar } from '@/src/components/TopBar';
 import { Button, Card, ErrorBanner, Press, Spinner, Tag } from '@/src/components/ui';
@@ -111,8 +112,9 @@ export default function MyBookingsScreen() {
 
   return (
     <ScreenIn duration={450} style={styles.screen}>
-      {/* A tab for a job seeker; a page off the workspace for a counsellor. */}
-      {session?.user.role === 'job_seeker' ? <TopBar /> : (
+      {/* A tab for both a job seeker and a counsellor now — the same three-section
+          bottom nav shape, just with different destinations either side of it. */}
+      {session?.user.role === 'job_seeker' || session?.user.role === 'counsellor' ? <TopBar /> : (
         <BackBar title="My sessions" onBack={() => goBack('/counsellor')} />
       )}
 
@@ -126,7 +128,7 @@ export default function MyBookingsScreen() {
           />
         }
       >
-        {session?.user.role === 'job_seeker' ? <Text style={type.display34}>My sessions</Text> : null}
+        {session?.user.role === 'job_seeker' || session?.user.role === 'counsellor' ? <Text style={type.display34}>My sessions</Text> : null}
         {error ? <ErrorBanner message={error} /> : null}
 
         {upcoming.length === 0 && past.length === 0 ? (
@@ -168,6 +170,7 @@ export default function MyBookingsScreen() {
         ) : null}
       </ScrollView>
       <JobSeekerNav />
+      <CounsellorNav />
     </ScreenIn>
   );
 }

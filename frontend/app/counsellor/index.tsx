@@ -8,6 +8,7 @@ import { api, userFacingError } from '@/src/api/client';
 import { AvailabilityWindow, CounsellorProfile, PayoutStatus, Service } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
+import { CounsellorNav } from '@/src/components/CounsellorNav';
 import { Glyph } from '@/src/components/Glyph';
 import { VerifyEmailBanner } from '@/src/components/VerifyEmailBanner';
 import { Avatar, ErrorBanner, Eyebrow, Press, Tag } from '@/src/components/ui';
@@ -100,7 +101,7 @@ export default function CounsellorWorkspace() {
         </Press>
       </View>
 
-      <ScrollView contentContainerStyle={[s.body, { paddingBottom: insets.bottom + 32 }]} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={s.body} showsVerticalScrollIndicator={false}>
         <FadeUp style={s.greeting}>
           <Eyebrow>Your workspace</Eyebrow>
           <Text style={type.display34}>Good to see you, {firstName}</Text>
@@ -317,6 +318,7 @@ export default function CounsellorWorkspace() {
         </FadeUp>
 
       </ScrollView>
+      <CounsellorNav />
     </ScreenIn>
   );
 }
@@ -356,7 +358,7 @@ const s = StyleSheet.create({
   wordmark: { width: 66, height: 25, resizeMode: 'contain' },
   avatarRing: { width: 50, height: 50, borderRadius: 25, borderWidth: 2, borderColor: colors.yellow, backgroundColor: colors.white, alignItems: 'center', justifyContent: 'center' },
 
-  body: { paddingHorizontal: 22, paddingTop: 8, gap: 18 },
+  body: { paddingHorizontal: 22, paddingTop: 8, paddingBottom: 24, gap: 18 },
   greeting: { gap: 8 },
 
   verify: { position: 'relative', overflow: 'hidden', backgroundColor: colors.green, borderRadius: radius.xxl, padding: 22, flexDirection: 'row', alignItems: 'center', gap: 16 },

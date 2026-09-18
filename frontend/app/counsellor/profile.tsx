@@ -1,16 +1,16 @@
 import { Redirect, useFocusEffect } from 'expo-router';
-import { goBack } from '@/src/navigation';
 import * as ImagePicker from 'expo-image-picker';
 import { useCallback, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import Svg, { Polyline } from 'react-native-svg';
 import { api, userFacingError } from '@/src/api/client';
 import { Modality } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
+import { CounsellorNav } from '@/src/components/CounsellorNav';
 import { Glyph } from '@/src/components/Glyph';
-import { Avatar, Button, Chip, ErrorBanner, Field, IconButton, Press, Tag } from '@/src/components/ui';
+import { TopBar } from '@/src/components/TopBar';
+import { Avatar, Button, Chip, ErrorBanner, Field, Press, Tag } from '@/src/components/ui';
 import { initials, modalityLabel, STATES } from '@/src/format';
 import { FadeUp, Pop, ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, shadow, type } from '@/src/theme';
@@ -149,17 +149,11 @@ export default function CounsellorProfileScreen() {
 
   return (
     <ScreenIn style={s.screen}>
-      <View style={[s.topBar, { paddingTop: insets.top + 10 }]}>
-        <IconButton onPress={() => goBack('/counsellor')} tone="white" label="Back">
-          <Svg width={20} height={20} viewBox="0 0 24 24">
-            <Polyline points="14.5,5 7.5,12 14.5,19" fill="none" stroke={colors.green} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-          </Svg>
-        </IconButton>
-        <Text style={s.topTitle}>Professional profile</Text>
-        <View style={s.topSpacer} />
-      </View>
+      <TopBar />
 
       <ScrollView contentContainerStyle={[s.body, { paddingBottom: 24 }]} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
+        <Text style={s.pageTitle}>Professional profile</Text>
+
         <FadeUp style={s.identity}>
           <View style={s.photoWrap}>
             <View style={s.avatarRing}>
@@ -279,17 +273,16 @@ export default function CounsellorProfileScreen() {
       <View style={[s.footer, { paddingBottom: insets.bottom + 22 }]}>
         <Button label="Save profile" height={58} busy={busy} onPress={() => { void save(); }} style={shadow.toast} />
       </View>
+      <CounsellorNav />
     </ScreenIn>
   );
 }
 
 const s = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.white },
-  topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 16, paddingBottom: 10 },
-  topTitle: { fontFamily: fonts.bold, fontSize: 15, color: colors.ink },
-  topSpacer: { width: 44 },
 
   body: { paddingHorizontal: 22, paddingTop: 6, gap: 20 },
+  pageTitle: { ...type.display34 },
 
   identity: { alignItems: 'center', gap: 12, paddingVertical: 8 },
   // 116 wide so the 44pt pencil target stays inside its parent and stays tappable on Android.

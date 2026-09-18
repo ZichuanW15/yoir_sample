@@ -79,6 +79,11 @@ export function setupCounsellorMocks() {
   apiMock.deleteService.mockResolvedValue(undefined);
   apiMock.updateOwnCounsellorProfile.mockResolvedValue(counsellorProfileFixture);
   apiMock.deleteAvailabilityWindow.mockResolvedValue(undefined);
+  // TopBar's bell is job-seeker-only, but the hook behind it (useNotifications)
+  // fetches for any signed-in role — same as the real client falling back to []
+  // on a route that isn't deployed yet, so a counsellor screen that renders TopBar
+  // doesn't need to know that endpoint exists.
+  apiMock.listNotifications.mockResolvedValue([]);
   // Keep real animation components and hooks while removing native timing/loops.
   jest.spyOn(Animated, 'timing').mockImplementation((value: any, config: any) => ({
     start: (done?: (value: { finished: boolean }) => void) => { value.setValue(config.toValue); done?.({ finished: true }); },
