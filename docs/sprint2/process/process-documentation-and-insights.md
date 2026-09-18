@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Process Documentation and Insights
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Process-Documentation-and-Insights
-  Wiki commit: fd37b84 (2026-09-19)
+  Wiki commit: 0b4e79b (2026-09-19)
   Exported:    2026-09-19
   Section 7 is the board insights at the close of Sprint 2, generated with
   .github/scripts/board-insights.py --date 2026-09-18; the wiki page shows the current sprint.
@@ -250,23 +250,25 @@ Observations from the Sprint 2 records, each with its evidence. They are input f
 
 ### 8.1 Sprint 2 burndown at close
 
-Generated with `.github/scripts/board-insights.py --date 2026-09-18` from the board at the close of Sprint 2. §7 above follows the current sprint, so this section keeps Sprint 2's chart.
+The Board Insights burndown for Sprint 2 stays flat at 69 SP: it counts a story as done only when the story's own issue is closed, and the 20 Sprint 2 stories are still open while their acceptance is recorded in the [Sprint 2 Review & Client Feedback](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Review-and-Client-Feedback). This chart redraws the burndown from the work that was closed: a story counts as finished on the day its last Front-end, Back-end or QA sub-issue closed (Melbourne time). The diagonal is the ideal line.
 
 ```mermaid
 xychart-beta
-    title "Sprint 2 burndown - story points"
+    title "Sprint 2 burndown - story points, by sub-issue completion"
     x-axis ["31 Aug", "1 Sep", "2 Sep", "3 Sep", "4 Sep", "5 Sep", "6 Sep", "7 Sep", "8 Sep", "9 Sep", "10 Sep", "11 Sep", "12 Sep", "13 Sep", "14 Sep", "15 Sep", "16 Sep", "17 Sep", "18 Sep"]
     y-axis "Story points" 0 --> 70
-    line [69, 65.1666666667, 61.3333333333, 57.5, 53.6666666667, 49.8333333333, 46, 42.1666666667, 38.3333333333, 34.5, 30.6666666667, 26.8333333333, 23, 19.1666666667, 15.3333333333, 11.5, 7.6666666667, 3.8333333333, 0]
-    line [69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69]
+    line [69, 65.2, 61.3, 57.5, 53.7, 49.8, 46, 42.2, 38.3, 34.5, 30.7, 26.8, 23, 19.2, 15.3, 11.5, 7.7, 3.8, 0]
+    line [69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 61, 11, 11, 0]
 ```
 
-| Date | Remaining from Issue state (SP) | Ideal from current scope (SP) |
-|---|---:|---:|
-| 31 Aug 2026 | 69 | 69 |
-| 18 Sep 2026 | 69 | 0 |
+| Date | Stories finished | SP remaining |
+|---|---|---:|
+| 31 Aug 2026 | — | 69 |
+| 15 Sep 2026 | US-01, US-02, US-03 | 61 |
+| 16 Sep 2026 | US-06, US-07, US-08, US-30, US-34, US-35, US-37, US-38, US-39, US-40, US-41, US-44, US-45, US-46 | 11 |
+| 18 Sep 2026 | US-04, US-47, US-68 | 0 |
 
-**Method limitation.** Remaining work uses each Issue's open/closed state and `closedAt`; GitHub's standard ProjectV2 query does not provide historical Status or Story Points transitions. The ideal line uses today's recorded sprint scope. This is an indicative burndown, not a reconstruction of every past board movement.
+**Reading it.** Sub-issues close when they move to Under Review, so the curve shows when the board recorded each part as finished, not when the code merged and not acceptance. The main pull requests merged on 8, 9, 12 and 14 September, but the board was updated in bulk from 15 to 18 September, which is why the curve drops late. Source: each story's sub-issues and their `closedAt` dates, read from GitHub on 19 September 2026.
 
 ### 8.2 Observations
 
@@ -277,6 +279,6 @@ xychart-beta
 | 3 | Integration was concentrated at the end of the sprint. | 5 of the 11 Sprint 2 pull requests merged on 18 September (#155–#159). Application CI failed on four `dev` commits that day, including a lockfile `npm ci` rejected, the API coverage threshold, and acceptance tests expecting the old landing screen; each was fixed the same day. | Merge smaller pull requests through the sprint, and land each feature's tests with it. |
 | 4 | The client's feedback arrived at the end of the sprint. | Demonstration on 15 September, written feedback on 17 September; the terminology, profile, branding and diagnosis changes landed on 18 September. | Demonstrate to the client mid-sprint so feedback can be planned rather than absorbed on the last day. |
 | 5 | Scope records drifted apart when scope moved. | The wiki placed US-09–13 in Sprint 2 until the Product Owner's 18 September correction; the board's Sprint field still showed Sprint 2 until 19 September. | When scope moves, update the board, the User Story Map and the sprint review together. |
-| 6 | The board insights and the sub-issue convention do not fit well. | At the close of Sprint 2 the insights warned about 90 unpointed issues and 76 sprint-flow items without a Sprint iteration, mostly sub-issues, which by design carry neither. All 69 SP sat in the Sprint 2 column, yet the burndown stayed at 69 because it counts closed issues and the 20 Sprint 2 stories were still open. | Decide whether stories close at acceptance or the burndown counts sub-issues, so the chart shows progress. |
+| 6 | The board insights and the sub-issue convention do not fit well. | At the close of Sprint 2 the insights warned about 90 unpointed issues and 76 sprint-flow items without a Sprint iteration, mostly sub-issues, which by design carry neither. All 69 SP sat in the Sprint 2 column, yet the Board Insights burndown stayed at 69 because it counts closed issues and the 20 Sprint 2 stories were still open; §8.1 redraws it from the sub-issues. | Decide whether stories close at acceptance or the burndown counts sub-issues, so the chart shows progress. |
 | 7 | Branch and pull-request practice improved but stayed uneven. | 9 Sep stand-up asked everyone to pull `dev` first, add reviewers to every pull request and use one branch-naming convention; Sprint 2 branches still used several patterns. | Check the branch name and reviewers during pull-request review. |
 | 8 | Deploying `dev` continuously made integration testing easier, and exposed an environment issue early. | 10 Sep: the deploy pipeline to FastAPI Cloud; 9 Sep: the serverless PostgreSQL instance dropped idle connections after about five minutes. | Keep `dev` deployed; track environment issues on the board like any other defect. |
