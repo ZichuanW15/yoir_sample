@@ -252,27 +252,4 @@ describe('API client HTTP boundary', () => {
   // Correct assertions for malformed responses run in test:defects. Request
   // timeout and production URL policy remain documented hardening gaps; a todo
   // is not executable QA evidence.
-
-  test('posts triage answers to the reserved recommendation contract', async () => {
-    fetchMock.mockResolvedValueOnce(jsonResponse({
-      summary: 'Start with interview preparation.',
-      suggestedSearchTerms: ['interview'],
-      services: [serviceFixture],
-    }));
-    const { api } = loadClient();
-    const answers = { careerStage: 'early_career' as const, goal: 'interview' as const, modality: 'online' as const };
-
-    await expect(api.getTriageRecommendations(answers, 'access-token')).resolves.toMatchObject({
-      source: 'live', services: [serviceFixture],
-    });
-    expect(fetchMock).toHaveBeenCalledWith('https://api.example.test/api/v1/triage/recommendations', {
-      method: 'POST',
-      body: JSON.stringify(answers),
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer access-token',
-      },
-    });
-  });
 });

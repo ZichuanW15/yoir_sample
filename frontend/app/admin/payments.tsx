@@ -73,7 +73,7 @@ export default function AdminPaymentsScreen() {
 
               <View style={styles.split}>
                 <Amount label="Total" value={currency(row.amountMinor)} strong />
-                <Amount label="Counsellor" value={currency(row.counsellorPayoutMinor)} />
+                <Amount label="Career Professional" value={currency(row.counsellorPayoutMinor)} />
                 <Amount label="Yoir" value={currency(row.platformFeeMinor)} />
                 {row.refundedMinor > 0 ? <Amount label="Refunded" value={currency(row.refundedMinor)} /> : null}
               </View>

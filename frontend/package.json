@@ -25,7 +25,7 @@
     "test:planned": "jest --ci --runInBand --config jest.config.planned.js"
   },
   "dependencies": {
-    "@expo-google-fonts/instrument-serif": "^0.4.1",
+    "@expo-google-fonts/dm-serif-display": "^0.4.2",
     "@expo-google-fonts/manrope": "^0.4.2",
     "@expo/vector-icons": "^15.0.3",
     "@react-navigation/native": "^7.1.8",

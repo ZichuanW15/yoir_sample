@@ -18,6 +18,7 @@ jest.mock('expo-router', () => {
     Redirect: ({ href }: { href: string }) => React.createElement(Text, { testID: 'redirect' }, href),
     useFocusEffect: (callback: () => void) => React.useEffect(callback, [callback]),
     useLocalSearchParams: jest.fn(() => ({ serviceId: 'service-1' })),
+    usePathname: jest.fn(() => '/'),
   };
 });
 jest.mock('react-native-safe-area-context', () => ({

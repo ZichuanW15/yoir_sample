@@ -89,7 +89,7 @@ export default function VerifyEmailScreen() {
             <Text style={type.body}>
               Your email address is verified and you are signed in. You can book sessions now.
             </Text>
-            <Button label="Browse counsellors" height={56} onPress={() => router.replace('/marketplace')} />
+            <Button label="Browse Career Professionals" height={56} onPress={() => router.replace('/marketplace')} />
           </FadeUp>
         ) : null}
 

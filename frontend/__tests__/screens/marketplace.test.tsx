@@ -57,10 +57,10 @@ describe('Marketplace screen', () => {
   // search requirements are archived in planned/public-search-and-selection.
   test('[QA-112 implemented local UI] local search and clearing render correctly', async () => {
     await load();
-    fireEvent.changeText(screen.getByLabelText('Search services or counsellors'), '  JORDAN  ');
+    fireEvent.changeText(screen.getByLabelText('Search services or Career Professionals'), '  JORDAN  ');
     expect(listing(inPerson.title)).toBeOnTheScreen();
     expect(screen.queryByText(serviceFixture.title)).toBeNull();
-    fireEvent.changeText(screen.getByLabelText('Search services or counsellors'), 'no such service');
+    fireEvent.changeText(screen.getByLabelText('Search services or Career Professionals'), 'no such service');
     expect(screen.getByText('No services match your search.')).toBeOnTheScreen();
     fireEvent.press(screen.getByRole('button', { name: 'Clear filters' }));
     expect(listing(serviceFixture.title)).toBeOnTheScreen();

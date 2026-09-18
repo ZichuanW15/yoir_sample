@@ -4,9 +4,11 @@ import { Animated, Easing, Pressable, StyleSheet, Text, View } from 'react-nativ
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '@/src/auth/AuthContext';
 import { initials } from '@/src/format';
-import { Button } from '@/src/components/ui';
+import { Avatar, Button } from '@/src/components/ui';
 import { Glyph } from '@/src/components/Glyph';
+import { NotificationsPanel } from '@/src/components/NotificationsPanel';
 import { useAnimatedValue, USE_NATIVE_DRIVER } from '@/src/motion';
+import { useProfilePhoto } from '@/src/profilePhoto';
 import { colors, fonts, radius, shadow, type } from '@/src/theme';
 
 export interface ConfirmOptions {
@@ -22,6 +24,8 @@ interface ChromeValue {
   flash(message: string): void;
   openSheet(): void;
   closeSheet(): void;
+  /** The notifications dropdown under the top bar's bell. */
+  openNotifications(): void;
   /**
    * A custom confirmation sheet, resolving true/false.
    *
@@ -48,7 +52,7 @@ interface PendingConfirm {
 
 const roleLabel: Record<string, string> = {
   job_seeker: 'Job Seeker',
-  counsellor: 'Career Counsellor',
+  counsellor: 'Career Professional',
   platform_owner: 'Platform Owner',
 };
 
@@ -56,6 +60,7 @@ const roleLabel: Record<string, string> = {
 export function ChromeProvider({ children }: PropsWithChildren) {
   const [toast, setToast] = useState('');
   const [sheet, setSheet] = useState(false);
+  const [notifications, setNotifications] = useState(false);
   const [pendingConfirm, setPendingConfirm] = useState<PendingConfirm | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -80,7 +85,10 @@ export function ChromeProvider({ children }: PropsWithChildren) {
   }, []);
 
   const value = useMemo<ChromeValue>(
-    () => ({ flash, openSheet: () => setSheet(true), closeSheet: () => setSheet(false), confirm }),
+    () => ({
+      flash, openSheet: () => setSheet(true), closeSheet: () => setSheet(false),
+      openNotifications: () => setNotifications(true), confirm,
+    }),
     [flash, confirm],
   );
 
@@ -89,6 +97,7 @@ export function ChromeProvider({ children }: PropsWithChildren) {
       {children}
       {toast ? <Toast message={toast} /> : null}
       {sheet ? <AccountSheet onClose={() => setSheet(false)} /> : null}
+      {notifications ? <NotificationsPanel onClose={() => setNotifications(false)} /> : null}
       {pendingConfirm ? (
         <ConfirmSheet
           options={pendingConfirm.options}
@@ -133,6 +142,7 @@ function AccountSheet({ onClose }: { onClose(): void }) {
   const insets = useSafeAreaInsets();
   const { session, logout } = useAuth();
   const { flash } = useChrome();
+  const photo = useProfilePhoto();
   const t = useAnimatedValue(0);
 
   useEffect(() => {
@@ -156,7 +166,7 @@ function AccountSheet({ onClose }: { onClose(): void }) {
         <View style={sheetS.grip} />
         <View style={sheetS.identity}>
           <View style={sheetS.avatarRing}>
-            <View style={sheetS.avatar}><Text style={sheetS.avatarText}>{initials(session.user.name)}</Text></View>
+            <Avatar initials={initials(session.user.name)} photo={photo} size={60} />
           </View>
           <View style={sheetS.identityCopy}>
             <Text style={type.display24}>{session.user.name}</Text>
@@ -168,6 +178,16 @@ function AccountSheet({ onClose }: { onClose(): void }) {
 
         {counsellor ? (
           <Button label="Open my workspace" tone="soft" height={52} onPress={() => { onClose(); router.replace('/counsellor'); }} />
+        ) : null}
+
+        {session.user.role === 'job_seeker' ? (
+          <Button
+            label="Edit profile"
+            tone="soft"
+            height={52}
+            icon={<Glyph name="pencil" size={18} color={colors.green} />}
+            onPress={() => { onClose(); router.push('/job-seeker/profile'); }}
+          />
         ) : null}
 
         {session.user.role === 'platform_owner' ? null : (
@@ -242,8 +262,6 @@ const sheetS = StyleSheet.create({
   grip: { width: 40, height: 5, borderRadius: radius.pill, backgroundColor: colors.line, alignSelf: 'center' },
   identity: { flexDirection: 'row', alignItems: 'center', gap: 16 },
   avatarRing: { width: 68, height: 68, borderRadius: 34, borderWidth: 2, borderColor: colors.yellow, alignItems: 'center', justifyContent: 'center' },
-  avatar: { width: 60, height: 60, borderRadius: 30, backgroundColor: colors.green, alignItems: 'center', justifyContent: 'center' },
-  avatarText: { fontFamily: fonts.extra, fontSize: 22, color: colors.white },
   identityCopy: { flex: 1, gap: 5 },
   roleTag: { alignSelf: 'flex-start', backgroundColor: colors.yellowTint, borderRadius: radius.pill, paddingHorizontal: 10, paddingVertical: 5 },
   roleText: { fontFamily: fonts.bold, fontSize: 12, color: colors.amberInk },

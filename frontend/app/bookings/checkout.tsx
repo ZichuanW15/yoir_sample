@@ -207,7 +207,7 @@ export default function CheckoutScreen() {
             {(config?.cancellationLateRefundPercent ?? 0) > 0
               ? `Cancel later and ${config?.cancellationLateRefundPercent}% is refunded.`
               : 'Cancelling later than that is not refunded.'}
-            {' '}If your counsellor cancels, you are always refunded in full.
+            {' '}If your Career Professional cancels, you are always refunded in full.
           </Text>
         </FadeUp>
 
@@ -219,7 +219,7 @@ export default function CheckoutScreen() {
             </View>
             <Text style={s.methodBody}>
               Card details are entered directly with Stripe and never reach Yoir&apos;s servers.
-              Your counsellor is paid after the session takes place.
+              Your Career Professional is paid after the session takes place.
             </Text>
             {cardUnavailableHere ? (
               <Text style={s.methodWarning}>

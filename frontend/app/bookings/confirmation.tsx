@@ -25,13 +25,13 @@ function sealMessage(byCard: boolean, pending: boolean): string {
   if (pending) {
     return 'Your card was charged and we are confirming the booking now. This usually takes a few seconds.';
   }
-  return 'Payment successful. Your counsellor is paid after the session takes place.';
+  return 'Payment successful. Your Career Professional is paid after the session takes place.';
 }
 
 /** US-46 — what happens next depends on how the session is delivered. */
 function deliveryNote(modality: Modality, meetingArea: string, hasLink: boolean) {
   if (modality === 'in_person') {
-    return `In person${meetingArea ? ` · ${meetingArea}` : ''}. Your counsellor confirms the exact meeting point before the session.`;
+    return `In person${meetingArea ? ` · ${meetingArea}` : ''}. Your Career Professional confirms the exact meeting point before the session.`;
   }
   return hasLink
     ? 'Online. The same joining link is in your confirmation email.'
@@ -187,13 +187,13 @@ export default function ConfirmationScreen() {
             {deliveryNote(params.modality, meetingArea, Boolean(meetingUrl))}{' '}
             {pending
               ? 'Your confirmation will arrive by email shortly; you do not need to pay again.'
-              : 'Keep the booking reference \u2014 your counsellor can see the booking now.'}
+              : 'Keep the booking reference \u2014 your Career Professional can see the booking now.'}
           </Text>
         </FadeUp>
       </ScrollView>
 
       <View style={[s.footer, { paddingBottom: insets.bottom + 22 }]}>
-        <Button label="Back to Marketplace" height={58} onPress={backToMarketplace} style={shadow.toast} />
+        <Button label="Back to Explore" height={58} onPress={backToMarketplace} style={shadow.toast} />
       </View>
     </ScreenIn>
   );

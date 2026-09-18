@@ -167,8 +167,8 @@ export default function CounsellorPayoutsScreen() {
               : started
                 ? checking
                   ? 'Checking with Stripe. This usually takes a few seconds — you can stay on this page.'
-                  : 'Stripe still needs something from you. Until it is done, your services stay hidden from the Marketplace.'
-                : 'Stripe handles your identity and bank details directly — Yoir never sees them. Your services stay hidden from the Marketplace until this is done.'}
+                  : 'Stripe still needs something from you. Until it is done, your services stay hidden from Explore.'
+                : 'Stripe handles your identity and bank details directly — Yoir never sees them. Your services stay hidden from Explore until this is done.'}
           </Text>
           <View style={s.flags}>
             <Tag

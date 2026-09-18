@@ -1,16 +1,16 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from 'expo-router';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
-import { Animated, Easing, Image, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Animated, Easing, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Line, Path } from 'react-native-svg';
 import { api, userFacingError } from '@/src/api/client';
 import { Service } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
-import { useChrome } from '@/src/chrome';
 import { Glyph } from '@/src/components/Glyph';
 import { VerifyEmailBanner } from '@/src/components/VerifyEmailBanner';
 import { JobSeekerNav } from '@/src/components/JobSeekerNav';
+import { TopBar } from '@/src/components/TopBar';
 import { EmptySearchMark } from '@/src/components/Scenes';
 import { Avatar, Card, Chip, ErrorBanner, Press, Tag } from '@/src/components/ui';
 import { initials, modalityLabel, money } from '@/src/format';
@@ -27,7 +27,6 @@ const SKELETON_MS = 900;
 export default function MarketplaceScreen() {
   const insets = useSafeAreaInsets();
   const { session } = useAuth();
-  const { openSheet } = useChrome();
 
   const [services, setServices] = useState<Service[]>([]);
   const [query, setQuery] = useState('');
@@ -75,26 +74,15 @@ export default function MarketplaceScreen() {
 
   const greeting = session
     ? `Find your next step, ${session.user.name.split(' ')[0]}`
-    : 'Find the counsellor for your next step';
+    : 'Find the Career Professional for your next step';
 
   const update = <K extends keyof ServiceFilters>(key: K, value: ServiceFilters[K]) =>
     setFilters((current) => ({ ...current, [key]: value }));
   const clearFilters = () => { setFilters(defaultFilters); setQuery(''); };
 
   return (
-    <ScreenIn style={[styles.screen, { paddingTop: insets.top }]}>
-      <View style={styles.bar}>
-        <Image source={require('@/assets/images/yoir-wordmark.png')} style={styles.wordmark} resizeMode="contain" accessibilityLabel="Yoir" />
-        {session ? (
-          <Press onPress={openSheet} scaleTo={0.92} accessibilityLabel={`Account, ${session.user.name}`} style={styles.avatarRing}>
-            <Avatar initials={initials(session.user.name)} size={42} />
-          </Press>
-        ) : (
-          <Press onPress={() => router.push('/auth/login')} scaleTo={0.96} accessibilityLabel="Log in" style={styles.loginPill}>
-            <Text style={styles.loginPillText}>Log in</Text>
-          </Press>
-        )}
-      </View>
+    <ScreenIn style={styles.screen}>
+      <TopBar />
 
       <ScrollView
         style={styles.scroll}
@@ -103,7 +91,7 @@ export default function MarketplaceScreen() {
         showsVerticalScrollIndicator={false}
       >
         <FadeUp delay={50} style={styles.intro}>
-          <Text style={type.eyebrow}>Career marketplace</Text>
+          <Text style={type.eyebrow}>Explore</Text>
           <Text style={type.display34}>{greeting}</Text>
         </FadeUp>
 
@@ -113,10 +101,10 @@ export default function MarketplaceScreen() {
           <View style={styles.searchField}>
             <Glyph name="search" size={18} color={colors.sub} />
             <TextInput
-              accessibilityLabel="Search services or counsellors"
+              accessibilityLabel="Search services or Career Professionals"
               value={query}
               onChangeText={setQuery}
-              placeholder="Search services or counsellors"
+              placeholder="Search services or people"
               placeholderTextColor={colors.sub}
               style={styles.searchInput}
             />
@@ -357,12 +345,7 @@ function Shimmer({ delay }: { delay: number }) {
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: colors.white },
-  bar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: 12, paddingBottom: 6, paddingHorizontal: 22 },
-  wordmark: { width: 66, height: 25 },
-  avatarRing: { padding: 2, borderRadius: radius.pill, borderWidth: 2, borderColor: colors.yellow, backgroundColor: colors.white },
-  loginPill: { height: 40, paddingHorizontal: 18, borderRadius: radius.pill, borderWidth: 1.5, borderColor: colors.line, backgroundColor: colors.white, alignItems: 'center', justifyContent: 'center' },
-  loginPillText: { fontFamily: fonts.bold, fontSize: 14, color: colors.green },
+  screen: { flex: 1, backgroundColor: colors.canvas },
 
   scroll: { flex: 1 },
   body: { paddingTop: 8, paddingHorizontal: 22, gap: 18 },

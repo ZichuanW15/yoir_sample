@@ -33,7 +33,7 @@ test('US44/45/46 public Web catalogue, search, detail and back', async ({ page, 
   const [service] = await response.json();
   expect(service.id).toBeTruthy();
   await page.goto('/marketplace');
-  await page.getByLabel('Search services or counsellors').fill(service.title);
+  await page.getByLabel('Search services or Career Professionals').fill(service.title);
   await page.getByRole('button', { name: `${service.title} by`, exact: false }).click();
   await expect(page).toHaveURL(new RegExp(`/services/${service.id}$`));
   // Expo's navigation stack retains the hidden marketplace behind this screen.
@@ -288,7 +288,7 @@ test('US39 real Web availability windows create, derive service starts and remov
 test('[QA-106][US08-AC3] logout prevents browser history and protected deep-link access', async ({ page, request }) => {
   // Keep a known public app page earlier in history, not the browser's blank tab.
   await page.goto('/marketplace');
-  await expect(page.getByLabel('Search services or counsellors')).toBeVisible();
+  await expect(page.getByLabel('Search services or Career Professionals')).toBeVisible();
   const session = await login(page, 'maya@example.com', '/auth/login', 'password123');
   await expect(page).toHaveURL(/\/counsellor$/);
   await page.getByRole('button', { name: 'Professional profile', exact: true }).click();
@@ -300,7 +300,7 @@ test('[QA-106][US08-AC3] logout prevents browser history and protected deep-link
   await page.getByRole('button', { name: 'Log out', exact: true }).click();
   expect((await loggedOut).status()).toBe(204);
   const isPublic = async () => {
-    await expect(page.getByLabel('Search services or counsellors')
+    await expect(page.getByLabel('Search services or Career Professionals')
       .or(page.getByRole('button', { name: 'Log in', exact: true }))
       .or(page.getByRole('button', { name: 'Just looking? Browse as a guest', exact: true })).first()).toBeVisible();
     await expect(page).not.toHaveURL(/\/counsellor(?:\/|$)/);
@@ -328,7 +328,7 @@ test('US45 implemented Web keyword search shows matching results and a recoverab
   const services = await response.json();
   await page.goto('/marketplace');
   await expect(page.getByRole('button', { name: / by .*\$/ }).first()).toBeVisible();
-  const search = page.getByLabel('Search services or counsellors');
+  const search = page.getByLabel('Search services or Career Professionals');
   const service = services[0];
   await search.fill(service.title);
   await expect(page.getByRole('button', { name: `${service.title} by`, exact: false })).toBeVisible();
@@ -369,6 +369,6 @@ test('US68 forged anonymous confirmation URL must not claim success @defect', as
     startsAt: '2026-10-01T01:00:00Z', endsAt: '2026-10-01T02:00:00Z', modality: 'online', amountMinor: '7050' });
   await page.goto(`/bookings/confirmation?${params}`);
   // A real app screen must be present before checking the negative assertion.
-  await expect(page.getByRole('button', { name: 'Back to Marketplace' })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Back to Explore' })).toBeVisible();
   await expect(page.getByText("You’re booked", { exact: true })).toHaveCount(0);
 });

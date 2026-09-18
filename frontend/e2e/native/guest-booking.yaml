@@ -30,8 +30,8 @@ env:
     direction: DOWN
     timeout: 20000
 - tapOn: 'Just looking\? Browse as a guest'
-- assertVisible: Find the counsellor for your next step
-- tapOn: Search services or counsellors
+- assertVisible: Find the Career Professional for your next step
+- tapOn: Search services or Career Professionals
 - inputText: Interview confidence coaching
 - hideKeyboard
 - scrollUntilVisible:
@@ -93,7 +93,7 @@ env:
 - assertVisible: Booking
 - assertVisible: Payment
 - takeScreenshot: native-booking-references-${MAESTRO_DEVICE_UDID}
-- tapOn: Back to Marketplace
+- tapOn: Back to Explore
 - assertVisible: Find your next step, Alex
 - tapOn: Account, Alex Rivera
 - tapOn: Log out

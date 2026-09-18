@@ -192,19 +192,29 @@ export interface Receipt {
   text: string;
 }
 
-/** Planned triage contract: answers sent by Home to the future recommendation service. */
-export interface TriageSubmission {
-  careerStage: 'student' | 'early_career' | 'career_change' | 'returning';
-  goal: 'direction' | 'resume' | 'interview' | 'career_change';
-  modality: 'any' | Modality;
+/**
+ * An in-app notification. Contract for GET /me/notifications, which the backend
+ * does not serve yet; `href` is an app route to open when it is tapped.
+ */
+export interface AppNotification {
+  id: string;
+  title: string;
+  body: string;
+  createdAt: string;
+  read: boolean;
+  href?: string | null;
 }
 
-export interface TriageRecommendation {
-  summary: string;
-  suggestedSearchTerms: string[];
-  services: Service[];
-  source: 'live' | 'preview';
+/** The job seeker's own profile. `photoUrl` is an inline data URI. */
+export interface JobSeekerProfile {
+  name: string;
+  email: string;
+  photoUrl: string | null;
+  headline: string;
+  careerGoals: string;
 }
+
+export type JobSeekerProfileUpdate = Omit<JobSeekerProfile, 'email'>;
 
 /** US-30 — the professional profile a counsellor maintains. */
 export interface CounsellorProfile {
@@ -216,6 +226,10 @@ export interface CounsellorProfile {
   introduction: string;
   background: string;
   experience: string;
+  /** US-30 — shown to Job Seekers before they book. */
+  qualifications: string[];
+  expertise: string[];
+  languages: string[];
   baseLocation: Location | null;
   defaultModality: Modality;
   verificationStatus: VerificationStatus;
@@ -225,7 +239,8 @@ export interface CounsellorProfile {
 
 export type CounsellorProfileUpdate = Pick<
   CounsellorProfile,
-  'photoUrl' | 'linkedinUrl' | 'introduction' | 'background' | 'experience' | 'baseLocation' | 'defaultModality'
+  | 'photoUrl' | 'linkedinUrl' | 'introduction' | 'background' | 'experience'
+  | 'qualifications' | 'expertise' | 'languages' | 'baseLocation' | 'defaultModality'
 >;
 
 /** US-34/35/37/38 — what a counsellor sends when publishing a service. */

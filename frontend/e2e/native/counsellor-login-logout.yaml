@@ -23,10 +23,10 @@ env:
     visible: 'Career guidance.*'
     timeout: 60000
 - scrollUntilVisible:
-    element: I am a Career Counsellor
+    element: I am a Career Professional
     direction: DOWN
     timeout: 20000
-- tapOn: I am a Career Counsellor
+- tapOn: I am a Career Professional
 - assertVisible: Take bookings on Yoir
 - scrollUntilVisible:
     element: Log in
@@ -59,7 +59,7 @@ env:
 - tapOn: Back
 - assertVisible: Good to see you, Maya
 - tapOn: Account, Maya Chen
-- assertVisible: Career Counsellor
+- assertVisible: Career Professional
 - tapOn: Log out
 - extendedWaitUntil:
     visible: 'Career guidance.*'

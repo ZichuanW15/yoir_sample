@@ -16,7 +16,7 @@ describe('service detail screen', () => {
     expect(screen.getByText(serviceFixture.description)).toBeOnTheScreen();
     expect(screen.getByText('Maya Chen')).toBeOnTheScreen();
     expect(screen.getByText('Melbourne, VIC')).toBeOnTheScreen();
-    expect(screen.getByText('Verified counsellor')).toBeOnTheScreen();
+    expect(screen.getByText('Verified Career Professional')).toBeOnTheScreen();
     expect(callsTo('GET', '/services/service-1')[0][1]?.headers).not.toHaveProperty('Authorization');
   });
 

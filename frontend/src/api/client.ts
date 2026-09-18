@@ -7,7 +7,7 @@ import {
   PlatformStats, Receipt, RegisterRequest,
   Role, Service, ServiceDraft, ServiceUpdate, Session, StripeOnboarding,
   StubPaymentConfirmation, TaxDetailsUpdate, User, VerificationSubmission, WindowDraft,
-  TriageRecommendation, TriageSubmission,
+  JobSeekerProfile, JobSeekerProfileUpdate, AppNotification,
 } from './types';
 
 export { ApiError };
@@ -84,30 +84,6 @@ async function request<T>(path: string, init?: RequestInit, accessToken?: string
   return response.json() as Promise<T>;
 }
 
-
-async function previewTriage(input: TriageSubmission): Promise<TriageRecommendation> {
-  const services = await request<Service[]>('/services');
-  const terms: Record<TriageSubmission['goal'], string[]> = {
-    direction: ['career', 'planning', 'clarity'],
-    resume: ['resume', 'cv', 'application'],
-    interview: ['interview', 'confidence', 'practice'],
-    career_change: ['career', 'transition', 'planning'],
-  };
-  const wanted = terms[input.goal];
-  const scored = services
-    .filter((service) => input.modality === 'any' || service.modalities.includes(input.modality))
-    .map((service) => ({
-      service,
-      score: wanted.filter((term) => `${service.title} ${service.description}`.toLowerCase().includes(term)).length,
-    }))
-    .sort((a, b) => b.score - a.score || (b.service.averageRating ?? 0) - (a.service.averageRating ?? 0));
-  return {
-    summary: `A focused ${input.goal.replace('_', ' ')} session is a useful next step for your ${input.careerStage.replace('_', ' ')} journey.`,
-    suggestedSearchTerms: wanted,
-    services: scored.slice(0, 3).map(({ service }) => service),
-    source: 'preview',
-  };
-}
 
 
 export const api = {
@@ -210,27 +186,43 @@ export const api = {
   updateTaxDetails: (update: TaxDetailsUpdate, accessToken: string): Promise<PayoutStatus> =>
     request('/me/tax-details', { method: 'PUT', body: JSON.stringify(update) }, accessToken),
 
+  // --- notifications -------------------------------------------------------
+
   /**
-   * Planned backend boundary for the Home triage. Until POST /triage/recommendations
-   * ships, a 404/405/501 produces a visibly labelled local recommendation.
+   * In-app notifications, newest first. The backend has not built this route yet:
+   * until it does, a missing route reads as "none", so turning it on needs no
+   * change here.
    */
-  getTriageRecommendations: async (input: TriageSubmission, accessToken?: string): Promise<TriageRecommendation> => {
+  listNotifications: async (accessToken: string): Promise<AppNotification[]> => {
     try {
-      const result = await request<Omit<TriageRecommendation, 'source'>>(
-        '/triage/recommendations',
-        { method: 'POST', body: JSON.stringify(input) },
-        accessToken,
-      );
-      return { ...result, source: 'live' };
+      return await request<AppNotification[]>('/me/notifications', undefined, accessToken);
     } catch (error) {
-      const unavailable = error instanceof TypeError
-        || (error instanceof ApiError && [404, 405, 501].includes(error.status));
-      if (!unavailable) throw error;
-      return previewTriage(input);
+      if (error instanceof ApiError && [404, 405, 501].includes(error.status)) return [];
+      throw error;
     }
   },
 
+  markNotificationRead: (id: string, accessToken: string): Promise<void> =>
+    request(`/me/notifications/${encodeURIComponent(id)}/read`, { method: 'PATCH' }, accessToken),
+
+  // --- job seeker profile -----------------------------------------------
+
+  getJobSeekerProfile: (accessToken: string): Promise<JobSeekerProfile> =>
+    request('/me/job-seeker-profile', undefined, accessToken),
+
+  /** The whole profile. `photoUrl` is a data URI, or null to remove the photo. */
+  updateJobSeekerProfile: (update: JobSeekerProfileUpdate, accessToken: string): Promise<JobSeekerProfile> =>
+    request('/me/job-seeker-profile', { method: 'PATCH', body: JSON.stringify(update) }, accessToken),
+
   // --- counsellor workspace (contract-published, backend pending) ---
+
+  /** The Career Professionals a Job Seeker can book: the people behind Explore's services. */
+  listCounsellors: (): Promise<CounsellorProfile[]> =>
+    request('/counsellors'),
+
+  /** A Career Professional's public profile: what a Job Seeker reads before booking. */
+  getCounsellorProfile: (counsellorId: string): Promise<CounsellorProfile> =>
+    request(`/counsellors/${encodeURIComponent(counsellorId)}`),
 
   getOwnCounsellorProfile: (user: User, accessToken: string): Promise<CounsellorProfile> =>
     request(`/counsellors/${encodeURIComponent(user.id)}`, undefined, accessToken),

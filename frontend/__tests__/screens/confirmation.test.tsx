@@ -38,7 +38,7 @@ describe('confirmation route rendering characterization (not authoritative recei
     await renderPublic(<ConfirmationScreen />);
     expect(await screen.findByText('booking-1')).toBeOnTheScreen();
     expect(screen.getByText('stub-payment-1')).toBeOnTheScreen();
-    fireEvent.press(screen.getByRole('button', { name: 'Back to Marketplace' }));
+    fireEvent.press(screen.getByRole('button', { name: 'Back to Explore' }));
     expect(navigation.push).toHaveBeenCalledWith('/marketplace');
   });
 
@@ -46,7 +46,7 @@ describe('confirmation route rendering characterization (not authoritative recei
     navigation.canDismiss.mockReturnValue(true);
     await renderPublic(<ConfirmationScreen />);
     await screen.findByText(serviceFixture.title);
-    fireEvent.press(screen.getByRole('button', { name: 'Back to Marketplace' }));
+    fireEvent.press(screen.getByRole('button', { name: 'Back to Explore' }));
     expect(navigation.dismissAll).toHaveBeenCalledTimes(1);
     expect(navigation.push).toHaveBeenCalledWith('/marketplace');
     expect(navigation.dismissAll.mock.invocationCallOrder[0]).toBeLessThan(navigation.push.mock.invocationCallOrder[0]);

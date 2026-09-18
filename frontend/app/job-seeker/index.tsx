@@ -1,117 +1,99 @@
-import { router } from 'expo-router';
-import { useState } from 'react';
+import { Href, Redirect, router } from 'expo-router';
+import { useMemo } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { api, userFacingError } from '@/src/api/client';
-import { Service, TriageSubmission } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { Glyph } from '@/src/components/Glyph';
 import { JobSeekerNav } from '@/src/components/JobSeekerNav';
-import { Button, Card, Chip, ErrorBanner, Tag } from '@/src/components/ui';
-import { money } from '@/src/format';
+import { TopBar } from '@/src/components/TopBar';
+import { Button, Press } from '@/src/components/ui';
+import { directionFor } from '@/src/diagnosis/model';
+import { BestMatches, useDiagnosis } from '@/src/diagnosis/view';
 import { FadeUp, ScreenIn } from '@/src/motion';
-import { colors, fonts, type } from '@/src/theme';
+import { homeFor } from '@/src/navigation';
+import { colors, fonts, radius, type } from '@/src/theme';
 
-const stageOptions: { label: string; value: TriageSubmission['careerStage'] }[] = [
-  { label: 'Student', value: 'student' }, { label: 'Early career', value: 'early_career' },
-  { label: 'Changing career', value: 'career_change' }, { label: 'Returning to work', value: 'returning' },
-];
-const goalOptions: { label: string; value: TriageSubmission['goal'] }[] = [
-  { label: 'Find direction', value: 'direction' }, { label: 'Improve my resume', value: 'resume' },
-  { label: 'Prepare for interviews', value: 'interview' }, { label: 'Plan a career change', value: 'career_change' },
-];
-
+/** The job seeker's home: the Career Professionals best matched to their Yoir Direction. */
 export default function JobSeekerHomeScreen() {
-  const insets = useSafeAreaInsets();
   const { session } = useAuth();
-  const [answers, setAnswers] = useState<TriageSubmission>({ careerStage: 'early_career', goal: 'direction', modality: 'any' });
-  const [result, setResult] = useState<{ summary: string; services: Service[]; source: 'live' | 'preview' } | null>(null);
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState('');
+  const { record } = useDiagnosis();
+  // The diagnosis is part of a signed-in job seeker's onboarding; a guest just browses.
+  const direction = useMemo(
+    () => (session && record?.answers ? directionFor(record.answers) : null),
+    [session, record],
+  );
 
-  const submit = async () => {
-    setBusy(true); setError('');
-    try { setResult(await api.getTriageRecommendations(answers, session?.accessToken)); }
-    catch (value) { setError(userFacingError(value)); }
-    finally { setBusy(false); }
-  };
+  if (session && session.user.role !== 'job_seeker') return <Redirect href={homeFor(session.user.role)} />;
+  if (session && record === undefined) return <View style={styles.screen} />;
+  // Someone who has never been through the diagnosis starts there: it is the onboarding.
+  if (session && record === null) return <Redirect href={'/job-seeker/diagnosis' as Href} />;
+
+  const firstName = session?.user.name.split(' ')[0];
+  const retake = () => router.push('/job-seeker/diagnosis' as Href);
 
   return (
-    <ScreenIn style={[styles.screen, { paddingTop: insets.top }]}>
+    <ScreenIn style={styles.screen}>
+      <TopBar />
       <ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false}>
-        <FadeUp style={styles.heading}>
-          <Text style={type.eyebrow}>Your next step</Text>
-          <Text style={type.display34}>{session ? `Welcome back, ${session.user.name.split(' ')[0]}` : 'Find your best match'}</Text>
-          <Text style={type.body}>Answer three quick questions and we will suggest the most useful place to start.</Text>
+        <FadeUp style={styles.hero}>
+          <Text style={[type.eyebrow, styles.heroEyebrow]}>{firstName ? `Welcome back, ${firstName}` : 'Welcome to Yoir'}</Text>
+          <Text style={[type.display34, styles.heroTitle]}>{direction ? 'Your best matches' : 'Find the right Career Professional'}</Text>
+          <Text style={[type.bodySm, styles.heroBody]}>
+            {direction
+              ? 'Career Professionals matched to your Yoir Direction.'
+              : session
+                ? 'Five quick questions, about two minutes, and we match you with the right people.'
+                : 'Create a free account to take the Yoir Diagnosis and get matched with the right people.'}
+          </Text>
+          {direction ? (
+            <View style={styles.heroFoot}>
+              <View style={styles.heroPill}>
+                <Glyph name="sparkle" size={14} color={colors.green} />
+                <Text style={styles.heroPillText}>{direction.area}</Text>
+              </View>
+              <Press onPress={retake} accessibilityLabel="Retake diagnosis" style={styles.heroButton}>
+                <Glyph name="refresh" size={14} color={colors.canvas} />
+                <Text style={styles.heroButtonText}>Retake diagnosis</Text>
+              </Press>
+            </View>
+          ) : session ? (
+            <Button label="Take the Yoir Diagnosis" tone="soft" height={50} onPress={retake} />
+          ) : (
+            <Button
+              label="Create an account"
+              tone="soft"
+              height={50}
+              onPress={() => router.push({ pathname: '/auth/register', params: { role: 'job_seeker' } })}
+            />
+          )}
         </FadeUp>
 
-        <Card style={styles.triageCard}>
-          <View style={styles.cardTitleRow}>
-            <View style={styles.spark}><Glyph name="sparkle" size={22} color={colors.amberInk} /></View>
-            <View style={styles.cardTitleCopy}>
-              <Text style={type.display24}>Quick career triage</Text>
-              <Text style={type.small}>A preview of personalised matching</Text>
-            </View>
-          </View>
+        {direction ? null : <Text style={type.display24}>Top rated Career Professionals</Text>}
 
-          <Question label="1. Where are you now?">
-            {stageOptions.map((option) => <Chip key={option.value} label={option.label} selected={answers.careerStage === option.value} onPress={() => setAnswers((a) => ({ ...a, careerStage: option.value }))} />)}
-          </Question>
-          <Question label="2. What would help most?">
-            {goalOptions.map((option) => <Chip key={option.value} label={option.label} selected={answers.goal === option.value} onPress={() => setAnswers((a) => ({ ...a, goal: option.value }))} />)}
-          </Question>
-          <Question label="3. How would you like to meet?">
-            <Chip label="No preference" selected={answers.modality === 'any'} onPress={() => setAnswers((a) => ({ ...a, modality: 'any' }))} />
-            <Chip label="Online" selected={answers.modality === 'online'} onPress={() => setAnswers((a) => ({ ...a, modality: 'online' }))} />
-            <Chip label="In person" selected={answers.modality === 'in_person'} onPress={() => setAnswers((a) => ({ ...a, modality: 'in_person' }))} />
-          </Question>
-          {error ? <ErrorBanner message={error} /> : null}
-          <Button label="Show my matches" busy={busy} onPress={submit} icon={<Glyph name="sparkle" size={18} color={colors.white} />} />
-        </Card>
-
-        {result ? (
-          <FadeUp style={styles.results}>
-            <View style={styles.resultHeading}>
-              <Text style={type.display28}>Recommended for you</Text>
-              {result.source === 'preview' ? <Tag label="Preview matching" bg={colors.yellowTint} fg={colors.amberInk} /> : null}
-            </View>
-            <Text style={type.body}>{result.summary}</Text>
-            {result.services.map((service) => (
-              <Card key={service.id} onPress={() => router.push({ pathname: '/services/[serviceId]', params: { serviceId: service.id } })}>
-                <Text style={type.display20}>{service.title}</Text>
-                <Text style={type.small}>{service.counsellor.displayName}</Text>
-                <View style={styles.serviceFoot}>
-                  <View style={styles.tags}>{service.modalities.map((m) => <Tag key={m} label={m === 'in_person' ? 'In person' : 'Online'} />)}</View>
-                  <Text style={styles.price}>{money(service.priceMinor)}</Text>
-                </View>
-              </Card>
-            ))}
-            <Button label="Explore all services" tone="outline" onPress={() => router.replace('/marketplace')} />
-          </FadeUp>
-        ) : null}
+        <BestMatches direction={direction} limit={5} />
+        <Button label="View all Career Professionals" tone="outline" onPress={() => router.replace('/marketplace')} />
       </ScrollView>
       <JobSeekerNav />
     </ScreenIn>
   );
 }
 
-function Question({ label, children }: { label: string; children: React.ReactNode }) {
-  return <View style={styles.question}><Text style={type.label}>{label}</Text><View style={styles.options}>{children}</View></View>;
-}
-
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: colors.field },
-  body: { paddingHorizontal: 22, paddingTop: 18, paddingBottom: 30, gap: 20 },
-  heading: { gap: 8 },
-  triageCard: { gap: 20 },
-  cardTitleRow: { flexDirection: 'row', alignItems: 'center', gap: 12 },
-  spark: { width: 46, height: 46, borderRadius: 16, backgroundColor: colors.yellowTint, alignItems: 'center', justifyContent: 'center' },
-  cardTitleCopy: { flex: 1, gap: 2 },
-  question: { gap: 10 },
-  options: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
-  results: { gap: 14 },
-  resultHeading: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 8 },
-  serviceFoot: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
-  tags: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
-  price: { fontFamily: fonts.extra, fontSize: 18, color: colors.green },
+  screen: { flex: 1, backgroundColor: colors.canvas },
+  body: { paddingHorizontal: 22, paddingTop: 12, paddingBottom: 24, gap: 16 },
+  // The brand block: the logo's green, with its gold and cream.
+  hero: { backgroundColor: colors.green, borderRadius: radius.hero, padding: 22, gap: 10, marginBottom: 6 },
+  heroEyebrow: { color: colors.yellow },
+  heroTitle: { color: colors.canvas },
+  heroBody: { color: colors.onDarkMuted },
+  heroFoot: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 10, marginTop: 4 },
+  heroPill: {
+    flexDirection: 'row', alignItems: 'center', gap: 6, flexShrink: 1,
+    backgroundColor: colors.yellow, borderRadius: radius.pill, paddingHorizontal: 14, paddingVertical: 8,
+  },
+  heroPillText: { fontFamily: fonts.bold, fontSize: 13, color: colors.green, flexShrink: 1 },
+  heroButton: {
+    flexDirection: 'row', alignItems: 'center', gap: 6, borderRadius: radius.pill,
+    borderWidth: 1.5, borderColor: colors.onDarkMuted, paddingHorizontal: 14, paddingVertical: 7,
+  },
+  heroButtonText: { fontFamily: fonts.bold, fontSize: 13, color: colors.canvas },
 });

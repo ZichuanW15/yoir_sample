@@ -23,7 +23,7 @@ const FADE_OUT = `${colors.white}00`;
 
 /** US-46 — the three purchase steps, in the buyer's own words. */
 const bookingSteps = [
-  "Choose a time that suits you from the counsellor's open slots.",
+  "Choose a time that suits you from the Career Professional's open slots.",
   'Pay through Yoir — this build uses a clearly labelled test payment.',
   'Get a confirmation with the reference, time and delivery details.',
 ];
@@ -144,7 +144,7 @@ export default function ServiceDetailScreen() {
                   <Text style={styles.counsellorName}>{counsellor?.displayName}</Text>
                   <View style={[styles.verifyPill, { backgroundColor: verified ? colors.successBg : colors.yellowTint }]}>
                     <Text style={[styles.verifyText, { color: verified ? colors.successInk : colors.amberDeep }]}>
-                      {verified ? 'Verified counsellor' : 'Verification pending'}
+                      {verified ? 'Verified Career Professional' : 'Verification pending'}
                     </Text>
                   </View>
                 </View>
@@ -154,6 +154,16 @@ export default function ServiceDetailScreen() {
                 <Star />
                 <Text style={styles.counsellorRatingText}>{counsellorRating}</Text>
               </View>
+              {counsellor ? (
+                <Press
+                  onPress={() => router.push({ pathname: '/professionals/[counsellorId]', params: { counsellorId: counsellor.id } })}
+                  accessibilityLabel={`View ${counsellor.displayName}'s full profile`}
+                  style={styles.profileLink}
+                >
+                  <Text style={styles.profileLinkText}>View full profile</Text>
+                  <Glyph name="chevronRight" size={16} color={colors.green} />
+                </Press>
+              ) : null}
             </FadeUp>
 
             <FadeUp delay={260} style={styles.delivery}>
@@ -277,6 +287,11 @@ const styles = StyleSheet.create({
   counsellorIntro: { fontFamily: fonts.sans, fontSize: 14, lineHeight: 22, color: colors.muted },
   counsellorRating: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   counsellorRatingText: { fontFamily: fonts.bold, fontSize: 13, color: colors.amberDeep },
+  profileLink: {
+    flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10,
+    paddingTop: 14, borderTopWidth: 1, borderTopColor: colors.lineSoft,
+  },
+  profileLinkText: { flex: 1, fontFamily: fonts.bold, fontSize: 14, color: colors.green },
 
   delivery: { gap: 10 },
   deliveryRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 10 },

@@ -61,7 +61,7 @@ export default function AdminOverviewScreen() {
               >
                 <Glyph name="shieldCheck" size={20} color={colors.amberInk} />
                 <Text style={styles.calloutText}>
-                  {stats.counsellorsPendingVerification} counsellor
+                  {stats.counsellorsPendingVerification} Career Professional
                   {stats.counsellorsPendingVerification === 1 ? '' : 's'} waiting on a decision
                 </Text>
                 <Glyph name="chevronRight" size={16} color={colors.amberInk} />
@@ -73,7 +73,7 @@ export default function AdminOverviewScreen() {
             <Text style={type.groupLabel}>People</Text>
             <View style={styles.grid}>
               <Stat wide={wide} label="Job seekers" value={stats.jobSeekers} />
-              <Stat wide={wide} label="Counsellors" value={stats.counsellors} href="/admin/counsellors" />
+              <Stat wide={wide} label="Career Professionals" value={stats.counsellors} href="/admin/counsellors" />
               <Stat
                 wide={wide}
                 label="Awaiting review"
@@ -120,10 +120,10 @@ export default function AdminOverviewScreen() {
             <Card pad={20} style={styles.money}>
               <Line label="Gross taken" value={currency(stats.money.grossMinor)} strong />
               <View style={styles.rule} />
-              <Line label="Counsellor payouts" value={currency(stats.money.counsellorPayoutMinor)} />
+              <Line label="Career Professional payouts" value={currency(stats.money.counsellorPayoutMinor)} />
               <Line label="Yoir commission" value={currency(stats.money.platformFeeMinor)} />
               <Line label="…of which GST" value={currency(stats.money.platformFeeGstMinor)} muted />
-              <Line label="Session GST (counsellors')" value={currency(stats.money.sessionGstMinor)} muted />
+              <Line label="Session GST (Career Professionals')" value={currency(stats.money.sessionGstMinor)} muted />
               <View style={styles.rule} />
               <Line label="Refunded" value={currency(stats.money.refundedMinor)} />
               <Text style={styles.footnote}>

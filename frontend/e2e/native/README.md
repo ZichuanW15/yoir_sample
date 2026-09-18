@@ -173,7 +173,7 @@ erase the emulator or clear unrelated applications' data.
    **Test-mode payment** / no-real-money notice before selecting **Pay $95**.
 5. Confirm **You're booked**, the no-real-money success text, and the booking and
    payment references. Capture the confirmation and references before leaving.
-6. Select **Back to Marketplace**, then **Account, Alex Rivera** → **Log out**.
+6. Select **Back to Explore**, then **Account, Alex Rivera** → **Log out**.
    Confirm the signed-out home screen and absence of Alex's account control.
 7. Independently inspect only the owned temporary database for the corresponding
    order, booking and slot state. A success message without matching persisted
@@ -182,7 +182,7 @@ erase the emulator or clear unrelated applications' data.
 
 ### Counsellor workspace, profile entry and logout
 
-1. From signed-out home, select **I am a Career Counsellor**, then **Log in**.
+1. From signed-out home, select **I am a Career Professional**, then **Log in**.
    Use the seed fixture `maya@example.com` / `password123`.
 2. Confirm **Good to see you, Maya**, **Account, Maya Chen**, and the workspace.
    Capture the screen without treating its potentially fabricated Pending
