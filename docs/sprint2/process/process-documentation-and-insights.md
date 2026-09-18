@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Process Documentation and Insights
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Process-Documentation-and-Insights
-  Wiki commit: bf4990c (2026-09-19)
+  Wiki commit: fd37b84 (2026-09-19)
   Exported:    2026-09-19
   Section 7 is the board insights at the close of Sprint 2, generated with
   .github/scripts/board-insights.py --date 2026-09-18; the wiki page shows the current sprint.
@@ -247,6 +247,28 @@ These checks expose differences between Issue state and Project fields; they do 
 Observations from the Sprint 2 records, each with its evidence. They are input for the Sprint 2 retrospective, not its outcome; the suggestions are for the team to accept or reject there.
 
 **Sprint 2 in numbers:** 20 stories and 69 SP committed; 11 pull requests merged into `dev`; two stand-ups, two supervisor meetings and one client demonstration minuted; the app deployed to FastAPI Cloud from 9 September.
+
+### 8.1 Sprint 2 burndown at close
+
+Generated with `.github/scripts/board-insights.py --date 2026-09-18` from the board at the close of Sprint 2. §7 above follows the current sprint, so this section keeps Sprint 2's chart.
+
+```mermaid
+xychart-beta
+    title "Sprint 2 burndown - story points"
+    x-axis ["31 Aug", "1 Sep", "2 Sep", "3 Sep", "4 Sep", "5 Sep", "6 Sep", "7 Sep", "8 Sep", "9 Sep", "10 Sep", "11 Sep", "12 Sep", "13 Sep", "14 Sep", "15 Sep", "16 Sep", "17 Sep", "18 Sep"]
+    y-axis "Story points" 0 --> 70
+    line [69, 65.1666666667, 61.3333333333, 57.5, 53.6666666667, 49.8333333333, 46, 42.1666666667, 38.3333333333, 34.5, 30.6666666667, 26.8333333333, 23, 19.1666666667, 15.3333333333, 11.5, 7.6666666667, 3.8333333333, 0]
+    line [69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69, 69]
+```
+
+| Date | Remaining from Issue state (SP) | Ideal from current scope (SP) |
+|---|---:|---:|
+| 31 Aug 2026 | 69 | 69 |
+| 18 Sep 2026 | 69 | 0 |
+
+**Method limitation.** Remaining work uses each Issue's open/closed state and `closedAt`; GitHub's standard ProjectV2 query does not provide historical Status or Story Points transitions. The ideal line uses today's recorded sprint scope. This is an indicative burndown, not a reconstruction of every past board movement.
+
+### 8.2 Observations
 
 | # | Observation | Evidence | Suggestion for the retrospective |
 |---|---|---|---|
