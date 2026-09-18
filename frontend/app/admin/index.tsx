@@ -1,6 +1,6 @@
-import { router } from 'expo-router';
+import { Href, router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { api, userFacingError } from '@/src/api/client';
 import { PlatformStats } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
@@ -23,6 +23,8 @@ export default function AdminOverviewScreen() {
   const { session } = useAuth();
   const [stats, setStats] = useState<PlatformStats | null>(null);
   const [error, setError] = useState('');
+  // Four tiles to a row once there is room for them; two on a phone, as before.
+  const wide = useWindowDimensions().width >= 860;
 
   const load = useCallback(async () => {
     if (!session) return;
@@ -70,13 +72,21 @@ export default function AdminOverviewScreen() {
           <FadeUp delay={120} style={styles.section}>
             <Text style={type.groupLabel}>People</Text>
             <View style={styles.grid}>
-              <Stat label="Job seekers" value={String(stats.jobSeekers)} />
-              <Stat label="Counsellors" value={String(stats.counsellors)} />
-              <Stat label="Awaiting review" value={String(stats.counsellorsPendingVerification)} />
+              <Stat wide={wide} label="Job seekers" value={stats.jobSeekers} />
+              <Stat wide={wide} label="Counsellors" value={stats.counsellors} href="/admin/counsellors" />
               <Stat
+                wide={wide}
+                label="Awaiting review"
+                value={stats.counsellorsPendingVerification}
+                href="/admin/verifications"
+              />
+              <Stat
+                wide={wide}
                 label="Cannot be paid"
-                value={String(stats.counsellorsAwaitingPayouts)}
+                value={stats.counsellorsAwaitingPayouts}
                 note="Verified, but payouts not set up — nothing they list can be booked."
+                href="/admin/counsellors"
+                alert
               />
             </View>
           </FadeUp>
@@ -84,15 +94,22 @@ export default function AdminOverviewScreen() {
           <FadeUp delay={180} style={styles.section}>
             <Text style={type.groupLabel}>Activity</Text>
             <View style={styles.grid}>
-              <Stat label="Active services" value={String(stats.servicesActive)} />
-              <Stat label="Holds awaiting payment" value={String(stats.ordersAwaitingPayment)} />
+              <Stat wide={wide} label="Active services" value={stats.servicesActive} />
+              <Stat
+                wide={wide}
+                label="Holds awaiting payment"
+                value={stats.ordersAwaitingPayment}
+                href="/admin/payments"
+              />
               {bookingOrder
                 .filter((status) => stats.bookingsByStatus[status])
                 .map((status) => (
                   <Stat
                     key={status}
+                    wide={wide}
                     label={`${bookingLabel[status]} bookings`}
-                    value={String(stats.bookingsByStatus[status])}
+                    value={stats.bookingsByStatus[status]}
+                    href="/admin/bookings"
                   />
                 ))}
             </View>
@@ -121,11 +138,31 @@ export default function AdminOverviewScreen() {
   );
 }
 
-function Stat({ label, value, note }: { label: string; value: string; note?: string }) {
+/**
+ * One number on the dashboard.
+ *
+ * A nought is greyed and a figure that wants attention is tinted, so the numbers
+ * asking for a decision are the ones the eye lands on first. `alert` marks the two
+ * counts that mean somebody is stuck — it only colours the tile once it is not nought.
+ */
+function Stat({ label, value, note, href, alert, wide }: {
+  label: string; value: number; note?: string; href?: Href; alert?: boolean; wide?: boolean;
+}) {
+  const warn = Boolean(alert) && value > 0;
   return (
-    <Card pad={16} style={styles.stat}>
-      <Text style={styles.statValue}>{value}</Text>
-      <Text style={styles.statLabel}>{label}</Text>
+    <Card
+      pad={16}
+      accessibilityLabel={href ? `${label}: ${value}` : undefined}
+      onPress={href ? () => router.replace(href) : undefined}
+      style={[styles.stat, wide && styles.statWide, warn && styles.statWarn]}
+    >
+      <View style={styles.statTop}>
+        <Text style={[styles.statValue, value === 0 && styles.statZero, warn && styles.statWarnInk]}>
+          {value}
+        </Text>
+        {href ? <Glyph name="chevronRight" size={14} color={warn ? colors.amberInk : colors.mark} /> : null}
+      </View>
+      <Text style={[styles.statLabel, warn && styles.statWarnInk]}>{label}</Text>
       {note ? <Text style={styles.statNote}>{note}</Text> : null}
     </Card>
   );
@@ -146,10 +183,15 @@ const styles = StyleSheet.create({
   section: { gap: 10 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   stat: { flexGrow: 1, flexBasis: '46%', gap: 3 },
+  statWide: { flexBasis: '22%', maxWidth: 280 },
+  statWarn: { backgroundColor: colors.yellowTint },
+  statWarnInk: { color: colors.amberDeep },
+  statTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   statValue: { fontFamily: fonts.extra, fontSize: 26, color: colors.ink },
+  statZero: { color: colors.mark },
   statLabel: { fontFamily: fonts.semi, fontSize: 13, color: colors.muted },
   statNote: { fontFamily: fonts.sans, fontSize: 11, lineHeight: 16, color: colors.sub },
-  money: { gap: 2 },
+  money: { gap: 2, width: '100%', maxWidth: 620 },
   line: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 5 },
   lineLabel: { fontFamily: fonts.sans, fontSize: 14, color: colors.muted },
   lineValue: { fontFamily: fonts.semi, fontSize: 14, color: colors.ink },

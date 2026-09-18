@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { goBack } from '@/src/navigation';
+import { goBack, homeFor } from '@/src/navigation';
 
 jest.mock('expo-router', () => ({
   router: { canGoBack: jest.fn(), back: jest.fn(), replace: jest.fn() },
@@ -49,5 +49,18 @@ describe('going back', () => {
 
     // A step backwards should not add another entry to walk back through.
     expect(replace).toHaveBeenCalledTimes(1);
+  });
+});
+
+describe('where a role starts', () => {
+  test('a Platform Owner opens on the dashboard, not the marketplace', () => {
+    // There is nothing for them to browse or book, and the administration screens
+    // are the whole of their app — so logging in should land them there directly.
+    expect(homeFor('platform_owner')).toBe('/admin');
+  });
+
+  test('the other two roles keep the app they had', () => {
+    expect(homeFor('counsellor')).toBe('/counsellor');
+    expect(homeFor('job_seeker')).toBe('/marketplace');
   });
 });

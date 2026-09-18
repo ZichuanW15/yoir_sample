@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { goBack } from '@/src/navigation';
+import { goBack, homeFor } from '@/src/navigation';
 import { useState } from 'react';
 import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -41,7 +41,7 @@ export default function LoginScreen() {
             : { pathname: '/services/[serviceId]', params: { serviceId } },
         );
       } else {
-        router.replace(session.user.role === 'counsellor' ? '/counsellor' : '/marketplace');
+        router.replace(homeFor(session.user.role));
       }
       flash(`Welcome, ${session.user.name.split(' ')[0]}`);
     } catch (value) {

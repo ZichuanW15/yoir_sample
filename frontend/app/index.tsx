@@ -1,22 +1,15 @@
 import { Redirect, router } from 'expo-router';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Role } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { Glyph, GlyphName } from '@/src/components/Glyph';
 import { EntryScene } from '@/src/components/Scenes';
 import { Card, Press } from '@/src/components/ui';
 import { FadeUp, ScreenIn } from '@/src/motion';
+import { homeFor } from '@/src/navigation';
 import { colors, fonts, radius, shadow, type } from '@/src/theme';
 
 type PublicRole = 'job_seeker' | 'counsellor';
-
-/** Where each role's app actually starts. A Platform Owner has no marketplace to browse. */
-function homeFor(role: Role): '/counsellor' | '/admin' | '/marketplace' {
-  if (role === 'counsellor') return '/counsellor';
-  if (role === 'platform_owner') return '/admin';
-  return '/marketplace';
-}
 
 const roles: { role: PublicRole; glyph: GlyphName; holder: string; ink: string; title: string; description: string }[] = [
   {
@@ -95,6 +88,20 @@ export default function EntryScreen() {
             <Glyph name="eye" size={18} color={colors.green} />
             <Text style={styles.guestLabel}>Just looking? Browse as a guest</Text>
           </Press>
+
+          {/* The two cards above are for people choosing a role, which someone who
+              already has an account has done once. It is also the only way in for a
+              Platform Owner, whose role is never offered here and never registered. */}
+          <Press
+            scaleTo={0.96}
+            style={styles.signIn}
+            accessibilityLabel="Already have an account? Log in"
+            onPress={() => router.push('/auth/login')}
+          >
+            <Text style={styles.signInLabel}>
+              Already have an account? <Text style={styles.signInAccent}>Log in</Text>
+            </Text>
+          </Press>
         </FadeUp>
       </ScrollView>
     </ScreenIn>
@@ -121,4 +128,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 22, flexDirection: 'row', alignItems: 'center', gap: 8,
   },
   guestLabel: { fontFamily: fonts.bold, fontSize: 14, color: colors.green },
+  signIn: { paddingVertical: 8, paddingHorizontal: 10 },
+  signInLabel: { fontFamily: fonts.sans, fontSize: 14, color: colors.muted },
+  signInAccent: { fontFamily: fonts.bold, color: colors.green },
 });
