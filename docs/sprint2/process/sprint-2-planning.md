@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Sprint 2 Planning
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Planning
-  Wiki commit: 2aa27a2 (2026-09-19)
+  Wiki commit: 1f074a7 (2026-09-19)
   Exported:    2026-09-19
 -->
 
@@ -16,9 +16,9 @@ This page records the Sprint 2 plan: the goal, the committed stories and who own
 
 ## 1. Sprint goal
 
-> A Job Seeker can register, log in, find a Career Professional's service, book an open slot, pay in test mode and see confirmation; a Career Professional can set up a profile, services and availability.
+> A Job Seeker can register, log in, find a Career Professional's service, book an open slot, pay in test mode and see confirmation; a Career Professional can set up a profile, services and availability. Collect client feedback and prepare diagnosis requirements for Sprint 3.
 
-The goal is the account-to-booking foundation of the MVP.
+The goal is the account-to-booking foundation of the MVP. The Yoir Diagnosis (US-09–13) was **not** a Sprint 2 implementation commitment: Sprint 2 was to collect the client's feedback and prepare its requirements, and the Product Owner confirmed on 18 September that it is the first priority of Sprint 3. Its front-end is already in progress (see §8).
 
 ## 2. Inputs carried in from Sprint 1
 
@@ -69,7 +69,7 @@ All 20 stories are Must-haves. Points follow the sizing guide in [Process Docume
 | Find a Career Professional | 3 | 12 |
 | Book and pay | 4 | 14 |
 
-**Out of scope for Sprint 2:** messaging, reviews and ratings, disputes and refunds, and production concerns such as analytics and observability (proposed as out of the MVP at the 9 September stand-up).
+**Out of scope for Sprint 2:** the Yoir Diagnosis and matching (US-09–13, Sprint 3), messaging, reviews and ratings, disputes and refunds, and production concerns such as analytics and observability (proposed as out of the MVP at the 9 September stand-up).
 
 ## 4. Team and capacity
 
@@ -101,6 +101,7 @@ Each story was split into three sub-issues — Front-end, Back-end and QA — so
 | Front-end waits on back-end endpoints | Shared contract (`openapi.yaml`) and the same story IDs on both sides | Definition of Ready |
 | Merge conflicts on `dev` | Pull the latest `dev` before new work; reviewers on every pull request; consistent branch names | Stand-up 9 Sep |
 | Deployed database drops idle connections | Jashan to fix the serverless Postgres drop after about five minutes | Stand-up 9 Sep |
+| Client's triage questions not yet answered | Keep triage out of Sprint 2; move it to Sprint 3 if answers are late | Stand-up 16 Sep |
 
 ## 7. How the plan changed during the sprint
 
@@ -113,9 +114,9 @@ Each story was split into three sub-issues — Front-end, Back-end and QA — so
 | 12 Sep | PR [#153](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/153) | Login, safe errors and logout back-end merged. |
 | 14 Sep | PRs [#152](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/152), [#154](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/154) | Service and availability back-end (Evelyn); editing and deleting services and bulk availability on the front-end. |
 | 15 Sep | Client meeting | Job Seeker and Career Professional flows demonstrated to Sam. |
-| 16 Sep | Stand-up | Most tasks complete; focus moved to documentation. Triage questions still pending from the client. Overlapping-slot bug found. |
+| 16 Sep | Stand-up | Most tasks complete; focus moved to documentation. Triage questions still pending from the client, so triage may move to Sprint 3. Overlapping-slot bug found. |
 | 17 Sep | Supervisor meeting; client email | Client asked for triage questions customised per user. Team to compare matching approaches by cost and effort. The client's written feedback asked for Career Professional terminology, richer profiles, closer branding and the diagnosis at the centre of the journey. |
-| 18 Sep | PRs [#155](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/155), [#156](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/156), [#157](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/157), [#159](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/159) | Merged: multi-platform QA evidence; payments, transactional email, the admin panel and My sessions; the admin dashboard; and the job seeker navigation with a first diagnosis slice and the client's feedback applied. Triage stories split into front-end, back-end and QA sub-issues (#160–#174). |
+| 18 Sep | Product Owner; PRs [#155](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/155), [#156](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/156), [#157](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/157), [#159](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/159) | Triage confirmed as Sprint 3's first priority. Merged: multi-platform QA evidence; payments, transactional email, the admin panel and My sessions; the admin dashboard; and the job seeker navigation with a first diagnosis slice and the client's feedback applied. Triage stories split into front-end, back-end and QA sub-issues (#160–#174). |
 
 ## 8. Work that landed beyond the committed stories
 
@@ -123,10 +124,12 @@ These arrived in Sprint 2 alongside the committed scope. They are not claimed as
 
 - Deployment of the API and web build to FastAPI Cloud, with a deploy pipeline (#149).
 - Stripe payments, payouts, transactional email, the Platform Owner admin panel and My sessions (#157, #159).
-- A first front-end slice of the Yoir Diagnosis, the Job Seeker profile, richer Career Professional profiles, a notifications dropdown awaiting its backend, and the client's terminology and branding changes (#156).
+- The Yoir Diagnosis (US-09–13, Sprint 3 work): a first front-end slice reached `dev` early, and its front-end is in progress (sub-issues #160, #163, #166, #169 and #172). The back-end has not started.
+- The Job Seeker profile, richer Career Professional profiles, a notifications dropdown awaiting its backend, and the client's terminology and branding changes (#156).
 
 ## 9. Close-out and handover to Sprint 3
 
 - **Board:** all 20 stories and their sub-issues sit in the Sprint 2 column. Per-story acceptance evidence and open gaps are in the [Sprint 2 Review & Client Feedback](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Review-and-Client-Feedback), the [Sprint 2 Test Approach](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Test-Approach), and the per-story [frontend](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/tree/dev/docs/sprint2/frontend) and [backend](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/tree/dev/docs/sprint2/backend) documentation.
-- **Carried into Sprint 3:** fix the overlapping-slot bug; confirm with the client whether payouts run through Stripe or manually.
+- **Carried into Sprint 3:** estimate US-09–13 and build the diagnosis-to-booking slice first; import the client's question workbook; fix the overlapping-slot bug; confirm with the client whether payouts run through Stripe or manually.
+- **Board, 19 September:** US-09–13 moved to the Sprint 3 iteration; their front-end sub-issues are In Progress.
 - **Still to record for Sprint 2:** the sprint retrospective.

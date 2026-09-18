@@ -11,8 +11,9 @@ Issues: front-end sub-issues [#160](https://github.com/swen90014-2026-sm2/SWEN90
 [US-12 #79](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/79) and
 [US-13 #76](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/76).
 
-The five triage stories are Sprint 3 priority work in the
-[Sprint 2 review](../client-feedback/sprint-2-review-and-client-feedback.md). A first frontend slice
+The five triage stories are Sprint 3 work and its highest priority, as the Product Owner recorded on
+18 September in the [Sprint 2 review](../client-feedback/sprint-2-review-and-client-feedback.md). Their
+front-end is in progress: the five front-end sub-issues are In Progress on the board, and a first slice
 reached `dev` on 18 September 2026 in response to the client's 17 September feedback, ahead of any
 backend support. It gives a signed-in Job Seeker the six-step Yoir Diagnosis as their onboarding, a
 Yoir Direction, and a home screen of the Career Professionals best matched to it. Answers are kept on
