@@ -1,5 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
+import { goBack } from '@/src/navigation';
 import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -91,7 +92,7 @@ export default function ServiceDetailScreen() {
   return (
     <ScreenIn style={[styles.screen, { paddingTop: insets.top }]}>
       <View style={styles.bar}>
-        <IconButton label="Back" tone="white" onPress={() => router.back()}>
+        <IconButton label="Back" tone="white" onPress={() => goBack('/marketplace')}>
           <BackChevron />
         </IconButton>
         <Text style={styles.barTitle}>Service details</Text>

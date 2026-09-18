@@ -1,5 +1,6 @@
 import {
-  AvailabilitySlot,
+  AvailabilityWindow,
+  BookableStart,
   CounsellorProfile,
   Order,
   Service,
@@ -15,6 +16,7 @@ export const sessionFixture: Session = {
     name: 'Alex Morgan',
     email: 'alex@example.com',
     role: 'job_seeker',
+    emailVerified: true,
   },
 };
 
@@ -23,6 +25,7 @@ export const serviceFixture: Service = {
   title: 'Interview confidence coaching',
   description: 'Practical interview preparation and feedback.',
   priceMinor: 9500,
+  durationMinutes: 60,
   currency: 'AUD',
   modalities: ['online'],
   active: true,
@@ -38,18 +41,27 @@ export const serviceFixture: Service = {
   },
 };
 
-export const slotFixture: AvailabilitySlot = {
-  id: 'slot-1',
-  serviceId: serviceFixture.id,
+/** A stretch of the counsellor's time; it names no service. */
+export const windowFixture: AvailabilityWindow = {
+  id: 'window-1',
+  startsAt: '2026-09-01T00:00:00.000Z',
+  endsAt: '2026-09-01T03:00:00.000Z',
+  modalities: ['online', 'in_person'],
+  hasBookings: false,
+};
+
+/** One derived offer for a 60-minute service inside that window. */
+export const slotFixture: BookableStart = {
   startsAt: '2026-09-01T00:00:00.000Z',
   endsAt: '2026-09-01T01:00:00.000Z',
-  status: 'open',
 };
 
 export const orderFixture: Order = {
   id: 'order-1',
   serviceId: serviceFixture.id,
-  slotId: slotFixture.id,
+  windowId: windowFixture.id,
+  startsAt: slotFixture.startsAt,
+  endsAt: slotFixture.endsAt,
   amountMinor: serviceFixture.priceMinor,
   currency: 'AUD',
   status: 'awaiting_payment',
@@ -81,6 +93,7 @@ export const counsellorSessionFixture: Session = {
     name: 'Maya Chen',
     email: 'maya@example.com',
     role: 'counsellor',
+    emailVerified: true,
   },
 };
 

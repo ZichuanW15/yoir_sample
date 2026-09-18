@@ -269,7 +269,8 @@ is not uploaded.
 | `DATABASE_URL` | `postgresql://USER:PASSWORD@HOST:5432/DBNAME` — same `postgresql://` scheme as local |
 | `JWT_SECRET` | A real secret of at least 32 bytes. Never the `.env.example` placeholder. |
 | `CORS_ALLOW_ORIGINS` | The deployed frontend origin, not `*`. The bundled web build is same-origin and needs no entry; this is for any other client. |
-| `SEED_ON_STARTUP` | `false` once the database holds real data |
+| `SEED_ON_STARTUP` | `false` once the database holds real data. The seed inserts demo counsellors and services whose password is published in this repository. |
+| `ADMIN_EMAIL` / `ADMIN_PASSWORD` | Creates the `platform_owner` on startup if absent — nothing else can, since registration never grants that role. Existing accounts are never modified, so redeploying preserves a password changed since. Clear both once the owner exists in anything holding real accounts. |
 
 The defaults in `app/config.py` — wildcard CORS, automatic seed and a placeholder JWT secret —
 are for local development only and are a recorded QA finding; override all four.
@@ -292,12 +293,115 @@ app/
   seed.py         demo counsellors + services
   frontend.py     serves the exported Expo web build at "/"
   dev.py          `yoir-dev` — local build-then-serve launcher
-  routers/        health, auth, services
+  routers/        health, auth, services, bookings, counsellor, payments, webhooks
+  payments/       Stripe Connect: pricing, gateway, state machine, jobs, documents
+    amounts.py    the commission and GST split (pure, unit-tested)
+    gateway.py    the only module that calls Stripe
+    service.py    what each payment outcome does to an order or booking
+    jobs.py       hold expiry, session completion, counsellor payouts
+    scheduler.py  runs those jobs while the app is up
+    receipts.py   job seeker receipts and monthly commission statements
+    notifications.py  where the flow hands a message off for delivery
 static/           the exported web build (generated, git-ignored, not committed)
 ```
 
+## Database migrations
+
+The schema is versioned with Alembic and brought up to date **on startup**, so a
+deploy needs no manual step. `create_all()` is gone: it only ever created missing
+*tables*, so a new column on an existing table never reached the database and the
+deployment failed on the first request that needed it.
+
+```text
+migrations/versions/
+  0001_baseline_pre_payments.py      the schema as it was before migrations existed
+  0002_payments_windows_refresh.py   payments, availability windows, refresh tokens,
+                                     counsellor profiles — including the data move
+                                     from per-service slots to counsellor windows
+```
+
+A database arrives in one of three states, and `app/migrations.py` tells them apart
+rather than guessing:
+
+| state | what happens |
+|---|---|
+| has migration history | upgraded from wherever it is |
+| completely empty | built from `0001` onwards |
+| predates migrations | recognised by its schema, stamped at `0001`, then upgraded |
+
+That third case is the one-time adoption for a database created before Alembic. It
+is recognised by a signature — `availability_slots` plus `orders.slot_id`, both of
+which `0002` removes — so an *unfamiliar* schema stops the app with an error instead
+of having a migration written for a different shape run against it. A deployment that
+will not start is recoverable; a half-migrated database is much less so.
+
+Adding a change:
+
+```bash
+uv run alembic revision --autogenerate -m "what changed"
+uv run alembic upgrade head          # or just start the app
+```
+
+`migrations/env.py` takes the URL from `app.config`, never from `alembic.ini`, so a
+migration cannot run against a different database than the one the app is about to
+serve.
+
+## Payments
+
+Stripe Connect with **separate charges and transfers**: the job seeker is charged
+into the platform balance when they book, and the counsellor's share is transferred
+to their connected account after the session has taken place. The full design is
+`docs/payment/stripe-payment-spec.md`.
+
+**Without Stripe credentials the server runs exactly as before**, on the development
+payment stub, so no one needs a Stripe account to work on anything else. Setting
+`STRIPE_SECRET_KEY` switches card payments on and refuses the stub endpoint, so a
+real deployment cannot be talked into confirming an unpaid booking.
+
+How the pieces map onto the existing schema:
+
+| Payments spec | Here |
+|---|---|
+| booking, `pending_payment` | `Order` — holds the slot, owns the PaymentIntent and the frozen amount breakdown |
+| booking, `confirmed` onward | `Booking` — created by the webhook, owns the Transfer and any refund |
+| `*_cents` | `*_minor`, the naming the rest of the project already uses |
+
+Three rules the code is built around:
+
+1. **The server owns every amount.** The price is read from the service row, never
+   from the request, and the commission split is written onto the order once and
+   never recalculated — so a counsellor changing their price or GST registration
+   cannot change what a booking already made is worth.
+2. **The app never decides that a payment worked.** Stripe's PaymentSheet returning
+   success only means the card was accepted. The booking is created when the
+   `payment_intent.succeeded` webhook arrives, and the app reads the result from
+   `GET /orders/{id}`.
+3. **Stripe decides who can be paid.** `chargesEnabled` and `payoutsEnabled` are
+   only ever written from `account.updated`, and a counsellor without them is hidden
+   from the Marketplace.
+
+### Local testing
+
+```bash
+stripe listen \
+  --forward-to localhost:8000/api/v1/payments/stripe/webhook \
+  --forward-connect-to localhost:8000/api/v1/payments/stripe/webhook/connect
+```
+
+Copy the two signing secrets it prints into `STRIPE_WEBHOOK_SECRET` and
+`STRIPE_CONNECT_WEBHOOK_SECRET`. Test cards: `4242 4242 4242 4242` succeeds,
+`4000 0000 0000 0002` is declined, `4000 0025 0000 3155` asks for 3D Secure.
+
+Connect onboarding needs an HTTPS `APP_BASE_URL`, so point it at a tunnel
+(e.g. ngrok) when testing locally — Stripe rejects plain HTTP in an Account Link.
+
+The test suite mocks every Stripe call and needs no credentials, except webhook
+signatures, which are generated for real so the verification path is genuinely
+exercised: `uv run pytest tests/test_payments.py`.
+
 ## Deliberate skeleton shortcuts (next slices)
 
-- **Alembic** migrations — skeleton calls `create_all()` on startup instead.
+- **Email delivery** — `payments/notifications.py` logs where a receipt or
+  confirmation would be sent; the project has no mail transport yet.
 - **Refresh tokens / logout** (US-08), bearer-auth dependency for protected routes.
 - **Tests / CI** — owned by QA; not in this skeleton.

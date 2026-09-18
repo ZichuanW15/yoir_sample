@@ -1,9 +1,10 @@
 import { router, useLocalSearchParams } from 'expo-router';
+import { goBack } from '@/src/navigation';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { api, fieldErrors, userFacingError } from '@/src/api/client';
-import { AvailabilitySlot, Modality, Service } from '@/src/api/types';
+import { BookableStart, Modality, Service } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { BackBar, beat, BookingSteps, RESERVE_MS } from '@/src/components/booking';
 import { Glyph } from '@/src/components/Glyph';
@@ -12,9 +13,15 @@ import { deviceTimezone, duration, fmtDay, modalityLabel, money, timeRange } fro
 import { FadeUp, Pop, ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, type } from '@/src/theme';
 
-/** US-40 — only open slots are offered, grouped into the days they fall on. */
-function groupByDay(slots: AvailabilitySlot[]) {
-  const days = new Map<string, AvailabilitySlot[]>();
+/**
+ * US-40 — the offers the server derived for this service, grouped into days.
+ *
+ * These are not stored rows: the backend works them out from the counsellor's
+ * windows, this service's duration and what is already taken, so the list changes
+ * as other people book — including bookings of the counsellor's *other* services.
+ */
+function groupByDay(slots: BookableStart[]) {
+  const days = new Map<string, BookableStart[]>();
   for (const slot of [...slots].sort((a, b) => a.startsAt.localeCompare(b.startsAt))) {
     const key = new Date(slot.startsAt).toDateString();
     days.set(key, [...(days.get(key) ?? []), slot]);
@@ -27,7 +34,7 @@ export default function TimeSlotsScreen() {
   const { session } = useAuth();
   const insets = useSafeAreaInsets();
   const [service, setService] = useState<Service | null>(null);
-  const [slots, setSlots] = useState<AvailabilitySlot[]>([]);
+  const [slots, setSlots] = useState<BookableStart[]>([]);
   const [selected, setSelected] = useState('');
   const [modality, setModality] = useState<Modality | null>(null);
   const [slotsError, setSlotsError] = useState('');
@@ -36,14 +43,18 @@ export default function TimeSlotsScreen() {
   const load = useCallback(async () => {
     if (!serviceId) return;
     try {
-      const [loaded, available] = await Promise.all([api.getService(serviceId), api.listServiceSlots(serviceId)]);
+      const loaded = await api.getService(serviceId);
+      const chosenModality = modality ?? loaded.modalities[0] ?? null;
+      // Availability can differ by delivery method — a counsellor may be in the
+      // office only on some days — so the offers are asked for per modality.
+      const available = await api.listServiceSlots(serviceId, chosenModality ?? undefined);
       setService(loaded);
-      setSlots(available.filter((slot) => slot.status === 'open'));
-      setModality((current) => current ?? loaded.modalities[0] ?? null);
+      setSlots(available);
+      setModality(chosenModality);
     } catch (error) {
       setSlotsError(userFacingError(error));
     }
-  }, [serviceId]);
+  }, [serviceId, modality]);
 
   useEffect(() => {
     // Reserving needs an access token, so an unauthenticated arrival logs in first.
@@ -56,7 +67,7 @@ export default function TimeSlotsScreen() {
   }, [load, serviceId, session]);
 
   const days = useMemo(() => groupByDay(slots), [slots]);
-  const chosen = slots.find((slot) => slot.id === selected);
+  const chosen = slots.find((slot) => slot.startsAt === selected);
   const multiModal = (service?.modalities.length ?? 0) > 1;
   const meetingArea = service?.location ? `${service.location.cityOrRegion}, ${service.location.state}` : '';
 
@@ -70,18 +81,21 @@ export default function TimeSlotsScreen() {
     setSlotsError('');
     const busy700 = beat(RESERVE_MS);
     try {
-      const order = await api.createOrder(service.id, chosen.id, modality, deviceTimezone(), session.accessToken);
+      const order = await api.createOrder(service.id, chosen.startsAt, modality, deviceTimezone(), session.accessToken);
       await busy700;
       router.push({
         pathname: '/bookings/checkout',
         params: {
-          orderId: order.id, serviceId: service.id, slotId: chosen.id, modality,
+          orderId: order.id, serviceId: service.id, modality,
           amountMinor: String(order.amountMinor), startsAt: chosen.startsAt, endsAt: chosen.endsAt,
+          // The server owns the hold deadline, so checkout counts down to its
+          // answer rather than starting a timer of its own.
+          holdExpiresAt: order.holdExpiresAt ?? '',
         },
       });
     } catch (error) {
       // Refresh availability first, then report — reloading must not wipe the reason.
-      const detail = fieldErrors(error).slotId;
+      const detail = fieldErrors(error).startsAt;
       setSelected('');
       await load();
       await busy700;
@@ -93,7 +107,7 @@ export default function TimeSlotsScreen() {
 
   return (
     <ScreenIn style={s.screen}>
-      <BackBar title="Choose a time" onBack={() => router.back()} />
+      <BackBar title="Choose a time" onBack={() => goBack({ pathname: '/services/[serviceId]', params: { serviceId } })} />
 
       <ScrollView contentContainerStyle={s.body} showsVerticalScrollIndicator={false}>
         <FadeUp><BookingSteps step={0} /></FadeUp>
@@ -132,17 +146,17 @@ export default function TimeSlotsScreen() {
         ) : null}
 
         {days.map((day, index) => (
-          <FadeUp key={day[0].id} delay={120 + index * 80} style={s.day}>
+          <FadeUp key={day[0].startsAt} delay={120 + index * 80} style={s.day}>
             <View style={s.dayHeading}>
               <View style={s.dayDot} />
               <Text style={s.dayLabel}>{fmtDay(day[0].startsAt)}</Text>
             </View>
             {day.map((slot) => {
-              const on = slot.id === selected;
+              const on = slot.startsAt === selected;
               return (
                 <Press
-                  key={slot.id}
-                  onPress={() => setSelected(slot.id)}
+                  key={slot.startsAt}
+                  onPress={() => setSelected(slot.startsAt)}
                   scaleTo={0.98}
                   accessibilityRole="radio"
                   accessibilityLabel={`${fmtDay(slot.startsAt)}, ${timeRange(slot.startsAt, slot.endsAt)}, ${duration(slot.startsAt, slot.endsAt)}`}

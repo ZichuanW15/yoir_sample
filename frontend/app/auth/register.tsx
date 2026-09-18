@@ -1,4 +1,5 @@
 import { router, useLocalSearchParams } from 'expo-router';
+import { goBack } from '@/src/navigation';
 import { useState } from 'react';
 import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -64,7 +65,7 @@ export default function RegisterScreen() {
   return (
     <SheetUp duration={500} style={[styles.screen, { paddingTop: insets.top }]}>
       <View style={styles.bar}>
-        <IconButton label="Close" onPress={() => router.back()}>
+        <IconButton label="Close" onPress={() => goBack('/auth/welcome')}>
           <Glyph name="close" size={18} color={colors.green} />
         </IconButton>
         <Image source={require('@/assets/images/yoir-wordmark.png')} style={styles.wordmark} resizeMode="contain" accessibilityLabel="Yoir" />

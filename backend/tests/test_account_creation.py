@@ -46,6 +46,8 @@ def test_account_is_committed_with_only_a_verifiable_hash(
         "name": "Emily Account",
         "email": "emily.account@example.com",
         "role": "job_seeker",
+        # A new account starts unconfirmed; the link is on its way, not yet followed.
+        "emailVerified": False,
     }
     assert "set-cookie" not in response.headers
     assert "location" not in response.headers

@@ -1,0 +1,41 @@
+{% extends "_layout.html.j2" %}
+{% import "_ui.html.j2" as ui %}
+
+{% block subject %}New booking: {{ service_title }} · {{ brand }}{% endblock %}
+{% block preview %}{{ job_seeker_name }} has booked and paid for a session with you.{% endblock %}
+{% block heading %}You have a new booking{% endblock %}
+
+{% block content %}
+<p style="margin:0 0 14px 0;">Hi {{ name }},</p>
+
+<p style="margin:0 0 14px 0;">
+  <strong>{{ job_seeker_name }}</strong> has booked and paid for
+  <strong>{{ service_title }}</strong>. The time is held in your calendar and no longer
+  offered to anyone else.
+</p>
+
+{{ ui.detail_rows(details) }}
+
+{% if meeting_url %}
+<p style="margin:0 0 14px 0;">
+  Join at the scheduled time using the same room your client has. Nothing to install.
+</p>
+
+{{ ui.button(meeting_url, "Open the meeting room") }}
+{% elif meeting_area %}
+{{ ui.notice("This is an in-person session in " ~ meeting_area ~ ". Confirm the exact meeting point with your client before you meet — they are expecting to hear from you.") }}
+{% endif %}
+
+<p style="margin:0 0 14px 0; font-size:13px; color:#66756B;">
+  You earn {{ payout_minor | money }} for this session, paid out {{ payout_delay_hours }} hours
+  after it takes place. {{ brand }}'s commission is already deducted from that figure.
+</p>
+
+<p style="margin:0; font-size:13px; color:#66756B;">
+  If you cancel, your client is refunded in full.
+</p>
+{% endblock %}
+
+{% block footer %}
+  You are receiving this because someone booked a service you publish on {{ brand }}.
+{% endblock %}
