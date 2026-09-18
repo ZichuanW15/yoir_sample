@@ -37,14 +37,25 @@ class User(Base):
         UtcDateTime, nullable=True,
     )
 
+    # Any role's profile photo: a counsellor's URL, or a job seeker's image stored
+    # inline as a data URI (there is no file storage to hold an upload).
+    photo_url: Mapped[str | None] = mapped_column(String, nullable=True)
+
+    # Job-seeker-only profile fields (left null for other roles).
+    headline: Mapped[str | None] = mapped_column(String, nullable=True)
+    career_goals: Mapped[str | None] = mapped_column(String, nullable=True)
+
     # Counsellor-only profile fields (left null for other roles).
     introduction: Mapped[str | None] = mapped_column(String, nullable=True)
     # US-30/US-31: the professional profile a counsellor maintains, and the LinkedIn
     # URL the Platform Owner verifies them from.
-    photo_url: Mapped[str | None] = mapped_column(String, nullable=True)
     linkedin_url: Mapped[str | None] = mapped_column(String, nullable=True)
     background: Mapped[str | None] = mapped_column(String, nullable=True)
     experience: Mapped[str | None] = mapped_column(String, nullable=True)
+    # US-30: what a Job Seeker weighs up before booking, each shown as a list.
+    qualifications: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
+    expertise: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
+    languages: Mapped[list[str] | None] = mapped_column(JSON, nullable=True)
     base_location_state: Mapped[str | None] = mapped_column(String, nullable=True)
     base_location_city: Mapped[str | None] = mapped_column(String, nullable=True)
     default_modality: Mapped[str] = mapped_column(String, default="online", nullable=False)

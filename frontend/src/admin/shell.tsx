@@ -6,19 +6,18 @@ import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
 import { initials } from '@/src/format';
 import { Avatar, Press, Spinner } from '@/src/components/ui';
-import { Glyph, GlyphName } from '@/src/components/Glyph';
+import { BottomNav } from '@/src/components/BottomNav';
+import { GlyphName } from '@/src/components/Glyph';
 import { ScreenIn } from '@/src/motion';
-import { colors, fonts, radius, shadow, type } from '@/src/theme';
+import { colors, type } from '@/src/theme';
 
 const tabs: { href: '/admin' | '/admin/verifications' | '/admin/counsellors' | '/admin/bookings' | '/admin/payments'; label: string; glyph: GlyphName }[] = [
   { href: '/admin', label: 'Overview', glyph: 'eye' },
   { href: '/admin/verifications', label: 'Verify', glyph: 'shieldCheck' },
-  { href: '/admin/counsellors', label: 'Counsellors', glyph: 'mentor' },
+  { href: '/admin/counsellors', label: 'Professionals', glyph: 'mentor' },
   { href: '/admin/bookings', label: 'Bookings', glyph: 'calendar' },
   { href: '/admin/payments', label: 'Payments', glyph: 'wallet' },
 ];
-
-const BAR_HEIGHT = 62;
 
 /**
  * The frame every administration screen sits in.
@@ -52,8 +51,6 @@ export function AdminShell({ title, subtitle, busy, children }: PropsWithChildre
   }
 
   const name = session.user.name;
-  // The bar floats over the page, so the last card needs room to clear it.
-  const bodyClearance = BAR_HEIGHT + 24 + Math.max(insets.bottom, 12);
 
   return (
     <ScreenIn duration={420} style={styles.screen}>
@@ -78,7 +75,7 @@ export function AdminShell({ title, subtitle, busy, children }: PropsWithChildre
       ) : (
         <ScrollView
           showsVerticalScrollIndicator={false}
-          contentContainerStyle={[styles.frame, styles.body, { paddingBottom: bodyClearance }]}
+          contentContainerStyle={[styles.frame, styles.body]}
         >
           {children}
         </ScrollView>
@@ -86,31 +83,15 @@ export function AdminShell({ title, subtitle, busy, children }: PropsWithChildre
 
       {/* Five sections is one too many to read as a row of pills, and a scrolling strip
           hid the last of them. A bar pinned to the thumb shows all five at once and
-          never moves between screens. Administration only: no other role has sections. */}
-      <View
-        pointerEvents="box-none"
-        style={[styles.navHost, { paddingBottom: Math.max(insets.bottom, 12) }]}
-      >
-        <View style={[styles.nav, shadow.card]}>
-          {tabs.map((tab) => {
-            const active = pathname === tab.href;
-            return (
-              <Press
-                key={tab.href}
-                accessibilityLabel={tab.label}
-                scaleTo={0.94}
-                style={[styles.navItem, active && styles.navItemActive]}
-                onPress={() => router.replace(tab.href)}
-              >
-                <Glyph name={tab.glyph} size={19} color={active ? colors.green : colors.sub} />
-                <Text numberOfLines={1} style={[styles.navLabel, active && styles.navLabelActive]}>
-                  {tab.label}
-                </Text>
-              </Press>
-            );
-          })}
-        </View>
-      </View>
+          never moves between screens. The job seeker's sections use the same bar. */}
+      <BottomNav
+        tabs={tabs.map((tab) => ({
+          label: tab.label,
+          glyph: tab.glyph,
+          active: pathname === tab.href,
+          onPress: () => router.replace(tab.href),
+        }))}
+      />
     </ScreenIn>
   );
 }
@@ -129,19 +110,5 @@ const styles = StyleSheet.create({
     backgroundColor: colors.white, alignItems: 'center', justifyContent: 'center',
   },
   head: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 14, gap: 4 },
-  body: { paddingHorizontal: 20, gap: 16 },
-
-  navHost: {
-    position: 'absolute', left: 0, right: 0, bottom: 0,
-    paddingHorizontal: 20, paddingTop: 12, backgroundColor: colors.canvas,
-  },
-  nav: {
-    width: '100%', maxWidth: 560, alignSelf: 'center',
-    flexDirection: 'row', alignItems: 'center', height: BAR_HEIGHT,
-    backgroundColor: colors.white, borderRadius: radius.xxl, paddingHorizontal: 6,
-  },
-  navItem: { flex: 1, height: 50, borderRadius: radius.lg, alignItems: 'center', justifyContent: 'center', gap: 3 },
-  navItemActive: { backgroundColor: colors.greenTint },
-  navLabel: { fontFamily: fonts.semi, fontSize: 10, color: colors.sub },
-  navLabelActive: { fontFamily: fonts.extra, color: colors.green },
+  body: { paddingHorizontal: 20, paddingBottom: 24, gap: 16 },
 });

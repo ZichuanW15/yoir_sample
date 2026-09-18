@@ -48,7 +48,7 @@ describe('registration screen', () => {
     routeParams({ role, serviceId: 'service-1' });
     reply('POST', '/auth/users', jsonResponse({ ...sessionFixture.user, role }, 201));
     await renderPublic(<><RegisterScreen /><AuthStatusProbe /></>);
-    expect(screen.getByRole('radio', { name: role === 'counsellor' ? 'Career Counsellor' : 'Job Seeker' })).toBeChecked();
+    expect(screen.getByRole('radio', { name: role === 'counsellor' ? 'Career Professional' : 'Job Seeker' })).toBeChecked();
     completeForm();
     submit();
     expect(await screen.findByText('Your account is ready')).toBeOnTheScreen();
@@ -65,7 +65,7 @@ describe('registration screen', () => {
     reply('POST', '/auth/users', jsonResponse({ ...sessionFixture.user, role: 'counsellor' }, 201));
     await renderPublic(<RegisterScreen />);
     completeForm();
-    fireEvent.press(screen.getByRole('radio', { name: 'Career Counsellor' }));
+    fireEvent.press(screen.getByRole('radio', { name: 'Career Professional' }));
     submit();
     await screen.findByText('Your account is ready');
     expect(JSON.parse(callsTo('POST', '/auth/users')[0][1]?.body as string).role).toBe('counsellor');
@@ -82,7 +82,7 @@ describe('registration screen', () => {
     expect(screen.getByLabelText('Email')).toHaveProp('value', '  alex@example.com  ');
     expect(screen.getByLabelText('Password')).toHaveProp('value', 'correct-password');
     expect(screen.getByLabelText('Confirm password')).toHaveProp('value', 'correct-password');
-    expect(screen.getByRole('radio', { name: role === 'counsellor' ? 'Career Counsellor' : 'Job Seeker' })).toBeChecked();
+    expect(screen.getByRole('radio', { name: role === 'counsellor' ? 'Career Professional' : 'Job Seeker' })).toBeChecked();
     expect(navigation.replace).not.toHaveBeenCalled();
     fireEvent.changeText(screen.getByLabelText('Email'), 'new@example.com');
     reply('POST', '/auth/users', jsonResponse({ ...sessionFixture.user, role, email: 'new@example.com' }, 201));

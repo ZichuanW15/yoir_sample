@@ -17,7 +17,7 @@ const copy: Record<PublicRole, { label: string; headline: string; body: string }
     body: 'Log in to book and pay for a session, or create an account in under a minute.',
   },
   counsellor: {
-    label: 'Career Counsellor',
+    label: 'Career Professional',
     headline: 'Take bookings on Yoir',
     body: 'Log in to manage your profile, services and availability, or create an account to start.',
   },

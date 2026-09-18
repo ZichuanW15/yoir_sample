@@ -19,6 +19,7 @@ jest.mock('expo-router', () => {
   return {
     router: navigation,
     useLocalSearchParams: jest.fn(() => ({})),
+    usePathname: jest.fn(() => '/'),
     Redirect: ({ href }: { href: string }) => {
       const React = jest.requireActual<typeof import('react')>('react');
       React.useEffect(() => { navigation.replace(href); }, [href]);

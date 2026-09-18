@@ -8,6 +8,8 @@ import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
 import { Glyph } from '@/src/components/Glyph';
 import { BackBar } from '@/src/components/booking';
+import { JobSeekerNav } from '@/src/components/JobSeekerNav';
+import { TopBar } from '@/src/components/TopBar';
 import { Button, Card, ErrorBanner, Press, Spinner, Tag } from '@/src/components/ui';
 import { fmtLong, initials, modalityLabel, money, timeRange } from '@/src/format';
 import { goBack } from '@/src/navigation';
@@ -109,10 +111,10 @@ export default function MyBookingsScreen() {
 
   return (
     <ScreenIn duration={450} style={styles.screen}>
-      <BackBar
-        title="My sessions"
-        onBack={() => goBack(session?.user.role === 'counsellor' ? '/counsellor' : '/marketplace')}
-      />
+      {/* A tab for a job seeker; a page off the workspace for a counsellor. */}
+      {session?.user.role === 'job_seeker' ? <TopBar /> : (
+        <BackBar title="My sessions" onBack={() => goBack('/counsellor')} />
+      )}
 
       <ScrollView
         contentContainerStyle={[styles.body, { paddingBottom: 32 + insets.bottom }]}
@@ -124,6 +126,7 @@ export default function MyBookingsScreen() {
           />
         }
       >
+        {session?.user.role === 'job_seeker' ? <Text style={type.display34}>My sessions</Text> : null}
         {error ? <ErrorBanner message={error} /> : null}
 
         {upcoming.length === 0 && past.length === 0 ? (
@@ -135,10 +138,10 @@ export default function MyBookingsScreen() {
             <Text style={type.body}>
               {session?.user.role === 'counsellor'
                 ? 'Sessions job seekers book with you will appear here.'
-                : 'Find a counsellor and book a session; it will appear here.'}
+                : 'Find a Career Professional and book a session; it will appear here.'}
             </Text>
             {session?.user.role === 'job_seeker' ? (
-              <Button label="Browse counsellors" height={52} onPress={() => router.push('/marketplace')} />
+              <Button label="Browse Career Professionals" height={52} onPress={() => router.push('/marketplace')} />
             ) : null}
           </FadeUp>
         ) : null}
@@ -164,6 +167,7 @@ export default function MyBookingsScreen() {
           </FadeUp>
         ) : null}
       </ScrollView>
+      <JobSeekerNav />
     </ScreenIn>
   );
 }
@@ -219,7 +223,7 @@ function BookingCard({ booking, past = false, busy = false, onCancel }: {
 
       {!past && booking.modality === 'in_person' ? (
         <Text style={styles.note}>
-          Your counsellor confirms the exact meeting point before the session.
+          Your Career Professional confirms the exact meeting point before the session.
         </Text>
       ) : null}
 

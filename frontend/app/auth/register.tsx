@@ -13,8 +13,8 @@ import { colors, fonts, radius, type } from '@/src/theme';
 type PublicRole = 'job_seeker' | 'counsellor';
 
 const roleOptions: { value: PublicRole; title: string; description: string }[] = [
-  { value: 'job_seeker', title: 'Job Seeker', description: 'Browse counsellors, book a session and pay through Yoir.' },
-  { value: 'counsellor', title: 'Career Counsellor', description: 'Publish services, set your availability and take bookings.' },
+  { value: 'job_seeker', title: 'Job Seeker', description: 'Browse Career Professionals, book a session and pay through Yoir.' },
+  { value: 'counsellor', title: 'Career Professional', description: 'Publish services, set your availability and take bookings.' },
 ];
 
 export default function RegisterScreen() {

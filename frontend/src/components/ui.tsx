@@ -1,6 +1,6 @@
 import { PropsWithChildren, ReactNode } from 'react';
 import {
-  Animated, Pressable, StyleProp, StyleSheet, Text, TextInput, TextInputProps, TextStyle, View, ViewStyle,
+  Animated, Image, Pressable, StyleProp, StyleSheet, Text, TextInput, TextInputProps, TextStyle, View, ViewStyle,
 } from 'react-native';
 import { Pop, useAnimatedValue, useSpin } from '@/src/motion';
 import { colors, fonts, radius, shadow, type } from '@/src/theme';
@@ -14,7 +14,7 @@ export function Press({ onPress, children, style, scaleTo = 0.97, disabled, acce
   scaleTo?: number;
   disabled?: boolean;
   accessibilityLabel?: string;
-  accessibilityRole?: 'button' | 'radio' | 'checkbox';
+  accessibilityRole?: 'button' | 'radio' | 'checkbox' | 'tab';
   accessibilityState?: object;
 }>) {
   const s = useAnimatedValue(1);
@@ -177,15 +177,18 @@ export function Card({ children, style, onPress, accessibilityLabel, pad = 20, r
   return <View style={base}>{children}</View>;
 }
 
-export function Avatar({ initials, size = 44, bg = colors.green, fg = colors.white, ring = false }: {
-  initials: string; size?: number; bg?: string; fg?: string; ring?: boolean;
+/** Initials, or the person's photo when they have one. */
+export function Avatar({ initials, photo, size = 44, bg = colors.green, fg = colors.white, ring = false }: {
+  initials: string; photo?: string | null; size?: number; bg?: string; fg?: string; ring?: boolean;
 }) {
   return (
     <View style={[
-      { width: size, height: size, borderRadius: size / 2, backgroundColor: bg, alignItems: 'center', justifyContent: 'center' },
+      { width: size, height: size, borderRadius: size / 2, backgroundColor: bg, alignItems: 'center', justifyContent: 'center', overflow: 'hidden' },
       ring && { borderWidth: 2, borderColor: colors.yellow },
     ]}>
-      <Text style={{ fontFamily: fonts.extra, fontSize: size * 0.32, color: fg }}>{initials}</Text>
+      {photo
+        ? <Image source={{ uri: photo }} style={{ width: size, height: size }} accessibilityIgnoresInvertColors />
+        : <Text style={{ fontFamily: fonts.extra, fontSize: size * 0.32, color: fg }}>{initials}</Text>}
     </View>
   );
 }

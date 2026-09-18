@@ -62,7 +62,7 @@ export default function AdminVerificationsScreen() {
   async function decide(row: VerificationSubmission, decision: 'verified' | 'rejected') {
     if (!session) return;
     if (decision === 'rejected' && !reason.trim()) {
-      setError('Say why, so the counsellor knows what to change.');
+      setError('Say why, so the Career Professional knows what to change.');
       setOpenId(row.id);
       return;
     }

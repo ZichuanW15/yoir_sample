@@ -41,9 +41,9 @@ export default function AdminCounsellorsScreen() {
   }, [load]);
 
   return (
-    <AdminShell title="Counsellors" subtitle="Newest first, with what each has sold." busy={rows === null}>
+    <AdminShell title="Career Professionals" subtitle="Newest first, with what each has sold." busy={rows === null}>
       {error ? <ErrorBanner message={error} /> : null}
-      {rows && rows.length === 0 ? <Text style={type.body}>No counsellors yet.</Text> : null}
+      {rows && rows.length === 0 ? <Text style={type.body}>No Career Professionals yet.</Text> : null}
 
       {(rows ?? []).map((row, index) => {
         const tone = statusTone[row.verificationStatus] ?? statusTone.pending;

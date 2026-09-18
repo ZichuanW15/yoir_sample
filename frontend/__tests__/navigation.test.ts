@@ -59,8 +59,8 @@ describe('where a role starts', () => {
     expect(homeFor('platform_owner')).toBe('/admin');
   });
 
-  test('the other two roles keep the app they had', () => {
+  test('a counsellor opens on their workspace and a job seeker on their home', () => {
     expect(homeFor('counsellor')).toBe('/counsellor');
-    expect(homeFor('job_seeker')).toBe('/marketplace');
+    expect(homeFor('job_seeker')).toBe('/job-seeker');
   });
 });

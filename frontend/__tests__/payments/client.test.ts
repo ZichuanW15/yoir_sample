@@ -142,7 +142,7 @@ describe('payment operations on the HTTP boundary', () => {
     fetchMock.mockResolvedValueOnce(jsonResponse(
       {
         code: 'COUNSELLOR_PAYOUTS_UNAVAILABLE',
-        message: 'This counsellor cannot accept bookings yet. Please try another counsellor.',
+        message: 'This Career Professional cannot accept bookings yet. Please try another Career Professional.',
         requestId: 'req-1',
       },
       409,

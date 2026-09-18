@@ -198,11 +198,18 @@ class CounsellorProfileOut(CamelModel):
     introduction: str = ""
     background: str = ""
     experience: str = ""
+    qualifications: list[str] = []
+    expertise: list[str] = []
+    languages: list[str] = []
     base_location: "Location | None" = None
     default_modality: Modality = "online"
     verification_status: Literal["pending", "verified", "rejected"]
     overall_rating: float | None = None
     review_count: int
+
+
+#: One qualification, skill or language on a Career Professional's profile.
+ProfileItem = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=160)]
 
 
 class UpdateCounsellorProfileRequest(CamelModel):
@@ -215,6 +222,9 @@ class UpdateCounsellorProfileRequest(CamelModel):
     introduction: str = Field(default="", max_length=5000)
     background: str = Field(default="", max_length=5000)
     experience: str = Field(default="", max_length=5000)
+    qualifications: list[ProfileItem] = Field(default=[], max_length=20)
+    expertise: list[ProfileItem] = Field(default=[], max_length=20)
+    languages: list[ProfileItem] = Field(default=[], max_length=20)
     base_location: "Location | None" = None
     default_modality: Modality = "online"
 
@@ -222,6 +232,35 @@ class UpdateCounsellorProfileRequest(CamelModel):
 class Location(CamelModel):
     state: str
     city_or_region: str
+
+
+class JobSeekerProfileOut(CamelModel):
+    """The job seeker's own profile: who they are and what they want help with."""
+
+    name: str
+    email: EmailStr
+    photo_url: str | None = None
+    headline: str = ""
+    career_goals: str = ""
+
+
+#: A job seeker's photo travels and is stored as a data URI, because the backend has
+#: no file storage and the database is what every deployment keeps. Raster types
+#: only: an SVG can carry script. About 1.5 MB of image once decoded.
+PhotoDataUri = Annotated[str, StringConstraints(
+    max_length=2_000_000, pattern=r"^data:image/(jpeg|png|webp);base64,[A-Za-z0-9+/]+={0,2}$",
+)]
+
+
+class UpdateJobSeekerProfileRequest(CamelModel):
+    """The whole profile, as the form submits it. A null photo removes it."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    name: Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=120)]
+    photo_url: PhotoDataUri | None = None
+    headline: Annotated[str, StringConstraints(strip_whitespace=True, max_length=200)] = ""
+    career_goals: Annotated[str, StringConstraints(strip_whitespace=True, max_length=2000)] = ""
 
 
 class CreateServiceRequest(CamelModel):

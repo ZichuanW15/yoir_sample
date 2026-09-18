@@ -54,7 +54,7 @@ test('DEF-PROFILE-PROVENANCE: live verified identity agrees with the persisted c
   expect(service!.counsellor.verificationStatus).toBe('verified');
   await expect(page.getByRole('button', { name: `Edit ${service!.title}`, exact: true })).toBeVisible();
 
-  await expect(page.getByText('Verified counsellor', { exact: true })).toBeVisible();
+  await expect(page.getByText('Verified Career Professional', { exact: true })).toBeVisible();
 });
 
 test('CURRENT-IMPLEMENTATION: newly registered counsellor receives publish 403 with no saved or falsely successful service', async ({ page, request }) => {
@@ -106,7 +106,7 @@ test('DEF-MONEY-CENTS: real persisted cents remain visible in the marketplace an
   expect((await persisted.json()).priceMinor).toBe(7050);
 
   await page.goto('/marketplace');
-  await page.getByLabel('Search services or counsellors').fill(title);
+  await page.getByLabel('Search services or Career Professionals').fill(title);
   const card = page.getByRole('button', { name: `${title} by`, exact: false });
   await expect(card).toBeVisible();
   // Keep both independent display failures in the evidence instead of stopping

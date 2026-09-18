@@ -18,14 +18,14 @@ const roles: { role: PublicRole; glyph: GlyphName; holder: string; ink: string; 
     holder: colors.greenTint,
     ink: colors.green,
     title: 'I am a Job Seeker',
-    description: 'Find a counsellor, book a session and pay securely.',
+    description: 'Find a Career Professional, book a session and pay securely.',
   },
   {
     role: 'counsellor',
     glyph: 'mentor',
     holder: colors.yellowTint,
     ink: colors.amberInk,
-    title: 'I am a Career Counsellor',
+    title: 'I am a Career Professional',
     description: 'Publish services, set availability and take bookings.',
   },
 ];
@@ -53,7 +53,7 @@ export default function EntryScreen() {
             Career guidance <Text style={styles.headlineAccent}>that fits you</Text>
           </Text>
           <Text style={type.body}>
-            Yoir connects job seekers with verified career counsellors. Tell us how you will use it.
+            Yoir connects job seekers with verified Career Professionals. Tell us how you will use it.
           </Text>
         </FadeUp>
 

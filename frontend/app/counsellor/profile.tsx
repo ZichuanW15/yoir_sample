@@ -29,6 +29,11 @@ function normaliseLinkedIn(raw: string): string | null {
   return `https://${host}${match[2] ?? ''}`;
 }
 
+/** A typed list back into items: trimmed, no blanks, no repeats. */
+function listOf(text: string, separator: string): string[] {
+  return [...new Set(text.split(separator).map((item) => item.trim()).filter(Boolean))];
+}
+
 export default function CounsellorProfileScreen() {
   const { session } = useAuth();
   const { flash } = useChrome();
@@ -40,6 +45,9 @@ export default function CounsellorProfileScreen() {
   const [intro, setIntro] = useState('');
   const [background, setBackground] = useState('');
   const [experience, setExperience] = useState('');
+  const [qualifications, setQualifications] = useState('');
+  const [expertise, setExpertise] = useState('');
+  const [languages, setLanguages] = useState('');
   const [state, setState] = useState('');
   const [city, setCity] = useState('');
   const [modality, setModality] = useState<Modality>('online');
@@ -59,6 +67,9 @@ export default function CounsellorProfileScreen() {
       setIntro(profile.introduction);
       setBackground(profile.background);
       setExperience(profile.experience);
+      setQualifications((profile.qualifications ?? []).join('\n'));
+      setExpertise((profile.expertise ?? []).join(', '));
+      setLanguages((profile.languages ?? []).join(', '));
       setState(profile.baseLocation?.state ?? '');
       setCity(profile.baseLocation?.cityOrRegion ?? '');
       setModality(profile.defaultModality);
@@ -121,6 +132,9 @@ export default function CounsellorProfileScreen() {
         introduction: intro.trim(),
         background: background.trim(),
         experience: experience.trim(),
+        qualifications: listOf(qualifications, '\n'),
+        expertise: listOf(expertise, ','),
+        languages: listOf(languages, ','),
         baseLocation: state ? { state, cityOrRegion: city.trim() } : null,
         defaultModality: modality,
       }, session.accessToken);
@@ -161,7 +175,7 @@ export default function CounsellorProfileScreen() {
           </View>
           <Text style={s.name}>{session.user.name}</Text>
           <Tag
-            label={verified ? 'Verified counsellor' : 'Verification pending'}
+            label={verified ? 'Verified Career Professional' : 'Verification pending'}
             bg={verified ? colors.successBg : colors.yellowTint}
             fg={verified ? colors.successInk : colors.amberDeep}
           />
@@ -225,8 +239,15 @@ export default function CounsellorProfileScreen() {
             <Text style={s.helperText}>The Platform Owner opens this link to verify you before your listings go live.</Text>
           </View>
           <Field label="Introduction" value={intro} onChangeText={setIntro} placeholder="One or two sentences a Job Seeker reads first." multiline />
-          <Field label="Background" value={background} onChangeText={setBackground} placeholder="Your qualifications and where you have worked." multiline />
+          <Field label="Background" value={background} onChangeText={setBackground} placeholder="Where you have worked and what you did there." multiline />
           <Field label="Experience" value={experience} onChangeText={setExperience} placeholder="The kind of clients you work with and the results you help them get." multiline />
+        </FadeUp>
+
+        <FadeUp delay={140} style={s.card}>
+          <Text style={s.cardTitle}>What Job Seekers check before booking</Text>
+          <Field label="Qualifications" value={qualifications} onChangeText={setQualifications} placeholder={'One per line, e.g.\nMaster of Career Development'} multiline />
+          <Field label="Skills and expertise" value={expertise} onChangeText={setExpertise} placeholder="Separate with commas, e.g. Interview preparation, Resume writing" multiline />
+          <Field label="Languages you work in" value={languages} onChangeText={setLanguages} placeholder="Separate with commas, e.g. English, Hindi" />
         </FadeUp>
 
         <FadeUp delay={180} style={s.card}>

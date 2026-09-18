@@ -60,7 +60,7 @@ export default function CounsellorWorkspace() {
     if (!session) return;
     const sure = await confirm({
       title: 'Delete this service?',
-      message: 'It will no longer appear in the Marketplace or in your own list. Bookings already made against it are not affected.',
+      message: 'It will no longer appear in Explore or in your own list. Bookings already made against it are not affected.',
       confirmLabel: 'Delete',
       destructive: true,
     });
@@ -129,10 +129,10 @@ export default function CounsellorWorkspace() {
           </Pop>
           <View style={s.verifyCopy}>
             <Text style={s.verifyEyebrow}>Verification</Text>
-            <Text style={s.verifyTitle}>{verified ? 'Verified counsellor' : 'Verification pending'}</Text>
+            <Text style={s.verifyTitle}>{verified ? 'Verified Career Professional' : 'Verification pending'}</Text>
             <Text style={s.verifyBody}>
               {verified
-                ? 'Your profile carries the verified mark across the Marketplace.'
+                ? 'Your profile carries the verified mark across Yoir.'
                 : data?.profile.linkedinUrl
                   ? 'Your LinkedIn profile is with the Platform Owner for review.'
                   : 'Add your LinkedIn profile URL so the Platform Owner can verify you.'}
@@ -156,7 +156,7 @@ export default function CounsellorWorkspace() {
                   {data.payouts.stripeAccountId ? 'Finish payout setup' : 'Set up payouts'}
                 </Text>
                 <Text style={s.payoutBody}>
-                  Your services stay hidden from the Marketplace until Stripe can pay you.
+                  Your services stay hidden from Explore until Stripe can pay you.
                 </Text>
               </View>
               <View style={s.payoutPill}><Text style={s.payoutPillText}>Start</Text></View>

@@ -121,6 +121,21 @@ def list_service_slots(
     ]
 
 
+@router.get("/counsellors", response_model=list[CounsellorProfileOut])
+def list_counsellors(db: Session = Depends(get_db)) -> list[CounsellorProfileOut]:
+    """US-44, US-13. The Career Professionals a Job Seeker can book, best rated first.
+
+    Exactly the people behind the services Explore lists, by the same rule, so the
+    home screen never recommends someone who cannot be booked.
+    """
+    from app.routers.counsellor import counsellor_profile_out
+
+    services = db.scalars(select(Service).where(Service.active.is_(True)))
+    owners = {s.counsellor.id: s.counsellor for s in services if _bookable(s)}
+    ranked = sorted(owners.values(), key=lambda user: (-(user.overall_rating or 0), user.name))
+    return [counsellor_profile_out(user) for user in ranked]
+
+
 @router.get("/counsellors/{counsellor_id}", response_model=CounsellorProfileOut)
 def get_counsellor_profile(
     counsellor_id: str, db: Session = Depends(get_db),
@@ -132,5 +147,5 @@ def get_counsellor_profile(
 
     user = db.get(User, counsellor_id)
     if user is None or user.role != "counsellor":
-        raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Counsellor not found.")
+        raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Career Professional not found.")
     return counsellor_profile_out(user)

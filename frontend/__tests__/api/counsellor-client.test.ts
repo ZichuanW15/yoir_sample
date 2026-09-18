@@ -38,6 +38,9 @@ const profileUpdate: CounsellorProfileUpdate = {
   introduction: 'Career counsellor specialising in interview preparation.',
   background: 'Ten years in graduate recruitment.',
   experience: 'Coached over 400 candidates.',
+  qualifications: ['Graduate Certificate in Career Development Practice'],
+  expertise: ['Interview preparation'],
+  languages: ['English'],
   baseLocation: { state: 'VIC', cityOrRegion: 'Melbourne' },
   defaultModality: 'online',
 };

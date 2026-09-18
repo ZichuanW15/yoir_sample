@@ -17,7 +17,7 @@ describe('Counsellor dashboard UI — QA #133 (mocked API boundary)', () => {
     ]);
     await renderCounsellor(<Dashboard />); await screen.findByText(serviceFixture.title);
     expect(apiMock.listOwnServices).toHaveBeenCalledWith('counsellor-1', 'counsellor-access-token');
-    expect(screen.getByText('Verified counsellor')).toBeTruthy(); expect(screen.getByText('5/5')).toBeTruthy(); expect(screen.getByText(/2 open slots\. Next on/)).toBeTruthy();
+    expect(screen.getByText('Verified Career Professional')).toBeTruthy(); expect(screen.getByText('5/5')).toBeTruthy(); expect(screen.getByText(/2 open slots\. Next on/)).toBeTruthy();
     fireEvent.press(screen.getByRole('button', { name: 'New' })); expect(router.push).toHaveBeenLastCalledWith('/counsellor/services/new');
     fireEvent.press(screen.getByRole('button', { name: `Edit ${serviceFixture.title}` })); expect(router.push).toHaveBeenLastCalledWith('/counsellor/services/service-1/edit');
     fireEvent.press(screen.getByRole('button', { name: 'Professional profile' })); expect(router.push).toHaveBeenLastCalledWith('/counsellor/profile');

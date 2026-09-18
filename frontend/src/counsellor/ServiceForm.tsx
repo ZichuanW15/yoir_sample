@@ -94,7 +94,7 @@ export default function ServiceForm({ counsellorId, accessToken, service }: Serv
     if (!service) return;
     const sure = await confirm({
       title: 'Delete this service?',
-      message: 'It will no longer appear in the Marketplace or in your own list. Bookings already made against it are not affected.',
+      message: 'It will no longer appear in Explore or in your own list. Bookings already made against it are not affected.',
       confirmLabel: 'Delete',
       destructive: true,
     });
@@ -127,7 +127,7 @@ export default function ServiceForm({ counsellorId, accessToken, service }: Serv
       <ScrollView contentContainerStyle={s.body} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
         <FadeUp style={s.intro}>
           <Text style={type.display34}>{editing ? 'Update your listing' : 'What are you offering?'}</Text>
-          <Text style={s.introBody}>This is what a Job Seeker sees in the Marketplace before they book.</Text>
+          <Text style={s.introBody}>This is what a Job Seeker sees in Explore before they book.</Text>
         </FadeUp>
 
         {formError ? <Pop duration={300}><ErrorBanner message={formError} /></Pop> : null}

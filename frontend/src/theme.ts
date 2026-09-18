@@ -1,9 +1,10 @@
 import { Platform, TextStyle, ViewStyle } from 'react-native';
 
 /**
- * Yoir design tokens, taken verbatim from the approved redesign prototype
- * (Downloads/Mobile app redesign/Yoir App.dc.html). Every value here appears in
- * that file — do not invent new ones.
+ * Yoir design tokens, taken from the approved redesign prototype
+ * (Downloads/Mobile app redesign/Yoir App.dc.html) and brought closer to the Yoir
+ * logo at the client's request: its green (#1E3A27), gold (#B07C30) and cream
+ * (#F4F0E9) are the brand colours. Do not invent new ones.
  */
 export const colors = {
   green: '#1E3A27',
@@ -30,7 +31,8 @@ export const colors = {
   white: '#FFFFFF',
   field: '#FAF9F5',
   chip: '#F3F1EA',
-  canvas: '#EFEDE6',
+  /** The logo's cream: the page every screen sits on. */
+  canvas: '#F4F0E9',
 
   successBg: '#DFEEE6',
   successInk: '#12301F',
@@ -43,10 +45,13 @@ export const colors = {
 
 export const radius = { sm: 14, md: 16, lg: 20, xl: 24, xxl: 28, hero: 32, pill: 999 } as const;
 
-/** Two typefaces: Instrument Serif for display, Manrope for everything else. */
+/**
+ * Two typefaces: DM Serif Display for display — the heavy, high-contrast serif
+ * closest to the Yoir wordmark — and Manrope for everything else.
+ */
 export const fonts = {
-  serif: 'InstrumentSerif_400Regular',
-  serifItalic: 'InstrumentSerif_400Regular_Italic',
+  serif: 'DMSerifDisplay_400Regular',
+  serifItalic: 'DMSerifDisplay_400Regular_Italic',
   sans: 'Manrope_400Regular',
   medium: 'Manrope_500Medium',
   semi: 'Manrope_600SemiBold',
@@ -55,12 +60,14 @@ export const fonts = {
 } as const;
 
 export const type = {
-  display40: { fontFamily: fonts.serif, fontSize: 40, lineHeight: 41, letterSpacing: -0.5, color: colors.ink } as TextStyle,
-  display36: { fontFamily: fonts.serif, fontSize: 36, lineHeight: 38, letterSpacing: -0.4, color: colors.ink } as TextStyle,
-  display34: { fontFamily: fonts.serif, fontSize: 34, lineHeight: 36, letterSpacing: -0.3, color: colors.ink } as TextStyle,
-  display28: { fontFamily: fonts.serif, fontSize: 28, lineHeight: 31, color: colors.ink } as TextStyle,
-  display24: { fontFamily: fonts.serif, fontSize: 24, lineHeight: 27, color: colors.ink } as TextStyle,
-  display20: { fontFamily: fonts.serif, fontSize: 20, lineHeight: 24, color: colors.ink } as TextStyle,
+  // DM Serif Display sets wider than a condensed display face, so the scale runs
+  // a step smaller than the sizes' names; the names are kept so screens need not change.
+  display40: { fontFamily: fonts.serif, fontSize: 36, lineHeight: 40, letterSpacing: -0.6, color: colors.ink } as TextStyle,
+  display36: { fontFamily: fonts.serif, fontSize: 32, lineHeight: 36, letterSpacing: -0.5, color: colors.ink } as TextStyle,
+  display34: { fontFamily: fonts.serif, fontSize: 30, lineHeight: 34, letterSpacing: -0.4, color: colors.ink } as TextStyle,
+  display28: { fontFamily: fonts.serif, fontSize: 25, lineHeight: 30, letterSpacing: -0.3, color: colors.ink } as TextStyle,
+  display24: { fontFamily: fonts.serif, fontSize: 21, lineHeight: 26, letterSpacing: -0.2, color: colors.ink } as TextStyle,
+  display20: { fontFamily: fonts.serif, fontSize: 18, lineHeight: 23, letterSpacing: -0.1, color: colors.ink } as TextStyle,
 
   body: { fontFamily: fonts.sans, fontSize: 15, lineHeight: 23, color: colors.muted } as TextStyle,
   bodySm: { fontFamily: fonts.sans, fontSize: 14, lineHeight: 21, color: colors.muted } as TextStyle,

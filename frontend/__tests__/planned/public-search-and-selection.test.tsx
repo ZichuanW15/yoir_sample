@@ -21,7 +21,7 @@ describe('planned public search integration and explicit delivery choice', () =>
     await tick();
     const serverResult = { ...serviceFixture, id: 'server-result', title: 'Server-selected coaching' };
     reply('GET', '/services', jsonResponse([serverResult]));
-    fireEvent.changeText(screen.getByLabelText('Search services or counsellors'), 'coaching');
+    fireEvent.changeText(screen.getByLabelText('Search services or Career Professionals'), 'coaching');
     await tick();
     const requested = listingRequests().filter(([url]) => new URL(String(url)).searchParams.get('query') === 'coaching');
     expect(requested.length).toBeGreaterThan(0);
@@ -47,7 +47,7 @@ describe('planned public search integration and explicit delivery choice', () =>
     await renderPublic(<MarketplaceScreen />);
     await tick();
     reply('GET', '/services', apiFailure('UNAVAILABLE', 'Search service is unavailable.', 503));
-    fireEvent.changeText(screen.getByLabelText('Search services or counsellors'), 'coaching');
+    fireEvent.changeText(screen.getByLabelText('Search services or Career Professionals'), 'coaching');
     await tick();
     expect(screen.queryByText('Search service is unavailable.')).not.toBeNull();
     expect(screen.queryByText(serviceFixture.title)).toBeNull();
@@ -58,10 +58,10 @@ describe('planned public search integration and explicit delivery choice', () =>
     await renderPublic(<MarketplaceScreen />);
     await tick();
     reply('GET', '/services', jsonResponse([]));
-    fireEvent.changeText(screen.getByLabelText('Search services or counsellors'), 'no matching result');
+    fireEvent.changeText(screen.getByLabelText('Search services or Career Professionals'), 'no matching result');
     await tick();
     expect(listingRequests().some(([url]) => new URL(String(url)).searchParams.get('query') === 'no matching result')).toBe(true);
-    expect(screen.getByLabelText('Search services or counsellors')).toHaveProp('value', 'no matching result');
+    expect(screen.getByLabelText('Search services or Career Professionals')).toHaveProp('value', 'no matching result');
     expect(screen.getByText('No services match your search.')).toBeOnTheScreen();
     expect(screen.queryByRole('alert')).toBeNull();
   });

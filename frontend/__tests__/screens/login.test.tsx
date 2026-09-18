@@ -17,12 +17,12 @@ describe('login screen', () => {
     expect(callsTo('POST', '/auth/sessions')).toHaveLength(0);
   });
 
-  test('[QA-100] successful login authenticates the real provider and opens Marketplace', async () => {
+  test('[QA-100] successful login authenticates the real provider and opens the job seeker home', async () => {
     reply('POST', '/auth/sessions', jsonResponse(sessionFixture));
     await renderPublic(<LoginScreen />);
     enterCredentials();
     fireEvent.press(screen.getByRole('button', { name: 'Log in' }));
-    await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith('/marketplace'));
+    await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith('/job-seeker'));
     expect(JSON.parse(callsTo('POST', '/auth/sessions')[0][1]?.body as string)).toEqual({ email: 'alex@example.com', password: 'correct-password', client: Platform.OS === 'web' ? 'web' : 'native' });
     expect(screen.getByText('Welcome, Alex')).toBeOnTheScreen();
   });
@@ -58,7 +58,7 @@ describe('login screen', () => {
     expect(screen.getByText('signed out')).toBeOnTheScreen();
     reply('POST', '/auth/sessions', jsonResponse(sessionFixture));
     fireEvent.press(screen.getByRole('button', { name: 'Log in' }));
-    await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith('/marketplace'));
+    await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith('/job-seeker'));
     expect(screen.getByText('signed in as Alex Morgan')).toBeOnTheScreen();
   });
 

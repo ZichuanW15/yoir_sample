@@ -87,9 +87,9 @@ def verification_decided(to: str, name: str, decision: str, reason: str) -> bool
         "verification_decided",
         to=to,
         subject=(
-            "Your counsellor account is verified"
+            "Your Career Professional account is verified"
             if approved
-            else "About your counsellor verification"
+            else "About your Career Professional verification"
         ),
         name=name,
         approved=approved,

@@ -7,6 +7,7 @@ import {
   PlatformStats, Receipt, RegisterRequest,
   Role, Service, ServiceDraft, ServiceUpdate, Session, StripeOnboarding,
   StubPaymentConfirmation, TaxDetailsUpdate, User, VerificationSubmission, WindowDraft,
+  JobSeekerProfile, JobSeekerProfileUpdate, AppNotification,
 } from './types';
 
 export { ApiError };
@@ -185,7 +186,43 @@ export const api = {
   updateTaxDetails: (update: TaxDetailsUpdate, accessToken: string): Promise<PayoutStatus> =>
     request('/me/tax-details', { method: 'PUT', body: JSON.stringify(update) }, accessToken),
 
+  // --- notifications -------------------------------------------------------
+
+  /**
+   * In-app notifications, newest first. The backend has not built this route yet:
+   * until it does, a missing route reads as "none", so turning it on needs no
+   * change here.
+   */
+  listNotifications: async (accessToken: string): Promise<AppNotification[]> => {
+    try {
+      return await request<AppNotification[]>('/me/notifications', undefined, accessToken);
+    } catch (error) {
+      if (error instanceof ApiError && [404, 405, 501].includes(error.status)) return [];
+      throw error;
+    }
+  },
+
+  markNotificationRead: (id: string, accessToken: string): Promise<void> =>
+    request(`/me/notifications/${encodeURIComponent(id)}/read`, { method: 'PATCH' }, accessToken),
+
+  // --- job seeker profile -----------------------------------------------
+
+  getJobSeekerProfile: (accessToken: string): Promise<JobSeekerProfile> =>
+    request('/me/job-seeker-profile', undefined, accessToken),
+
+  /** The whole profile. `photoUrl` is a data URI, or null to remove the photo. */
+  updateJobSeekerProfile: (update: JobSeekerProfileUpdate, accessToken: string): Promise<JobSeekerProfile> =>
+    request('/me/job-seeker-profile', { method: 'PATCH', body: JSON.stringify(update) }, accessToken),
+
   // --- counsellor workspace (contract-published, backend pending) ---
+
+  /** The Career Professionals a Job Seeker can book: the people behind Explore's services. */
+  listCounsellors: (): Promise<CounsellorProfile[]> =>
+    request('/counsellors'),
+
+  /** A Career Professional's public profile: what a Job Seeker reads before booking. */
+  getCounsellorProfile: (counsellorId: string): Promise<CounsellorProfile> =>
+    request(`/counsellors/${encodeURIComponent(counsellorId)}`),
 
   getOwnCounsellorProfile: (user: User, accessToken: string): Promise<CounsellorProfile> =>
     request(`/counsellors/${encodeURIComponent(user.id)}`, undefined, accessToken),

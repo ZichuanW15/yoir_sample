@@ -1,4 +1,4 @@
-import { InstrumentSerif_400Regular, InstrumentSerif_400Regular_Italic } from '@expo-google-fonts/instrument-serif';
+import { DMSerifDisplay_400Regular, DMSerifDisplay_400Regular_Italic } from '@expo-google-fonts/dm-serif-display';
 import {
   Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold, Manrope_700Bold, Manrope_800ExtraBold,
 } from '@expo-google-fonts/manrope';
@@ -18,8 +18,8 @@ void SplashScreen.preventAutoHideAsync();
 
 export default function RootLayout() {
   const [ready] = useFonts({
-    InstrumentSerif_400Regular,
-    InstrumentSerif_400Regular_Italic,
+    DMSerifDisplay_400Regular,
+    DMSerifDisplay_400Regular_Italic,
     Manrope_400Regular,
     Manrope_500Medium,
     Manrope_600SemiBold,
@@ -48,6 +48,10 @@ export default function RootLayout() {
                   <Stack.Screen name="auth/login" options={{ animation: 'slide_from_bottom' }} />
                   <Stack.Screen name="auth/register" options={{ animation: 'slide_from_bottom' }} />
                   <Stack.Screen name="marketplace/index" />
+                  <Stack.Screen name="job-seeker/index" options={{ animation: 'fade' }} />
+                  <Stack.Screen name="job-seeker/diagnosis" options={{ animation: 'fade' }} />
+                  <Stack.Screen name="job-seeker/profile" />
+                  <Stack.Screen name="professionals/[counsellorId]" />
                   <Stack.Screen name="services/[serviceId]" />
                   <Stack.Screen name="services/[serviceId]/timeslots" />
                   <Stack.Screen name="bookings/checkout" />

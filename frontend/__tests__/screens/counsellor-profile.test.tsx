@@ -12,7 +12,7 @@ describe('Professional profile UI — QA #130 (mocked API boundary; no backend p
   });
   test('prefills implemented fields and verification status from the mocked API response', async () => {
     await openProfile(); expect(screen.getByDisplayValue(counsellorProfileFixture.background)).toBeTruthy(); expect(screen.getByDisplayValue(counsellorProfileFixture.experience)).toBeTruthy();
-    expect(screen.getByDisplayValue('Melbourne')).toBeTruthy(); expect(screen.getByRole('radio', { name: 'VIC' })).toBeSelected(); expect(screen.getByRole('radio', { name: 'Online' })).toBeSelected(); expect(screen.getByText('Verified counsellor')).toBeTruthy();
+    expect(screen.getByDisplayValue('Melbourne')).toBeTruthy(); expect(screen.getByRole('radio', { name: 'VIC' })).toBeSelected(); expect(screen.getByRole('radio', { name: 'Online' })).toBeSelected(); expect(screen.getByText('Verified Career Professional')).toBeTruthy();
   });
   test('submits implemented profile fields and reloads values from the mocked API response', async () => {
     apiMock.getOwnCounsellorProfile.mockResolvedValueOnce({ ...counsellorProfileFixture, linkedinUrl: '', introduction: '', background: '', experience: '', baseLocation: null, verificationStatus: 'pending' });

@@ -17,10 +17,30 @@
       "name": "Maya Chen",
       "email": "maya@example.com",
       "password": "password123",
-      "introduction": "Career counsellor specialising in early-career transitions and interview preparation.",
+      "introduction": "Career Professional specialising in early-career transitions and interview preparation.",
       "verification_status": "verified",
       "overall_rating": 4.9,
-      "review_count": 46
+      "review_count": 46,
+      "background": "Eight years in graduate recruitment at two ASX-listed firms before moving into career coaching.",
+      "experience": "Works with graduates and early-career professionals preparing for competitive interview processes, from assessment centres to final-round panels.",
+      "qualifications": [
+        "Graduate Certificate in Career Development Practice",
+        "Bachelor of Psychology"
+      ],
+      "expertise": [
+        "Interview preparation",
+        "Behavioural interviews",
+        "Graduate programs",
+        "Confidence coaching"
+      ],
+      "languages": [
+        "English",
+        "Mandarin"
+      ],
+      "linkedin_url": "https://www.linkedin.com/in/yoir-demo-maya-chen",
+      "base_location_state": "VIC",
+      "base_location_city": "Melbourne",
+      "default_modality": "online"
     },
     {
       "name": "Jordan Lee",
@@ -29,7 +49,26 @@
       "introduction": "Recruitment and career-development specialist with experience across technology and consulting.",
       "verification_status": "verified",
       "overall_rating": 4.8,
-      "review_count": 32
+      "review_count": 32,
+      "background": "Former technical recruiter who has screened thousands of applications for software and consulting roles.",
+      "experience": "Helps people make their resume and applications easy for recruiters to shortlist, and prepares them for technical screens.",
+      "qualifications": [
+        "Certificate IV in Career Development",
+        "Bachelor of Commerce"
+      ],
+      "expertise": [
+        "Resume writing",
+        "Cover letters",
+        "Key Selection Criteria",
+        "Technical screening"
+      ],
+      "languages": [
+        "English"
+      ],
+      "linkedin_url": "https://www.linkedin.com/in/yoir-demo-jordan-lee",
+      "base_location_state": "VIC",
+      "base_location_city": "Melbourne",
+      "default_modality": "online"
     },
     {
       "name": "Priya Nair",
@@ -38,7 +77,28 @@
       "introduction": "Career strategist focused on skilled migrants navigating the Australian job market.",
       "verification_status": "verified",
       "overall_rating": 4.7,
-      "review_count": 21
+      "review_count": 21,
+      "background": "Moved to Australia as a skilled migrant herself, then spent six years in workforce programs for newly arrived professionals.",
+      "experience": "Guides people through skills assessments, registration and licensing, and turning overseas experience into Australian job offers.",
+      "qualifications": [
+        "Master of Career Development",
+        "Certificate IV in Training and Assessment"
+      ],
+      "expertise": [
+        "Skilled migration",
+        "Qualification recognition",
+        "Australian job market",
+        "Job search strategy"
+      ],
+      "languages": [
+        "English",
+        "Hindi",
+        "Malayalam"
+      ],
+      "linkedin_url": "https://www.linkedin.com/in/yoir-demo-priya-nair",
+      "base_location_state": "NSW",
+      "base_location_city": "Sydney",
+      "default_modality": "online"
     },
     {
       "name": "Tom Baker",
@@ -47,7 +107,25 @@
       "introduction": "Personal branding and LinkedIn coach. New to Yoir.",
       "verification_status": "pending",
       "overall_rating": null,
-      "review_count": 0
+      "review_count": 0,
+      "background": "Ten years in marketing and employer branding before coaching professionals on how they present online.",
+      "experience": "Rewrites LinkedIn profiles live with clients and builds a simple plan for growing a professional network.",
+      "qualifications": [
+        "Bachelor of Communications"
+      ],
+      "expertise": [
+        "LinkedIn",
+        "Personal branding",
+        "Networking"
+      ],
+      "languages": [
+        "English",
+        "Spanish"
+      ],
+      "linkedin_url": "https://www.linkedin.com/in/yoir-demo-tom-baker",
+      "base_location_state": "QLD",
+      "base_location_city": "Brisbane",
+      "default_modality": "online"
     }
   ],
   "services": [

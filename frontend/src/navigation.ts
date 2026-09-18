@@ -24,8 +24,8 @@ export function goBack(fallback: Href): void {
 }
 
 /** Where each role's app actually starts. A Platform Owner has no marketplace to browse. */
-export function homeFor(role: Role): '/counsellor' | '/admin' | '/marketplace' {
+export function homeFor(role: Role): '/counsellor' | '/admin' | '/job-seeker' {
   if (role === 'counsellor') return '/counsellor';
   if (role === 'platform_owner') return '/admin';
-  return '/marketplace';
+  return '/job-seeker';
 }
