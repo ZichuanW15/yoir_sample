@@ -23,6 +23,13 @@ async function login(page: Page, email: string, route = '/auth/login', secret = 
   return response.json();
 }
 
+/** A new job seeker starts with the Yoir Diagnosis; skipping it lands on their home. */
+async function skipDiagnosis(page: Page) {
+  await expect(page).toHaveURL(/\/job-seeker\/diagnosis/);
+  await page.getByRole('button', { name: 'Skip for now', exact: true }).click();
+  await expect(page).toHaveURL(/\/job-seeker$/);
+}
+
 test.afterEach(async ({ page }, info) => {
   await info.attach('web-screen', { body: await page.screenshot({ fullPage: true }), contentType: 'image/png' });
 });
@@ -92,13 +99,13 @@ test('US07 invalid login stays anonymous and can retry', async ({ page, request 
   expect((await request.get('/api/v1/me/services')).status()).toBe(401);
   // A real corrected login must still work after the failed attempt.
   await login(page, await account(request));
-  await expect(page).toHaveURL(/\/marketplace/);
+  await skipDiagnosis(page);
   await expect(page.getByRole('button', { name: 'Account, Web QA', exact: true })).toBeVisible();
 });
 
 test('US06/08 Web login, logout and server-side revoked-token replay', async ({ page, request }) => {
   const session = await login(page, await account(request));
-  await expect(page).toHaveURL(/\/marketplace/);
+  await skipDiagnosis(page);
   await page.getByRole('button', { name: 'Account, Web QA', exact: true }).click();
   const reply = page.waitForResponse(r => r.url().endsWith('/auth/sessions/current') && r.request().method() === 'DELETE');
   await page.getByRole('button', { name: 'Log out', exact: true }).click();

@@ -1,6 +1,7 @@
 import { platformClient } from '@/src/api/authBridge';
 import {
   confirmationFixture,
+  counsellorProfileFixture,
   orderFixture,
   serviceFixture,
   sessionFixture,
@@ -248,6 +249,69 @@ describe('API client HTTP boundary', () => {
     expect(userFacingError({ unexpected: true })).toBe('Something went wrong. Please try again.');
   });
 
+
+  test('Career Professionals are listed and read publicly, without authentication', async () => {
+    fetchMock
+      .mockResolvedValueOnce(jsonResponse([counsellorProfileFixture]))
+      .mockResolvedValueOnce(jsonResponse(counsellorProfileFixture));
+    const { api } = loadClient();
+
+    await expect(api.listCounsellors()).resolves.toEqual([counsellorProfileFixture]);
+    await expect(api.getCounsellorProfile('counsellor/one')).resolves.toEqual(counsellorProfileFixture);
+
+    expect(fetchMock.mock.calls).toEqual([
+      ['https://api.example.test/api/v1/counsellors', { headers: { Accept: 'application/json' } }],
+      ['https://api.example.test/api/v1/counsellors/counsellor%2Fone', { headers: { Accept: 'application/json' } }],
+    ]);
+  });
+
+  test('the job seeker profile is read and replaced with the bearer token', async () => {
+    const update = { name: 'Alex Morgan', photoUrl: null, headline: 'Graduate engineer', careerGoals: 'A first role.' };
+    const profile = { ...update, email: 'alex@example.com' };
+    fetchMock.mockResolvedValueOnce(jsonResponse(profile)).mockResolvedValueOnce(jsonResponse(profile));
+    const { api } = loadClient();
+
+    await expect(api.getJobSeekerProfile('access-token')).resolves.toEqual(profile);
+    await expect(api.updateJobSeekerProfile(update, 'access-token')).resolves.toEqual(profile);
+
+    expect(fetchMock.mock.calls).toEqual([
+      ['https://api.example.test/api/v1/me/job-seeker-profile', {
+        headers: { Accept: 'application/json', Authorization: 'Bearer access-token' },
+      }],
+      ['https://api.example.test/api/v1/me/job-seeker-profile', {
+        method: 'PATCH',
+        body: JSON.stringify(update),
+        headers: { Accept: 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer access-token' },
+      }],
+    ]);
+  });
+
+  test('notifications read as none until the backend serves them; other failures still surface', async () => {
+    const notification = { id: 'n1', title: 'Booking confirmed', body: 'See you Tuesday.', createdAt: '2026-09-18T00:00:00Z', read: false };
+    fetchMock
+      .mockResolvedValueOnce(jsonResponse([notification]))
+      .mockResolvedValueOnce(jsonResponse({ code: 'NOT_FOUND', message: 'Not Found', requestId: 'r-404' }, 404))
+      .mockResolvedValueOnce(jsonResponse({ code: 'SERVER_ERROR', message: 'Unavailable', requestId: 'r-500' }, 500));
+    const { api, ApiError } = loadClient();
+
+    await expect(api.listNotifications('access-token')).resolves.toEqual([notification]);
+    await expect(api.listNotifications('access-token')).resolves.toEqual([]);
+    await expect(api.listNotifications('access-token')).rejects.toBeInstanceOf(ApiError);
+    expect(fetchMock).toHaveBeenCalledWith('https://api.example.test/api/v1/me/notifications', {
+      headers: { Accept: 'application/json', Authorization: 'Bearer access-token' },
+    });
+  });
+
+  test('a notification is marked read by its URL-encoded id', async () => {
+    fetchMock.mockResolvedValueOnce(jsonResponse(undefined, 204));
+    const { api } = loadClient();
+
+    await expect(api.markNotificationRead('note/1', 'access-token')).resolves.toBeUndefined();
+    expect(fetchMock).toHaveBeenCalledWith('https://api.example.test/api/v1/me/notifications/note%2F1/read', {
+      method: 'PATCH',
+      headers: { Accept: 'application/json', Authorization: 'Bearer access-token' },
+    });
+  });
 
   // Correct assertions for malformed responses run in test:defects. Request
   // timeout and production URL policy remain documented hardening gaps; a todo
