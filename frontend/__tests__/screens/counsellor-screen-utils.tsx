@@ -64,7 +64,8 @@ export async function renderCounsellor(element: React.ReactElement, session: Ses
     return <>{children}</>;
   }
   const result = render(<AuthProvider><ChromeProvider><LoginBoundary session={activeSession}><ReadyBoundary>{element}</ReadyBoundary></LoginBoundary></ChromeProvider></AuthProvider>);
-  await waitFor(() => expect(ready).toBe(true));
+  // Setup, not an assertion: a cold CI runner's first screen mount can outlast waitFor's 1 s default.
+  await waitFor(() => expect(ready).toBe(true), { timeout: 4000 });
   return result;
 }
 
