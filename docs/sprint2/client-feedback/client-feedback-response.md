@@ -2,15 +2,13 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Sprint 2 Feedback Implemented
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Client-Feedback-Response
-  Wiki commit: 318c8aa (2026-09-19)
+  Wiki commit: 9bf9bb8 (2026-09-19)
   Exported:    2026-09-19
 -->
 
 # Sprint 2 Feedback Implemented
 
-**For:** Saumil Macwan (Sam), Yoir, and Jared Cheng, Product Owner · **From:** Team Koala · **Date:** 19 September 2026
-
-We have implemented the following feedback from Sam's email of 17 September 2026. The screenshots are from the development build with demo data.
+Client feedback of 17 September 2026 (FB01–FB07 in [Sprint 2 Review & Client Feedback](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Review-and-Client-Feedback)), implemented in Sprint 2. Screenshots are from the development build with demo data.
 
 ## 1. Career Professional and Explore
 
@@ -33,7 +31,7 @@ We have implemented the following feedback from Sam's email of 17 September 2026
 
 ## 3. The Yoir Diagnosis and direction
 
-- A new Job Seeker starts with the **Yoir Diagnosis**: the six steps, in Sam's wording, one question per screen.
+- A new Job Seeker starts with the **Yoir Diagnosis**: the client's six steps, in the client's wording, one question per screen.
 - Step 6, **Your Yoir Direction**, gives the main area to work on and suggested next steps, and lists the relevant Career Professionals.
 - The Job Seeker's home screen shows **their best matches**, with a button to retake the diagnosis.
 
