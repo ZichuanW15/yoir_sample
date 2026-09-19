@@ -14,6 +14,7 @@ It implements the published Sprint 1 contract in
 | GET  | `/api/v1/health` | `{ "status": "ok" }` (NFR-02) |
 | POST | `/api/v1/auth/users` | register (US-01..04) → `201 User`, `400`, `409` |
 | POST | `/api/v1/auth/sessions` | login (US-06, US-07) → `200 Session`, `401 INVALID_CREDENTIALS` |
+| DELETE | `/api/v1/auth/sessions/current` | current-token logout (US-08) → empty `204`, `401 AUTHENTICATION_REQUIRED` |
 | GET  | `/api/v1/services` | list active services (US-44, US-45), `?query=`, `?modality=` |
 | GET  | `/api/v1/services/{serviceId}` | service detail (US-46) → `200 Service`, `404 NOT_FOUND` |
 | GET  | `/api/v1/services/{serviceId}/slots` | currently open time slots (US-40) |
@@ -23,9 +24,39 @@ It implements the published Sprint 1 contract in
 Everything else in the contract (booking, payment, messaging, forum, reviews, verification,
 admin) is a follow-on slice and is deliberately absent.
 
+For the Sprint 2 registration form, see the
+[US-01 backend contract and verification guide](../docs/sprint2/backend/us01-registration.md).
+It documents the five-field request, English field errors, response examples and
+the tests for issue #86. The running API publishes this operation at `/docs`.
+
+For US-02 account persistence, the Argon2id policy and failure-path evidence, see
+the [secure account creation guide](../docs/sprint2/backend/us02-account-creation.md)
+for issue #93. Registration returns a committed public user, without logging them in.
+
+For US-03 email uniqueness, including simultaneous registration requests, see the
+[duplicate-email guide](../docs/sprint2/backend/us03-duplicate-email.md) for issue #96.
+Both ordinary duplicates and database email conflicts return the same HTTP `409`
+form error, with no extra account and no changes to the existing account.
+
+For US-06/07/08 login, safe credential errors and persistent current-token logout,
+see the [authentication/session guide](../docs/sprint2/backend/us06-us08-auth-sessions.md)
+for issues #99, #102 and #105. Startup adds the `revoked_tokens` table without
+resetting existing data. Every protected request checks it; do not clear the table
+while unexpired tokens might still be in use. Tokens keep the existing default
+60-minute lifetime; refresh and all-device logout are not implemented in this slice.
+
 ## Run
 
-Prerequisites: Python 3.11+ (3.12 per the design concept) and a running **PostgreSQL**.
+Dependencies are managed with [uv](https://docs.astral.sh/uv/): `pyproject.toml` declares them
+and `uv.lock` pins every resolved version. Both are committed and are the single source of
+truth for what gets installed.
+
+Prerequisites: **uv** and a running **PostgreSQL**. uv downloads the Python 3.12 interpreter
+itself, so nothing else needs installing first.
+
+```bash
+curl -LsSf https://astral.sh/uv/install.sh | sh   # or: brew install uv
+```
 
 ### 1. PostgreSQL
 
@@ -46,25 +77,70 @@ docker compose up -d          # brings up postgres:16 on 5432 as yoir/yoir
 
 ```bash
 cd backend
-python3 -m venv .venv && source .venv/bin/activate
-pip install -r requirements.txt
-cp .env.example .env          # then set DATABASE_URL for your Postgres
-uvicorn app.main:app --reload
+uv sync                          # create .venv and install everything uv.lock pins
+cp .env.example .env             # then point DATABASE_URL at your Postgres
+uv run python reset_db.py        # create every table and load app/seed_data.json
+uv run yoir-dev                  # build the web frontend, then serve it with the API
 ```
 
-- `DATABASE_URL` in `.env` — e.g. `postgresql+psycopg://evelyn@localhost:5433/yoir`
-  (Postgres.app) or `postgresql+psycopg://yoir:yoir@localhost:5432/yoir` (docker compose).
+`uv run yoir-dev` is the full-stack local command: it exports the Expo web build into
+`static/` when the frontend sources are newer than the build already there, then starts
+Uvicorn with reload on `http://127.0.0.1:8000` serving both. `--no-build` serves whatever
+build is in place, `--force-build` rebuilds regardless, and `--host`/`--port` move the server.
+For the API on its own, `uv run fastapi dev app/main.py` still works unchanged.
+
+`uv sync` builds `backend/.venv` for you and `uv run <command>` executes inside it, so there
+is nothing to activate. Re-run `uv sync` after any pull that touches `uv.lock`.
+
+- `DATABASE_URL` in `.env` — e.g. `postgresql://evelyn@localhost:5433/yoir` (Postgres.app)
+  or `postgresql://yoir:yoir@localhost:5432/yoir` (docker compose). Keep the
+  `postgresql://` scheme: the backend uses the `psycopg2-binary` driver, which is what
+  SQLAlchemy selects for that scheme. A `postgresql+psycopg://` URL asks for the psycopg 3
+  driver instead and fails with `ModuleNotFoundError: No module named 'psycopg'`.
 - API root: `http://localhost:8000/api/v1` · interactive docs: `http://localhost:8000/docs`
 - First start creates the tables and seeds job seekers, counsellors and services from
   `app/seed_data.json` plus three future time slots per service.
 - The payment stub is deliberately labelled, collects no card data and charges no real money.
 - **Reset / reseed the database any time** (no web server needed):
   ```bash
-  python reset_db.py
+  uv run python reset_db.py
   ```
   Drops and recreates every table in `DATABASE_URL`, then reloads `app/seed_data.json`.
 - Seed logins (password `password123`): job seekers `alex@example.com`, `sam@example.com`;
   counsellors `maya@example.com`, `jordan@example.com`, `priya@example.com`, `tom@example.com`.
+
+### 3. Test
+
+```bash
+cd backend
+uv run ruff check app tests reset_db.py
+uv run pytest tests               # temporary SQLite file when DATABASE_URL is unset
+```
+
+The QA tools (`pytest`, `pytest-cov`, `httpx`, `ruff`, `PyYAML`) are the `dev` dependency
+group in `pyproject.toml` and `uv sync` installs them by default.
+
+`pyproject.toml` declares a `[build-system]` so the `yoir-dev` entry point can be installed.
+uv installs the project itself in editable mode, so `app/` is always served from the working
+tree; nothing needs reinstalling after an edit.
+
+### 4. Everyday uv commands
+
+| Command | What it does |
+|---|---|
+| `uv sync` | Install the locked set into `.venv`, creating it if needed. Run after every pull. |
+| `uv sync --locked` | Same, but fails if `uv.lock` is stale instead of relocking. Used by CI. |
+| `uv sync --no-default-groups` | Runtime dependencies only, without the `dev` QA tools. |
+| `uv run <cmd>` | Run `<cmd>` inside `.venv` — `uv run pytest`, `uv run ruff check app`. |
+| `uv run yoir-dev` | Build the web frontend if stale, then serve it and the API together. |
+| `uv add <pkg>` | Add a runtime dependency, updating `pyproject.toml` **and** `uv.lock`. |
+| `uv add --group dev <pkg>` | Add a QA-only dependency. |
+| `uv remove <pkg>` | Drop a dependency and relock. |
+| `uv lock --upgrade` | Re-resolve everything to the newest allowed versions. Review the diff. |
+| `uv tree` | Show the resolved dependency tree. |
+
+Commit `uv.lock` whenever it changes — a reviewed lock diff is how the team sees a dependency
+move. Do not hand-edit it.
 
 ## Connect the frontend
 
@@ -77,11 +153,137 @@ EXPO_PUBLIC_USE_DEMO_API=false
 
 Use your machine's LAN IP (not `localhost`) so a phone or emulator can reach it.
 
+## Serving the frontend
+
+One deployment serves both halves. `expo export --platform web` writes a static site — one
+HTML document per route beside hashed JavaScript and images — and `app/frontend.py` mounts it
+at `/`, after every router, so it only ever receives paths the API did not claim. A path under
+`/api/` that no route matched stays a JSON `NOT_FOUND` rather than falling back to the app
+shell.
+
+Expo keeps dynamic routes as literal bracket names on disk, so `/services/svc_1/timeslots` is
+served by `static/services/[serviceId]/timeslots.html`. Deep links and browser refreshes are
+resolved segment by segment against that layout, and anything unmatched gets Expo's
+`+not-found.html` with a 404.
+
+Locally, `uv run yoir-dev` does the build for you. The equivalent by hand is:
+
+```bash
+EXPO_PUBLIC_API_URL=/api/v1 npm --prefix ../frontend run build:web
+rm -rf static && mv ../frontend/dist/web static
+uv run fastapi dev app/main.py
+```
+
+The build calls the API at the same origin, so `EXPO_PUBLIC_API_URL` is the path `/api/v1`
+rather than an absolute URL, and no deployed hostname is baked into the bundle. `FRONTEND_DIST`
+overrides the directory. With no build on disk the mount is skipped and the API runs on its
+own, which is how the backend CI job and the test suite run.
+
+`EXPO_PUBLIC_*` values are inlined into the bundle at transform time and Metro caches the
+result, so a build can otherwise reuse a URL from an earlier run — `frontend/.env` points at
+the deployed API, which would then be baked into a local build without a word. `build:web`
+passes `--clear` for exactly that reason; keep it there.
+
+## Deploy to FastAPI Cloud
+
+The backend is deployed with [FastAPI Cloud](https://fastapicloud.com). The `fastapi` CLI
+ships in the `fastapi[standard]` dependency, so it is already in the synced environment —
+no separate install.
+
+```bash
+cd backend
+uv run fastapi login          # once per machine
+uv run fastapi deploy
+```
+
+That is the manual path; merges into `dev` deploy on their own, see below.
+
+FastAPI Cloud builds from `pyproject.toml` and installs the exact versions in `uv.lock`, so a
+deployed build matches a local `uv sync`. It autodetects `app/main.py` and the `app` object.
+
+`fastapi deploy` writes `.fastapicloud/cloud.json` (the app and team IDs). That directory
+ships its own `.gitignore` containing `*`, so it is deliberately **not** committed — each
+person links their own checkout.
+
+### Automatic deploys from `dev`
+
+[`.github/workflows/deploy-dev.yml`](../.github/workflows/deploy-dev.yml) redeploys on every
+merge into `dev` that touches `backend/**` or `frontend/**`, and can also be run by hand from
+the Actions tab. It exports the web build into `backend/static`, installs with
+`uv sync --locked --no-default-groups` (runtime dependencies only, no QA tooling) and then runs
+`uv run fastapi deploy` from `backend/`.
+
+### How the web build reaches the upload
+
+`fastapi deploy` walks the upload with [rignore](https://pypi.org/project/rignore/), which
+honours every `.gitignore` in the tree — this directory's and the repository root's. The build
+is generated and never committed, so `static/` is git-ignored, and its own asset tree contains
+an `assets/node_modules/` directory the root `.gitignore` excludes as well. Either rule alone
+would drop files from the upload **silently**, deploying an API with a missing or half-broken
+frontend.
+
+`.fastapicloudignore` whitelists both back in, and whitelists there take precedence over
+`.gitignore`:
+
+```text
+!static/
+!static/**
+```
+
+The workflow checks this rather than trusting it: before deploying it walks the archive the
+way the CLI does and fails if any built file is missing from it.
+
+It needs two repository secrets:
+
+| Secret | What it is |
+|---|---|
+| `FASTAPI_CLOUD_TOKEN` | A deploy token. The CLI uses it instead of an interactive login. |
+| `FASTAPI_CLOUD_APP_ID` | The app ID. Needed because `.fastapicloud/cloud.json` is not committed. |
+
+The CLI provisions both for you — run it from `backend/`, where the app is linked:
+
+```bash
+cd backend
+uv run fastapi cloud setup-ci --branch dev --secrets-only
+```
+
+`--secrets-only` creates the token and sets the two secrets without writing a workflow file,
+since `deploy-dev.yml` already exists and pins its actions by commit SHA the way the rest of
+this repository does. If the [`gh` CLI](https://cli.github.com) is not installed the command
+prints both values instead, to paste into **Settings → Secrets and variables → Actions**.
+
+Deploy tokens expire after 365 days; re-run the command before then to rotate.
+
+The workflow deploys whatever landed on `dev` without waiting for Application CI to go green —
+the two run in parallel on the same push. To deploy only after tests pass, change the trigger
+to a `workflow_run` on `Application CI` with `types: [completed]` and gate the job on
+`github.event.workflow_run.conclusion == 'success'`.
+
+### Deployed configuration
+
+Set these in the FastAPI Cloud dashboard, not in a committed file. `.env` is local-only and
+is not uploaded.
+
+| Variable | Deployed value |
+|---|---|
+| `DATABASE_URL` | `postgresql://USER:PASSWORD@HOST:5432/DBNAME` — same `postgresql://` scheme as local |
+| `JWT_SECRET` | A real secret of at least 32 bytes. Never the `.env.example` placeholder. |
+| `CORS_ALLOW_ORIGINS` | The deployed frontend origin, not `*`. The bundled web build is same-origin and needs no entry; this is for any other client. |
+| `SEED_ON_STARTUP` | `false` once the database holds real data. The seed inserts demo counsellors and services whose password is published in this repository. |
+| `ADMIN_EMAIL` / `ADMIN_PASSWORD` | Creates the `platform_owner` on startup if absent — nothing else can, since registration never grants that role. Existing accounts are never modified, so redeploying preserves a password changed since. Clear both once the owner exists in anything holding real accounts. |
+
+The defaults in `app/config.py` — wildcard CORS, automatic seed and a placeholder JWT secret —
+are for local development only and are a recorded QA finding; override all four.
+
+The deployed web build reaches the API at the same origin, so it needs no `EXPO_PUBLIC_API_URL`
+of its own. Point a *local* Expo app at the deployment by setting `EXPO_PUBLIC_API_URL` in
+`frontend/.env` to `https://<your-app>.fastapicloud.dev/api/v1`.
+
 ## Structure
 
 ```text
 app/
-  main.py         FastAPI app, CORS, lifespan (create tables + seed)
+  main.py         FastAPI app, CORS, lifespan (create tables + seed), web build mount
   config.py       env-driven settings (Pydantic Settings)
   db.py           engine + get_db session dependency
   security.py     Argon2 hashing, JWT access tokens
@@ -89,11 +291,117 @@ app/
   models.py       SQLAlchemy 2.0 models (User, Service)
   schemas.py      Pydantic request/response models, camelCase on the wire
   seed.py         demo counsellors + services
-  routers/        health, auth, services
+  frontend.py     serves the exported Expo web build at "/"
+  dev.py          `yoir-dev` — local build-then-serve launcher
+  routers/        health, auth, services, bookings, counsellor, payments, webhooks
+  payments/       Stripe Connect: pricing, gateway, state machine, jobs, documents
+    amounts.py    the commission and GST split (pure, unit-tested)
+    gateway.py    the only module that calls Stripe
+    service.py    what each payment outcome does to an order or booking
+    jobs.py       hold expiry, session completion, counsellor payouts
+    scheduler.py  runs those jobs while the app is up
+    receipts.py   job seeker receipts and monthly commission statements
+    notifications.py  where the flow hands a message off for delivery
+static/           the exported web build (generated, git-ignored, not committed)
 ```
+
+## Database migrations
+
+The schema is versioned with Alembic and brought up to date **on startup**, so a
+deploy needs no manual step. `create_all()` is gone: it only ever created missing
+*tables*, so a new column on an existing table never reached the database and the
+deployment failed on the first request that needed it.
+
+```text
+migrations/versions/
+  0001_baseline_pre_payments.py      the schema as it was before migrations existed
+  0002_payments_windows_refresh.py   payments, availability windows, refresh tokens,
+                                     counsellor profiles — including the data move
+                                     from per-service slots to counsellor windows
+```
+
+A database arrives in one of three states, and `app/migrations.py` tells them apart
+rather than guessing:
+
+| state | what happens |
+|---|---|
+| has migration history | upgraded from wherever it is |
+| completely empty | built from `0001` onwards |
+| predates migrations | recognised by its schema, stamped at `0001`, then upgraded |
+
+That third case is the one-time adoption for a database created before Alembic. It
+is recognised by a signature — `availability_slots` plus `orders.slot_id`, both of
+which `0002` removes — so an *unfamiliar* schema stops the app with an error instead
+of having a migration written for a different shape run against it. A deployment that
+will not start is recoverable; a half-migrated database is much less so.
+
+Adding a change:
+
+```bash
+uv run alembic revision --autogenerate -m "what changed"
+uv run alembic upgrade head          # or just start the app
+```
+
+`migrations/env.py` takes the URL from `app.config`, never from `alembic.ini`, so a
+migration cannot run against a different database than the one the app is about to
+serve.
+
+## Payments
+
+Stripe Connect with **separate charges and transfers**: the job seeker is charged
+into the platform balance when they book, and the counsellor's share is transferred
+to their connected account after the session has taken place. The full design is
+`docs/payment/stripe-payment-spec.md`.
+
+**Without Stripe credentials the server runs exactly as before**, on the development
+payment stub, so no one needs a Stripe account to work on anything else. Setting
+`STRIPE_SECRET_KEY` switches card payments on and refuses the stub endpoint, so a
+real deployment cannot be talked into confirming an unpaid booking.
+
+How the pieces map onto the existing schema:
+
+| Payments spec | Here |
+|---|---|
+| booking, `pending_payment` | `Order` — holds the slot, owns the PaymentIntent and the frozen amount breakdown |
+| booking, `confirmed` onward | `Booking` — created by the webhook, owns the Transfer and any refund |
+| `*_cents` | `*_minor`, the naming the rest of the project already uses |
+
+Three rules the code is built around:
+
+1. **The server owns every amount.** The price is read from the service row, never
+   from the request, and the commission split is written onto the order once and
+   never recalculated — so a counsellor changing their price or GST registration
+   cannot change what a booking already made is worth.
+2. **The app never decides that a payment worked.** Stripe's PaymentSheet returning
+   success only means the card was accepted. The booking is created when the
+   `payment_intent.succeeded` webhook arrives, and the app reads the result from
+   `GET /orders/{id}`.
+3. **Stripe decides who can be paid.** `chargesEnabled` and `payoutsEnabled` are
+   only ever written from `account.updated`, and a counsellor without them is hidden
+   from the Marketplace.
+
+### Local testing
+
+```bash
+stripe listen \
+  --forward-to localhost:8000/api/v1/payments/stripe/webhook \
+  --forward-connect-to localhost:8000/api/v1/payments/stripe/webhook/connect
+```
+
+Copy the two signing secrets it prints into `STRIPE_WEBHOOK_SECRET` and
+`STRIPE_CONNECT_WEBHOOK_SECRET`. Test cards: `4242 4242 4242 4242` succeeds,
+`4000 0000 0000 0002` is declined, `4000 0025 0000 3155` asks for 3D Secure.
+
+Connect onboarding needs an HTTPS `APP_BASE_URL`, so point it at a tunnel
+(e.g. ngrok) when testing locally — Stripe rejects plain HTTP in an Account Link.
+
+The test suite mocks every Stripe call and needs no credentials, except webhook
+signatures, which are generated for real so the verification path is genuinely
+exercised: `uv run pytest tests/test_payments.py`.
 
 ## Deliberate skeleton shortcuts (next slices)
 
-- **Alembic** migrations — skeleton calls `create_all()` on startup instead.
+- **Email delivery** — `payments/notifications.py` logs where a receipt or
+  confirmation would be sent; the project has no mail transport yet.
 - **Refresh tokens / logout** (US-08), bearer-auth dependency for protected routes.
 - **Tests / CI** — owned by QA; not in this skeleton.

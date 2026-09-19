@@ -1,141 +1,145 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
-import { router, useLocalSearchParams } from 'expo-router';
+import { apiFailure, AuthStatusProbe, callsTo, deferred, jsonResponse, navigation, renderPublic, reply, routeParams } from '../public-screen-utils';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react-native';
 import RegisterScreen from '@/app/auth/register';
-import { api, ApiError } from '@/src/api/client';
 import { sessionFixture } from '../fixtures';
 
-jest.mock('expo-router', () => ({
-  Link: ({ children }: { children: React.ReactNode }) => children,
-  router: { replace: jest.fn(), push: jest.fn() },
-  useLocalSearchParams: jest.fn(),
-}));
-
-jest.mock('@/src/api/client', () => {
-  const actual = jest.requireActual('@/src/api/client');
-  return { ...actual, api: { ...actual.api, register: jest.fn() } };
-});
-
-const registerMock = api.register as jest.MockedFunction<typeof api.register>;
-const replaceMock = router.replace as jest.Mock;
-const paramsMock = useLocalSearchParams as jest.Mock;
-
-function completeRegistrationForm() {
+function completeForm() {
   fireEvent.changeText(screen.getByLabelText('Full name'), '  Alex Morgan  ');
   fireEvent.changeText(screen.getByLabelText('Email'), '  alex@example.com  ');
   fireEvent.changeText(screen.getByLabelText('Password'), 'correct-password');
   fireEvent.changeText(screen.getByLabelText('Confirm password'), 'correct-password');
 }
+const submit = () => fireEvent.press(screen.getByRole('button', { name: 'Create account' }));
 
-describe('Register screen', () => {
-  beforeEach(() => {
-    paramsMock.mockReturnValue({});
+describe('registration screen', () => {
+  // Characterization only: the current global banner is not evidence of the
+  // per-field error association required by US-01 AC2/3. Those stronger probes
+  // are in planned/auth-issue-acceptance.test.tsx, excluded from this implemented-
+  // scope run. Excluded criteria are NOT passing parent-story acceptance.
+  test.each(['Full name', 'Email', 'Password', 'Confirm password'])('[QA-87][characterization] rejects empty %s with the current form-level banner', async (label) => {
+    await renderPublic(<RegisterScreen />);
+    completeForm();
+    fireEvent.changeText(screen.getByLabelText(label), '');
+    submit();
+    expect(screen.getByText('Complete all required fields.')).toBeOnTheScreen();
+    expect(callsTo('POST', '/auth/users')).toHaveLength(0);
   });
 
-  test('registers valid input and offers navigation to login', async () => {
-    registerMock.mockResolvedValueOnce(sessionFixture.user);
-    render(<RegisterScreen />);
-
-    completeRegistrationForm();
-    fireEvent.press(screen.getByRole('button', { name: 'Create account' }));
-
-    await waitFor(() =>
-      expect(registerMock).toHaveBeenCalledWith({
-        name: 'Alex Morgan',
-        email: 'alex@example.com',
-        password: 'correct-password',
-        passwordConfirmation: 'correct-password',
-        role: 'job_seeker',
-      }),
-    );
-    expect(screen.getByText('Your account is ready. Continue to log in.')).toBeTruthy();
-
-    fireEvent.press(screen.getByRole('button', { name: 'Continue to log in' }));
-    expect(replaceMock).toHaveBeenCalledWith('/auth/login');
-  });
-
-  test('preserves a pending booking when continuing to login', async () => {
-    paramsMock.mockReturnValue({ serviceId: 'service-1' });
-    registerMock.mockResolvedValueOnce(sessionFixture.user);
-    render(<RegisterScreen />);
-
-    completeRegistrationForm();
-    fireEvent.press(screen.getByRole('button', { name: 'Create account' }));
-    await screen.findByText('Your account is ready. Continue to log in.');
-    fireEvent.press(screen.getByRole('button', { name: 'Continue to log in' }));
-
-    expect(replaceMock).toHaveBeenCalledWith({
-      pathname: '/auth/login',
-      params: { serviceId: 'service-1' },
-    });
-  });
-
-  test('rejects incomplete input before calling register', () => {
-    render(<RegisterScreen />);
-
-    fireEvent.press(screen.getByRole('button', { name: 'Create account' }));
-
-    expect(screen.getByText('Complete all required fields.')).toBeTruthy();
-    expect(registerMock).not.toHaveBeenCalled();
-  });
-
-  test('rejects a short password before calling register', () => {
-    render(<RegisterScreen />);
-
-    fireEvent.changeText(screen.getByLabelText('Full name'), 'Alex Morgan');
-    fireEvent.changeText(screen.getByLabelText('Email'), 'alex@example.com');
+  test('[QA-94][characterization] rejects a password below the current eight-character rule', async () => {
+    await renderPublic(<RegisterScreen />);
+    completeForm();
     fireEvent.changeText(screen.getByLabelText('Password'), 'short');
     fireEvent.changeText(screen.getByLabelText('Confirm password'), 'short');
-    fireEvent.press(screen.getByRole('button', { name: 'Create account' }));
-
-    expect(screen.getByText('Password must be at least 8 characters.')).toBeTruthy();
-    expect(registerMock).not.toHaveBeenCalled();
+    submit();
+    expect(screen.getByText('Password must be at least 8 characters.')).toBeOnTheScreen();
+    expect(callsTo('POST', '/auth/users')).toHaveLength(0);
   });
 
-  test('rejects mismatched passwords before calling register', () => {
-    render(<RegisterScreen />);
-
-    fireEvent.changeText(screen.getByLabelText('Full name'), 'Alex Morgan');
-    fireEvent.changeText(screen.getByLabelText('Email'), 'alex@example.com');
-    fireEvent.changeText(screen.getByLabelText('Password'), 'correct-password');
+  test('[QA-87][characterization] rejects mismatched passwords with the current form-level banner', async () => {
+    await renderPublic(<><RegisterScreen /><AuthStatusProbe /></>);
+    completeForm();
     fireEvent.changeText(screen.getByLabelText('Confirm password'), 'different-password');
-    fireEvent.press(screen.getByRole('button', { name: 'Create account' }));
-
-    expect(screen.getByText('Passwords do not match.')).toBeTruthy();
-    expect(registerMock).not.toHaveBeenCalled();
+    submit();
+    expect(screen.getByText('Passwords do not match.')).toBeOnTheScreen();
+    expect(callsTo('POST', '/auth/users')).toHaveLength(0);
   });
 
-  test('submits the Career Counsellor role selected by the user', async () => {
-    registerMock.mockResolvedValueOnce({ ...sessionFixture.user, role: 'counsellor' });
-    render(<RegisterScreen />);
-
-    fireEvent.press(screen.getByText('Career Counsellor'));
-    completeRegistrationForm();
-    fireEvent.press(screen.getByRole('button', { name: 'Create account' }));
-
-    await waitFor(() =>
-      expect(registerMock).toHaveBeenCalledWith(
-        expect.objectContaining({ role: 'counsellor' }),
-      ),
-    );
+  test.each(['job_seeker', 'counsellor'] as const)('[QA-87/91] registers %s and retains the booking on the login continuation', async (role) => {
+    routeParams({ role, serviceId: 'service-1' });
+    reply('POST', '/auth/users', jsonResponse({ ...sessionFixture.user, role }, 201));
+    await renderPublic(<><RegisterScreen /><AuthStatusProbe /></>);
+    expect(screen.getByRole('radio', { name: role === 'counsellor' ? 'Career Professional' : 'Job Seeker' })).toBeChecked();
+    completeForm();
+    submit();
+    expect(await screen.findByText('Your account is ready')).toBeOnTheScreen();
+    expect(screen.getByText('signed out')).toBeOnTheScreen();
+    expect(callsTo('POST', '/auth/sessions')).toHaveLength(0);
+    expect(JSON.parse(callsTo('POST', '/auth/users')[0][1]?.body as string)).toEqual({
+      name: 'Alex Morgan', email: 'alex@example.com', password: 'correct-password', passwordConfirmation: 'correct-password', role,
+    });
+    fireEvent.press(screen.getByRole('button', { name: 'Continue to log in' }));
+    expect(navigation.replace).toHaveBeenCalledWith({ pathname: '/auth/login', params: { role, serviceId: 'service-1', email: 'alex@example.com' } });
   });
 
-  test('shows an API conflict without reporting success', async () => {
-    registerMock.mockRejectedValueOnce(
-      new ApiError(409, {
-        code: 'CONFLICT',
-        message: 'An account already exists for this email.',
-        requestId: 'request-409',
-      }),
-    );
-    render(<RegisterScreen />);
-
-    completeRegistrationForm();
-    fireEvent.press(screen.getByRole('button', { name: 'Create account' }));
-
-    expect(await screen.findByText('An account already exists for this email.')).toBeTruthy();
-    expect(screen.queryByText('Your account is ready. Continue to log in.')).toBeNull();
+  test('[QA-91] the user can change the role before submitting', async () => {
+    reply('POST', '/auth/users', jsonResponse({ ...sessionFixture.user, role: 'counsellor' }, 201));
+    await renderPublic(<RegisterScreen />);
+    completeForm();
+    fireEvent.press(screen.getByRole('radio', { name: 'Career Professional' }));
+    submit();
+    await screen.findByText('Your account is ready');
+    expect(JSON.parse(callsTo('POST', '/auth/users')[0][1]?.body as string).role).toBe('counsellor');
   });
 
-  test.todo('discards or resolves a pending booking when a counsellor account is registered');
-  test.todo('rejects an invalid or non-scalar booking serviceId before redirecting');
+  test.each(['job_seeker', 'counsellor'] as const)('[QA-97/91] duplicate email for %s retains every field and succeeds after correction', async (role) => {
+    routeParams({ role });
+    reply('POST', '/auth/users', apiFailure('EMAIL_ALREADY_REGISTERED', 'An account already exists for this email address.', 409, { email: 'Use a different email address.' }));
+    await renderPublic(<RegisterScreen />);
+    completeForm();
+    submit();
+    expect(await screen.findByText('An account already exists for this email address.')).toBeOnTheScreen();
+    expect(screen.getByLabelText('Full name')).toHaveProp('value', '  Alex Morgan  ');
+    expect(screen.getByLabelText('Email')).toHaveProp('value', '  alex@example.com  ');
+    expect(screen.getByLabelText('Password')).toHaveProp('value', 'correct-password');
+    expect(screen.getByLabelText('Confirm password')).toHaveProp('value', 'correct-password');
+    expect(screen.getByRole('radio', { name: role === 'counsellor' ? 'Career Professional' : 'Job Seeker' })).toBeChecked();
+    expect(navigation.replace).not.toHaveBeenCalled();
+    fireEvent.changeText(screen.getByLabelText('Email'), 'new@example.com');
+    reply('POST', '/auth/users', jsonResponse({ ...sessionFixture.user, role, email: 'new@example.com' }, 201));
+    submit();
+    await screen.findByText('Your account is ready');
+    expect(callsTo('POST', '/auth/users')).toHaveLength(2);
+    expect(JSON.parse(callsTo('POST', '/auth/users')[1][1]?.body as string)).toMatchObject({ email: 'new@example.com', role });
+    fireEvent.press(screen.getByRole('button', { name: 'Continue to log in' }));
+    expect(navigation.replace).toHaveBeenCalledWith({ pathname: '/auth/login', params: { role, email: 'new@example.com' } });
+  });
+
+  test('[QA-94] a network failure preserves inputs without success, login or authentication', async () => {
+    reply('POST', '/auth/users', new TypeError('offline'));
+    await renderPublic(<><RegisterScreen /><AuthStatusProbe /></>);
+    completeForm();
+    submit();
+    expect(await screen.findByText('We could not reach Yoir. Check your connection and try again.')).toBeOnTheScreen();
+    expect(screen.getByRole('button', { name: 'Create account' })).toBeEnabled();
+    expect(screen.getByLabelText('Email')).toHaveProp('value', '  alex@example.com  ');
+    expect(screen.getByText('signed out')).toBeOnTheScreen();
+    expect(screen.queryByText('Your account is ready')).toBeNull();
+    expect(navigation.replace).not.toHaveBeenCalled();
+    expect(callsTo('POST', '/auth/sessions')).toHaveLength(0);
+  });
+
+  test.each([
+    [400, 'VALIDATION_ERROR', 'Correct the invalid registration fields.', { name: 'A full name is required.' }],
+    [500, 'INTERNAL_ERROR', 'Registration could not be completed.', undefined],
+  ] as const)('[QA-94] backend %s rejection remains anonymous and does not claim success', async (status, code, message, fields) => {
+    reply('POST', '/auth/users', apiFailure(code, message, status, fields));
+    await renderPublic(<><RegisterScreen /><AuthStatusProbe /></>);
+    completeForm();
+    submit();
+    // US-02 permits a field-level OR form-level server-validation message.
+    expect(await screen.findByText(message)).toBeOnTheScreen();
+    expect(screen.getByText('signed out')).toBeOnTheScreen();
+    expect(screen.queryByText('Your account is ready')).toBeNull();
+    expect(screen.getByLabelText('Full name')).toHaveProp('value', '  Alex Morgan  ');
+    expect(screen.getByRole('button', { name: 'Create account' })).toBeEnabled();
+    expect(navigation.replace).not.toHaveBeenCalled();
+    expect(callsTo('POST', '/auth/sessions')).toHaveLength(0);
+  });
+
+  test('[QA-87] double submit during registration sends a single request', async () => {
+    const pending = deferred<Response>();
+    reply('POST', '/auth/users', pending.promise);
+    await renderPublic(<><RegisterScreen /><AuthStatusProbe /></>);
+    completeForm();
+    submit();
+    expect(screen.getByRole('button', { name: 'Create account' })).toBeDisabled();
+    expect(screen.getByRole('button', { name: 'Create account' })).toHaveProp('accessibilityState', expect.objectContaining({ busy: true }));
+    expect(screen.getByText('signed out')).toBeOnTheScreen();
+    expect(screen.queryByText('Your account is ready')).toBeNull();
+    expect(navigation.replace).not.toHaveBeenCalled();
+    submit();
+    expect(callsTo('POST', '/auth/users')).toHaveLength(1);
+    await act(async () => pending.resolve(jsonResponse(sessionFixture.user, 201)));
+    await waitFor(() => expect(screen.getByText('Your account is ready')).toBeOnTheScreen());
+  });
 });

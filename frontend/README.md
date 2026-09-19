@@ -12,7 +12,8 @@ Backend contributors should start with [`backend-integration.md`](../docs/sprint
 
 ## Run
 
-Prerequisites: Node.js 20+ and npm. From this directory:
+Prerequisites: **Node.js 20.20.2** (the version in `.nvmrc`, and the one CI uses —
+`nvm use` picks it up) and its bundled npm. From this directory:
 
 ```bash
 npm install
@@ -33,6 +34,35 @@ EXPO_PUBLIC_USE_DEMO_API=true
 ```
 
 Demo mode is visibly labelled in the app and must not be used as evidence that the deployed backend works.
+
+### Committing a dependency change
+
+Install and regenerate the lock file on Node 20, not a newer one. npm 10 and npm 11
+resolve peer dependencies differently, and a lock written by npm 11 can be one npm 10
+rejects outright — `npm ci` then fails in CI with `Missing: <package> from lock file`
+while working perfectly on the machine that wrote it. If you are on a newer Node:
+
+```bash
+npx npm@10 install --package-lock-only
+npx npm@10 ci --dry-run          # what CI will do
+```
+
+## Web build
+
+`npm run build:web` exports the static web app into `dist/web`. FastAPI serves that build at
+`/` in the deployment, so the API is same-origin and the build is made with the base URL as a
+path rather than an absolute origin:
+
+```bash
+EXPO_PUBLIC_API_URL=/api/v1 npm run build:web
+```
+
+Application CI runs this build and uploads it as an artifact; the deploy workflow moves it into
+`backend/static` before deploying. Locally, `uv run yoir-dev` from `backend/` does the build and
+serves it with the API on one origin — see [`../backend/README.md`](../backend/README.md).
+
+The script passes `--clear`. `EXPO_PUBLIC_*` values are inlined at transform time and Metro
+caches the result, so without it a build can silently reuse the API URL from an earlier run.
 
 ## Quality assurance and CI
 

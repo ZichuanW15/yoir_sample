@@ -22,6 +22,11 @@ paths:
       operationId: login
       security: []
       x-requirement-ids: [US-06, US-07]
+      description: >-
+        Authenticate an existing account using its stored password hash and role.
+        Each successful login receives an independently revocable JWT; the default
+        lifetime is 60 minutes. The response does not set a cookie. Wrong passwords
+        and unknown emails both return the same generic 401 without field hints.
       requestBody:
         required: true
         content:
@@ -58,7 +63,22 @@ paths:
     post:
       tags: [Authentication]
       operationId: refreshSession
+      security: []
       x-requirement-ids: [US-06]
+      description: >-
+        Exchange a refresh token for a new session, rotating it in the process: the
+        presented token is spent and a successor issued, so a mobile app slides
+        rather than asking for a password every hour. Presenting an already-spent
+        token means a copy is circulating, so the whole family descended from that
+        login is revoked and both parties must sign in again. Unknown, spent, revoked
+        and expired all answer 401 alike, so a caller holding a bad token learns
+        nothing from which. Takes no bearer token — the access token has normally
+        expired by the time this is called.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/RefreshSessionRequest'}
       responses:
         '200':
           description: Rotated authenticated session
@@ -84,11 +104,97 @@ paths:
       responses:
         '202': {description: Generic accepted response whether or not account exists}
         '400': {$ref: '#/components/responses/BadRequest'}
+  /auth/email-verifications:
+    post:
+      tags: [Authentication]
+      operationId: verifyEmail
+      security: []
+      x-requirement-ids: [US-06]
+      description: >-
+        Spend a confirmation link and mark the address verified. The response is a
+        full session: someone who has just proved they own the address should not
+        then be asked for their password, since the link is itself the evidence.
+        Links work once and expire; unknown, spent and expired all answer 400 alike.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token]
+              additionalProperties: false
+              properties:
+                token: {type: string}
+      responses:
+        '200':
+          description: Address confirmed, with a session for the confirmed account
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Session'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+  /auth/email-verification-requests:
+    post:
+      tags: [Authentication]
+      operationId: requestEmailVerification
+      security: []
+      x-requirement-ids: [US-06]
+      description: >-
+        Send a fresh confirmation link, superseding any still outstanding. Always
+        202, whether or not the address has an account and whether or not it is
+        already confirmed, so this cannot be used to discover who has registered.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email: {type: string, format: email}
+      responses:
+        '202': {description: Generic accepted response whether or not account exists}
+        '400': {$ref: '#/components/responses/BadRequest'}
+  /auth/password-resets:
+    post:
+      tags: [Authentication]
+      operationId: resetPassword
+      security: []
+      x-requirement-ids: [US-70]
+      description: >-
+        Spend a reset link and set a new password. Every other session ends: refresh
+        token families are revoked and access tokens issued before the reset stop
+        being accepted. A reset usually means the account was compromised, so leaving
+        the attacker's sessions alive would defeat it.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, password, passwordConfirmation]
+              additionalProperties: false
+              properties:
+                token: {type: string}
+                password: {type: string, format: password, writeOnly: true}
+                passwordConfirmation: {type: string, format: password, writeOnly: true}
+      responses:
+        '204': {description: Password changed and every other session ended}
+        '400': {$ref: '#/components/responses/BadRequest'}
   /auth/sessions/current:
     delete:
       tags: [Authentication]
       operationId: logout
       x-requirement-ids: [US-08]
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/LogoutRequest'}
+      description: >-
+        Invalidate only the presented bearer token on the server. Success returns
+        an empty 204 after the revocation is committed. Retrying logout with the
+        same correctly signed, unexpired revoked token also returns 204. Missing,
+        malformed or expired tokens return 401. Other login sessions remain valid.
       responses:
         '204': {description: Session invalidated}
         '401': {$ref: '#/components/responses/Unauthorised'}
@@ -130,6 +236,12 @@ paths:
     get:
       tags: [Marketplace]
       operationId: listServiceSlots
+      parameters:
+        - name: modality
+          in: query
+          required: false
+          schema: {$ref: '#/components/schemas/Modality'}
+          description: Offers are per delivery method, since availability can differ by it.
       security: []
       x-requirement-ids: [US-40]
       responses:
@@ -139,7 +251,7 @@ paths:
             application/json:
               schema:
                 type: array
-                items: {$ref: '#/components/schemas/AvailabilitySlot'}
+                items: {$ref: '#/components/schemas/BookableStart'}
         '404': {$ref: '#/components/responses/NotFound'}
   /orders:
     post:
@@ -147,6 +259,11 @@ paths:
       operationId: createOrder
       x-required-role: job_seeker
       x-requirement-ids: [US-41, US-47]
+      description: >-
+        Holds the slot and freezes the amount breakdown. The price is read from the
+        service row and never taken from the request. Refused with
+        COUNSELLOR_PAYOUTS_UNAVAILABLE when the counsellor has not completed Stripe
+        onboarding, since money we cannot pass on should not be taken.
       requestBody:
         required: true
         content:
@@ -162,6 +279,28 @@ paths:
         '401': {$ref: '#/components/responses/Unauthorised'}
         '403': {$ref: '#/components/responses/Forbidden'}
         '409': {$ref: '#/components/responses/Conflict'}
+  /orders/{orderId}:
+    parameters:
+      - {$ref: '#/components/parameters/OrderId'}
+    get:
+      tags: [Orders]
+      operationId: getOrder
+      x-required-role: job_seeker
+      x-requirement-ids: [US-41, US-47]
+      description: >-
+        Authoritative payment outcome for one order. PaymentSheet reporting success
+        only means Stripe accepted the card; the booking appears here once the
+        payment_intent.succeeded webhook has been processed, so the app polls this
+        rather than trusting its own result.
+      responses:
+        '200':
+          description: Order state, with the booking once payment is confirmed
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/OrderStatus'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
   /orders/{orderId}/payment-intents:
     parameters:
       - {$ref: '#/components/parameters/OrderId'}
@@ -213,6 +352,74 @@ paths:
       responses:
         '200': {description: Event processed or duplicate event acknowledged as a no-op}
         '400': {$ref: '#/components/responses/BadRequest'}
+  /payments/stripe/webhook/connect:
+    post:
+      tags: [Orders]
+      operationId: processStripeConnectWebhook
+      security: []
+      x-authentication: Stripe-Signature over raw request body, connected-account signing secret
+      x-requirement-ids: [US-47]
+      description: >-
+        Connected-account events. account.updated is the only authority on whether a
+        counsellor may be listed and booked; chargesEnabled and payoutsEnabled are
+        never set from the app or inferred from a counsellor finishing onboarding.
+      parameters:
+        - name: Stripe-Signature
+          in: header
+          required: true
+          schema: {type: string}
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {type: object, additionalProperties: true}
+      responses:
+        '200': {description: Event processed or duplicate event acknowledged as a no-op}
+        '400': {$ref: '#/components/responses/BadRequest'}
+  /payments/stripe/onboarding/return:
+    get:
+      tags: [Counsellor]
+      operationId: stripeOnboardingReturn
+      security: []
+      x-requirement-ids: [US-47]
+      description: >-
+        Where Stripe-hosted onboarding sends the counsellor when it closes. Reaching
+        it is not evidence that onboarding succeeded, so it only redirects into the
+        app, which then re-reads getPayoutStatus.
+      responses:
+        '303': {description: Redirect to the app deep link}
+  /payments/stripe/onboarding/refresh:
+    get:
+      tags: [Counsellor]
+      operationId: stripeOnboardingRefresh
+      security: []
+      x-requirement-ids: [US-47]
+      description: >-
+        Where Stripe sends the counsellor when an Account Link has expired. The
+        request carries no session, so the connected account id travels in a signed
+        token this server put in the link.
+      parameters:
+        - {name: token, in: query, required: true, schema: {type: string}}
+      responses:
+        '303': {description: Redirect to a freshly minted Account Link}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '502': {$ref: '#/components/responses/PaymentProviderError'}
+  /payments/config:
+    get:
+      tags: [Orders]
+      operationId: getPaymentConfig
+      security: []
+      x-requirement-ids: [US-47]
+      description: >-
+        Publishable Stripe key and the policy numbers the checkout screen must show.
+        Served rather than bundled so rotating a key, or moving between test and live,
+        needs no new app build. Nothing secret is returned.
+      responses:
+        '200':
+          description: Public payment configuration
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PaymentConfig'}
   /orders/{orderId}/payments/stub:
     parameters:
       - {$ref: '#/components/parameters/OrderId'}
@@ -245,7 +452,7 @@ paths:
             application/json:
               schema:
                 type: array
-                items: {$ref: '#/components/schemas/Booking'}
+                items: {$ref: '#/components/schemas/BookingSummary'}
         '401': {$ref: '#/components/responses/Unauthorised'}
   /bookings/{bookingId}:
     parameters:
@@ -260,9 +467,63 @@ paths:
           description: Authorised booking detail
           content:
             application/json:
-              schema: {$ref: '#/components/schemas/Booking'}
+              schema: {$ref: '#/components/schemas/BookingSummary'}
         '401': {$ref: '#/components/responses/Unauthorised'}
         '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /bookings/{bookingId}/cancel:
+    parameters:
+      - {$ref: '#/components/parameters/BookingId'}
+    post:
+      tags: [Bookings]
+      operationId: cancelBooking
+      x-required-role: participant
+      x-requirement-ids: [US-42, US-47]
+      description: >-
+        Cancel a confirmed booking and refund per policy. A counsellor cancelling
+        always refunds the job seeker in full; a job seeker is refunded in full
+        outside the notice window and at the configured late-cancellation percentage
+        inside it. After payout the counsellor's transfer is reversed first, so the
+        refund is funded before it is issued.
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              properties: {reason: {type: string, maxLength: 500}}
+      responses:
+        '200':
+          description: Booking cancelled and any refund issued
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/CancelBookingResult'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+        '502': {$ref: '#/components/responses/PaymentProviderError'}
+  /bookings/{bookingId}/receipt:
+    parameters:
+      - {$ref: '#/components/parameters/BookingId'}
+    get:
+      tags: [Bookings]
+      operationId: getBookingReceipt
+      x-required-role: participant
+      x-requirement-ids: [US-47]
+      description: >-
+        The job seeker's receipt, issued in the counsellor's name because the
+        counsellor is the supplier of the session under the agent model. It is a tax
+        invoice only when that counsellor was GST-registered at the time of booking,
+        and is built from the order's frozen snapshot rather than their current
+        settings.
+      responses:
+        '200':
+          description: Receipt or tax invoice for a confirmed booking
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/Receipt'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
         '404': {$ref: '#/components/responses/NotFound'}
   /bookings/{bookingId}/reschedule:
     parameters:
@@ -380,7 +641,7 @@ paths:
             application/json:
               schema:
                 type: array
-                items: {$ref: '#/components/schemas/Service'}
+                items: {$ref: '#/components/schemas/OwnService'}
         '403': {$ref: '#/components/responses/Forbidden'}
     post:
       tags: [Counsellor]
@@ -397,34 +658,146 @@ paths:
           description: Service created
           content:
             application/json:
-              schema: {$ref: '#/components/schemas/Service'}
+              schema: {$ref: '#/components/schemas/OwnService'}
         '400': {$ref: '#/components/responses/BadRequest'}
         '403': {$ref: '#/components/responses/Forbidden'}
-  /me/availability-slots:
-    post:
+  /me/services/{serviceId}:
+    parameters:
+      - {$ref: '#/components/parameters/ServiceId'}
+    patch:
       tags: [Counsellor]
-      operationId: createAvailabilitySlot
+      operationId: updateService
       x-required-role: counsellor
-      x-requirement-ids: [US-39]
+      x-requirement-ids: [US-36]
+      description: >-
+        Edit a service the caller owns. The body is the whole service rather than a
+        patch of changed fields, because the edit form submits every field and a
+        partial update would silently drop a cleared location. Bookings already made
+        are unaffected: each carries its own frozen price and details.
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              type: object
-              required: [serviceId, startsAt, endsAt]
-              properties:
-                serviceId: {type: string}
-                startsAt: {type: string, format: date-time}
-                endsAt: {type: string, format: date-time}
+            schema: {$ref: '#/components/schemas/CreateServiceRequest'}
       responses:
-        '201':
-          description: Open availability slot created
+        '200':
+          description: Updated service
           content:
             application/json:
-              schema: {$ref: '#/components/schemas/AvailabilitySlot'}
+              schema: {$ref: '#/components/schemas/OwnService'}
         '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+    delete:
+      tags: [Counsellor]
+      operationId: deleteService
+      x-required-role: counsellor
+      x-requirement-ids: [US-36]
+      description: >-
+        Withdraw a service from the Marketplace. A soft delete: bookings, orders and
+        receipts reference the service, and a job seeker who paid for a session must
+        still be able to see what they bought, so the listing is deactivated rather
+        than erased. Repeating the call is not an error.
+      responses:
+        '204': {description: Service withdrawn from the Marketplace}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /me/availability-windows:
+    get:
+      tags: [Counsellor]
+      operationId: listOwnAvailabilityWindows
+      x-required-role: counsellor
+      x-requirement-ids: [US-39]
+      responses:
+        '200':
+          description: The caller's whole calendar, soonest first
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/AvailabilityWindow'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+    post:
+      tags: [Counsellor]
+      operationId: createAvailabilityWindow
+      x-required-role: counsellor
+      x-requirement-ids: [US-39, US-41]
+      description: >-
+        Declare a stretch of time the counsellor is available. A window names no
+        service: availability belongs to the person, and every service they offer can
+        be booked inside it. Windows that overlap or touch are merged, because two
+        stretches that meet describe one longer stretch.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/CreateAvailabilityWindowRequest'}
+      responses:
+        '201':
+          description: Availability declared, merged with anything it touched
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/AvailabilityWindow'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /me/availability-windows/{windowId}:
+    parameters:
+      - {name: windowId, in: path, required: true, schema: {type: string}}
+    patch:
+      tags: [Counsellor]
+      operationId: updateAvailabilityWindow
+      x-required-role: counsellor
+      x-requirement-ids: [US-39, US-41]
+      description: >-
+        Move a window's boundaries. Refused when a booked session would fall outside
+        the result: that time has already been paid for, and the way out is to cancel
+        the booking.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/UpdateAvailabilityWindowRequest'}
+      responses:
+        '200':
+          description: Window moved
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/AvailabilityWindow'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '404': {$ref: '#/components/responses/NotFound'}
         '409': {$ref: '#/components/responses/Conflict'}
+    delete:
+      tags: [Counsellor]
+      operationId: deleteAvailabilityWindow
+      x-required-role: counsellor
+      x-requirement-ids: [US-39]
+      responses:
+        '204': {description: Availability withdrawn}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
+  /counsellors:
+    get:
+      tags: [Marketplace]
+      operationId: listCounsellors
+      security: []
+      x-requirement-ids: [US-44, US-13]
+      description: >-
+        The Career Professionals a Job Seeker can book, best rated first: the people
+        behind the services GET /services lists, chosen by the same rule.
+      responses:
+        '200':
+          description: Public professional profiles
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/CounsellorSummary'}
   /counsellors/{counsellorId}:
     get:
       tags: [Marketplace]
@@ -455,12 +828,140 @@ paths:
               properties:
                 displayName: {type: string, maxLength: 120}
                 introduction: {type: string, maxLength: 5000}
+                qualifications: {type: array, maxItems: 20, items: {type: string, minLength: 1, maxLength: 160}}
+                expertise: {type: array, maxItems: 20, items: {type: string, minLength: 1, maxLength: 160}}
+                languages: {type: array, maxItems: 20, items: {type: string, minLength: 1, maxLength: 160}}
       responses:
         '200':
           description: Updated professional profile
           content:
             application/json:
               schema: {$ref: '#/components/schemas/CounsellorSummary'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /me/job-seeker-profile:
+    get:
+      tags: [Job Seeker]
+      operationId: getOwnJobSeekerProfile
+      x-required-role: job_seeker
+      x-requirement-ids: [US-29]
+      responses:
+        '200':
+          description: The job seeker's own profile
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/JobSeekerProfile'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+    patch:
+      tags: [Job Seeker]
+      operationId: updateOwnJobSeekerProfile
+      x-required-role: job_seeker
+      x-requirement-ids: [US-29]
+      description: >-
+        Replace the whole profile. The photo is an inline data URI of a JPEG, PNG or
+        WebP image, since there is no file storage; null removes it. The email is not
+        editable here.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [name]
+              properties:
+                name: {type: string, minLength: 1, maxLength: 120}
+                photoUrl: {type: string, nullable: true, maxLength: 2000000, pattern: '^data:image/(jpeg|png|webp);base64,'}
+                headline: {type: string, maxLength: 200}
+                careerGoals: {type: string, maxLength: 2000}
+      responses:
+        '200':
+          description: The saved profile
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/JobSeekerProfile'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /me/stripe-onboarding:
+    post:
+      tags: [Counsellor]
+      operationId: startStripeOnboarding
+      x-required-role: counsellor
+      x-requirement-ids: [US-47]
+      description: >-
+        Create the Stripe connected account if there is none, then return a fresh
+        Account Link. Links are single-use and expire within minutes, so a new one is
+        minted on every call and none is ever cached.
+      responses:
+        '200':
+          description: A fresh Stripe-hosted onboarding URL
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/StripeOnboarding'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '502': {$ref: '#/components/responses/PaymentProviderError'}
+        '503': {$ref: '#/components/responses/PaymentsUnavailable'}
+  /me/payout-status:
+    get:
+      tags: [Counsellor]
+      operationId: getPayoutStatus
+      x-required-role: counsellor
+      x-requirement-ids: [US-47]
+      responses:
+        '200':
+          description: Whether Stripe will let this counsellor be charged for and paid
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PayoutStatus'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /me/tax-details:
+    put:
+      tags: [Counsellor]
+      operationId: updateTaxDetails
+      x-required-role: counsellor
+      x-requirement-ids: [US-47]
+      description: >-
+        ABN and GST registration for this counsellor's receipts. Changes apply only
+        to bookings made from now on; every order already placed carries its own
+        snapshot so receipts already issued keep saying what was true.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/TaxDetailsRequest'}
+      responses:
+        '200':
+          description: Updated payout and tax status
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PayoutStatus'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /me/commission-statements/{year}/{month}:
+    parameters:
+      - {name: year, in: path, required: true, schema: {type: integer}}
+      - {name: month, in: path, required: true, schema: {type: integer, minimum: 1, maximum: 12}}
+    get:
+      tags: [Counsellor]
+      operationId: getCommissionStatement
+      x-required-role: counsellor
+      x-requirement-ids: [US-47]
+      description: >-
+        The platform's monthly tax invoice to the counsellor for commission on the
+        sessions they delivered, carrying the platform ABN. The second of the two
+        documents the agent model requires.
+      responses:
+        '200':
+          description: Commission statement for the requested month
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/CommissionStatement'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
         '403': {$ref: '#/components/responses/Forbidden'}
   /me/verification-submissions:
     post:
@@ -633,6 +1134,58 @@ paths:
                 type: array
                 items: {$ref: '#/components/schemas/PaymentOversight'}
         '403': {$ref: '#/components/responses/Forbidden'}
+  /admin/stats:
+    get:
+      tags: [Administration]
+      operationId: getPlatformStats
+      x-required-role: platform_owner
+      x-requirement-ids: [US-48, US-58]
+      description: >-
+        Counts and money totals for the administration dashboard. Every money figure
+        is read from the frozen per-order breakdown rather than recalculated, so the
+        dashboard can never disagree with the receipts already issued.
+      responses:
+        '200':
+          description: Platform totals
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PlatformStats'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /admin/bookings:
+    get:
+      tags: [Administration]
+      operationId: listAllBookings
+      x-required-role: platform_owner
+      x-requirement-ids: [US-48]
+      parameters:
+        - {name: limit, in: query, schema: {type: integer, minimum: 1, maximum: 1000, default: 200}}
+      responses:
+        '200':
+          description: Every booking on the platform, named on both sides
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/AdminBooking'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+  /admin/counsellors:
+    get:
+      tags: [Administration]
+      operationId: listAllCounsellors
+      x-required-role: platform_owner
+      x-requirement-ids: [US-48, US-58]
+      responses:
+        '200':
+          description: Every counsellor, with what they have sold and what they are owed
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/AdminCounsellor'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
   /admin/disputes/{disputeId}/resolution:
     post:
       tags: [Administration]
@@ -671,6 +1224,7 @@ components:
     ServiceId: {name: serviceId, in: path, required: true, schema: {type: string}}
     OrderId: {name: orderId, in: path, required: true, schema: {type: string}}
     BookingId: {name: bookingId, in: path, required: true, schema: {type: string}}
+    SlotId: {name: slotId, in: path, required: true, schema: {type: string}}
   responses:
     BadRequest:
       description: Validation error
@@ -693,6 +1247,12 @@ components:
     PaymentFailed:
       description: Sandbox payment failed safely
       content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}
+    PaymentProviderError:
+      description: Stripe refused or could not be reached; no state was changed
+      content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}
+    PaymentsUnavailable:
+      description: This deployment has no Stripe credentials configured
+      content: {application/json: {schema: {$ref: '#/components/schemas/Error'}}}
   schemas:
     Role: {type: string, enum: [job_seeker, counsellor, platform_owner]}
     Modality: {type: string, enum: [online, in_person]}
@@ -702,7 +1262,8 @@ components:
       required: [email, password]
       properties:
         email: {type: string, format: email}
-        password: {type: string, minLength: 1, format: password}
+        password: {type: string, minLength: 1, format: password, writeOnly: true}
+        client: {$ref: '#/components/schemas/RefreshClient'}
     RegisterRequest:
       type: object
       additionalProperties: false
@@ -715,12 +1276,18 @@ components:
         role: {type: string, enum: [job_seeker, counsellor]}
     User:
       type: object
-      required: [id, name, email, role]
+      required: [id, name, email, role, emailVerified]
       properties:
         id: {type: string}
         name: {type: string}
         email: {type: string, format: email}
         role: {$ref: '#/components/schemas/Role'}
+        emailVerified:
+          type: boolean
+          description: >-
+            False until the address is confirmed. An unconfirmed account can browse
+            and sign in, but cannot create an order or publish a service, so the app
+            uses this to show a confirmation prompt rather than to block sign-in.
     Session:
       type: object
       required: [accessToken, expiresAt, user]
@@ -728,6 +1295,44 @@ components:
         accessToken: {type: string}
         expiresAt: {type: string, format: date-time}
         user: {$ref: '#/components/schemas/User'}
+        refreshToken:
+          type: string
+          nullable: true
+          description: >-
+            Exchanged at refreshSession for a new session. Returned only on the
+            response that creates it; the server keeps a digest and can never
+            reproduce it. Absent when a client did not ask for a sliding session.
+        refreshExpiresAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: >-
+            When the sliding window closes if the session is never refreshed again.
+            Shorter for a web client than a native one, because a browser has no
+            keychain to keep the token in.
+    RefreshClient:
+      type: string
+      enum: [web, native]
+      description: >-
+        Where the session will be stored, which decides the refresh lifetime. A
+        device has the Keychain or Keystore; a browser has localStorage, readable by
+        any script on the origin, so its window is deliberately shorter.
+    RefreshSessionRequest:
+      type: object
+      additionalProperties: false
+      required: [refreshToken]
+      properties:
+        refreshToken: {type: string, minLength: 1, maxLength: 512}
+        client: {$ref: '#/components/schemas/RefreshClient'}
+    LogoutRequest:
+      type: object
+      additionalProperties: false
+      description: >-
+        Names the refresh token to revoke alongside the access token. Optional, but
+        without it the session can simply be minted again, so a current client always
+        sends it.
+      properties:
+        refreshToken: {type: string, nullable: true, maxLength: 512}
     CounsellorSummary:
       type: object
       required: [id, displayName, verificationStatus, reviewCount]
@@ -753,6 +1358,15 @@ components:
         title: {type: string}
         description: {type: string}
         priceMinor: {type: integer, minimum: 0}
+        durationMinutes:
+          type: integer
+          minimum: 15
+          maximum: 480
+          multipleOf: 15
+          description: >-
+            How long the session runs. Duration belongs to the service being sold,
+            not to the counsellor's calendar: one person offers a short review and
+            a long deep-dive out of the same working hours.
         currency: {type: string, enum: [AUD]}
         modalities:
           type: array
@@ -771,6 +1385,15 @@ components:
         title: {type: string, minLength: 1, maxLength: 120}
         description: {type: string, minLength: 1, maxLength: 5000}
         priceMinor: {type: integer, minimum: 0}
+        durationMinutes:
+          type: integer
+          minimum: 15
+          maximum: 480
+          multipleOf: 15
+          description: >-
+            How long the session runs. Duration belongs to the service being sold,
+            not to the counsellor's calendar: one person offers a short review and
+            a long deep-dive out of the same working hours.
         currency: {type: string, enum: [AUD]}
         modalities:
           type: array
@@ -778,44 +1401,278 @@ components:
           uniqueItems: true
           items: {$ref: '#/components/schemas/Modality'}
         location: {$ref: '#/components/schemas/Location'}
-    AvailabilitySlot:
+        meetingUrl:
+          type: string
+          maxLength: 2000
+          nullable: true
+          description: >-
+            A standing room of the counsellor's own, such as a personal Zoom or
+            Google Meet link. Left empty, every booking is given a freshly named
+            room generated for it, so a counsellor never has to supply one.
+    OwnService:
+      allOf:
+        - $ref: '#/components/schemas/Service'
+        - type: object
+          description: >-
+            A service as its own counsellor sees it. Separate from Service because of
+            one field: a meeting room URL is an access credential rather than a
+            description, so it must not travel with the public marketplace listing.
+          properties:
+            meetingUrl: {type: string, nullable: true}
+    AvailabilityWindow:
       type: object
-      required: [id, serviceId, startsAt, endsAt, status]
+      description: >-
+        A stretch of the counsellor's own time. Nothing is pre-cut into sellable
+        pieces: what can be booked inside it depends on which service a job seeker
+        picks, and is derived at request time.
+      required: [id, startsAt, endsAt]
       properties:
         id: {type: string}
-        serviceId: {type: string}
         startsAt: {type: string, format: date-time}
         endsAt: {type: string, format: date-time}
-        status: {type: string, enum: [open, held, booked]}
-        holdExpiresAt: {type: string, format: date-time, nullable: true}
+        hasBookings:
+          type: boolean
+          description: True once a session is booked inside it, so shortening it may be refused.
+        modalities:
+          type: array
+          minItems: 1
+          items: {$ref: '#/components/schemas/Modality'}
+          description: >-
+            How the counsellor can deliver during this window. It narrows when a
+            service can be booked and never widens what that service supports, so
+            in-person availability may differ from online. The time itself is shared:
+            a booking of either kind takes the counsellor out of both.
+    CreateAvailabilityWindowRequest:
+      type: object
+      additionalProperties: false
+      required: [startsAt, endsAt]
+      properties:
+        startsAt: {type: string, format: date-time}
+        endsAt: {type: string, format: date-time}
+        modalities:
+          type: array
+          minItems: 1
+          items: {$ref: '#/components/schemas/Modality'}
+          description: >-
+            How the counsellor can deliver during this window. It narrows when a
+            service can be booked and never widens what that service supports, so
+            in-person availability may differ from online. The time itself is shared:
+            a booking of either kind takes the counsellor out of both.
+    UpdateAvailabilityWindowRequest:
+      type: object
+      additionalProperties: false
+      description: At least one end is required.
+      properties:
+        startsAt: {type: string, format: date-time, nullable: true}
+        endsAt: {type: string, format: date-time, nullable: true}
+        modalities:
+          type: array
+          minItems: 1
+          items: {$ref: '#/components/schemas/Modality'}
+          description: >-
+            How the counsellor can deliver during this window. It narrows when a
+            service can be booked and never widens what that service supports, so
+            in-person availability may differ from online. The time itself is shared:
+            a booking of either kind takes the counsellor out of both.
+    BookableStart:
+      type: object
+      description: >-
+        One time at which a particular service can be booked, derived from the
+        counsellor's windows, that service's duration and what is already taken.
+        Two services sharing an hour each get their own answer, and booking either
+        one changes both.
+      required: [startsAt, endsAt]
+      properties:
+        startsAt: {type: string, format: date-time}
+        endsAt: {type: string, format: date-time}
     CreateOrderRequest:
       type: object
       additionalProperties: false
-      required: [serviceId, slotId, modality, timezone]
+      required: [serviceId, startsAt, modality, timezone]
       properties:
         serviceId: {type: string}
-        slotId: {type: string}
+        startsAt:
+          type: string
+          format: date-time
+          description: >-
+            The chosen start. Its end follows from the service's duration, so the
+            client never decides how long it is buying.
         modality: {$ref: '#/components/schemas/Modality'}
-        timezone: {type: string, example: Australia/Sydney}
-        preSessionNotes: {type: string, maxLength: 4000}
+        timezone: {type: string, minLength: 1, maxLength: 100}
     Order:
       type: object
-      required: [id, serviceId, slotId, amountMinor, currency, status, paymentStatus]
+      required: [id, serviceId, windowId, startsAt, endsAt, amountMinor, currency, status, paymentStatus]
       properties:
         id: {type: string}
         serviceId: {type: string}
-        slotId: {type: string}
-        amountMinor: {type: integer, minimum: 0}
+        windowId: {type: string}
+        startsAt: {type: string, format: date-time}
+        endsAt: {type: string, format: date-time}
+        amountMinor: {type: integer, minimum: 0, description: What the job seeker pays, in minor units}
         currency: {type: string, enum: [AUD]}
-        status: {type: string, enum: [pending, awaiting_payment, confirmed, completed, expired, cancelled, disputed]}
-        paymentStatus: {type: string, enum: [not_started, requires_action, processing, paid, failed, refunded]}
+        status: {type: string, enum: [pending, awaiting_payment, confirmed, completed, expired, cancelled, disputed, refunded_slot_taken]}
+        paymentStatus: {type: string, enum: [not_started, requires_action, processing, paid, failed, refunded, partially_refunded]}
+        holdExpiresAt:
+          type: string
+          format: date-time
+          nullable: true
+          description: When the slot hold lapses. The app counts down to this rather than timing the hold itself.
+        amounts: {$ref: '#/components/schemas/BookingAmounts'}
+        paymentProvider:
+          type: string
+          enum: [stripe, stub]
+          description: stripe once the server has Stripe credentials, otherwise the development stub.
+    BookingAmounts:
+      type: object
+      description: >-
+        The commission and GST split, frozen when the order was created and never
+        recalculated. A job seeker only ever pays totalMinor; the rest is between the
+        platform and the counsellor.
+      required: [totalMinor, sessionGstMinor, platformFeeMinor, platformFeeGstMinor, counsellorPayoutMinor]
+      properties:
+        totalMinor: {type: integer, minimum: 0}
+        sessionGstMinor: {type: integer, minimum: 0, description: GST inside the session price, owed by the counsellor. 0 if they are not GST-registered.}
+        platformFeeMinor: {type: integer, minimum: 0, description: The platform's commission, GST inclusive.}
+        platformFeeGstMinor: {type: integer, minimum: 0, description: GST inside that commission, owed by the platform.}
+        counsellorPayoutMinor: {type: integer, minimum: 0, description: Transferred to the counsellor once the session is completed.}
+    OrderStatus:
+      type: object
+      required: [order]
+      properties:
+        order: {$ref: '#/components/schemas/Order'}
+        booking:
+          allOf: [{$ref: '#/components/schemas/BookingSummary'}]
+          nullable: true
+          description: Present once the payment webhook has confirmed the booking.
+    BookingSummary:
+      type: object
+      description: A booking as the payment flow knows it, before messaging is implemented.
+      required: [id, orderId, serviceId, serviceTitle, startsAt, endsAt, timezone, modality, status, paymentStatus]
+      properties:
+        id: {type: string}
+        orderId: {type: string}
+        serviceId: {type: string}
+        serviceTitle: {type: string}
+        startsAt: {type: string, format: date-time}
+        endsAt: {type: string, format: date-time}
+        timezone: {type: string}
+        modality: {$ref: '#/components/schemas/Modality'}
+        status: {type: string, enum: [confirmed, completed, paid_out, cancelled, refunded]}
+        paymentStatus: {type: string, enum: [paid, refunded, partially_refunded]}
+        amountMinor: {type: integer, minimum: 0}
+        refundedMinor: {type: integer, minimum: 0}
+        cancelledByRole:
+          allOf: [{$ref: '#/components/schemas/Role'}]
+          nullable: true
+    CancelBookingResult:
+      type: object
+      required: [booking, refundedMinor, currency]
+      properties:
+        booking: {$ref: '#/components/schemas/BookingSummary'}
+        refundedMinor: {type: integer, minimum: 0, description: What this cancellation returned to the job seeker.}
+        currency: {type: string, enum: [AUD]}
+    PaymentConfig:
+      type: object
+      required: [provider, merchantDisplayName, merchantCountryCode, currency, slotHoldMinutes, cancellationFullRefundHours, cancellationLateRefundPercent]
+      properties:
+        provider: {type: string, enum: [stripe, stub]}
+        publishableKey: {type: string, nullable: true, description: Stripe publishable key. Designed to be public; never a secret key.}
+        merchantDisplayName: {type: string}
+        merchantCountryCode: {type: string, enum: [AU]}
+        currency: {type: string, enum: [AUD]}
+        slotHoldMinutes: {type: integer, minimum: 1}
+        cancellationFullRefundHours: {type: integer, minimum: 0}
+        cancellationLateRefundPercent: {type: integer, minimum: 0, maximum: 100}
+    StripeOnboarding:
+      type: object
+      required: [url, accountId]
+      properties:
+        url: {type: string, format: uri, description: Single-use Stripe-hosted onboarding link; expires within minutes.}
+        accountId: {type: string}
+    JobSeekerProfile:
+      type: object
+      required: [name, email, headline, careerGoals]
+      properties:
+        name: {type: string}
+        email: {type: string, format: email}
+        photoUrl: {type: string, nullable: true, description: An inline data URI.}
+        headline: {type: string}
+        careerGoals: {type: string}
+    PayoutStatus:
+      type: object
+      required: [chargesEnabled, payoutsEnabled, onboardingRequired, gstRegistered]
+      properties:
+        stripeAccountId: {type: string, nullable: true}
+        chargesEnabled: {type: boolean}
+        payoutsEnabled: {type: boolean}
+        onboardingRequired: {type: boolean, description: True until Stripe reports payoutsEnabled.}
+        abn: {type: string, nullable: true}
+        gstRegistered: {type: boolean}
+    TaxDetailsRequest:
+      type: object
+      additionalProperties: false
+      required: [gstRegistered]
+      properties:
+        abn: {type: string, nullable: true, description: 11 digits. Required when gstRegistered is true.}
+        gstRegistered: {type: boolean}
+        legalName: {type: string, nullable: true, maxLength: 200}
+    Receipt:
+      type: object
+      required: [receiptNumber, issuedAt, isTaxInvoice, supplierName, buyerName, description, sessionStartsAt, totalMinor, gstMinor, currency, text]
+      properties:
+        receiptNumber: {type: string}
+        issuedAt: {type: string, format: date-time}
+        isTaxInvoice: {type: boolean, description: True only when the counsellor was GST-registered at the time of booking.}
+        supplierName: {type: string, description: The counsellor, who is the supplier of the session under the agent model.}
+        supplierAbn: {type: string, nullable: true}
+        buyerName: {type: string}
+        description: {type: string}
+        sessionStartsAt: {type: string, format: date-time}
+        totalMinor: {type: integer, minimum: 0}
+        gstMinor: {type: integer, minimum: 0}
+        currency: {type: string}
+        text: {type: string, description: The rendered document.}
+    CommissionStatement:
+      type: object
+      required: [counsellorName, platformName, platformGstRegistered, periodStart, periodEnd, lines, commissionTotalMinor, commissionGstTotalMinor, payoutTotalMinor, text]
+      properties:
+        counsellorName: {type: string}
+        counsellorAbn: {type: string, nullable: true}
+        platformName: {type: string}
+        platformAbn: {type: string, nullable: true}
+        platformGstRegistered: {type: boolean}
+        periodStart: {type: string, format: date}
+        periodEnd: {type: string, format: date}
+        lines:
+          type: array
+          items: {$ref: '#/components/schemas/CommissionStatementLine'}
+        commissionTotalMinor: {type: integer, minimum: 0}
+        commissionGstTotalMinor: {type: integer, minimum: 0}
+        payoutTotalMinor: {type: integer, minimum: 0}
+        text: {type: string}
+    CommissionStatementLine:
+      type: object
+      required: [bookingId, sessionStartsAt, description, sessionTotalMinor, commissionMinor, commissionGstMinor, payoutMinor]
+      properties:
+        bookingId: {type: string}
+        sessionStartsAt: {type: string, format: date-time}
+        description: {type: string}
+        sessionTotalMinor: {type: integer, minimum: 0}
+        commissionMinor: {type: integer, minimum: 0}
+        commissionGstMinor: {type: integer, minimum: 0}
+        payoutMinor: {type: integer, minimum: 0}
     PaymentIntent:
       type: object
       required: [paymentIntentId, clientSecret, status]
       properties:
         paymentIntentId: {type: string}
-        clientSecret: {type: string, writeOnly: true}
-        status: {type: string, enum: [requires_payment_method, requires_action, processing]}
+        clientSecret:
+          type: string
+          description: >-
+            Authorises this one PaymentIntent and nothing else, and is handed only to
+            the job seeker who owns the order. Not writeOnly: PaymentSheet reads it
+            out of this response, and marking it so hid it from generated clients.
+        status: {type: string, enum: [requires_payment_method, requires_action, processing, succeeded]}
     StubPaymentConfirmation:
       type: object
       required: [paymentId, paymentStatus, booking]
@@ -854,6 +1711,24 @@ components:
         status: {type: string, enum: [held, confirmed, completed, expired, cancelled, disputed]}
         paymentStatus: {type: string, enum: [not_started, requires_action, processing, paid, failed, refunded]}
         conversationStatus: {type: string, enum: [open, closed]}
+        meetingUrl:
+          type: string
+          nullable: true
+          description: >-
+            Where an online session happens, fixed when the booking is confirmed and
+            never re-derived afterwards. Null for an in-person booking, which shows
+            the service's meeting area instead. Returned only to the two parties:
+            anyone holding this can walk into the session.
+        counterpartyName:
+          type: string
+          description: >-
+            The other person, from the caller's side of the booking: a job seeker
+            sees the counsellor and vice versa. Empty where the response is about an
+            order rather than somebody's diary, such as a payment confirmation.
+        counterpartyRole: {$ref: '#/components/schemas/Role'}
+        meetingArea:
+          type: string
+          description: Where an in-person session happens, as the service advertises it.
     Message:
       type: object
       required: [id, bookingId, senderId, content, createdAt]
@@ -901,6 +1776,72 @@ components:
         currency: {type: string, enum: [AUD]}
         paymentStatus: {type: string, enum: [not_started, requires_action, processing, paid, failed, refunded]}
         orderStatus: {type: string, enum: [pending, awaiting_payment, confirmed, completed, expired, cancelled, disputed]}
+    PlatformStats:
+      type: object
+      required: [jobSeekers, counsellors, counsellorsPendingVerification, counsellorsAwaitingPayouts, servicesActive, bookingsByStatus, ordersAwaitingPayment, money]
+      properties:
+        jobSeekers: {type: integer, minimum: 0}
+        counsellors: {type: integer, minimum: 0}
+        counsellorsPendingVerification: {type: integer, minimum: 0}
+        counsellorsAwaitingPayouts:
+          type: integer
+          minimum: 0
+          description: >-
+            Verified but not yet able to be paid. They can publish nothing anyone can
+            book, so this is the queue that quietly costs the platform bookings.
+        servicesActive: {type: integer, minimum: 0}
+        bookingsByStatus:
+          type: object
+          additionalProperties: {type: integer, minimum: 0}
+        ordersAwaitingPayment: {type: integer, minimum: 0}
+        money: {$ref: '#/components/schemas/PlatformMoney'}
+    PlatformMoney:
+      type: object
+      description: >-
+        Totals summed from the breakdown frozen on each order when it was paid.
+        Never recalculated from the current fee settings, which would restate history
+        the day somebody changes one.
+      required: [grossMinor, platformFeeMinor, platformFeeGstMinor, sessionGstMinor, counsellorPayoutMinor, refundedMinor, currency]
+      properties:
+        grossMinor: {type: integer}
+        platformFeeMinor: {type: integer}
+        platformFeeGstMinor: {type: integer}
+        sessionGstMinor: {type: integer}
+        counsellorPayoutMinor: {type: integer}
+        refundedMinor: {type: integer}
+        currency: {type: string, enum: [AUD]}
+    AdminBooking:
+      type: object
+      required: [id, serviceTitle, jobSeekerName, counsellorName, startsAt, timezone, modality, status, paymentStatus, amountMinor, refundedMinor]
+      properties:
+        id: {type: string}
+        serviceTitle: {type: string}
+        jobSeekerName: {type: string}
+        counsellorName: {type: string}
+        startsAt: {type: string, format: date-time}
+        timezone: {type: string}
+        modality: {$ref: '#/components/schemas/Modality'}
+        status: {type: string}
+        paymentStatus: {type: string}
+        amountMinor: {type: integer}
+        refundedMinor: {type: integer}
+    AdminCounsellor:
+      type: object
+      required: [id, name, email, emailVerified, verificationStatus, payoutsEnabled, chargesEnabled, serviceCount, bookingCount, grossMinor, payoutMinor, joinedAt]
+      properties:
+        id: {type: string}
+        name: {type: string}
+        email: {type: string, format: email}
+        emailVerified: {type: boolean}
+        verificationStatus: {type: string, enum: [pending, verified, rejected]}
+        submittedAt: {type: string, format: date-time, nullable: true}
+        payoutsEnabled: {type: boolean}
+        chargesEnabled: {type: boolean}
+        serviceCount: {type: integer, minimum: 0}
+        bookingCount: {type: integer, minimum: 0}
+        grossMinor: {type: integer}
+        payoutMinor: {type: integer}
+        joinedAt: {type: string, format: date-time}
     ForumBoard:
       type: object
       required: [id, name]
@@ -924,7 +1865,7 @@ components:
       properties:
         code:
           type: string
-          enum: [VALIDATION_ERROR, AUTHENTICATION_REQUIRED, INVALID_CREDENTIALS, FORBIDDEN, NOT_FOUND, SLOT_UNAVAILABLE, INVALID_STATE_TRANSITION, ALREADY_REVIEWED, CONVERSATION_CLOSED, PAYMENT_FAILED]
+          enum: [VALIDATION_ERROR, AUTHENTICATION_REQUIRED, INVALID_CREDENTIALS, FORBIDDEN, NOT_FOUND, SLOT_UNAVAILABLE, INVALID_STATE_TRANSITION, ALREADY_REVIEWED, CONVERSATION_CLOSED, PAYMENT_FAILED, PAYMENT_PROVIDER_ERROR, PAYMENTS_UNAVAILABLE, COUNSELLOR_PAYOUTS_UNAVAILABLE]
         message: {type: string}
         fieldErrors:
           type: object

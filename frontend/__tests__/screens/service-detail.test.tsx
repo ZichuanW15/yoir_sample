@@ -1,143 +1,62 @@
-import { fireEvent, render, screen } from '@testing-library/react-native';
-import { router, useLocalSearchParams } from 'expo-router';
+import { apiFailure, callsTo, deferred, jsonResponse, navigation, renderPublic, reply, routeParams } from '../public-screen-utils';
+import { act, fireEvent, screen } from '@testing-library/react-native';
 import ServiceDetailScreen from '@/app/services/[serviceId]';
-import { api, ApiError } from '@/src/api/client';
-import { useAuth } from '@/src/auth/AuthContext';
-import { serviceFixture, sessionFixture } from '../fixtures';
+import { counsellorSessionFixture, serviceFixture, sessionFixture } from '../fixtures';
 
-jest.mock('expo-router', () => ({
-  router: { push: jest.fn(), replace: jest.fn() },
-  useLocalSearchParams: jest.fn(),
-}));
+describe('service detail screen', () => {
+  beforeEach(() => routeParams({ serviceId: serviceFixture.id }));
 
-jest.mock('@/src/api/client', () => {
-  const actual = jest.requireActual('@/src/api/client');
-  return { ...actual, api: { ...actual.api, getService: jest.fn() } };
-});
-
-jest.mock('@/src/auth/AuthContext', () => ({ useAuth: jest.fn() }));
-
-const paramsMock = useLocalSearchParams as jest.Mock;
-const getServiceMock = api.getService as jest.MockedFunction<typeof api.getService>;
-const useAuthMock = useAuth as jest.Mock;
-const pushMock = router.push as jest.Mock;
-
-describe('Service detail screen', () => {
-  beforeEach(() => {
-    paramsMock.mockReturnValue({ serviceId: 'service-1' });
-    useAuthMock.mockReturnValue({ session: null, login: jest.fn(), logout: jest.fn() });
+  test('[QA-115] loads the selected public service, counsellor and delivery information', async () => {
+    const pending = deferred<Response>();
+    reply('GET', '/services/service-1', pending.promise);
+    await renderPublic(<ServiceDetailScreen />);
+    expect(screen.queryByText(serviceFixture.title)).toBeNull();
+    await act(async () => pending.resolve(jsonResponse({ ...serviceFixture, modalities: ['online', 'in_person'], location: { state: 'VIC', cityOrRegion: 'Melbourne' } })));
+    expect(await screen.findByText(serviceFixture.title)).toBeOnTheScreen();
+    expect(screen.getByText(serviceFixture.description)).toBeOnTheScreen();
+    expect(screen.getByText('Maya Chen')).toBeOnTheScreen();
+    expect(screen.getByText('Melbourne, VIC')).toBeOnTheScreen();
+    expect(screen.getByText('Verified Career Professional')).toBeOnTheScreen();
+    expect(callsTo('GET', '/services/service-1')[0][1]?.headers).not.toHaveProperty('Authorization');
   });
 
-  test('renders service details returned by the API', async () => {
-    getServiceMock.mockResolvedValueOnce(serviceFixture);
-    render(<ServiceDetailScreen />);
-
-    expect(await screen.findByText('Interview confidence coaching')).toBeTruthy();
-    expect(screen.getByText('Maya Chen')).toBeTruthy();
-    expect(screen.getByText('Practical interview preparation and feedback.')).toBeTruthy();
-    expect(getServiceMock).toHaveBeenCalledWith('service-1');
-  });
-
-  test('renders the API message for a 404 response', async () => {
-    getServiceMock.mockRejectedValueOnce(
-      new ApiError(404, {
-        code: 'NOT_FOUND',
-        message: 'Service not found.',
-        requestId: 'request-404',
-      }),
-    );
-    render(<ServiceDetailScreen />);
-
-    expect(await screen.findByText('Service not found.')).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Try again' })).toBeTruthy();
-  });
-
-  test('renders the connection message after a network failure', async () => {
-    getServiceMock.mockRejectedValueOnce(new TypeError('fetch failed'));
-    render(<ServiceDetailScreen />);
-
-    expect(
-      await screen.findByText('We could not reach Yoir. Check your connection and try again.'),
-    ).toBeTruthy();
-  });
-
-  test('renders location, pending verification and no-rating states', async () => {
-    getServiceMock.mockResolvedValueOnce({
-      ...serviceFixture,
-      location: { cityOrRegion: 'Melbourne', state: 'VIC' },
-      counsellor: {
-        ...serviceFixture.counsellor,
-        verificationStatus: 'pending',
-        overallRating: null,
-        reviewCount: 0,
-      },
-    });
-    render(<ServiceDetailScreen />);
-
-    expect(await screen.findByText('Interview confidence coaching')).toBeTruthy();
-    expect(screen.getByText('Verification pending')).toBeTruthy();
-    expect(screen.getByText('No reviews yet')).toBeTruthy();
-    expect(screen.getByText('Melbourne, VIC')).toBeTruthy();
-  });
-
-  test('retry reloads the same service after a temporary failure', async () => {
-    getServiceMock
-      .mockRejectedValueOnce(new TypeError('fetch failed'))
-      .mockResolvedValueOnce(serviceFixture);
-    render(<ServiceDetailScreen />);
-
-    expect(
-      await screen.findByText('We could not reach Yoir. Check your connection and try again.'),
-    ).toBeTruthy();
+  test('[QA-115] not-found errors offer a retry and never expose a booking button', async () => {
+    reply('GET', '/services/service-1', apiFailure('NOT_FOUND', 'Service not found.', 404));
+    await renderPublic(<ServiceDetailScreen />);
+    expect(await screen.findByText('Service not found.')).toBeOnTheScreen();
+    expect(screen.queryByRole('button', { name: 'Book this service' })).toBeNull();
+    reply('GET', '/services/service-1', jsonResponse(serviceFixture));
     fireEvent.press(screen.getByRole('button', { name: 'Try again' }));
-
-    expect(await screen.findByText('Interview confidence coaching')).toBeTruthy();
-    expect(getServiceMock).toHaveBeenCalledTimes(2);
+    expect(await screen.findByRole('button', { name: 'Book this service' })).toBeOnTheScreen();
   });
 
-  test('preserves the service identifier when an anonymous user starts booking', async () => {
-    getServiceMock.mockResolvedValueOnce(serviceFixture);
-    render(<ServiceDetailScreen />);
-
-    await screen.findByText('Interview confidence coaching');
-    fireEvent.press(screen.getByRole('button', { name: 'Book this service' }));
-
-    expect(pushMock).toHaveBeenCalledWith({
-      pathname: '/auth/login',
-      params: { serviceId: 'service-1' },
-    });
+  test('[QA-100/115] guest booking continues through login with the service ID', async () => {
+    reply('GET', '/services/service-1', jsonResponse(serviceFixture));
+    await renderPublic(<ServiceDetailScreen />);
+    fireEvent.press(await screen.findByRole('button', { name: 'Book this service' }));
+    expect(navigation.push).toHaveBeenCalledWith({ pathname: '/auth/login', params: { serviceId: serviceFixture.id } });
   });
 
-  test('sends an authenticated job seeker to the time-slot screen', async () => {
-    useAuthMock.mockReturnValue({ session: sessionFixture, login: jest.fn(), logout: jest.fn() });
-    getServiceMock.mockResolvedValueOnce(serviceFixture);
-    render(<ServiceDetailScreen />);
-
-    await screen.findByText('Interview confidence coaching');
-    fireEvent.press(screen.getByRole('button', { name: 'Book this service' }));
-
-    expect(pushMock).toHaveBeenCalledWith({
-      pathname: '/services/[serviceId]/timeslots',
-      params: { serviceId: 'service-1' },
-    });
+  test('[QA-118] a signed-in job seeker continues to available times', async () => {
+    reply('GET', '/services/service-1', jsonResponse(serviceFixture));
+    await renderPublic(<ServiceDetailScreen />, sessionFixture);
+    fireEvent.press(await screen.findByRole('button', { name: 'Book this service' }));
+    expect(navigation.push).toHaveBeenCalledWith({ pathname: '/services/[serviceId]/timeslots', params: { serviceId: serviceFixture.id } });
   });
 
-  test('blocks a counsellor from entering the booking flow', async () => {
-    useAuthMock.mockReturnValue({
-      session: { ...sessionFixture, user: { ...sessionFixture.user, role: 'counsellor' } },
-      login: jest.fn(),
-      logout: jest.fn(),
-    });
-    getServiceMock.mockResolvedValueOnce(serviceFixture);
-    render(<ServiceDetailScreen />);
-
-    await screen.findByText('Interview confidence coaching');
-    fireEvent.press(screen.getByRole('button', { name: 'Book this service' }));
-
-    expect(screen.getByText('Only Job Seekers can book a service.')).toBeTruthy();
-    expect(pushMock).not.toHaveBeenCalled();
+  test('[QA-100] counsellors cannot continue into the buyer booking flow', async () => {
+    reply('GET', '/services/service-1', jsonResponse(serviceFixture));
+    await renderPublic(<ServiceDetailScreen />, counsellorSessionFixture);
+    fireEvent.press(await screen.findByRole('button', { name: 'Book this service' }));
+    expect(screen.getByText('Only Job Seekers can book a service.')).toBeOnTheScreen();
+    expect(navigation.push).not.toHaveBeenCalled();
   });
 
-  test.todo('leaves the loading state when the route has no serviceId');
-  test.todo('does not display stale service data after a changed parameter fails');
+  test('[QA-115] unrated pending counsellors do not acquire invented ratings or verification', async () => {
+    reply('GET', '/services/service-1', jsonResponse({ ...serviceFixture, averageRating: null, reviewCount: 0, counsellor: { ...serviceFixture.counsellor, verificationStatus: 'pending', overallRating: null, reviewCount: 0 } }));
+    await renderPublic(<ServiceDetailScreen />);
+    expect(await screen.findByText('New on Yoir')).toBeOnTheScreen();
+    expect(screen.getByText('No reviews yet')).toBeOnTheScreen();
+    expect(screen.getByText('Verification pending')).toBeOnTheScreen();
+  });
 });

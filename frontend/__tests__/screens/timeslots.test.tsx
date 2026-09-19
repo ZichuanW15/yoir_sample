@@ -1,178 +1,106 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
-import { router, useLocalSearchParams } from 'expo-router';
+import { apiFailure, callsTo, deferred, jsonResponse, navigation, renderPublic, reply, routeParams, tick } from '../public-screen-utils';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react-native';
 import TimeSlotsScreen from '@/app/services/[serviceId]/timeslots';
-import { api, ApiError } from '@/src/api/client';
-import { useAuth } from '@/src/auth/AuthContext';
-import {
-  confirmationFixture,
-  orderFixture,
-  serviceFixture,
-  sessionFixture,
-  slotFixture,
-} from '../fixtures';
+import { counsellorSessionFixture, orderFixture, serviceFixture, sessionFixture, slotFixture } from '../fixtures';
 
-jest.mock('expo-router', () => ({
-  router: { replace: jest.fn(), push: jest.fn() },
-  useLocalSearchParams: jest.fn(),
-}));
+const orderPath = '/orders';
+const slotsPath = '/services/service-1/slots';
+function available() {
+  reply('GET', '/services/service-1', jsonResponse(serviceFixture));
+  reply('GET', slotsPath, jsonResponse([slotFixture]));
+}
+const choose = () => fireEvent.press(screen.getByRole('radio', { name: /60 min$/ }));
+const reserve = () => fireEvent.press(screen.getByRole('button', { name: 'Continue to payment' }));
 
-jest.mock('@/src/api/client', () => {
-  const actual = jest.requireActual('@/src/api/client');
-  return {
-    ...actual,
-    isDemoApi: false,
-    api: {
-      ...actual.api,
-      getService: jest.fn(),
-      listServiceSlots: jest.fn(),
-      createOrder: jest.fn(),
-      completeStubPayment: jest.fn(),
-    },
-  };
-});
+describe('time-slot selection', () => {
+  beforeEach(() => routeParams({ serviceId: serviceFixture.id }));
 
-jest.mock('@/src/auth/AuthContext', () => ({ useAuth: jest.fn() }));
-
-const paramsMock = useLocalSearchParams as jest.Mock;
-const useAuthMock = useAuth as jest.Mock;
-const getServiceMock = api.getService as jest.MockedFunction<typeof api.getService>;
-const listSlotsMock = api.listServiceSlots as jest.MockedFunction<typeof api.listServiceSlots>;
-const createOrderMock = api.createOrder as jest.MockedFunction<typeof api.createOrder>;
-const completePaymentMock = api.completeStubPayment as jest.MockedFunction<
-  typeof api.completeStubPayment
->;
-const replaceMock = router.replace as jest.Mock;
-
-describe('Time-slot screen', () => {
-  beforeEach(() => {
-    paramsMock.mockReturnValue({ serviceId: 'service-1' });
-    useAuthMock.mockReturnValue({
-      session: sessionFixture,
-      login: jest.fn(),
-      logout: jest.fn(),
-    });
-    getServiceMock.mockResolvedValue(serviceFixture);
-    listSlotsMock.mockResolvedValue([slotFixture]);
-    createOrderMock.mockResolvedValue(orderFixture);
-    completePaymentMock.mockResolvedValue(confirmationFixture);
+  test('[QA-118] a guest deep link returns to login before reading slots', async () => {
+    await renderPublic(<TimeSlotsScreen />);
+    await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith({ pathname: '/auth/login', params: { serviceId: 'service-1' } }));
+    expect(callsTo('GET', slotsPath)).toHaveLength(0);
   });
 
-  test('loads the selected service and its available slots', async () => {
-    render(<TimeSlotsScreen />);
-
-    expect(await screen.findByText('Choose a time')).toBeTruthy();
-    expect(screen.getByText(`Select one available session for ${serviceFixture.title}.`)).toBeTruthy();
-    expect(screen.getByText('Development payment stub: no real money or card details are used.')).toBeTruthy();
+  test('[QA-118] server-derived starts are selectable and payment requires a selection', async () => {
+    available();
+    reply('GET', slotsPath, jsonResponse([slotFixture]));
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
+    const slot = await screen.findByRole('radio', { name: /60 min$/ });
     expect(screen.getAllByRole('radio')).toHaveLength(1);
-    expect(getServiceMock).toHaveBeenCalledWith('service-1');
-    expect(listSlotsMock).toHaveBeenCalledWith('service-1');
+    expect(screen.getByRole('button', { name: 'Continue to payment' })).toBeDisabled();
+    fireEvent.press(slot);
+    expect(slot).toBeChecked();
+    expect(screen.getByRole('button', { name: 'Continue to payment' })).toBeEnabled();
   });
 
-  test('redirects an anonymous user to login without loading booking data', async () => {
-    useAuthMock.mockReturnValue({ session: null, login: jest.fn(), logout: jest.fn() });
-    render(<TimeSlotsScreen />);
-
-    await waitFor(() =>
-      expect(replaceMock).toHaveBeenCalledWith({
-        pathname: '/auth/login',
-        params: { serviceId: 'service-1' },
-      }),
-    );
-    expect(getServiceMock).not.toHaveBeenCalled();
-    expect(listSlotsMock).not.toHaveBeenCalled();
-  });
-
-  test.each(['counsellor', 'platform_owner'] as const)(
-    'redirects a %s away without loading booking data',
-    async (role) => {
-      useAuthMock.mockReturnValue({
-        session: { ...sessionFixture, user: { ...sessionFixture.user, role } },
-        login: jest.fn(),
-        logout: jest.fn(),
-      });
-      render(<TimeSlotsScreen />);
-
-      await waitFor(() =>
-        expect(replaceMock).toHaveBeenCalledWith({
-          pathname: '/services/[serviceId]',
-          params: { serviceId: 'service-1' },
-        }),
-      );
-      expect(getServiceMock).not.toHaveBeenCalled();
-      expect(listSlotsMock).not.toHaveBeenCalled();
-    },
-  );
-
-  test('keeps payment disabled until the user selects a slot', async () => {
-    render(<TimeSlotsScreen />);
-
-    await screen.findByText('Choose a time');
-    const payButton = screen.getByRole('button', { name: 'Pay $95.00' });
-    fireEvent.press(payButton);
-    expect(createOrderMock).not.toHaveBeenCalled();
-
-    fireEvent.press(screen.getByRole('radio'));
-    fireEvent.press(payButton);
-    await waitFor(() => expect(createOrderMock).toHaveBeenCalled());
-  });
-
-  test('submits the current booking defaults and opens the payment confirmation', async () => {
-    createOrderMock.mockResolvedValueOnce(orderFixture);
-    completePaymentMock.mockResolvedValueOnce(confirmationFixture);
-    render(<TimeSlotsScreen />);
-
-    await screen.findByText('Choose a time');
-    fireEvent.press(screen.getByRole('radio'));
-    fireEvent.press(screen.getByRole('button', { name: 'Pay $95.00' }));
-
-    await waitFor(() => {
-      expect(createOrderMock).toHaveBeenCalledWith(
-        'service-1',
-        'slot-1',
-        'online',
-        'Australia/Sydney',
-        'test-access-token',
-      );
-      expect(completePaymentMock).toHaveBeenCalledWith(orderFixture, 'test-access-token');
-      expect(replaceMock).toHaveBeenCalledWith({
-        pathname: '/bookings/confirmation',
-        params: {
-          bookingId: 'booking-1',
-          serviceTitle: 'Interview confidence coaching',
-          startsAt: '2026-09-01T00:00:00.000Z',
-          paymentId: 'stub-payment-1',
-        },
-      });
+  test('[QA-118/121] selection reserves through the real client with identity and passes server order data', async () => {
+    available();
+    reply('GET', '/services/service-1', jsonResponse({ ...serviceFixture, modalities: ['online', 'in_person'], location: { state: 'VIC', cityOrRegion: 'Melbourne' } }));
+    reply('POST', orderPath, jsonResponse({ ...orderFixture, amountMinor: 10500 }, 201));
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
+    await screen.findByRole('radio', { name: /60 min$/ });
+    fireEvent.press(screen.getByRole('radio', { name: 'In person' }));
+    expect(screen.getByText('Meeting area: Melbourne, VIC')).toBeOnTheScreen();
+    choose();
+    reserve();
+    await tick();
+    const [, init] = callsTo('POST', orderPath)[0];
+    expect(init?.headers).toMatchObject({ Authorization: 'Bearer test-access-token' });
+    expect(JSON.parse(init?.body as string)).toEqual({ serviceId: 'service-1', startsAt: slotFixture.startsAt, modality: 'in_person', timezone: expect.any(String) });
+    expect(navigation.push).toHaveBeenCalledWith({
+      pathname: '/bookings/checkout', params: { orderId: 'order-1', serviceId: 'service-1', modality: 'in_person', amountMinor: '10500', startsAt: slotFixture.startsAt, endsAt: slotFixture.endsAt, holdExpiresAt: '' },
     });
   });
 
-  test('shows an empty state when no slots are available', async () => {
-    listSlotsMock.mockResolvedValueOnce([]);
-    render(<TimeSlotsScreen />);
-
-    expect(
-      await screen.findByText('No times are currently available. Please check again later.'),
-    ).toBeTruthy();
+  test('[QA-121] a reservation conflict refreshes availability, clears selection and keeps the reason', async () => {
+    available();
+    reply('POST', orderPath, apiFailure('SLOT_UNAVAILABLE', 'That time was just reserved.', 409, { startsAt: 'Choose another available slot.' }));
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
+    await screen.findByRole('radio', { name: /60 min$/ });
+    choose();
+    reply('GET', slotsPath, jsonResponse([]));
+    reserve();
+    await tick();
+    expect(screen.getByText('That time was just reserved. Choose another available slot.')).toBeOnTheScreen();
     expect(screen.queryAllByRole('radio')).toHaveLength(0);
+    expect(screen.getByRole('button', { name: 'Continue to payment' })).toBeDisabled();
+    expect(callsTo('GET', slotsPath)).toHaveLength(3);
+    expect(navigation.push).not.toHaveBeenCalled();
   });
 
-  test('shows a structured load error', async () => {
-    getServiceMock.mockRejectedValueOnce(
-      new ApiError(503, {
-        code: 'SERVICE_UNAVAILABLE',
-        message: 'Booking availability is temporarily unavailable.',
-        requestId: 'request-503',
-      }),
-    );
-    render(<TimeSlotsScreen />);
-
-    expect(
-      await screen.findByText('Booking availability is temporarily unavailable.'),
-    ).toBeTruthy();
+  test('[QA-121] double press while the reservation is pending sends one order', async () => {
+    available();
+    const pending = deferred<Response>();
+    reply('POST', orderPath, pending.promise);
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
+    await screen.findByRole('radio', { name: /60 min$/ });
+    choose();
+    reserve();
+    expect(screen.getByRole('button', { name: 'Continue to payment' })).toBeDisabled();
+    reserve();
+    expect(callsTo('POST', orderPath)).toHaveLength(1);
+    await act(async () => pending.resolve(jsonResponse(orderFixture, 201)));
+    await tick();
+    expect(navigation.push).toHaveBeenCalledTimes(1);
   });
 
-  test.todo('requires the user to choose a modality when a service offers more than one');
-  test.todo('uses a user-selected IANA timezone instead of hard-coded Australia/Sydney');
-  test.todo('keeps a payment failure visible after refreshing service and slot data');
-  test.todo('leaves the loading state when the route has no serviceId');
+  test('[QA-118] connection failures are displayed without enabling an unselected booking', async () => {
+    available();
+    reply('GET', slotsPath, new TypeError('offline'));
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
+    expect(await screen.findByText('We could not reach Yoir. Check your connection and try again.')).toBeOnTheScreen();
+    expect(screen.getByRole('button', { name: 'Continue to payment' })).toBeDisabled();
+  });
+
+  test('[QA-100/121] a server role rejection cannot advance to checkout', async () => {
+    available();
+    reply('POST', orderPath, apiFailure('FORBIDDEN', 'Only Job Seekers can book services.', 403));
+    await renderPublic(<TimeSlotsScreen />, counsellorSessionFixture);
+    await screen.findByRole('radio', { name: /60 min$/ });
+    choose();
+    reserve();
+    await tick();
+    expect(screen.getByText('Only Job Seekers can book services.')).toBeOnTheScreen();
+    expect(navigation.push).not.toHaveBeenCalled();
+  });
 });

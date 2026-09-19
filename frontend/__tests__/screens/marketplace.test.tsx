@@ -1,116 +1,102 @@
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-native';
-import { router } from 'expo-router';
+import { apiFailure, callsTo, deferred, jsonResponse, navigation, renderPublic, reply, tick } from '../public-screen-utils';
+import { act, fireEvent, screen } from '@testing-library/react-native';
 import MarketplaceScreen from '@/app/marketplace';
-import { api, ApiError } from '@/src/api/client';
-import { useAuth } from '@/src/auth/AuthContext';
-import { serviceFixture } from '../fixtures';
+import { serviceFixture, sessionFixture } from '../fixtures';
+import { Service } from '@/src/api/types';
 
-jest.mock('expo-router', () => ({
-  Link: ({ children }: { children: React.ReactNode }) => children,
-  router: { replace: jest.fn(), push: jest.fn() },
-}));
-
-jest.mock('@/src/api/client', () => {
-  const actual = jest.requireActual('@/src/api/client');
-  return {
-    ...actual,
-    isDemoApi: false,
-    api: { ...actual.api, listServices: jest.fn() },
-  };
-});
-
-jest.mock('@/src/auth/AuthContext', () => ({ useAuth: jest.fn() }));
-
-const listServicesMock = api.listServices as jest.MockedFunction<typeof api.listServices>;
-const useAuthMock = useAuth as jest.Mock;
-const pushMock = router.push as jest.Mock;
+const inPerson: Service = {
+  ...serviceFixture, id: 'service-2', title: 'Graduate career plan', priceMinor: 5500, modalities: ['in_person'],
+  location: { state: 'NSW', cityOrRegion: 'Sydney' }, averageRating: 4.1,
+  counsellor: { ...serviceFixture.counsellor, id: 'counsellor-2', displayName: 'Jordan Lee' },
+};
+const catalogue = [serviceFixture, inPerson];
+const listing = (title: string) => screen.getByRole('button', { name: new RegExp(`^${title} by`) });
+async function load() {
+  reply('GET', '/services', jsonResponse(catalogue));
+  await renderPublic(<MarketplaceScreen />);
+  await tick();
+}
 
 describe('Marketplace screen', () => {
-  beforeEach(() => {
-    jest.useFakeTimers();
-    useAuthMock.mockReturnValue({ session: null, login: jest.fn(), logout: jest.fn() });
+  test('[QA-109] guests see loading then public services without authentication', async () => {
+    const pending = deferred<Response>();
+    reply('GET', '/services', pending.promise);
+    await renderPublic(<MarketplaceScreen />);
+    expect(screen.getByText('Loading services')).toBeOnTheScreen();
+    await act(async () => pending.resolve(jsonResponse(catalogue)));
+    await tick();
+    expect(listing(serviceFixture.title)).toBeOnTheScreen();
+    expect(screen.getByText('2 of 2 services')).toBeOnTheScreen();
+    expect(callsTo('GET', '/services')[0][1]?.headers).not.toHaveProperty('Authorization');
+    fireEvent.press(listing(serviceFixture.title));
+    expect(navigation.push).toHaveBeenCalledWith({ pathname: '/services/[serviceId]', params: { serviceId: serviceFixture.id } });
   });
 
-  afterEach(() => {
-    act(() => jest.runOnlyPendingTimers());
-    jest.useRealTimers();
-  });
-
-  test('renders services returned by the API and opens a selected service', async () => {
-    listServicesMock.mockResolvedValueOnce([serviceFixture]);
-    render(<MarketplaceScreen />);
-
-    expect(await screen.findByText('Interview confidence coaching')).toBeTruthy();
-    act(() => jest.runOnlyPendingTimers());
-    expect(screen.getByText(/Maya Chen/)).toBeTruthy();
-    expect(listServicesMock).toHaveBeenCalledWith('');
-
-    fireEvent.press(screen.getByLabelText('View Interview confidence coaching'));
-    expect(pushMock).toHaveBeenCalledWith({
-      pathname: '/services/[serviceId]',
-      params: { serviceId: 'service-1' },
-    });
-  });
-
-  test('renders the empty state when the API returns no services', async () => {
-    listServicesMock.mockResolvedValueOnce([]);
-    render(<MarketplaceScreen />);
-
-    expect(await screen.findByText('No services match your search.')).toBeTruthy();
-  });
-
-  test('submits the visible search query to the API', async () => {
-    listServicesMock.mockResolvedValueOnce([serviceFixture]).mockResolvedValueOnce([]);
-    render(<MarketplaceScreen />);
-
-    expect(await screen.findByText('Interview confidence coaching')).toBeTruthy();
-    fireEvent.changeText(screen.getByLabelText('Search services'), 'resume review');
-    fireEvent.press(screen.getByRole('button', { name: 'Search' }));
-
-    await waitFor(() => expect(listServicesMock).toHaveBeenLastCalledWith('resume review'));
-    expect(await screen.findByText('No services match your search.')).toBeTruthy();
-  });
-
-  test('renders an API error and retry control', async () => {
-    listServicesMock.mockRejectedValueOnce(
-      new ApiError(503, {
-        code: 'SERVICE_UNAVAILABLE',
-        message: 'Services are temporarily unavailable.',
-        requestId: 'request-503',
-      }),
-    );
-    render(<MarketplaceScreen />);
-
-    expect(await screen.findByText('Services are temporarily unavailable.')).toBeTruthy();
-    expect(screen.getByRole('button', { name: 'Try again' })).toBeTruthy();
-  });
-
-  test('retry repeats the current query and renders the recovered result', async () => {
-    listServicesMock
-      .mockRejectedValueOnce(new TypeError('fetch failed'))
-      .mockResolvedValueOnce([serviceFixture]);
-    render(<MarketplaceScreen />);
-
-    expect(
-      await screen.findByText('We could not reach Yoir. Check your connection and try again.'),
-    ).toBeTruthy();
-    fireEvent.changeText(screen.getByLabelText('Search services'), 'interview');
+  test('[QA-109] a failed catalogue request shows a retry that restores the list', async () => {
+    reply('GET', '/services', apiFailure('SERVER_ERROR', 'Catalogue is temporarily unavailable.', 503));
+    await renderPublic(<MarketplaceScreen />);
+    await tick();
+    expect(screen.getByText('Catalogue is temporarily unavailable.')).toBeOnTheScreen();
+    reply('GET', '/services', jsonResponse(catalogue));
     fireEvent.press(screen.getByRole('button', { name: 'Try again' }));
-
-    await waitFor(() => expect(listServicesMock).toHaveBeenLastCalledWith('interview'));
-    expect(await screen.findByText('Interview confidence coaching')).toBeTruthy();
+    expect(screen.getByText('Loading services')).toBeOnTheScreen();
+    await tick();
+    expect(listing(serviceFixture.title)).toBeOnTheScreen();
+    expect(screen.queryByText('Catalogue is temporarily unavailable.')).toBeNull();
   });
 
-  test('renders the connection message after a network failure', async () => {
-    listServicesMock.mockRejectedValueOnce(new TypeError('fetch failed'));
-    render(<MarketplaceScreen />);
-
-    await waitFor(() =>
-      expect(
-        screen.getByText('We could not reach Yoir. Check your connection and try again.'),
-      ).toBeTruthy(),
-    );
+  test('[QA-109] an empty catalogue has an explicit empty state', async () => {
+    reply('GET', '/services', jsonResponse([]));
+    await renderPublic(<MarketplaceScreen />);
+    await tick();
+    expect(screen.getByText('No services match your search.')).toBeOnTheScreen();
+    expect(screen.getByText('0 of 0 services')).toBeOnTheScreen();
   });
 
-  test.todo('prevents an older request from replacing the result of a newer search');
+  // Current UI filters the loaded catalogue locally. The unconnected backend-driven
+  // search requirements are archived in planned/public-search-and-selection.
+  test('[QA-112 implemented local UI] local search and clearing render correctly', async () => {
+    await load();
+    fireEvent.changeText(screen.getByLabelText('Search services or Career Professionals'), '  JORDAN  ');
+    expect(listing(inPerson.title)).toBeOnTheScreen();
+    expect(screen.queryByText(serviceFixture.title)).toBeNull();
+    fireEvent.changeText(screen.getByLabelText('Search services or Career Professionals'), 'no such service');
+    expect(screen.getByText('No services match your search.')).toBeOnTheScreen();
+    fireEvent.press(screen.getByRole('button', { name: 'Clear filters' }));
+    expect(listing(serviceFixture.title)).toBeOnTheScreen();
+  });
+
+  test('[QA-112 implemented local UI] local filter controls narrow cards', async () => {
+    await load();
+    fireEvent.press(screen.getByRole('button', { name: 'Show filters' }));
+    fireEvent.press(screen.getByRole('radio', { name: 'In person' }));
+    fireEvent.press(screen.getByRole('radio', { name: 'NSW' }));
+    fireEvent.press(screen.getByRole('radio', { name: 'Under $75' }));
+    fireEvent.press(screen.getByRole('radio', { name: '4.0+' }));
+    expect(screen.getByText('1 of 2 services')).toBeOnTheScreen();
+    expect(listing(inPerson.title)).toBeOnTheScreen();
+    fireEvent.press(screen.getByRole('radio', { name: '4.5+' }));
+    expect(screen.getByText('No services match your search.')).toBeOnTheScreen();
+  });
+
+  test('[QA-112 implemented local UI] local price sort changes card order', async () => {
+    await load();
+    fireEvent.press(screen.getByRole('button', { name: 'Show filters' }));
+    fireEvent.press(screen.getByRole('radio', { name: 'Price: low to high' }));
+    expect(screen.getAllByRole('button', { name: / by .*\$/ }).map((node) => node.props.accessibilityLabel)).toEqual([
+      'Graduate career plan by Jordan Lee, $55', 'Interview confidence coaching by Maya Chen, $95',
+    ]);
+  });
+
+  test('[QA-106] a signed-in user can open the real account sheet and log out', async () => {
+    reply('GET', '/services', jsonResponse(catalogue));
+    reply('DELETE', '/auth/sessions/current', jsonResponse(undefined, 204));
+    await renderPublic(<MarketplaceScreen />, sessionFixture);
+    await screen.findByRole('button', { name: 'Account, Alex Morgan' });
+    fireEvent.press(screen.getByRole('button', { name: 'Account, Alex Morgan' }));
+    fireEvent.press(screen.getByRole('button', { name: 'Log out' }));
+    expect(navigation.replace).toHaveBeenCalledWith('/');
+    expect(screen.getByRole('button', { name: 'Log in' })).toBeOnTheScreen();
+    expect(callsTo('DELETE', '/auth/sessions/current')).toHaveLength(1);
+  });
 });

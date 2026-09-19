@@ -1,0 +1,75 @@
+# Authored only; no emulator/simulator execution has yet been recorded.
+appId: ${APP_ID}
+name: Native Expo Go seeded Maya workspace and logout
+tags:
+  - native
+  - expo-go
+  - smoke
+env:
+  EXPO_URL: ${EXPO_URL || 'exp://127.0.0.1:8089'}
+---
+- assertTrue:
+    condition: ${QA_ISOLATED_API === 'true'}
+    label: Confirm the bundle uses the owned temporary QA API rather than demo or production
+- assertTrue:
+    condition: ${APP_ID === 'host.exp.exponent' || APP_ID === 'host.exp.Exponent'}
+    label: Target the installed Expo Go container
+- assertTrue:
+    condition: ${/^exp:\/\/127\.0\.0\.1:[0-9]+$/.test(EXPO_URL)}
+    label: Metro must be the local loopback development server
+- stopApp
+- openLink: ${EXPO_URL + '/--/'}
+- extendedWaitUntil:
+    visible: 'Career guidance.*'
+    timeout: 60000
+- scrollUntilVisible:
+    element: I am a Career Professional
+    direction: DOWN
+    timeout: 20000
+- tapOn: I am a Career Professional
+- assertVisible: Take bookings on Yoir
+- scrollUntilVisible:
+    element: Log in
+    direction: DOWN
+    timeout: 20000
+- tapOn: Log in
+- assertVisible: Welcome back
+- tapOn: you@example\.com
+- inputText: maya@example.com
+- tapOn: Your password
+- inputText: password123
+- hideKeyboard
+- tapOn:
+    text: Log in
+    enabled: true
+- extendedWaitUntil:
+    visible: Good to see you, Maya
+    timeout: 20000
+- assertVisible: Account, Maya Chen
+- assertVisible: Professional profile
+# This navigation smoke deliberately does not assert that the fabricated Pending
+# status is correct. Verification integrity remains a separate failing test.
+- takeScreenshot: native-maya-workspace-${MAESTRO_DEVICE_UDID}
+- tapOn: Professional profile
+- assertVisible: Professional profile
+- assertVisible: Edit profile photo
+- takeScreenshot: native-photo-entry-${MAESTRO_DEVICE_UDID}
+# Real permission denial/cancellation/selection needs a separate controlled OS
+# permission/media fixture. Do not call that coverage complete from this entry.
+- tapOn: Back
+- assertVisible: Good to see you, Maya
+- tapOn: Account, Maya Chen
+- assertVisible: Career Professional
+- tapOn: Log out
+- extendedWaitUntil:
+    visible: 'Career guidance.*'
+    timeout: 20000
+- assertNotVisible: Account, Maya Chen
+# Attempt the implemented protected workspace after logout in the same process.
+- openLink: ${EXPO_URL + '/--/counsellor'}
+- extendedWaitUntil:
+    visible: 'Career guidance.*'
+    timeout: 20000
+- assertNotVisible: Good to see you, Maya
+- assertNotVisible: Account, Maya Chen
+- takeScreenshot: native-maya-logged-out-${MAESTRO_DEVICE_UDID}

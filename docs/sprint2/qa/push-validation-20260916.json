@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "scope": "QA submission preparation: tooling, workflow and evidence-integrity checks. No existing application/browser/device tests rerun.",
+  "startedAt": "2026-09-16T06:57:57.728Z",
+  "completedAt": "2026-09-16T07:00:23.805Z",
+  "status": "passed",
+  "branch": "sprint2-qa",
+  "qaParent": "3e7f4b348c03504360af04d438202e37a5428e83",
+  "productBaseline": "0ffa565e47d60fc2783a4618e5dce6cfe73a4b08",
+  "checks": [
+    {
+      "name": "qa-tooling-unit-tests",
+      "command": "/private/tmp/yoir-sprint2-qa/venv/bin/python -B -m unittest discover -s scripts/tests -v",
+      "startedAt": "2026-09-16T06:57:57.728Z",
+      "completedAt": "2026-09-16T06:57:58.847Z",
+      "exitCode": 0,
+      "output": "test_archive_and_manifest_corruption_are_detected (test_package_sprint2_qa.PackageTests.test_archive_and_manifest_corruption_are_detected) ... ok\ntest_business_source_and_other_changes_are_rejected_not_omitted (test_package_sprint2_qa.PackageTests.test_business_source_and_other_changes_are_rejected_not_omitted) ... ok\ntest_complete_qa_overlay_reconstructs_from_manifest_and_verifies (test_package_sprint2_qa.PackageTests.test_complete_qa_overlay_reconstructs_from_manifest_and_verifies) ... ok\ntest_member_hash_is_checked_even_if_archive_checksum_is_recomputed (test_package_sprint2_qa.PackageTests.test_member_hash_is_checked_even_if_archive_checksum_is_recomputed) ... ok\ntest_output_is_required_before_git_is_read (test_package_sprint2_qa.PackageTests.test_output_is_required_before_git_is_read) ... ok\ntest_repeated_or_nonempty_output_preserves_existing_bytes (test_package_sprint2_qa.PackageTests.test_repeated_or_nonempty_output_preserves_existing_bytes) ... ok\ntest_repository_output_and_alias_back_into_repository_are_rejected (test_package_sprint2_qa.PackageTests.test_repository_output_and_alias_back_into_repository_are_rejected) ... ok\ntest_source_changes_during_packaging_invalidate_the_current_snapshot (test_package_sprint2_qa.PackageTests.test_source_changes_during_packaging_invalidate_the_current_snapshot) ... ok\ntest_symlink_files_parents_and_deleted_files_are_rejected (test_package_sprint2_qa.PackageTests.test_symlink_files_parents_and_deleted_files_are_rejected) ... ok\ntest_checker_is_an_explicit_qa_package_member (test_qa_traceability.TraceabilityTests.test_checker_is_an_explicit_qa_package_member) ... ok\ntest_cli_has_honest_success_message_and_failure_exit (test_qa_traceability.TraceabilityTests.test_cli_has_honest_success_message_and_failure_exit) ... ok\ntest_consistent_record_needs_no_local_artifacts_or_product_execution (test_qa_traceability.TraceabilityTests.test_consistent_record_needs_no_local_artifacts_or_product_execution) ... ok\ntest_local_digest_verification_is_explicit_and_detects_tampering (test_qa_traceability.TraceabilityTests.test_local_digest_verification_is_explicit_and_detects_tampering) ... ok\ntest_missing_and_duplicate_issues_are_rejected (test_qa_traceability.TraceabilityTests.test_missing_and_duplicate_issues_are_rejected) ... ok\ntest_missing_test_source_is_not_passing_evidence (test_qa_traceability.TraceabilityTests.test_missing_test_source_is_not_passing_evidence) ... ok\ntest_parent_acceptance_source_cannot_disappear (test_qa_traceability.TraceabilityTests.test_parent_acceptance_source_cannot_disappear) ... ok\ntest_remote_closure_does_not_imply_acceptance (test_qa_traceability.TraceabilityTests.test_remote_closure_does_not_imply_acceptance) ... ok\ntest_remote_state_and_parent_mapping_drift_are_rejected (test_qa_traceability.TraceabilityTests.test_remote_state_and_parent_mapping_drift_are_rejected) ... ok\ntest_stale_matrix_cannot_disagree_with_structured_evidence (test_qa_traceability.TraceabilityTests.test_stale_matrix_cannot_disagree_with_structured_evidence) ... ok\ntest_stale_native_scope_is_rejected (test_qa_traceability.TraceabilityTests.test_stale_native_scope_is_rejected) ... ok\ntest_traversal_absolute_and_escaping_symlink_are_rejected (test_qa_traceability.TraceabilityTests.test_traversal_absolute_and_escaping_symlink_are_rejected) ... ok\ntest_unknown_or_erased_native_gaps_are_rejected (test_qa_traceability.TraceabilityTests.test_unknown_or_erased_native_gaps_are_rejected) ... ok\ntest_ambient_database_target_is_removed_and_explicit_local_target_is_used (test_run_sprint2_qa.EvidenceRecorderTests.test_ambient_database_target_is_removed_and_explicit_local_target_is_used) ... ok\ntest_both_native_presets_are_recorded_without_claiming_device_execution (test_run_sprint2_qa.EvidenceRecorderTests.test_both_native_presets_are_recorded_without_claiming_device_execution) ... ok\ntest_changed_test_source_invalidates_run (test_run_sprint2_qa.EvidenceRecorderTests.test_changed_test_source_invalidates_run) ... ok\ntest_current_feature_run_excludes_future_contract_and_planned_proposals (test_run_sprint2_qa.EvidenceRecorderTests.test_current_feature_run_excludes_future_contract_and_planned_proposals) ... ok\ntest_executed_helpers_fixtures_and_configuration_are_fingerprinted (test_run_sprint2_qa.EvidenceRecorderTests.test_executed_helpers_fixtures_and_configuration_are_fingerprinted) ... ok\ntest_failed_export_blocks_browser_instead_of_reusing_stale_build (test_run_sprint2_qa.EvidenceRecorderTests.test_failed_export_blocks_browser_instead_of_reusing_stale_build) ... ok\ntest_failure_remains_failure_and_later_checks_are_still_recorded (test_run_sprint2_qa.EvidenceRecorderTests.test_failure_remains_failure_and_later_checks_are_still_recorded) ... ok\ntest_native_failures_remain_nonzero_without_stopping_other_platforms (test_run_sprint2_qa.EvidenceRecorderTests.test_native_failures_remain_nonzero_without_stopping_other_platforms) ... ok\ntest_nonempty_output_is_rejected_without_overwriting_evidence (test_run_sprint2_qa.EvidenceRecorderTests.test_nonempty_output_is_rejected_without_overwriting_evidence) ... ok\ntest_records_actual_utc_bounds_hashes_and_progress_after_each_check (test_run_sprint2_qa.EvidenceRecorderTests.test_records_actual_utc_bounds_hashes_and_progress_after_each_check) ... ok\ntest_remote_or_nontest_database_targets_are_rejected_before_execution (test_run_sprint2_qa.EvidenceRecorderTests.test_remote_or_nontest_database_targets_are_rejected_before_execution) ... ok\ntest_repeated_default_runs_preserve_both_manifests (test_run_sprint2_qa.EvidenceRecorderTests.test_repeated_default_runs_preserve_both_manifests) ... ok\ntest_timeout_is_a_failure_and_later_checks_continue (test_run_sprint2_qa.EvidenceRecorderTests.test_timeout_is_a_failure_and_later_checks_continue) ... ok\ntest_timeout_kills_a_descendant_that_ignores_term_after_parent_exits (test_run_sprint2_qa.ProcessGroupTimeoutTests.test_timeout_kills_a_descendant_that_ignores_term_after_parent_exits) ... ok\n\n----------------------------------------------------------------------\nRan 36 tests in 1.007s\n\nOK\n"
+    },
+    {
+      "name": "qa-tooling-lint",
+      "command": "/private/tmp/yoir-sprint2-qa/venv/bin/python -B -m ruff check --no-cache scripts/check_sprint2_qa_traceability.py scripts/tests scripts/run_sprint2_qa.py scripts/package_sprint2_qa.py",
+      "startedAt": "2026-09-16T06:57:57.728Z",
+      "completedAt": "2026-09-16T06:57:57.851Z",
+      "exitCode": 0,
+      "output": "All checks passed!\n"
+    },
+    {
+      "name": "workflow-actionlint",
+      "command": "/private/tmp/yoir-sprint2-qa/actionlint/actionlint .github/workflows/app-ci.yml",
+      "startedAt": "2026-09-16T06:57:57.728Z",
+      "completedAt": "2026-09-16T06:57:57.825Z",
+      "exitCode": 0,
+      "output": ""
+    },
+    {
+      "name": "issue-traceability",
+      "command": "/private/tmp/yoir-sprint2-qa/venv/bin/python -B scripts/check_sprint2_qa_traceability.py --verify-local-artifacts",
+      "startedAt": "2026-09-16T06:57:57.728Z",
+      "completedAt": "2026-09-16T06:57:57.870Z",
+      "exitCode": 0,
+      "output": "QA traceability consistent: 20 issues; 3 closed / 17 open; no full-device sign-off. Product tests were not executed.\n"
+    },
+    {
+      "name": "repository-metadata",
+      "command": "/private/tmp/yoir-sprint2-qa/venv/bin/python -B scripts/check_repository_metadata.py",
+      "startedAt": "2026-09-16T06:59:47.294Z",
+      "completedAt": "2026-09-16T06:59:48.030Z",
+      "exitCode": 0,
+      "output": "OpenAPI/traceability: 39 operations, 36 local refs, Pass\nMarkdown relative links: 233 checked, 0 broken\nWorkflow YAML and seed JSON: Pass\n"
+    },
+    {
+      "name": "diff-whitespace",
+      "command": "git diff --check",
+      "startedAt": "2026-09-16T06:59:47.294Z",
+      "completedAt": "2026-09-16T06:59:47.361Z",
+      "exitCode": 0,
+      "output": ""
+    }
+  ],
+  "retainedEvidence": {
+    "publicationManifest": "evidence/20260916-multiplatform/manifest.json",
+    "originalFileCount": 47,
+    "originalBytes": 2496626,
+    "sourceAndPublicationHashesAllMatch": true,
+    "historicalEvidenceFilesUnchanged": 45,
+    "productFingerprintMatches": 49,
+    "productSourcesMatchDev": true,
+    "dependencyLocksMatchQaParentAndRecordedRun": true,
+    "note": "The earlier QA commit already added frontend test dependencies relative to dev. This increment does not change those lockfiles. Existing application failure results remain unchanged."
+  },
+  "review": {
+    "independentQaSourceReview": "No blocking QA-only scope or assertion-weakening issue found.",
+    "sensitiveEvidenceReview": "47 selected original files reviewed; manifest records boundaries and omitted artifacts. Only source-declared disposable fixtures/mock credentials retained.",
+    "excludedLocalFiles": [
+      ".idea/"
+    ],
+    "knownDefectCiPolicy": "Existing real defect assertions remain blocking. No blanket continue-on-error or new known-failure waiver was introduced."
+  },
+  "publication": {
+    "target": "origin/sprint2-qa",
+    "pullRequest": 155,
+    "base": "dev",
+    "note": "This is the pre-commit validation record, not a claim that a Git push or remote CI run has completed. Check the resulting commit/PR for publication and remote check status."
+  }
+}

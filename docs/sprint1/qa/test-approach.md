@@ -243,7 +243,7 @@ parameters, stays in reviewed strict XFail tests.
 | Generated TypeScript client | handwritten typed client | real-client live test exercises current code | Architecture conformance gap |
 | PostgreSQL integrity | row locking on an open slot | real PostgreSQL two-request test | Behaviour observed; `orders.slot_id` UNIQUE invariant absent |
 | Persistence evolution | SQLAlchemy `create_all()` | schema tests | Alembic migrations blocked |
-| Native delivery | Expo Web export only | build smoke | Native simulator/device and deployed acceptance blocked |
+| Native delivery | Expo Web build only | build plus served-at-`/` check | Native simulator/device and deployed acceptance blocked |
 
 The target architecture also names the following cross-cutting and executable-architecture
 acceptance scenarios. “Blocked” here means the target behaviour is not implemented or the required
@@ -277,9 +277,10 @@ treated as runtime implementation.
 
 Application CI has four evidence boundaries:
 
-1. frontend install, lint, typecheck, Jest coverage and Expo Web export;
+1. frontend install, lint, typecheck, Jest coverage and the deployable Expo Web build;
 2. backend compile, Ruff, coverage and QA against PostgreSQL 16;
-3. live HTTP plus the real TypeScript client against an isolated PostgreSQL database;
+3. live HTTP, the real TypeScript client and the served web build against an isolated
+   PostgreSQL database;
 4. OpenAPI, traceability, Markdown, YAML, JSON, Board Insights tests and whitespace validation.
 
 Production and QA Ruff are blocking. Existing production findings may be fixed only through a
@@ -307,10 +308,11 @@ That validation run did not access ProjectV2 or publish the Wiki.
   its safety requirement remains a strict XFail and the script must not target shared data.
 - Architecture: the client is handwritten, payment is a stub, persistence uses `create_all()`, and
   most of the 36-operation target contract has no runtime route.
-- Dependencies: QA tools are pinned, but `backend/requirements.txt` uses open lower bounds. A clean
-  hosted install can resolve newer FastAPI/SQLAlchemy/transitive versions until product owners adopt
-  a reviewed lock strategy. npm advisories require a compatible Expo upgrade decision; QA never
-  applies a forced major update.
+- Dependencies: the backend now has a reviewed lock strategy — `backend/uv.lock` pins every
+  runtime and QA package, including transitive ones, and CI installs with `uv sync --locked`, so a
+  clean hosted install resolves the same versions as a local run. `pyproject.toml` keeps open lower
+  bounds, so a deliberate `uv lock --upgrade` is what moves them, reviewed as a lock diff. npm
+  advisories require a compatible Expo upgrade decision; QA never applies a forced major update.
 - Environment: Web export and local/hosted PostgreSQL/Uvicorn are not native iOS/Android simulator
   tests or deployed-environment acceptance. Wiki publication and live ProjectV2 access remain
   separate evidence and require default-branch integration and credentials.
@@ -326,7 +328,7 @@ This QA slice is ready for local review only when:
 - live HTTP completes the current booking/stub-payment journey on isolated PostgreSQL;
 - the real TypeScript client completes the same server boundary without mocked `fetch`;
 - contract and repository metadata checks pass;
-- Expo Web export succeeds;
+- the Expo Web build succeeds and FastAPI serves it at `/` without shadowing the API;
 - coverage and security findings are recorded without invented thresholds;
 - every result identifies the exact baseline, branch and environment.
 
@@ -372,26 +374,26 @@ npm run lint
 npm run typecheck
 npm run test:ci
 npm run test:coverage
-npx expo export --platform web --output-dir dist/qa-web-smoke
+EXPO_PUBLIC_API_URL=/api/v1 npm run build:web
 npm audit
 cd ..
 ```
 
-Create the Python environment from the repository root:
+Create the Python environment from the repository root. Dependencies are uv-managed:
+`backend/pyproject.toml` declares them, `backend/uv.lock` pins every resolved version, and
+`uv sync --locked` fails rather than silently relocking, so a QA run is reproducible.
 
 ```bash
-python3.12 -m venv backend/.venv
-backend/.venv/bin/python -m pip install --upgrade pip
-backend/.venv/bin/python -m pip install -r backend/requirements-test.txt
-backend/.venv/bin/python -m compileall -q backend/app backend/reset_db.py
-backend/.venv/bin/ruff check backend/app backend/reset_db.py backend/tests backend/pyproject.toml
+uv sync --locked --project backend
+uv run --project backend python -m compileall -q backend/app backend/reset_db.py
+uv run --project backend ruff check backend/app backend/reset_db.py backend/tests backend/pyproject.toml
 ```
 
 SQLite fallback, which is never PostgreSQL evidence:
 
 ```bash
 cd backend
-.venv/bin/pytest tests
+uv run pytest tests
 cd ..
 ```
 
@@ -399,10 +401,10 @@ PostgreSQL 16 in-process suite, using only the dedicated QA database:
 
 ```bash
 cd backend
-DATABASE_URL=postgresql+psycopg://yoir:yoir@127.0.0.1:5432/yoir_test \
+DATABASE_URL=postgresql://yoir:yoir@127.0.0.1:5432/yoir_test \
 YOIR_QA_ALLOW_DATABASE_RESET=true \
 SEED_ON_STARTUP=false \
-.venv/bin/python -m pytest tests -m "not live" --cov=app \
+uv run python -m pytest tests -m "not live" --cov=app \
   --cov-report=term-missing --cov-report=xml:coverage/postgresql-coverage.xml
 cd ..
 ```
@@ -411,18 +413,18 @@ Start the isolated live server in a separate terminal:
 
 ```bash
 cd backend
-DATABASE_URL=postgresql+psycopg://yoir:yoir@127.0.0.1:5432/yoir_live_test \
+DATABASE_URL=postgresql://yoir:yoir@127.0.0.1:5432/yoir_live_test \
 JWT_SECRET=qa-live-secret-that-is-at-least-32-characters \
 CORS_ALLOW_ORIGINS=http://localhost:8081 \
 SEED_ON_STARTUP=true \
-.venv/bin/python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
+uv run python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
 Then, from the repository root, run the two real-network checks:
 
 ```bash
 LIVE_API_BASE_URL=http://127.0.0.1:8000/api/v1 \
-  backend/.venv/bin/pytest backend/tests/test_live_api.py -q -ra
+  uv run --project backend pytest backend/tests/test_live_api.py -q -ra
 LIVE_API_BASE_URL=http://127.0.0.1:8000/api/v1 \
   npm --prefix frontend run test:client:live
 ```
@@ -431,7 +433,7 @@ Repository evidence, from the root:
 
 ```bash
 python3 -B .github/scripts/tests/test_board_insights.py -v
-backend/.venv/bin/python scripts/check_repository_metadata.py
+uv run --project backend python scripts/check_repository_metadata.py
 git diff --check
 ```
 

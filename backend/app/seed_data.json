@@ -1,6 +1,5 @@
 {
   "_note": "Mock data loaded by app/seed.py on first startup (when the services table is empty). Edit freely, then re-seed: stop the backend, `dropdb -h localhost -p 5433 yoir && createdb -h localhost -p 5433 yoir`, restart. Everyone logs in with the password below.",
-
   "job_seekers": [
     {
       "name": "Alex Rivera",
@@ -13,16 +12,35 @@
       "password": "password123"
     }
   ],
-
   "counsellors": [
     {
       "name": "Maya Chen",
       "email": "maya@example.com",
       "password": "password123",
-      "introduction": "Career counsellor specialising in early-career transitions and interview preparation.",
+      "introduction": "Career Professional specialising in early-career transitions and interview preparation.",
       "verification_status": "verified",
       "overall_rating": 4.9,
-      "review_count": 46
+      "review_count": 46,
+      "background": "Eight years in graduate recruitment at two ASX-listed firms before moving into career coaching.",
+      "experience": "Works with graduates and early-career professionals preparing for competitive interview processes, from assessment centres to final-round panels.",
+      "qualifications": [
+        "Graduate Certificate in Career Development Practice",
+        "Bachelor of Psychology"
+      ],
+      "expertise": [
+        "Interview preparation",
+        "Behavioural interviews",
+        "Graduate programs",
+        "Confidence coaching"
+      ],
+      "languages": [
+        "English",
+        "Mandarin"
+      ],
+      "linkedin_url": "https://www.linkedin.com/in/yoir-demo-maya-chen",
+      "base_location_state": "VIC",
+      "base_location_city": "Melbourne",
+      "default_modality": "online"
     },
     {
       "name": "Jordan Lee",
@@ -31,7 +49,26 @@
       "introduction": "Recruitment and career-development specialist with experience across technology and consulting.",
       "verification_status": "verified",
       "overall_rating": 4.8,
-      "review_count": 32
+      "review_count": 32,
+      "background": "Former technical recruiter who has screened thousands of applications for software and consulting roles.",
+      "experience": "Helps people make their resume and applications easy for recruiters to shortlist, and prepares them for technical screens.",
+      "qualifications": [
+        "Certificate IV in Career Development",
+        "Bachelor of Commerce"
+      ],
+      "expertise": [
+        "Resume writing",
+        "Cover letters",
+        "Key Selection Criteria",
+        "Technical screening"
+      ],
+      "languages": [
+        "English"
+      ],
+      "linkedin_url": "https://www.linkedin.com/in/yoir-demo-jordan-lee",
+      "base_location_state": "VIC",
+      "base_location_city": "Melbourne",
+      "default_modality": "online"
     },
     {
       "name": "Priya Nair",
@@ -40,7 +77,28 @@
       "introduction": "Career strategist focused on skilled migrants navigating the Australian job market.",
       "verification_status": "verified",
       "overall_rating": 4.7,
-      "review_count": 21
+      "review_count": 21,
+      "background": "Moved to Australia as a skilled migrant herself, then spent six years in workforce programs for newly arrived professionals.",
+      "experience": "Guides people through skills assessments, registration and licensing, and turning overseas experience into Australian job offers.",
+      "qualifications": [
+        "Master of Career Development",
+        "Certificate IV in Training and Assessment"
+      ],
+      "expertise": [
+        "Skilled migration",
+        "Qualification recognition",
+        "Australian job market",
+        "Job search strategy"
+      ],
+      "languages": [
+        "English",
+        "Hindi",
+        "Malayalam"
+      ],
+      "linkedin_url": "https://www.linkedin.com/in/yoir-demo-priya-nair",
+      "base_location_state": "NSW",
+      "base_location_city": "Sydney",
+      "default_modality": "online"
     },
     {
       "name": "Tom Baker",
@@ -49,10 +107,27 @@
       "introduction": "Personal branding and LinkedIn coach. New to Yoir.",
       "verification_status": "pending",
       "overall_rating": null,
-      "review_count": 0
+      "review_count": 0,
+      "background": "Ten years in marketing and employer branding before coaching professionals on how they present online.",
+      "experience": "Rewrites LinkedIn profiles live with clients and builds a simple plan for growing a professional network.",
+      "qualifications": [
+        "Bachelor of Communications"
+      ],
+      "expertise": [
+        "LinkedIn",
+        "Personal branding",
+        "Networking"
+      ],
+      "languages": [
+        "English",
+        "Spanish"
+      ],
+      "linkedin_url": "https://www.linkedin.com/in/yoir-demo-tom-baker",
+      "base_location_state": "QLD",
+      "base_location_city": "Brisbane",
+      "default_modality": "online"
     }
   ],
-
   "services": [
     {
       "counsellor_email": "maya@example.com",
@@ -60,12 +135,15 @@
       "description": "A focused one-to-one session covering behavioural questions, confident delivery and practical feedback for your next interview.",
       "price_minor": 9500,
       "currency": "AUD",
-      "modalities": ["online"],
+      "modalities": [
+        "online"
+      ],
       "location_state": null,
       "location_city": null,
       "active": true,
       "average_rating": 4.9,
-      "review_count": 28
+      "review_count": 28,
+      "duration_minutes": 60
     },
     {
       "counsellor_email": "maya@example.com",
@@ -73,12 +151,15 @@
       "description": "Two hours working through the STAR method on your real examples, with a scored practice round and written notes to take away.",
       "price_minor": 12000,
       "currency": "AUD",
-      "modalities": ["online"],
+      "modalities": [
+        "online"
+      ],
       "location_state": null,
       "location_city": null,
       "active": true,
       "average_rating": 4.8,
-      "review_count": 12
+      "review_count": 12,
+      "duration_minutes": 45
     },
     {
       "counsellor_email": "jordan@example.com",
@@ -86,12 +167,16 @@
       "description": "Detailed, actionable feedback to make your application clearer, more relevant and easier for recruiters to scan.",
       "price_minor": 7000,
       "currency": "AUD",
-      "modalities": ["online", "in_person"],
+      "modalities": [
+        "online",
+        "in_person"
+      ],
       "location_state": "VIC",
       "location_city": "Melbourne",
       "active": true,
       "average_rating": 4.7,
-      "review_count": 19
+      "review_count": 19,
+      "duration_minutes": 60
     },
     {
       "counsellor_email": "jordan@example.com",
@@ -99,12 +184,15 @@
       "description": "A realistic 45-minute recruiter screen for software roles, followed by feedback on answers, signal and red flags.",
       "price_minor": 15000,
       "currency": "AUD",
-      "modalities": ["online"],
+      "modalities": [
+        "online"
+      ],
       "location_state": null,
       "location_city": null,
       "active": true,
       "average_rating": 4.6,
-      "review_count": 9
+      "review_count": 9,
+      "duration_minutes": 30
     },
     {
       "counsellor_email": "priya@example.com",
@@ -112,12 +200,16 @@
       "description": "Map your overseas experience to the Australian market: target roles, salary bands, licensing, and a 90-day plan.",
       "price_minor": 11000,
       "currency": "AUD",
-      "modalities": ["online", "in_person"],
+      "modalities": [
+        "online",
+        "in_person"
+      ],
       "location_state": "NSW",
       "location_city": "Sydney",
       "active": true,
       "average_rating": 4.7,
-      "review_count": 15
+      "review_count": 15,
+      "duration_minutes": 90
     },
     {
       "counsellor_email": "priya@example.com",
@@ -125,12 +217,15 @@
       "description": "Leave with a written week-by-week plan: applications, networking targets, and follow-up cadence.",
       "price_minor": 8500,
       "currency": "AUD",
-      "modalities": ["online"],
+      "modalities": [
+        "online"
+      ],
       "location_state": null,
       "location_city": null,
       "active": true,
       "average_rating": null,
-      "review_count": 0
+      "review_count": 0,
+      "duration_minutes": 60
     },
     {
       "counsellor_email": "tom@example.com",
@@ -138,12 +233,15 @@
       "description": "Headline, About section and experience rewritten for search and recruiter appeal, done live with you.",
       "price_minor": 6000,
       "currency": "AUD",
-      "modalities": ["online"],
+      "modalities": [
+        "online"
+      ],
       "location_state": null,
       "location_city": null,
       "active": true,
       "average_rating": 4.5,
-      "review_count": 6
+      "review_count": 6,
+      "duration_minutes": 45
     }
   ]
 }

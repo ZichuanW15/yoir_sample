@@ -39,7 +39,7 @@ baselined stories (179 SP).
 ## 2. Technology stack
 
 This table is the runtime view of the outcome; the alternatives considered are
-recorded in §7.
+recorded in §7. What the team reuses and what it builds is in §8.
 
 | Layer | Choice |
 |---|---|
@@ -288,7 +288,65 @@ considered.
 
 ---
 
-## 8. Walking skeleton
+## 8. Reuse plan
+
+For each component in the diagram, this section says whether the team
+**reuses** existing software or services, **builds** it, or does a **mix** of
+both, and why that is the cost-effective choice for the requirement it serves.
+§2 says what Yoir is built with; this section says what the team writes itself.
+§7 lists the options that were considered and rejected.
+
+**The rule applied:** reuse anything commodity or regulated, such as
+cryptography, card handling, email delivery, file storage, native build signing,
+routing and the ORM. Build the rules specific to Yoir: slot holds, order states,
+counsellor verification, and role and ownership checks. When a library provides
+the mechanism and Yoir supplies the rules, the component is a **mix**.
+
+**Status** is checked against commit `5ba3309`. *Implemented* means in code and
+tested; *Partial* means some of it is in code; *Planned* means it exists in the
+design only.
+
+### On the device
+
+| Component | Decision | Reused | Built by the team | Why this is cost-effective | Serves | Status |
+|---|---|---|---|---|---|---|
+| App shell and navigation | Mix | Handover Expo scaffold as the project base, upgraded to Expo SDK 57; React Native; `expo-router`; React Navigation | All screens, the role gate (`AuthContext`), route layout | One codebase covers iOS and Android with two frontend developers. Routing and native bridging are solved problems; screens and role rules are specific to Yoir | `CLIENT-04`, `NFR-02` | Implemented for auth, marketplace, booking and counsellor service screens; other epics planned |
+| UI components and theme | Mix | `@expo/vector-icons`, `react-native-svg`, `expo-linear-gradient`, Google Fonts | Button, form field, notice and screen components; theme tokens; motion | The screen set is small and follows the baseline prototypes. A full component library would need its theming overridden on most screens | `NFR-01`, `NFR-03` | Implemented |
+| API client | Built now, mix planned | Platform `fetch`, TypeScript | Typed client (`src/api/client.ts`), error mapping, an in-memory demo API so frontend work is not blocked on the backend | Hand-writing was quicker while only auth, services and bookings existed. Generating types from `openapi.yaml` with `openapi-typescript` pays off as the contract grows towards 36 operations | `NFR-07` | Hand-written client implemented; generation planned |
+
+### Backend
+
+| Component | Decision | Reused | Built by the team | Why this is cost-effective | Serves | Status |
+|---|---|---|---|---|---|---|
+| HTTP API layer | Mix | FastAPI, Uvicorn, Pydantic v2, `pydantic-settings`, `email-validator`, FastAPI's OpenAPI generation | Routers (auth, services, bookings, health), schemas, the error envelope | Validation and a live OpenAPI schema come with the framework, so the team writes only Yoir's endpoints | `NFR-05`, `NFR-07` | Implemented for three capability areas |
+| Domain services | Built | Nothing; these are Yoir's business rules | Booking, order, verification and ownership rules, testable without HTTP | No library holds these rules, and keeping them out of routers makes them cheap to unit test | `NFR-05`, `NFR-06` | Planned; the logic currently sits inline in the routers |
+| Authentication and sessions | Mix | `argon2-cffi` (Argon2id, RFC 9106 profile), PyJWT | Token issue and verification, revocation at logout, role guards | Password hashing and token signing should never be hand-written. A hosted identity service would add another external account and boundary for what two libraries already cover | `US-01`–`US-08`, `NFR-04` | Implemented |
+| Data models | Mix | SQLAlchemy 2.0, `psycopg2` | Table mappings, seed data | The ORM is commodity; the schema is Yoir's | `database-schema.md` | Partial: 5 of the 13 tables in `database-schema.md` are modelled, plus `revoked_tokens`, which the schema document does not list yet |
+| Schema migrations | Reused | Alembic | Migration scripts only | A migration tool is commodity, so building one would be wasted effort | Deployed database | Planned; tables are currently created at startup with `create_all` |
+| Concurrency control | Mix | PostgreSQL 16 row locks and unique indexes | The slot-locking query; the partial unique index on `orders.slot_id` | The database already handles concurrent writes correctly. Redis or a distributed lock adds infrastructure without a stronger guarantee (§7) | `US-41`, `NFR-06` | Partial: row lock implemented; unique index planned |
+| Order-linked messaging | Mix | PostgreSQL, HTTP polling | Conversation storage, `?since=` polling, the closed-conversation rule | Polling avoids running WebSocket infrastructure for two-person text chat (§7) | `US-49`, `US-50`, `US-62`, `US-63` | Planned |
+
+### External boundaries
+
+| Component | Decision | Reused | Built by the team | Why this is cost-effective | Serves | Status |
+|---|---|---|---|---|---|---|
+| Payments | Mix | If `CLIENT-02` requires real payments: Stripe test mode, PaymentSheet SDK, Stripe webhooks | A payment adapter with mock and Stripe implementations, the order state machine, idempotent event handling | Card handling must be reused so card data never reaches Yoir; only the booking-side rules are ours. The adapter makes the switch from mock to Stripe a configuration change | `US-47`, `NFR-04`, `NFR-06`, `R-03`, `R-05` | Partial: a stub payment endpoint in the bookings router; no adapter boundary; Stripe not integrated |
+| Transactional email | Mix | An email delivery provider, not yet selected | A send adapter and the password-reset message | Deliverability (spam filtering, retries) is not worth building for one message type | `US-70` | Planned |
+| Object storage | Mix | S3-compatible storage (provider unconfirmed, §10 item 4); `expo-image-picker` on the device | Upload endpoint, ownership checks, image references on profiles and services | Keeping files outside the database is cheap and standard; the access rules are Yoir's | Profile and service images | Planned; `expo-image-picker` is installed, no storage integrated |
+| Counsellor verification | Built | Nothing at runtime | LinkedIn URL submission and the Platform Owner review queue | LinkedIn's API does not return what verification needs (`R-01`); manual review needs no integration | `US-58`, `CLIENT-01` | Planned |
+| Online session delivery | Reused | External meeting links (Zoom or Google Meet) | Storing and showing the link on the booking | Built-in video is out of scope (baseline §7.2) | `US-43` | Planned |
+
+### Build, deploy and quality
+
+| Component | Decision | Reused | Built by the team | Why this is cost-effective | Serves | Status |
+|---|---|---|---|---|---|---|
+| Native builds and test distribution | Reused | EAS Build, EAS Submit, TestFlight, Play internal testing | Build profiles and signing configuration | Cloud builds mean no developer needs their own Mac or signing setup | `CLIENT-04`, `NFR-02` | Planned; no EAS configuration yet |
+| Hosting | Mix | FastAPI Cloud | Deploy workflow. The backend also serves the Expo web export so the dev build can be demoed in a browser; that is a demo convenience, not a supported client (baseline §7.2) | Managed hosting means the team runs no servers | Dev environment | Implemented (dev) |
+| CI and testing | Mix | GitHub Actions (`checkout`, `setup-python`, `setup-node`, `setup-uv`, `upload-artifact`, `github-script`), pytest, httpx, pytest-cov, Ruff, Jest, `jest-expo`, React Native Testing Library, ESLint, TypeScript | Workflows, database-safety guards on test fixtures, contract and live API tests | Runners and CI are commodity; the checks that prove Yoir's requirements are the team's own | `NFR-07` | Implemented |
+
+---
+
+## 9. Walking skeleton
 
 This is what makes the architecture *executable* rather than proposed. The
 Sprint 1 milestone tag is `v0.1.0-executable-architecture`. The skeleton is one
@@ -309,7 +367,7 @@ that cannot be finished until `CLIENT-02` is answered.
 
 ---
 
-## 9. Open items
+## 10. Open items
 
 The items still unconfirmed by the client, with the runtime consequence of each.
 
@@ -325,7 +383,7 @@ The items still unconfirmed by the client, with the runtime consequence of each.
 
 ---
 
-## 10. References
+## 11. References
 
 | Document | Location |
 |---|---|
@@ -338,3 +396,4 @@ The items still unconfirmed by the client, with the runtime consequence of each.
 | Product backlog | [Requirements wiki](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements) |
 | Background and scope | [Project Background and Scope](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Project-Background-and-Scope) |
 | Risk register | [Risk Register](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Risk-Register) |
+| Process and board insights | [`process/process-documentation-and-insights.md`](../process/process-documentation-and-insights.md) |

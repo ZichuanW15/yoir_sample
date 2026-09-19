@@ -1,0 +1,45 @@
+{% extends "_layout.html.j2" %}
+{% import "_ui.html.j2" as ui %}
+
+{% block subject %}{% if approved %}You're verified{% else %}About your verification{% endif %} · {{ brand }}{% endblock %}
+{% block preview %}
+{% if approved %}Your Career Professional account is approved — you can publish services now.
+{% else %}We need something changed before we can approve your account.{% endif %}
+{% endblock %}
+{% block heading %}{% if approved %}You're verified{% else %}We couldn't verify you yet{% endif %}{% endblock %}
+
+{% block content %}
+<p style="margin:0 0 14px 0;">Hi {{ name }},</p>
+
+{% if approved %}
+<p style="margin:0 0 14px 0;">
+  A member of the {{ brand }} team has reviewed your profile and approved it. Job
+  seekers can now find you, and you can publish the services you offer.
+</p>
+
+{% if reason %}
+{{ ui.notice(reason) }}
+{% endif %}
+
+<p style="margin:0 0 14px 0;">
+  One thing left before anyone can book you: your payout details. We cannot take
+  money for a session we have no way of passing on to you.
+</p>
+
+{{ ui.button(web_url + "/counsellor", "Set up payouts") }}
+{% else %}
+<p style="margin:0 0 14px 0;">
+  We have reviewed your profile and cannot approve it as it stands. This is not
+  final — update what is mentioned below and submit again, and it comes straight
+  back to us.
+</p>
+
+{{ ui.notice(reason) }}
+
+{{ ui.button(web_url + "/counsellor/profile", "Update my profile") }}
+{% endif %}
+{% endblock %}
+
+{% block footer %}
+  You are receiving this because you applied to be a Career Professional on {{ brand }}.
+{% endblock %}

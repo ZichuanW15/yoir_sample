@@ -5,3 +5,7 @@
 *.jpeg binary
 *.gif  binary
 *.ico  binary
+
+# Preserve verbatim QA tool output, including its trailing whitespace.
+docs/sprint2/qa/evidence/**/*.log -whitespace
+docs/sprint2/qa/evidence/**/error-context.md -whitespace

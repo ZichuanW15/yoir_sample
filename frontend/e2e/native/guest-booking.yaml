@@ -1,0 +1,104 @@
+# Authored only; no emulator/simulator execution has yet been recorded.
+appId: ${APP_ID}
+name: Native Expo Go guest to seeded Alex stub booking
+tags:
+  - native
+  - expo-go
+  - smoke
+env:
+  EXPO_URL: ${EXPO_URL || 'exp://127.0.0.1:8089'}
+---
+# These are operator acknowledgements, not proof of the app's API configuration.
+# Follow README.md: the running bundle must use the owned temporary API, not demo.
+- assertTrue:
+    condition: ${QA_ISOLATED_API === 'true'}
+    label: Confirm an exclusively owned temporary QA API before creating a booking
+- assertTrue:
+    condition: ${APP_ID === 'host.exp.exponent' || APP_ID === 'host.exp.Exponent'}
+    label: Target the installed Expo Go container, not a standalone Yoir package
+- assertTrue:
+    condition: ${/^exp:\/\/127\.0\.0\.1:[0-9]+$/.test(EXPO_URL)}
+    label: Metro must be the local loopback development server
+- stopApp
+- openLink: ${EXPO_URL + '/--/'}
+- extendedWaitUntil:
+    visible: 'Career guidance.*'
+    timeout: 60000
+- takeScreenshot: guest-home-${MAESTRO_DEVICE_UDID}
+- scrollUntilVisible:
+    element: 'Just looking\? Browse as a guest'
+    direction: DOWN
+    timeout: 20000
+- tapOn: 'Just looking\? Browse as a guest'
+- assertVisible: Find the Career Professional for your next step
+- tapOn: Search services or Career Professionals
+- inputText: Interview confidence coaching
+- hideKeyboard
+- scrollUntilVisible:
+    element: 'Interview confidence coaching by Maya Chen, \$95'
+    direction: DOWN
+    timeout: 20000
+- tapOn: 'Interview confidence coaching by Maya Chen, \$95'
+- assertVisible: Service details
+- assertVisible: Interview confidence coaching
+- tapOn: Book this service
+- assertVisible: Welcome back
+- assertVisible: Log in to choose a time and complete your booking\.
+- tapOn: you@example\.com
+- inputText: alex@example.com
+- tapOn: Your password
+- inputText: password123
+- hideKeyboard
+- tapOn:
+    text: Log in
+    enabled: true
+- extendedWaitUntil:
+    visible: When suits you\?
+    timeout: 20000
+# Fresh seed slots are one hour and start tomorrow. Match the complete radio
+# accessibility label, not the nested duration text, and select the first slot.
+- scrollUntilVisible:
+    element:
+      text: '.+, .+ – .+, 60 min'
+      index: 0
+    direction: DOWN
+    timeout: 20000
+- tapOn:
+    text: '.+, .+ – .+, 60 min'
+    index: 0
+- tapOn:
+    text: Continue to payment
+    enabled: true
+- extendedWaitUntil:
+    visible: Review and pay
+    timeout: 20000
+- scrollUntilVisible:
+    element: Test-mode payment
+    direction: DOWN
+    timeout: 20000
+- assertVisible: '.*no real money moves\.'
+- takeScreenshot: native-stub-checkout-${MAESTRO_DEVICE_UDID}
+- tapOn:
+    text: 'Pay \$95'
+    enabled: true
+- extendedWaitUntil:
+    visible: You're booked
+    timeout: 20000
+- assertVisible: 'Payment successful\. No real money was charged.*'
+- takeScreenshot: native-booking-confirmation-${MAESTRO_DEVICE_UDID}
+- scrollUntilVisible:
+    element: References
+    direction: DOWN
+    timeout: 20000
+- assertVisible: Booking
+- assertVisible: Payment
+- takeScreenshot: native-booking-references-${MAESTRO_DEVICE_UDID}
+- tapOn: Back to Explore
+- assertVisible: Find your next step, Alex
+- tapOn: Account, Alex Rivera
+- tapOn: Log out
+- extendedWaitUntil:
+    visible: 'Career guidance.*'
+    timeout: 20000
+- assertNotVisible: Account, Alex Rivera
+- takeScreenshot: native-alex-logged-out-${MAESTRO_DEVICE_UDID}

@@ -1,49 +1,54 @@
-import { fireEvent, render, screen } from '@testing-library/react-native';
-import { router, useLocalSearchParams } from 'expo-router';
+import { jsonResponse, navigation, renderPublic, reply, routeParams } from '../public-screen-utils';
+import { fireEvent, screen } from '@testing-library/react-native';
 import ConfirmationScreen from '@/app/bookings/confirmation';
+import { confirmationFixture, serviceFixture } from '../fixtures';
 
-jest.mock('expo-router', () => ({
-  router: { replace: jest.fn(), push: jest.fn() },
-  useLocalSearchParams: jest.fn(),
-}));
+function receiptParams(modality = 'online') {
+  return { bookingId: confirmationFixture.booking.id, paymentId: confirmationFixture.paymentId, serviceId: serviceFixture.id, modality, startsAt: confirmationFixture.booking.startsAt, endsAt: confirmationFixture.booking.endsAt, amountMinor: '9500' };
+}
 
-const paramsMock = useLocalSearchParams as jest.Mock;
-const replaceMock = router.replace as jest.Mock;
-
-describe('Booking confirmation screen', () => {
+// Layout/legacy-route characterization, not US68 acceptance. Correct authority
+// assertions live in defects/public-acceptance and the forged-URL browser test.
+describe('confirmation route rendering characterization (not authoritative receipt acceptance)', () => {
   beforeEach(() => {
-    paramsMock.mockReturnValue({
-      bookingId: 'booking-1',
-      serviceTitle: 'Interview confidence coaching',
-      startsAt: '2026-09-01T00:00:00.000Z',
-      paymentId: 'stub-payment-1',
-    });
+    routeParams(receiptParams());
+    reply('GET', '/services/service-1', jsonResponse(serviceFixture));
   });
 
-  test('renders the confirmed booking and stub-payment references', () => {
-    render(<ConfirmationScreen />);
-
-    expect(screen.getByText('Payment successful')).toBeTruthy();
-    expect(screen.getByText('Interview confidence coaching')).toBeTruthy();
-    expect(screen.getByText(/Tuesday, 1 September 2026/)).toBeTruthy();
-    expect(screen.getByText('booking-1')).toBeTruthy();
-    expect(screen.getByText('stub-payment-1')).toBeTruthy();
-    expect(
-      screen.getByText(
-        'Your booking is confirmed. No real money was charged because this executable slice uses a payment stub.',
-      ),
-    ).toBeTruthy();
+  test('[characterization] renders route-provided confirmation references and stub disclosure', async () => {
+    await renderPublic(<ConfirmationScreen />);
+    await screen.findByText(serviceFixture.title);
+    expect(screen.getByText('You’re booked')).toBeOnTheScreen();
+    expect(screen.getByText('booking-1')).toBeOnTheScreen();
+    expect(screen.getByText('stub-payment-1')).toBeOnTheScreen();
+    expect(screen.getByText('$95 · Paid')).toBeOnTheScreen();
+    expect(screen.getByText(/No real money was charged/)).toBeOnTheScreen();
+    expect(screen.getByText('Confirmed')).toBeOnTheScreen();
   });
 
-  test('returns to the marketplace without reusing booking parameters', () => {
-    render(<ConfirmationScreen />);
-
-    fireEvent.press(screen.getByRole('button', { name: 'Back to Marketplace' }));
-
-    expect(replaceMock).toHaveBeenCalledWith('/marketplace');
+  test('[characterization] an in-person route includes the meeting area', async () => {
+    routeParams(receiptParams('in_person'));
+    reply('GET', '/services/service-1', jsonResponse({ ...serviceFixture, location: { state: 'VIC', cityOrRegion: 'Melbourne' } }));
+    await renderPublic(<ConfirmationScreen />);
+    expect(await screen.findByText(/In person · Melbourne, VIC/)).toBeOnTheScreen();
   });
 
-  test.todo('rejects missing booking, service, time, or payment parameters');
-  test.todo('shows a safe error instead of throwing for a malformed startsAt parameter');
-  test.todo('loads confirmation data from an authenticated API instead of trusting route text');
+  test('[characterization] unavailable service copy retains route references', async () => {
+    reply('GET', '/services/service-1', new TypeError('offline'));
+    await renderPublic(<ConfirmationScreen />);
+    expect(await screen.findByText('booking-1')).toBeOnTheScreen();
+    expect(screen.getByText('stub-payment-1')).toBeOnTheScreen();
+    fireEvent.press(screen.getByRole('button', { name: 'Back to Explore' }));
+    expect(navigation.push).toHaveBeenCalledWith('/marketplace');
+  });
+
+  test('[QA-127] leaving confirmation clears an existing booking stack before browsing', async () => {
+    navigation.canDismiss.mockReturnValue(true);
+    await renderPublic(<ConfirmationScreen />);
+    await screen.findByText(serviceFixture.title);
+    fireEvent.press(screen.getByRole('button', { name: 'Back to Explore' }));
+    expect(navigation.dismissAll).toHaveBeenCalledTimes(1);
+    expect(navigation.push).toHaveBeenCalledWith('/marketplace');
+    expect(navigation.dismissAll.mock.invocationCallOrder[0]).toBeLessThan(navigation.push.mock.invocationCallOrder[0]);
+  });
 });

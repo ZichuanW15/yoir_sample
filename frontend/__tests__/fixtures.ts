@@ -1,5 +1,7 @@
 import {
-  AvailabilitySlot,
+  AvailabilityWindow,
+  BookableStart,
+  CounsellorProfile,
   Order,
   Service,
   Session,
@@ -14,6 +16,7 @@ export const sessionFixture: Session = {
     name: 'Alex Morgan',
     email: 'alex@example.com',
     role: 'job_seeker',
+    emailVerified: true,
   },
 };
 
@@ -22,6 +25,7 @@ export const serviceFixture: Service = {
   title: 'Interview confidence coaching',
   description: 'Practical interview preparation and feedback.',
   priceMinor: 9500,
+  durationMinutes: 60,
   currency: 'AUD',
   modalities: ['online'],
   active: true,
@@ -37,18 +41,27 @@ export const serviceFixture: Service = {
   },
 };
 
-export const slotFixture: AvailabilitySlot = {
-  id: 'slot-1',
-  serviceId: serviceFixture.id,
+/** A stretch of the counsellor's time; it names no service. */
+export const windowFixture: AvailabilityWindow = {
+  id: 'window-1',
+  startsAt: '2026-09-01T00:00:00.000Z',
+  endsAt: '2026-09-01T03:00:00.000Z',
+  modalities: ['online', 'in_person'],
+  hasBookings: false,
+};
+
+/** One derived offer for a 60-minute service inside that window. */
+export const slotFixture: BookableStart = {
   startsAt: '2026-09-01T00:00:00.000Z',
   endsAt: '2026-09-01T01:00:00.000Z',
-  status: 'open',
 };
 
 export const orderFixture: Order = {
   id: 'order-1',
   serviceId: serviceFixture.id,
-  slotId: slotFixture.id,
+  windowId: windowFixture.id,
+  startsAt: slotFixture.startsAt,
+  endsAt: slotFixture.endsAt,
   amountMinor: serviceFixture.priceMinor,
   currency: 'AUD',
   status: 'awaiting_payment',
@@ -70,4 +83,34 @@ export const confirmationFixture: StubPaymentConfirmation = {
     status: 'confirmed',
     paymentStatus: 'paid',
   },
+};
+
+export const counsellorSessionFixture: Session = {
+  accessToken: 'counsellor-access-token',
+  expiresAt: '2026-08-28T07:00:00.000Z',
+  user: {
+    id: 'counsellor-1',
+    name: 'Maya Chen',
+    email: 'maya@example.com',
+    role: 'counsellor',
+    emailVerified: true,
+  },
+};
+
+export const counsellorProfileFixture: CounsellorProfile = {
+  id: 'counsellor-1',
+  displayName: 'Maya Chen',
+  photoUrl: null,
+  linkedinUrl: 'https://www.linkedin.com/in/maya-chen',
+  introduction: 'Career counsellor specialising in interview preparation.',
+  background: 'Ten years in graduate recruitment.',
+  experience: 'Coached over 400 candidates.',
+  qualifications: ['Graduate Certificate in Career Development Practice'],
+  expertise: ['Interview preparation'],
+  languages: ['English'],
+  baseLocation: { state: 'VIC', cityOrRegion: 'Melbourne' },
+  defaultModality: 'online',
+  verificationStatus: 'verified',
+  overallRating: 4.9,
+  reviewCount: 46,
 };

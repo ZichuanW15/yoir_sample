@@ -1,0 +1,101 @@
+name: Deploy to FastAPI Cloud
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [dev]
+    paths:
+      - 'backend/**'
+      - 'frontend/**'
+      - '.github/workflows/deploy-dev.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-dev
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Build the web bundle and deploy the API that serves it
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: '20.20.2'
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Set up uv and Python
+        uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d # v10.0.1
+        with:
+          version: '0.12.10'
+          python-version: '3.12.13'
+          enable-cache: true
+          cache-dependency-glob: backend/uv.lock
+
+      - name: Install frontend dependencies
+        run: npm --prefix frontend ci --no-audit
+
+      - name: Build the web bundle into the backend static directory
+        env:
+          # The build is served at "/" by the same deployment, so the API base
+          # URL is a same-origin path and needs no deployed hostname baked in.
+          EXPO_PUBLIC_API_URL: /api/v1
+          EXPO_PUBLIC_USE_DEMO_API: 'false'
+        run: |
+          npm --prefix frontend run build:web
+          rm -rf backend/static
+          mv frontend/dist/web backend/static
+          test -f backend/static/index.html
+
+      - name: Install backend runtime dependencies
+        working-directory: backend
+        run: uv sync --locked --no-default-groups
+
+      # Tripwire for a silent partial deploy: the upload is walked with rignore,
+      # which honours every .gitignore in the tree, and backend/.fastapicloudignore
+      # whitelists the generated build back in. If that ever stops covering a
+      # file, the deployment would ship a frontend with missing assets instead of
+      # failing here.
+      - name: Check the whole web build reaches the deploy archive
+        working-directory: backend
+        run: |
+          uv run --no-sync python - <<'CHECK'
+          from pathlib import Path
+
+          try:
+              from fastapi_cloud_cli.commands.deploy.archive import _rignore_walk
+          except ImportError as error:  # the CLI moved its archive walk
+              raise SystemExit(
+                  f"Cannot verify the deploy archive against fastapi-cloud-cli: {error}. "
+                  "Update this check to match the CLI's current archive module."
+              ) from error
+
+          archived = {path for path in _rignore_walk(Path(".")) if path.is_file()}
+          built = {path for path in Path("static").rglob("*") if path.is_file()}
+          missing = sorted(str(path) for path in built - archived)
+          if missing:
+              raise SystemExit(
+                  f"{len(missing)} of {len(built)} web build files are excluded from "
+                  f"the deploy archive, first few: {missing[:5]}. Widen the whitelist "
+                  "in backend/.fastapicloudignore."
+              )
+          print(f"Web build: {len(built)} files, all present in the deploy archive")
+          CHECK
+
+      - name: Deploy backend and web build to FastAPI Cloud
+        working-directory: backend
+        env:
+          FASTAPI_CLOUD_TOKEN: ${{ secrets.FASTAPI_CLOUD_TOKEN }}
+          FASTAPI_CLOUD_APP_ID: ${{ secrets.FASTAPI_CLOUD_APP_ID }}
+        run: uv run --no-sync fastapi deploy

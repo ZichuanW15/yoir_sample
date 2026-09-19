@@ -1,0 +1,23 @@
+
+> yoir-mobile@0.1.0 test:web
+> playwright test --config playwright.config.ts --grep-invert '@defect'
+
+
+Running 14 tests using 1 worker
+
+  ✓   1 [chromium-web] › e2e/integrity.spec.ts:71:5 › CURRENT-IMPLEMENTATION: newly registered counsellor receives publish 403 with no saved or falsely successful service (3.3s)
+  ✓   2 [chromium-web] › e2e/web.spec.ts:42:5 › US44/45/46 public Web catalogue, search, detail and back (2.7s)
+  ✓   3 [chromium-web] › e2e/web.spec.ts:58:7 › US01/04 Web registration persists job_seeker (2.3s)
+  ✓   4 [chromium-web] › e2e/web.spec.ts:58:7 › US01/04 Web registration persists counsellor (2.3s)
+  ✓   5 [chromium-web] › e2e/web.spec.ts:75:5 › US03 duplicate registration remains on the form with input preserved (1.3s)
+  ✓   6 [chromium-web] › e2e/web.spec.ts:90:5 › US07 invalid login stays anonymous and can retry (2.5s)
+  ✓   7 [chromium-web] › e2e/web.spec.ts:111:5 › US06/08 Web login, logout and server-side revoked-token replay (3.1s)
+  ✓   8 [chromium-web] › e2e/web.spec.ts:125:5 › US40/41/47/68 real browser booking to stub receipt (not provider acceptance) (5.2s)
+  ✓   9 [chromium-web] › e2e/web.spec.ts:150:5 › US44 Web network failure exposes retry and recovers @injected-network (2.8s)
+  ✓  10 [chromium-web] › e2e/web.spec.ts:160:5 › US34/35/37/38 counsellor Web publishing validates area and persists both delivery modes (7.0s)
+  ✓  11 [chromium-web] › e2e/web.spec.ts:204:5 › US34 counsellor publishing preserves the draft after a transport failure and retries once @injected-network (4.0s)
+  ✓  12 [chromium-web] › e2e/web.spec.ts:239:5 › US39 real Web availability create, time edit and removal persist through the API (8.2s)
+  ✓  13 [chromium-web] › e2e/web.spec.ts:330:5 › [QA-106][US08-AC3] logout prevents browser history and protected deep-link access (3.5s)
+  ✓  14 [chromium-web] › e2e/web.spec.ts:367:5 › US45 implemented Web keyword search shows matching results and a recoverable empty state (1.5s)
+
+  14 passed (51.3s)

@@ -1,135 +1,100 @@
-import { fireEvent, render, screen, waitFor } from '@testing-library/react-native';
-import { router, useLocalSearchParams } from 'expo-router';
+import { apiFailure, AuthStatusProbe, callsTo, deferred, jsonResponse, navigation, renderPublic, reply, routeParams } from '../public-screen-utils';
+import { act, fireEvent, screen, waitFor } from '@testing-library/react-native';
 import LoginScreen from '@/app/auth/login';
-import { ApiError } from '@/src/api/client';
-import { useAuth } from '@/src/auth/AuthContext';
+import { Platform } from 'react-native';
+import { counsellorSessionFixture, sessionFixture } from '../fixtures';
 
-jest.mock('expo-router', () => ({
-  Link: ({ children }: { children: React.ReactNode }) => children,
-  router: { replace: jest.fn(), push: jest.fn() },
-  useLocalSearchParams: jest.fn(),
-}));
-
-jest.mock('@/src/auth/AuthContext', () => ({ useAuth: jest.fn() }));
-
-const useAuthMock = useAuth as jest.Mock;
-const paramsMock = useLocalSearchParams as jest.Mock;
-const loginMock = jest.fn();
-const replaceMock = router.replace as jest.Mock;
-
-function completeLoginForm() {
+const enterCredentials = () => {
   fireEvent.changeText(screen.getByLabelText('Email'), '  alex@example.com  ');
   fireEvent.changeText(screen.getByLabelText('Password'), 'correct-password');
-}
+};
 
-describe('Login screen', () => {
-  beforeEach(() => {
-    paramsMock.mockReturnValue({});
-    useAuthMock.mockReturnValue({ session: null, login: loginMock, logout: jest.fn() });
-  });
-
-  test('logs in with trimmed email and navigates to the marketplace', async () => {
-    loginMock.mockResolvedValueOnce(undefined);
-    render(<LoginScreen />);
-
-    completeLoginForm();
+describe('login screen', () => {
+  test('[QA-103] missing credentials are rejected before the HTTP request', async () => {
+    await renderPublic(<LoginScreen />);
     fireEvent.press(screen.getByRole('button', { name: 'Log in' }));
-
-    await waitFor(() => {
-      expect(loginMock).toHaveBeenCalledWith('alex@example.com', 'correct-password');
-      expect(replaceMock).toHaveBeenCalledWith('/marketplace');
-    });
+    expect(screen.getByText('Enter your email and password.')).toBeOnTheScreen();
+    expect(callsTo('POST', '/auth/sessions')).toHaveLength(0);
   });
 
-  test('continues a pending booking after login', async () => {
-    paramsMock.mockReturnValue({ serviceId: 'service/one' });
-    loginMock.mockResolvedValueOnce({
-      accessToken: 'job-seeker-token',
-      expiresAt: '2026-08-29T01:00:00.000Z',
-      user: {
-        id: 'job-seeker-1',
-        name: 'Alex',
-        email: 'alex@example.com',
-        role: 'job_seeker',
-      },
-    });
-    render(<LoginScreen />);
-
-    expect(screen.getByText('Log in to choose a time and complete your booking.')).toBeTruthy();
-    completeLoginForm();
+  test('[QA-100] successful login authenticates the real provider and opens the job seeker home', async () => {
+    reply('POST', '/auth/sessions', jsonResponse(sessionFixture));
+    await renderPublic(<LoginScreen />);
+    enterCredentials();
     fireEvent.press(screen.getByRole('button', { name: 'Log in' }));
-
-    await waitFor(() =>
-      expect(replaceMock).toHaveBeenCalledWith({
-        pathname: '/services/[serviceId]/timeslots',
-        params: { serviceId: 'service/one' },
-      }),
-    );
+    await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith('/job-seeker'));
+    expect(JSON.parse(callsTo('POST', '/auth/sessions')[0][1]?.body as string)).toEqual({ email: 'alex@example.com', password: 'correct-password', client: Platform.OS === 'web' ? 'web' : 'native' });
+    expect(screen.getByText('Welcome, Alex')).toBeOnTheScreen();
   });
 
-  test('rejects incomplete input before calling the API boundary', () => {
-    render(<LoginScreen />);
-
+  test.each([
+    ['job_seeker', sessionFixture, '/services/[serviceId]/timeslots'],
+    ['counsellor', counsellorSessionFixture, '/services/[serviceId]'],
+  ] as const)('[QA-100] a pending booking returns %s to the appropriate route', async (_role, session, pathname) => {
+    routeParams({ serviceId: 'service-1' });
+    reply('POST', '/auth/sessions', jsonResponse(session));
+    await renderPublic(<LoginScreen />);
+    enterCredentials();
     fireEvent.press(screen.getByRole('button', { name: 'Log in' }));
-
-    expect(screen.getByText('Enter your email and password.')).toBeTruthy();
-    expect(loginMock).not.toHaveBeenCalled();
+    await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith({ pathname, params: { serviceId: 'service-1' } }));
   });
 
-  test('shows the generic invalid-credentials message for a 401', async () => {
-    loginMock.mockRejectedValueOnce(
-      new ApiError(401, {
-        code: 'INVALID_CREDENTIALS',
-        message: 'Do not reveal which credential failed.',
-        requestId: 'request-401',
-      }),
-    );
-    render(<LoginScreen />);
-
-    completeLoginForm();
+  test('[QA-100] a counsellor login without a booking opens the workspace', async () => {
+    reply('POST', '/auth/sessions', jsonResponse(counsellorSessionFixture));
+    await renderPublic(<LoginScreen />);
+    enterCredentials();
     fireEvent.press(screen.getByRole('button', { name: 'Log in' }));
-
-    expect(await screen.findByText('The email or password is incorrect.')).toBeTruthy();
-    expect(replaceMock).not.toHaveBeenCalled();
+    await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith('/counsellor'));
   });
 
-  test('shows a connection message for a network failure', async () => {
-    loginMock.mockRejectedValueOnce(new TypeError('fetch failed'));
-    render(<LoginScreen />);
-
-    completeLoginForm();
+  test('[QA-103] invalid credentials show the generic safe message and allow retry', async () => {
+    reply('POST', '/auth/sessions', apiFailure('INVALID_CREDENTIALS', 'Do not expose account existence', 401));
+    await renderPublic(<><LoginScreen /><AuthStatusProbe /></>);
+    enterCredentials();
     fireEvent.press(screen.getByRole('button', { name: 'Log in' }));
-
-    expect(
-      await screen.findByText('We could not reach Yoir. Check your connection and try again.'),
-    ).toBeTruthy();
-    expect(replaceMock).not.toHaveBeenCalled();
-  });
-
-  test('routes an authenticated non-job-seeker back to service detail', async () => {
-    paramsMock.mockReturnValue({ serviceId: 'service/one' });
-    loginMock.mockResolvedValueOnce({
-      accessToken: 'counsellor-token',
-      expiresAt: '2026-08-29T01:00:00.000Z',
-      user: {
-        id: 'counsellor-1',
-        name: 'Maya',
-        email: 'maya@example.com',
-        role: 'counsellor',
-      },
-    });
-    render(<LoginScreen />);
-
-    completeLoginForm();
+    expect(await screen.findByText('The email or password is incorrect.')).toBeOnTheScreen();
+    expect(screen.queryByText('Do not expose account existence')).toBeNull();
+    expect(navigation.replace).not.toHaveBeenCalled();
+    expect(screen.getByText('signed out')).toBeOnTheScreen();
+    reply('POST', '/auth/sessions', jsonResponse(sessionFixture));
     fireEvent.press(screen.getByRole('button', { name: 'Log in' }));
-
-    await waitFor(() =>
-      expect(replaceMock).toHaveBeenCalledWith({
-        pathname: '/services/[serviceId]',
-        params: { serviceId: 'service/one' },
-      }),
-    );
+    await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith('/job-seeker'));
+    expect(screen.getByText('signed in as Alex Morgan')).toBeOnTheScreen();
   });
 
-  test.todo('rejects an invalid or non-scalar booking serviceId before redirecting');
+  test('[QA-103] offline failure retains the entered email and offers another submit', async () => {
+    reply('POST', '/auth/sessions', new TypeError('fetch failed'));
+    await renderPublic(<><LoginScreen /><AuthStatusProbe /></>);
+    enterCredentials();
+    fireEvent.press(screen.getByRole('button', { name: 'Log in' }));
+    expect(await screen.findByText('We could not reach Yoir. Check your connection and try again.')).toBeOnTheScreen();
+    expect(screen.getByLabelText('Email')).toHaveProp('value', '  alex@example.com  ');
+    expect(screen.getByRole('button', { name: 'Log in' })).toBeEnabled();
+    expect(screen.getByText('signed out')).toBeOnTheScreen();
+    expect(navigation.replace).not.toHaveBeenCalled();
+  });
+
+  test('[QA-100] submitting twice while authentication is pending sends one request', async () => {
+    const request = deferred<Response>();
+    reply('POST', '/auth/sessions', request.promise);
+    await renderPublic(<><LoginScreen /><AuthStatusProbe /></>);
+    enterCredentials();
+    fireEvent.press(screen.getByRole('button', { name: 'Log in' }));
+    const pending = screen.getByRole('button', { name: 'Logging in' });
+    expect(pending).toBeDisabled();
+    expect(screen.getByText('signed out')).toBeOnTheScreen();
+    expect(navigation.replace).not.toHaveBeenCalled();
+    fireEvent.press(pending);
+    expect(callsTo('POST', '/auth/sessions')).toHaveLength(1);
+    await act(async () => { request.resolve(jsonResponse(sessionFixture)); });
+    await waitFor(() => expect(navigation.replace).toHaveBeenCalledTimes(1));
+  });
+
+  test('[QA-87] switching to registration preserves the booking and selected role', async () => {
+    routeParams({ serviceId: 'service-1', role: 'counsellor', email: 'prefilled@example.com' });
+    await renderPublic(<LoginScreen />);
+    expect(screen.getByLabelText('Email')).toHaveProp('value', 'prefilled@example.com');
+    fireEvent.press(screen.getByText('Create an account'));
+    expect(navigation.push).toHaveBeenCalledWith({ pathname: '/auth/register', params: { serviceId: 'service-1', role: 'counsellor' } });
+  });
 });

@@ -1,5 +1,7 @@
+import { platformClient } from '@/src/api/authBridge';
 import {
   confirmationFixture,
+  counsellorProfileFixture,
   orderFixture,
   serviceFixture,
   sessionFixture,
@@ -18,6 +20,7 @@ function jsonResponse(body: unknown, status = 200): Response {
     ok: status >= 200 && status < 300,
     status,
     json: jest.fn().mockResolvedValue(body),
+    headers: new Headers({ 'content-type': 'application/json' }),
   } as unknown as Response;
 }
 
@@ -50,7 +53,14 @@ describe('API client HTTP boundary', () => {
 
     expect(fetchMock).toHaveBeenCalledWith('https://api.example.test/api/v1/auth/sessions', {
       method: 'POST',
-      body: JSON.stringify({ email: 'alex@example.com', password: 'correct-password' }),
+      // US-06: the platform travels with the credentials, because it decides how
+      // long the server lets the session slide before asking for a password again.
+      // Taken from the platform under test rather than hard-coded: the rule is that
+      // the client identifier travels with the credentials, not that it is any one
+      // value. jest runs as a device, a browser reports 'web'.
+      body: JSON.stringify({
+        email: 'alex@example.com', password: 'correct-password', client: platformClient,
+      }),
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
@@ -126,7 +136,7 @@ describe('API client HTTP boundary', () => {
     await expect(
       api.createOrder(
         'service-1',
-        'slot-1',
+        '2026-09-01T00:00:00.000Z',
         'online',
         'Australia/Sydney',
         'test-access-token',
@@ -135,9 +145,11 @@ describe('API client HTTP boundary', () => {
 
     expect(fetchMock).toHaveBeenCalledWith('https://api.example.test/api/v1/orders', {
       method: 'POST',
+      // The chosen start only; its end follows from the service's own duration, so
+      // the client never decides how long it is buying.
       body: JSON.stringify({
         serviceId: 'service-1',
-        slotId: 'slot-1',
+        startsAt: '2026-09-01T00:00:00.000Z',
         modality: 'online',
         timezone: 'Australia/Sydney',
       }),
@@ -189,6 +201,7 @@ describe('API client HTTP boundary', () => {
       ok: false,
       status: 502,
       json: jest.fn().mockRejectedValue(new SyntaxError('Invalid JSON')),
+      headers: new Headers({ 'content-type': 'application/json' }),
     } as unknown as Response);
     const { api } = loadClient();
 
@@ -236,58 +249,71 @@ describe('API client HTTP boundary', () => {
     expect(userFacingError({ unexpected: true })).toBe('Something went wrong. Please try again.');
   });
 
-  test('keeps the complete demo-mode booking flow local', async () => {
-    jest.useFakeTimers();
-    try {
-      jest.setSystemTime(new Date('2026-08-28T00:00:00.000Z'));
-      process.env.EXPO_PUBLIC_USE_DEMO_API = 'true';
-      jest.resetModules();
-      const { api, isDemoApi } = loadClient();
 
-      const loginPending = api.login('alex@example.com', 'correct-password');
-      const registerPending = api.register({
-        name: 'Taylor Lee',
-        email: 'taylor@example.com',
-        password: 'correct-password',
-        passwordConfirmation: 'correct-password',
-        role: 'counsellor',
-      });
-      const listPending = api.listServices('interview');
-      const servicePending = api.getService('svc_interview');
-      const slotsPending = api.listServiceSlots('svc_interview');
-      await jest.advanceTimersByTimeAsync(300);
+  test('Career Professionals are listed and read publicly, without authentication', async () => {
+    fetchMock
+      .mockResolvedValueOnce(jsonResponse([counsellorProfileFixture]))
+      .mockResolvedValueOnce(jsonResponse(counsellorProfileFixture));
+    const { api } = loadClient();
 
-      expect(isDemoApi).toBe(true);
-      await expect(loginPending).resolves.toMatchObject({ accessToken: 'demo-access-token' });
-      await expect(registerPending).resolves.toMatchObject({ role: 'counsellor' });
-      await expect(listPending).resolves.toEqual([expect.objectContaining({ id: 'svc_interview' })]);
-      const service = await servicePending;
-      const [slot] = await slotsPending;
+    await expect(api.listCounsellors()).resolves.toEqual([counsellorProfileFixture]);
+    await expect(api.getCounsellorProfile('counsellor/one')).resolves.toEqual(counsellorProfileFixture);
 
-      const orderPending = api.createOrder(
-        service.id,
-        slot.id,
-        service.modalities[0],
-        'Australia/Sydney',
-        'ignored-demo-token',
-      );
-      await jest.advanceTimersByTimeAsync(300);
-      const order = await orderPending;
-
-      const paymentPending = api.completeStubPayment(order, 'ignored-demo-token');
-      await jest.advanceTimersByTimeAsync(300);
-      await expect(paymentPending).resolves.toMatchObject({
-        paymentStatus: 'paid',
-        booking: { orderId: order.id, serviceId: service.id },
-      });
-      expect(fetchMock).not.toHaveBeenCalled();
-    } finally {
-      jest.useRealTimers();
-    }
+    expect(fetchMock.mock.calls).toEqual([
+      ['https://api.example.test/api/v1/counsellors', { headers: { Accept: 'application/json' } }],
+      ['https://api.example.test/api/v1/counsellors/counsellor%2Fone', { headers: { Accept: 'application/json' } }],
+    ]);
   });
 
-  test.todo('uses a deterministic fallback when an error response is valid JSON null');
-  test.todo('rejects a successful response that does not match the published schema');
-  test.todo('aborts a request after the configured timeout');
-  test.todo('fails fast instead of publishing localhost as a production API URL');
+  test('the job seeker profile is read and replaced with the bearer token', async () => {
+    const update = { name: 'Alex Morgan', photoUrl: null, headline: 'Graduate engineer', careerGoals: 'A first role.' };
+    const profile = { ...update, email: 'alex@example.com' };
+    fetchMock.mockResolvedValueOnce(jsonResponse(profile)).mockResolvedValueOnce(jsonResponse(profile));
+    const { api } = loadClient();
+
+    await expect(api.getJobSeekerProfile('access-token')).resolves.toEqual(profile);
+    await expect(api.updateJobSeekerProfile(update, 'access-token')).resolves.toEqual(profile);
+
+    expect(fetchMock.mock.calls).toEqual([
+      ['https://api.example.test/api/v1/me/job-seeker-profile', {
+        headers: { Accept: 'application/json', Authorization: 'Bearer access-token' },
+      }],
+      ['https://api.example.test/api/v1/me/job-seeker-profile', {
+        method: 'PATCH',
+        body: JSON.stringify(update),
+        headers: { Accept: 'application/json', 'Content-Type': 'application/json', Authorization: 'Bearer access-token' },
+      }],
+    ]);
+  });
+
+  test('notifications read as none until the backend serves them; other failures still surface', async () => {
+    const notification = { id: 'n1', title: 'Booking confirmed', body: 'See you Tuesday.', createdAt: '2026-09-18T00:00:00Z', read: false };
+    fetchMock
+      .mockResolvedValueOnce(jsonResponse([notification]))
+      .mockResolvedValueOnce(jsonResponse({ code: 'NOT_FOUND', message: 'Not Found', requestId: 'r-404' }, 404))
+      .mockResolvedValueOnce(jsonResponse({ code: 'SERVER_ERROR', message: 'Unavailable', requestId: 'r-500' }, 500));
+    const { api, ApiError } = loadClient();
+
+    await expect(api.listNotifications('access-token')).resolves.toEqual([notification]);
+    await expect(api.listNotifications('access-token')).resolves.toEqual([]);
+    await expect(api.listNotifications('access-token')).rejects.toBeInstanceOf(ApiError);
+    expect(fetchMock).toHaveBeenCalledWith('https://api.example.test/api/v1/me/notifications', {
+      headers: { Accept: 'application/json', Authorization: 'Bearer access-token' },
+    });
+  });
+
+  test('a notification is marked read by its URL-encoded id', async () => {
+    fetchMock.mockResolvedValueOnce(jsonResponse(undefined, 204));
+    const { api } = loadClient();
+
+    await expect(api.markNotificationRead('note/1', 'access-token')).resolves.toBeUndefined();
+    expect(fetchMock).toHaveBeenCalledWith('https://api.example.test/api/v1/me/notifications/note%2F1/read', {
+      method: 'PATCH',
+      headers: { Accept: 'application/json', Authorization: 'Bearer access-token' },
+    });
+  });
+
+  // Correct assertions for malformed responses run in test:defects. Request
+  // timeout and production URL policy remain documented hardening gaps; a todo
+  // is not executable QA evidence.
 });

@@ -1,0 +1,67 @@
+{% extends "_layout.html.j2" %}
+{% import "_ui.html.j2" as ui %}
+
+{% block subject %}Your session is booked · {{ brand }}{% endblock %}
+{% block preview %}{{ service_title }} with {{ counsellor_name }} on {{ when }}.{% endblock %}
+{% block heading %}You're booked{% endblock %}
+
+{% block subheading %}
+<p style="margin:0; font-size:15px; color:#66756B;">
+  {{ service_title }} with {{ counsellor_name }}
+</p>
+{% endblock %}
+
+{% block content %}
+<p style="margin:0 0 14px 0;">Hi {{ name }},</p>
+
+<p style="margin:0 0 4px 0;">
+  Your session is confirmed and paid for. {{ counsellor_name }} can see it too.
+</p>
+
+{{ ui.detail_rows(details) }}
+
+{% if meeting_url %}
+<p style="margin:0 0 4px 0; font-weight:600;">Joining your session</p>
+<p style="margin:0 0 4px 0;">
+  Use this link at the scheduled time. Nothing to install — it opens in your browser.
+</p>
+{{ ui.button(meeting_url, "Join the session") }}
+<p style="margin:0 0 18px 0; font-size:13px; color:#66756B;">
+  <span style="word-break:break-all; color:#2E6B4F;">{{ meeting_url }}</span>
+</p>
+{% elif meeting_area %}
+<p style="margin:0 0 18px 0;">
+  This is an in-person session in <strong>{{ meeting_area }}</strong>.
+  {{ counsellor_name }} will confirm the exact meeting point before you meet.
+</p>
+{% endif %}
+
+{# The receipt is issued in the counsellor's name: under the agent model they are the
+   supplier of the session, and Yoir only supplies the booking service to them. #}
+<p style="margin:0 0 4px 0; font-weight:600;">
+  {% if receipt.is_tax_invoice %}Your tax invoice{% else %}Your receipt{% endif %}
+</p>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+       style="margin:10px 0 18px 0; background:#FFFFFF; border:1px solid #EEEBE3; border-radius:20px;">
+  <tr>
+    <td style="padding:18px; font-size:13px; line-height:1.7; color:#12241A;">
+      <strong>{% if receipt.is_tax_invoice %}TAX INVOICE{% else %}RECEIPT{% endif %}</strong><br />
+      {{ receipt.receipt_number }}<br /><br />
+      Supplier: {{ receipt.supplier_name }}<br />
+      {% if receipt.is_tax_invoice and receipt.supplier_abn %}
+      ABN: {{ receipt.supplier_abn }}<br />
+      {% endif %}
+      To: {{ receipt.buyer_name }}<br /><br />
+      {{ receipt.description }}<br />
+      Total ({{ receipt.currency }}): <strong>{{ receipt.total_minor | money }}</strong><br />
+      {% if receipt.is_tax_invoice %}
+      Includes GST: {{ receipt.gst_minor | money }}
+      {% else %}
+      No GST has been charged on this supply.
+      {% endif %}
+    </td>
+  </tr>
+</table>
+
+{{ ui.notice(cancellation_note) }}
+{% endblock %}
