@@ -2,13 +2,13 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Sprint 2 Planning
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Planning
-  Wiki commit: 1f074a7 (2026-09-19)
+  Wiki commit: d87dc66 (2026-09-19)
   Exported:    2026-09-19
 -->
 
 # Sprint 2 Planning
 
-**Sprint:** 2 of 3 · **Board iteration:** 31 August – 18 September 2026 (19 days; the [User Story Map](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/User-Story-Map) and Home timeline run to 20 September, the submission weekend) · **Scrum Master:** Manushresth Krishnan · **Product Owner:** Wei Chen Cheng (Jared)
+**Sprint:** 2 of 3 · **Board iteration:** 31 August – 20 September 2026 (21 days) · **Scrum Master:** Manushresth Krishnan · **Product Owner:** Wei Chen Cheng (Jared)
 
 This page records the Sprint 2 plan: the goal, the committed stories and who owned them, the rules that gated the work, the risks the team planned around, and how the plan changed during the sprint. The team did not minute a separate planning session, so the plan is taken from the records that hold it: the project board, the [User Story Map](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/User-Story-Map), the [Product Backlog](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Product-Backlog), the [Daily Standups](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Daily-Standups), the [Mentor Communication Log](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Mentor-Communication-Log) and the [Client meeting minutes](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Client-meeting-minutes). It was written on 19 September 2026. What was accepted is recorded separately in the [Sprint 2 Review & Client Feedback](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Review-and-Client-Feedback); this page does not claim acceptance.
 
@@ -83,7 +83,7 @@ All 20 stories are Must-haves. Points follow the sizing guide in [Process Docume
 | Jashan | Back-end | Career Professional registration, payments, email and deployment |
 | Zhenyang | QA Lead | Acceptance tests and evidence for every story, across web, API, iOS and Android |
 
-Seven members over a 19-day iteration, with weekly stand-ups, weekly supervisor meetings and a client demonstration planned before the sprint closed.
+Seven members over a 21-day iteration, with weekly stand-ups, weekly supervisor meetings and a client demonstration planned before the sprint closed.
 
 ## 5. How work was gated
 
@@ -131,5 +131,5 @@ These arrived in Sprint 2 alongside the committed scope. They are not claimed as
 
 - **Board:** all 20 stories and their sub-issues sit in the Sprint 2 column. Per-story acceptance evidence and open gaps are in the [Sprint 2 Review & Client Feedback](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Review-and-Client-Feedback), the [Sprint 2 Test Approach](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Test-Approach), and the per-story [frontend](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/tree/dev/docs/sprint2/frontend) and [backend](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/tree/dev/docs/sprint2/backend) documentation.
 - **Carried into Sprint 3:** estimate US-09–13 and build the diagnosis-to-booking slice first; import the client's question workbook; fix the overlapping-slot bug; confirm with the client whether payouts run through Stripe or manually.
-- **Board, 19 September:** US-09–13 moved to the Sprint 3 iteration; their front-end sub-issues are In Progress.
+- **Board, 19 September:** US-09–13 moved to the Sprint 3 iteration; their front-end sub-issues are In Progress. The Sprint field's dates now match the schedule: Sprint 2 ends 20 September and Sprint 3 runs 21 September – 18 October.
 - **Still to record for Sprint 2:** the sprint retrospective.
