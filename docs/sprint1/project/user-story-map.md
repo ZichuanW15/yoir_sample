@@ -54,7 +54,7 @@ The activities follow the two flows confirmed with the client on 25 August 2026 
 
 The full map is a single Miro frame covering all eight activities across both sprints. Open it on the [live board](https://miro.com/app/board/uXjVHtnlqKA=/?share_link_id=876750713477); the tables in sections 3, 5 and 6 carry the same content in text.
 
-## 5. Sprint 2 — 29 Aug → 16 Sep 2026
+## 5. Sprint 2 — 31 Aug → 20 Sep 2026
 
 **20 stories / 69 SP — the walking path.** The thinnest end-to-end slice of the paid journey, which the Sprint 1 walking skeleton (`S1-03`) already stubs.
 
@@ -71,7 +71,7 @@ The full map is a single Miro frame covering all eight activities across both sp
 Open client decisions that touch this sprint: **CLIENT-02** payment boundary (provider test mode assumed), how long a reserved slot is held before payment, the password rule.
 
 
-## 6. Sprint 3 — 17 Sep → 12 Oct 2026
+## 6. Sprint 3 — 21 Sep → 18 Oct 2026
 
 **31 stories / 110 SP — everything below the line.** Yellow (Should-have) cards are the first candidates to drop if velocity is short; the Forum (27 SP) is the largest block that is not on the paid journey.
 
