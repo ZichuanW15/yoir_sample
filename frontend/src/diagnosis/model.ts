@@ -21,6 +21,8 @@ export interface Answers {
   tried: string[];
   stuck: string;
   barriers: string[];
+  /** What the person wrote beside "Something else" or "Other", by question. */
+  other?: Partial<Record<QuestionId, string>>;
 }
 
 export const questions: Question[] = [
@@ -216,6 +218,9 @@ const areaForBarrier: Record<string, AreaId> = {
   work_rights: 'recognition', recognition: 'recognition', licensing: 'recognition', market: 'search', local_network: 'network',
 };
 
+/** What a keyword of the main area is worth: more than everything else can add up to. */
+const MAIN = 10;
+
 export interface Direction {
   area: string;
   summary: string;
@@ -236,7 +241,7 @@ export function directionFor(answers: Answers): Direction {
   };
   add(areaForGoal[answers.goal], 1);
   for (const barrier of answers.barriers) add(areaForBarrier[barrier], 1);
-  add(main, 10);
+  add(main, MAIN);
 
   const alreadyTried = area.tried.some((t) => answers.tried.includes(t));
   return {
@@ -252,14 +257,20 @@ export function directionFor(answers: Answers): Direction {
 /** A Career Professional with the services they offer. */
 export interface Professional { profile: CounsellorProfile; services: Service[] }
 
+/** How well some text fits a direction: the weight of every keyword it opens a word with. */
+function points(text: string, weights: Record<string, number>): number {
+  const lower = text.toLowerCase();
+  return Object.entries(weights).reduce(
+    (total, [keyword, weight]) => total + (new RegExp(`\\b${keyword}`).test(lower) ? weight : 0),
+    0,
+  );
+}
+
 function score({ profile, services }: Professional, weights: Record<string, number>): number {
   // What they say they do: their introduction, expertise and the services they sell.
-  const text = [
-    profile.introduction, ...profile.expertise, ...services.flatMap((s) => [s.title, s.description]),
-  ].join(' ').toLowerCase();
-  return Object.entries(weights).reduce(
-    (total, [keyword, weight]) => total + (new RegExp(`\\b${keyword}`).test(text) ? weight : 0),
-    0,
+  return points(
+    [profile.introduction, ...profile.expertise, ...services.flatMap((s) => [s.title, s.description])].join(' '),
+    weights,
   );
 }
 
@@ -272,4 +283,17 @@ export function rankProfessionals(
     .sort((a, b) => b.points - a.points
       || (b.professional.profile.overallRating ?? 0) - (a.professional.profile.overallRating ?? 0))
     .map(({ professional, points }) => ({ professional, match: points > 0 }));
+}
+
+/**
+ * Explore's services with the ones that fit the direction first, judged on what the
+ * service itself says it is. Only a service for the main area is called a match: one
+ * that merely touches the goal or a barrier moves up without being claimed as a fit.
+ * The sort is stable, so equal services keep the order Explore already chose.
+ */
+export function rankServices(services: Service[], direction: Direction): { service: Service; match: boolean }[] {
+  return services
+    .map((service) => ({ service, fit: points(`${service.title} ${service.description}`, direction.weights) }))
+    .sort((a, b) => b.fit - a.fit)
+    .map(({ service, fit }) => ({ service, match: fit >= MAIN }));
 }

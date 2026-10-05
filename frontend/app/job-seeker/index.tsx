@@ -5,9 +5,9 @@ import { useAuth } from '@/src/auth/AuthContext';
 import { Glyph } from '@/src/components/Glyph';
 import { JobSeekerNav } from '@/src/components/JobSeekerNav';
 import { TopBar } from '@/src/components/TopBar';
-import { Button, Press } from '@/src/components/ui';
-import { directionFor } from '@/src/diagnosis/model';
-import { BestMatches, useDiagnosis } from '@/src/diagnosis/view';
+import { Button, Press, Spinner } from '@/src/components/ui';
+import { directionFor, questions } from '@/src/diagnosis/model';
+import { BestMatches, finishedAnswers, useDiagnosis } from '@/src/diagnosis/view';
 import { FadeUp, ScreenIn } from '@/src/motion';
 import { homeFor } from '@/src/navigation';
 import { colors, fonts, radius, type } from '@/src/theme';
@@ -17,18 +17,23 @@ export default function JobSeekerHomeScreen() {
   const { session } = useAuth();
   const { record } = useDiagnosis();
   // The diagnosis is part of a signed-in job seeker's onboarding; a guest just browses.
-  const direction = useMemo(
-    () => (session && record?.answers ? directionFor(record.answers) : null),
-    [session, record],
-  );
+  const direction = useMemo(() => {
+    const answers = finishedAnswers(record);
+    return answers ? directionFor(answers) : null;
+  }, [record]);
+  // Set while a diagnosis was left part-way: the question it picks up at.
+  const resumeAt = record?.answers ? record.step : undefined;
 
   if (session && session.user.role !== 'job_seeker') return <Redirect href={homeFor(session.user.role)} />;
-  if (session && record === undefined) return <View style={styles.screen} />;
+  if (session && record === undefined) {
+    return <View style={[styles.screen, styles.centred]}><Spinner size={28} color={colors.green} /></View>;
+  }
   // Someone who has never been through the diagnosis starts there: it is the onboarding.
   if (session && record === null) return <Redirect href={'/job-seeker/diagnosis' as Href} />;
 
   const firstName = session?.user.name.split(' ')[0];
   const retake = () => router.push('/job-seeker/diagnosis' as Href);
+  const steps = questions.length + 1;
 
   return (
     <ScreenIn style={styles.screen}>
@@ -36,25 +41,44 @@ export default function JobSeekerHomeScreen() {
       <ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false}>
         <FadeUp style={styles.hero}>
           <Text style={[type.eyebrow, styles.heroEyebrow]}>{firstName ? `Welcome back, ${firstName}` : 'Welcome to Yoir'}</Text>
-          <Text style={[type.display34, styles.heroTitle]}>{direction ? 'Your best matches' : 'Find the right Career Professional'}</Text>
+          <Text style={[type.display34, styles.heroTitle]}>
+            {direction ? 'Your best matches' : resumeAt !== undefined ? 'Pick up where you left off' : 'Find the right Career Professional'}
+          </Text>
           <Text style={[type.bodySm, styles.heroBody]}>
             {direction
               ? 'Career Professionals matched to your Yoir Direction.'
-              : session
-                ? 'Five quick questions, about two minutes, and we match you with the right people.'
-                : 'Create a free account to take the Yoir Diagnosis and get matched with the right people.'}
+              : resumeAt !== undefined
+                ? `You are on step ${resumeAt + 1} of ${steps} of your Yoir Diagnosis. Your answers so far are saved.`
+                : session
+                  ? 'Five quick questions, about two minutes, and we match you with the right people.'
+                  : 'Create a free account to take the Yoir Diagnosis and get matched with the right people.'}
           </Text>
           {direction ? (
             <View style={styles.heroFoot}>
-              <View style={styles.heroPill}>
+              {/* The direction's advice stays one tap away, without taking the diagnosis again. */}
+              <Press
+                onPress={() => router.push({ pathname: '/job-seeker/diagnosis', params: { result: '1' } } as Href)}
+                accessibilityLabel={`View my Yoir Direction: ${direction.area}`}
+                style={styles.heroPill}
+              >
                 <Glyph name="sparkle" size={14} color={colors.green} />
                 <Text style={styles.heroPillText}>{direction.area}</Text>
-              </View>
+                <Glyph name="chevronRight" size={13} color={colors.green} />
+              </Press>
               <Press onPress={retake} accessibilityLabel="Retake diagnosis" style={styles.heroButton}>
                 <Glyph name="refresh" size={14} color={colors.canvas} />
                 <Text style={styles.heroButtonText}>Retake diagnosis</Text>
               </Press>
             </View>
+          ) : resumeAt !== undefined ? (
+            <>
+              <View style={styles.heroProgress} accessibilityRole="progressbar" accessibilityLabel={`Step ${resumeAt + 1} of ${steps}`}>
+                {Array.from({ length: steps }, (_, i) => (
+                  <View key={i} style={[styles.heroSegment, i < resumeAt && styles.heroSegmentDone]} />
+                ))}
+              </View>
+              <Button label="Continue the Yoir Diagnosis" tone="soft" height={50} onPress={retake} />
+            </>
           ) : session ? (
             <Button label="Take the Yoir Diagnosis" tone="soft" height={50} onPress={retake} />
           ) : (
@@ -79,6 +103,7 @@ export default function JobSeekerHomeScreen() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.canvas },
+  centred: { alignItems: 'center', justifyContent: 'center' },
   body: { paddingHorizontal: 22, paddingTop: 12, paddingBottom: 24, gap: 16 },
   // The brand block: the logo's green, with its gold and cream.
   hero: { backgroundColor: colors.green, borderRadius: radius.hero, padding: 22, gap: 10, marginBottom: 6 },
@@ -96,4 +121,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.5, borderColor: colors.onDarkMuted, paddingHorizontal: 14, paddingVertical: 7,
   },
   heroButtonText: { fontFamily: fonts.bold, fontSize: 13, color: colors.canvas },
+  heroProgress: { flexDirection: 'row', gap: 6, marginVertical: 4 },
+  heroSegment: { flex: 1, height: 5, borderRadius: radius.pill, backgroundColor: colors.greenDeep },
+  heroSegmentDone: { backgroundColor: colors.yellow },
 });

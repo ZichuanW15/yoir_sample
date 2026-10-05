@@ -1,5 +1,5 @@
 import { LinearGradient } from 'expo-linear-gradient';
-import { router } from 'expo-router';
+import { Href, router, useLocalSearchParams } from 'expo-router';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { Animated, Easing, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -13,6 +13,8 @@ import { JobSeekerNav } from '@/src/components/JobSeekerNav';
 import { TopBar } from '@/src/components/TopBar';
 import { EmptySearchMark } from '@/src/components/Scenes';
 import { Avatar, Card, Chip, ErrorBanner, Press, Tag } from '@/src/components/ui';
+import { directionFor, rankServices } from '@/src/diagnosis/model';
+import { finishedAnswers, useDiagnosis } from '@/src/diagnosis/view';
 import { initials, modalityLabel, money } from '@/src/format';
 import {
   activeFilterCount, applyServiceFilters, availableStates, defaultFilters, priceOptions,
@@ -27,6 +29,15 @@ const SKELETON_MS = 900;
 export default function MarketplaceScreen() {
   const insets = useSafeAreaInsets();
   const { session } = useAuth();
+  // US-13: a Job Seeker's Yoir Direction follows them here. Arriving from the
+  // direction itself (`match`) puts the services that fit it first straight away.
+  const { match } = useLocalSearchParams<{ match?: string }>();
+  const { record } = useDiagnosis();
+  const direction = useMemo(() => {
+    const answers = finishedAnswers(record);
+    return answers ? directionFor(answers) : null;
+  }, [record]);
+  const [matchFirst, setMatchFirst] = useState(match === '1');
 
   const [services, setServices] = useState<Service[]>([]);
   const [query, setQuery] = useState('');
@@ -67,6 +78,11 @@ export default function MarketplaceScreen() {
 
   const states = useMemo(() => availableStates(searched), [searched]);
   const visible = useMemo(() => applyServiceFilters(searched, filters), [searched, filters]);
+  const listed = useMemo(
+    () => (direction && matchFirst ? rankServices(visible, direction) : visible.map((service) => ({ service, match: false }))),
+    [visible, direction, matchFirst],
+  );
+  const fitting = listed.filter((entry) => entry.match).length;
   const narrowed = activeFilterCount(filters);
   const active = narrowed > 0 || panelOpen;
   const filterBg = active ? colors.green : colors.white;
@@ -178,9 +194,41 @@ export default function MarketplaceScreen() {
           </FadeUp>
         ) : null}
 
+        {direction ? (
+          <FadeUp delay={150} style={styles.direction}>
+            <View style={styles.directionHead}>
+              <Glyph name="sparkle" size={14} color={colors.amberInk} />
+              <Text style={[type.eyebrow, styles.directionEyebrow]}>Your Yoir Direction</Text>
+            </View>
+            <Text style={type.display24}>{direction.area}</Text>
+            <View style={styles.directionFoot}>
+              <Chip
+                label="Best matches first"
+                role="checkbox"
+                selected={matchFirst}
+                onPress={() => setMatchFirst((on) => !on)}
+              />
+              <Press
+                onPress={() => router.push({ pathname: '/job-seeker/diagnosis', params: { result: '1' } } as Href)}
+                accessibilityLabel="View my Yoir Direction"
+                style={styles.directionLink}
+              >
+                <Text style={styles.directionLinkText}>View my direction</Text>
+                <Glyph name="chevronRight" size={13} color={colors.green} />
+              </Press>
+            </View>
+            {/* Nothing is claimed that was not done: with no service to put first, the list is as it was. */}
+            {matchFirst && !loading && !error && !fitting ? (
+              <Text style={styles.directionNote}>
+                No service listed here fits this direction yet, so the list is in its usual order.
+              </Text>
+            ) : null}
+          </FadeUp>
+        ) : null}
+
         <FadeUp delay={180} style={styles.resultRow}>
           <Text style={styles.resultCount}>{loading ? 'Loading services' : `${visible.length} of ${services.length} services`}</Text>
-          <Text style={styles.sortLabel}>{sortLabels[filters.sort]}</Text>
+          <Text style={styles.sortLabel}>{fitting ? 'Best for your direction' : sortLabels[filters.sort]}</Text>
         </FadeUp>
 
         {loading ? (
@@ -199,7 +247,9 @@ export default function MarketplaceScreen() {
                 </Press>
               </View>
             ) : (
-              visible.map((service, index) => <ServiceRow key={service.id} service={service} index={index} />)
+              listed.map(({ service, match: fits }, index) => (
+                <ServiceRow key={service.id} service={service} index={index} fits={fits} />
+              ))
             )}
 
             {!error && !visible.length ? (
@@ -229,7 +279,7 @@ function FilterGroup({ label, children }: { label: string; children: ReactNode }
   );
 }
 
-function ServiceRow({ service, index }: { service: Service; index: number }) {
+function ServiceRow({ service, index, fits }: { service: Service; index: number; fits: boolean }) {
   const { counsellor } = service;
   const verified = counsellor.verificationStatus === 'verified';
   const warm = index % 2 === 1;
@@ -240,6 +290,16 @@ function ServiceRow({ service, index }: { service: Service; index: number }) {
         accessibilityLabel={`${service.title} by ${counsellor.displayName}, ${money(service.priceMinor)}`}
         onPress={() => router.push({ pathname: '/services/[serviceId]', params: { serviceId: service.id } })}
       >
+        {fits ? (
+          <View style={styles.fits}>
+            <Tag
+              label="Fits your direction"
+              bg={colors.yellowTint}
+              fg={colors.amberInk}
+              icon={<Glyph name="sparkle" size={12} color={colors.amberInk} />}
+            />
+          </View>
+        ) : null}
         <View style={styles.cardHead}>
           <Avatar
             initials={initials(counsellor.displayName)}
@@ -369,6 +429,15 @@ const styles = StyleSheet.create({
   groupChips: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   clearOutline: { alignSelf: 'flex-start', height: 40, paddingHorizontal: 16, borderRadius: radius.pill, borderWidth: 1.5, borderColor: colors.line, alignItems: 'center', justifyContent: 'center' },
   clearOutlineText: { fontFamily: fonts.bold, fontSize: 13, color: colors.green },
+
+  direction: { gap: 10, padding: 18, backgroundColor: colors.yellowTint, borderRadius: radius.xl },
+  directionHead: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  directionEyebrow: { color: colors.amberInk },
+  directionFoot: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 10, marginTop: 2 },
+  directionLink: { flexDirection: 'row', alignItems: 'center', gap: 4, minHeight: 38 },
+  directionLinkText: { fontFamily: fonts.bold, fontSize: 13, color: colors.green },
+  directionNote: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 19, color: colors.amberDeep },
+  fits: { alignSelf: 'flex-start' },
 
   resultRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
   resultCount: { fontFamily: fonts.sans, fontSize: 13, color: colors.sub },

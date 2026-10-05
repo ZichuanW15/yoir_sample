@@ -10,8 +10,15 @@ import { readDiagnosis, writeDiagnosis } from '@/src/diagnosis/storage';
 import { initials, modalityLabel, money } from '@/src/format';
 import { colors, fonts, radius, type } from '@/src/theme';
 
-/** A finished diagnosis. Null answers mean the person skipped it. */
-export interface DiagnosisRecord { answers: Answers | null }
+/**
+ * A person's diagnosis. Null answers mean they skipped it. `step` is set only while
+ * it is unfinished, and is the question it resumes at.
+ */
+export interface DiagnosisRecord { answers: Answers | null; step?: number }
+
+/** The answers of a finished diagnosis; null if it was skipped, left part-way or never taken. */
+export const finishedAnswers = (record: DiagnosisRecord | null | undefined): Answers | null =>
+  (record?.answers && record.step === undefined ? record.answers : null);
 
 /**
  * This person's diagnosis: undefined while it is read, null if they have never
@@ -19,12 +26,15 @@ export interface DiagnosisRecord { answers: Answers | null }
  */
 export function useDiagnosis() {
   const { session } = useAuth();
-  const key = `yoir.diagnosis.${session?.user.id ?? 'guest'}`;
+  const userId = session?.user.id;
+  const key = `yoir.diagnosis.${userId ?? 'guest'}`;
   // Tagged with its key, so a different person's record never shows while theirs loads.
   const [loaded, setLoaded] = useState<{ key: string; record: DiagnosisRecord | null } | null>(null);
 
   useEffect(() => {
     let live = true;
+    // A guest has no diagnosis: nothing is ever stored for one, so nothing is read.
+    if (!userId) return;
     void readDiagnosis(key).then((raw) => {
       if (!live) return;
       let record: DiagnosisRecord | null = null;
@@ -36,14 +46,14 @@ export function useDiagnosis() {
       setLoaded({ key, record });
     });
     return () => { live = false; };
-  }, [key]);
+  }, [key, userId]);
 
   const save = useCallback(async (next: DiagnosisRecord) => {
     setLoaded({ key, record: next });
     await writeDiagnosis(key, JSON.stringify(next));
   }, [key]);
 
-  return { record: loaded?.key === key ? loaded.record : undefined, save };
+  return { record: !userId ? null : loaded?.key === key ? loaded.record : undefined, save };
 }
 
 /** The main area to work on and the suggested next steps. */
