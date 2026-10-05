@@ -15,6 +15,7 @@ import { Avatar, ErrorBanner, Eyebrow, Press, Tag } from '@/src/components/ui';
 import { fmtDay, initials, modalityLabel, money } from '@/src/format';
 import { FadeUp, Float, Pop, Pulse, ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, type } from '@/src/theme';
+import { unknownVerification, verificationCopy, verificationState } from '@/src/verification';
 
 const ACircle = createAnimatedSvg(Circle);
 /** LinkedIn URL, introduction, background, experience, base location. */
@@ -79,7 +80,8 @@ export default function CounsellorWorkspace() {
 
   const name = session.user.name;
   const firstName = name.split(' ')[0];
-  const verified = data?.profile.verificationStatus === 'verified';
+  // US-32: the backend's status in the shared wording, and no status until it is read.
+  const verification = data ? verificationCopy[verificationState(data.profile)] : null;
   const done = data
     ? [data.profile.linkedinUrl, data.profile.introduction, data.profile.background, data.profile.experience, data.profile.baseLocation?.state]
       .filter(Boolean).length
@@ -109,36 +111,38 @@ export default function CounsellorWorkspace() {
 
         {error ? <ErrorBanner message={error} /> : null}
 
-        <FadeUp delay={80} style={s.verify}>
-          <Pulse style={s.verifyGlow} duration={5000}>
-            <Svg width={120} height={120}>
-              <Defs>
-                <RadialGradient id="verifyGlow" cx="50%" cy="50%" r="50%">
-                  <Stop offset="0" stopColor={colors.yellow} stopOpacity={0.28} />
-                  <Stop offset="0.7" stopColor={colors.yellow} stopOpacity={0} />
-                </RadialGradient>
-              </Defs>
-              <Circle cx={60} cy={60} r={60} fill="url(#verifyGlow)" />
-            </Svg>
-          </Pulse>
-          <Float style={s.verifyDot} distance={9} duration={4000}><View style={s.verifyDotFill} /></Float>
-          <Pop delay={300}>
-            <View style={s.verifyTile}>
-              <View style={s.verifyTileWash} />
-              <Glyph name="shieldCheck" size={26} color={colors.yellow} />
+        <FadeUp delay={80}>
+          <Press
+            onPress={() => router.push('/counsellor/verification')}
+            scaleTo={0.98}
+            accessibilityLabel="Verification"
+            style={s.verify}
+          >
+            <Pulse style={s.verifyGlow} duration={5000}>
+              <Svg width={120} height={120}>
+                <Defs>
+                  <RadialGradient id="verifyGlow" cx="50%" cy="50%" r="50%">
+                    <Stop offset="0" stopColor={colors.yellow} stopOpacity={0.28} />
+                    <Stop offset="0.7" stopColor={colors.yellow} stopOpacity={0} />
+                  </RadialGradient>
+                </Defs>
+                <Circle cx={60} cy={60} r={60} fill="url(#verifyGlow)" />
+              </Svg>
+            </Pulse>
+            <Float style={s.verifyDot} distance={9} duration={4000}><View style={s.verifyDotFill} /></Float>
+            <Pop delay={300}>
+              <View style={s.verifyTile}>
+                <View style={s.verifyTileWash} />
+                <Glyph name="shieldCheck" size={26} color={colors.yellow} />
+              </View>
+            </Pop>
+            <View style={s.verifyCopy}>
+              <Text style={s.verifyEyebrow}>Verification</Text>
+              <Text style={s.verifyTitle}>{verification?.label ?? unknownVerification(Boolean(error))}</Text>
+              {verification ? <Text style={s.verifyBody}>{verification.body}</Text> : null}
             </View>
-          </Pop>
-          <View style={s.verifyCopy}>
-            <Text style={s.verifyEyebrow}>Verification</Text>
-            <Text style={s.verifyTitle}>{verified ? 'Verified Career Professional' : 'Verification pending'}</Text>
-            <Text style={s.verifyBody}>
-              {verified
-                ? 'Your profile carries the verified mark across Yoir.'
-                : data?.profile.linkedinUrl
-                  ? 'Your LinkedIn profile is with the Platform Owner for review.'
-                  : 'Add your LinkedIn profile URL so the Platform Owner can verify you.'}
-            </Text>
-          </View>
+            <Glyph name="chevronRight" size={18} color={colors.yellow} />
+          </Press>
         </FadeUp>
 
         {/* US-47 — a counsellor who cannot be paid cannot be found either, so the
