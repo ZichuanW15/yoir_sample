@@ -5,16 +5,16 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
 import { initials } from '@/src/format';
-import { Avatar, Press, Spinner } from '@/src/components/ui';
+import { Avatar, Button, ErrorBanner, Press, Spinner } from '@/src/components/ui';
 import { BottomNav } from '@/src/components/BottomNav';
-import { GlyphName } from '@/src/components/Glyph';
+import { Glyph, GlyphName } from '@/src/components/Glyph';
 import { ScreenIn } from '@/src/motion';
-import { colors, type } from '@/src/theme';
+import { colors, fonts, type } from '@/src/theme';
 
 const tabs: { href: '/admin' | '/admin/verifications' | '/admin/counsellors' | '/admin/bookings' | '/admin/payments'; label: string; glyph: GlyphName }[] = [
   { href: '/admin', label: 'Overview', glyph: 'eye' },
   { href: '/admin/verifications', label: 'Verify', glyph: 'shieldCheck' },
-  { href: '/admin/counsellors', label: 'Professionals', glyph: 'mentor' },
+  { href: '/admin/counsellors', label: 'Users', glyph: 'mentor' },
   { href: '/admin/bookings', label: 'Bookings', glyph: 'calendar' },
   { href: '/admin/payments', label: 'Payments', glyph: 'wallet' },
 ];
@@ -26,10 +26,12 @@ const tabs: { href: '/admin' | '/admin/verifications' | '/admin/counsellors' | '
  * the backend refuses each of these endpoints to anyone who is not a Platform
  * Owner, so hiding the tabs is about not showing people doors they cannot open.
  */
-export function AdminShell({ title, subtitle, busy, children }: PropsWithChildren<{
+export function AdminShell({ title, subtitle, busy, back, children }: PropsWithChildren<{
   title: string;
   subtitle?: string;
   busy?: boolean;
+  /** A detail screen names the list it came from; the label is that list's name. */
+  back?: { label: string; onPress(): void };
 }>) {
   const insets = useSafeAreaInsets();
   const pathname = usePathname();
@@ -65,7 +67,12 @@ export function AdminShell({ title, subtitle, busy, children }: PropsWithChildre
       </View>
 
       <View style={[styles.frame, styles.head]}>
-        <Text style={type.groupLabel}>Yoir administration</Text>
+        {back ? (
+          <Press onPress={back.onPress} accessibilityLabel={`Back to ${back.label}`} style={styles.back}>
+            <View style={styles.backMark}><Glyph name="chevronRight" size={14} color={colors.green} /></View>
+            <Text style={styles.backText}>{back.label}</Text>
+          </Press>
+        ) : <Text style={type.groupLabel}>Yoir administration</Text>}
         <Text style={type.display28}>{title}</Text>
         {subtitle ? <Text style={type.small}>{subtitle}</Text> : null}
       </View>
@@ -88,11 +95,37 @@ export function AdminShell({ title, subtitle, busy, children }: PropsWithChildre
         tabs={tabs.map((tab) => ({
           label: tab.label,
           glyph: tab.glyph,
-          active: pathname === tab.href,
+          // A detail screen keeps its section lit.
+          active: pathname === tab.href || (tab.href !== '/admin' && pathname.startsWith(`${tab.href}/`)),
           onPress: () => router.replace(tab.href),
         }))}
       />
     </ScreenIn>
+  );
+}
+
+/** Backend values made readable: `refunded_slot_taken` reads "Refunded slot taken". */
+export const readable = (value: string) => value.charAt(0).toUpperCase() + value.slice(1).replace(/_/g, ' ');
+
+/** An order's money to the cent, as its receipt shows it. */
+export const currency = (minor: number) =>
+  `$${(minor / 100).toLocaleString('en-AU', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+export const paymentTone: Record<string, { bg: string; fg: string }> = {
+  paid: { bg: colors.greenTint, fg: colors.greenDeep },
+  not_started: { bg: colors.chip, fg: colors.muted },
+  failed: { bg: colors.dangerBg, fg: colors.dangerInk },
+  refunded: { bg: colors.yellowTint, fg: colors.amberInk },
+  partially_refunded: { bg: colors.yellowTint, fg: colors.amberInk },
+};
+
+/** A failed read: the reason and a way to ask again, never an empty list posing as the answer. */
+export function LoadFailed({ message, onRetry }: { message: string; onRetry(): void }) {
+  return (
+    <View style={styles.failed}>
+      <ErrorBanner message={message} />
+      <Button label="Try again" tone="outline" height={48} onPress={onRetry} />
+    </View>
   );
 }
 
@@ -111,4 +144,8 @@ const styles = StyleSheet.create({
   },
   head: { paddingHorizontal: 20, paddingTop: 12, paddingBottom: 14, gap: 4 },
   body: { paddingHorizontal: 20, paddingBottom: 24, gap: 16 },
+  back: { flexDirection: 'row', alignItems: 'center', gap: 6, minHeight: 32, alignSelf: 'flex-start' },
+  backMark: { transform: [{ rotate: '180deg' }] },
+  backText: { fontFamily: fonts.bold, fontSize: 13, color: colors.green },
+  failed: { gap: 12 },
 });

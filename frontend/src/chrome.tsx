@@ -180,6 +180,16 @@ function AccountSheet({ onClose }: { onClose(): void }) {
           <Button label="Open my workspace" tone="soft" height={52} onPress={() => { onClose(); router.replace('/counsellor'); }} />
         ) : null}
 
+        {counsellor ? (
+          <Button
+            label="Verification"
+            tone="outline"
+            height={52}
+            icon={<Glyph name="shieldCheck" size={18} color={colors.green} />}
+            onPress={() => { onClose(); router.push('/counsellor/verification'); }}
+          />
+        ) : null}
+
         {session.user.role === 'job_seeker' ? (
           <Button
             label="Edit profile"

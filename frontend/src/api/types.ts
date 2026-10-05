@@ -330,6 +330,16 @@ export interface AdminCounsellor {
   joinedAt: string;
 }
 
+/** US-71 — a Job Seeker as the Platform Owner sees them. */
+export interface AdminJobSeeker {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  bookingCount: number;
+  joinedAt: string;
+}
+
 /**
  * Totals summed from the breakdown frozen on each order when it was paid, never
  * recalculated from the current fee settings — which is what stops this dashboard

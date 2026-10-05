@@ -692,6 +692,15 @@ class AdminCounsellorOut(CamelModel):
     joined_at: datetime
 
 
+class AdminJobSeekerOut(CamelModel):
+    id: str
+    name: str
+    email: str
+    email_verified: bool
+    booking_count: int
+    joined_at: datetime
+
+
 class AdminMoneyOut(CamelModel):
     """Totals read from the frozen per-order breakdown, never recalculated.
 

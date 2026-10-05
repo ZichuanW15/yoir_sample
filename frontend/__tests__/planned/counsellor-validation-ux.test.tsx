@@ -26,9 +26,10 @@ describe('planned counsellor validation and timezone UX', () => {
         experience: 'Experience needs the requested correction.',
       }));
     await openProfile();
-    fireEvent.press(screen.getByRole('button', { name: 'Save profile' }));
-    await waitFor(() => expect(screen.getByRole('button', { name: 'Save profile' })).toBeEnabled());
-    expect(apiMock.updateOwnCounsellorProfile).toHaveBeenCalledTimes(1);
+    // The profile saves itself after a pause: an edit, not a button, is what sends it.
+    fireEvent.changeText(screen.getByLabelText('Background'), `${counsellorProfileFixture.background} Updated.`);
+    await waitFor(() => expect(apiMock.updateOwnCounsellorProfile).toHaveBeenCalledTimes(1), { timeout: 3000 });
+    await screen.findByText('Could not save');
     expect(screen.getByDisplayValue(counsellorProfileFixture.introduction)).toBeTruthy();
     expect(screen.queryByText('Your profile is saved and visible on your listings.')).toBeNull();
     expect(screen.queryByText('Introduction needs the requested correction.')).not.toBeNull();

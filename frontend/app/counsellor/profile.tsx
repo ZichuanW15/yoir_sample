@@ -1,89 +1,202 @@
-import { Redirect, useFocusEffect } from 'expo-router';
+import { Redirect, router, useFocusEffect } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { api, userFacingError } from '@/src/api/client';
-import { Modality } from '@/src/api/types';
+import { CounsellorProfile, CounsellorProfileUpdate, Modality } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
 import { CounsellorNav } from '@/src/components/CounsellorNav';
-import { Glyph } from '@/src/components/Glyph';
+import { Glyph, GlyphName } from '@/src/components/Glyph';
 import { TopBar } from '@/src/components/TopBar';
-import { Avatar, Button, Chip, ErrorBanner, Field, Press, Tag } from '@/src/components/ui';
+import { Avatar, Button, Chip, ErrorBanner, Field, Press, Spinner } from '@/src/components/ui';
 import { initials, modalityLabel, STATES } from '@/src/format';
-import { FadeUp, Pop, ScreenIn } from '@/src/motion';
-import { colors, fonts, radius, shadow, type } from '@/src/theme';
+import { FadeUp, ScreenIn } from '@/src/motion';
+import { colors, fonts, radius, type } from '@/src/theme';
+import { normaliseLinkedIn, VerificationState, verificationState, VerificationTag } from '@/src/verification';
 
-/**
- * US-31 — the Platform Owner verifies a counsellor from their LinkedIn profile,
- * so the link is mandatory and asked for first. Anything whose host is
- * linkedin.com (or a subdomain of it) is accepted, typed with or without the
- * scheme, and normalised to a full https:// URL before it is sent.
- */
-function normaliseLinkedIn(raw: string): string | null {
-  const match = /^(?:https?:\/\/)?([^/?#\s]+)([/?#]\S*)?$/i.exec(raw.trim());
-  if (!match) return null;
-  const host = match[1].toLowerCase().replace(/\.$/, '');
-  if (host !== 'linkedin.com' && !host.endsWith('.linkedin.com')) return null;
-  return `https://${host}${match[2] ?? ''}`;
+/** How long after the last change the profile is saved. */
+const SAVE_AFTER_MS = 800;
+
+/** The form as typed. Lists are kept as the text the person edits. */
+interface Draft {
+  photo: string;
+  linkedin: string;
+  intro: string;
+  background: string;
+  experience: string;
+  qualifications: string;
+  expertise: string;
+  languages: string;
+  state: string;
+  city: string;
+  modality: Modality;
 }
+
+const blank: Draft = {
+  photo: '', linkedin: '', intro: '', background: '', experience: '',
+  qualifications: '', expertise: '', languages: '', state: '', city: '', modality: 'online',
+};
+
+const toDraft = (profile: CounsellorProfile): Draft => ({
+  photo: profile.photoUrl ?? '',
+  // A profile saved before verification existed loads without a link: leave
+  // the field empty so the counsellor has to supply one.
+  linkedin: profile.linkedinUrl ?? '',
+  intro: profile.introduction,
+  background: profile.background,
+  experience: profile.experience,
+  qualifications: (profile.qualifications ?? []).join('\n'),
+  expertise: (profile.expertise ?? []).join(', '),
+  languages: (profile.languages ?? []).join(', '),
+  state: profile.baseLocation?.state ?? '',
+  city: profile.baseLocation?.cityOrRegion ?? '',
+  modality: profile.defaultModality,
+});
 
 /** A typed list back into items: trimmed, no blanks, no repeats. */
 function listOf(text: string, separator: string): string[] {
   return [...new Set(text.split(separator).map((item) => item.trim()).filter(Boolean))];
 }
 
+/**
+ * What a draft still needs before it can be saved, or the update to send.
+ *
+ * Every message is the prototype's, word for word — they are the product copy
+ * for what a listing needs before a buyer will trust it.
+ */
+function check(draft: Draft): { problem: string } | { update: CounsellorProfileUpdate } {
+  const { state, modality } = draft;
+  const city = draft.city.trim();
+  if (!draft.linkedin.trim()) return { problem: 'Add your LinkedIn profile URL so the Platform Owner can verify you.' };
+  const linkedinUrl = normaliseLinkedIn(draft.linkedin);
+  if (!linkedinUrl) return { problem: 'Enter a LinkedIn profile URL, for example https://www.linkedin.com/in/your-name.' };
+  if (draft.intro.trim().length < 20) return { problem: 'Write at least 20 characters so buyers know who they are booking.' };
+  if (!draft.background.trim()) return { problem: 'Describe your professional background.' };
+  if (!draft.experience.trim()) return { problem: 'Describe the experience you bring to a session.' };
+  if (modality === 'in_person' && (!state || !city)) {
+    return { problem: 'An in-person default needs the state and city you usually meet clients in.' };
+  }
+  if (state && !city) return { problem: 'Add the city or region for the state you chose.' };
+
+  return {
+    update: {
+      photoUrl: draft.photo.trim() || null,
+      linkedinUrl,
+      introduction: draft.intro.trim(),
+      background: draft.background.trim(),
+      experience: draft.experience.trim(),
+      qualifications: listOf(draft.qualifications, '\n'),
+      expertise: listOf(draft.expertise, ','),
+      languages: listOf(draft.languages, ','),
+      baseLocation: state ? { state, cityOrRegion: city } : null,
+      defaultModality: modality,
+    },
+  };
+}
+
+/** Where the profile stands against the backend. `blocked` and `failed` say why it is not saved. */
+type Saving = { kind: 'idle' | 'saving' | 'saved' } | { kind: 'blocked' | 'failed'; message: string };
+
+const savingLook: Record<Saving['kind'], { bg: string; fg: string; glyph: GlyphName; title?: string }> = {
+  idle: { bg: colors.chip, fg: colors.muted, glyph: 'refresh' },
+  saving: { bg: colors.chip, fg: colors.muted, glyph: 'refresh' },
+  saved: { bg: colors.successBg, fg: colors.successInk, glyph: 'check' },
+  blocked: { bg: colors.yellowTint, fg: colors.amberDeep, glyph: 'pencil', title: 'Not saved yet' },
+  failed: { bg: colors.dangerBg, fg: colors.dangerInk, glyph: 'close', title: 'Could not save' },
+};
+
+/**
+ * US-30. The professional profile saves itself: a pause after any change sends it,
+ * and the bar at the foot of the screen says where it stands. A profile that is
+ * not yet complete is held back, and the bar says what it still needs.
+ */
 export default function CounsellorProfileScreen() {
   const { session } = useAuth();
   const { flash } = useChrome();
   const insets = useSafeAreaInsets();
 
-  const [photo, setPhoto] = useState('');
+  const [draft, setDraft] = useState<Draft>(blank);
   const [photoUrlOpen, setPhotoUrlOpen] = useState(false);
-  const [linkedin, setLinkedin] = useState('');
-  const [intro, setIntro] = useState('');
-  const [background, setBackground] = useState('');
-  const [experience, setExperience] = useState('');
-  const [qualifications, setQualifications] = useState('');
-  const [expertise, setExpertise] = useState('');
-  const [languages, setLanguages] = useState('');
-  const [state, setState] = useState('');
-  const [city, setCity] = useState('');
-  const [modality, setModality] = useState<Modality>('online');
-  const [verified, setVerified] = useState(false);
-  const [busy, setBusy] = useState(false);
-  const [toast, setToast] = useState('');
-  const [formError, setFormError] = useState('');
+  // Undefined until the backend answers, null if it could not: no status is guessed.
+  const [verification, setVerification] = useState<VerificationState | null>();
+  const [loadError, setLoadError] = useState('');
+  const [saving, setSaving] = useState<Saving>({ kind: 'idle' });
+
+  const snapshot = JSON.stringify(draft);
+  // What the backend holds: the draft last read or saved. Null until it has been
+  // read, so a blank form is never saved over a profile that failed to load.
+  const saved = useRef<string | null>(null);
+  const latest = useRef(snapshot);
+  const inFlight = useRef(false);
 
   const load = useCallback(async () => {
     if (!session) return;
+    // Edits not yet saved are never replaced by what the backend last had.
+    if (inFlight.current || (saved.current !== null && latest.current !== saved.current)) return;
     try {
       const profile = await api.getOwnCounsellorProfile(session.user, session.accessToken);
-      setPhoto(profile.photoUrl ?? '');
-      // A profile saved before verification existed loads without a link: leave
-      // the field empty so the counsellor has to supply one.
-      setLinkedin(profile.linkedinUrl ?? '');
-      setIntro(profile.introduction);
-      setBackground(profile.background);
-      setExperience(profile.experience);
-      setQualifications((profile.qualifications ?? []).join('\n'));
-      setExpertise((profile.expertise ?? []).join(', '));
-      setLanguages((profile.languages ?? []).join(', '));
-      setState(profile.baseLocation?.state ?? '');
-      setCity(profile.baseLocation?.cityOrRegion ?? '');
-      setModality(profile.defaultModality);
-      setVerified(profile.verificationStatus === 'verified');
+      const loaded = toDraft(profile);
+      saved.current = JSON.stringify(loaded);
+      latest.current = saved.current;
+      setDraft(loaded);
+      setVerification(verificationState(profile));
+      setLoadError('');
     } catch (cause) {
-      setFormError(userFacingError(cause));
+      setLoadError(userFacingError(cause));
+      setVerification(null);
     }
   }, [session]);
 
-  useFocusEffect(useCallback(() => { void load(); }, [load]));
+  const save = useCallback(async () => {
+    if (!session || inFlight.current || saved.current === null) return;
+    if (latest.current === saved.current) {
+      // Back to what the backend already holds: nothing to send, and nothing left to complain about.
+      return setSaving((current) => (current.kind === 'idle' ? current : { kind: 'saved' }));
+    }
+    inFlight.current = true;
+    try {
+      // Edits made while a save is in flight are sent next, so the last one always wins.
+      while (latest.current !== saved.current) {
+        const sending: string = latest.current;
+        const checked = check(JSON.parse(sending) as Draft);
+        if ('problem' in checked) return setSaving({ kind: 'blocked', message: checked.problem });
+        setSaving({ kind: 'saving' });
+        await api.updateOwnCounsellorProfile(session.user.id, checked.update, session.accessToken);
+        saved.current = sending;
+      }
+      setSaving({ kind: 'saved' });
+    } catch (cause) {
+      setSaving({ kind: 'failed', message: userFacingError(cause) });
+    } finally {
+      inFlight.current = false;
+    }
+  }, [session]);
+
+  useEffect(() => {
+    latest.current = snapshot;
+    if (saved.current === null) return;
+    const timer = setTimeout(() => { void save(); }, SAVE_AFTER_MS);
+    return () => clearTimeout(timer);
+  }, [snapshot, save]);
+
+  useFocusEffect(useCallback(() => {
+    void load();
+    // Leaving within the pause after a change must not lose that change.
+    return () => { void save(); };
+  }, [load, save]));
 
   if (!session || session.user.role !== 'counsellor') return <Redirect href="/" />;
 
-  const photoUri = photo.trim();
+  const set = <K extends keyof Draft>(key: K) => (value: Draft[K]) => {
+    setDraft((current) => ({ ...current, [key]: value }));
+    // A reason already on show stays until the next check replaces it.
+    setSaving((current) => ('message' in current ? current : { kind: 'saving' }));
+  };
+
+  const photoUri = draft.photo.trim();
+  const look = savingLook[saving.kind];
 
   // Expo Go cannot upload a local file, so the library is the fast path and the
   // pasted URL below it is the one that survives a reload.
@@ -102,48 +215,9 @@ export default function CounsellorProfileScreen() {
       });
       if (result.canceled) return;
       const picked = result.assets[0]?.uri;
-      if (picked) setPhoto(picked);
+      if (picked) set('photo')(picked);
     } catch {
       flash('The photo library is unavailable — paste an image URL instead.');
-    }
-  };
-
-  // Every message below is the prototype's, word for word — they are the product
-  // copy for what a listing needs before a buyer will trust it.
-  const save = async () => {
-    if (!linkedin.trim()) return setFormError('Add your LinkedIn profile URL so the Platform Owner can verify you.');
-    const linkedinUrl = normaliseLinkedIn(linkedin);
-    if (!linkedinUrl) return setFormError('Enter a LinkedIn profile URL, for example https://www.linkedin.com/in/your-name.');
-    if (intro.trim().length < 20) return setFormError('Write at least 20 characters so buyers know who they are booking.');
-    if (!background.trim()) return setFormError('Describe your professional background.');
-    if (!experience.trim()) return setFormError('Describe the experience you bring to a session.');
-    if (modality === 'in_person' && (!state || !city.trim())) {
-      return setFormError('An in-person default needs the state and city you usually meet clients in.');
-    }
-    if (state && !city.trim()) return setFormError('Add the city or region for the state you chose.');
-
-    setFormError('');
-    setToast('');
-    setBusy(true);
-    try {
-      await api.updateOwnCounsellorProfile(session.user.id, {
-        photoUrl: photoUri || null,
-        linkedinUrl,
-        introduction: intro.trim(),
-        background: background.trim(),
-        experience: experience.trim(),
-        qualifications: listOf(qualifications, '\n'),
-        expertise: listOf(expertise, ','),
-        languages: listOf(languages, ','),
-        baseLocation: state ? { state, cityOrRegion: city.trim() } : null,
-        defaultModality: modality,
-      }, session.accessToken);
-      setLinkedin(linkedinUrl);
-      setToast('Your profile is saved and visible on your listings.');
-    } catch (cause) {
-      setFormError(userFacingError(cause));
-    } finally {
-      setBusy(false);
     }
   };
 
@@ -168,15 +242,13 @@ export default function CounsellorProfileScreen() {
             </Press>
           </View>
           <Text style={s.name}>{session.user.name}</Text>
-          <Tag
-            label={verified ? 'Verified Career Professional' : 'Verification pending'}
-            bg={verified ? colors.successBg : colors.yellowTint}
-            fg={verified ? colors.successInk : colors.amberDeep}
-          />
+          <Press onPress={() => router.push('/counsellor/verification')} accessibilityLabel="Verification">
+            <VerificationTag state={verification} />
+          </Press>
 
           <View style={s.photoActions}>
             {photoUri ? (
-              <Press onPress={() => setPhoto('')} accessibilityLabel="Remove photo" style={s.linkBtn}>
+              <Press onPress={() => set('photo')('')} accessibilityLabel="Remove photo" style={s.linkBtn}>
                 <Text style={s.linkText}>Remove photo</Text>
               </Press>
             ) : null}
@@ -195,8 +267,8 @@ export default function CounsellorProfileScreen() {
             <FadeUp duration={320} style={s.urlField}>
               <Field
                 label="Image URL"
-                value={photo}
-                onChangeText={setPhoto}
+                value={draft.photo}
+                onChangeText={set('photo')}
                 placeholder="https://…"
                 autoCapitalize="none"
                 autoCorrect={false}
@@ -206,23 +278,19 @@ export default function CounsellorProfileScreen() {
           ) : null}
         </FadeUp>
 
-        {toast ? (
-          <Pop duration={300}>
-            <View style={s.toast}>
-              <Glyph name="check" size={16} color={colors.successInk} />
-              <Text style={s.toastText}>{toast}</Text>
-            </View>
-          </Pop>
+        {loadError ? (
+          <View style={s.loadFailed}>
+            <ErrorBanner message={loadError} />
+            <Button label="Try again" tone="outline" height={48} onPress={() => { void load(); }} />
+          </View>
         ) : null}
-
-        {formError ? <Pop duration={300}><ErrorBanner message={formError} /></Pop> : null}
 
         <FadeUp delay={100} style={s.card}>
           <Text style={s.cardTitle}>How you introduce yourself</Text>
           <Field
             label="LinkedIn profile URL"
-            value={linkedin}
-            onChangeText={setLinkedin}
+            value={draft.linkedin}
+            onChangeText={set('linkedin')}
             placeholder="https://www.linkedin.com/in/your-name"
             autoCapitalize="none"
             autoCorrect={false}
@@ -232,16 +300,16 @@ export default function CounsellorProfileScreen() {
             <Glyph name="shieldCheck" size={15} color={colors.greenDeep} />
             <Text style={s.helperText}>The Platform Owner opens this link to verify you before your listings go live.</Text>
           </View>
-          <Field label="Introduction" value={intro} onChangeText={setIntro} placeholder="One or two sentences a Job Seeker reads first." multiline />
-          <Field label="Background" value={background} onChangeText={setBackground} placeholder="Where you have worked and what you did there." multiline />
-          <Field label="Experience" value={experience} onChangeText={setExperience} placeholder="The kind of clients you work with and the results you help them get." multiline />
+          <Field label="Introduction" value={draft.intro} onChangeText={set('intro')} placeholder="One or two sentences a Job Seeker reads first." multiline />
+          <Field label="Background" value={draft.background} onChangeText={set('background')} placeholder="Where you have worked and what you did there." multiline />
+          <Field label="Experience" value={draft.experience} onChangeText={set('experience')} placeholder="The kind of clients you work with and the results you help them get." multiline />
         </FadeUp>
 
         <FadeUp delay={140} style={s.card}>
           <Text style={s.cardTitle}>What Job Seekers check before booking</Text>
-          <Field label="Qualifications" value={qualifications} onChangeText={setQualifications} placeholder={'One per line, e.g.\nMaster of Career Development'} multiline />
-          <Field label="Skills and expertise" value={expertise} onChangeText={setExpertise} placeholder="Separate with commas, e.g. Interview preparation, Resume writing" multiline />
-          <Field label="Languages you work in" value={languages} onChangeText={setLanguages} placeholder="Separate with commas, e.g. English, Hindi" />
+          <Field label="Qualifications" value={draft.qualifications} onChangeText={set('qualifications')} placeholder={'One per line, e.g.\nMaster of Career Development'} multiline />
+          <Field label="Skills and expertise" value={draft.expertise} onChangeText={set('expertise')} placeholder="Separate with commas, e.g. Interview preparation, Resume writing" multiline />
+          <Field label="Languages you work in" value={draft.languages} onChangeText={set('languages')} placeholder="Separate with commas, e.g. English, Hindi" />
         </FadeUp>
 
         <FadeUp delay={180} style={s.card}>
@@ -249,7 +317,7 @@ export default function CounsellorProfileScreen() {
           <Text style={s.cardBody}>New services start with this delivery method. You can change it per service.</Text>
           <View style={s.chipRow}>
             {(['online', 'in_person'] as Modality[]).map((option) => (
-              <Chip key={option} label={modalityLabel(option)} selected={modality === option} onPress={() => setModality(option)} />
+              <Chip key={option} label={modalityLabel(option)} selected={draft.modality === option} onPress={() => set('modality')(option)} />
             ))}
           </View>
         </FadeUp>
@@ -261,17 +329,39 @@ export default function CounsellorProfileScreen() {
               <Chip
                 key={option}
                 label={option}
-                selected={state === option}
-                onPress={() => setState(state === option ? '' : option)}
+                selected={draft.state === option}
+                onPress={() => set('state')(draft.state === option ? '' : option)}
               />
             ))}
           </View>
-          <Field label="City or region" value={city} onChangeText={setCity} placeholder="Melbourne" />
+          <Field label="City or region" value={draft.city} onChangeText={set('city')} placeholder="Melbourne" />
         </FadeUp>
       </ScrollView>
 
-      <View style={[s.footer, { paddingBottom: insets.bottom + 22 }]}>
-        <Button label="Save profile" height={58} busy={busy} onPress={() => { void save(); }} style={shadow.toast} />
+      {/* Where the Save button was: the same place to look, now for whether it is saved. */}
+      <View style={[s.footer, { paddingBottom: insets.bottom + 14 }]}>
+        <View accessibilityLiveRegion="polite" style={[s.saving, { backgroundColor: look.bg }]}>
+          {saving.kind === 'saving'
+            ? <Spinner size={16} color={colors.green} />
+            : <Glyph name={look.glyph} size={16} color={look.fg} />}
+          <View style={s.savingCopy}>
+            {look.title ? <Text style={[s.savingTitle, { color: look.fg }]}>{look.title}</Text> : null}
+            <Text style={[s.savingText, { color: look.fg }]}>
+              {'message' in saving
+                ? saving.message
+                : saving.kind === 'saving'
+                  ? 'Saving…'
+                  : saving.kind === 'saved'
+                    ? 'Your profile is saved and visible on your listings.'
+                    : 'Changes save automatically.'}
+            </Text>
+          </View>
+          {saving.kind === 'failed' ? (
+            <Press onPress={() => { void save(); }} accessibilityLabel="Try again" style={s.retry}>
+              <Text style={s.retryText}>Try again</Text>
+            </Press>
+          ) : null}
+        </View>
       </View>
       <CounsellorNav />
     </ScreenIn>
@@ -298,8 +388,7 @@ const s = StyleSheet.create({
   linkText: { fontFamily: fonts.bold, fontSize: 13, color: colors.green },
   urlField: { alignSelf: 'stretch' },
 
-  toast: { flexDirection: 'row', alignItems: 'center', gap: 10, backgroundColor: colors.successBg, borderRadius: radius.md, padding: 14 },
-  toastText: { flex: 1, fontFamily: fonts.sans, fontSize: 14, lineHeight: 20, color: colors.successInk },
+  loadFailed: { gap: 12 },
 
   card: { gap: 14, padding: 20, backgroundColor: colors.white, borderWidth: 1, borderColor: colors.lineSoft, borderRadius: radius.xl },
   cardTitle: { ...type.display20, fontSize: 22, lineHeight: 25 },
@@ -309,5 +398,11 @@ const s = StyleSheet.create({
   chipRow: { flexDirection: 'row', gap: 8 },
   chipWrap: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
 
-  footer: { paddingHorizontal: 22, paddingTop: 14, backgroundColor: colors.white },
+  footer: { paddingHorizontal: 22, paddingTop: 10, backgroundColor: colors.white },
+  saving: { flexDirection: 'row', alignItems: 'center', gap: 10, minHeight: 48, paddingHorizontal: 16, paddingVertical: 10, borderRadius: radius.md },
+  savingCopy: { flex: 1, gap: 1 },
+  savingTitle: { fontFamily: fonts.bold, fontSize: 13 },
+  savingText: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 18 },
+  retry: { minHeight: 36, paddingHorizontal: 12, borderRadius: radius.pill, backgroundColor: colors.white, alignItems: 'center', justifyContent: 'center' },
+  retryText: { fontFamily: fonts.bold, fontSize: 13, color: colors.dangerInk },
 });

@@ -18,7 +18,8 @@ from app.mail import messages
 from app.models import AvailabilityWindow, Booking, Order, Service, User
 
 ADMIN_READS = ["/api/v1/admin/verifications", "/api/v1/admin/payments",
-               "/api/v1/admin/stats", "/api/v1/admin/bookings", "/api/v1/admin/counsellors"]
+               "/api/v1/admin/stats", "/api/v1/admin/bookings", "/api/v1/admin/counsellors",
+               "/api/v1/admin/job-seekers"]
 
 
 @pytest.fixture
@@ -427,6 +428,30 @@ def test_a_counsellor_who_has_sold_nothing_still_appears(
 
     (row,) = [r for r in response.json() if r["name"] == "Nobody Yet"]
     assert (row["serviceCount"], row["bookingCount"], row["grossMinor"]) == (0, 0, 0)
+
+
+def test_the_job_seeker_list_counts_what_each_has_booked(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    job_seeker: User,
+    job_seeker_headers: dict,
+    platform_owner_headers: dict,
+) -> None:
+    """US-71. Job seekers only, and one who has booked nothing still appears."""
+    db_session.add(User(
+        name="Just Joined", email="joined@example.com", password_hash="x", role="job_seeker",
+    ))
+    db_session.commit()
+    book_and_pay(client, db_session, service, job_seeker_headers)
+
+    response = client.get("/api/v1/admin/job-seekers", headers=platform_owner_headers)
+
+    booked = {row["email"]: row["bookingCount"] for row in response.json()}
+    assert booked == {job_seeker.email: 1, "joined@example.com": 0}
+    assert set(response.json()[0]) == {
+        "id", "name", "email", "emailVerified", "bookingCount", "joinedAt",
+    }
 
 
 def test_verified_counsellors_who_cannot_be_paid_are_counted(

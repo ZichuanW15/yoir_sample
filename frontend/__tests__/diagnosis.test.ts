@@ -1,5 +1,5 @@
 import { CounsellorProfile, Service } from '@/src/api/types';
-import { Answers, directionFor, Professional, rankProfessionals } from '@/src/diagnosis/model';
+import { Answers, directionFor, Professional, rankProfessionals, rankServices } from '@/src/diagnosis/model';
 
 const answers = (overrides: Partial<Answers>): Answers => ({
   now: 'job', goal: 'find_job', tried: [], stuck: 'interview', barriers: [], ...overrides,
@@ -59,5 +59,30 @@ describe('best matches', () => {
     expect(order(rankProfessionals(people, null))).toEqual([
       ['linkedin', false], ['migrants', false], ['resume', false], ['interview', false],
     ]);
+  });
+});
+
+describe('Explore, by direction', () => {
+  const service = (id: string, title: string): Service => ({ id, title, description: '' } as Service);
+  const listed = [
+    service('plan', 'Career plan'), service('mock', 'Mock interview practice'),
+    service('cv', 'Resume review'), service('prep', 'Interview preparation'),
+  ];
+  const fit = (ranked: ReturnType<typeof rankServices>) => ranked.map((r) => [r.service.id, r.match]);
+
+  test('services that fit the direction come first, and the rest keep the order they had', () => {
+    const direction = directionFor(answers({ stuck: 'interview', goal: 'interview' }));
+    expect(fit(rankServices(listed, direction))).toEqual([['mock', true], ['prep', true], ['plan', false], ['cv', false]]);
+  });
+
+  test('a service that only touches a barrier moves up but is not called a fit', () => {
+    const direction = directionFor(answers({ stuck: 'interview', goal: 'interview', barriers: ['work_rights'] }));
+    const ranked = fit(rankServices([...listed, service('visa', 'Overseas qualification advice')], direction));
+    expect(ranked.slice(0, 3)).toEqual([['mock', true], ['prep', true], ['visa', false]]);
+  });
+
+  test('with nothing that fits, the list is untouched and no fit is claimed', () => {
+    const direction = directionFor(answers({ stuck: 'recognition', goal: 'recognition' }));
+    expect(fit(rankServices(listed, direction))).toEqual([['plan', false], ['mock', false], ['cv', false], ['prep', false]]);
   });
 });
