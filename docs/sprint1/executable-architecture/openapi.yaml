@@ -1186,6 +1186,22 @@ paths:
                 items: {$ref: '#/components/schemas/AdminCounsellor'}
         '401': {$ref: '#/components/responses/Unauthorised'}
         '403': {$ref: '#/components/responses/Forbidden'}
+  /admin/job-seekers:
+    get:
+      tags: [Administration]
+      operationId: listAllJobSeekers
+      x-required-role: platform_owner
+      x-requirement-ids: [US-71]
+      responses:
+        '200':
+          description: Every job seeker, newest first, with how many sessions each has booked
+          content:
+            application/json:
+              schema:
+                type: array
+                items: {$ref: '#/components/schemas/AdminJobSeeker'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
   /admin/disputes/{disputeId}/resolution:
     post:
       tags: [Administration]
@@ -1841,6 +1857,16 @@ components:
         bookingCount: {type: integer, minimum: 0}
         grossMinor: {type: integer}
         payoutMinor: {type: integer}
+        joinedAt: {type: string, format: date-time}
+    AdminJobSeeker:
+      type: object
+      required: [id, name, email, emailVerified, bookingCount, joinedAt]
+      properties:
+        id: {type: string}
+        name: {type: string}
+        email: {type: string, format: email}
+        emailVerified: {type: boolean}
+        bookingCount: {type: integer, minimum: 0}
         joinedAt: {type: string, format: date-time}
     ForumBoard:
       type: object

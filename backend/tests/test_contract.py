@@ -40,6 +40,7 @@ IMPLEMENTED_RUNTIME_OPERATION_IDS = {
     "healthCheck",
     "listAllBookings",
     "listAllCounsellors",
+    "listAllJobSeekers",
     "listCounsellors",
     "listMyBookings",
     "listOwnAvailabilityWindows",

@@ -41,6 +41,7 @@ listPaymentOversight,GET,/admin/payments,Platform Owner,US-48,Role and sensitive
 getPlatformStats,GET,/admin/stats,Platform Owner,US-48;US-58,Totals-match-the-frozen-order-breakdown test in test_admin.py
 listAllBookings,GET,/admin/bookings,Platform Owner,US-48,Role guard and both-parties-named test in test_admin.py
 listAllCounsellors,GET,/admin/counsellors,Platform Owner,US-48;US-58,Role guard and per-counsellor trade totals test in test_admin.py
+listAllJobSeekers,GET,/admin/job-seekers,Platform Owner,US-71,Role guard and per-job-seeker booking count test in test_admin.py
 resolveDispute,POST,/admin/disputes/{disputeId}/resolution,Platform Owner,US-52,Role and state consistency test
 healthCheck,GET,/health,Operations,NFR-02,Deployed readiness and no-secret response test
 getOrder,GET,/orders/{orderId},Job Seeker,US-41;US-47,Payment outcome polling test in test_payments.py

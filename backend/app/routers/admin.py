@@ -27,6 +27,7 @@ from app.models import Booking, Order, Service, User
 from app.schemas import (
     AdminBookingOut,
     AdminCounsellorOut,
+    AdminJobSeekerOut,
     AdminMoneyOut,
     AdminStatsOut,
     PaymentOversightOut,
@@ -367,6 +368,41 @@ def list_all_counsellors(
             joined_at=user.created_at,
         )
         for user, service_count, booking_count, gross, payout in rows
+    ]
+
+
+@router.get(
+    "/admin/job-seekers", response_model=list[AdminJobSeekerOut],
+    operation_id="listAllJobSeekers",
+    openapi_extra={"x-required-role": "platform_owner", "x-requirement-ids": ["US-71"]},
+)
+def list_all_job_seekers(
+    _owner: User = Depends(require_platform_owner),
+    db: Session = Depends(get_db),
+) -> list[AdminJobSeekerOut]:
+    """US-71. Every job seeker, newest first, with how many sessions each has booked."""
+    booked = (
+        select(Booking.job_seeker_id, func.count().label("bookings"))
+        .group_by(Booking.job_seeker_id)
+        .subquery()
+    )
+    rows = db.execute(
+        select(User, booked.c.bookings)
+        .outerjoin(booked, booked.c.job_seeker_id == User.id)
+        .where(User.role == "job_seeker")
+        .order_by(User.created_at.desc())
+    ).all()
+
+    return [
+        AdminJobSeekerOut(
+            id=user.id,
+            name=user.name,
+            email=user.email,
+            email_verified=user.email_verified_at is not None,
+            booking_count=int(booking_count or 0),
+            joined_at=user.created_at,
+        )
+        for user, booking_count in rows
     ]
 
 
