@@ -1,7 +1,7 @@
 import { adoptSession, currentSession, platformClient, refreshOnce } from './authBridge';
 import { ApiError } from './errors';
 import {
-  AdminBooking, AdminCounsellor,
+  AdminBooking, AdminCounsellor, AdminJobSeeker,
   ApiErrorBody, AvailabilityWindow, BookableStart, CancelBookingResult, Booking, CounsellorProfile, CounsellorProfileUpdate,
   Order, OrderStatusResponse, PaymentConfig, PaymentIntent, PaymentOversight, PayoutStatus,
   PlatformStats, Receipt, RegisterRequest,
@@ -310,6 +310,9 @@ export const api = {
 
   listAllCounsellors: (accessToken: string): Promise<AdminCounsellor[]> =>
     request('/admin/counsellors', {}, accessToken),
+
+  listAllJobSeekers: (accessToken: string): Promise<AdminJobSeeker[]> =>
+    request('/admin/job-seekers', {}, accessToken),
 };
 
 /** Field-level errors published by the API, keyed by the form field they belong to. */

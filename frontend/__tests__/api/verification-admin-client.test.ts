@@ -131,6 +131,7 @@ describe('administration calls', () => {
     ['listPaymentOversight', '/admin/payments'],
     ['listAllBookings', '/admin/bookings'],
     ['listAllCounsellors', '/admin/counsellors'],
+    ['listAllJobSeekers', '/admin/job-seekers'],
   ] as const)('%s reads %s with the caller\'s bearer token', async (method, path) => {
     fetchMock.mockResolvedValueOnce(jsonResponse([]));
     const { api } = loadClient();
