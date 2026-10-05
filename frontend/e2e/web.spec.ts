@@ -94,7 +94,7 @@ test('US07 invalid login stays anonymous and can retry', async ({ page, request 
   for (const path of ['/counsellor', '/counsellor/profile', '/counsellor/availability', '/counsellor/services/new']) {
     await page.goto(path);
     await expect(page).not.toHaveURL(/\/counsellor(?:\/|$)/);
-    await expect(page.getByRole('button', { name: 'Save profile', exact: true })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'Edit profile photo', exact: true })).toHaveCount(0);
   }
   expect((await request.get('/api/v1/me/services')).status()).toBe(401);
   // A real corrected login must still work after the failed attempt.
@@ -312,7 +312,7 @@ test('[QA-106][US08-AC3] logout prevents browser history and protected deep-link
       .or(page.getByRole('button', { name: 'Just looking? Browse as a guest', exact: true })).first()).toBeVisible();
     await expect(page).not.toHaveURL(/\/counsellor(?:\/|$)/);
     await expect(page.getByRole('button', { name: 'Account, Maya Chen', exact: true })).toHaveCount(0);
-    await expect(page.getByRole('button', { name: 'Save profile', exact: true })).toHaveCount(0);
+    await expect(page.getByRole('button', { name: 'Edit profile photo', exact: true })).toHaveCount(0);
   };
   await isPublic();
   // profile was ahead of dashboard before logout: try that retained entry first.
