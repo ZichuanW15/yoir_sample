@@ -61,6 +61,25 @@ export default function CareerProfessionalScreen() {
     );
   }
 
+  // US-28: the backend decides which fields are permitted; the client never
+  // reconstructs hidden data from listings. A restricted response gets a clear,
+  // non-error state instead of a suspiciously empty profile.
+  if (profile.restricted || profile.visibility === 'restricted') {
+    return (
+      <ScreenIn style={styles.screen}>
+        <BackBar title="Career Professional" onBack={back} />
+        <View style={styles.restrictedBody}>
+          <View style={styles.restrictedMark}><Glyph name="lock" size={28} color={colors.green} /></View>
+          <Text style={[type.display24, styles.centre]}>This profile is restricted</Text>
+          <Text style={[type.body, styles.centre]}>
+            This Career Professional has chosen not to share their profile details.
+          </Text>
+          <Button label="Back to Explore" tone="outline" height={48} onPress={back} />
+        </View>
+      </ScreenIn>
+    );
+  }
+
   const verified = profile.verificationStatus === 'verified';
   const where = [
     profile.baseLocation ? `${profile.baseLocation.cityOrRegion}, ${profile.baseLocation.state}` : null,
@@ -98,8 +117,8 @@ export default function CareerProfessionalScreen() {
           ) : null}
         </FadeUp>
 
-        <Section title="Qualifications" show={profile.qualifications.length > 0}>
-          {profile.qualifications.map((item) => (
+        <Section title="Qualifications" show={(profile.qualifications ?? []).length > 0}>
+          {(profile.qualifications ?? []).map((item) => (
             <View key={item} style={styles.qualification}>
               <View style={styles.tick}><Glyph name="check" size={13} color={colors.green} /></View>
               <Text style={[type.bodySm, styles.flex]}>{item}</Text>
@@ -107,12 +126,12 @@ export default function CareerProfessionalScreen() {
           ))}
         </Section>
 
-        <Section title="Skills and expertise" show={profile.expertise.length > 0}>
-          <View style={styles.tags}>{profile.expertise.map((item) => <Tag key={item} label={item} bg={colors.greenTint} fg={colors.green} />)}</View>
+        <Section title="Skills and expertise" show={(profile.expertise ?? []).length > 0}>
+          <View style={styles.tags}>{(profile.expertise ?? []).map((item) => <Tag key={item} label={item} bg={colors.greenTint} fg={colors.green} />)}</View>
         </Section>
 
-        <Section title="Languages" show={profile.languages.length > 0}>
-          <View style={styles.tags}>{profile.languages.map((item) => <Tag key={item} label={item} />)}</View>
+        <Section title="Languages" show={(profile.languages ?? []).length > 0}>
+          <View style={styles.tags}>{(profile.languages ?? []).map((item) => <Tag key={item} label={item} />)}</View>
         </Section>
 
         <Section title="Background" show={Boolean(profile.background)}>
@@ -160,6 +179,8 @@ const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.canvas },
   body: { paddingHorizontal: 22, paddingTop: 8, gap: 18 },
   loading: { flex: 1, alignItems: 'center', justifyContent: 'center' },
+  restrictedBody: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 14, paddingHorizontal: 30 },
+  restrictedMark: { width: 60, height: 60, borderRadius: 22, backgroundColor: colors.greenTint, alignItems: 'center', justifyContent: 'center' },
   hero: { alignItems: 'center', gap: 10, paddingVertical: 8 },
   heroTags: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'center', gap: 8 },
   centre: { textAlign: 'center' },

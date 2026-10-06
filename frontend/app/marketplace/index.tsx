@@ -315,6 +315,11 @@ function ServiceRow({ service, index, fits }: { service: Service; index: number;
                 {verified ? 'Verified' : 'Verification pending'}
               </Text>
             </View>
+            <Text style={styles.professionalRating}>
+              {counsellor.overallRating === null
+                ? 'Career Professional · New'
+                : `Career Professional · ★ ${counsellor.overallRating.toFixed(1)} (${counsellor.reviewCount})`}
+            </Text>
           </View>
           <Text style={styles.price}>{money(service.priceMinor)}</Text>
         </View>
@@ -454,6 +459,7 @@ const styles = StyleSheet.create({
   counsellorName: { fontFamily: fonts.bold, fontSize: 14, color: colors.ink },
   verifyRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   verifyText: { fontFamily: fonts.semi, fontSize: 12 },
+  professionalRating: { fontFamily: fonts.medium, fontSize: 11, color: colors.amberDeep },
   price: { fontFamily: fonts.extra, fontSize: 20, color: colors.green, letterSpacing: -0.3 },
   cardBody: { fontFamily: fonts.sans, fontSize: 14, lineHeight: 21, color: colors.muted },
   cardFoot: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 },

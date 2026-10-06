@@ -251,12 +251,13 @@ describe('API client HTTP boundary', () => {
 
 
   test('Career Professionals are listed and read publicly, without authentication', async () => {
+    const unrated = { ...counsellorProfileFixture, overallRating: undefined };
     fetchMock
-      .mockResolvedValueOnce(jsonResponse([counsellorProfileFixture]))
+      .mockResolvedValueOnce(jsonResponse([unrated]))
       .mockResolvedValueOnce(jsonResponse(counsellorProfileFixture));
     const { api } = loadClient();
 
-    await expect(api.listCounsellors()).resolves.toEqual([counsellorProfileFixture]);
+    await expect(api.listCounsellors()).resolves.toEqual([{ ...counsellorProfileFixture, overallRating: null }]);
     await expect(api.getCounsellorProfile('counsellor/one')).resolves.toEqual(counsellorProfileFixture);
 
     expect(fetchMock.mock.calls).toEqual([

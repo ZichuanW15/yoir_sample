@@ -8,7 +8,7 @@ import {
   PlatformStats, Receipt, RegisterRequest,
   Role, Service, ServiceDraft, ServiceUpdate, Session, StripeOnboarding,
   StubPaymentConfirmation, TaxDetailsUpdate, User, VerificationSubmission, WindowDraft,
-  JobSeekerProfile, JobSeekerProfileUpdate, AppNotification,
+  JobSeekerProfile, JobSeekerProfileUpdate, AppNotification, PrivacySettings, ProfileVisibility, Review, ReviewDraft,
 } from './types';
 
 export { ApiError };
@@ -84,6 +84,16 @@ async function request<T>(path: string, init?: RequestInit, accessToken?: string
   if (!(response.headers?.get('content-type') ?? '').includes('json')) return undefined as T;
   return response.json() as Promise<T>;
 }
+
+type CounsellorProfileResponse = Omit<CounsellorProfile, 'overallRating'> & {
+  overallRating?: number | null;
+};
+
+/** The API omits nullable fields, while screens consume an explicit null. */
+const normaliseCounsellorProfile = ({ overallRating, ...profile }: CounsellorProfileResponse): CounsellorProfile => ({
+  ...profile,
+  overallRating: overallRating ?? null,
+});
 
 
 
@@ -171,6 +181,10 @@ export const api = {
   getBookingReceipt: (bookingId: string, accessToken: string): Promise<Receipt> =>
     request(`/bookings/${encodeURIComponent(bookingId)}/receipt`, undefined, accessToken),
 
+  /** US-53 — the backend enforces completed ownership and one review per booking. */
+  createReview: (bookingId: string, draft: ReviewDraft, accessToken: string): Promise<Review> =>
+    request(`/bookings/${encodeURIComponent(bookingId)}/review`, { method: 'POST', body: JSON.stringify(draft) }, accessToken),
+
   // --- counsellor payouts (US-47) ----------------------------------------
 
   getPayoutStatus: (accessToken: string): Promise<PayoutStatus> =>
@@ -215,18 +229,25 @@ export const api = {
   updateJobSeekerProfile: (update: JobSeekerProfileUpdate, accessToken: string): Promise<JobSeekerProfile> =>
     request('/me/job-seeker-profile', { method: 'PATCH', body: JSON.stringify(update) }, accessToken),
 
+  /** US-27 — shared by Job Seekers and Career Professionals. */
+  getPrivacySettings: (accessToken: string): Promise<PrivacySettings> =>
+    request('/me/profile-visibility', undefined, accessToken),
+
+  updateProfileVisibility: (visibility: ProfileVisibility, accessToken: string): Promise<PrivacySettings> =>
+    request('/me/profile-visibility', { method: 'PATCH', body: JSON.stringify({ visibility }) }, accessToken),
+
   // --- counsellor workspace (contract-published, backend pending) ---
 
   /** The Career Professionals a Job Seeker can book: the people behind Explore's services. */
-  listCounsellors: (): Promise<CounsellorProfile[]> =>
-    request('/counsellors'),
+  listCounsellors: async (): Promise<CounsellorProfile[]> =>
+    (await request<CounsellorProfileResponse[]>('/counsellors')).map(normaliseCounsellorProfile),
 
   /** A Career Professional's public profile: what a Job Seeker reads before booking. */
-  getCounsellorProfile: (counsellorId: string): Promise<CounsellorProfile> =>
-    request(`/counsellors/${encodeURIComponent(counsellorId)}`),
+  getCounsellorProfile: async (counsellorId: string): Promise<CounsellorProfile> =>
+    normaliseCounsellorProfile(await request<CounsellorProfileResponse>(`/counsellors/${encodeURIComponent(counsellorId)}`)),
 
   getOwnCounsellorProfile: (user: User, accessToken: string): Promise<CounsellorProfile> =>
-    request(`/counsellors/${encodeURIComponent(user.id)}`, undefined, accessToken),
+    request('/me/counsellor-profile', undefined, accessToken),
 
   updateOwnCounsellorProfile: (counsellorId: string, update: CounsellorProfileUpdate, accessToken: string): Promise<CounsellorProfile> =>
     request('/me/counsellor-profile', { method: 'PATCH', body: JSON.stringify(update) }, accessToken),

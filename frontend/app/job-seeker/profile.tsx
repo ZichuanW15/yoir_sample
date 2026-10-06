@@ -1,5 +1,5 @@
 import * as ImagePicker from 'expo-image-picker';
-import { Href, Redirect } from 'expo-router';
+import { Href, Redirect, router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { Platform, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -164,6 +164,7 @@ export default function JobSeekerProfileScreen() {
             <Field label="Name" value={name} onChangeText={setName} placeholder="Your name" autoComplete="name" />
             <Field label="Current role or study" value={headline} onChangeText={setHeadline} placeholder="e.g. Final-year engineering student" maxLength={200} />
             <Field label="Career goals" value={goals} onChangeText={setGoals} multiline placeholder="What would you like help with?" maxLength={2000} />
+            <Button label="Profile privacy" tone="outline" height={48} onPress={() => router.push('/settings/privacy' as Href)} />
             {error ? <ErrorBanner message={error} /> : null}
             <Button label="Save profile" busy={busy} onPress={() => { void save(); }} />
           </Card>

@@ -1,4 +1,4 @@
-import { Redirect, router, useFocusEffect } from 'expo-router';
+import { Href, Redirect, router, useFocusEffect } from 'expo-router';
 import * as ImagePicker from 'expo-image-picker';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -276,6 +276,14 @@ export default function CounsellorProfileScreen() {
               />
             </FadeUp>
           ) : null}
+
+          <Button
+            label="Profile privacy"
+            tone="outline"
+            height={48}
+            onPress={() => router.push('/settings/privacy' as Href)}
+            style={s.privacyButton}
+          />
         </FadeUp>
 
         {loadError ? (
@@ -387,6 +395,7 @@ const s = StyleSheet.create({
   linkBtn: { minHeight: 44, flexDirection: 'row', alignItems: 'center', gap: 6, paddingHorizontal: 10 },
   linkText: { fontFamily: fonts.bold, fontSize: 13, color: colors.green },
   urlField: { alignSelf: 'stretch' },
+  privacyButton: { alignSelf: 'stretch' },
 
   loadFailed: { gap: 12 },
 

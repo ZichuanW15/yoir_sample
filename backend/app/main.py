@@ -18,6 +18,7 @@ from app.routers import (
     health,
     job_seeker,
     payments,
+    profile,
     services,
     webhooks,
 )
@@ -70,6 +71,7 @@ app.include_router(counsellor.router, prefix=API_V1)
 app.include_router(job_seeker.router, prefix=API_V1)
 app.include_router(admin.router, prefix=API_V1)
 app.include_router(payments.router, prefix=API_V1)
+app.include_router(profile.router, prefix=API_V1)
 
 # Stripe's own callbacks, at the paths the published contract already reserves for
 # them. They carry no bearer token — a Stripe-Signature over the raw body is what

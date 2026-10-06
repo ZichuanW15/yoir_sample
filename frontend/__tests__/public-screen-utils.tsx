@@ -7,6 +7,7 @@ import { Pressable, Text, View } from 'react-native';
 import { Session } from '@/src/api/types';
 import { AuthProvider, useAuth } from '@/src/auth/AuthContext';
 import { ChromeProvider } from '@/src/chrome';
+import { FloatingErrorProvider } from '@/src/floatingError';
 
 jest.mock('@/src/payments/sheet', () => ({
   PaymentSheetHost: ({ children }: import('react').PropsWithChildren) => children,
@@ -119,9 +120,11 @@ export async function renderPublic(element: ReactElement, session?: Session) {
   }
   const result = render(
     <AuthProvider>
-      <ChromeProvider>
-        <SessionBootstrap session={session}><ReadyBoundary>{element}</ReadyBoundary></SessionBootstrap>
-      </ChromeProvider>
+      <FloatingErrorProvider>
+        <ChromeProvider>
+          <SessionBootstrap session={session}><ReadyBoundary>{element}</ReadyBoundary></SessionBootstrap>
+        </ChromeProvider>
+      </FloatingErrorProvider>
     </AuthProvider>,
   );
   await waitFor(() => { if (!ready) throw new Error('Waiting for test session restoration'); });

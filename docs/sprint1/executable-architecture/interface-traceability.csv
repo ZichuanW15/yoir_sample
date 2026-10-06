@@ -1,4 +1,7 @@
 operationId,method,path,actor,requirement_ids,verification
+getOwnCounsellorProfile,GET,/me/counsellor-profile,Counsellor,US-30,Owner profile response test in test_counsellor_profile_details.py
+getProfileVisibility,GET,/me/profile-visibility,Authenticated member,US-27,Privacy persistence test in test_profile_visibility.py
+updateProfileVisibility,PATCH,/me/profile-visibility,Authenticated member,US-27;US-28,Privacy persistence and public field-restriction tests in test_profile_visibility.py
 register,POST,/auth/users,Public,US-01;US-02;US-03;US-04,EA-00 plus duplicate-email contract test
 login,POST,/auth/sessions,Public,US-06;US-07,Role-aware JWT and generic credential failure tests in test_login_sessions.py plus EA-01
 refreshSession,POST,/auth/sessions/refresh,Authenticated,US-06,Rotation and stolen-token family revocation tests in test_refresh_sessions.py

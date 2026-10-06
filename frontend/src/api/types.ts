@@ -1,6 +1,7 @@
 export type Role = 'job_seeker' | 'counsellor' | 'platform_owner';
 export type Modality = 'online' | 'in_person';
 export type VerificationStatus = 'pending' | 'verified' | 'rejected';
+export type ProfileVisibility = 'public' | 'partial' | 'restricted';
 
 export interface User {
   id: string;
@@ -48,6 +49,8 @@ export interface Service {
   active: boolean;
   averageRating: number | null;
   reviewCount: number;
+  /** US-54 — public feedback returned with service detail. Listings may omit it. */
+  reviews?: Review[];
   /**
    * Present only on a counsellor's own listing, never on the public one: a room URL
    * is an access credential, so the marketplace must not carry it.
@@ -134,7 +137,25 @@ export interface Booking {
   counterpartyRole?: Role | null;
   /** Where an in-person session happens, as the service advertises it. */
   meetingArea?: string;
+  /** Present once this completed booking has already been reviewed. */
+  review?: Review | null;
 }
+
+/** US-53/54 — one verified-purchase review. */
+export interface Review {
+  id: string;
+  bookingId: string;
+  serviceId: string;
+  authorName: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+}
+
+export interface ReviewDraft { rating: number; comment: string }
+
+/** US-27 — the signed-in user's current profile visibility. */
+export interface PrivacySettings { visibility: ProfileVisibility }
 
 export interface StubPaymentConfirmation { paymentId: string; paymentStatus: 'paid'; booking: Booking }
 
@@ -235,6 +256,9 @@ export interface CounsellorProfile {
   verificationStatus: VerificationStatus;
   overallRating: number | null;
   reviewCount: number;
+  /** Public responses use this to make a restricted profile explicit. */
+  visibility?: ProfileVisibility;
+  restricted?: boolean;
 }
 
 export type CounsellorProfileUpdate = Pick<

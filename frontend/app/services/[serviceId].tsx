@@ -6,7 +6,7 @@ import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Defs, Path, Polyline, RadialGradient, Stop } from 'react-native-svg';
 import { api, userFacingError } from '@/src/api/client';
-import { Service } from '@/src/api/types';
+import { Review, Service } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { Glyph } from '@/src/components/Glyph';
 import { Avatar, Button, ErrorBanner, IconButton, Press, Spinner } from '@/src/components/ui';
@@ -180,6 +180,23 @@ export default function ServiceDetailScreen() {
               ) : null}
             </FadeUp>
 
+            <FadeUp delay={300} style={styles.reviews}>
+              <View style={styles.reviewsHead}>
+                <Text style={type.display24}>Reviews</Text>
+                <Text style={styles.reviewsSummary}>
+                  {service.averageRating === null ? 'No reviews yet' : `${service.averageRating.toFixed(1)} · ${service.reviewCount}`}
+                </Text>
+              </View>
+              {(service.reviews ?? []).length ? (
+                (service.reviews ?? []).map((review) => <ReviewRow key={review.id} review={review} />)
+              ) : (
+                <View style={styles.noReviews}>
+                  <Glyph name="star" size={22} color={colors.amber} />
+                  <Text style={styles.noReviewsText}>No written reviews yet.</Text>
+                </View>
+              )}
+            </FadeUp>
+
             <FadeUp delay={340} style={styles.steps}>
               <Text style={styles.stepsTitle}>Booking this service</Text>
               {bookingSteps.map((copy, index) => (
@@ -207,6 +224,19 @@ export default function ServiceDetailScreen() {
         </>
       )}
     </ScreenIn>
+  );
+}
+
+function ReviewRow({ review }: { review: Review }) {
+  return (
+    <View style={styles.reviewCard}>
+      <View style={styles.reviewHead}>
+        <Text style={styles.reviewAuthor}>{review.authorName || 'Yoir member'}</Text>
+        <View style={styles.reviewRating}><Star /><Text style={styles.reviewRatingText}>{review.rating}/5</Text></View>
+      </View>
+      <Text style={styles.reviewComment}>{review.comment}</Text>
+      <Text style={styles.reviewDate}>{new Date(review.createdAt).toLocaleDateString('en-AU', { day: 'numeric', month: 'short', year: 'numeric' })}</Text>
+    </View>
   );
 }
 
@@ -300,6 +330,19 @@ const styles = StyleSheet.create({
   locationRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingTop: 10, borderTopWidth: 1, borderTopColor: colors.line },
   locationLabel: { fontFamily: fonts.semi, fontSize: 14, color: colors.muted },
   locationValue: { fontFamily: fonts.bold, fontSize: 14, color: colors.ink },
+
+  reviews: { gap: 12 },
+  reviewsHead: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 },
+  reviewsSummary: { fontFamily: fonts.bold, fontSize: 13, color: colors.amberDeep },
+  noReviews: { flexDirection: 'row', alignItems: 'center', gap: 9, padding: 16, borderRadius: radius.lg, backgroundColor: colors.yellowTint },
+  noReviewsText: { fontFamily: fonts.sans, fontSize: 14, color: colors.amberDeep },
+  reviewCard: { gap: 8, padding: 16, borderWidth: 1, borderColor: colors.lineSoft, borderRadius: radius.lg, backgroundColor: colors.white },
+  reviewHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', gap: 10 },
+  reviewAuthor: { flex: 1, fontFamily: fonts.bold, fontSize: 14, color: colors.ink },
+  reviewRating: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  reviewRatingText: { fontFamily: fonts.bold, fontSize: 13, color: colors.amberDeep },
+  reviewComment: { fontFamily: fonts.sans, fontSize: 14, lineHeight: 22, color: colors.muted },
+  reviewDate: { fontFamily: fonts.medium, fontSize: 12, color: colors.sub },
 
   steps: { gap: 14, padding: 20, backgroundColor: colors.yellowTint, borderRadius: radius.xl },
   stepsTitle: { fontFamily: fonts.serif, fontSize: 22, lineHeight: 25, color: colors.amberDeep },

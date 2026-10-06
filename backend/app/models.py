@@ -40,6 +40,12 @@ class User(Base):
     # Any role's profile photo: a counsellor's URL, or a job seeker's image stored
     # inline as a data URI (there is no file storage to hold an upload).
     photo_url: Mapped[str | None] = mapped_column(String, nullable=True)
+    # US-27/US-28: applies to both member roles. Public profile serializers must
+    # enforce this server-side so a client cannot recover fields merely by calling
+    # the API directly.
+    profile_visibility: Mapped[str] = mapped_column(
+        String, default="public", nullable=False,
+    )
 
     # Job-seeker-only profile fields (left null for other roles).
     headline: Mapped[str | None] = mapped_column(String, nullable=True)

@@ -63,5 +63,8 @@
     "jest-expo": "~57.0.5",
     "react-test-renderer": "^19.2.3",
     "typescript": "~6.0.3"
+  },
+  "overrides": {
+    "shell-quote": "1.11.0"
   }
 }
