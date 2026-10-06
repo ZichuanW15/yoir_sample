@@ -90,6 +90,26 @@ class User(Base):
     services: Mapped[list["Service"]] = relationship(back_populates="counsellor")
 
 
+class Diagnosis(Base):
+    """US-09–11: one private, versioned answer record per Job Seeker.
+
+    Progress is derived from explicitly saved answers, not supplied by the client.
+    An empty multi-choice answer is different from a step not yet submitted.
+    """
+
+    __tablename__ = "diagnoses"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=_uuid)
+    job_seeker_id: Mapped[str] = mapped_column(
+        ForeignKey("users.id"), unique=True, nullable=False,
+    )
+    questionnaire_version: Mapped[str] = mapped_column(String(64), nullable=False)
+    answers: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
+    revision: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    created_at: Mapped[datetime] = mapped_column(UtcDateTime, default=_now, nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(UtcDateTime, default=_now, nullable=False)
+
+
 class RevokedToken(Base):
     """US-08: durable revocation of a verified JWT, without storing the credential."""
 

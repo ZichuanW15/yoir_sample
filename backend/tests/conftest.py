@@ -45,6 +45,7 @@ _DATABASE_CLEANUP_ORDER = (
     "availability_windows",
     "services",
     "single_use_tokens",
+    "diagnoses",
     "users",
 )
 
