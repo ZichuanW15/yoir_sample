@@ -31,7 +31,7 @@ describe('real-client resource safety (mocked HTTP)', () => {
     expect(services[0].counsellor).toMatchObject({ id: userId, verificationStatus: 'verified' });
     // Login and own services do not authorize inventing a missing profile.
     const result = await settleBoundaryRequest(api.getOwnCounsellorProfile(session.user, session.accessToken));
-    expect(fetchMock).toHaveBeenLastCalledWith(`${apiBase}/counsellors/${userId}`, expect.objectContaining({
+    expect(fetchMock).toHaveBeenLastCalledWith(`${apiBase}/me/counsellor-profile`, expect.objectContaining({
       headers: expect.objectContaining({ Authorization: `Bearer ${session.accessToken}` }),
     }));
     expect(result).toMatchObject({ outcome: 'rejected', error: { status: 404, body } });

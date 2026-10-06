@@ -5,6 +5,7 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field, StringConstraints, 
 from pydantic.alias_generators import to_camel
 
 Role = Literal["job_seeker", "counsellor", "platform_owner"]
+ProfileVisibility = Literal["public", "partial", "restricted"]
 Modality = Literal["online", "in_person"]
 # Payment vocabulary (payments spec §5). An order is the spec's pending_payment
 # booking; a Booking row exists only once Stripe has confirmed the payment.
@@ -206,6 +207,18 @@ class CounsellorProfileOut(CamelModel):
     verification_status: Literal["pending", "verified", "rejected"]
     overall_rating: float | None = None
     review_count: int
+    visibility: ProfileVisibility | None = None
+    restricted: bool | None = None
+
+
+class PrivacySettingsOut(CamelModel):
+    visibility: ProfileVisibility
+
+
+class UpdateProfileVisibilityRequest(CamelModel):
+    model_config = ConfigDict(extra="forbid")
+
+    visibility: ProfileVisibility
 
 
 class OnboardingStateOut(CamelModel):

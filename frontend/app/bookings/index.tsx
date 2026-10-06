@@ -1,4 +1,4 @@
-import { router } from 'expo-router';
+import { Href, router } from 'expo-router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Linking, RefreshControl, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -165,7 +165,14 @@ export default function MyBookingsScreen() {
         {past.length > 0 ? (
           <FadeUp delay={200} style={styles.section}>
             <Text style={type.groupLabel}>Past</Text>
-            {past.map((booking) => <BookingCard key={booking.id} booking={booking} past />)}
+            {past.map((booking) => (
+              <BookingCard
+                key={booking.id}
+                booking={booking}
+                past
+                canReview={session?.user.role === 'job_seeker' && ['completed', 'paid_out'].includes(booking.status) && !booking.review}
+              />
+            ))}
           </FadeUp>
         ) : null}
       </ScrollView>
@@ -175,10 +182,11 @@ export default function MyBookingsScreen() {
   );
 }
 
-function BookingCard({ booking, past = false, busy = false, onCancel }: {
+function BookingCard({ booking, past = false, busy = false, canReview = false, onCancel }: {
   booking: Booking;
   past?: boolean;
   busy?: boolean;
+  canReview?: boolean;
   onCancel?(): void;
 }) {
   const tone = statusTone[booking.status] ?? statusTone.cancelled;
@@ -248,6 +256,16 @@ function BookingCard({ booking, past = false, busy = false, onCancel }: {
             busy={busy}
             style={styles.action}
             onPress={onCancel}
+          />
+        ) : null}
+        {canReview ? (
+          <Button
+            label="Write a review"
+            tone="outline"
+            height={44}
+            labelSize={14}
+            style={styles.action}
+            onPress={() => router.push(`/bookings/${booking.id}/review` as Href)}
           />
         ) : null}
       </View>

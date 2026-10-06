@@ -7,6 +7,7 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-
 import { api } from '@/src/api/client';
 import { AuthProvider, useAuth } from '@/src/auth/AuthContext';
 import { ChromeProvider } from '@/src/chrome';
+import { FloatingErrorProvider } from '@/src/floatingError';
 import { Session } from '@/src/api/types';
 import { counsellorProfileFixture, counsellorSessionFixture, serviceFixture } from '../fixtures';
 
@@ -63,7 +64,13 @@ export async function renderCounsellor(element: React.ReactElement, session: Ses
     useEffect(() => { ready = true; }, []);
     return <>{children}</>;
   }
-  const result = render(<AuthProvider><ChromeProvider><LoginBoundary session={activeSession}><ReadyBoundary>{element}</ReadyBoundary></LoginBoundary></ChromeProvider></AuthProvider>);
+  const result = render(
+    <AuthProvider>
+      <FloatingErrorProvider>
+        <ChromeProvider><LoginBoundary session={activeSession}><ReadyBoundary>{element}</ReadyBoundary></LoginBoundary></ChromeProvider>
+      </FloatingErrorProvider>
+    </AuthProvider>,
+  );
   // Setup, not an assertion: a cold CI runner's first screen mount can outlast waitFor's 1 s default.
   await waitFor(() => expect(ready).toBe(true), { timeout: 4000 });
   return result;
