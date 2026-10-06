@@ -20,6 +20,7 @@ from app.schemas import (
     CreateAvailabilityWindowRequest,
     CreateServiceRequest,
     Location,
+    OnboardingStateOut,
     OwnServiceOut,
     PayoutStatusOut,
     StripeOnboardingOut,
@@ -239,6 +240,32 @@ def update_own_counsellor_profile(
     db.commit()
     db.refresh(user)
     return counsellor_profile_out(user)
+
+
+@router.get(
+    "/onboarding-state", response_model=OnboardingStateOut, operation_id="getOnboardingState",
+    openapi_extra={"x-requirement-ids": ["US-05"]},
+)
+def get_onboarding_state(
+    user: User = Depends(require_counsellor),
+) -> OnboardingStateOut:
+    """US-05. Whether this Career Professional still has first-login setup to do.
+
+    Read-only: this never writes `verification_submitted_at` or anything else.
+    `update_own_counsellor_profile` (US-30) and `submit_verification` (US-31) already
+    own those writes; this endpoint only reports what they have recorded, so the app
+    has one place to ask "is onboarding done" without duplicating either rule.
+    """
+    profile_complete = bool(user.introduction and user.background and user.experience)
+    # Matches the frontend's own verificationState(): pending with no LinkedIn URL on
+    # file is "unsubmitted", everything else (pending-with-a-URL, verified, rejected)
+    # is a submission that has happened.
+    verification_submitted = not (user.verification_status == "pending" and not user.linkedin_url)
+    return OnboardingStateOut(
+        profile_complete=profile_complete,
+        verification_submitted=verification_submitted,
+        complete=profile_complete and verification_submitted,
+    )
 
 
 # --- US-39: counsellor availability windows ---------------------------------

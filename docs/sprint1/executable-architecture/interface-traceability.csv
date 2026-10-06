@@ -26,6 +26,7 @@ createService,POST,/me/services,Eligible Counsellor,US-34;US-35;US-37;US-38,Vali
 listCounsellors,GET,/counsellors,Public,US-44;US-13,test_counsellor_profile_details.py
 getCounsellorProfile,GET,/counsellors/{counsellorId},Public,US-30;US-44;US-46,Public-field schema test
 updateOwnCounsellorProfile,PATCH,/me/counsellor-profile,Counsellor,US-30,Ownership and validation tests
+getOnboardingState,GET,/me/onboarding-state,Counsellor,US-05,test_onboarding.py
 getOwnJobSeekerProfile,GET,/me/job-seeker-profile,Job Seeker,US-29,test_job_seeker_profile.py
 updateOwnJobSeekerProfile,PATCH,/me/job-seeker-profile,Job Seeker,US-29,test_job_seeker_profile.py
 submitVerification,POST,/me/verification-submissions,Counsellor,US-31;US-32,LinkedIn URL and ownership tests

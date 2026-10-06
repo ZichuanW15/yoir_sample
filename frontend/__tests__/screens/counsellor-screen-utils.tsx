@@ -80,6 +80,10 @@ export function setupCounsellorMocks() {
   apiMock.deleteService.mockResolvedValue(undefined);
   apiMock.updateOwnCounsellorProfile.mockResolvedValue(counsellorProfileFixture);
   apiMock.deleteAvailabilityWindow.mockResolvedValue(undefined);
+  // Every counsellor screen that reaches /counsellor checks onboarding first
+  // (US-05); counsellorProfileFixture above is already a complete profile, so the
+  // default here matches it — a test that wants the gate exercised overrides this.
+  apiMock.getOnboardingState.mockResolvedValue({ profileComplete: true, verificationSubmitted: true, complete: true });
   // TopBar's bell is job-seeker-only, but the hook behind it (useNotifications)
   // fetches for any signed-in role — same as the real client falling back to []
   // on a route that isn't deployed yet, so a counsellor screen that renders TopBar

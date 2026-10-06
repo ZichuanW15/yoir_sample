@@ -208,6 +208,23 @@ class CounsellorProfileOut(CamelModel):
     review_count: int
 
 
+class OnboardingStateOut(CamelModel):
+    """US-05. Whether a Career Professional has cleared first-login onboarding.
+
+    Two checks, not one, because the app lists them separately: `profileComplete`
+    mirrors what `update_own_counsellor_profile` already requires before it accepts
+    a save (a LinkedIn URL plus an introduction, background and experience), and
+    `verificationSubmitted` mirrors `verificationState()` on the frontend — a
+    LinkedIn URL on file is a submission, whatever the Platform Owner has since
+    decided about it. `complete` is both, so the app has one flag to route on
+    without re-deriving the rule client-side.
+    """
+
+    profile_complete: bool
+    verification_submitted: bool
+    complete: bool
+
+
 #: One qualification, skill or language on a Career Professional's profile.
 ProfileItem = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=160)]
 

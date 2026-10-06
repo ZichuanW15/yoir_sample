@@ -11,7 +11,7 @@ import { useChrome } from '@/src/chrome';
 import { CounsellorNav } from '@/src/components/CounsellorNav';
 import { Glyph } from '@/src/components/Glyph';
 import { VerifyEmailBanner } from '@/src/components/VerifyEmailBanner';
-import { Avatar, ErrorBanner, Eyebrow, Press, Tag } from '@/src/components/ui';
+import { Avatar, ErrorBanner, Eyebrow, Press, Spinner, Tag } from '@/src/components/ui';
 import { fmtDay, initials, modalityLabel, money } from '@/src/format';
 import { FadeUp, Float, Pop, Pulse, ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, type } from '@/src/theme';
@@ -36,6 +36,31 @@ export default function CounsellorWorkspace() {
   const insets = useSafeAreaInsets();
   const [data, setData] = useState<Workspace | null>(null);
   const [error, setError] = useState('');
+  // US-05 — whether first-login onboarding is done. `checked` separates "still
+  // loading" from "checked and complete/incomplete"; `complete` fails open on a
+  // failed check, rather than trapping an already-onboarded counsellor on a
+  // spinner. A state of its own, not the shared `error` above: `load()` clears
+  // that to '' on its own next success, which would silently wipe a reported
+  // onboarding-check failure out from under it.
+  const [onboardingChecked, setOnboardingChecked] = useState(false);
+  const [onboardingComplete, setOnboardingComplete] = useState(true);
+  const [onboardingError, setOnboardingError] = useState('');
+
+  const loadOnboarding = useCallback(async () => {
+    if (!session) return;
+    try {
+      const state = await api.getOnboardingState(session.accessToken);
+      setOnboardingComplete(state.complete);
+      setOnboardingError('');
+    } catch (cause) {
+      setOnboardingComplete(true);
+      setOnboardingError(userFacingError(cause));
+    } finally {
+      setOnboardingChecked(true);
+    }
+  }, [session]);
+
+  useFocusEffect(useCallback(() => { void loadOnboarding(); }, [loadOnboarding]));
 
   const load = useCallback(async () => {
     if (!session) return;
@@ -78,6 +103,18 @@ export default function CounsellorWorkspace() {
 
   if (!session || session.user.role !== 'counsellor') return <Redirect href="/" />;
 
+  // US-05 — neither the onboarding flow nor this workspace shows until the
+  // backend has answered, and an incomplete onboarding sends the counsellor
+  // there instead of here.
+  if (!onboardingChecked) {
+    return (
+      <View style={[s.screen, s.onboardingLoading]}>
+        <Spinner size={28} color={colors.green} />
+      </View>
+    );
+  }
+  if (!onboardingComplete) return <Redirect href="/counsellor/onboarding" />;
+
   const name = session.user.name;
   const firstName = name.split(' ')[0];
   // US-32: the backend's status in the shared wording, and no status until it is read.
@@ -110,6 +147,7 @@ export default function CounsellorWorkspace() {
         </FadeUp>
 
         {error ? <ErrorBanner message={error} /> : null}
+        {onboardingError ? <ErrorBanner message={onboardingError} /> : null}
 
         <FadeUp delay={80}>
           <Press
@@ -358,6 +396,7 @@ function ProfileRing({ done }: { done: number }) {
 
 const s = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.white },
+  onboardingLoading: { alignItems: 'center', justifyContent: 'center' },
   topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 22, paddingBottom: 6 },
   wordmark: { width: 66, height: 25, resizeMode: 'contain' },
   avatarRing: { width: 50, height: 50, borderRadius: 25, borderWidth: 2, borderColor: colors.yellow, backgroundColor: colors.white, alignItems: 'center', justifyContent: 'center' },

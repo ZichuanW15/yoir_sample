@@ -243,6 +243,14 @@ export type CounsellorProfileUpdate = Pick<
   | 'qualifications' | 'expertise' | 'languages' | 'baseLocation' | 'defaultModality'
 >;
 
+/** US-05 — first-login onboarding progress: profile setup (US-30) and verification
+ * submission (US-31). `complete` is both, so the app has one flag to route on. */
+export interface OnboardingState {
+  profileComplete: boolean;
+  verificationSubmitted: boolean;
+  complete: boolean;
+}
+
 /** US-34/35/37/38 — what a counsellor sends when publishing a service. */
 export interface ServiceDraft {
   title: string;

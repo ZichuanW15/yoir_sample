@@ -3,6 +3,7 @@ import { ApiError } from './errors';
 import {
   AdminBooking, AdminCounsellor, AdminJobSeeker,
   ApiErrorBody, AvailabilityWindow, BookableStart, CancelBookingResult, Booking, CounsellorProfile, CounsellorProfileUpdate,
+  OnboardingState,
   Order, OrderStatusResponse, PaymentConfig, PaymentIntent, PaymentOversight, PayoutStatus,
   PlatformStats, Receipt, RegisterRequest,
   Role, Service, ServiceDraft, ServiceUpdate, Session, StripeOnboarding,
@@ -229,6 +230,10 @@ export const api = {
 
   updateOwnCounsellorProfile: (counsellorId: string, update: CounsellorProfileUpdate, accessToken: string): Promise<CounsellorProfile> =>
     request('/me/counsellor-profile', { method: 'PATCH', body: JSON.stringify(update) }, accessToken),
+
+  /** US-05 — whether first-login onboarding (profile setup, verification submission) is done. */
+  getOnboardingState: (accessToken: string): Promise<OnboardingState> =>
+    request('/me/onboarding-state', undefined, accessToken),
 
   listOwnServices: (counsellorId: string, accessToken: string): Promise<Service[]> =>
     request('/me/services', undefined, accessToken),

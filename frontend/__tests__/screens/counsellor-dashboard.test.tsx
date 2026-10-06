@@ -1,7 +1,8 @@
-import { apiMock, counsellorProfileFixture, renderCounsellor, serviceFixture, setupCounsellorMocks } from './counsellor-screen-utils';
+import { apiMock, counsellorProfileFixture, deferred, renderCounsellor, serviceFixture, settle, setupCounsellorMocks } from './counsellor-screen-utils';
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import Dashboard from '@/app/counsellor';
+import { OnboardingState } from '@/src/api/types';
 import { sessionFixture } from '../fixtures';
 import { apiError } from '@/src/api/errors';
 beforeEach(setupCounsellorMocks);
@@ -47,5 +48,36 @@ describe('Counsellor dashboard UI — QA #133 (mocked API boundary)', () => {
     await renderCounsellor(<Dashboard />); await screen.findByText(serviceFixture.title);
     fireEvent.press(screen.getByRole('button', { name: `Delete ${serviceFixture.title}` })); fireEvent.press(screen.getByLabelText('Delete'));
     await screen.findByText('Service is still in use.'); expect(screen.getByText(serviceFixture.title)).toBeTruthy();
+  });
+});
+
+describe('Counsellor dashboard onboarding gate — US-05 (mocked API boundary)', () => {
+  const incomplete: OnboardingState = { profileComplete: false, verificationSubmitted: false, complete: false };
+
+  test('shows neither the workspace nor the onboarding gate until onboarding state is received', async () => {
+    const pending = deferred<OnboardingState>();
+    apiMock.getOnboardingState.mockReturnValueOnce(pending.promise);
+    await renderCounsellor(<Dashboard />);
+    expect(screen.queryByText('Good to see you, Maya')).toBeNull();
+    expect(screen.queryByTestId('redirect')).toBeNull();
+
+    await settle(pending, incomplete);
+    expect(screen.getByTestId('redirect')).toHaveTextContent('/counsellor/onboarding');
+  });
+
+  test('an incomplete onboarding state sends a first-login counsellor to onboarding, not the workspace', async () => {
+    apiMock.getOnboardingState.mockResolvedValue(incomplete);
+    await renderCounsellor(<Dashboard />);
+    expect(await screen.findByTestId('redirect')).toHaveTextContent('/counsellor/onboarding');
+    expect(screen.queryByText(serviceFixture.title)).toBeNull();
+    expect(screen.queryByRole('button', { name: 'New' })).toBeNull();
+  });
+
+  test('a failed onboarding check fails open: the already-familiar workspace still renders, with the failure surfaced', async () => {
+    apiMock.getOnboardingState.mockRejectedValue(apiError(503, 'UNAVAILABLE', 'Onboarding status is temporarily unavailable.'));
+    await renderCounsellor(<Dashboard />);
+    await screen.findByText(serviceFixture.title);
+    expect(screen.getByText('Onboarding status is temporarily unavailable.')).toBeTruthy();
+    expect(screen.queryByTestId('redirect')).toBeNull();
   });
 });

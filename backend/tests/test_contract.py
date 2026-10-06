@@ -31,6 +31,7 @@ IMPLEMENTED_RUNTIME_OPERATION_IDS = {
     "getBookingReceipt",
     "getCommissionStatement",
     "getCounsellorProfile",
+    "getOnboardingState",
     "getOrder",
     "getOwnJobSeekerProfile",
     "getPaymentConfig",

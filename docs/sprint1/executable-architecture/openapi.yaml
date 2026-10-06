@@ -838,6 +838,25 @@ paths:
             application/json:
               schema: {$ref: '#/components/schemas/CounsellorSummary'}
         '403': {$ref: '#/components/responses/Forbidden'}
+  /me/onboarding-state:
+    get:
+      tags: [Counsellor]
+      operationId: getOnboardingState
+      x-required-role: counsellor
+      x-requirement-ids: [US-05]
+      description: >-
+        Whether first-login onboarding (profile setup, US-30; verification
+        submission, US-31) is done. Read-only: this never writes verification
+        state, it only reports what update_own_counsellor_profile and
+        submit_verification have already recorded.
+      responses:
+        '200':
+          description: First-login onboarding progress for this counsellor
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/OnboardingState'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
   /me/job-seeker-profile:
     get:
       tags: [Job Seeker]
@@ -1614,6 +1633,13 @@ components:
         photoUrl: {type: string, nullable: true, description: An inline data URI.}
         headline: {type: string}
         careerGoals: {type: string}
+    OnboardingState:
+      type: object
+      required: [profileComplete, verificationSubmitted, complete]
+      properties:
+        profileComplete: {type: boolean, description: LinkedIn URL, introduction, background and experience are all saved.}
+        verificationSubmitted: {type: boolean, description: A LinkedIn URL is on file, whatever the Platform Owner has since decided about it.}
+        complete: {type: boolean, description: Both of the above. Service publishing is not offered until this is true.}
     PayoutStatus:
       type: object
       required: [chargesEnabled, payoutsEnabled, onboardingRequired, gstRegistered]
