@@ -85,6 +85,16 @@ async function request<T>(path: string, init?: RequestInit, accessToken?: string
   return response.json() as Promise<T>;
 }
 
+type CounsellorProfileResponse = Omit<CounsellorProfile, 'overallRating'> & {
+  overallRating?: number | null;
+};
+
+/** The API omits nullable fields, while screens consume an explicit null. */
+const normaliseCounsellorProfile = ({ overallRating, ...profile }: CounsellorProfileResponse): CounsellorProfile => ({
+  ...profile,
+  overallRating: overallRating ?? null,
+});
+
 
 
 export const api = {
@@ -229,12 +239,12 @@ export const api = {
   // --- counsellor workspace (contract-published, backend pending) ---
 
   /** The Career Professionals a Job Seeker can book: the people behind Explore's services. */
-  listCounsellors: (): Promise<CounsellorProfile[]> =>
-    request('/counsellors'),
+  listCounsellors: async (): Promise<CounsellorProfile[]> =>
+    (await request<CounsellorProfileResponse[]>('/counsellors')).map(normaliseCounsellorProfile),
 
   /** A Career Professional's public profile: what a Job Seeker reads before booking. */
-  getCounsellorProfile: (counsellorId: string): Promise<CounsellorProfile> =>
-    request(`/counsellors/${encodeURIComponent(counsellorId)}`),
+  getCounsellorProfile: async (counsellorId: string): Promise<CounsellorProfile> =>
+    normaliseCounsellorProfile(await request<CounsellorProfileResponse>(`/counsellors/${encodeURIComponent(counsellorId)}`)),
 
   getOwnCounsellorProfile: (user: User, accessToken: string): Promise<CounsellorProfile> =>
     request('/me/counsellor-profile', undefined, accessToken),

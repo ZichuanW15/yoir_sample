@@ -2,7 +2,6 @@ from typing import Any
 
 from fastapi.testclient import TestClient
 
-
 SETTINGS_PATH = "/api/v1/me/profile-visibility"
 
 
