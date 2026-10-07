@@ -18,12 +18,12 @@ import { FadeUp, ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, type } from '@/src/theme';
 
 /** A session still to happen, and not called off. */
-function isUpcoming(booking: Booking): boolean {
+export function isUpcoming(booking: Booking): boolean {
   if (booking.status === 'cancelled' || booking.status === 'refunded') return false;
   return new Date(booking.startsAt).getTime() > Date.now();
 }
 
-const statusTone: Record<string, { bg: string; fg: string }> = {
+export const statusTone: Record<string, { bg: string; fg: string }> = {
   confirmed: { bg: colors.greenTint, fg: colors.greenDeep },
   completed: { bg: colors.greenTint, fg: colors.greenDeep },
   paid_out: { bg: colors.greenTint, fg: colors.greenDeep },
@@ -31,7 +31,7 @@ const statusTone: Record<string, { bg: string; fg: string }> = {
   refunded: { bg: colors.yellowTint, fg: colors.amberInk },
 };
 
-const statusLabel: Record<string, string> = {
+export const statusLabel: Record<string, string> = {
   confirmed: 'Confirmed',
   completed: 'Completed',
   paid_out: 'Paid out',
@@ -219,10 +219,15 @@ function BookingCard({ booking, past = false, busy = false, canReview = false, o
 }) {
   const tone = statusTone[booking.status] ?? statusTone.cancelled;
   const other = booking.counterpartyName || 'Yoir';
+  const openDetail = () => router.push({ pathname: '/bookings/[bookingId]', params: { bookingId: booking.id } });
 
   return (
     <Card style={styles.card} pad={18}>
-      <View style={styles.cardHead}>
+      {/* Only the summary row opens the detail screen: nesting the whole card in its
+          own Press would make it one accessible unit, swallowing the action buttons
+          below (View receipt, Cancel, Write a review) rather than leaving them
+          independently reachable. */}
+      <Press onPress={openDetail} accessibilityLabel={`${booking.serviceTitle}, booking details`} style={styles.cardHead}>
         <View style={styles.avatar}><Text style={styles.avatarText}>{initials(other)}</Text></View>
         <View style={styles.cardCopy}>
           <Text style={styles.cardTitle}>{booking.serviceTitle}</Text>
@@ -231,7 +236,7 @@ function BookingCard({ booking, past = false, busy = false, canReview = false, o
           </Text>
         </View>
         <Tag label={statusLabel[booking.status] ?? booking.status} bg={tone.bg} fg={tone.fg} />
-      </View>
+      </Press>
 
       <View style={styles.when}>
         <Glyph name="calendar" size={16} color={colors.muted} />
@@ -248,7 +253,7 @@ function BookingCard({ booking, past = false, busy = false, canReview = false, o
         </Text>
       </View>
 
-      {!past && booking.counterpartyRole === 'job_seeker' && booking.preSessionBrief ? (
+      {!past && booking.preSessionBrief ? (
         <View style={styles.brief}>
           <Text style={styles.briefLabel}>Before the session</Text>
           <Text style={styles.briefText}>{booking.preSessionBrief}</Text>

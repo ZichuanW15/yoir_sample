@@ -61,6 +61,7 @@ IMPLEMENTED_RUNTIME_OPERATION_IDS = {
     "requestEmailVerification",
     "requestPasswordReset",
     "resetPassword",
+    "setBookingMeetingAddress",
     "startStripeOnboarding",
     "stripeOnboardingRefresh",
     "stripeOnboardingReturn",

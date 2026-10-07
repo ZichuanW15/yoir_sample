@@ -464,9 +464,18 @@ class BookingOut(CamelModel):
     counterparty_role: Role | None = None
     #: Where an in-person session happens, as the service advertises it.
     meeting_area: str = ""
+    #: US-43 — the specific meeting point for this booking, set by the counsellor
+    #: after confirmation. Empty until they add one.
+    meeting_address: str = ""
     #: US-42 — what the job seeker asked to cover, frozen from the order at booking
     #: time. Empty when none was given.
     pre_session_brief: str = ""
+
+
+class UpdateMeetingAddressRequest(CamelModel):
+    """US-43 — the counsellor's own words for where to meet, for one booking."""
+
+    meeting_address: str | None = Field(default=None, max_length=300)
 
 
 class StubPaymentConfirmation(CamelModel):

@@ -1,4 +1,4 @@
-import { apiFailure, callsTo, jsonResponse, renderPublic, reply } from '../public-screen-utils';
+import { apiFailure, callsTo, jsonResponse, navigation, renderPublic, reply } from '../public-screen-utils';
 import { fireEvent, screen } from '@testing-library/react-native';
 import MyBookingsScreen from '@/app/bookings';
 import { Booking } from '@/src/api/types';
@@ -36,6 +36,15 @@ describe('Career Professional bookings — US-42', () => {
     expect(screen.getByText(deviceTimezone(), { exact: false })).toBeOnTheScreen();
     expect(screen.getByText('Before the session')).toBeOnTheScreen();
     expect(screen.getByText('Keen to go over salary negotiation.')).toBeOnTheScreen();
+  });
+
+  test('US-43: tapping a booking opens its detail screen', async () => {
+    reply('GET', BOOKINGS, jsonResponse([upcoming]));
+    await renderPublic(<MyBookingsScreen />, counsellorSessionFixture);
+    await screen.findByText('Interview confidence coaching');
+
+    fireEvent.press(screen.getByRole('button', { name: 'Interview confidence coaching, booking details' }));
+    expect(navigation.push).toHaveBeenCalledWith({ pathname: '/bookings/[bookingId]', params: { bookingId: 'booking-upcoming' } });
   });
 
   test('AT-US-42-2: a booking whose slot time has passed appears under the Past tab, not Coming up', async () => {
@@ -90,13 +99,15 @@ describe('Career Professional bookings — US-42', () => {
     expect(screen.queryByText('Before the session')).toBeNull();
   });
 
-  test('a Job Seeker viewing their own upcoming booking is not shown the "Before the session" prep note', async () => {
+  test('a Job Seeker viewing their own upcoming booking also sees the brief they wrote (US-43)', async () => {
+    // So they can check it against what they remember writing, not just the counsellor.
     reply('GET', BOOKINGS, jsonResponse([{ ...upcoming, counterpartyName: 'Maya Chen', counterpartyRole: 'counsellor' }]));
     await renderPublic(<MyBookingsScreen />, sessionFixture);
     await screen.findByText('Interview confidence coaching');
 
     expect(screen.getByText('With Maya Chen')).toBeOnTheScreen();
-    expect(screen.queryByText('Before the session')).toBeNull();
+    expect(screen.getByText('Before the session')).toBeOnTheScreen();
+    expect(screen.getByText('Keen to go over salary negotiation.')).toBeOnTheScreen();
   });
 
   test('AC3: no bookings at all shows an explicit empty state on each tab, without an error', async () => {

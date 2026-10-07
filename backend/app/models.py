@@ -252,6 +252,10 @@ class Booking(Base):
     # Where an online session happens. Stored rather than derived on read, so the
     # link in a confirmation email sent months ago still matches what the app shows.
     meeting_url: Mapped[str | None] = mapped_column(String, nullable=True)
+    # US-43 — the specific in-person meeting point for this one booking, set by the
+    # counsellor after confirmation. The service's own location (meeting_area) only
+    # ever holds a state and city/region, never a street address.
+    meeting_address: Mapped[str | None] = mapped_column(String, nullable=True)
     # Raised by charge.dispute.created; holds the payout back for admin review.
     flagged_for_review: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     review_reason: Mapped[str | None] = mapped_column(String, nullable=True)

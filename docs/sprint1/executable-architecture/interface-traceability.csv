@@ -19,6 +19,7 @@ completeStubPayment,POST,/orders/{orderId}/payments/stub,Owning Job Seeker,US-47
 processStripeWebhook,POST,/payments/stripe/webhook,Stripe signature,US-41;US-47;US-68,Signature replay and confirmation integration tests
 listMyBookings,GET,/me/bookings,Job Seeker or Counsellor,US-42,Ownership integration test
 getBooking,GET,/bookings/{bookingId},Participant or Platform Owner,US-43;US-68,EA-01 and EA-04
+setBookingMeetingAddress,PATCH,/bookings/{bookingId}/meeting-address,Owning Counsellor,US-43,test_booking_detail.py
 rescheduleBooking,POST,/bookings/{bookingId}/reschedule,Authorised participant,US-69,Atomic move and rollback tests
 listMessages,GET,/bookings/{bookingId}/messages,Participant,US-49;US-50,EA-04 and EA-05
 sendMessage,POST,/bookings/{bookingId}/messages,Participant,US-50;US-62;US-63,EA-04 and EA-05

@@ -525,6 +525,33 @@ paths:
               schema: {$ref: '#/components/schemas/Receipt'}
         '401': {$ref: '#/components/responses/Unauthorised'}
         '404': {$ref: '#/components/responses/NotFound'}
+  /bookings/{bookingId}/meeting-address:
+    parameters:
+      - {$ref: '#/components/parameters/BookingId'}
+    patch:
+      tags: [Bookings]
+      operationId: setBookingMeetingAddress
+      x-required-role: owning_counsellor
+      x-requirement-ids: [US-43]
+      description: >-
+        The specific in-person meeting point for one confirmed booking, set by the
+        counsellor delivering it. The service's own location (US-38) only ever holds
+        a state and city/region; this is the address, added once it is known and
+        read back to both participants on the booking.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/UpdateMeetingAddressRequest'}
+      responses:
+        '200':
+          description: Updated booking, with the new meeting address
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/BookingSummary'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
   /bookings/{bookingId}/reschedule:
     parameters:
       - {$ref: '#/components/parameters/BookingId'}
@@ -1664,6 +1691,16 @@ components:
         preSessionBrief:
           type: string
           description: US-42 — what the job seeker asked to cover. Empty when none was given.
+        meetingAddress:
+          type: string
+          description: >-
+            US-43 — the specific in-person meeting point for this booking, set by the
+            counsellor. Empty until they add one.
+    UpdateMeetingAddressRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        meetingAddress: {type: string, nullable: true, maxLength: 300}
     CancelBookingResult:
       type: object
       required: [booking, refundedMinor, currency]

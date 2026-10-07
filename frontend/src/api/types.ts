@@ -141,6 +141,9 @@ export interface Booking {
   review?: Review | null;
   /** US-42 — what the Job Seeker asked to cover, given before payment. Empty when none was given. */
   preSessionBrief?: string;
+  /** US-43 — the specific meeting point for this booking, set by the counsellor after
+   * confirmation. Empty until they add one; distinct from the service's own meetingArea. */
+  meetingAddress?: string;
 }
 
 /** US-53/54 — one verified-purchase review. */

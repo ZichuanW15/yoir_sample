@@ -185,6 +185,14 @@ export const api = {
   getBooking: (bookingId: string, accessToken: string): Promise<Booking> =>
     request(`/bookings/${encodeURIComponent(bookingId)}`, {}, accessToken),
 
+  /** US-43 — the counsellor delivering the session sets where it meets; `null` clears it. */
+  updateBookingMeetingAddress: (bookingId: string, meetingAddress: string | null, accessToken: string): Promise<Booking> =>
+    request(
+      `/bookings/${encodeURIComponent(bookingId)}/meeting-address`,
+      { method: 'PATCH', body: JSON.stringify({ meetingAddress }) },
+      accessToken,
+    ),
+
   getBookingReceipt: (bookingId: string, accessToken: string): Promise<Receipt> =>
     request(`/bookings/${encodeURIComponent(bookingId)}/receipt`, undefined, accessToken),
 
