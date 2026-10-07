@@ -1206,7 +1206,9 @@ def test_a_pre_session_brief_over_the_limit_is_rejected(
     job_seeker_headers: dict[str, str],
 ) -> None:
     window = add_window(db_session, service)
-    response = create_order(client, service, window, job_seeker_headers, pre_session_brief="x" * 501)
+    response = create_order(
+        client, service, window, job_seeker_headers, pre_session_brief="x" * 501,
+    )
     assert response.status_code == 400
     assert response.json()["code"] == "VALIDATION_ERROR"
 
