@@ -43,6 +43,8 @@ describe('completed-booking reviews — US-53', () => {
     reply('GET', '/me/bookings', jsonResponse([completed]));
     reply('GET', '/me/notifications', jsonResponse([]));
     await renderPublic(<MyBookingsScreen />, sessionFixture);
+    // A completed session sits under the Past tab, not the Coming up tab shown by default.
+    fireEvent.press(await screen.findByRole('tab', { name: 'Past' }));
     fireEvent.press(await screen.findByRole('button', { name: 'Write a review' }));
     expect(navigation.push).toHaveBeenCalledWith('/bookings/booking-1/review');
   });

@@ -227,6 +227,7 @@ def succeeded_event(event_id: str, intent_id: str, order_id: str) -> dict[str, A
 
 def create_order(
     client: TestClient, service: Service, window: AvailabilityWindow, headers: dict[str, str],
+    pre_session_brief: str | None = None,
 ):
     """Book the first bookable start. The end follows from the service's duration."""
     return client.post(
@@ -237,6 +238,7 @@ def create_order(
             "startsAt": window.starts_at.isoformat(),
             "modality": "online",
             "timezone": "Australia/Melbourne",
+            "preSessionBrief": pre_session_brief,
         },
     )
 
@@ -1197,6 +1199,16 @@ def test_a_counsellor_sees_their_own_bookings_and_a_job_seeker_sees_theirs(
     assert len(client.get("/api/v1/me/bookings", headers=job_seeker_headers).json()) == 1
     assert len(client.get("/api/v1/me/bookings", headers=counsellor_headers).json()) == 1
     assert client.get("/api/v1/me/bookings", headers=other_job_seeker_headers).json() == []
+
+
+def test_a_pre_session_brief_over_the_limit_is_rejected(
+    client: TestClient, db_session: Session, service: Service,
+    job_seeker_headers: dict[str, str],
+) -> None:
+    window = add_window(db_session, service)
+    response = create_order(client, service, window, job_seeker_headers, pre_session_brief="x" * 501)
+    assert response.status_code == 400
+    assert response.json()["code"] == "VALIDATION_ERROR"
 
 
 def test_the_order_endpoint_is_the_apps_source_of_truth_after_payment(

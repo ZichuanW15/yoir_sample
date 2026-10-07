@@ -139,6 +139,7 @@ describe('API client HTTP boundary', () => {
         '2026-09-01T00:00:00.000Z',
         'online',
         'Australia/Sydney',
+        null,
         'test-access-token',
       ),
     ).resolves.toEqual(orderFixture);
@@ -152,12 +153,32 @@ describe('API client HTTP boundary', () => {
         startsAt: '2026-09-01T00:00:00.000Z',
         modality: 'online',
         timezone: 'Australia/Sydney',
+        preSessionBrief: null,
       }),
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         Authorization: 'Bearer test-access-token',
       },
+    });
+  });
+
+  test('createOrder sends a given pre-session brief (US-42)', async () => {
+    fetchMock.mockResolvedValueOnce(jsonResponse(orderFixture, 201));
+    const { api } = loadClient();
+
+    await api.createOrder(
+      'service-1',
+      '2026-09-01T00:00:00.000Z',
+      'online',
+      'Australia/Sydney',
+      'Keen to go over salary negotiation.',
+      'test-access-token',
+    );
+
+    const [, init] = fetchMock.mock.calls[0];
+    expect(JSON.parse(init?.body as string)).toMatchObject({
+      preSessionBrief: 'Keen to go over salary negotiation.',
     });
   });
 

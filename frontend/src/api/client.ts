@@ -133,9 +133,16 @@ export const api = {
       + (modality ? `?modality=${encodeURIComponent(modality)}` : ''),
     ),
 
-  /** `startsAt` is the chosen time; its end follows from the service's duration. */
-  createOrder: (serviceId: string, startsAt: string, modality: string, timezone: string, accessToken: string): Promise<Order> =>
-    request('/orders', { method: 'POST', body: JSON.stringify({ serviceId, startsAt, modality, timezone }) }, accessToken),
+  /**
+   * `startsAt` is the chosen time; its end follows from the service's duration.
+   * `preSessionBrief` (US-42) is optional — what the Job Seeker wants to cover,
+   * shown to the Career Professional so they can prepare.
+   */
+  createOrder: (
+    serviceId: string, startsAt: string, modality: string, timezone: string,
+    preSessionBrief: string | null, accessToken: string,
+  ): Promise<Order> =>
+    request('/orders', { method: 'POST', body: JSON.stringify({ serviceId, startsAt, modality, timezone, preSessionBrief }) }, accessToken),
 
   completeStubPayment: (order: Order, accessToken: string): Promise<StubPaymentConfirmation> =>
     request(`/orders/${encodeURIComponent(order.id)}/payments/stub`, { method: 'POST' }, accessToken),

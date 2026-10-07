@@ -96,6 +96,7 @@ def _booking_out(
         counterparty_name=other.name if other is not None else "",
         counterparty_role=other.role if other is not None else None,
         meeting_area=area if booking.modality == "in_person" else "",
+        pre_session_brief=(order.pre_session_brief or "") if order is not None else "",
     )
 
 
@@ -199,6 +200,7 @@ def create_order(
         currency=service.currency,
         timezone=payload.timezone,
         modality=payload.modality,
+        pre_session_brief=(payload.pre_session_brief or "").strip() or None,
         status="awaiting_payment",
         payment_status="not_started",
     )

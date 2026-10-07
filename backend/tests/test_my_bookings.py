@@ -24,6 +24,7 @@ def book(
     *,
     days: int = 1,
     modality: str = "online",
+    pre_session_brief: str | None = None,
 ) -> dict:
     start = datetime.now(UTC) + timedelta(days=days)
     db_session.add(AvailabilityWindow(
@@ -38,6 +39,7 @@ def book(
             "startsAt": start.isoformat(),
             "modality": modality,
             "timezone": "Australia/Melbourne",
+            "preSessionBrief": pre_session_brief,
         },
     )
     assert order.status_code == 201, order.text
@@ -98,6 +100,36 @@ def test_an_in_person_booking_carries_the_meeting_area_instead(
     (row,) = client.get("/api/v1/me/bookings", headers=job_seeker_headers).json()
     assert row["meetingUrl"] is None
     assert row["meetingArea"] == "Melbourne, VIC"
+
+
+def test_a_pre_session_brief_is_trimmed_and_shown_to_both_parties(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    job_seeker_headers: dict,
+    counsellor_headers: dict,
+) -> None:
+    """US-42 — what the job seeker asked to cover, so the counsellor can prepare."""
+    book(
+        client, db_session, service, job_seeker_headers,
+        pre_session_brief="  Keen to go over salary negotiation.  ",
+    )
+
+    for headers in (job_seeker_headers, counsellor_headers):
+        (row,) = client.get("/api/v1/me/bookings", headers=headers).json()
+        assert row["preSessionBrief"] == "Keen to go over salary negotiation."
+
+
+def test_a_booking_made_without_a_pre_session_brief_reads_as_empty(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    job_seeker_headers: dict,
+) -> None:
+    book(client, db_session, service, job_seeker_headers)
+
+    (row,) = client.get("/api/v1/me/bookings", headers=job_seeker_headers).json()
+    assert row["preSessionBrief"] == ""
 
 
 def test_the_list_holds_only_the_callers_own_bookings(

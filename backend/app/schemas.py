@@ -401,6 +401,9 @@ class CreateOrderRequest(CamelModel):
     starts_at: datetime
     modality: Modality
     timezone: str = Field(min_length=1, max_length=100)
+    #: US-42 — optional. What the job seeker wants to cover, shown to the
+    #: counsellor so they can prepare; never required to complete a booking.
+    pre_session_brief: str | None = Field(default=None, max_length=500)
 
 
 class BookingAmountsOut(CamelModel):
@@ -461,6 +464,9 @@ class BookingOut(CamelModel):
     counterparty_role: Role | None = None
     #: Where an in-person session happens, as the service advertises it.
     meeting_area: str = ""
+    #: US-42 — what the job seeker asked to cover, frozen from the order at booking
+    #: time. Empty when none was given.
+    pre_session_brief: str = ""
 
 
 class StubPaymentConfirmation(CamelModel):

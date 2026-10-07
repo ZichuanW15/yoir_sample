@@ -186,6 +186,10 @@ class Order(Base):
     currency: Mapped[str] = mapped_column(String, nullable=False, default="AUD")
     timezone: Mapped[str] = mapped_column(String, nullable=False)
     modality: Mapped[str] = mapped_column(String, nullable=False)
+    # US-42 — what the job seeker wants to cover, collected before payment so the
+    # counsellor can prepare. Optional; never edited after the order is placed, so a
+    # booking list reads the same note the counsellor originally saw.
+    pre_session_brief: Mapped[str | None] = mapped_column(String, nullable=True)
     # awaiting_payment | confirmed | cancelled | refunded_slot_taken
     status: Mapped[str] = mapped_column(String, nullable=False, default="awaiting_payment")
     # not_started | paid | failed | refunded | partially_refunded

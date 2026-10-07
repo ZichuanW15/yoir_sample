@@ -12,7 +12,7 @@ import { CounsellorNav } from '@/src/components/CounsellorNav';
 import { JobSeekerNav } from '@/src/components/JobSeekerNav';
 import { TopBar } from '@/src/components/TopBar';
 import { Button, Card, ErrorBanner, Press, Spinner, Tag } from '@/src/components/ui';
-import { fmtLong, initials, modalityLabel, money, timeRange } from '@/src/format';
+import { deviceTimezone, fmtLong, initials, modalityLabel, money, timeRange } from '@/src/format';
 import { goBack } from '@/src/navigation';
 import { FadeUp, ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, type } from '@/src/theme';
@@ -52,6 +52,9 @@ export default function MyBookingsScreen() {
   const [error, setError] = useState('');
   const [refreshing, setRefreshing] = useState(false);
   const [cancelling, setCancelling] = useState('');
+  // Both sections stay reachable even when one is empty, so "no past sessions" reads
+  // as a confirmed fact rather than a section that silently never showed up.
+  const [tab, setTab] = useState<'upcoming' | 'past'>('upcoming');
 
   const load = useCallback(async () => {
     if (!session) return;
@@ -131,40 +134,57 @@ export default function MyBookingsScreen() {
         {session?.user.role === 'job_seeker' || session?.user.role === 'counsellor' ? <Text style={type.display34}>My sessions</Text> : null}
         {error ? <ErrorBanner message={error} /> : null}
 
-        {upcoming.length === 0 && past.length === 0 ? (
-          <FadeUp delay={100} style={styles.empty}>
-            <View style={styles.emptyBadge}>
-              <Glyph name="calendar" size={26} color={colors.green} />
-            </View>
-            <Text style={type.display24}>Nothing booked yet</Text>
-            <Text style={type.body}>
-              {session?.user.role === 'counsellor'
-                ? 'Sessions job seekers book with you will appear here.'
-                : 'Find a Career Professional and book a session; it will appear here.'}
-            </Text>
-            {session?.user.role === 'job_seeker' ? (
-              <Button label="Browse Career Professionals" height={52} onPress={() => router.push('/marketplace')} />
-            ) : null}
-          </FadeUp>
-        ) : null}
+        <View style={styles.tabs} accessibilityRole="tablist">
+          <Press
+            onPress={() => setTab('upcoming')}
+            accessibilityRole="tab"
+            accessibilityLabel="Coming up"
+            accessibilityState={{ selected: tab === 'upcoming' }}
+            style={[styles.tab, tab === 'upcoming' && styles.tabActive]}
+          >
+            <Text style={[styles.tabLabel, tab === 'upcoming' && styles.tabLabelActive]}>Coming up</Text>
+          </Press>
+          <Press
+            onPress={() => setTab('past')}
+            accessibilityRole="tab"
+            accessibilityLabel="Past"
+            accessibilityState={{ selected: tab === 'past' }}
+            style={[styles.tab, tab === 'past' && styles.tabActive]}
+          >
+            <Text style={[styles.tabLabel, tab === 'past' && styles.tabLabelActive]}>Past</Text>
+          </Press>
+        </View>
 
-        {upcoming.length > 0 ? (
-          <FadeUp delay={100} style={styles.section}>
-            <Text style={type.groupLabel}>Coming up</Text>
-            {upcoming.map((booking) => (
-              <BookingCard
-                key={booking.id}
-                booking={booking}
-                busy={cancelling === booking.id}
-                onCancel={() => cancel(booking)}
-              />
-            ))}
-          </FadeUp>
-        ) : null}
-
-        {past.length > 0 ? (
-          <FadeUp delay={200} style={styles.section}>
-            <Text style={type.groupLabel}>Past</Text>
+        {tab === 'upcoming' ? (
+          upcoming.length > 0 ? (
+            <FadeUp delay={80} style={styles.section}>
+              {upcoming.map((booking) => (
+                <BookingCard
+                  key={booking.id}
+                  booking={booking}
+                  busy={cancelling === booking.id}
+                  onCancel={() => cancel(booking)}
+                />
+              ))}
+            </FadeUp>
+          ) : (
+            <FadeUp delay={80} style={styles.empty}>
+              <View style={styles.emptyBadge}>
+                <Glyph name="calendar" size={26} color={colors.green} />
+              </View>
+              <Text style={type.display24}>Nothing booked yet</Text>
+              <Text style={type.body}>
+                {session?.user.role === 'counsellor'
+                  ? 'Sessions job seekers book with you will appear here.'
+                  : 'Find a Career Professional and book a session; it will appear here.'}
+              </Text>
+              {session?.user.role === 'job_seeker' ? (
+                <Button label="Browse Career Professionals" height={52} onPress={() => router.push('/marketplace')} />
+              ) : null}
+            </FadeUp>
+          )
+        ) : past.length > 0 ? (
+          <FadeUp delay={80} style={styles.section}>
             {past.map((booking) => (
               <BookingCard
                 key={booking.id}
@@ -174,7 +194,15 @@ export default function MyBookingsScreen() {
               />
             ))}
           </FadeUp>
-        ) : null}
+        ) : (
+          <FadeUp delay={80} style={styles.empty}>
+            <View style={styles.emptyBadge}>
+              <Glyph name="calendar" size={26} color={colors.green} />
+            </View>
+            <Text style={type.display24}>No past sessions</Text>
+            <Text style={type.body}>Sessions you&apos;ve completed will appear here.</Text>
+          </FadeUp>
+        )}
       </ScrollView>
       <JobSeekerNav />
       <CounsellorNav />
@@ -208,7 +236,7 @@ function BookingCard({ booking, past = false, busy = false, canReview = false, o
       <View style={styles.when}>
         <Glyph name="calendar" size={16} color={colors.muted} />
         <Text style={styles.whenText}>
-          {fmtLong(booking.startsAt)} · {timeRange(booking.startsAt, booking.endsAt)}
+          {fmtLong(booking.startsAt)} · {timeRange(booking.startsAt, booking.endsAt)} · {deviceTimezone()}
         </Text>
       </View>
       <View style={styles.when}>
@@ -219,6 +247,13 @@ function BookingCard({ booking, past = false, busy = false, canReview = false, o
           {booking.amountMinor ? ` · ${money(booking.amountMinor)}` : ''}
         </Text>
       </View>
+
+      {!past && booking.counterpartyRole === 'job_seeker' && booking.preSessionBrief ? (
+        <View style={styles.brief}>
+          <Text style={styles.briefLabel}>Before the session</Text>
+          <Text style={styles.briefText}>{booking.preSessionBrief}</Text>
+        </View>
+      ) : null}
 
       {!past && booking.meetingUrl ? (
         <Press
@@ -276,7 +311,12 @@ function BookingCard({ booking, past = false, busy = false, canReview = false, o
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.canvas },
   centred: { alignItems: 'center', justifyContent: 'center' },
-  body: { paddingTop: 12, paddingHorizontal: 20, gap: 26 },
+  body: { paddingTop: 12, paddingHorizontal: 20, gap: 20 },
+  tabs: { flexDirection: 'row', gap: 4, backgroundColor: colors.chip, borderRadius: radius.pill, padding: 4 },
+  tab: { flex: 1, height: 38, borderRadius: radius.pill, alignItems: 'center', justifyContent: 'center' },
+  tabActive: { backgroundColor: colors.white },
+  tabLabel: { fontFamily: fonts.bold, fontSize: 13, color: colors.muted },
+  tabLabelActive: { color: colors.ink },
   section: { gap: 12 },
   card: { gap: 12 },
   cardHead: { flexDirection: 'row', alignItems: 'center', gap: 12 },
@@ -294,6 +334,9 @@ const styles = StyleSheet.create({
     height: 48, borderRadius: radius.pill, backgroundColor: colors.green,
   },
   joinLabel: { fontFamily: fonts.bold, fontSize: 15, color: colors.white },
+  brief: { gap: 4, padding: 12, borderRadius: radius.md, backgroundColor: colors.greenTint },
+  briefLabel: { fontFamily: fonts.bold, fontSize: 12, color: colors.greenDeep },
+  briefText: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 19, color: colors.ink },
   note: { fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, color: colors.sub },
   actions: { flexDirection: 'row', gap: 10 },
   action: { flex: 1 },

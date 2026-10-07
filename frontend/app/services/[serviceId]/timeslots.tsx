@@ -8,7 +8,7 @@ import { BookableStart, Modality, Service } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { BackBar, beat, BookingSteps, RESERVE_MS } from '@/src/components/booking';
 import { Glyph } from '@/src/components/Glyph';
-import { Button, ErrorBanner, Press } from '@/src/components/ui';
+import { Button, ErrorBanner, Field, Press } from '@/src/components/ui';
 import { deviceTimezone, duration, fmtDay, modalityLabel, money, timeRange } from '@/src/format';
 import { FadeUp, Pop, ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, type } from '@/src/theme';
@@ -37,6 +37,7 @@ export default function TimeSlotsScreen() {
   const [slots, setSlots] = useState<BookableStart[]>([]);
   const [selected, setSelected] = useState('');
   const [modality, setModality] = useState<Modality | null>(null);
+  const [brief, setBrief] = useState('');
   const [slotsError, setSlotsError] = useState('');
   const [busy, setBusy] = useState(false);
 
@@ -81,7 +82,9 @@ export default function TimeSlotsScreen() {
     setSlotsError('');
     const busy700 = beat(RESERVE_MS);
     try {
-      const order = await api.createOrder(service.id, chosen.startsAt, modality, deviceTimezone(), session.accessToken);
+      const order = await api.createOrder(
+        service.id, chosen.startsAt, modality, deviceTimezone(), brief.trim() || null, session.accessToken,
+      );
       await busy700;
       router.push({
         pathname: '/bookings/checkout',
@@ -174,6 +177,19 @@ export default function TimeSlotsScreen() {
           </FadeUp>
         ))}
 
+        {chosen ? (
+          <FadeUp style={s.brief}>
+            <Field
+              label="Anything to share before the session? (optional)"
+              value={brief}
+              onChangeText={setBrief}
+              multiline
+              placeholder="What would you like to cover?"
+              maxLength={500}
+            />
+          </FadeUp>
+        ) : null}
+
         <View style={s.tzRow}>
           <Glyph name="clock" size={14} color={colors.sub} />
           <Text style={s.tzText}>Times are shown in your device timezone ({deviceTimezone()}).</Text>
@@ -231,6 +247,7 @@ const s = StyleSheet.create({
   slotDuration: { fontFamily: fonts.sans, fontSize: 13, color: colors.sub },
   slotDurationOn: { color: colors.onDarkMuted },
 
+  brief: { gap: 10 },
   tzRow: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   tzText: { fontFamily: fonts.sans, fontSize: 12, color: colors.sub },
 

@@ -258,7 +258,7 @@ paths:
       tags: [Orders]
       operationId: createOrder
       x-required-role: job_seeker
-      x-requirement-ids: [US-41, US-47]
+      x-requirement-ids: [US-41, US-42, US-47]
       description: >-
         Holds the slot and freezes the amount breakdown. The price is read from the
         service row and never taken from the request. Refused with
@@ -1589,6 +1589,13 @@ components:
             client never decides how long it is buying.
         modality: {$ref: '#/components/schemas/Modality'}
         timezone: {type: string, minLength: 1, maxLength: 100}
+        preSessionBrief:
+          type: string
+          nullable: true
+          maxLength: 500
+          description: >-
+            US-42 — optional. What the job seeker wants to cover, shown to the
+            counsellor on their bookings list so they can prepare.
     Order:
       type: object
       required: [id, serviceId, windowId, startsAt, endsAt, amountMinor, currency, status, paymentStatus]
@@ -1654,6 +1661,9 @@ components:
         cancelledByRole:
           allOf: [{$ref: '#/components/schemas/Role'}]
           nullable: true
+        preSessionBrief:
+          type: string
+          description: US-42 — what the job seeker asked to cover. Empty when none was given.
     CancelBookingResult:
       type: object
       required: [booking, refundedMinor, currency]

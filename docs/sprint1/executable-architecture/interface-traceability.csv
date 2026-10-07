@@ -13,7 +13,7 @@ logout,DELETE,/auth/sessions/current,Authenticated,US-08,Durable replay isolatio
 listServices,GET,/services,Public,US-44;US-45,Public API contract test
 getService,GET,/services/{serviceId},Public,US-46,Public-field schema test
 listServiceSlots,GET,/services/{serviceId}/slots,Public,US-40,Open-slots-only integration test
-createOrder,POST,/orders,Job Seeker,US-41;US-47,EA-01 and EA-02
+createOrder,POST,/orders,Job Seeker,US-41;US-42;US-47,EA-01 and EA-02
 createPaymentIntent,POST,/orders/{orderId}/payment-intents,Owning Job Seeker,US-47,Mocked Stripe PaymentIntent and idempotency tests in test_payments.py
 completeStubPayment,POST,/orders/{orderId}/payments/stub,Owning Job Seeker,US-47;US-68,Stub idempotency ownership and confirmed-booking integration tests
 processStripeWebhook,POST,/payments/stripe/webhook,Stripe signature,US-41;US-47;US-68,Signature replay and confirmation integration tests
