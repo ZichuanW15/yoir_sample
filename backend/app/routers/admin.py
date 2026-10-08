@@ -215,7 +215,6 @@ def list_payment_oversight(
 
 # --- the dashboard ----------------------------------------------------------
 
-
 @router.get(
     "/admin/stats", response_model=AdminStatsOut, operation_id="getPlatformStats",
     openapi_extra={
