@@ -13,7 +13,7 @@ from datetime import UTC, datetime, timedelta
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import Session
 
-from app.models import AvailabilityWindow, Service, User
+from app.models import AvailabilityWindow, Service
 
 
 def book(
@@ -70,7 +70,9 @@ def test_the_counsellor_adds_an_address_and_both_parties_read_it_back(
     db_session.commit()
     booking = book(client, db_session, service, job_seeker_headers)
 
-    response = set_address(client, booking["id"], counsellor_headers, "  Level 4, 123 Collins St, Melbourne  ")
+    response = set_address(
+        client, booking["id"], counsellor_headers, "  Level 4, 123 Collins St, Melbourne  "
+    )
     assert response.status_code == 200
     assert response.json()["meetingAddress"] == "Level 4, 123 Collins St, Melbourne"
 
@@ -118,8 +120,10 @@ def test_a_stranger_cannot_set_or_see_the_address(
     db_session.commit()
     booking = book(client, db_session, service, job_seeker_headers)
 
-    assert set_address(client, booking["id"], platform_owner_headers, "123 Collins St").status_code == 404
-    assert client.get(f"/api/v1/bookings/{booking['id']}", headers=platform_owner_headers).status_code == 404
+    response = set_address(client, booking["id"], platform_owner_headers, "123 Collins St")
+    assert response.status_code == 404
+    response = client.get(f"/api/v1/bookings/{booking['id']}", headers=platform_owner_headers)
+    assert response.status_code == 404
 
 
 def test_an_address_over_the_limit_is_rejected(
