@@ -404,3 +404,52 @@ def test_an_expired_reset_link_is_refused(client: Any, db_session: Session, sent
     )
 
     assert response.status_code == 400
+
+
+def test_a_tampered_or_never_issued_token_is_refused(
+    client: Any, db_session: Session
+) -> None:
+    """Noise, not a real token with a flipped bit: nothing was ever minted to match
+    its digest, so this is indistinguishable from any other string a stranger could
+    have typed — the endpoint must not need a genuine record to say no."""
+    account = register(client)
+
+    response = client.post(
+        "/api/v1/auth/password-resets",
+        json={
+            "token": "not-a-token-anyone-was-ever-sent",
+            "password": "new-password",
+            "passwordConfirmation": "new-password",
+        },
+    )
+
+    assert response.status_code == 400
+    assert response.json()["code"] == "VALIDATION_ERROR"
+    db_session.expire_all()
+    assert verify_password(PASSWORD, db_session.get(User, account["id"]).password_hash)
+
+
+def test_after_a_reset_the_old_password_no_longer_authenticates(
+    client: Any, sent: list
+) -> None:
+    register(client)
+    client.post("/api/v1/auth/password-reset-requests", json={"email": REGISTER["email"]})
+    new_password = "a-brand-new-password"
+    client.post(
+        "/api/v1/auth/password-resets",
+        json={
+            "token": token_for(sent, "password_reset"),
+            "password": new_password,
+            "passwordConfirmation": new_password,
+        },
+    )
+
+    old = client.post(
+        "/api/v1/auth/sessions", json={"email": REGISTER["email"], "password": PASSWORD},
+    )
+
+    assert old.status_code == 401
+    assert old.json()["code"] == "INVALID_CREDENTIALS"
+    # The new one still does, so this is the old password failing, not the account.
+    revived = session_for(client, REGISTER["email"], new_password)
+    assert revived["user"]["email"] == REGISTER["email"]

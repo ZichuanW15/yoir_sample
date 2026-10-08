@@ -98,6 +98,7 @@ paths:
           application/json:
             schema:
               type: object
+              additionalProperties: false
               required: [email]
               properties:
                 email: {type: string, format: email}
@@ -148,6 +149,7 @@ paths:
           application/json:
             schema:
               type: object
+              additionalProperties: false
               required: [email]
               properties:
                 email: {type: string, format: email}
