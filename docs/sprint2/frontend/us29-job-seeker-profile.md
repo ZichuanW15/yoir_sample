@@ -60,23 +60,27 @@ PNG or WebP data URIs up to about 1.5 MB; an SVG is refused because it can carry
 
 | Criterion | Frontend behaviour | Evidence |
 |---|---|---|
-| Opening the profile shows the values returned by the backend | Loads with a spinner, then fills the form | Client test below; checked in the browser 18 Sep, including after a reload |
-| Success only after the backend stores the update | Toast after `PATCH` resolves | Client test below |
-| Invalid data or failure: error shown, values kept, no success | Error banner; form unchanged | Backend returns `400 VALIDATION_ERROR`; not covered by a screen test |
-| Another user's or role's session is rejected | `/me/…` only ever reads the caller; other roles get 403 | `backend/tests/test_job_seeker_profile.py` |
+| Opening the profile shows the values returned by the backend | Loads with a spinner, then fills the form | Client and screen tests below; checked in the browser 18 Sep, including after a reload |
+| Success only after the backend stores the update | Toast after `PATCH` resolves | Client and screen tests below |
+| Invalid data or failure: error shown, values kept, no success | Error banner; form unchanged | Backend returns `400 VALIDATION_ERROR`; screen test below |
+| Another user's or role's session is rejected | `/me/…` only ever reads the caller; other roles get 403 | `backend/tests/test_job_seeker_profile.py`; screen test below covers the frontend's own role redirect |
 
 ## Tests
 
 - [`__tests__/api/client.test.ts`](../../../frontend/__tests__/api/client.test.ts): "the job seeker
   profile is read and replaced with the bearer token".
+- [`__tests__/screens/job-seeker-profile.test.tsx`](../../../frontend/__tests__/screens/job-seeker-profile.test.tsx):
+  screen-level coverage of all four acceptance criteria — loading and prefill, the login/home redirects
+  for a missing session or a non-Job-Seeker role, the required-name check, a save toast that only
+  appears once the mocked `PATCH` resolves, a rejected save that keeps the typed values and surfaces the
+  backend's message, the load-failure retry, and the photo add/remove round trip.
 - [`backend/tests/test_job_seeker_profile.py`](../../../backend/tests/test_job_seeker_profile.py):
   `test_job_seeker_saves_profile_and_photo`, `test_profile_photo_must_be_an_inline_raster_image`,
   `test_only_a_job_seeker_has_a_job_seeker_profile`.
 
-Run from `frontend/`: `npm test -- __tests__/api/client.test.ts`.
+Run from `frontend/`: `npm test -- __tests__/screens/job-seeker-profile.test.tsx __tests__/api/client.test.ts`.
 
 ## Known gaps
 
-- No screen-level Jest test for `profile.tsx`; the screen was checked in a browser only.
 - Photos live in the database as data URIs, capped at about 1.5 MB, until the project has file storage.
 - US-29 has no Front-end, Back-end or QA sub-issues on the board yet.

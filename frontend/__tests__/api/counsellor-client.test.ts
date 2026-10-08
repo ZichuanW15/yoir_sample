@@ -93,7 +93,7 @@ describe('counsellor API boundary', () => {
   });
 
   describe('live requests', () => {
-    test('getOwnCounsellorProfile reads the counsellor by id with Bearer authentication', async () => {
+    test('getOwnCounsellorProfile reads the token owner with Bearer authentication', async () => {
       fetchMock.mockResolvedValueOnce(jsonResponse(counsellorProfileFixture));
       const { api } = loadClient();
 
@@ -101,18 +101,18 @@ describe('counsellor API boundary', () => {
         counsellorProfileFixture,
       );
 
-      expect(fetchMock).toHaveBeenCalledWith(`${BASE}/counsellors/counsellor-1`, {
+      expect(fetchMock).toHaveBeenCalledWith(`${BASE}/me/counsellor-profile`, {
         headers: AUTH_HEADERS,
       });
     });
 
-    test('getOwnCounsellorProfile URL-encodes the counsellor identifier', async () => {
+    test('getOwnCounsellorProfile does not trust a caller-supplied counsellor identifier', async () => {
       fetchMock.mockResolvedValueOnce(jsonResponse(counsellorProfileFixture));
       const { api } = loadClient();
 
       await api.getOwnCounsellorProfile({ ...counsellorUser, id: 'counsellor/one' }, TOKEN);
 
-      expect(fetchMock).toHaveBeenCalledWith(`${BASE}/counsellors/counsellor%2Fone`, {
+      expect(fetchMock).toHaveBeenCalledWith(`${BASE}/me/counsellor-profile`, {
         headers: AUTH_HEADERS,
       });
     });

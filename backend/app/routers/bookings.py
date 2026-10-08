@@ -29,6 +29,7 @@ from app.schemas import (
     PaymentIntentOut,
     ReceiptOut,
     StubPaymentConfirmation,
+    UpdateMeetingAddressRequest,
 )
 from app.security import get_current_user, require_job_seeker, require_verified_email_job_seeker
 
@@ -96,6 +97,8 @@ def _booking_out(
         counterparty_name=other.name if other is not None else "",
         counterparty_role=other.role if other is not None else None,
         meeting_area=area if booking.modality == "in_person" else "",
+        meeting_address=booking.meeting_address or "",
+        pre_session_brief=(order.pre_session_brief or "") if order is not None else "",
     )
 
 
@@ -199,6 +202,7 @@ def create_order(
         currency=service.currency,
         timezone=payload.timezone,
         modality=payload.modality,
+        pre_session_brief=(payload.pre_session_brief or "").strip() or None,
         status="awaiting_payment",
         payment_status="not_started",
     )
@@ -327,6 +331,35 @@ def get_booking(
     db: Session = Depends(get_db),
 ) -> BookingOut:
     booking, order, service = _visible_booking(db, booking_id, user)
+    return _booking_out(
+        booking, service, order,
+        viewer=user,
+        job_seeker=db.get(User, booking.job_seeker_id),
+        counsellor=db.get(User, booking.counsellor_id),
+    )
+
+
+@router.patch("/bookings/{booking_id}/meeting-address", response_model=BookingOut)
+def set_booking_meeting_address(
+    booking_id: str,
+    payload: UpdateMeetingAddressRequest,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> BookingOut:
+    """US-43 — only the counsellor delivering the session sets where it happens.
+
+    The service's own location (US-38) is only ever a state and city/region; this is
+    the specific point for one confirmed booking, added once it is known.
+    """
+    booking, order, service = _visible_booking(db, booking_id, user)
+    if user.id != booking.counsellor_id:
+        raise ApiError(
+            status.HTTP_403_FORBIDDEN,
+            FORBIDDEN,
+            "Only the Career Professional delivering this session can set where it meets.",
+        )
+    booking.meeting_address = (payload.meeting_address or "").strip() or None
+    db.commit()
     return _booking_out(
         booking, service, order,
         viewer=user,

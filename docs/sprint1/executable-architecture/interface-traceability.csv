@@ -1,4 +1,7 @@
 operationId,method,path,actor,requirement_ids,verification
+getOwnCounsellorProfile,GET,/me/counsellor-profile,Counsellor,US-30,Owner profile response test in test_counsellor_profile_details.py
+getProfileVisibility,GET,/me/profile-visibility,Authenticated member,US-27,Privacy persistence test in test_profile_visibility.py
+updateProfileVisibility,PATCH,/me/profile-visibility,Authenticated member,US-27;US-28,Privacy persistence and public field-restriction tests in test_profile_visibility.py
 register,POST,/auth/users,Public,US-01;US-02;US-03;US-04,EA-00 plus duplicate-email contract test
 login,POST,/auth/sessions,Public,US-06;US-07,Role-aware JWT and generic credential failure tests in test_login_sessions.py plus EA-01
 refreshSession,POST,/auth/sessions/refresh,Authenticated,US-06,Rotation and stolen-token family revocation tests in test_refresh_sessions.py
@@ -15,12 +18,13 @@ saveDiagnosisStep,PUT,/diagnoses/{diagnosisId}/steps/{stepId},Owning Job Seeker,
 listServices,GET,/services,Public,US-44;US-45,Public API contract test
 getService,GET,/services/{serviceId},Public,US-46,Public-field schema test
 listServiceSlots,GET,/services/{serviceId}/slots,Public,US-40,Open-slots-only integration test
-createOrder,POST,/orders,Job Seeker,US-41;US-47,EA-01 and EA-02
+createOrder,POST,/orders,Job Seeker,US-41;US-42;US-47,EA-01 and EA-02
 createPaymentIntent,POST,/orders/{orderId}/payment-intents,Owning Job Seeker,US-47,Mocked Stripe PaymentIntent and idempotency tests in test_payments.py
 completeStubPayment,POST,/orders/{orderId}/payments/stub,Owning Job Seeker,US-47;US-68,Stub idempotency ownership and confirmed-booking integration tests
 processStripeWebhook,POST,/payments/stripe/webhook,Stripe signature,US-41;US-47;US-68,Signature replay and confirmation integration tests
 listMyBookings,GET,/me/bookings,Job Seeker or Counsellor,US-42,Ownership integration test
 getBooking,GET,/bookings/{bookingId},Participant or Platform Owner,US-43;US-68,EA-01 and EA-04
+setBookingMeetingAddress,PATCH,/bookings/{bookingId}/meeting-address,Owning Counsellor,US-43,test_booking_detail.py
 rescheduleBooking,POST,/bookings/{bookingId}/reschedule,Authorised participant,US-69,Atomic move and rollback tests
 listMessages,GET,/bookings/{bookingId}/messages,Participant,US-49;US-50,EA-04 and EA-05
 sendMessage,POST,/bookings/{bookingId}/messages,Participant,US-50;US-62;US-63,EA-04 and EA-05

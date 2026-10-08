@@ -121,7 +121,10 @@ def list_service_slots(
     ]
 
 
-@router.get("/counsellors", response_model=list[CounsellorProfileOut])
+@router.get(
+    "/counsellors", response_model=list[CounsellorProfileOut],
+    response_model_exclude_none=True,
+)
 def list_counsellors(db: Session = Depends(get_db)) -> list[CounsellorProfileOut]:
     """US-44, US-13. The Career Professionals a Job Seeker can book, best rated first.
 
@@ -133,10 +136,13 @@ def list_counsellors(db: Session = Depends(get_db)) -> list[CounsellorProfileOut
     services = db.scalars(select(Service).where(Service.active.is_(True)))
     owners = {s.counsellor.id: s.counsellor for s in services if _bookable(s)}
     ranked = sorted(owners.values(), key=lambda user: (-(user.overall_rating or 0), user.name))
-    return [counsellor_profile_out(user) for user in ranked]
+    return [counsellor_profile_out(user, enforce_visibility=True) for user in ranked]
 
 
-@router.get("/counsellors/{counsellor_id}", response_model=CounsellorProfileOut)
+@router.get(
+    "/counsellors/{counsellor_id}", response_model=CounsellorProfileOut,
+    response_model_exclude_none=True,
+)
 def get_counsellor_profile(
     counsellor_id: str, db: Session = Depends(get_db),
 ) -> CounsellorProfileOut:
@@ -148,4 +154,4 @@ def get_counsellor_profile(
     user = db.get(User, counsellor_id)
     if user is None or user.role != "counsellor":
         raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Career Professional not found.")
-    return counsellor_profile_out(user)
+    return counsellor_profile_out(user, enforce_visibility=True)

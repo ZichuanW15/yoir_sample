@@ -11,6 +11,7 @@ import { View } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { AuthProvider } from '@/src/auth/AuthContext';
 import { ChromeProvider } from '@/src/chrome';
+import { FloatingErrorProvider } from '@/src/floatingError';
 import { PaymentConfigProvider, PaymentSheetHost } from '@/src/payments';
 import { colors } from '@/src/theme';
 
@@ -33,6 +34,7 @@ export default function RootLayout() {
   return (
     <SafeAreaProvider>
       <AuthProvider>
+        <FloatingErrorProvider>
         {/* Payment settings are fetched once, above the router, so the checkout
             screen never has to wait on them mid-journey. PaymentSheetHost supplies
             the Stripe publishable key; on web it is a pass-through. */}
@@ -51,11 +53,13 @@ export default function RootLayout() {
                   <Stack.Screen name="job-seeker/index" options={{ animation: 'fade' }} />
                   <Stack.Screen name="job-seeker/diagnosis" options={{ animation: 'fade' }} />
                   <Stack.Screen name="job-seeker/profile" />
+                  <Stack.Screen name="settings/privacy" />
                   <Stack.Screen name="professionals/[counsellorId]" />
                   <Stack.Screen name="services/[serviceId]" />
                   <Stack.Screen name="services/[serviceId]/timeslots" />
                   <Stack.Screen name="bookings/checkout" />
                   <Stack.Screen name="bookings/confirmation" options={{ gestureEnabled: false }} />
+                  <Stack.Screen name="bookings/[bookingId]/review" />
                   <Stack.Screen name="counsellor/index" />
                   <Stack.Screen name="counsellor/profile" />
                   <Stack.Screen name="counsellor/services/new" />
@@ -66,6 +70,7 @@ export default function RootLayout() {
             </ChromeProvider>
           </PaymentSheetHost>
         </PaymentConfigProvider>
+        </FloatingErrorProvider>
       </AuthProvider>
     </SafeAreaProvider>
   );

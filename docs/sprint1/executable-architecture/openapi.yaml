@@ -377,7 +377,7 @@ paths:
       tags: [Orders]
       operationId: createOrder
       x-required-role: job_seeker
-      x-requirement-ids: [US-41, US-47]
+      x-requirement-ids: [US-41, US-42, US-47]
       description: >-
         Holds the slot and freezes the amount breakdown. The price is read from the
         service row and never taken from the request. Refused with
@@ -643,6 +643,33 @@ paths:
             application/json:
               schema: {$ref: '#/components/schemas/Receipt'}
         '401': {$ref: '#/components/responses/Unauthorised'}
+        '404': {$ref: '#/components/responses/NotFound'}
+  /bookings/{bookingId}/meeting-address:
+    parameters:
+      - {$ref: '#/components/parameters/BookingId'}
+    patch:
+      tags: [Bookings]
+      operationId: setBookingMeetingAddress
+      x-required-role: owning_counsellor
+      x-requirement-ids: [US-43]
+      description: >-
+        The specific in-person meeting point for one confirmed booking, set by the
+        counsellor delivering it. The service's own location (US-38) only ever holds
+        a state and city/region; this is the address, added once it is known and
+        read back to both participants on the booking.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: {$ref: '#/components/schemas/UpdateMeetingAddressRequest'}
+      responses:
+        '200':
+          description: Updated booking, with the new meeting address
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/BookingSummary'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
         '404': {$ref: '#/components/responses/NotFound'}
   /bookings/{bookingId}/reschedule:
     parameters:
@@ -933,6 +960,19 @@ paths:
               schema: {$ref: '#/components/schemas/CounsellorSummary'}
         '404': {$ref: '#/components/responses/NotFound'}
   /me/counsellor-profile:
+    get:
+      tags: [Counsellor]
+      operationId: getOwnCounsellorProfile
+      x-required-role: counsellor
+      x-requirement-ids: [US-30]
+      responses:
+        '200':
+          description: The Career Professional's complete profile, irrespective of public visibility
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/CounsellorSummary'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
     patch:
       tags: [Counsellor]
       operationId: updateOwnCounsellorProfile
@@ -957,6 +997,42 @@ paths:
             application/json:
               schema: {$ref: '#/components/schemas/CounsellorSummary'}
         '403': {$ref: '#/components/responses/Forbidden'}
+  /me/profile-visibility:
+    get:
+      tags: [Profile]
+      operationId: getProfileVisibility
+      x-required-role: authenticated_member
+      x-requirement-ids: [US-27]
+      responses:
+        '200':
+          description: The signed-in member's current profile visibility
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PrivacySettings'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+    patch:
+      tags: [Profile]
+      operationId: updateProfileVisibility
+      x-required-role: authenticated_member
+      x-requirement-ids: [US-27, US-28]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: false
+              required: [visibility]
+              properties:
+                visibility: {$ref: '#/components/schemas/ProfileVisibility'}
+      responses:
+        '200':
+          description: The saved profile visibility
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PrivacySettings'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
   /me/onboarding-state:
     get:
       tags: [Counsellor]
@@ -1538,6 +1614,12 @@ components:
         updatedAt: {type: string, format: date-time}
     Role: {type: string, enum: [job_seeker, counsellor, platform_owner]}
     Modality: {type: string, enum: [online, in_person]}
+    ProfileVisibility: {type: string, enum: [public, partial, restricted]}
+    PrivacySettings:
+      type: object
+      required: [visibility]
+      properties:
+        visibility: {$ref: '#/components/schemas/ProfileVisibility'}
     LoginRequest:
       type: object
       additionalProperties: false
@@ -1781,6 +1863,13 @@ components:
             client never decides how long it is buying.
         modality: {$ref: '#/components/schemas/Modality'}
         timezone: {type: string, minLength: 1, maxLength: 100}
+        preSessionBrief:
+          type: string
+          nullable: true
+          maxLength: 500
+          description: >-
+            US-42 — optional. What the job seeker wants to cover, shown to the
+            counsellor on their bookings list so they can prepare.
     Order:
       type: object
       required: [id, serviceId, windowId, startsAt, endsAt, amountMinor, currency, status, paymentStatus]
@@ -1846,6 +1935,19 @@ components:
         cancelledByRole:
           allOf: [{$ref: '#/components/schemas/Role'}]
           nullable: true
+        preSessionBrief:
+          type: string
+          description: US-42 — what the job seeker asked to cover. Empty when none was given.
+        meetingAddress:
+          type: string
+          description: >-
+            US-43 — the specific in-person meeting point for this booking, set by the
+            counsellor. Empty until they add one.
+    UpdateMeetingAddressRequest:
+      type: object
+      additionalProperties: false
+      properties:
+        meetingAddress: {type: string, nullable: true, maxLength: 300}
     CancelBookingResult:
       type: object
       required: [booking, refundedMinor, currency]

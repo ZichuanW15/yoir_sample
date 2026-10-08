@@ -1,6 +1,7 @@
 import { apiMock, counsellorProfileFixture, deferred, renderCounsellor, setupCounsellorMocks, settle } from './counsellor-screen-utils';
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import * as ImagePicker from 'expo-image-picker';
+import { router } from 'expo-router';
 import Profile from '@/app/counsellor/profile';
 import { apiError } from '@/src/api/errors';
 import { sessionFixture } from '../fixtures';
@@ -9,6 +10,11 @@ const openProfile = async () => { await renderCounsellor(<Profile />); await scr
 // The profile saves itself a moment after the last change: wait out that pause rather than press a button.
 const afterPause = { timeout: 3000 };
 const saved = () => screen.findByText('Your profile is saved and visible on your listings.', {}, afterPause);
+test('Career Professional can open profile privacy settings', async () => {
+  await openProfile();
+  fireEvent.press(screen.getByRole('button', { name: 'Profile privacy' }));
+  expect(router.push).toHaveBeenCalledWith('/settings/privacy');
+});
 describe('Professional profile UI — QA #130 (mocked API boundary; no backend persistence)', () => {
   test.each([null, sessionFixture])('does not expose profile controls to an unauthorized role (%j)', async (session) => {
     await renderCounsellor(<Profile />, session); expect(screen.getByTestId('redirect')).toBeTruthy(); expect(screen.queryByLabelText('Introduction')).toBeNull();

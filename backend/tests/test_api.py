@@ -907,6 +907,8 @@ def test_stub_payment_confirms_exactly_one_booking_and_takes_the_time(
         "counterpartyName": "",
         "counterpartyRole": None,
         "meetingArea": "",
+        "meetingAddress": "",
+        "preSessionBrief": "",
     }
     db_session.expire_all()
     stored_order = db_session.get(Order, order.json()["id"])

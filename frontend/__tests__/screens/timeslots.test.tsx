@@ -46,10 +46,38 @@ describe('time-slot selection', () => {
     await tick();
     const [, init] = callsTo('POST', orderPath)[0];
     expect(init?.headers).toMatchObject({ Authorization: 'Bearer test-access-token' });
-    expect(JSON.parse(init?.body as string)).toEqual({ serviceId: 'service-1', startsAt: slotFixture.startsAt, modality: 'in_person', timezone: expect.any(String) });
+    expect(JSON.parse(init?.body as string)).toEqual({
+      serviceId: 'service-1', startsAt: slotFixture.startsAt, modality: 'in_person', timezone: expect.any(String), preSessionBrief: null,
+    });
     expect(navigation.push).toHaveBeenCalledWith({
       pathname: '/bookings/checkout', params: { orderId: 'order-1', serviceId: 'service-1', modality: 'in_person', amountMinor: '10500', startsAt: slotFixture.startsAt, endsAt: slotFixture.endsAt, holdExpiresAt: '' },
     });
+  });
+
+  test('[US-42] an entered pre-session brief is trimmed and sent with the reservation', async () => {
+    available();
+    reply('POST', orderPath, jsonResponse(orderFixture, 201));
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
+    await screen.findByRole('radio', { name: /60 min$/ });
+    choose();
+    fireEvent.changeText(
+      screen.getByLabelText('Anything to share before the session? (optional)'),
+      '  Keen to go over salary negotiation.  ',
+    );
+    reserve();
+    await tick();
+    expect(JSON.parse(callsTo('POST', orderPath)[0][1]?.body as string)).toMatchObject({
+      preSessionBrief: 'Keen to go over salary negotiation.',
+    });
+  });
+
+  test('[US-42] the pre-session brief field only appears once a time is chosen', async () => {
+    available();
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
+    await screen.findByRole('radio', { name: /60 min$/ });
+    expect(screen.queryByLabelText('Anything to share before the session? (optional)')).toBeNull();
+    choose();
+    expect(screen.getByLabelText('Anything to share before the session? (optional)')).toBeOnTheScreen();
   });
 
   test('[QA-121] a reservation conflict refreshes availability, clears selection and keeps the reason', async () => {

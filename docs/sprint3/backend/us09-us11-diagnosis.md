@@ -189,13 +189,21 @@ pre-backend baseline and should not be read as proof of this integration.
 
 ## Deployment
 
-Alembic revision `0006` adds the diagnosis table with the account foreign key,
+Alembic revision `0009` (after `dev`'s `0008`) adds the diagnosis table with the account foreign key,
 unique ownership constraint, version, JSON answers, revision and timestamps. It
 does not reset existing accounts, bookings or payments. The existing startup
 migration mechanism upgrades the database before serving requests; no seed/reset
 command is needed. Follow the normal backup/release process before upgrading a
 shared database. The API workers must use the same database for cross-device
 resume and concurrency protection.
+
+The diagnosis migration was renumbered from `0006` to `0009` while this PR was
+unmerged, to preserve `dev`'s existing `0006` profile visibility, `0007` pre-session
+brief and `0008` meeting address migrations. Do not replace those migrations or
+stamp a database blindly. A persistent database that ran the earlier PR-only
+diagnosis `0006` has a different schema from `dev`'s `0006` and requires a separate
+schema/history check and backup before upgrading. The tests below use disposable
+databases, not a shared deployment.
 
 ## Verification and QA handoff
 
@@ -260,3 +268,31 @@ provider was contacted by these tests. No frontend end-to-end, physical-device o
 deployed-environment acceptance is claimed. The frontend must still switch its
 local diagnosis storage to these APIs before cross-device app behaviour can be
 accepted.
+
+### Merge compatibility — 8 October 2026
+
+Merged `dev` at `5f46166` into the same feature branch. The operation coverage set
+retains both the diagnosis endpoints and `dev`'s own-profile, profile-visibility
+and booking meeting-address endpoints. The diagnosis migration now follows the
+single `0001`–`0009` chain; the 7 October results above describe the earlier
+pre-merge revision numbering, not the current deployment chain.
+
+The frontend dependency manifest and lockfile follow `dev`'s existing
+`shell-quote` override at `1.11.0`. This version retains the critical security fix;
+no audit threshold or test expectation is relaxed as part of conflict resolution.
+
+Post-merge local verification (Python 3.12.13; Node 24.19.0 / npm 10.8.2):
+
+- Non-live backend regression excluding the separately run diagnosis migration
+  module: **674 passed, 5 PostgreSQL-only skips, 18 existing strict XFail, 2 live
+  tests deselected** on disposable SQLite.
+- Diagnosis migration module: **5 passed**. Both `0005` and `0008` schemas retain
+  their users, services, windows, orders and bookings when upgraded to `0009`.
+  Repeated upgrades retain saved diagnosis answers; downgrade to `0008` only
+  drops diagnosis records and preserves `dev`'s fields and data.
+- Frontend regression: **46 suites / 379 tests passed**. Lint, typecheck, clean
+  locked installation and the deployable Web build passed.
+- The unchanged production critical-audit gate passed with **0 critical**;
+  **51 high and 14 moderate** findings remain outside this merge resolution.
+- Backend Ruff and whitespace checks passed. GitHub CI separately validates
+  PostgreSQL, browser regression and its pinned Node 20.20.2 environment.

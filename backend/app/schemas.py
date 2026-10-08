@@ -5,6 +5,7 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field, StringConstraints, 
 from pydantic.alias_generators import to_camel
 
 Role = Literal["job_seeker", "counsellor", "platform_owner"]
+ProfileVisibility = Literal["public", "partial", "restricted"]
 Modality = Literal["online", "in_person"]
 # Payment vocabulary (payments spec §5). An order is the spec's pending_payment
 # booking; a Booking row exists only once Stripe has confirmed the payment.
@@ -206,6 +207,18 @@ class CounsellorProfileOut(CamelModel):
     verification_status: Literal["pending", "verified", "rejected"]
     overall_rating: float | None = None
     review_count: int
+    visibility: ProfileVisibility | None = None
+    restricted: bool | None = None
+
+
+class PrivacySettingsOut(CamelModel):
+    visibility: ProfileVisibility
+
+
+class UpdateProfileVisibilityRequest(CamelModel):
+    model_config = ConfigDict(extra="forbid")
+
+    visibility: ProfileVisibility
 
 
 class OnboardingStateOut(CamelModel):
@@ -388,6 +401,9 @@ class CreateOrderRequest(CamelModel):
     starts_at: datetime
     modality: Modality
     timezone: str = Field(min_length=1, max_length=100)
+    #: US-42 — optional. What the job seeker wants to cover, shown to the
+    #: counsellor so they can prepare; never required to complete a booking.
+    pre_session_brief: str | None = Field(default=None, max_length=500)
 
 
 class BookingAmountsOut(CamelModel):
@@ -448,6 +464,18 @@ class BookingOut(CamelModel):
     counterparty_role: Role | None = None
     #: Where an in-person session happens, as the service advertises it.
     meeting_area: str = ""
+    #: US-43 — the specific meeting point for this booking, set by the counsellor
+    #: after confirmation. Empty until they add one.
+    meeting_address: str = ""
+    #: US-42 — what the job seeker asked to cover, frozen from the order at booking
+    #: time. Empty when none was given.
+    pre_session_brief: str = ""
+
+
+class UpdateMeetingAddressRequest(CamelModel):
+    """US-43 — the counsellor's own words for where to meet, for one booking."""
+
+    meeting_address: str | None = Field(default=None, max_length=300)
 
 
 class StubPaymentConfirmation(CamelModel):

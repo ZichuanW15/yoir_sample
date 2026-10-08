@@ -177,32 +177,62 @@ def delete_service(
 # --- US-30 / US-31: the professional profile --------------------------------
 
 
-def counsellor_profile_out(user: User) -> CounsellorProfileOut:
+def counsellor_profile_out(
+    user: User, *, enforce_visibility: bool = False,
+) -> CounsellorProfileOut:
+    visibility = user.profile_visibility or "public"
+    if enforce_visibility and visibility == "restricted":
+        return CounsellorProfileOut(
+            id=user.id,
+            display_name=user.name,
+            verification_status=user.verification_status,
+            overall_rating=user.overall_rating,
+            review_count=user.review_count,
+            visibility="restricted",
+            restricted=True,
+        )
+
+    hide_details = enforce_visibility and visibility == "partial"
     location = None
-    if user.base_location_state and user.base_location_city:
+    if not hide_details and user.base_location_state and user.base_location_city:
         location = Location(
             state=user.base_location_state, city_or_region=user.base_location_city,
         )
     return CounsellorProfileOut(
         id=user.id,
         display_name=user.name,
-        photo_url=user.photo_url,
-        linkedin_url=user.linkedin_url or "",
+        photo_url=None if hide_details else user.photo_url,
+        linkedin_url="" if hide_details else (user.linkedin_url or ""),
         introduction=user.introduction or "",
-        background=user.background or "",
-        experience=user.experience or "",
-        qualifications=user.qualifications or [],
-        expertise=user.expertise or [],
-        languages=user.languages or [],
+        background="" if hide_details else (user.background or ""),
+        experience="" if hide_details else (user.experience or ""),
+        qualifications=[] if hide_details else (user.qualifications or []),
+        expertise=[] if hide_details else (user.expertise or []),
+        languages=[] if hide_details else (user.languages or []),
         base_location=location,
         default_modality=user.default_modality or "online",
         verification_status=user.verification_status,
         overall_rating=user.overall_rating,
         review_count=user.review_count,
+        visibility=visibility if enforce_visibility else None,
     )
 
 
-@router.patch("/counsellor-profile", response_model=CounsellorProfileOut)
+@router.get(
+    "/counsellor-profile", response_model=CounsellorProfileOut,
+    response_model_exclude_none=True,
+)
+def get_own_counsellor_profile(
+    user: User = Depends(require_counsellor),
+) -> CounsellorProfileOut:
+    """Return the owner's complete profile regardless of public visibility."""
+    return counsellor_profile_out(user)
+
+
+@router.patch(
+    "/counsellor-profile", response_model=CounsellorProfileOut,
+    response_model_exclude_none=True,
+)
 def update_own_counsellor_profile(
     payload: UpdateCounsellorProfileRequest,
     user: User = Depends(require_counsellor),

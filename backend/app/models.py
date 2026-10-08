@@ -40,6 +40,12 @@ class User(Base):
     # Any role's profile photo: a counsellor's URL, or a job seeker's image stored
     # inline as a data URI (there is no file storage to hold an upload).
     photo_url: Mapped[str | None] = mapped_column(String, nullable=True)
+    # US-27/US-28: applies to both member roles. Public profile serializers must
+    # enforce this server-side so a client cannot recover fields merely by calling
+    # the API directly.
+    profile_visibility: Mapped[str] = mapped_column(
+        String, default="public", nullable=False,
+    )
 
     # Job-seeker-only profile fields (left null for other roles).
     headline: Mapped[str | None] = mapped_column(String, nullable=True)
@@ -200,6 +206,10 @@ class Order(Base):
     currency: Mapped[str] = mapped_column(String, nullable=False, default="AUD")
     timezone: Mapped[str] = mapped_column(String, nullable=False)
     modality: Mapped[str] = mapped_column(String, nullable=False)
+    # US-42 — what the job seeker wants to cover, collected before payment so the
+    # counsellor can prepare. Optional; never edited after the order is placed, so a
+    # booking list reads the same note the counsellor originally saw.
+    pre_session_brief: Mapped[str | None] = mapped_column(String, nullable=True)
     # awaiting_payment | confirmed | cancelled | refunded_slot_taken
     status: Mapped[str] = mapped_column(String, nullable=False, default="awaiting_payment")
     # not_started | paid | failed | refunded | partially_refunded
@@ -262,6 +272,10 @@ class Booking(Base):
     # Where an online session happens. Stored rather than derived on read, so the
     # link in a confirmation email sent months ago still matches what the app shows.
     meeting_url: Mapped[str | None] = mapped_column(String, nullable=True)
+    # US-43 — the specific in-person meeting point for this one booking, set by the
+    # counsellor after confirmation. The service's own location (meeting_area) only
+    # ever holds a state and city/region, never a street address.
+    meeting_address: Mapped[str | None] = mapped_column(String, nullable=True)
     # Raised by charge.dispute.created; holds the payout back for admin review.
     flagged_for_review: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     review_reason: Mapped[str | None] = mapped_column(String, nullable=True)

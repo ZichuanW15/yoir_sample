@@ -3,6 +3,7 @@ import {
   Animated, Image, Pressable, StyleProp, StyleSheet, Text, TextInput, TextInputProps, TextStyle, View, ViewStyle,
 } from 'react-native';
 import { Pop, useAnimatedValue, useSpin } from '@/src/motion';
+import { useFloatingError } from '@/src/floatingError';
 import { colors, fonts, radius, shadow, type } from '@/src/theme';
 
 const APressable = Animated.createAnimatedComponent(Pressable);
@@ -193,8 +194,10 @@ export function Avatar({ initials, photo, size = 44, bg = colors.green, fg = col
   );
 }
 
-/** The inline error banner used by every form. */
+/** Page-level errors float above the route when the app-level host is available. */
 export function ErrorBanner({ message }: { message: string }) {
+  const floating = useFloatingError(message);
+  if (floating) return null;
   return (
     <Pop duration={300}>
       <View accessibilityRole="alert" style={banner.box}>
