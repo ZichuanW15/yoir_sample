@@ -60,6 +60,7 @@ IMPLEMENTED_RUNTIME_OPERATION_IDS = {
     "register",
     "requestEmailVerification",
     "requestPasswordReset",
+    "rescheduleBooking",
     "resetPassword",
     "setBookingMeetingAddress",
     "startStripeOnboarding",

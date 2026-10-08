@@ -45,6 +45,7 @@ def busy_periods(
     counsellor_id: str,
     now: datetime | None = None,
     exclude_order_id: str | None = None,
+    exclude_booking_id: str | None = None,
 ) -> list[Busy]:
     """Every span of this counsellor's time that is already spoken for."""
     now = now or datetime.now(UTC)
@@ -56,7 +57,11 @@ def busy_periods(
             Booking.status.in_(LIVE_BOOKING_STATUSES),
         )
     )
-    taken.extend(Busy(b.starts_at, b.ends_at) for b in bookings)
+    # US-69 — a booking being rescheduled must not read its own current span as a
+    # clash with the new one it is moving to; it is the same booking, not a second one.
+    taken.extend(
+        Busy(b.starts_at, b.ends_at) for b in bookings if b.id != exclude_booking_id
+    )
 
     # An unpaid order holds its span only while its hold is alive; once it lapses the
     # time is offerable again without anything having to sweep it up first.
@@ -83,6 +88,7 @@ def is_free(
     ends_at: datetime,
     now: datetime | None = None,
     exclude_order_id: str | None = None,
+    exclude_booking_id: str | None = None,
     modality: str | None = None,
 ) -> bool:
     """Whether this exact span sits inside a suitable window and clashes with nothing.
@@ -102,7 +108,7 @@ def is_free(
         return False
     return not any(
         _overlaps(starts_at, ends_at, busy.starts_at, busy.ends_at)
-        for busy in busy_periods(db, counsellor_id, now, exclude_order_id)
+        for busy in busy_periods(db, counsellor_id, now, exclude_order_id, exclude_booking_id)
     )
 
 

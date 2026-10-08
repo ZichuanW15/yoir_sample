@@ -543,6 +543,20 @@ class CancelBookingOut(CamelModel):
     currency: Literal["AUD"]
 
 
+class RescheduleBookingRequest(CamelModel):
+    """US-69 — move a confirmed booking to another open slot on the same order.
+
+    Shaped like `CreateOrderRequest`'s time fields rather than carrying a slot id:
+    availability is derived, not stored, so there is no persisted slot row to name.
+    """
+
+    #: The new start. Its end follows from the service's duration, the same as
+    #: creating an order — the client does not get to decide how long it is buying.
+    starts_at: datetime
+    modality: Modality
+    timezone: str = Field(min_length=1, max_length=100)
+
+
 class StripeOnboardingRequest(CamelModel):
     """Where the app wants the counsellor returned once Stripe is done with them.
 

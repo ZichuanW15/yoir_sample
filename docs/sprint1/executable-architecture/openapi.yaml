@@ -558,24 +558,30 @@ paths:
     post:
       tags: [Bookings]
       operationId: rescheduleBooking
-      x-required-role: booking_participant
+      x-required-role: participant
       x-requirement-ids: [US-69]
+      description: >-
+        Move a confirmed, upcoming booking to another open slot for the same
+        service and counsellor. The same order and booking are updated in place —
+        nothing new is created and no payment is retaken — and the new time is
+        re-validated at write time, so a slot taken out from under the request is
+        rejected rather than double-booked, leaving the original booking unchanged.
+        A booking a stranger asks for is reported as 404, not 403, the same as
+        getBooking: whether it exists is not theirs to know.
       requestBody:
         required: true
         content:
           application/json:
-            schema:
-              type: object
-              required: [newSlotId]
-              properties:
-                newSlotId: {type: string}
+            schema: {$ref: '#/components/schemas/RescheduleBookingRequest'}
       responses:
         '200':
-          description: Booking moved atomically to new open slot
+          description: Booking moved atomically to the new open slot
           content:
             application/json:
-              schema: {$ref: '#/components/schemas/Booking'}
-        '403': {$ref: '#/components/responses/Forbidden'}
+              schema: {$ref: '#/components/schemas/BookingSummary'}
+        '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '404': {$ref: '#/components/responses/NotFound'}
         '409': {$ref: '#/components/responses/Conflict'}
   /bookings/{bookingId}/messages:
     parameters:
@@ -1623,6 +1629,20 @@ components:
           description: >-
             US-42 — optional. What the job seeker wants to cover, shown to the
             counsellor on their bookings list so they can prepare.
+    RescheduleBookingRequest:
+      type: object
+      additionalProperties: false
+      required: [startsAt, modality, timezone]
+      properties:
+        startsAt:
+          type: string
+          format: date-time
+          description: >-
+            US-69 — the new start. Its end follows from the service's duration, the
+            same as creating an order: there is no persisted slot id to name, since
+            availability is derived rather than stored.
+        modality: {$ref: '#/components/schemas/Modality'}
+        timezone: {type: string, minLength: 1, maxLength: 100}
     Order:
       type: object
       required: [id, serviceId, windowId, startsAt, endsAt, amountMinor, currency, status, paymentStatus]

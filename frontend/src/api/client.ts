@@ -185,6 +185,20 @@ export const api = {
   getBooking: (bookingId: string, accessToken: string): Promise<Booking> =>
     request(`/bookings/${encodeURIComponent(bookingId)}`, {}, accessToken),
 
+  /**
+   * US-69 — move a confirmed upcoming booking to another open slot. Either
+   * participant may call this; the backend keeps the same order and booking and
+   * rejects outright (no partial move) if the chosen time is no longer free.
+   */
+  rescheduleBooking: (
+    bookingId: string, startsAt: string, modality: string, timezone: string, accessToken: string,
+  ): Promise<Booking> =>
+    request(
+      `/bookings/${encodeURIComponent(bookingId)}/reschedule`,
+      { method: 'POST', body: JSON.stringify({ startsAt, modality, timezone }) },
+      accessToken,
+    ),
+
   /** US-43 — the counsellor delivering the session sets where it meets; `null` clears it. */
   updateBookingMeetingAddress: (bookingId: string, meetingAddress: string | null, accessToken: string): Promise<Booking> =>
     request(

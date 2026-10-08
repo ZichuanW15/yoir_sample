@@ -115,6 +115,15 @@ export default function BookingDetailScreen() {
                 <Glyph name={booking.modality === 'online' ? 'video' : 'pin'} size={16} color={colors.muted} />
                 <Text style={styles.rowText}>{modalityLabel(booking.modality)}</Text>
               </View>
+
+              {upcoming && booking.status === 'confirmed' ? (
+                <Button
+                  label="Reschedule"
+                  tone="outline"
+                  height={46}
+                  onPress={() => router.push({ pathname: '/bookings/[bookingId]/reschedule', params: { bookingId: booking.id } })}
+                />
+              ) : null}
             </Card>
 
             {booking.preSessionBrief ? (

@@ -28,6 +28,7 @@ from app.schemas import (
     OrderStatusOut,
     PaymentIntentOut,
     ReceiptOut,
+    RescheduleBookingRequest,
     StubPaymentConfirmation,
     UpdateMeetingAddressRequest,
 )
@@ -360,6 +361,104 @@ def set_booking_meeting_address(
         )
     booking.meeting_address = (payload.meeting_address or "").strip() or None
     db.commit()
+    return _booking_out(
+        booking, service, order,
+        viewer=user,
+        job_seeker=db.get(User, booking.job_seeker_id),
+        counsellor=db.get(User, booking.counsellor_id),
+    )
+
+
+@router.post("/bookings/{booking_id}/reschedule", response_model=BookingOut)
+def reschedule_booking(
+    booking_id: str,
+    payload: RescheduleBookingRequest,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> BookingOut:
+    """US-69 — move a confirmed upcoming booking to another open slot.
+
+    One transaction updates the same order and booking rows in place; nothing new
+    is created and no payment is retaken, because the order itself is unchanged.
+    The new time is re-validated inside the lock that writes it, so a slot taken
+    out from under this request is rejected rather than double-booked, and any
+    failure before the commit leaves the original booking exactly as it was.
+    """
+    _visible_booking(db, booking_id, user)
+    # Locked for the whole call, the same idiom cancel uses, so a reschedule racing
+    # a cancel (or another reschedule of the same booking) cannot interleave with it.
+    booking = db.scalar(select(Booking).where(Booking.id == booking_id).with_for_update())
+    if booking is None:
+        raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Booking not found.")
+    order = db.get(Order, booking.order_id)
+    service = db.get(Service, booking.service_id)
+    if order is None or service is None:
+        raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Booking not found.")
+
+    if booking.status != "confirmed":
+        raise ApiError(
+            status.HTTP_409_CONFLICT,
+            "INVALID_STATE_TRANSITION",
+            "This booking cannot be rescheduled.",
+        )
+    if booking.starts_at <= datetime.now(UTC):
+        raise ApiError(
+            status.HTTP_409_CONFLICT,
+            "INVALID_STATE_TRANSITION",
+            "A past session cannot be rescheduled.",
+        )
+
+    starts_at = payload.starts_at if payload.starts_at.tzinfo else payload.starts_at.replace(
+        tzinfo=UTC
+    )
+    ends_at = starts_at + timedelta(minutes=service.duration_minutes)
+    if starts_at <= datetime.now(UTC):
+        raise ApiError(
+            status.HTTP_400_BAD_REQUEST, VALIDATION_ERROR, "That time has already passed.",
+        )
+    if payload.modality not in (service.modalities or []):
+        raise ApiError(
+            status.HTTP_400_BAD_REQUEST,
+            VALIDATION_ERROR,
+            "Choose a supported service modality.",
+        )
+
+    # Serialise against every other booking attempt on this counsellor's calendar —
+    # the same lock create_order takes, since their row stands in for their calendar.
+    db.scalar(select(User).where(User.id == booking.counsellor_id).with_for_update())
+    window = db.scalar(
+        select(AvailabilityWindow).where(
+            AvailabilityWindow.counsellor_id == booking.counsellor_id,
+            AvailabilityWindow.starts_at <= starts_at,
+            AvailabilityWindow.ends_at >= ends_at,
+        )
+    )
+    if window is not None and payload.modality not in (window.modalities or []):
+        window = None
+    # Excluding this booking's own current span: it is moving, not doubling, so its
+    # old slot must not be read as a clash with its new one.
+    if window is None or not is_free(
+        db, booking.counsellor_id, starts_at, ends_at,
+        exclude_booking_id=booking.id, modality=payload.modality,
+    ):
+        raise ApiError(
+            status.HTTP_409_CONFLICT,
+            "SLOT_UNAVAILABLE",
+            "This time is no longer available.",
+        )
+
+    booking.starts_at = starts_at
+    booking.ends_at = ends_at
+    booking.window_id = window.id
+    booking.timezone = payload.timezone
+    booking.modality = payload.modality
+    order.starts_at = starts_at
+    order.ends_at = ends_at
+    order.window_id = window.id
+    order.timezone = payload.timezone
+    order.modality = payload.modality
+    db.commit()
+    db.refresh(booking)
     return _booking_out(
         booking, service, order,
         viewer=user,
