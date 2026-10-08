@@ -1201,7 +1201,11 @@ paths:
       tags: [Administration]
       operationId: decideVerification
       x-required-role: platform_owner
-      x-requirement-ids: [US-32, US-58]
+      x-requirement-ids: [US-32, US-33, US-58]
+      description: >-
+        Also the US-33 additional-investigation outcome: the same endpoint,
+        callable again on a submission that already has a decision, including
+        sending it back to pending.
       requestBody:
         required: true
         content:
@@ -1210,7 +1214,7 @@ paths:
               type: object
               required: [decision]
               properties:
-                decision: {type: string, enum: [verified, rejected]}
+                decision: {type: string, enum: [pending, verified, rejected]}
                 reason: {type: string, maxLength: 1000}
       responses:
         '200':

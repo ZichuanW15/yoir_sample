@@ -1,5 +1,6 @@
 from datetime import date, datetime
 from typing import Annotated, Literal
+from urllib.parse import urlsplit
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, StringConstraints, field_validator
 from pydantic.alias_generators import to_camel
@@ -680,18 +681,39 @@ class VerificationSubmissionOut(CamelModel):
 
 
 class VerificationDecisionRequest(CamelModel):
+    """US-58's initial call, and US-33's re-decision after an additional manual
+    investigation — the same shape either way, since reopening a verified or
+    rejected submission back to pending is itself a decision worth recording."""
+
     model_config = ConfigDict(extra="forbid")
 
-    decision: Literal["verified", "rejected"]
+    decision: Literal["pending", "verified", "rejected"]
     #: Told to the counsellor, so a rejection is something they can act on rather
     #: than a dead end. Required for a rejection; the router enforces that.
     reason: str = Field(default="", max_length=1000)
+
+
+def _require_linkedin_profile_url(value: object) -> object:
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError("Enter your LinkedIn profile URL.")
+    raw = value.strip()
+    prefixed = raw if "//" in raw else f"https://{raw}"
+    host = (urlsplit(prefixed).hostname or "").lower()
+    if host != "linkedin.com" and not host.endswith(".linkedin.com"):
+        raise ValueError("Must be a linkedin.com profile URL.")
+    return raw
 
 
 class SubmitVerificationRequest(CamelModel):
     model_config = ConfigDict(extra="forbid")
 
     linked_in_url: str = Field(min_length=1, max_length=2000)
+
+    @field_validator("linked_in_url", mode="before")
+    @classmethod
+    def _validate_linkedin_url(cls, value: object) -> object:
+        # US-31 AC: a non-LinkedIn URL is rejected server-side, not just by the app.
+        return _require_linkedin_profile_url(value)
 
 
 class PaymentOversightOut(CamelModel):
