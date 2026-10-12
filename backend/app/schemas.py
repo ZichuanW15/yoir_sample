@@ -358,6 +358,12 @@ class OwnServiceOut(ServiceOut):
     meeting_url: str | None = None
 
 
+class ServiceDetailOut(ServiceOut):
+    """US-54 — the service detail screen only; the Marketplace list stays light."""
+
+    reviews: list["ReviewOut"] = []
+
+
 class CreateAvailabilityWindowRequest(CamelModel):
     """US-39. Declare a stretch of time the counsellor is available.
 
@@ -564,6 +570,27 @@ class RescheduleBookingRequest(CamelModel):
     starts_at: datetime
     modality: Modality
     timezone: str = Field(min_length=1, max_length=100)
+
+
+class SubmitReviewRequest(CamelModel):
+    """US-53 — the buyer's rating and comment on one completed booking."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    rating: int = Field(ge=1, le=5)
+    comment: str = Field(min_length=1, max_length=4000)
+
+
+class ReviewOut(CamelModel):
+    """US-54/US-55 — one stored review, as published by the executable contract."""
+
+    id: str
+    booking_id: str
+    service_id: str
+    job_seeker_id: str
+    rating: int
+    comment: str
+    created_at: datetime
 
 
 class StripeOnboardingRequest(CamelModel):
@@ -848,3 +875,5 @@ class AdminStatsOut(CamelModel):
 # Location is declared after the profile models that reference it.
 CounsellorProfileOut.model_rebuild()
 UpdateCounsellorProfileRequest.model_rebuild()
+# ReviewOut is declared after ServiceDetailOut, which references it (US-54).
+ServiceDetailOut.model_rebuild()

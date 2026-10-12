@@ -23,6 +23,7 @@ IMPLEMENTED_RUNTIME_OPERATION_IDS = {
     "createAvailabilityWindow",
     "createOrder",
     "createPaymentIntent",
+    "createReview",
     "createService",
     "decideVerification",
     "deleteAvailabilityWindow",
