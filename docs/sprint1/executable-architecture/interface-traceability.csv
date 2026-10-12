@@ -10,6 +10,11 @@ verifyEmail,POST,/auth/email-verifications,Public,US-06,Single-use purpose-scope
 requestEmailVerification,POST,/auth/email-verification-requests,Public,US-06,Non-enumeration and token-supersession tests in test_verification.py
 resetPassword,POST,/auth/password-resets,Public,US-70,Session-revocation and invalid-link tests in test_verification.py
 logout,DELETE,/auth/sessions/current,Authenticated,US-08,Durable replay isolation concurrent logout and failure tests in test_logout_sessions.py plus live HTTP smoke
+getDiagnosisQuestionnaire,GET,/me/diagnosis/questionnaire,Job Seeker,US-10;US-11,Versioned question definitions and role validation in test_diagnosis.py
+startDiagnosis,POST,/me/diagnosis,Job Seeker,US-09,Idempotent creation and account isolation in test_diagnosis.py
+getOwnDiagnosis,GET,/me/diagnosis,Job Seeker,US-09;US-11,Durable resume and missing diagnosis in test_diagnosis.py
+getDiagnosis,GET,/diagnoses/{diagnosisId},Owning Job Seeker,US-09;US-11,Indistinguishable missing and foreign records in test_diagnosis.py
+saveDiagnosisStep,PUT,/diagnoses/{diagnosisId}/steps/{stepId},Owning Job Seeker,US-10;US-11,Allowed answers sequential progress stale revisions and rollback in test_diagnosis.py
 listServices,GET,/services,Public,US-44;US-45,Public API contract test
 getService,GET,/services/{serviceId},Public,US-46,Public-field schema test
 listServiceSlots,GET,/services/{serviceId}/slots,Public,US-40,Open-slots-only integration test

@@ -141,7 +141,7 @@ def require_job_seeker(user: Annotated[User, Depends(get_current_user)]) -> User
         raise ApiError(
             status.HTTP_403_FORBIDDEN,
             FORBIDDEN,
-            "Only Job Seekers can book a service.",
+            "Only Job Seekers can access this resource.",
         )
     return user
 
