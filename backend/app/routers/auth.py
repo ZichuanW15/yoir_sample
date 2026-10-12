@@ -1,7 +1,7 @@
 import sqlite3
 from datetime import UTC, datetime, timedelta
 
-from fastapi import APIRouter, Depends, Response, status
+from fastapi import APIRouter, BackgroundTasks, Depends, Response, status
 from sqlalchemy import delete, select, update
 from sqlalchemy.dialects.postgresql import insert as pg_insert
 from sqlalchemy.dialects.sqlite import insert as sqlite_insert
@@ -465,8 +465,20 @@ def request_email_verification(
     responses={202: {"description": "Accepted whether or not the address has an account."}},
     openapi_extra={"security": [], "x-requirement-ids": ["US-70"]},
 )
-def request_password_reset(payload: EmailRequest, db: Session = Depends(get_db)) -> Response:
-    """US-70. Mail a reset link, without revealing whether the account exists."""
+def request_password_reset(
+    payload: EmailRequest, background_tasks: BackgroundTasks, db: Session = Depends(get_db),
+) -> Response:
+    """US-70. Mail a reset link, without revealing whether the account exists.
+
+    The status and body already match for a known and an unknown address; what does
+    not match on its own is the time taken, since minting a token and sending mail
+    is real work an unknown address skips entirely. Deferring the send to a
+    background task — it runs after the response is already on the wire, not before
+    — removes that gap for the network observer this defends against, the same
+    target `_dummy_password_hash` protects login against, even though an in-process
+    TestClient (which waits for background tasks before returning) cannot observe
+    the difference it makes on a real connection.
+    """
     user = db.scalar(select(User).where(User.email == payload.email.lower()))
     if user is not None:
         settings = get_settings()
@@ -475,8 +487,9 @@ def request_password_reset(payload: EmailRequest, db: Session = Depends(get_db))
         )
         recipient, recipient_name = user.email, user.name
         db.commit()
-        messages.password_reset(
-            recipient, recipient_name, token, settings.password_reset_ttl_hours,
+        background_tasks.add_task(
+            messages.password_reset, recipient, recipient_name, token,
+            settings.password_reset_ttl_hours,
         )
     return Response(status_code=status.HTTP_202_ACCEPTED)
 

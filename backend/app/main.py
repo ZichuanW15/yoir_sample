@@ -15,6 +15,7 @@ from app.routers import (
     auth,
     bookings,
     counsellor,
+    diagnosis,
     health,
     job_seeker,
     payments,
@@ -69,6 +70,7 @@ app.include_router(services.router, prefix=API_V1)
 app.include_router(bookings.router, prefix=API_V1)
 app.include_router(counsellor.router, prefix=API_V1)
 app.include_router(job_seeker.router, prefix=API_V1)
+app.include_router(diagnosis.router, prefix=API_V1)
 app.include_router(admin.router, prefix=API_V1)
 app.include_router(payments.router, prefix=API_V1)
 app.include_router(profile.router, prefix=API_V1)
