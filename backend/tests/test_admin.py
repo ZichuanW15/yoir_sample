@@ -324,8 +324,16 @@ def test_a_job_seeker_cannot_submit_for_verification(
     assert response.status_code == 403
 
 
-@pytest.mark.parametrize("url", ["", "not a url", "https://example.com/in/maya-chen",
-                                  "https://linkedin.com.evil.example/in/maya-chen"])
+@pytest.mark.parametrize("url", [
+    "", "not a url", "https://example.com/in/maya-chen",
+    "https://linkedin.com.evil.example/in/maya-chen",
+    # A scheme can ride along past a host-only check: these all parse a
+    # linkedin.com host, but must never reach Linking.openURL unvalidated.
+    "javascript://linkedin.com/%0Aalert(1)",
+    "ftp://linkedin.com/in/test",
+    "data://linkedin.com/in/test",
+    "javascript:alert(1)//linkedin.com",
+])
 def test_a_non_linkedin_url_is_rejected_even_if_the_app_sent_it(
     client: TestClient, db_session: Session, counsellor: User, counsellor_headers: dict, url: str,
 ) -> None:
@@ -342,6 +350,26 @@ def test_a_non_linkedin_url_is_rejected_even_if_the_app_sent_it(
     assert response.json()["code"] == "VALIDATION_ERROR"
     db_session.expire_all()
     assert db_session.get(User, counsellor.id).linkedin_url == before
+
+
+def test_a_bare_linkedin_url_is_normalised_to_https_before_storage(
+    client: TestClient, db_session: Session, counsellor: User, counsellor_headers: dict,
+) -> None:
+    """A scheme-less input is accepted, but what gets stored (and later handed to
+    Linking.openURL) is the normalised https URL, not the raw text typed."""
+    counsellor.verification_status = "rejected"  # the fixture starts verified
+    db_session.commit()
+
+    response = client.post(
+        "/api/v1/me/verification-submissions", headers=counsellor_headers,
+        json={"linkedInUrl": "linkedin.com/in/maya-chen"},
+    )
+
+    assert response.status_code == 201
+    assert response.json()["linkedInUrl"] == "https://linkedin.com/in/maya-chen"
+    db_session.expire_all()
+    stored = db_session.get(User, counsellor.id).linkedin_url
+    assert stored == "https://linkedin.com/in/maya-chen"
 
 
 # --- the money ---------------------------------------------------------------

@@ -693,15 +693,29 @@ class VerificationDecisionRequest(CamelModel):
     reason: str = Field(default="", max_length=1000)
 
 
-def _require_linkedin_profile_url(value: object) -> object:
+def _require_linkedin_profile_url(value: object) -> str:
+    """A safe https linkedin.com profile URL, normalised — never the raw input.
+
+    Checking only the host (as this once did) lets a scheme ride along past it:
+    `javascript://linkedin.com/...` and `ftp://linkedin.com/...` both parse a
+    linkedin.com host, but are not links a browser should ever be handed. The
+    app later passes the stored value to `Linking.openURL`, which on Web
+    assigns it to `window.location`, so only `https` may reach that boundary.
+    """
     if not isinstance(value, str) or not value.strip():
         raise ValueError("Enter your LinkedIn profile URL.")
     raw = value.strip()
-    prefixed = raw if "//" in raw else f"https://{raw}"
-    host = (urlsplit(prefixed).hostname or "").lower()
+    if "://" in raw:
+        scheme, _, _rest = raw.partition("://")
+        if scheme.lower() != "https":
+            raise ValueError("Must be a linkedin.com profile URL.")
+        normalised = raw
+    else:
+        normalised = f"https://{raw}"
+    host = (urlsplit(normalised).hostname or "").lower()
     if host != "linkedin.com" and not host.endswith(".linkedin.com"):
         raise ValueError("Must be a linkedin.com profile URL.")
-    return raw
+    return normalised
 
 
 class SubmitVerificationRequest(CamelModel):
