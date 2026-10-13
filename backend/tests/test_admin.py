@@ -333,6 +333,12 @@ def test_a_job_seeker_cannot_submit_for_verification(
     "ftp://linkedin.com/in/test",
     "data://linkedin.com/in/test",
     "javascript:alert(1)//linkedin.com",
+    # Python's urlsplit and a browser's WHATWG URL parser disagree on a
+    # backslash: this module reports the host as linkedin.com, a browser
+    # opens evil.example — a parser-differential host spoof.
+    "https://evil.example\\@linkedin.com/in/test",
+    # Credentials have no place in a profile link; reject them outright.
+    "https://user:pass@linkedin.com/in/test",
 ])
 def test_a_non_linkedin_url_is_rejected_even_if_the_app_sent_it(
     client: TestClient, db_session: Session, counsellor: User, counsellor_headers: dict, url: str,

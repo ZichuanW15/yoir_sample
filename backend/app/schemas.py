@@ -701,10 +701,21 @@ def _require_linkedin_profile_url(value: object) -> str:
     linkedin.com host, but are not links a browser should ever be handed. The
     app later passes the stored value to `Linking.openURL`, which on Web
     assigns it to `window.location`, so only `https` may reach that boundary.
+
+    A backslash is rejected outright rather than parsed: Python's `urlsplit`
+    does not treat it as a delimiter, but a browser's WHATWG URL parser does —
+    early, and as equivalent to a forward slash — so the two can disagree on
+    which host a URL names. `https://evil.example\\@linkedin.com/...` is one
+    such string: this module's `.hostname` reports `linkedin.com`, a browser
+    opens `evil.example`. Credentials are rejected too, on the same principle:
+    a profile link legitimately has none, so the userinfo component is pure
+    attack surface with no cost to removing it.
     """
     if not isinstance(value, str) or not value.strip():
         raise ValueError("Enter your LinkedIn profile URL.")
     raw = value.strip()
+    if "\\" in raw:
+        raise ValueError("Must be a linkedin.com profile URL.")
     if "://" in raw:
         scheme, _, _rest = raw.partition("://")
         if scheme.lower() != "https":
@@ -712,7 +723,10 @@ def _require_linkedin_profile_url(value: object) -> str:
         normalised = raw
     else:
         normalised = f"https://{raw}"
-    host = (urlsplit(normalised).hostname or "").lower()
+    parsed = urlsplit(normalised)
+    if parsed.username is not None or parsed.password is not None:
+        raise ValueError("Must be a linkedin.com profile URL.")
+    host = (parsed.hostname or "").lower()
     if host != "linkedin.com" and not host.endswith(".linkedin.com"):
         raise ValueError("Must be a linkedin.com profile URL.")
     return normalised
