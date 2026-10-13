@@ -259,6 +259,14 @@ class UpdateCounsellorProfileRequest(CamelModel):
     base_location: "Location | None" = None
     default_modality: Modality = "online"
 
+    @field_validator("linkedin_url", mode="before")
+    @classmethod
+    def _validate_linkedin_url(cls, value: object) -> object:
+        # Same check as SubmitVerificationRequest's, and for the same reason:
+        # this is the other write path that can put a URL in front of
+        # Linking.openURL, so it cannot settle for a weaker check.
+        return _require_linkedin_profile_url(value)
+
 
 class Location(CamelModel):
     state: str

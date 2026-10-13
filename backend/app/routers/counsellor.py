@@ -1,5 +1,4 @@
 from datetime import UTC, datetime
-from urllib.parse import urlsplit
 
 from fastapi import APIRouter, Depends, Response, status
 from sqlalchemy import select
@@ -243,17 +242,11 @@ def update_own_counsellor_profile(
     The LinkedIn URL is required because it is what the Platform Owner verifies the
     counsellor from; a profile without one cannot be reviewed. Verification status is
     not settable here — that is the Platform Owner's to decide, not the subject's.
-    """
-    raw = payload.linkedin_url if "//" in payload.linkedin_url else f"https://{payload.linkedin_url}"
-    host = (urlsplit(raw).hostname or "").lower()
-    if host != "linkedin.com" and not host.endswith(".linkedin.com"):
-        raise ApiError(
-            status.HTTP_400_BAD_REQUEST,
-            VALIDATION_ERROR,
-            "Give the LinkedIn profile the Platform Owner should verify you from.",
-            {"linkedinUrl": "Must be a linkedin.com address."},
-        )
 
+    The URL itself is validated and normalised by `UpdateCounsellorProfileRequest`
+    (the same check `SubmitVerificationRequest` uses) — not here, so the two write
+    paths can never drift back out of agreement with each other.
+    """
     user.photo_url = payload.photo_url
     user.linkedin_url = payload.linkedin_url
     user.introduction = payload.introduction
