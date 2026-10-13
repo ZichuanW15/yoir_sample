@@ -110,7 +110,7 @@ def list_verification_submissions(
     "/admin/verifications/{submission_id}/decision",
     response_model=VerificationSubmissionOut, operation_id="decideVerification",
     openapi_extra={
-        "x-required-role": "platform_owner", "x-requirement-ids": ["US-32", "US-58"],
+        "x-required-role": "platform_owner", "x-requirement-ids": ["US-32", "US-33", "US-58"],
     },
 )
 def decide_verification(
@@ -119,7 +119,9 @@ def decide_verification(
     _owner: User = Depends(require_platform_owner),
     db: Session = Depends(get_db),
 ) -> VerificationSubmissionOut:
-    """US-32, US-58. Approve or reject a counsellor, and tell them which."""
+    """US-32, US-33, US-58. Approve or reject a counsellor, and tell them which — or,
+    for a submission that already has an outcome, record an additional manual
+    investigation's result, including sending it back to pending."""
     counsellor = db.get(User, submission_id)
     if counsellor is None or counsellor.role != "counsellor":
         raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Submission not found.")
@@ -146,10 +148,15 @@ def decide_verification(
     # the email gets through, and a post-commit attribute read can fail. Reporting a
     # 500 here would tell the Platform Owner a recorded decision had failed, and
     # invite them to make it again.
-    try:
-        messages.verification_decided(recipient, recipient_name, payload.decision, reason)
-    except Exception:
-        log.exception("Could not send the verification decision email to %s", recipient)
+    #
+    # US-33: sending back to pending is not one of the two outcomes the template
+    # speaks to (verified, or rejected-with-a-reason), and no notification is in
+    # scope for it — the counsellor sees the change next time a view loads.
+    if payload.decision != "pending":
+        try:
+            messages.verification_decided(recipient, recipient_name, payload.decision, reason)
+        except Exception:
+            log.exception("Could not send the verification decision email to %s", recipient)
     return result
 
 
@@ -207,7 +214,6 @@ def list_payment_oversight(
 
 
 # --- the dashboard ----------------------------------------------------------
-
 
 @router.get(
     "/admin/stats", response_model=AdminStatsOut, operation_id="getPlatformStats",

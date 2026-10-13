@@ -1,5 +1,6 @@
 from datetime import date, datetime
 from typing import Annotated, Literal
+from urllib.parse import urlsplit
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, StringConstraints, field_validator
 from pydantic.alias_generators import to_camel
@@ -257,6 +258,14 @@ class UpdateCounsellorProfileRequest(CamelModel):
     languages: list[ProfileItem] = Field(default=[], max_length=20)
     base_location: "Location | None" = None
     default_modality: Modality = "online"
+
+    @field_validator("linkedin_url", mode="before")
+    @classmethod
+    def _validate_linkedin_url(cls, value: object) -> object:
+        # Same check as SubmitVerificationRequest's, and for the same reason:
+        # this is the other write path that can put a URL in front of
+        # Linking.openURL, so it cannot settle for a weaker check.
+        return _require_linkedin_profile_url(value)
 
 
 class Location(CamelModel):
@@ -680,18 +689,67 @@ class VerificationSubmissionOut(CamelModel):
 
 
 class VerificationDecisionRequest(CamelModel):
+    """US-58's initial call, and US-33's re-decision after an additional manual
+    investigation — the same shape either way, since reopening a verified or
+    rejected submission back to pending is itself a decision worth recording."""
+
     model_config = ConfigDict(extra="forbid")
 
-    decision: Literal["verified", "rejected"]
+    decision: Literal["pending", "verified", "rejected"]
     #: Told to the counsellor, so a rejection is something they can act on rather
     #: than a dead end. Required for a rejection; the router enforces that.
     reason: str = Field(default="", max_length=1000)
+
+
+def _require_linkedin_profile_url(value: object) -> str:
+    """A safe https linkedin.com profile URL, normalised — never the raw input.
+
+    Checking only the host (as this once did) lets a scheme ride along past it:
+    `javascript://linkedin.com/...` and `ftp://linkedin.com/...` both parse a
+    linkedin.com host, but are not links a browser should ever be handed. The
+    app later passes the stored value to `Linking.openURL`, which on Web
+    assigns it to `window.location`, so only `https` may reach that boundary.
+
+    A backslash is rejected outright rather than parsed: Python's `urlsplit`
+    does not treat it as a delimiter, but a browser's WHATWG URL parser does —
+    early, and as equivalent to a forward slash — so the two can disagree on
+    which host a URL names. `https://evil.example\\@linkedin.com/...` is one
+    such string: this module's `.hostname` reports `linkedin.com`, a browser
+    opens `evil.example`. Credentials are rejected too, on the same principle:
+    a profile link legitimately has none, so the userinfo component is pure
+    attack surface with no cost to removing it.
+    """
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError("Enter your LinkedIn profile URL.")
+    raw = value.strip()
+    if "\\" in raw:
+        raise ValueError("Must be a linkedin.com profile URL.")
+    if "://" in raw:
+        scheme, _, _rest = raw.partition("://")
+        if scheme.lower() != "https":
+            raise ValueError("Must be a linkedin.com profile URL.")
+        normalised = raw
+    else:
+        normalised = f"https://{raw}"
+    parsed = urlsplit(normalised)
+    if parsed.username is not None or parsed.password is not None:
+        raise ValueError("Must be a linkedin.com profile URL.")
+    host = (parsed.hostname or "").lower()
+    if host != "linkedin.com" and not host.endswith(".linkedin.com"):
+        raise ValueError("Must be a linkedin.com profile URL.")
+    return normalised
 
 
 class SubmitVerificationRequest(CamelModel):
     model_config = ConfigDict(extra="forbid")
 
     linked_in_url: str = Field(min_length=1, max_length=2000)
+
+    @field_validator("linked_in_url", mode="before")
+    @classmethod
+    def _validate_linkedin_url(cls, value: object) -> object:
+        # US-31 AC: a non-LinkedIn URL is rejected server-side, not just by the app.
+        return _require_linkedin_profile_url(value)
 
 
 class PaymentOversightOut(CamelModel):

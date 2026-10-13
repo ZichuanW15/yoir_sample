@@ -237,6 +237,43 @@ def test_deciding_on_somebody_who_is_not_a_counsellor_is_a_404(
     assert response.status_code == 404
 
 
+def test_an_additional_investigation_can_send_a_verified_counsellor_back_to_pending(
+    client: TestClient,
+    db_session: Session,
+    counsellor: User,
+    platform_owner_headers: dict,
+    decisions: list,
+) -> None:
+    """US-33. The counsellor fixture starts verified; reopening it is a decision on
+    an already-decided submission, and sends no email — the counsellor finds out on
+    next load, same as any other status change."""
+    response = client.post(
+        f"/api/v1/admin/verifications/{counsellor.id}/decision",
+        headers=platform_owner_headers,
+        json={"decision": "pending"},
+    )
+
+    assert response.status_code == 200
+    assert response.json()["status"] == "pending"
+    db_session.expire_all()
+    assert db_session.get(User, counsellor.id).verification_status == "pending"
+    assert decisions == []
+
+
+def test_an_unrecognised_decision_outcome_is_rejected_and_changes_nothing(
+    client: TestClient, db_session: Session, counsellor: User, platform_owner_headers: dict,
+) -> None:
+    response = client.post(
+        f"/api/v1/admin/verifications/{counsellor.id}/decision",
+        headers=platform_owner_headers,
+        json={"decision": "approved"},
+    )
+
+    assert response.status_code == 400
+    db_session.expire_all()
+    assert db_session.get(User, counsellor.id).verification_status == "verified"
+
+
 # --- the counsellor's own submission ----------------------------------------
 
 
@@ -285,6 +322,60 @@ def test_a_job_seeker_cannot_submit_for_verification(
     )
 
     assert response.status_code == 403
+
+
+@pytest.mark.parametrize("url", [
+    "", "not a url", "https://example.com/in/maya-chen",
+    "https://linkedin.com.evil.example/in/maya-chen",
+    # A scheme can ride along past a host-only check: these all parse a
+    # linkedin.com host, but must never reach Linking.openURL unvalidated.
+    "javascript://linkedin.com/%0Aalert(1)",
+    "ftp://linkedin.com/in/test",
+    "data://linkedin.com/in/test",
+    "javascript:alert(1)//linkedin.com",
+    # Python's urlsplit and a browser's WHATWG URL parser disagree on a
+    # backslash: this module reports the host as linkedin.com, a browser
+    # opens evil.example — a parser-differential host spoof.
+    "https://evil.example\\@linkedin.com/in/test",
+    # Credentials have no place in a profile link; reject them outright.
+    "https://user:pass@linkedin.com/in/test",
+])
+def test_a_non_linkedin_url_is_rejected_even_if_the_app_sent_it(
+    client: TestClient, db_session: Session, counsellor: User, counsellor_headers: dict, url: str,
+) -> None:
+    """US-31 AC3: an invalid URL that bypasses the app's own validation and reaches
+    the API is still refused, and no submission is stored."""
+    before = db_session.get(User, counsellor.id).linkedin_url
+
+    response = client.post(
+        "/api/v1/me/verification-submissions", headers=counsellor_headers,
+        json={"linkedInUrl": url},
+    )
+
+    assert response.status_code == 400
+    assert response.json()["code"] == "VALIDATION_ERROR"
+    db_session.expire_all()
+    assert db_session.get(User, counsellor.id).linkedin_url == before
+
+
+def test_a_bare_linkedin_url_is_normalised_to_https_before_storage(
+    client: TestClient, db_session: Session, counsellor: User, counsellor_headers: dict,
+) -> None:
+    """A scheme-less input is accepted, but what gets stored (and later handed to
+    Linking.openURL) is the normalised https URL, not the raw text typed."""
+    counsellor.verification_status = "rejected"  # the fixture starts verified
+    db_session.commit()
+
+    response = client.post(
+        "/api/v1/me/verification-submissions", headers=counsellor_headers,
+        json={"linkedInUrl": "linkedin.com/in/maya-chen"},
+    )
+
+    assert response.status_code == 201
+    assert response.json()["linkedInUrl"] == "https://linkedin.com/in/maya-chen"
+    db_session.expire_all()
+    stored = db_session.get(User, counsellor.id).linkedin_url
+    assert stored == "https://linkedin.com/in/maya-chen"
 
 
 # --- the money ---------------------------------------------------------------
