@@ -18,7 +18,12 @@ from app.payments.service import (
     confirm_paid_order,
     stored_amounts,
 )
-from app.reviews import recompute_counsellor_rating, recompute_service_rating
+from app.reviews import (
+    REVIEWABLE_STATUSES,
+    recompute_counsellor_rating,
+    recompute_service_rating,
+    review_out,
+)
 from app.schemas import (
     BookingAmountsOut,
     BookingOut,
@@ -70,6 +75,7 @@ def _booking_out(
     viewer: User | None = None,
     job_seeker: User | None = None,
     counsellor: User | None = None,
+    review: Review | None = None,
 ) -> BookingOut:
     """The booking as one of its two parties sees it.
 
@@ -103,6 +109,8 @@ def _booking_out(
         meeting_area=area if booking.modality == "in_person" else "",
         meeting_address=booking.meeting_address or "",
         pre_session_brief=(order.pre_session_brief or "") if order is not None else "",
+        # US-53: present once written, so the app stops offering a second review.
+        review=review_out(review) if review is not None else None,
     )
 
 
@@ -319,10 +327,18 @@ def list_bookings(
         )
         .order_by(Booking.starts_at.desc())
     ).all()
+    # One query for every listed booking's review, not one per booking.
+    reviews = {
+        review.booking_id: review
+        for review in db.scalars(
+            select(Review).where(Review.booking_id.in_([row[0].id for row in rows]))
+        )
+    } if rows else {}
     return [
         _booking_out(
             booking, service, order,
             viewer=user, job_seeker=seeker_row, counsellor=counsellor_row,
+            review=reviews.get(booking.id),
         )
         for booking, order, service, seeker_row, counsellor_row in rows
     ]
@@ -340,6 +356,7 @@ def get_booking(
         viewer=user,
         job_seeker=db.get(User, booking.job_seeker_id),
         counsellor=db.get(User, booking.counsellor_id),
+        review=db.scalar(select(Review).where(Review.booking_id == booking.id)),
     )
 
 
@@ -536,7 +553,7 @@ def create_review(
     rating has caught up to it.
     """
     booking, order, service = _visible_booking(db, booking_id, user)
-    if booking.status != "completed":
+    if booking.status not in REVIEWABLE_STATUSES:
         raise ApiError(
             status.HTTP_409_CONFLICT,
             "INVALID_STATE_TRANSITION",
@@ -564,11 +581,7 @@ def create_review(
     recompute_counsellor_rating(db, booking.counsellor_id)
     db.commit()
     db.refresh(review)
-    return ReviewOut(
-        id=review.id, booking_id=review.booking_id, service_id=review.service_id,
-        job_seeker_id=review.job_seeker_id, rating=review.rating, comment=review.comment,
-        created_at=review.created_at,
-    )
+    return review_out(review)
 
 
 @router.get("/bookings/{booking_id}/receipt", response_model=ReceiptOut)

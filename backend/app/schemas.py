@@ -485,6 +485,8 @@ class BookingOut(CamelModel):
     #: US-42 — what the job seeker asked to cover, frozen from the order at booking
     #: time. Empty when none was given.
     pre_session_brief: str = ""
+    #: US-53 — the buyer's review once written, so the app stops offering another.
+    review: "ReviewOut | None" = None
 
 
 class UpdateMeetingAddressRequest(CamelModel):
@@ -579,6 +581,15 @@ class SubmitReviewRequest(CamelModel):
 
     rating: int = Field(ge=1, le=5)
     comment: str = Field(min_length=1, max_length=4000)
+
+    @field_validator("comment")
+    @classmethod
+    def _comment_says_something(cls, value: str) -> str:
+        # min_length alone lets "   " through, and a written review has to say something.
+        value = value.strip()
+        if not value:
+            raise ValueError("Write a short review.")
+        return value
 
 
 class ReviewOut(CamelModel):

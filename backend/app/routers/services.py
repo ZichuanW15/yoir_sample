@@ -9,13 +9,13 @@ from app.config import get_settings
 from app.db import get_db
 from app.errors import NOT_FOUND, ApiError
 from app.models import Review, Service, User
+from app.reviews import review_out
 from app.schemas import (
     BookableStartOut,
     CounsellorProfileOut,
     CounsellorSummary,
     Location,
     OwnServiceOut,
-    ReviewOut,
     ServiceDetailOut,
     ServiceOut,
 )
@@ -105,14 +105,7 @@ def get_service(service_id: str, db: Session = Depends(get_db)) -> ServiceDetail
     )
     return ServiceDetailOut(
         **service_to_out(service).model_dump(),
-        reviews=[
-            ReviewOut(
-                id=r.id, booking_id=r.booking_id, service_id=r.service_id,
-                job_seeker_id=r.job_seeker_id, rating=r.rating, comment=r.comment,
-                created_at=r.created_at,
-            )
-            for r in reviews
-        ],
+        reviews=[review_out(r) for r in reviews],
     )
 
 

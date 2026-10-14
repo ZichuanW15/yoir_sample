@@ -769,7 +769,9 @@ paths:
       x-required-role: owning_job_seeker
       x-requirement-ids: [US-53, US-54, US-55]
       description: >-
-        One review per completed booking, from its buyer only. US-54's service
+        One review per completed booking, from its buyer only. A paid-out booking
+        counts as completed: paying the counsellor does not close the review. The
+        comment is trimmed and must not be blank. US-54's service
         average/count/list and US-55's counsellor rating are both recomputed from
         stored reviews in the same write — a reader never sees one the aggregates
         have not yet caught up to.
@@ -2165,6 +2167,13 @@ components:
         meetingArea:
           type: string
           description: Where an in-person session happens, as the service advertises it.
+        review:
+          allOf:
+            - $ref: '#/components/schemas/Review'
+          nullable: true
+          description: >-
+            US-53 — the buyer's review once written, null until then, so the app
+            stops offering a second one. Returned by getBooking and listMyBookings.
     Message:
       type: object
       required: [id, bookingId, senderId, content, createdAt]

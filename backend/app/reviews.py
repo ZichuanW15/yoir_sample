@@ -13,6 +13,20 @@ from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app.models import Review, Service, User
+from app.schemas import ReviewOut
+
+#: US-53 — a session that has happened. The payout job moves a completed booking on
+#: to `paid_out`, and paying the counsellor must not close the buyer's chance to review.
+REVIEWABLE_STATUSES = ("completed", "paid_out")
+
+
+def review_out(review: Review) -> ReviewOut:
+    """One stored review on the wire, the same wherever it is shown."""
+    return ReviewOut(
+        id=review.id, booking_id=review.booking_id, service_id=review.service_id,
+        job_seeker_id=review.job_seeker_id, rating=review.rating, comment=review.comment,
+        created_at=review.created_at,
+    )
 
 
 def recompute_service_rating(db: Session, service_id: str) -> None:

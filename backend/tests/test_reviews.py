@@ -79,6 +79,7 @@ def test_the_buyer_of_a_completed_booking_can_review_it(
     {"rating": 6, "comment": "Too high."},
     {"comment": "No rating at all."},
     {"rating": 4, "comment": ""},
+    {"rating": 4, "comment": "   "},
 ])
 def test_an_invalid_rating_or_missing_comment_is_rejected_and_stores_nothing(
     client: TestClient, db_session: Session, service: Service, job_seeker_headers: dict,
@@ -331,3 +332,55 @@ def test_the_counsellors_overall_rating_spans_every_one_of_their_services(
     listing = client.get(f"/api/v1/services/{service.id}").json()
     assert listing["counsellor"]["overallRating"] == 4
     assert listing["counsellor"]["reviewCount"] == 2
+
+
+def test_a_session_whose_counsellor_has_been_paid_can_still_be_reviewed(
+    client: TestClient, db_session: Session, service: Service, job_seeker_headers: dict,
+) -> None:
+    """The payout job moves a completed booking on to `paid_out`; paying the counsellor
+    must not quietly close the buyer's chance to review the session they had."""
+    booking = book(client, db_session, service, job_seeker_headers)
+    stored = db_session.get(Booking, booking["id"])
+    stored.status = "paid_out"
+    db_session.commit()
+
+    response = client.post(
+        f"/api/v1/bookings/{booking['id']}/review",
+        headers=job_seeker_headers, json={"rating": 4, "comment": "Worth it."},
+    )
+
+    assert response.status_code == 201, response.text
+
+
+def test_a_review_is_stored_without_surrounding_space(
+    client: TestClient, db_session: Session, service: Service, job_seeker_headers: dict,
+) -> None:
+    booking = book(client, db_session, service, job_seeker_headers)
+    complete(db_session, booking["id"])
+
+    response = client.post(
+        f"/api/v1/bookings/{booking['id']}/review",
+        headers=job_seeker_headers, json={"rating": 5, "comment": "  Clear and practical.  "},
+    )
+
+    assert response.json()["comment"] == "Clear and practical."
+
+
+def test_the_buyers_booking_carries_its_review_once_written(
+    client: TestClient, db_session: Session, service: Service, job_seeker_headers: dict,
+) -> None:
+    """What lets the app stop offering "Write a review" after one has been written."""
+    booking = book(client, db_session, service, job_seeker_headers)
+    complete(db_session, booking["id"])
+    detail_path = f"/api/v1/bookings/{booking['id']}"
+
+    assert client.get(detail_path, headers=job_seeker_headers).json()["review"] is None
+
+    written = client.post(
+        f"{detail_path}/review", headers=job_seeker_headers,
+        json={"rating": 4, "comment": "Helpful."},
+    ).json()
+
+    assert client.get(detail_path, headers=job_seeker_headers).json()["review"] == written
+    (listed,) = client.get("/api/v1/me/bookings", headers=job_seeker_headers).json()
+    assert listed["review"] == written
