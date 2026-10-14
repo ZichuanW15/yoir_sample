@@ -95,6 +95,31 @@ paths:
         '401': {$ref: '#/components/responses/Unauthorised'}
         '403': {$ref: '#/components/responses/Forbidden'}
         '404': {$ref: '#/components/responses/NotFound'}
+  /diagnoses/{diagnosisId}/direction:
+    parameters:
+      - {$ref: '#/components/parameters/DiagnosisId'}
+    get:
+      tags: [Diagnosis]
+      operationId: getDiagnosisDirection
+      x-requirement-ids: [US-12]
+      description: >-
+        Derive the authenticated Job Seeker's Yoir Direction from one complete,
+        confirmed diagnosis revision using yoir-direction-v1 deterministic rules.
+        The response explains the primary support area and next steps, and exposes
+        weighted keywords that US-13 discovery can apply to Career Professional and
+        service text. Incomplete progress returns 409 with the missing step IDs;
+        foreign and nonexistent diagnosis IDs return the same 404. This read does
+        not persist a guessed or fallback result.
+      responses:
+        '200':
+          description: Direction and discovery criteria tied to confirmed answers
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/DiagnosisDirection'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
   /diagnoses/{diagnosisId}/steps/{stepId}:
     parameters:
       - {$ref: '#/components/parameters/DiagnosisId'}
@@ -1624,6 +1649,31 @@ components:
         answers: {$ref: '#/components/schemas/DiagnosisAnswers'}
         createdAt: {type: string, format: date-time}
         updatedAt: {type: string, format: date-time}
+    DiagnosisDirection:
+      type: object
+      additionalProperties: false
+      required: [diagnosisId, questionnaireVersion, sourceRevision, ruleVersion, area, summary, suggestedSteps, matchingWeights]
+      properties:
+        diagnosisId: {type: string}
+        questionnaireVersion: {$ref: '#/components/schemas/DiagnosisQuestionnaireVersion'}
+        sourceRevision:
+          type: integer
+          minimum: 5
+          description: Exact confirmed answer revision used to generate this result.
+        ruleVersion: {type: string, enum: [yoir-direction-v1]}
+        area:
+          type: string
+          enum: [Career direction, Job search strategy, Resume and applications, Interview skills, Getting your experience recognised, Networking and LinkedIn, Study and upskilling pathway]
+        summary: {type: string, minLength: 1}
+        suggestedSteps:
+          type: array
+          minItems: 3
+          maxItems: 5
+          items: {type: string, minLength: 1}
+        matchingWeights:
+          type: object
+          description: Keyword weights for US-13 discovery; primary-area terms have weight 10 and supporting goal/barrier terms have weight 1.
+          additionalProperties: {type: integer, minimum: 1, maximum: 10}
     Role: {type: string, enum: [job_seeker, counsellor, platform_owner]}
     Modality: {type: string, enum: [online, in_person]}
     ProfileVisibility: {type: string, enum: [public, partial, restricted]}

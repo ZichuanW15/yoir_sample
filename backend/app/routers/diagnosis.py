@@ -1,4 +1,4 @@
-"""US-09–11: private, durable progress; US-12 direction is a separate boundary."""
+"""US-09–12: private progress plus deterministic direction from completed answers."""
 from copy import deepcopy
 from datetime import UTC, datetime
 from typing import Annotated
@@ -12,6 +12,8 @@ from sqlalchemy.orm import Session
 from app.db import get_db
 from app.diagnosis import (
     QUESTIONNAIRE,
+    STEP_IDS,
+    DiagnosisDirectionOut,
     DiagnosisError,
     DiagnosisOut,
     DiagnosisQuestionnaire,
@@ -19,6 +21,7 @@ from app.diagnosis import (
     StartDiagnosisRequest,
     StepId,
     completed_steps,
+    direction_for,
     validate_answer,
 )
 from app.errors import NOT_FOUND, ApiError
@@ -131,6 +134,34 @@ def get_diagnosis(
     record = _owned(db, user, diagnosis_id)
     _private(response)
     return _out(record)
+
+
+@router.get(
+    "/diagnoses/{diagnosisId}/direction", response_model=DiagnosisDirectionOut,
+    operation_id="getDiagnosisDirection", openapi_extra={"x-requirement-ids": ["US-12"]},
+)
+def get_diagnosis_direction(
+    diagnosis_id: Annotated[str, Path(alias="diagnosisId", max_length=64)], response: Response,
+    user: User = Depends(require_job_seeker), db: Session = Depends(get_db),
+) -> DiagnosisDirectionOut:
+    """Return only a confirmed result; incomplete progress never becomes advice."""
+    record = _owned(db, user, diagnosis_id)
+    missing = [step for step in STEP_IDS if step not in record.answers]
+    if missing:
+        raise ApiError(
+            409,
+            "INVALID_STATE_TRANSITION",
+            "Complete the diagnosis before requesting your Yoir Direction.",
+            {"missingSteps": ", ".join(missing)},
+        )
+    result = direction_for(
+        record.answers,
+        diagnosis_id=record.id,
+        questionnaire_version=record.questionnaire_version,
+        source_revision=record.revision,
+    )
+    _private(response)
+    return result
 
 
 @router.put(

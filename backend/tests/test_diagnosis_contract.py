@@ -29,6 +29,7 @@ def resolve(document, schema):
     ("post", "/me/diagnosis"),
     ("get", "/me/diagnosis"),
     ("get", "/diagnoses/{diagnosisId}"),
+    ("get", "/diagnoses/{diagnosisId}/direction"),
     ("put", "/diagnoses/{diagnosisId}/steps/{stepId}"),
 ])
 def test_runtime_operations_match_published_authentication_and_errors(published, method, path):
