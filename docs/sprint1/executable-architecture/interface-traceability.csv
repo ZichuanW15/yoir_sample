@@ -1,7 +1,7 @@
 operationId,method,path,actor,requirement_ids,verification
-getOwnCounsellorProfile,GET,/me/counsellor-profile,Counsellor,US-30,Owner profile response test in test_counsellor_profile_details.py
-getProfileVisibility,GET,/me/profile-visibility,Authenticated member,US-27,Privacy persistence test in test_profile_visibility.py
-updateProfileVisibility,PATCH,/me/profile-visibility,Authenticated member,US-27;US-28,Privacy persistence and public field-restriction tests in test_profile_visibility.py
+getOwnCounsellorProfile,GET,/me/counsellor-profile,Counsellor,US-28;US-30,Owner exception and complete-profile tests in test_profile_visibility.py and test_counsellor_profile_details.py
+getProfileVisibility,GET,/me/profile-visibility,Job Seeker or Counsellor,US-27,Role guard and durable privacy persistence tests in test_profile_visibility.py
+updateProfileVisibility,PATCH,/me/profile-visibility,Job Seeker or Counsellor,US-27;US-28,Validation ownership persistence and immediate filtering tests in test_profile_visibility.py
 register,POST,/auth/users,Public,US-01;US-02;US-03;US-04,EA-00 plus duplicate-email contract test
 login,POST,/auth/sessions,Public,US-06;US-07,Role-aware JWT and generic credential failure tests in test_login_sessions.py plus EA-01
 refreshSession,POST,/auth/sessions/refresh,Authenticated,US-06,Rotation and stolen-token family revocation tests in test_refresh_sessions.py
@@ -32,8 +32,8 @@ completeBooking,POST,/bookings/{bookingId}/completion,Booked Counsellor,US-53,St
 createReview,POST,/bookings/{bookingId}/review,Owning Job Seeker,US-53;US-54;US-55,EA-06
 listOwnServices,GET,/me/services,Counsellor,US-34;US-36,Ownership contract test
 createService,POST,/me/services,Eligible Counsellor,US-34;US-35;US-37;US-38,Validation and role tests
-listCounsellors,GET,/counsellors,Public,US-44;US-13,test_counsellor_profile_details.py
-getCounsellorProfile,GET,/counsellors/{counsellorId},Public,US-30;US-44;US-46,Public-field schema test
+listCounsellors,GET,/counsellors,Public,US-13;US-28;US-44,Visibility-filtered response tests in test_profile_visibility.py and test_counsellor_profile_details.py
+getCounsellorProfile,GET,/counsellors/{counsellorId},Public,US-28;US-30;US-44;US-46,Public partial restricted and owner-exception tests in test_profile_visibility.py
 updateOwnCounsellorProfile,PATCH,/me/counsellor-profile,Counsellor,US-30,Ownership and validation tests
 getOnboardingState,GET,/me/onboarding-state,Counsellor,US-05,test_onboarding.py
 getOwnJobSeekerProfile,GET,/me/job-seeker-profile,Job Seeker,US-29,test_job_seeker_profile.py

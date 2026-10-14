@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from fastapi import APIRouter, Depends, Query, status
+from fastapi import APIRouter, Depends, Query, Response, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -124,8 +124,14 @@ def list_service_slots(
 @router.get(
     "/counsellors", response_model=list[CounsellorProfileOut],
     response_model_exclude_none=True,
+    response_model_exclude_unset=True,
+    operation_id="listCounsellors",
+    openapi_extra={"x-requirement-ids": ["US-13", "US-28", "US-44"]},
 )
-def list_counsellors(db: Session = Depends(get_db)) -> list[CounsellorProfileOut]:
+def list_counsellors(
+    response: Response,
+    db: Session = Depends(get_db),
+) -> list[CounsellorProfileOut]:
     """US-44, US-13. The Career Professionals a Job Seeker can book, best rated first.
 
     Exactly the people behind the services Explore lists, by the same rule, so the
@@ -136,15 +142,21 @@ def list_counsellors(db: Session = Depends(get_db)) -> list[CounsellorProfileOut
     services = db.scalars(select(Service).where(Service.active.is_(True)))
     owners = {s.counsellor.id: s.counsellor for s in services if _bookable(s)}
     ranked = sorted(owners.values(), key=lambda user: (-(user.overall_rating or 0), user.name))
+    response.headers["Cache-Control"] = "private, no-store"
     return [counsellor_profile_out(user, enforce_visibility=True) for user in ranked]
 
 
 @router.get(
     "/counsellors/{counsellor_id}", response_model=CounsellorProfileOut,
     response_model_exclude_none=True,
+    response_model_exclude_unset=True,
+    operation_id="getCounsellorProfile",
+    openapi_extra={"x-requirement-ids": ["US-28", "US-30", "US-44", "US-46"]},
 )
 def get_counsellor_profile(
-    counsellor_id: str, db: Session = Depends(get_db),
+    counsellor_id: str,
+    response: Response,
+    db: Session = Depends(get_db),
 ) -> CounsellorProfileOut:
     """US-30. A counsellor's public professional profile."""
     # Imported here rather than at module scope: the counsellor router already
@@ -154,4 +166,5 @@ def get_counsellor_profile(
     user = db.get(User, counsellor_id)
     if user is None or user.role != "counsellor":
         raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Career Professional not found.")
+    response.headers["Cache-Control"] = "private, no-store"
     return counsellor_profile_out(user, enforce_visibility=True)
