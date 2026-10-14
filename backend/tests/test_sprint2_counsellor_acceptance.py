@@ -191,7 +191,8 @@ def test_service_creation_persists_and_is_visible_to_owner_and_public(
     public = client.get("/api/v1/services")
     assert public.status_code == 200 and public.json() == [public_body]
     detail = client.get(f"/api/v1/services/{body['id']}")
-    assert detail.status_code == 200 and detail.json() == public_body
+    # US-54: the detail view also carries the review list, empty for a new service.
+    assert detail.status_code == 200 and detail.json() == {**public_body, "reviews": []}
     assert not {"email", "passwordHash", "password"} & body["counsellor"].keys()
 
 

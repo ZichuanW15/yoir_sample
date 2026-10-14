@@ -16,6 +16,7 @@ from sqlalchemy.orm import Session
 
 from app.mail import messages
 from app.models import AvailabilityWindow, Booking, Order, Service, User
+from app.payments.jobs import mark_sessions_completed
 
 ADMIN_READS = ["/api/v1/admin/verifications", "/api/v1/admin/payments",
                "/api/v1/admin/stats", "/api/v1/admin/bookings", "/api/v1/admin/counsellors",
@@ -560,3 +561,159 @@ def test_verified_counsellors_who_cannot_be_paid_are_counted(
     db_session.commit()
     after = client.get("/api/v1/admin/stats", headers=platform_owner_headers).json()
     assert after["counsellorsAwaitingPayouts"] == 0
+
+
+# --- US-58 / US-48: one record at a time -------------------------------------
+
+
+@pytest.mark.parametrize("path", [
+    "/api/v1/admin/verifications/anyone", "/api/v1/admin/payments/any-order",
+])
+def test_single_records_are_closed_to_everyone_else(
+    client: TestClient, path: str, job_seeker_headers: dict, counsellor_headers: dict
+) -> None:
+    assert client.get(path).status_code == 401
+    for headers in (job_seeker_headers, counsellor_headers):
+        response = client.get(path, headers=headers)
+        assert response.status_code == 403
+        assert response.json()["code"] == "FORBIDDEN"
+
+
+def test_one_submission_can_be_read_whatever_has_been_decided(
+    client: TestClient, counsellor: User, platform_owner_headers: dict, decisions: list,
+) -> None:
+    """Read alone, a submission is still found after it has left the waiting queue."""
+    path = f"/api/v1/admin/verifications/{counsellor.id}"
+    client.post(
+        f"{path}/decision", headers=platform_owner_headers,
+        json={"decision": "rejected", "reason": "The profile link is private."},
+    )
+
+    response = client.get(path, headers=platform_owner_headers)
+
+    assert response.status_code == 200
+    body = response.json()
+    assert (body["id"], body["email"]) == (counsellor.id, counsellor.email)
+    assert body["status"] == "rejected"
+    assert body["decisionReason"] == "The profile link is private."
+
+
+def test_reading_a_submission_that_is_not_a_counsellor_is_a_404(
+    client: TestClient, job_seeker: User, platform_owner_headers: dict
+) -> None:
+    for submission_id in (job_seeker.id, "no-such-person"):
+        response = client.get(
+            f"/api/v1/admin/verifications/{submission_id}", headers=platform_owner_headers,
+        )
+        assert response.status_code == 404
+
+
+def test_one_order_shows_its_parties_session_split_and_progress(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    job_seeker: User,
+    counsellor: User,
+    job_seeker_headers: dict,
+    platform_owner_headers: dict,
+) -> None:
+    booking = book_and_pay(client, db_session, service, job_seeker_headers)
+    (listed,) = client.get("/api/v1/admin/payments", headers=platform_owner_headers).json()
+
+    response = client.get(
+        f"/api/v1/admin/payments/{booking['orderId']}", headers=platform_owner_headers,
+    )
+
+    assert response.status_code == 200
+    detail = response.json()
+    # The list row is repeated exactly, so the two views can never disagree.
+    assert {key: detail[key] for key in listed} == listed
+    assert (detail["jobSeekerId"], detail["jobSeekerEmail"]) == (job_seeker.id, job_seeker.email)
+    assert (detail["counsellorId"], detail["counsellorEmail"]) == (counsellor.id, counsellor.email)
+    assert (detail["startsAt"], detail["endsAt"]) == (booking["startsAt"], booking["endsAt"])
+    assert (detail["modality"], detail["timezone"]) == ("online", "Australia/Melbourne")
+    order = db_session.get(Order, booking["orderId"])
+    assert detail["sessionGstMinor"] == order.session_gst_minor
+    assert detail["platformFeeGstMinor"] == order.platform_fee_gst_minor
+    assert (detail["orderStatus"], detail["paymentStatus"], detail["bookingStatus"]) == (
+        "confirmed", "paid", "confirmed",
+    )
+    assert detail["holdExpiresAt"] is None
+    assert not {"card", "last4", "clientSecret", "paymentMethod"} & detail.keys()
+
+
+def test_an_order_shows_how_far_its_session_has_got(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    job_seeker_headers: dict,
+    platform_owner_headers: dict,
+) -> None:
+    booking = book_and_pay(client, db_session, service, job_seeker_headers)
+    stored = db_session.get(Booking, booking["id"])
+    mark_sessions_completed(db_session, now=stored.ends_at + timedelta(minutes=1))
+
+    detail = client.get(
+        f"/api/v1/admin/payments/{booking['orderId']}", headers=platform_owner_headers,
+    ).json()
+
+    assert detail["bookingStatus"] == "completed"
+    assert detail["completedAt"] is not None
+    assert detail["paidOutAt"] is None
+
+
+def test_an_unpaid_order_shows_the_time_it_holds_and_no_booking(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    job_seeker_headers: dict,
+    platform_owner_headers: dict,
+) -> None:
+    start = datetime.now(UTC) + timedelta(days=1)
+    db_session.add(AvailabilityWindow(
+        counsellor_id=service.counsellor_id, starts_at=start, ends_at=start + timedelta(hours=3),
+    ))
+    db_session.commit()
+    order = client.post(
+        "/api/v1/orders", headers=job_seeker_headers,
+        json={"serviceId": service.id, "startsAt": start.isoformat(),
+              "modality": "online", "timezone": "Australia/Melbourne"},
+    ).json()
+
+    detail = client.get(
+        f"/api/v1/admin/payments/{order['id']}", headers=platform_owner_headers,
+    ).json()
+
+    assert (detail["orderStatus"], detail["paymentStatus"]) == ("awaiting_payment", "not_started")
+    assert detail["bookingId"] is None and detail["bookingStatus"] is None
+    assert detail["holdExpiresAt"] == order["holdExpiresAt"]
+    assert detail["startsAt"] == order["startsAt"]
+
+
+def test_an_order_is_found_however_far_down_the_list_it_has_fallen(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    job_seeker_headers: dict,
+    platform_owner_headers: dict,
+) -> None:
+    """The list stops at its limit; an order opened by id must not."""
+    oldest = book_and_pay(client, db_session, service, job_seeker_headers, days=1)
+    book_and_pay(client, db_session, service, job_seeker_headers, days=2)
+
+    newest_only = client.get(
+        "/api/v1/admin/payments?limit=1", headers=platform_owner_headers,
+    ).json()
+
+    assert oldest["orderId"] not in [row["orderId"] for row in newest_only]
+    response = client.get(
+        f"/api/v1/admin/payments/{oldest['orderId']}", headers=platform_owner_headers,
+    )
+    assert response.status_code == 200
+
+
+def test_an_unknown_order_is_a_404(client: TestClient, platform_owner_headers: dict) -> None:
+    response = client.get("/api/v1/admin/payments/no-such-order", headers=platform_owner_headers)
+
+    assert response.status_code == 404
+    assert response.json()["code"] == "NOT_FOUND"

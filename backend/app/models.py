@@ -281,6 +281,28 @@ class Booking(Base):
     review_reason: Mapped[str | None] = mapped_column(String, nullable=True)
 
 
+class Review(Base):
+    """US-53: a buyer's rating and comment on a completed booking.
+
+    One row per booking, never per order — a booking is what actually happened,
+    and an order with no completed booking has nothing to review. The service and
+    counsellor ids are denormalised here (both reachable through the booking) so
+    US-54/US-55's aggregates can be recomputed with a plain filter, not a join.
+    """
+
+    __tablename__ = "reviews"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=_uuid)
+    booking_id: Mapped[str] = mapped_column(ForeignKey("bookings.id"), unique=True, nullable=False)
+    order_id: Mapped[str] = mapped_column(ForeignKey("orders.id"), nullable=False)
+    service_id: Mapped[str] = mapped_column(ForeignKey("services.id"), index=True, nullable=False)
+    counsellor_id: Mapped[str] = mapped_column(ForeignKey("users.id"), index=True, nullable=False)
+    job_seeker_id: Mapped[str] = mapped_column(ForeignKey("users.id"), nullable=False)
+    rating: Mapped[int] = mapped_column(Integer, nullable=False)
+    comment: Mapped[str] = mapped_column(String, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(UtcDateTime, default=_now, nullable=False)
+
+
 class ProcessedWebhookEvent(Base):
     """Payments spec §8 — Stripe redelivers events, so each one is handled once.
 
