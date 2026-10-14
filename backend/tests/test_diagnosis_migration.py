@@ -14,6 +14,9 @@ from app.migrations import alembic_config, upgrade_database
 from app.models import Diagnosis
 
 EXISTING_TABLES = ("users", "services", "availability_windows", "orders", "bookings")
+#: The newest revision, which an upgrade runs to. The diagnosis revision, 0009, sits
+#: below it: US-53's reviews table (0010) was added after it.
+HEAD = "0010"
 BRIEF = "Please review my existing resume before the session."
 ADDRESS = "Room 2, 123 Example Street, Melbourne VIC"
 
@@ -112,10 +115,12 @@ def test_diagnosis_migrations_have_one_unambiguous_head_after_dev():
         warnings.filterwarnings("error", message=r"Revision .* is present more than once")
         script = ScriptDirectory.from_config(alembic_config())
         revisions = list(script.walk_revisions())
-        assert script.get_heads() == ["0009"]
+        assert script.get_heads() == [HEAD]
         assert script.get_revision("0009").down_revision == "0008"
         assert len(revisions) == len({revision.revision for revision in revisions})
-        for current, previous in (("0006", "0005"), ("0007", "0006"), ("0008", "0007")):
+        for current, previous in (
+            ("0006", "0005"), ("0007", "0006"), ("0008", "0007"), ("0010", "0009"),
+        ):
             assert script.get_revision(current).down_revision == previous
 
 
@@ -127,7 +132,7 @@ def test_diagnosis_upgrade_preserves_existing_data_and_creates_owned_unique_tabl
     assert "diagnoses" not in inspect(engine).get_table_names()
 
     upgrade_database(engine)
-    assert _revision(engine) == "0009"
+    assert _revision(engine) == HEAD
 
     after = _snapshot(engine)
     for name, rows in before.items():
@@ -164,7 +169,7 @@ def test_diagnosis_upgrade_preserves_existing_data_and_creates_owned_unique_tabl
     saved = _snapshot(engine)
     upgrade_database(engine)
     upgrade_database(engine)
-    assert _revision(engine) == "0009"
+    assert _revision(engine) == HEAD
     assert _snapshot(engine) == saved
 
 
@@ -186,6 +191,6 @@ def test_diagnosis_downgrade_preserves_dev_fields_and_all_other_rows(diagnosis_d
         assert column in {item["name"] for item in inspect(engine).get_columns(table)}
 
     upgrade_database(engine)
-    assert _revision(engine) == "0009"
+    assert _revision(engine) == HEAD
     # Downgrade intentionally drops diagnosis data, but no other member data.
     assert _snapshot(engine) == {**before, "diagnoses": []}

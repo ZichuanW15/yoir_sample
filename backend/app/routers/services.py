@@ -8,13 +8,15 @@ from app.availability import bookable_starts
 from app.config import get_settings
 from app.db import get_db
 from app.errors import NOT_FOUND, ApiError
-from app.models import Service, User
+from app.models import Review, Service, User
+from app.reviews import review_out
 from app.schemas import (
     BookableStartOut,
     CounsellorProfileOut,
     CounsellorSummary,
     Location,
     OwnServiceOut,
+    ServiceDetailOut,
     ServiceOut,
 )
 
@@ -88,13 +90,23 @@ def list_services(
     return [service_to_out(s) for s in services]
 
 
-@router.get("/services/{service_id}", response_model=ServiceOut)
-def get_service(service_id: str, db: Session = Depends(get_db)) -> ServiceOut:
-    """US-46. Public service detail."""
+@router.get("/services/{service_id}", response_model=ServiceDetailOut)
+def get_service(service_id: str, db: Session = Depends(get_db)) -> ServiceDetailOut:
+    """US-46, US-54. Public service detail, with its reviews — newest first.
+
+    No login required: a visitor deciding whether to buy needs to see this
+    before an account exists to log into.
+    """
     service = db.get(Service, service_id)
     if service is None or not service.active or not _bookable(service):
         raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Service not found.")
-    return service_to_out(service)
+    reviews = db.scalars(
+        select(Review).where(Review.service_id == service_id).order_by(Review.created_at.desc())
+    )
+    return ServiceDetailOut(
+        **service_to_out(service).model_dump(),
+        reviews=[review_out(r) for r in reviews],
+    )
 
 
 @router.get("/services/{service_id}/slots", response_model=list[BookableStartOut])

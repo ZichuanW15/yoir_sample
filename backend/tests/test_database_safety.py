@@ -113,3 +113,22 @@ def test_manual_reset_script_validates_target_before_destructive_import() -> Non
         index for index, line in enumerate(source_lines) if "from app.db import" in line
     )
     assert validation_line < product_db_import_line
+
+
+def test_per_test_cleanup_empties_every_table_before_what_it_references() -> None:
+    """PostgreSQL enforces foreign keys and the local SQLite run does not, so a table
+    missing from the cleanup list passes locally and errors every test in CI. Checked
+    against the models here, so a new table fails on SQLite too."""
+    from conftest import _DATABASE_CLEANUP_ORDER
+
+    from app.db import Base
+
+    assert set(_DATABASE_CLEANUP_ORDER) == set(Base.metadata.tables)
+    position = {name: index for index, name in enumerate(_DATABASE_CLEANUP_ORDER)}
+    for table in Base.metadata.tables.values():
+        for foreign_key in table.foreign_keys:
+            parent = foreign_key.column.table.name
+            if parent != table.name:
+                assert position[table.name] < position[parent], (
+                    f"{table.name} must be emptied before {parent}, which it references"
+                )

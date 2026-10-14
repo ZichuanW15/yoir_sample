@@ -343,13 +343,13 @@ paths:
       tags: [Marketplace]
       operationId: getService
       security: []
-      x-requirement-ids: [US-46]
+      x-requirement-ids: [US-46, US-54]
       responses:
         '200':
-          description: Public service detail
+          description: Public service detail, with its reviews — newest first
           content:
             application/json:
-              schema: {$ref: '#/components/schemas/Service'}
+              schema: {$ref: '#/components/schemas/ServiceDetail'}
         '404': {$ref: '#/components/responses/NotFound'}
   /services/{serviceId}/slots:
     parameters:
@@ -768,6 +768,13 @@ paths:
       operationId: createReview
       x-required-role: owning_job_seeker
       x-requirement-ids: [US-53, US-54, US-55]
+      description: >-
+        One review per completed booking, from its buyer only. A paid-out booking
+        counts as completed: paying the counsellor does not close the review. The
+        comment is trimmed and must not be blank. US-54's service
+        average/count/list and US-55's counsellor rating are both recomputed from
+        stored reviews in the same write — a reader never sees one the aggregates
+        have not yet caught up to.
       requestBody:
         required: true
         content:
@@ -780,7 +787,9 @@ paths:
             application/json:
               schema: {$ref: '#/components/schemas/Review'}
         '400': {$ref: '#/components/responses/BadRequest'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
         '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
         '409': {$ref: '#/components/responses/Conflict'}
   /me/services:
     get:
@@ -1836,6 +1845,18 @@ components:
             description, so it must not travel with the public marketplace listing.
           properties:
             meetingUrl: {type: string, nullable: true}
+    ServiceDetail:
+      allOf:
+        - $ref: '#/components/schemas/Service'
+        - type: object
+          description: >-
+            US-54 — the service detail screen only; the Marketplace list stays
+            light and does not carry the review list.
+          required: [reviews]
+          properties:
+            reviews:
+              type: array
+              items: {$ref: '#/components/schemas/Review'}
     AvailabilityWindow:
       type: object
       description: >-
@@ -2187,6 +2208,13 @@ components:
         meetingArea:
           type: string
           description: Where an in-person session happens, as the service advertises it.
+        review:
+          allOf:
+            - $ref: '#/components/schemas/Review'
+          nullable: true
+          description: >-
+            US-53 — the buyer's review once written, null until then, so the app
+            stops offering a second one. Returned by getBooking and listMyBookings.
     Message:
       type: object
       required: [id, bookingId, senderId, content, createdAt]
