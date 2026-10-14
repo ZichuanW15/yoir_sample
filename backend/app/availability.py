@@ -163,6 +163,43 @@ def bookable_starts(
     return sorted(starts)
 
 
+def next_bookable_start(
+    db: Session, service: Service, now: datetime | None = None,
+) -> datetime | None:
+    """The earliest time a job seeker could book this service, or None.
+
+    The first of exactly what the time picker offers, so a counsellor told their next
+    open time is Thursday at nine sees the same Thursday at nine a job seeker does.
+    """
+    starts = bookable_starts(db, service, now)
+    return starts[0] if starts else None
+
+
+def free_minutes(window: AvailabilityWindow, taken: list[Busy], now: datetime) -> int:
+    """How much of this window is still open: not yet past, booked or held.
+
+    Measured against the same `taken` that `bookable_starts` offers around, so the
+    calendar cannot call time free that the picker refuses. Whether a particular
+    service fits in what is left is a separate question, answered per service.
+    """
+    start, end = max(window.starts_at, now), window.ends_at
+    if end <= start:
+        return 0
+    spans = sorted(
+        (max(busy.starts_at, start), min(busy.ends_at, end))
+        for busy in taken
+        if _overlaps(busy.starts_at, busy.ends_at, start, end)
+    )
+    # A booking and a hold can overlap each other, so count covered time once.
+    covered, cursor = timedelta(), start
+    for span_start, span_end in spans:
+        span_start = max(span_start, cursor)
+        if span_end > span_start:
+            covered += span_end - span_start
+            cursor = span_end
+    return int((end - start - covered).total_seconds() // 60)
+
+
 def _ceil_to_step(moment: datetime, step: timedelta, origin: datetime | None = None) -> datetime:
     """Round up onto the step grid, measured from `origin` so offers line up with the
     window's own start rather than with the wall clock."""

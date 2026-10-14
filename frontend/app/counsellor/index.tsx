@@ -12,7 +12,7 @@ import { CounsellorNav } from '@/src/components/CounsellorNav';
 import { Glyph } from '@/src/components/Glyph';
 import { VerifyEmailBanner } from '@/src/components/VerifyEmailBanner';
 import { Avatar, ErrorBanner, Eyebrow, Press, Spinner, Tag } from '@/src/components/ui';
-import { fmtDay, initials, modalityLabel, money } from '@/src/format';
+import { fmtDay, fmtTime, hoursAndMinutes, initials, modalityLabel, money } from '@/src/format';
 import { FadeUp, Float, Pop, Pulse, ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, type } from '@/src/theme';
 import { unknownVerification, verificationCopy, verificationState } from '@/src/verification';
@@ -127,9 +127,16 @@ export default function CounsellorWorkspace() {
   // feature can find them. The workspace shows only live ones, which is what
   // the delete confirmation promises.
   const services = (data?.services ?? []).filter((service) => service.active);
-  // Availability is the counsellor's own calendar now, not a per-service list.
+  // Availability is the counsellor's own calendar now, not a per-service list. The
+  // backend lists only windows that have not ended, and counts booked or held time
+  // as taken, so a full calendar does not read as open.
   const upcomingWindows = [...(data?.windows ?? [])]
     .sort((a, b) => a.startsAt.localeCompare(b.startsAt));
+  const freeMinutes = upcomingWindows.reduce((sum, window) => sum + (window.freeMinutes ?? 0), 0);
+  const calendarEnds = upcomingWindows.reduce<string | null>(
+    (latest, window) => (!latest || window.endsAt.localeCompare(latest) > 0 ? window.endsAt : latest),
+    null,
+  );
 
   return (
     <ScreenIn style={s.screen}>
@@ -294,11 +301,17 @@ export default function CounsellorWorkspace() {
                     fg={colors.amberDeep}
                   />
                 ) : null}
-                <Tag
-                  label={`${upcomingWindows.length} available`}
-                  bg={colors.greenTint}
-                  fg={colors.successInk}
-                />
+                {/* The first time a job seeker would be offered, worked out for this
+                    service's length and delivery: a window count cannot say that. */}
+                {service.nextAvailableAt === undefined ? null : service.nextAvailableAt ? (
+                  <Tag
+                    label={`Next open ${fmtDay(service.nextAvailableAt)} · ${fmtTime(service.nextAvailableAt)}`}
+                    bg={colors.greenTint}
+                    fg={colors.successInk}
+                  />
+                ) : (
+                  <Tag label="No open times" bg={colors.dangerBg} fg={colors.dangerInk} />
+                )}
               </View>
               <View style={s.serviceActions}>
                 <Press
@@ -350,9 +363,11 @@ export default function CounsellorWorkspace() {
             <View style={s.availCopy}>
               <Text style={s.availTitle}>Availability</Text>
               <Text style={s.availHint}>
-                {upcomingWindows.length
-                  ? `${upcomingWindows.length} open slots. Next on ${fmtDay(upcomingWindows[0].startsAt)}.`
-                  : 'No open slots. Add availability so buyers can choose a time.'}
+                {freeMinutes > 0 && calendarEnds
+                  ? `${hoursAndMinutes(freeMinutes)} free to book, through ${fmtDay(calendarEnds)}.`
+                  : upcomingWindows.length
+                    ? 'Fully booked. Add availability so buyers can choose a time.'
+                    : 'No open times. Add availability so buyers can choose a time.'}
               </Text>
             </View>
             <Glyph name="chevronRight" size={18} color={colors.amberInk} />

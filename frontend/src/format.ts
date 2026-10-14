@@ -19,6 +19,15 @@ export const timeRange = (startsAt: string, endsAt: string) => `${fmtTime(starts
 export const duration = (startsAt: string, endsAt: string) =>
   `${Math.round((new Date(endsAt).getTime() - new Date(startsAt).getTime()) / 60000)} min`;
 
+/** A length of time in words: "45 min", "1 hour", "2 hours 30 min". */
+export const hoursAndMinutes = (minutes: number) => {
+  const hours = Math.floor(minutes / 60);
+  const rest = Math.round(minutes % 60);
+  if (!hours) return `${rest} min`;
+  const whole = `${hours} ${hours === 1 ? 'hour' : 'hours'}`;
+  return rest ? `${whole} ${rest} min` : whole;
+};
+
 export const initials = (name: string) =>
   name.split(' ').map((part) => part[0]).join('').slice(0, 2).toUpperCase() || '?';
 

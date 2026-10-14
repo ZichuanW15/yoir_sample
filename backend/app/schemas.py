@@ -356,6 +356,10 @@ class OwnServiceOut(ServiceOut):
     """
 
     meeting_url: str | None = None
+    #: The earliest time a job seeker could book it, exactly as its time picker would
+    #: offer it. None when nothing is open, which is what the counsellor needs to see:
+    #: a count of windows says nothing about whether this service fits in any of them.
+    next_available_at: datetime | None = None
 
 
 class CreateAvailabilityWindowRequest(CamelModel):
@@ -389,6 +393,9 @@ class AvailabilityWindowOut(CamelModel):
     #: True once any part of the window has been booked, so the screen can show that
     #: shortening it would strand a session rather than silently refusing the edit.
     has_bookings: bool = False
+    #: Minutes still open to book: the part not yet past, less every booking and
+    #: unpaid hold inside it. A fully booked window is on the calendar but not free.
+    free_minutes: int = 0
 
 
 class BookableStartOut(CamelModel):
