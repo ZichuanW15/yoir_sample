@@ -8,7 +8,7 @@ import { BookableStart, Modality, Service } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { BackBar, beat, BookingSteps, RESERVE_MS } from '@/src/components/booking';
 import { Glyph } from '@/src/components/Glyph';
-import { Button, ErrorBanner, Field, Press } from '@/src/components/ui';
+import { Button, ErrorBanner, Field, Press, Spinner } from '@/src/components/ui';
 import { deviceTimezone, duration, fmtDay, modalityLabel, money, timeRange } from '@/src/format';
 import { FadeUp, Pop, ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, type } from '@/src/theme';
@@ -29,14 +29,32 @@ function groupByDay(slots: BookableStart[]) {
   return [...days.values()];
 }
 
+/**
+ * Another way this service is delivered that does have open times, for when the
+ * chosen one has none: an empty online calendar must not hide open in-person times.
+ */
+async function openElsewhere(service: Service, chosen: Modality | null): Promise<Modality | null> {
+  for (const option of service.modalities) {
+    if (option === chosen) continue;
+    try {
+      if ((await api.listServiceSlots(service.id, option)).length) return option;
+    } catch {
+      // Only a hint: failing to find one must not turn a good answer into an error.
+    }
+  }
+  return null;
+}
+
 export default function TimeSlotsScreen() {
   const { serviceId } = useLocalSearchParams<{ serviceId: string }>();
   const { session } = useAuth();
   const insets = useSafeAreaInsets();
   const [service, setService] = useState<Service | null>(null);
-  const [slots, setSlots] = useState<BookableStart[]>([]);
+  // Null until the server has answered, so "still loading" is never shown as "nothing open".
+  const [slots, setSlots] = useState<BookableStart[] | null>(null);
   const [selected, setSelected] = useState('');
   const [modality, setModality] = useState<Modality | null>(null);
+  const [elsewhere, setElsewhere] = useState<Modality | null>(null);
   const [brief, setBrief] = useState('');
   const [slotsError, setSlotsError] = useState('');
   const [busy, setBusy] = useState(false);
@@ -49,8 +67,10 @@ export default function TimeSlotsScreen() {
       // Availability can differ by delivery method — a counsellor may be in the
       // office only on some days — so the offers are asked for per modality.
       const available = await api.listServiceSlots(serviceId, chosenModality ?? undefined);
+      const alternative = available.length ? null : await openElsewhere(loaded, chosenModality);
       setService(loaded);
       setSlots(available);
+      setElsewhere(alternative);
       setModality(chosenModality);
     } catch (error) {
       setSlotsError(userFacingError(error));
@@ -67,10 +87,17 @@ export default function TimeSlotsScreen() {
     void run();
   }, [load, serviceId, session]);
 
-  const days = useMemo(() => groupByDay(slots), [slots]);
-  const chosen = slots.find((slot) => slot.startsAt === selected);
+  const days = useMemo(() => groupByDay(slots ?? []), [slots]);
+  const chosen = slots?.find((slot) => slot.startsAt === selected);
   const multiModal = (service?.modalities.length ?? 0) > 1;
   const meetingArea = service?.location ? `${service.location.cityOrRegion}, ${service.location.state}` : '';
+
+  /** Clears the old offers first, so the other delivery method's are never shown as this one's. */
+  function chooseModality(option: Modality) {
+    if (option === modality) return;
+    setSlots(null);
+    setModality(option);
+  }
 
   /**
    * US-41 — the slot is held server-side before payment, so a slot someone else
@@ -129,7 +156,7 @@ export default function TimeSlotsScreen() {
               {service.modalities.map((option) => (
                 <Press
                   key={option}
-                  onPress={() => setModality(option)}
+                  onPress={() => chooseModality(option)}
                   scaleTo={0.94}
                   accessibilityRole="radio"
                   accessibilityLabel={modalityLabel(option)}
@@ -145,6 +172,39 @@ export default function TimeSlotsScreen() {
             {modality === 'in_person' && meetingArea
               ? <Text style={type.small}>Meeting area: {meetingArea}</Text>
               : null}
+          </FadeUp>
+        ) : null}
+
+        {/* US-40 AC4 — a successful answer with nothing in it is explained, never left
+            blank; a failed read is an error to retry, not a claim that nothing is open. */}
+        {slots === null ? (
+          slotsError ? (
+            <Button label="Try again" tone="outline" height={48} onPress={() => { setSlotsError(''); void load(); }} />
+          ) : (
+            <View style={s.loading}><Spinner size={28} color={colors.green} /></View>
+          )
+        ) : !slots.length && service ? (
+          <FadeUp delay={120} style={s.empty}>
+            <View style={s.emptyMark}><Glyph name="calendar" size={22} color={colors.green} /></View>
+            <Text style={type.display24}>No open times right now</Text>
+            <Text style={type.body}>
+              {service.counsellor.displayName} has nothing free
+              {multiModal ? (modality === 'in_person' ? ' in person' : ' online') : ''} at the moment.
+              New times show up here as soon as they are added.
+            </Text>
+            {elsewhere ? (
+              <Button
+                label={`Show ${elsewhere === 'in_person' ? 'in-person' : 'online'} times`}
+                height={48}
+                onPress={() => chooseModality(elsewhere)}
+              />
+            ) : null}
+            <Button
+              label="See other Career Professionals"
+              tone={elsewhere ? 'outline' : 'primary'}
+              height={48}
+              onPress={() => router.push('/marketplace')}
+            />
           </FadeUp>
         ) : null}
 
@@ -230,6 +290,10 @@ const s = StyleSheet.create({
   modeChipText: { fontFamily: fonts.bold, fontSize: 13 },
   modeChipTextOn: { color: colors.white },
   modeChipTextOff: { color: colors.muted },
+
+  loading: { paddingVertical: 40, alignItems: 'center' },
+  empty: { padding: 20, gap: 12, borderRadius: radius.xl, borderWidth: 1, borderColor: colors.lineSoft, backgroundColor: colors.white },
+  emptyMark: { width: 48, height: 48, borderRadius: 16, backgroundColor: colors.greenTint, alignItems: 'center', justifyContent: 'center' },
 
   day: { gap: 10 },
   dayHeading: { flexDirection: 'row', alignItems: 'center', gap: 8 },

@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, Query, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.availability import bookable_starts
+from app.availability import bookable_starts, next_bookable_start
 from app.config import get_settings
 from app.db import get_db
 from app.errors import NOT_FOUND, ApiError
@@ -51,11 +51,14 @@ def service_to_out(service: Service) -> ServiceOut:
     )
 
 
-def own_service_to_out(service: Service) -> OwnServiceOut:
-    """The same service, plus the one field only its owner may see."""
+def own_service_to_out(service: Service, db: Session) -> OwnServiceOut:
+    """The same service, plus what only its owner sees: the meeting room, and when a
+    job seeker could next book it."""
     return OwnServiceOut(
         **service_to_out(service).model_dump(),
         meeting_url=service.meeting_url,
+        # A withdrawn service is offered to nobody, so it has no next time.
+        next_available_at=next_bookable_start(db, service) if service.active else None,
     )
 
 

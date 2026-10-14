@@ -56,6 +56,11 @@ export interface Service {
    * is an access credential, so the marketplace must not carry it.
    */
   meetingUrl?: string | null;
+  /**
+   * Own listing only: the earliest time a job seeker could book this service, the
+   * same first time its picker offers. Null when nothing is open.
+   */
+  nextAvailableAt?: string | null;
 }
 
 export interface ApiErrorBody { code: string; message: string; fieldErrors?: Record<string, string>; requestId: string }
@@ -72,6 +77,8 @@ export interface AvailabilityWindow {
   modalities: Modality[];
   /** True once a session is booked inside it, so shortening it may be refused. */
   hasBookings?: boolean;
+  /** Minutes still open to book: not yet past, booked or held. */
+  freeMinutes?: number;
 }
 
 /**

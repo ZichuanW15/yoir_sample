@@ -13,7 +13,7 @@ import {
   addMonths, buildWindowDrafts, dateKey, isSameMonth, monthGrid, parseDateKey, startOfDay,
   startOfMonth, weekdayDatesInRange,
 } from '@/src/counsellor/availabilityPlanner';
-import { fmtLong, fmtTime, HOURS, modalityLabel, timeRange } from '@/src/format';
+import { fmtLong, fmtTime, HOURS, hoursAndMinutes, modalityLabel, timeRange } from '@/src/format';
 import { FadeUp, ScreenIn } from '@/src/motion';
 import { goBack } from '@/src/navigation';
 import { colors, fonts, radius, shadow, type } from '@/src/theme';
@@ -285,6 +285,7 @@ export default function AvailabilityScreen() {
                   {timeRange(window.startsAt, window.endsAt)}
                   {' · '}{window.modalities.map(modalityLabel).join(' & ')}
                   {window.hasBookings ? ' · has a booking' : ''}
+                  {openNote(window)}
                 </Text>
               </View>
               <Press
@@ -301,6 +302,14 @@ export default function AvailabilityScreen() {
       </ScrollView>
     </ScreenIn>
   );
+}
+
+/** What is left of a window to book, when that is not simply all of it. */
+function openNote(window: AvailabilityWindow): string {
+  if (window.freeMinutes === undefined) return '';
+  if (window.freeMinutes === 0) return ' · fully booked';
+  const length = Math.round((Date.parse(window.endsAt) - Date.parse(window.startsAt)) / 60000);
+  return window.freeMinutes < length ? ` · ${hoursAndMinutes(window.freeMinutes)} free` : '';
 }
 
 const s = StyleSheet.create({

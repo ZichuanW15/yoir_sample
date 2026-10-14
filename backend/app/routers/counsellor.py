@@ -4,7 +4,7 @@ from fastapi import APIRouter, Depends, Response, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.availability import LIVE_BOOKING_STATUSES
+from app.availability import LIVE_BOOKING_STATUSES, Busy, busy_periods, free_minutes
 from app.config import get_settings
 from app.db import get_db
 from app.errors import NOT_FOUND, VALIDATION_ERROR, ApiError
@@ -47,7 +47,7 @@ def list_own_services(
         .where(Service.counsellor_id == user.id)
         .order_by(Service.title)
     )
-    return [own_service_to_out(s) for s in services]
+    return [own_service_to_out(s, db) for s in services]
 
 
 @router.post("/services", status_code=status.HTTP_201_CREATED,
@@ -88,7 +88,7 @@ def create_service(
         # Build the response — including the counsellor relationship read — before
         # committing. A failure here rolls back instead of leaving a saved service
         # behind a 500, which would otherwise invite a duplicate-creating retry.
-        result = own_service_to_out(service)
+        result = own_service_to_out(service, db)
         db.commit()
     except Exception:
         db.rollback()
@@ -146,7 +146,7 @@ def update_service(
     service.meeting_url = (payload.meeting_url or "").strip() or None
     try:
         db.flush()
-        result = own_service_to_out(service)
+        result = own_service_to_out(service, db)
         db.commit()
     except Exception:
         db.rollback()
@@ -345,13 +345,24 @@ def _booked_spans(db: Session, window: AvailabilityWindow) -> list[tuple[datetim
     return [(b.starts_at, b.ends_at) for b in bookings]
 
 
-def _window_out(db: Session, window: AvailabilityWindow) -> AvailabilityWindowOut:
+def _window_out(
+    db: Session,
+    window: AvailabilityWindow,
+    taken: list[Busy] | None = None,
+    now: datetime | None = None,
+) -> AvailabilityWindowOut:
+    """`taken` is passed in when listing a whole calendar, so it is read once rather
+    than once per window."""
+    now = now or datetime.now(UTC)
+    if taken is None:
+        taken = busy_periods(db, window.counsellor_id, now)
     return AvailabilityWindowOut(
         id=window.id,
         starts_at=window.starts_at,
         ends_at=window.ends_at,
         modalities=list(window.modalities or ["online", "in_person"]),
         has_bookings=bool(_booked_spans(db, window)),
+        free_minutes=free_minutes(window, taken, now),
     )
 
 
@@ -397,13 +408,23 @@ def list_own_availability_windows(
     user: User = Depends(require_counsellor),
     db: Session = Depends(get_db),
 ) -> list[AvailabilityWindowOut]:
-    """US-39. The caller's whole calendar, soonest first."""
+    """US-39. The caller's calendar from now on, soonest first.
+
+    A window that has ended is left out. Nothing can be booked in it any more, and
+    listed beside current ones it read as open time: the workspace counted it as
+    availability while the time picker, rightly, offered nothing.
+    """
+    now = datetime.now(UTC)
     windows = db.scalars(
         select(AvailabilityWindow)
-        .where(AvailabilityWindow.counsellor_id == user.id)
+        .where(
+            AvailabilityWindow.counsellor_id == user.id,
+            AvailabilityWindow.ends_at > now,
+        )
         .order_by(AvailabilityWindow.starts_at)
     )
-    return [_window_out(db, w) for w in windows]
+    taken = busy_periods(db, user.id, now)
+    return [_window_out(db, w, taken, now) for w in windows]
 
 
 @router.post(
