@@ -775,6 +775,35 @@ class PaymentOversightOut(CamelModel):
     created_at: datetime
 
 
+class PaymentOversightDetailOut(PaymentOversightOut):
+    """US-48. One order end to end: the list row, plus who exactly, which session,
+    the whole frozen split and how far the order has got.
+
+    The session is read off the order, not the booking, so an order still being paid
+    for — or one that never got a booking — still shows the time it was for.
+    """
+
+    job_seeker_id: str
+    job_seeker_email: str
+    counsellor_id: str
+    counsellor_email: str
+    service_id: str
+    starts_at: datetime
+    ends_at: datetime
+    timezone: str
+    modality: Modality
+    session_gst_minor: int
+    platform_fee_gst_minor: int
+    #: Set while an unpaid order holds its time; the time is released when it passes.
+    hold_expires_at: datetime | None = None
+    #: The session's own progress once paid for. None until a booking exists.
+    booking_status: BookingStatus | None = None
+    completed_at: datetime | None = None
+    paid_out_at: datetime | None = None
+    cancelled_at: datetime | None = None
+    cancelled_by_role: Role | None = None
+
+
 class AdminBookingOut(CamelModel):
     """Every booking on the platform, named on both sides."""
 

@@ -30,6 +30,7 @@ from app.schemas import (
     AdminJobSeekerOut,
     AdminMoneyOut,
     AdminStatsOut,
+    PaymentOversightDetailOut,
     PaymentOversightOut,
     SubmitVerificationRequest,
     VerificationDecisionRequest,
@@ -106,6 +107,27 @@ def list_verification_submissions(
     return [_submission_out(user) for user in submissions]
 
 
+@router.get(
+    "/admin/verifications/{submission_id}", response_model=VerificationSubmissionOut,
+    operation_id="getVerificationSubmission",
+    openapi_extra={"x-required-role": "platform_owner", "x-requirement-ids": ["US-58"]},
+)
+def get_verification_submission(
+    submission_id: str,
+    _owner: User = Depends(require_platform_owner),
+    db: Session = Depends(get_db),
+) -> VerificationSubmissionOut:
+    """US-58. One submission, read on its own, whatever has since been decided.
+
+    The queue is filtered and ordered for working through; a submission opened from
+    it, or from a link, has to be found without fetching everyone's to search them.
+    """
+    counsellor = db.get(User, submission_id)
+    if counsellor is None or counsellor.role != "counsellor":
+        raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Submission not found.")
+    return _submission_out(counsellor)
+
+
 @router.post(
     "/admin/verifications/{submission_id}/decision",
     response_model=VerificationSubmissionOut, operation_id="decideVerification",
@@ -178,39 +200,89 @@ def list_payment_oversight(
     The Platform Owner needs to see that money moved and where it went; they have no
     business seeing a card number, and this application never holds one.
     """
+    rows = db.execute(
+        _oversight_query().order_by(Order.created_at.desc()).limit(limit)
+    ).all()
+    return [PaymentOversightOut(**_payment_fields(*row)) for row in rows]
+
+
+@router.get(
+    "/admin/payments/{order_id}", response_model=PaymentOversightDetailOut,
+    operation_id="getPaymentOversight",
+    openapi_extra={"x-required-role": "platform_owner", "x-requirement-ids": ["US-48"]},
+)
+def get_payment_oversight(
+    order_id: str,
+    _owner: User = Depends(require_platform_owner),
+    db: Session = Depends(get_db),
+) -> PaymentOversightDetailOut:
+    """US-48. One order end to end: who bought what from whom, for when, how the
+    money was split and how far the order has got.
+
+    Found by its id however old it is, not only while it is among the newest orders
+    the list returns. Nothing here changes the order; it is read, as it stands now.
+    """
+    row = db.execute(_oversight_query().where(Order.id == order_id)).one_or_none()
+    if row is None:
+        raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Order not found.")
+    order, booking, service, seeker_row, counsellor_row = row
+    return PaymentOversightDetailOut(
+        **_payment_fields(*row),
+        job_seeker_id=seeker_row.id,
+        job_seeker_email=seeker_row.email,
+        counsellor_id=counsellor_row.id,
+        counsellor_email=counsellor_row.email,
+        service_id=service.id,
+        starts_at=order.starts_at,
+        ends_at=order.ends_at,
+        timezone=order.timezone,
+        modality=order.modality,
+        session_gst_minor=order.session_gst_minor,
+        platform_fee_gst_minor=order.platform_fee_gst_minor,
+        hold_expires_at=order.hold_expires_at if order.status == "awaiting_payment" else None,
+        booking_status=booking.status if booking is not None else None,
+        completed_at=booking.completed_at if booking is not None else None,
+        paid_out_at=booking.paid_out_at if booking is not None else None,
+        cancelled_at=booking.cancelled_at if booking is not None else None,
+        cancelled_by_role=booking.cancelled_by_role if booking is not None else None,
+    )
+
+
+def _oversight_query():
+    """Each order with its service, both parties and its booking, if it has one."""
     job_seeker = aliased_user()
     counsellor = aliased_user()
-    rows = db.execute(
+    return (
         select(Order, Booking, Service, job_seeker, counsellor)
         .join(Service, Service.id == Order.service_id)
         .join(job_seeker, job_seeker.id == Order.job_seeker_id)
         .join(counsellor, counsellor.id == Service.counsellor_id)
         .outerjoin(Booking, Booking.order_id == Order.id)
-        .order_by(Order.created_at.desc())
-        .limit(limit)
-    ).all()
+    )
 
-    return [
-        PaymentOversightOut(
-            # The PaymentIntent id when Stripe took the money; otherwise the order's
-            # own id, so a stub-paid order still has something to quote.
-            payment_id=order.payment_intent_id or order.id,
-            order_id=order.id,
-            booking_id=booking.id if booking is not None else None,
-            job_seeker_name=seeker_row.name,
-            counsellor_name=counsellor_row.name,
-            service_title=service.title,
-            amount_minor=order.amount_minor,
-            platform_fee_minor=order.platform_fee_minor,
-            counsellor_payout_minor=order.counsellor_payout_minor,
-            refunded_minor=booking.refunded_minor if booking is not None else 0,
-            currency=order.currency,
-            payment_status=order.payment_status,
-            order_status=order.status,
-            created_at=order.created_at,
-        )
-        for order, booking, service, seeker_row, counsellor_row in rows
-    ]
+
+def _payment_fields(
+    order: Order, booking: Booking | None, service: Service, seeker_row: User, counsellor_row: User,
+) -> dict:
+    """What the list and the single order share, so the two can never disagree."""
+    return {
+        # The PaymentIntent id when Stripe took the money; otherwise the order's own
+        # id, so a stub-paid order still has something to quote.
+        "payment_id": order.payment_intent_id or order.id,
+        "order_id": order.id,
+        "booking_id": booking.id if booking is not None else None,
+        "job_seeker_name": seeker_row.name,
+        "counsellor_name": counsellor_row.name,
+        "service_title": service.title,
+        "amount_minor": order.amount_minor,
+        "platform_fee_minor": order.platform_fee_minor,
+        "counsellor_payout_minor": order.counsellor_payout_minor,
+        "refunded_minor": booking.refunded_minor if booking is not None else 0,
+        "currency": order.currency,
+        "payment_status": order.payment_status,
+        "order_status": order.status,
+        "created_at": order.created_at,
+    }
 
 
 # --- the dashboard ----------------------------------------------------------
