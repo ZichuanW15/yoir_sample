@@ -46,8 +46,10 @@ replyToForumPost,POST,/forum/posts/{postId}/replies,Authenticated,US-18;US-20,At
 toggleForumLike,PUT,/forum/posts/{postId}/like,Authenticated,US-21,Idempotent toggle test
 submitDispute,POST,/orders/{orderId}/disputes,Owning Job Seeker,US-51,Ownership and persistence test
 listVerificationSubmissions,GET,/admin/verifications,Platform Owner,US-58,Role and response-schema tests
+getVerificationSubmission,GET,/admin/verifications/{submissionId},Platform Owner,US-58,Role guard plus read-after-decision and 404 tests in test_admin.py
 decideVerification,POST,/admin/verifications/{submissionId}/decision,Platform Owner,US-32;US-33;US-58,State and role tests
 listPaymentOversight,GET,/admin/payments,Platform Owner,US-48,Role and sensitive-field test
+getPaymentOversight,GET,/admin/payments/{orderId},Platform Owner,US-48,Role guard plus detail and progress and unpaid-hold and 404 tests in test_admin.py
 getPlatformStats,GET,/admin/stats,Platform Owner,US-48;US-58,Totals-match-the-frozen-order-breakdown test in test_admin.py
 listAllBookings,GET,/admin/bookings,Platform Owner,US-48,Role guard and both-parties-named test in test_admin.py
 listAllCounsellors,GET,/admin/counsellors,Platform Owner,US-48;US-58,Role guard and per-counsellor trade totals test in test_admin.py

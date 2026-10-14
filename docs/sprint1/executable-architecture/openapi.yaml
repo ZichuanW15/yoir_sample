@@ -1315,6 +1315,26 @@ paths:
                 type: array
                 items: {$ref: '#/components/schemas/VerificationSubmission'}
         '403': {$ref: '#/components/responses/Forbidden'}
+  /admin/verifications/{submissionId}:
+    parameters:
+      - {name: submissionId, in: path, required: true, schema: {type: string}}
+    get:
+      tags: [Administration]
+      operationId: getVerificationSubmission
+      x-required-role: platform_owner
+      x-requirement-ids: [US-58]
+      description: >-
+        One submission on its own, whatever has since been decided, so a submission
+        opened from the queue or a link is found without listing everyone's.
+      responses:
+        '200':
+          description: The submission
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/VerificationSubmission'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
   /admin/verifications/{submissionId}/decision:
     parameters:
       - {name: submissionId, in: path, required: true, schema: {type: string}}
@@ -1360,6 +1380,27 @@ paths:
                 type: array
                 items: {$ref: '#/components/schemas/PaymentOversight'}
         '403': {$ref: '#/components/responses/Forbidden'}
+  /admin/payments/{orderId}:
+    parameters:
+      - {$ref: '#/components/parameters/OrderId'}
+    get:
+      tags: [Administration]
+      operationId: getPaymentOversight
+      x-required-role: platform_owner
+      x-requirement-ids: [US-48]
+      description: >-
+        One order end to end: both parties, the session it is for, the whole frozen
+        split and how far it has got. Found by id however old it is, unlike the list,
+        which stops at its limit. Read-only.
+      responses:
+        '200':
+          description: The order, its payment and its progress, without payment credentials
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/PaymentOversightDetail'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
   /admin/stats:
     get:
       tags: [Administration]
@@ -2189,10 +2230,53 @@ components:
       properties:
         paymentId: {type: string}
         orderId: {type: string}
+        bookingId: {type: string, nullable: true}
+        jobSeekerName: {type: string}
+        counsellorName: {type: string}
+        serviceTitle: {type: string}
         amountMinor: {type: integer}
+        platformFeeMinor: {type: integer}
+        counsellorPayoutMinor: {type: integer}
+        refundedMinor: {type: integer}
         currency: {type: string, enum: [AUD]}
         paymentStatus: {type: string, enum: [not_started, requires_action, processing, paid, failed, refunded]}
         orderStatus: {type: string, enum: [pending, awaiting_payment, confirmed, completed, expired, cancelled, disputed]}
+        createdAt: {type: string, format: date-time}
+    PaymentOversightDetail:
+      allOf:
+        - $ref: '#/components/schemas/PaymentOversight'
+        - type: object
+          description: >-
+            The list row plus who exactly, which session, the whole frozen split and
+            progress. The session is read off the order, so an order still awaiting
+            payment, or one that never got a booking, still shows its time.
+          required: [jobSeekerId, counsellorId, serviceId, startsAt, endsAt, timezone, modality]
+          properties:
+            jobSeekerId: {type: string}
+            jobSeekerEmail: {type: string}
+            counsellorId: {type: string}
+            counsellorEmail: {type: string}
+            serviceId: {type: string}
+            startsAt: {type: string, format: date-time}
+            endsAt: {type: string, format: date-time}
+            timezone: {type: string}
+            modality: {$ref: '#/components/schemas/Modality'}
+            sessionGstMinor: {type: integer}
+            platformFeeGstMinor: {type: integer}
+            holdExpiresAt:
+              type: string
+              format: date-time
+              nullable: true
+              description: Set only while an unpaid order holds its time.
+            bookingStatus:
+              type: string
+              nullable: true
+              enum: [confirmed, completed, paid_out, cancelled, refunded]
+              description: The session's own progress once paid for; null until a booking exists.
+            completedAt: {type: string, format: date-time, nullable: true}
+            paidOutAt: {type: string, format: date-time, nullable: true}
+            cancelledAt: {type: string, format: date-time, nullable: true}
+            cancelledByRole: {$ref: '#/components/schemas/Role'}
     PlatformStats:
       type: object
       required: [jobSeekers, counsellors, counsellorsPendingVerification, counsellorsAwaitingPayouts, servicesActive, bookingsByStatus, ordersAwaitingPayment, money]
