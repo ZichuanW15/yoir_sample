@@ -15,6 +15,7 @@ startDiagnosis,POST,/me/diagnosis,Job Seeker,US-09,Idempotent creation and accou
 getOwnDiagnosis,GET,/me/diagnosis,Job Seeker,US-09;US-11,Durable resume and missing diagnosis in test_diagnosis.py
 getDiagnosis,GET,/diagnoses/{diagnosisId},Owning Job Seeker,US-09;US-11,Indistinguishable missing and foreign records in test_diagnosis.py
 getDiagnosisDirection,GET,/diagnoses/{diagnosisId}/direction,Owning Job Seeker,US-12,Approved direction fixtures incomplete rejection and ownership tests in test_diagnosis_direction.py
+getDiagnosisMarketplaceCriteria,GET,/diagnoses/{diagnosisId}/marketplace-criteria,Owning Job Seeker,US-13,test_diagnosis_marketplace_criteria.py
 saveDiagnosisStep,PUT,/diagnoses/{diagnosisId}/steps/{stepId},Owning Job Seeker,US-10;US-11,Allowed answers sequential progress stale revisions and rollback in test_diagnosis.py
 listServices,GET,/services,Public,US-44;US-45,Public API contract test
 getService,GET,/services/{serviceId},Public,US-46;US-54,test_reviews.py

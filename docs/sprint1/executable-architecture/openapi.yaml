@@ -120,6 +120,32 @@ paths:
         '403': {$ref: '#/components/responses/Forbidden'}
         '404': {$ref: '#/components/responses/NotFound'}
         '409': {$ref: '#/components/responses/Conflict'}
+  /diagnoses/{diagnosisId}/marketplace-criteria:
+    parameters:
+      - {$ref: '#/components/parameters/DiagnosisId'}
+    get:
+      tags: [Diagnosis]
+      operationId: getDiagnosisMarketplaceCriteria
+      x-requirement-ids: [US-13]
+      description: >-
+        Translate a confirmed US-12 direction into exactly what GET /services
+        (US-44/US-45) accepts: one query term and a modality. No diagnosis answer
+        names a delivery method, so modality is always null — never a fabricated
+        claim that one was carried over. The direction's other weighted keywords
+        are returned as unsupportedSignals, named rather than silently applied or
+        silently dropped. Gated the same way as /direction: incomplete progress
+        returns 409 with the missing step IDs, and a foreign or nonexistent
+        diagnosis ID returns the same 404.
+      responses:
+        '200':
+          description: The Marketplace-ready subset of the confirmed direction
+          content:
+            application/json:
+              schema: {$ref: '#/components/schemas/MarketplaceCriteria'}
+        '401': {$ref: '#/components/responses/Unauthorised'}
+        '403': {$ref: '#/components/responses/Forbidden'}
+        '404': {$ref: '#/components/responses/NotFound'}
+        '409': {$ref: '#/components/responses/Conflict'}
   /diagnoses/{diagnosisId}/steps/{stepId}:
     parameters:
       - {$ref: '#/components/parameters/DiagnosisId'}
@@ -1727,6 +1753,31 @@ components:
           type: object
           description: Keyword weights for US-13 discovery; primary-area terms have weight 10 and supporting goal/barrier terms have weight 1.
           additionalProperties: {type: integer, minimum: 1, maximum: 10}
+    MarketplaceCriteria:
+      type: object
+      additionalProperties: false
+      required: [diagnosisId, area, query, unsupportedSignals]
+      description: >-
+        US-13 — only what GET /services (US-44/US-45) actually accepts. query and
+        modality are literally that endpoint's two filters; unsupportedSignals are
+        matchingWeights terms with no filter to carry them, named rather than
+        applied or dropped.
+      properties:
+        diagnosisId: {type: string}
+        area:
+          type: string
+          enum: [Career direction, Job search strategy, Resume and applications, Interview skills, Getting your experience recognised, Networking and LinkedIn, Study and upskilling pathway]
+        query:
+          type: string
+          nullable: true
+          description: The single highest-weighted term, suited to GET /services?query=.
+        modality:
+          allOf: [{$ref: '#/components/schemas/Modality'}]
+          nullable: true
+          description: Always null — no diagnosis answer names a delivery method.
+        unsupportedSignals:
+          type: array
+          items: {type: string}
     Role: {type: string, enum: [job_seeker, counsellor, platform_owner]}
     Modality: {type: string, enum: [online, in_person]}
     ProfileVisibility: {type: string, enum: [public, partial, restricted]}

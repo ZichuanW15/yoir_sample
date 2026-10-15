@@ -13,7 +13,7 @@ from typing import Annotated, Literal
 from pydantic import ConfigDict, Field, StringConstraints
 
 from app.errors import VALIDATION_ERROR, ApiError
-from app.schemas import CamelModel
+from app.schemas import CamelModel, Modality
 
 QUESTIONNAIRE_VERSION = "yoir-six-step-v1"
 QuestionnaireVersion = Literal["yoir-six-step-v1"]
@@ -181,6 +181,42 @@ class DiagnosisDirectionOut(CamelModel):
     summary: DirectionText
     suggested_steps: Annotated[list[DirectionText], Field(min_length=3, max_length=5)]
     matching_weights: dict[str, MatchingWeight]
+
+
+class MarketplaceCriteriaOut(CamelModel):
+    """US-13 — only what `GET /services` actually accepts (US-44/US-45): a free-text
+    `query` and a `modality`. Everything else in `matching_weights` is a signal the
+    direction rules found, not a filter the Marketplace can be asked for, so it is
+    named here rather than silently applied or silently dropped.
+    """
+
+    diagnosis_id: str
+    area: DirectionAreaTitle
+    #: The single highest-weighted term, suited to `GET /services?query=`. `query`
+    #: matches the whole string as one block, so concatenating more terms would
+    #: narrow the search rather than broaden it — one term is a deliberate choice,
+    #: not a limitation to work around.
+    query: str | None
+    #: Null, always: no diagnosis answer names a delivery method, so the app must
+    #: not claim one was carried over (US-13 AC4).
+    modality: Modality | None = None
+    #: Weighted terms that found no Marketplace filter to ride on — shown as
+    #: related topics, never claimed as applied criteria.
+    unsupported_signals: list[str]
+
+
+def marketplace_criteria_for(direction: DiagnosisDirectionOut) -> MarketplaceCriteriaOut:
+    """Derive US-13's Marketplace handoff from an already-computed US-12 direction."""
+    if not direction.matching_weights:
+        return MarketplaceCriteriaOut(
+            diagnosis_id=direction.diagnosis_id, area=direction.area,
+            query=None, unsupported_signals=[],
+        )
+    ranked = sorted(direction.matching_weights, key=direction.matching_weights.get, reverse=True)
+    return MarketplaceCriteriaOut(
+        diagnosis_id=direction.diagnosis_id, area=direction.area,
+        query=ranked[0], unsupported_signals=ranked[1:],
+    )
 
 
 @dataclass(frozen=True)
