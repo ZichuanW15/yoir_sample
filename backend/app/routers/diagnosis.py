@@ -1,4 +1,4 @@
-"""US-09–11: private, durable progress; US-12 direction is a separate boundary."""
+"""US-09–12: private progress plus deterministic direction from completed answers."""
 from copy import deepcopy
 from datetime import UTC, datetime
 from typing import Annotated
@@ -12,13 +12,18 @@ from sqlalchemy.orm import Session
 from app.db import get_db
 from app.diagnosis import (
     QUESTIONNAIRE,
+    STEP_IDS,
+    DiagnosisDirectionOut,
     DiagnosisError,
     DiagnosisOut,
     DiagnosisQuestionnaire,
+    MarketplaceCriteriaOut,
     SaveDiagnosisStepRequest,
     StartDiagnosisRequest,
     StepId,
     completed_steps,
+    direction_for,
+    marketplace_criteria_for,
     validate_answer,
 )
 from app.errors import NOT_FOUND, ApiError
@@ -131,6 +136,62 @@ def get_diagnosis(
     record = _owned(db, user, diagnosis_id)
     _private(response)
     return _out(record)
+
+
+def _require_complete(record: Diagnosis) -> None:
+    missing = [step for step in STEP_IDS if step not in record.answers]
+    if missing:
+        raise ApiError(
+            409,
+            "INVALID_STATE_TRANSITION",
+            "Complete the diagnosis before requesting your Yoir Direction.",
+            {"missingSteps": ", ".join(missing)},
+        )
+
+
+@router.get(
+    "/diagnoses/{diagnosisId}/direction", response_model=DiagnosisDirectionOut,
+    operation_id="getDiagnosisDirection", openapi_extra={"x-requirement-ids": ["US-12"]},
+)
+def get_diagnosis_direction(
+    diagnosis_id: Annotated[str, Path(alias="diagnosisId", max_length=64)], response: Response,
+    user: User = Depends(require_job_seeker), db: Session = Depends(get_db),
+) -> DiagnosisDirectionOut:
+    """Return only a confirmed result; incomplete progress never becomes advice."""
+    record = _owned(db, user, diagnosis_id)
+    _require_complete(record)
+    result = direction_for(
+        record.answers,
+        diagnosis_id=record.id,
+        questionnaire_version=record.questionnaire_version,
+        source_revision=record.revision,
+    )
+    _private(response)
+    return result
+
+
+@router.get(
+    "/diagnoses/{diagnosisId}/marketplace-criteria", response_model=MarketplaceCriteriaOut,
+    operation_id="getDiagnosisMarketplaceCriteria",
+    openapi_extra={"x-requirement-ids": ["US-13"]},
+)
+def get_diagnosis_marketplace_criteria(
+    diagnosis_id: Annotated[str, Path(alias="diagnosisId", max_length=64)], response: Response,
+    user: User = Depends(require_job_seeker), db: Session = Depends(get_db),
+) -> MarketplaceCriteriaOut:
+    """US-13. The confirmed direction's result, translated into what GET /services
+    (US-44/US-45) actually accepts — never more than that, and never less honestly."""
+    record = _owned(db, user, diagnosis_id)
+    _require_complete(record)
+    direction = direction_for(
+        record.answers,
+        diagnosis_id=record.id,
+        questionnaire_version=record.questionnaire_version,
+        source_revision=record.revision,
+    )
+    result = marketplace_criteria_for(direction)
+    _private(response)
+    return result
 
 
 @router.put(

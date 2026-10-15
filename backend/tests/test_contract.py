@@ -33,6 +33,8 @@ IMPLEMENTED_RUNTIME_OPERATION_IDS = {
     "getCommissionStatement",
     "getCounsellorProfile",
     "getDiagnosis",
+    "getDiagnosisDirection",
+    "getDiagnosisMarketplaceCriteria",
     "getDiagnosisQuestionnaire",
     "getOnboardingState",
     "getOrder",

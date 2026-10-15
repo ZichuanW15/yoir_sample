@@ -1,22 +1,37 @@
-"""Versioned validation for the currently shipped, non-branching diagnosis form.
+"""Versioned validation and direction rules for the shipped diagnosis form.
 
 The five answer steps mirror frontend/src/diagnosis/model.ts. Step six is a result,
-not a sixth answer. This is not the client's full topic bank or a matching engine;
-new branching rules require an explicitly versioned questionnaire update.
+not a sixth answer. The direction rules deliberately mirror that frontend model so
+the same saved answers cannot produce different advice on different clients. This
+is not the client's full topic bank or an AI matching engine; new branching or
+recommendation rules require an explicitly versioned update.
 """
+from dataclasses import dataclass
 from datetime import datetime
 from typing import Annotated, Literal
 
 from pydantic import ConfigDict, Field, StringConstraints
 
 from app.errors import VALIDATION_ERROR, ApiError
-from app.schemas import CamelModel
+from app.schemas import CamelModel, Modality
 
 QUESTIONNAIRE_VERSION = "yoir-six-step-v1"
 QuestionnaireVersion = Literal["yoir-six-step-v1"]
+DIRECTION_RULE_VERSION = "yoir-direction-v1"
 StepId = Literal["now", "goal", "tried", "stuck", "barriers"]
 STEP_IDS: tuple[StepId, ...] = ("now", "goal", "tried", "stuck", "barriers")
 OptionValue = Annotated[str, StringConstraints(strict=True, min_length=1, max_length=64)]
+DirectionAreaTitle = Literal[
+    "Career direction",
+    "Job search strategy",
+    "Resume and applications",
+    "Interview skills",
+    "Getting your experience recognised",
+    "Networking and LinkedIn",
+    "Study and upskilling pathway",
+]
+DirectionText = Annotated[str, StringConstraints(min_length=1)]
+MatchingWeight = Annotated[int, Field(strict=True, ge=1, le=10)]
 
 
 class DiagnosisOption(CamelModel):
@@ -153,6 +168,247 @@ class DiagnosisError(CamelModel):
     message: str
     field_errors: dict[str, str] | None = None
     request_id: str
+
+
+class DiagnosisDirectionOut(CamelModel):
+    """US-12 result derived from one confirmed revision of the Job Seeker's answers."""
+
+    diagnosis_id: str
+    questionnaire_version: QuestionnaireVersion
+    source_revision: int = Field(ge=5)
+    rule_version: Literal["yoir-direction-v1"]
+    area: DirectionAreaTitle
+    summary: DirectionText
+    suggested_steps: Annotated[list[DirectionText], Field(min_length=3, max_length=5)]
+    matching_weights: dict[str, MatchingWeight]
+
+
+class MarketplaceCriteriaOut(CamelModel):
+    """US-13 — only what `GET /services` actually accepts (US-44/US-45): a free-text
+    `query` and a `modality`. Everything else in `matching_weights` is a signal the
+    direction rules found, not a filter the Marketplace can be asked for, so it is
+    named here rather than silently applied or silently dropped.
+    """
+
+    diagnosis_id: str
+    area: DirectionAreaTitle
+    #: The single highest-weighted term, suited to `GET /services?query=`. `query`
+    #: matches the whole string as one block, so concatenating more terms would
+    #: narrow the search rather than broaden it — one term is a deliberate choice,
+    #: not a limitation to work around.
+    query: str | None
+    #: Null, always: no diagnosis answer names a delivery method, so the app must
+    #: not claim one was carried over (US-13 AC4).
+    modality: Modality | None = None
+    #: Weighted terms that found no Marketplace filter to ride on — shown as
+    #: related topics, never claimed as applied criteria.
+    unsupported_signals: list[str]
+
+
+def marketplace_criteria_for(direction: DiagnosisDirectionOut) -> MarketplaceCriteriaOut:
+    """Derive US-13's Marketplace handoff from an already-computed US-12 direction."""
+    if not direction.matching_weights:
+        return MarketplaceCriteriaOut(
+            diagnosis_id=direction.diagnosis_id, area=direction.area,
+            query=None, unsupported_signals=[],
+        )
+    ranked = sorted(direction.matching_weights, key=direction.matching_weights.get, reverse=True)
+    return MarketplaceCriteriaOut(
+        diagnosis_id=direction.diagnosis_id, area=direction.area,
+        query=ranked[0], unsupported_signals=ranked[1:],
+    )
+
+
+@dataclass(frozen=True)
+class _DirectionArea:
+    title: str
+    summary: str
+    steps: tuple[str, ...]
+    keywords: tuple[str, ...]
+    tried: tuple[str, ...] = ()
+
+
+_AREAS = {
+    "direction": _DirectionArea(
+        title="Career direction",
+        summary=(
+            "Get clear on the roles that fit your skills, interests and circumstances "
+            "before you put more time into applications."
+        ),
+        steps=(
+            "List the roles you have enjoyed and the skills you used in them.",
+            "Shortlist two or three directions worth exploring.",
+            "Talk them through with a Career Professional who can test the options with you.",
+        ),
+        keywords=("career", "strategy", "direction", "transition", "plan"),
+    ),
+    "search": _DirectionArea(
+        title="Job search strategy",
+        summary=(
+            "Turn your job search into a focused plan so the effort you put in leads "
+            "to interviews."
+        ),
+        steps=(
+            "Choose a short list of target roles and employers.",
+            "Set a weekly rhythm for applications, networking and follow-ups.",
+            "Review what has and has not worked with a Career Professional.",
+        ),
+        keywords=("job search", "search", "plan", "applications", "networking", "follow"),
+        tried=("applications",),
+    ),
+    "applications": _DirectionArea(
+        title="Resume and applications",
+        summary=(
+            "Make your resume, cover letters and selection criteria responses show clearly "
+            "why you fit the role."
+        ),
+        steps=(
+            "Tailor your resume to one target role at a time.",
+            "Show results, not just duties, for each role you have held.",
+            "Get detailed feedback on a real application before you send the next one.",
+        ),
+        keywords=("resume", "cover letter", "application", "selection criteria", "recruiter"),
+        tried=("resume", "applications"),
+    ),
+    "interview": _DirectionArea(
+        title="Interview skills",
+        summary=(
+            "Build confidence and clear, structured answers so your interviews turn "
+            "into offers."
+        ),
+        steps=(
+            "Prepare five or six examples from your experience using the STAR method.",
+            "Practise answering out loud, ideally in a mock interview.",
+            "Ask for specific feedback on both what you say and how you say it.",
+        ),
+        keywords=("interview", "behavioural", "mock", "screening", "confidence"),
+        tried=("interview",),
+    ),
+    "recognition": _DirectionArea(
+        title="Getting your experience recognised",
+        summary=(
+            "Make sure employers understand, and value, the qualifications and experience "
+            "you bring from elsewhere."
+        ),
+        steps=(
+            "Check whether your occupation needs a skills assessment, registration or licence.",
+            "Describe your experience in the role titles and terms local employers use.",
+            "Get advice from a Career Professional who works with people moving "
+            "countries or industries.",
+        ),
+        keywords=("migrant", "overseas", "qualification", "recognition", "licensing"),
+        tried=("recognition",),
+    ),
+    "network": _DirectionArea(
+        title="Networking and LinkedIn",
+        summary=(
+            "Grow the professional network and online presence that lead to opportunities."
+        ),
+        steps=(
+            "Update your LinkedIn headline and About section for the roles you want.",
+            "Reach out to two people a week who work in your target field.",
+            "Have your profile reviewed for search and recruiter appeal.",
+        ),
+        keywords=("linkedin", "networking", "profile", "headline", "brand"),
+        tried=("networking", "linkedin"),
+    ),
+    "study": _DirectionArea(
+        title="Study and upskilling pathway",
+        summary=(
+            "Choose a course or pathway that leads to the work you want, not just to a "
+            "qualification."
+        ),
+        steps=(
+            "Note the skills employers ask for in the roles you are aiming for.",
+            "Compare courses on outcomes, time and cost.",
+            "Talk to a Career Professional before you enrol.",
+        ),
+        keywords=("study", "course", "upskill", "career", "plan"),
+        tried=("study",),
+    ),
+}
+
+_AREA_FOR_STUCK = {
+    "direction": "direction", "search": "search", "resume": "applications",
+    "cover_letter": "applications", "ksc": "applications", "interview": "interview",
+    "market": "search", "recognition": "recognition", "networking": "network",
+    "linkedin": "network", "study": "study",
+}
+_AREA_FOR_GOAL = {
+    "find_job": "search", "more_interviews": "applications", "resume": "applications",
+    "interview": "interview", "options": "direction", "course": "study",
+    "recognition": "recognition", "network": "network", "linkedin": "network",
+}
+_AREA_FOR_NOW = {
+    "job": "search", "change": "direction", "study": "study", "returning": "search",
+    "direction": "direction",
+}
+_BARRIER_STEPS = {
+    "work_rights": (
+        "Confirm the work conditions of your visa, so you target roles you are eligible for."
+    ),
+    "recognition": (
+        "Find out which body assesses qualifications in your field and start early, "
+        "as it can take time."
+    ),
+    "licensing": (
+        "Check whether your occupation needs registration or a licence where you want to work."
+    ),
+    "market": "Learn how hiring works in your target industry and location.",
+    "local_network": (
+        "Build local experience and contacts through volunteering, industry events "
+        "or short contracts."
+    ),
+}
+_AREA_FOR_BARRIER = {
+    "work_rights": "recognition", "recognition": "recognition",
+    "licensing": "recognition", "market": "search", "local_network": "network",
+}
+_MAIN_WEIGHT = 10
+
+
+def direction_for(
+    answers: dict, *, diagnosis_id: str, questionnaire_version: str, source_revision: int,
+) -> DiagnosisDirectionOut:
+    """Apply the versioned, deterministic frontend rules to confirmed saved answers."""
+    main = (
+        _AREA_FOR_STUCK.get(answers["stuck"])
+        or _AREA_FOR_GOAL.get(answers["goal"])
+        or _AREA_FOR_NOW.get(answers["now"])
+        or "direction"
+    )
+    area = _AREAS[main]
+    weights: dict[str, int] = {}
+
+    def add(area_id: str | None, weight: int) -> None:
+        if area_id is None:
+            return
+        for keyword in _AREAS[area_id].keywords:
+            weights[keyword] = max(weights.get(keyword, 0), weight)
+
+    add(_AREA_FOR_GOAL.get(answers["goal"]), 1)
+    barriers = answers["barriers"]
+    for barrier in barriers:
+        add(_AREA_FOR_BARRIER.get(barrier), 1)
+    add(main, _MAIN_WEIGHT)
+
+    already_tried = any(item in answers["tried"] for item in area.tried)
+    summary = area.summary
+    if already_tried:
+        summary += (
+            " You have already put work into this, so expert feedback is the fastest way forward."
+        )
+    barrier_steps = [_BARRIER_STEPS[item] for item in barriers if item in _BARRIER_STEPS][:2]
+    return DiagnosisDirectionOut(
+        diagnosis_id=diagnosis_id,
+        questionnaire_version=questionnaire_version,
+        source_revision=source_revision,
+        rule_version=DIRECTION_RULE_VERSION,
+        area=area.title,
+        summary=summary,
+        suggested_steps=[*area.steps, *barrier_steps],
+        matching_weights=weights,
+    )
 
 
 def completed_steps(answers: dict) -> list[StepId]:
