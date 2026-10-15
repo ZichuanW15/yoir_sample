@@ -1,0 +1,119 @@
+{
+  "startTime": 1792097916045,
+  "success": true,
+  "wasInterrupted": false,
+  "numPassedTests": 15,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTotalTests": 15,
+  "numPassedTestSuites": 1,
+  "numFailedTestSuites": 0,
+  "numRuntimeErrorTestSuites": 0,
+  "cases": [
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed pending after returning",
+      "status": "passed",
+      "duration": 117,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed verified after returning",
+      "status": "passed",
+      "duration": 61,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed rejected after returning",
+      "status": "passed",
+      "duration": 61,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed pending after returning",
+      "status": "passed",
+      "duration": 60,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed verified after returning",
+      "status": "passed",
+      "duration": 64,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed rejected after returning",
+      "status": "passed",
+      "duration": 63,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh profile marks previously verified status unavailable on focus failure, then recovers",
+      "status": "passed",
+      "duration": 73,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh returning focus while a blur-triggered save is pending does not overwrite the draft",
+      "status": "passed",
+      "duration": 74,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-210 payment refresh failure clears formerly loaded rows and retry uses new data",
+      "status": "passed",
+      "duration": 110,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "Sprint 3 mounted workspace and Users refresh recovery workspace recovers all displayed data on the next focus after a successful read followed by failure",
+      "status": "passed",
+      "duration": 72,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "Sprint 3 mounted workspace and Users refresh recovery workspace uses the renewed token for every reload without remounting or logging in again",
+      "status": "passed",
+      "duration": 66,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "Sprint 3 mounted workspace and Users refresh recovery Users replaces the mounted counsellor directory after session renewal",
+      "status": "passed",
+      "duration": 63,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "Sprint 3 mounted workspace and Users refresh recovery Users replaces the mounted job_seeker directory after session renewal",
+      "status": "passed",
+      "duration": 60,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "Sprint 3 mounted workspace and Users refresh recovery Users retries both reads with the renewed token after the professionals refresh fails",
+      "status": "passed",
+      "duration": 120,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "Sprint 3 mounted workspace and Users refresh recovery Users retries both reads with the renewed token after the job seekers refresh fails",
+      "status": "passed",
+      "duration": 127,
+      "failureMessages": []
+    }
+  ]
+}

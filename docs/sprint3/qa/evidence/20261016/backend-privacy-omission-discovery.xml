@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.296" timestamp="2026-10-16T07:14:34.599410+11:00" hostname="ZhouzhnydeMacBook-Air.local"><testcase classname="tests.test_sprint3_privacy_contract_qa" name="test_partial_profile_omits_private_fields_instead_of_returning_empty_placeholders[guest]" time="0.162"><failure message="qa_acceptance.KnownAcceptanceDefect: Hidden field keys remain in partial response: ['background', 'experience', 'qualifications']">client = &lt;starlette.testclient.TestClient object at 0x10a30ff20&gt;
+db_session = &lt;sqlalchemy.orm.session.Session object at 0x10a524b60&gt;
+counsellor = &lt;app.models.User object at 0x10a377680&gt;
+counsellor_headers = {'Authorization': 'Bearer [REDACTED_LOCAL_TEST_TOKEN]'}
+job_seeker_headers = {'Authorization': 'Bearer [REDACTED_LOCAL_TEST_TOKEN]'}
+requester = 'guest'
+
+    @pytest.mark.parametrize("requester", ["guest", "other-seeker"])
+    @pytest.mark.xfail(
+        strict=True,
+        raises=KnownAcceptanceDefect,
+        reason=(
+            "S3-BE-PRIVACY-FIELD-OMISSION: US-28 AC2 / QA #186; partial profiles "
+            "return empty private fields instead of omitting them from the API response"
+        ),
+    )
+    def test_partial_profile_omits_private_fields_instead_of_returning_empty_placeholders(
+        client, db_session, counsellor, counsellor_headers, job_seeker_headers, requester,
+    ):
+        counsellor.background = "Private biography"
+        counsellor.experience = "Private work history"
+        counsellor.qualifications = ["Private qualification"]
+        db_session.commit()
+        saved = client.patch(
+            "/api/v1/me/profile-visibility", headers=counsellor_headers,
+            json={"visibility": "partial"},
+        )
+        assert saved.status_code == 200, saved.text
+        own = client.get("/api/v1/me/counsellor-profile", headers=counsellor_headers)
+        assert own.status_code == 200
+        private_fields = {"background", "experience", "qualifications"}
+        assert all(own.json()[field] for field in private_fields)
+    
+        response = client.get(
+            f"/api/v1/counsellors/{counsellor.id}",
+            headers={} if requester == "guest" else job_seeker_headers,
+        )
+        assert response.status_code == 200, response.text
+        data = response.json()
+        assert data["visibility"] == "partial"
+        # Actual private-value leakage or a failure to save privacy remains blocking.
+        assert all(not data.get(field) for field in private_fields)
+        retained = sorted(private_fields.intersection(data))
+        if retained:
+&gt;           raise KnownAcceptanceDefect(f"Hidden field keys remain in partial response: {retained}")
+E           qa_acceptance.KnownAcceptanceDefect: Hidden field keys remain in partial response: ['background', 'experience', 'qualifications']
+
+tests/test_sprint3_privacy_contract_qa.py:49: KnownAcceptanceDefect</failure></testcase><testcase classname="tests.test_sprint3_privacy_contract_qa" name="test_partial_profile_omits_private_fields_instead_of_returning_empty_placeholders[other-seeker]" time="0.087"><failure message="qa_acceptance.KnownAcceptanceDefect: Hidden field keys remain in partial response: ['background', 'experience', 'qualifications']">client = &lt;starlette.testclient.TestClient object at 0x10a30ff20&gt;
+db_session = &lt;sqlalchemy.orm.session.Session object at 0x10a716690&gt;
+counsellor = &lt;app.models.User object at 0x10a716030&gt;
+counsellor_headers = {'Authorization': 'Bearer [REDACTED_LOCAL_TEST_TOKEN]'}
+job_seeker_headers = {'Authorization': 'Bearer [REDACTED_LOCAL_TEST_TOKEN]'}
+requester = 'other-seeker'
+
+    @pytest.mark.parametrize("requester", ["guest", "other-seeker"])
+    @pytest.mark.xfail(
+        strict=True,
+        raises=KnownAcceptanceDefect,
+        reason=(
+            "S3-BE-PRIVACY-FIELD-OMISSION: US-28 AC2 / QA #186; partial profiles "
+            "return empty private fields instead of omitting them from the API response"
+        ),
+    )
+    def test_partial_profile_omits_private_fields_instead_of_returning_empty_placeholders(
+        client, db_session, counsellor, counsellor_headers, job_seeker_headers, requester,
+    ):
+        counsellor.background = "Private biography"
+        counsellor.experience = "Private work history"
+        counsellor.qualifications = ["Private qualification"]
+        db_session.commit()
+        saved = client.patch(
+            "/api/v1/me/profile-visibility", headers=counsellor_headers,
+            json={"visibility": "partial"},
+        )
+        assert saved.status_code == 200, saved.text
+        own = client.get("/api/v1/me/counsellor-profile", headers=counsellor_headers)
+        assert own.status_code == 200
+        private_fields = {"background", "experience", "qualifications"}
+        assert all(own.json()[field] for field in private_fields)
+    
+        response = client.get(
+            f"/api/v1/counsellors/{counsellor.id}",
+            headers={} if requester == "guest" else job_seeker_headers,
+        )
+        assert response.status_code == 200, response.text
+        data = response.json()
+        assert data["visibility"] == "partial"
+        # Actual private-value leakage or a failure to save privacy remains blocking.
+        assert all(not data.get(field) for field in private_fields)
+        retained = sorted(private_fields.intersection(data))
+        if retained:
+&gt;           raise KnownAcceptanceDefect(f"Hidden field keys remain in partial response: {retained}")
+E           qa_acceptance.KnownAcceptanceDefect: Hidden field keys remain in partial response: ['background', 'experience', 'qualifications']
+
+tests/test_sprint3_privacy_contract_qa.py:49: KnownAcceptanceDefect</failure></testcase></testsuite></testsuites>

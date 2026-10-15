@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-15T21:12:06.477800+00:00",
+  "checks": [
+    {
+      "port": 8099,
+      "path": "/status",
+      "returncode": 0,
+      "stdout": "HTTP/1.1 200 OK\nX-Content-Type-Options: nosniff\nSurrogate-Control: no-store\nCache-Control: no-store, no-cache, must-revalidate, proxy-revalidate\nPragma: no-cache\nExpires: 0\nX-React-Native-Project-Root: /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend\nDate: Thu, 15 Oct 2026 21:12:05 GMT\nConnection: close\nTransfer-Encoding: chunked\n\n17\npackager-status:running\n0\n\n",
+      "stderr": ""
+    },
+    {
+      "port": 43189,
+      "path": "/api/v1/health",
+      "returncode": 0,
+      "stdout": "HTTP/1.1 200 OK\ndate: Thu, 15 Oct 2026 21:12:05 GMT\nserver: uvicorn\ncontent-length: 15\ncontent-type: application/json\nx-request-id: 248491b1-1c4c-47b8-a6f1-795bc0ab5599\nconnection: close\n\n{\"status\":\"ok\"}",
+      "stderr": ""
+    }
+  ]
+}

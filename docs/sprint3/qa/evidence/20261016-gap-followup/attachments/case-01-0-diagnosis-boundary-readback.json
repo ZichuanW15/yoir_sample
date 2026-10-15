@@ -1,0 +1,18 @@
+{
+  "writes": 0,
+  "serverStatus": null,
+  "stored": {
+    "id": "bf5b8978-09a2-4f4f-890b-8bcb01c5512d",
+    "questionnaireVersion": "yoir-six-step-v1",
+    "revision": 0,
+    "status": "in_progress",
+    "currentStep": 1,
+    "totalSteps": 6,
+    "completedSteps": [],
+    "answers": {
+      "other": {}
+    },
+    "createdAt": "2026-10-15T21:02:20.946583Z",
+    "updatedAt": "2026-10-15T21:02:20.946583Z"
+  }
+}

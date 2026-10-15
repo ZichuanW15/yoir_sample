@@ -1,0 +1,460 @@
+{
+  "kind": "Explicit setup fixtures, not evidence of payment, verification or scheduled completion",
+  "createdAt": "2026-10-15T21:34:11.498496+00:00",
+  "accounts": [
+    {
+      "platform": "ios",
+      "key": "buyer",
+      "userId": "qa-nr-ios-buyer",
+      "email": "i1@example.com",
+      "name": "QA iOS Buyer",
+      "role": "job_seeker",
+      "emailVerified": true,
+      "verificationStatus": "pending",
+      "fixture": true
+    },
+    {
+      "platform": "ios",
+      "key": "other",
+      "userId": "qa-nr-ios-other",
+      "email": "i2@example.com",
+      "name": "QA iOS Other",
+      "role": "job_seeker",
+      "emailVerified": true,
+      "verificationStatus": "pending",
+      "fixture": true
+    },
+    {
+      "platform": "ios",
+      "key": "owner",
+      "userId": "qa-nr-ios-owner",
+      "email": "ia@example.com",
+      "name": "QA iOS Owner",
+      "role": "platform_owner",
+      "emailVerified": true,
+      "verificationStatus": "pending",
+      "fixture": true
+    },
+    {
+      "platform": "ios",
+      "key": "pro",
+      "userId": "qa-nr-ios-pro",
+      "email": "ic@example.com",
+      "name": "QA iOS Pro",
+      "role": "counsellor",
+      "emailVerified": true,
+      "verificationStatus": "verified",
+      "fixture": true
+    },
+    {
+      "platform": "ios",
+      "key": "candidate",
+      "userId": "qa-nr-ios-candidate",
+      "email": "iv@example.com",
+      "name": "QA iOS Candidate",
+      "role": "counsellor",
+      "emailVerified": true,
+      "verificationStatus": "pending",
+      "fixture": true
+    },
+    {
+      "platform": "ios",
+      "key": "new",
+      "userId": "qa-nr-ios-new",
+      "email": "in@example.com",
+      "name": "QA iOS New",
+      "role": "counsellor",
+      "emailVerified": true,
+      "verificationStatus": "pending",
+      "fixture": true
+    },
+    {
+      "platform": "ios",
+      "key": "unverified",
+      "userId": "qa-nr-ios-unverified",
+      "email": "iu@example.com",
+      "name": "QA iOS Unverified",
+      "role": "job_seeker",
+      "emailVerified": false,
+      "verificationStatus": "pending",
+      "fixture": true
+    },
+    {
+      "platform": "android",
+      "key": "buyer",
+      "userId": "qa-nr-android-buyer",
+      "email": "a1@example.com",
+      "name": "QA Android Buyer",
+      "role": "job_seeker",
+      "emailVerified": true,
+      "verificationStatus": "pending",
+      "fixture": true
+    },
+    {
+      "platform": "android",
+      "key": "other",
+      "userId": "qa-nr-android-other",
+      "email": "a2@example.com",
+      "name": "QA Android Other",
+      "role": "job_seeker",
+      "emailVerified": true,
+      "verificationStatus": "pending",
+      "fixture": true
+    },
+    {
+      "platform": "android",
+      "key": "owner",
+      "userId": "qa-nr-android-owner",
+      "email": "aa@example.com",
+      "name": "QA Android Owner",
+      "role": "platform_owner",
+      "emailVerified": true,
+      "verificationStatus": "pending",
+      "fixture": true
+    },
+    {
+      "platform": "android",
+      "key": "pro",
+      "userId": "qa-nr-android-pro",
+      "email": "ac@example.com",
+      "name": "QA Android Pro",
+      "role": "counsellor",
+      "emailVerified": true,
+      "verificationStatus": "verified",
+      "fixture": true
+    },
+    {
+      "platform": "android",
+      "key": "candidate",
+      "userId": "qa-nr-android-candidate",
+      "email": "av@example.com",
+      "name": "QA Android Candidate",
+      "role": "counsellor",
+      "emailVerified": true,
+      "verificationStatus": "pending",
+      "fixture": true
+    },
+    {
+      "platform": "android",
+      "key": "new",
+      "userId": "qa-nr-android-new",
+      "email": "an@example.com",
+      "name": "QA Android New",
+      "role": "counsellor",
+      "emailVerified": true,
+      "verificationStatus": "pending",
+      "fixture": true
+    },
+    {
+      "platform": "android",
+      "key": "unverified",
+      "userId": "qa-nr-android-unverified",
+      "email": "au@example.com",
+      "name": "QA Android Unverified",
+      "role": "job_seeker",
+      "emailVerified": false,
+      "verificationStatus": "pending",
+      "fixture": true
+    }
+  ],
+  "services": [
+    {
+      "platform": "ios",
+      "key": "review",
+      "id": "qa-nr-ios-review-service",
+      "title": "QA iOS Review Session",
+      "amountMinor": 8450,
+      "durationMinutes": 60,
+      "active": true
+    },
+    {
+      "platform": "ios",
+      "key": "move",
+      "id": "qa-nr-ios-move-service",
+      "title": "QA iOS Reschedule Session",
+      "amountMinor": 8450,
+      "durationMinutes": 60,
+      "active": true
+    },
+    {
+      "platform": "ios",
+      "key": "delivery",
+      "id": "qa-nr-ios-delivery-service",
+      "title": "QA iOS In-person Session",
+      "amountMinor": 8450,
+      "durationMinutes": 60,
+      "active": true
+    },
+    {
+      "platform": "ios",
+      "key": "editable",
+      "id": "qa-nr-ios-editable-service",
+      "title": "QA iOS Editable Session",
+      "amountMinor": 8450,
+      "durationMinutes": 60,
+      "active": true
+    },
+    {
+      "platform": "ios",
+      "key": "unrated",
+      "id": "qa-nr-ios-unrated-service",
+      "title": "QA iOS Unrated Session",
+      "amountMinor": 8450,
+      "durationMinutes": 60,
+      "active": true
+    },
+    {
+      "platform": "android",
+      "key": "review",
+      "id": "qa-nr-android-review-service",
+      "title": "QA Android Review Session",
+      "amountMinor": 8450,
+      "durationMinutes": 60,
+      "active": true
+    },
+    {
+      "platform": "android",
+      "key": "move",
+      "id": "qa-nr-android-move-service",
+      "title": "QA Android Reschedule Session",
+      "amountMinor": 8450,
+      "durationMinutes": 60,
+      "active": true
+    },
+    {
+      "platform": "android",
+      "key": "delivery",
+      "id": "qa-nr-android-delivery-service",
+      "title": "QA Android In-person Session",
+      "amountMinor": 8450,
+      "durationMinutes": 60,
+      "active": true
+    },
+    {
+      "platform": "android",
+      "key": "editable",
+      "id": "qa-nr-android-editable-service",
+      "title": "QA Android Editable Session",
+      "amountMinor": 8450,
+      "durationMinutes": 60,
+      "active": true
+    },
+    {
+      "platform": "android",
+      "key": "unrated",
+      "id": "qa-nr-android-unrated-service",
+      "title": "QA Android Unrated Session",
+      "amountMinor": 8450,
+      "durationMinutes": 60,
+      "active": true
+    }
+  ],
+  "bookings": [
+    {
+      "platform": "ios",
+      "key": "completed",
+      "id": "qa-nr-ios-completed-booking",
+      "orderId": "qa-nr-ios-completed-order",
+      "serviceId": "qa-nr-ios-review-service",
+      "status": "completed",
+      "paymentStatus": "paid",
+      "startsAt": "2026-10-12T21:34:11.498496+00:00",
+      "endsAt": "2026-10-12T22:34:11.498496+00:00",
+      "modality": "online",
+      "meetingUrl": null,
+      "meetingAddress": null,
+      "fixture": true
+    },
+    {
+      "platform": "ios",
+      "key": "cancelled",
+      "id": "qa-nr-ios-cancelled-booking",
+      "orderId": "qa-nr-ios-cancelled-order",
+      "serviceId": "qa-nr-ios-review-service",
+      "status": "cancelled",
+      "paymentStatus": "paid",
+      "startsAt": "2026-10-12T22:34:11.498496+00:00",
+      "endsAt": "2026-10-12T23:34:11.498496+00:00",
+      "modality": "online",
+      "meetingUrl": null,
+      "meetingAddress": null,
+      "fixture": true
+    },
+    {
+      "platform": "ios",
+      "key": "move",
+      "id": "qa-nr-ios-move-booking",
+      "orderId": "qa-nr-ios-move-order",
+      "serviceId": "qa-nr-ios-move-service",
+      "status": "confirmed",
+      "paymentStatus": "paid",
+      "startsAt": "2026-10-23T23:00:00+00:00",
+      "endsAt": "2026-10-24T00:00:00+00:00",
+      "modality": "online",
+      "meetingUrl": "https://example.com/",
+      "meetingAddress": null,
+      "fixture": true
+    },
+    {
+      "platform": "ios",
+      "key": "occupied",
+      "id": "qa-nr-ios-occupied-booking",
+      "orderId": "qa-nr-ios-occupied-order",
+      "serviceId": "qa-nr-ios-move-service",
+      "status": "confirmed",
+      "paymentStatus": "paid",
+      "startsAt": "2026-10-24T00:00:00+00:00",
+      "endsAt": "2026-10-24T01:00:00+00:00",
+      "modality": "online",
+      "meetingUrl": "https://example.com/",
+      "meetingAddress": null,
+      "fixture": true
+    },
+    {
+      "platform": "ios",
+      "key": "inperson",
+      "id": "qa-nr-ios-inperson-booking",
+      "orderId": "qa-nr-ios-inperson-order",
+      "serviceId": "qa-nr-ios-delivery-service",
+      "status": "confirmed",
+      "paymentStatus": "paid",
+      "startsAt": "2026-10-24T01:00:00+00:00",
+      "endsAt": "2026-10-24T02:00:00+00:00",
+      "modality": "in_person",
+      "meetingUrl": null,
+      "meetingAddress": "QA Test Room, Melbourne",
+      "fixture": true
+    },
+    {
+      "platform": "ios",
+      "key": "missing",
+      "id": "qa-nr-ios-missing-booking",
+      "orderId": "qa-nr-ios-missing-order",
+      "serviceId": "qa-nr-ios-delivery-service",
+      "status": "confirmed",
+      "paymentStatus": "paid",
+      "startsAt": "2026-10-24T02:00:00+00:00",
+      "endsAt": "2026-10-24T03:00:00+00:00",
+      "modality": "in_person",
+      "meetingUrl": null,
+      "meetingAddress": null,
+      "fixture": true
+    },
+    {
+      "platform": "android",
+      "key": "completed",
+      "id": "qa-nr-android-completed-booking",
+      "orderId": "qa-nr-android-completed-order",
+      "serviceId": "qa-nr-android-review-service",
+      "status": "completed",
+      "paymentStatus": "paid",
+      "startsAt": "2026-10-12T21:34:11.498496+00:00",
+      "endsAt": "2026-10-12T22:34:11.498496+00:00",
+      "modality": "online",
+      "meetingUrl": null,
+      "meetingAddress": null,
+      "fixture": true
+    },
+    {
+      "platform": "android",
+      "key": "cancelled",
+      "id": "qa-nr-android-cancelled-booking",
+      "orderId": "qa-nr-android-cancelled-order",
+      "serviceId": "qa-nr-android-review-service",
+      "status": "cancelled",
+      "paymentStatus": "paid",
+      "startsAt": "2026-10-12T22:34:11.498496+00:00",
+      "endsAt": "2026-10-12T23:34:11.498496+00:00",
+      "modality": "online",
+      "meetingUrl": null,
+      "meetingAddress": null,
+      "fixture": true
+    },
+    {
+      "platform": "android",
+      "key": "move",
+      "id": "qa-nr-android-move-booking",
+      "orderId": "qa-nr-android-move-order",
+      "serviceId": "qa-nr-android-move-service",
+      "status": "confirmed",
+      "paymentStatus": "paid",
+      "startsAt": "2026-10-23T23:00:00+00:00",
+      "endsAt": "2026-10-24T00:00:00+00:00",
+      "modality": "online",
+      "meetingUrl": "https://example.com/",
+      "meetingAddress": null,
+      "fixture": true
+    },
+    {
+      "platform": "android",
+      "key": "occupied",
+      "id": "qa-nr-android-occupied-booking",
+      "orderId": "qa-nr-android-occupied-order",
+      "serviceId": "qa-nr-android-move-service",
+      "status": "confirmed",
+      "paymentStatus": "paid",
+      "startsAt": "2026-10-24T00:00:00+00:00",
+      "endsAt": "2026-10-24T01:00:00+00:00",
+      "modality": "online",
+      "meetingUrl": "https://example.com/",
+      "meetingAddress": null,
+      "fixture": true
+    },
+    {
+      "platform": "android",
+      "key": "inperson",
+      "id": "qa-nr-android-inperson-booking",
+      "orderId": "qa-nr-android-inperson-order",
+      "serviceId": "qa-nr-android-delivery-service",
+      "status": "confirmed",
+      "paymentStatus": "paid",
+      "startsAt": "2026-10-24T01:00:00+00:00",
+      "endsAt": "2026-10-24T02:00:00+00:00",
+      "modality": "in_person",
+      "meetingUrl": null,
+      "meetingAddress": "QA Test Room, Melbourne",
+      "fixture": true
+    },
+    {
+      "platform": "android",
+      "key": "missing",
+      "id": "qa-nr-android-missing-booking",
+      "orderId": "qa-nr-android-missing-order",
+      "serviceId": "qa-nr-android-delivery-service",
+      "status": "confirmed",
+      "paymentStatus": "paid",
+      "startsAt": "2026-10-24T02:00:00+00:00",
+      "endsAt": "2026-10-24T03:00:00+00:00",
+      "modality": "in_person",
+      "meetingUrl": null,
+      "meetingAddress": null,
+      "fixture": true
+    }
+  ],
+  "windows": [
+    {
+      "platform": "ios",
+      "id": "qa-nr-ios-past-window",
+      "startsAt": "2026-10-12T21:34:11.498496+00:00",
+      "endsAt": "2026-10-13T01:34:11.498496+00:00"
+    },
+    {
+      "platform": "ios",
+      "id": "qa-nr-ios-future-window",
+      "startsAt": "2026-10-23T23:00:00+00:00",
+      "endsAt": "2026-10-24T07:00:00+00:00"
+    },
+    {
+      "platform": "android",
+      "id": "qa-nr-android-past-window",
+      "startsAt": "2026-10-12T21:34:11.498496+00:00",
+      "endsAt": "2026-10-13T01:34:11.498496+00:00"
+    },
+    {
+      "platform": "android",
+      "id": "qa-nr-android-future-window",
+      "startsAt": "2026-10-23T23:00:00+00:00",
+      "endsAt": "2026-10-24T07:00:00+00:00"
+    }
+  ]
+}

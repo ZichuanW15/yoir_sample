@@ -1,0 +1,33 @@
+{
+  "recorded_at_utc": "2026-10-15T20:38:07.365344+00:00",
+  "scope": "Real component, auth and HTTP-client tests with mocked HTTP, router, native storage and external provider boundaries; no device, inbox, Stripe-host or notification backend acceptance.",
+  "command": "npm --prefix frontend run test:ci -- --runTestsByPath __tests__/screens/verify-email.test.tsx __tests__/screens/receipt.test.tsx __tests__/screens/counsellor-payouts.test.tsx __tests__/screens/notifications-panel.test.tsx --json --outputFile=../artifacts/qa/sprint3-completion-20261016/agent-screens/results.json",
+  "exit_code": 0,
+  "total": 53,
+  "passed": 53,
+  "failed": 0,
+  "suites": [
+    {
+      "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "passed": 17
+    },
+    {
+      "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/screens/notifications-panel.test.tsx",
+      "passed": 13
+    },
+    {
+      "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/screens/receipt.test.tsx",
+      "passed": 11
+    },
+    {
+      "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/screens/verify-email.test.tsx",
+      "passed": 12
+    }
+  ],
+  "source_sha256": {
+    "frontend/__tests__/screens/verify-email.test.tsx": "4d42a00fb164b9ae2ceea2f2fb119e671db5f73717abbecd64090e8354efd595",
+    "frontend/__tests__/screens/receipt.test.tsx": "37393abcf19ea2d94ce217423b761c6fa54b227e21751a1fe448652ceb8ae207",
+    "frontend/__tests__/screens/counsellor-payouts.test.tsx": "60cc714ed4ba6d245303f2c88670f1740a39e7765149c7e405d9a3f5c8a77bb1",
+    "frontend/__tests__/screens/notifications-panel.test.tsx": "bfca5f84e385d18b8cf2c62e92c68fb4120d50e78e0fc86bc66c6323421c8a10"
+  }
+}

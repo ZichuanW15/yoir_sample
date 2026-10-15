@@ -1,0 +1,144 @@
+{
+  "checkedAtUtc": "2026-10-15T21:08:42.435042+00:00",
+  "deviceHub": {
+    "CFBundleIdentifier": "com.apple.dt.Devices",
+    "CFBundleShortVersionString": "27.0",
+    "CFBundleVersion": "255.2.6.6",
+    "CFBundleExecutable": "DevicesTrampoline"
+  },
+  "installedDrivers": {
+    "maestro": null,
+    "idb": null,
+    "idb_companion": null,
+    "cliclick": null,
+    "appium": null,
+    "xcodebuild": "/usr/bin/xcodebuild",
+    "swift": "/usr/bin/swift"
+  },
+  "commands": [
+    {
+      "label": "simctl-help",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "help"
+      ],
+      "exitCode": 0,
+      "output": "simctl-help.txt"
+    },
+    {
+      "label": "simctl-io-help",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "help",
+        "io"
+      ],
+      "exitCode": 0,
+      "output": "simctl-io-help.txt"
+    },
+    {
+      "label": "simctl-ui-help",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "help",
+        "ui"
+      ],
+      "exitCode": 0,
+      "output": "simctl-ui-help.txt"
+    },
+    {
+      "label": "simctl-openurl-help",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "help",
+        "openurl"
+      ],
+      "exitCode": 0,
+      "output": "simctl-openurl-help.txt"
+    },
+    {
+      "label": "simctl-launch-help",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "help",
+        "launch"
+      ],
+      "exitCode": 0,
+      "output": "simctl-launch-help.txt"
+    },
+    {
+      "label": "simctl-appinfo-help",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "help",
+        "appinfo"
+      ],
+      "exitCode": 0,
+      "output": "simctl-appinfo-help.txt"
+    },
+    {
+      "label": "simctl-terminate-help",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "help",
+        "terminate"
+      ],
+      "exitCode": 0,
+      "output": "simctl-terminate-help.txt"
+    },
+    {
+      "label": "simctl-bootstatus-help",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "help",
+        "bootstatus"
+      ],
+      "exitCode": 0,
+      "output": "simctl-bootstatus-help.txt"
+    },
+    {
+      "label": "simctl-devices",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "list",
+        "devices",
+        "--json"
+      ],
+      "exitCode": 0,
+      "output": "simctl-devices.txt"
+    },
+    {
+      "label": "simctl-runtimes",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "list",
+        "runtimes",
+        "--json"
+      ],
+      "exitCode": 0,
+      "output": "simctl-runtimes.txt"
+    },
+    {
+      "label": "expo-appinfo",
+      "argv": [
+        "xcrun",
+        "simctl",
+        "appinfo",
+        "579524DE-E6EA-42AE-9AB7-12FD385A0D08",
+        "host.exp.Exponent"
+      ],
+      "exitCode": 0,
+      "output": "expo-appinfo.txt"
+    }
+  ],
+  "scope": "Read-only tool help, device/runtime inventory and app metadata. No boot, termination, screenshot, UI interaction or service change."
+}

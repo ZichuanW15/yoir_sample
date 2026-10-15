@@ -1,0 +1,514 @@
+[
+  {
+    "label": "backend-history-defect",
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_sprint3_service_history_qa.py",
+      "-rx",
+      "--junitxml=../artifacts/qa/sprint3-20261014/backend-history-defect/junit.xml"
+    ],
+    "cwd": "backend",
+    "head": "98cd8cbb6bab98ea4c9a38e350a443b89cdacd16",
+    "startedAt": "2026-10-14T06:29:04.953988+00:00",
+    "environment": {
+      "DATABASE_URL": "postgresql+psycopg2://qa_sprint3@127.0.0.1:55437/sprint3_qa_test",
+      "YOIR_QA_ALLOW_DATABASE_RESET": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-14T06:29:06.322985+00:00",
+    "sourceOverlaySha256": {
+      "backend/tests/test_diagnosis_qa_journeys.py": "025f84d8157427f212f792960552ba635aec251c3e57334acd547a1272439cf0",
+      "backend/tests/test_sprint3_service_history_qa.py": "088bd2e095cae6517ea806544235e2e29dd6c99d0d4020f96eb0cd07ab823dea",
+      "frontend/__tests__/diagnosis/storage.web.test.ts": "8ac4a04284342835246a2c2e75d6e6583067912a207c7337c06d44b71be73cca",
+      "frontend/__tests__/diagnosis/useDiagnosis.test.tsx": "7056268987614c07d9f29ca17d45154c2d0b5e1688c88fb2241b51308c8f3bed",
+      "frontend/__tests__/screens/diagnosis.test.tsx": "98046cc19e1821734a38b8e059a73f4b3c0dec348227bb5eae6053611294aaa8",
+      "frontend/e2e/sprint3-accessibility.spec.ts": "db4427f71dec6b40da0b6153c595e3a48762d1a2a3755c4e5244b675257af550",
+      "frontend/e2e/sprint3-diagnosis.spec.ts": "304ea9b24fe06dd12afc7148c2649953192a97cf217f6aa846502b9658a99878"
+    },
+    "sourceBaseline": "source-manifest.json#trackedBaselineSha256",
+    "originalExecutionSha256": "a4f26d1e65e8cb190e675e7d7448254f8614def4d22d4af10523bec0601d7f9a",
+    "console": "logs/backend-history-defect.txt"
+  },
+  {
+    "label": "backend-postgres",
+    "command": [
+      ".venv/bin/python",
+      "-m",
+      "pytest",
+      "tests",
+      "-m",
+      "not live and not future_contract",
+      "--cov=app",
+      "--cov-report=json:../artifacts/qa/sprint3-20261014/backend-postgres/coverage.json",
+      "--cov-report=term",
+      "--junitxml=../artifacts/qa/sprint3-20261014/backend-postgres/junit.xml"
+    ],
+    "cwd": "backend",
+    "head": "98cd8cbb6bab98ea4c9a38e350a443b89cdacd16",
+    "startedAt": "2026-10-14T06:25:19.193424+00:00",
+    "environment": {
+      "DATABASE_URL": "postgresql+psycopg2://qa_sprint3@127.0.0.1:55437/sprint3_qa_test",
+      "YOIR_QA_ALLOW_DATABASE_RESET": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-14T06:26:03.524119+00:00",
+    "sourceOverlaySha256": {
+      "backend/tests/test_diagnosis_qa_journeys.py": "025f84d8157427f212f792960552ba635aec251c3e57334acd547a1272439cf0",
+      "frontend/__tests__/diagnosis/storage.web.test.ts": "8ac4a04284342835246a2c2e75d6e6583067912a207c7337c06d44b71be73cca",
+      "frontend/__tests__/diagnosis/useDiagnosis.test.tsx": "7056268987614c07d9f29ca17d45154c2d0b5e1688c88fb2241b51308c8f3bed",
+      "frontend/__tests__/screens/diagnosis.test.tsx": "dc78c2c81ef8052472373af394e89170e95e99a672b61768a1035a154487e664",
+      "frontend/e2e/sprint3-diagnosis.spec.ts": "de5a4a198a1b8835e881aa212363d3538ab84cfc2774dd409403531a371bd021"
+    },
+    "sourceBaseline": "source-manifest.json#trackedBaselineSha256",
+    "originalExecutionSha256": "51d7303d8bcb1861b6718f7473b88f4634ecf06283f5bd2f0153d10f8eab5b36",
+    "console": "logs/backend-postgres.txt"
+  },
+  {
+    "label": "backend-static",
+    "command": [
+      ".venv/bin/ruff",
+      "check",
+      "app",
+      "tests",
+      "reset_db.py"
+    ],
+    "cwd": "backend",
+    "head": "98cd8cbb6bab98ea4c9a38e350a443b89cdacd16",
+    "startedAt": "2026-10-14T06:27:29.648426+00:00",
+    "environment": {},
+    "exitCode": 0,
+    "finishedAt": "2026-10-14T06:27:29.704454+00:00",
+    "sourceOverlaySha256": {
+      "backend/tests/test_diagnosis_qa_journeys.py": "025f84d8157427f212f792960552ba635aec251c3e57334acd547a1272439cf0",
+      "frontend/__tests__/diagnosis/storage.web.test.ts": "8ac4a04284342835246a2c2e75d6e6583067912a207c7337c06d44b71be73cca",
+      "frontend/__tests__/diagnosis/useDiagnosis.test.tsx": "7056268987614c07d9f29ca17d45154c2d0b5e1688c88fb2241b51308c8f3bed",
+      "frontend/__tests__/screens/diagnosis.test.tsx": "98046cc19e1821734a38b8e059a73f4b3c0dec348227bb5eae6053611294aaa8",
+      "frontend/e2e/sprint3-accessibility.spec.ts": "db4427f71dec6b40da0b6153c595e3a48762d1a2a3755c4e5244b675257af550",
+      "frontend/e2e/sprint3-diagnosis.spec.ts": "fcd464d776856549bd6a5eda31654abbda7f570744b4c0c08610776eea21f788"
+    },
+    "sourceBaseline": "source-manifest.json#trackedBaselineSha256",
+    "originalExecutionSha256": "01aa600a87ca934fb5ff4680a8ad3a1f8cb8bf1892415e10d59a2f43ba9a3ace",
+    "console": "logs/backend-static.txt"
+  },
+  {
+    "label": "browser-defects",
+    "command": [
+      "npm",
+      "run",
+      "test:web:defects"
+    ],
+    "cwd": "frontend",
+    "head": "98cd8cbb6bab98ea4c9a38e350a443b89cdacd16",
+    "startedAt": "2026-10-14T06:29:03.512238+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43127",
+      "WEB_QA_OUTPUT_DIR": "../artifacts/qa/sprint3-20261014/browser-defects/report"
+    },
+    "exitCode": 1,
+    "finishedAt": "2026-10-14T06:29:51.264000+00:00",
+    "sourceOverlaySha256": {
+      "backend/tests/test_diagnosis_qa_journeys.py": "025f84d8157427f212f792960552ba635aec251c3e57334acd547a1272439cf0",
+      "backend/tests/test_sprint3_service_history_qa.py": "088bd2e095cae6517ea806544235e2e29dd6c99d0d4020f96eb0cd07ab823dea",
+      "frontend/__tests__/diagnosis/storage.web.test.ts": "8ac4a04284342835246a2c2e75d6e6583067912a207c7337c06d44b71be73cca",
+      "frontend/__tests__/diagnosis/useDiagnosis.test.tsx": "7056268987614c07d9f29ca17d45154c2d0b5e1688c88fb2241b51308c8f3bed",
+      "frontend/__tests__/screens/diagnosis.test.tsx": "98046cc19e1821734a38b8e059a73f4b3c0dec348227bb5eae6053611294aaa8",
+      "frontend/e2e/sprint3-accessibility.spec.ts": "db4427f71dec6b40da0b6153c595e3a48762d1a2a3755c4e5244b675257af550",
+      "frontend/e2e/sprint3-diagnosis.spec.ts": "304ea9b24fe06dd12afc7148c2649953192a97cf217f6aa846502b9658a99878"
+    },
+    "sourceBaseline": "source-manifest.json#trackedBaselineSha256",
+    "originalExecutionSha256": "acfc77e76c39caee537c9a38f4cc715515ea80aa8db7dac4b587a046bc21467a",
+    "console": "logs/browser-defects.txt"
+  },
+  {
+    "label": "browser-diagnosis-final",
+    "command": [
+      "npx",
+      "playwright",
+      "test",
+      "--config",
+      "playwright.config.ts",
+      "sprint3-diagnosis.spec.ts"
+    ],
+    "cwd": "frontend",
+    "head": "98cd8cbb6bab98ea4c9a38e350a443b89cdacd16",
+    "startedAt": "2026-10-14T06:28:46.640976+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43129",
+      "WEB_QA_OUTPUT_DIR": "../artifacts/qa/sprint3-20261014/browser-diagnosis-final/report"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-14T06:29:20.248199+00:00",
+    "sourceOverlaySha256": {
+      "backend/tests/test_diagnosis_qa_journeys.py": "025f84d8157427f212f792960552ba635aec251c3e57334acd547a1272439cf0",
+      "backend/tests/test_sprint3_service_history_qa.py": "088bd2e095cae6517ea806544235e2e29dd6c99d0d4020f96eb0cd07ab823dea",
+      "frontend/__tests__/diagnosis/storage.web.test.ts": "8ac4a04284342835246a2c2e75d6e6583067912a207c7337c06d44b71be73cca",
+      "frontend/__tests__/diagnosis/useDiagnosis.test.tsx": "7056268987614c07d9f29ca17d45154c2d0b5e1688c88fb2241b51308c8f3bed",
+      "frontend/__tests__/screens/diagnosis.test.tsx": "98046cc19e1821734a38b8e059a73f4b3c0dec348227bb5eae6053611294aaa8",
+      "frontend/e2e/sprint3-accessibility.spec.ts": "db4427f71dec6b40da0b6153c595e3a48762d1a2a3755c4e5244b675257af550",
+      "frontend/e2e/sprint3-diagnosis.spec.ts": "304ea9b24fe06dd12afc7148c2649953192a97cf217f6aa846502b9658a99878"
+    },
+    "sourceBaseline": "source-manifest.json#trackedBaselineSha256",
+    "originalExecutionSha256": "6d15d2a6a32d636c70df91c4d3b8378c2d2ff599e35674e2b64ffc943b5c6c8a",
+    "console": "logs/browser-diagnosis-final.txt"
+  },
+  {
+    "label": "browser-regression",
+    "command": [
+      "npm",
+      "run",
+      "test:web"
+    ],
+    "cwd": "frontend",
+    "head": "98cd8cbb6bab98ea4c9a38e350a443b89cdacd16",
+    "startedAt": "2026-10-14T06:27:01.039332+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43127",
+      "WEB_QA_OUTPUT_DIR": "../artifacts/qa/sprint3-20261014/browser-regression/report"
+    },
+    "exitCode": 1,
+    "finishedAt": "2026-10-14T06:28:40.778713+00:00",
+    "sourceOverlaySha256": {
+      "backend/tests/test_diagnosis_qa_journeys.py": "025f84d8157427f212f792960552ba635aec251c3e57334acd547a1272439cf0",
+      "frontend/__tests__/diagnosis/storage.web.test.ts": "8ac4a04284342835246a2c2e75d6e6583067912a207c7337c06d44b71be73cca",
+      "frontend/__tests__/diagnosis/useDiagnosis.test.tsx": "7056268987614c07d9f29ca17d45154c2d0b5e1688c88fb2241b51308c8f3bed",
+      "frontend/__tests__/screens/diagnosis.test.tsx": "44d673edd74c28802dd2d28059b0402976fcd6a4332ddcbbdc8ef3b0378bfeed",
+      "frontend/e2e/sprint3-diagnosis.spec.ts": "fcd464d776856549bd6a5eda31654abbda7f570744b4c0c08610776eea21f788"
+    },
+    "sourceBaseline": "source-manifest.json#trackedBaselineSha256",
+    "originalExecutionSha256": "0df0f2665f2bb8347a34e4ea47f53e7fa96d43c1e351e754fc67724fcf9e85da",
+    "console": "logs/browser-regression.txt"
+  },
+  {
+    "label": "browser-regression-final",
+    "command": [
+      "npm",
+      "run",
+      "test:web"
+    ],
+    "cwd": "frontend",
+    "head": "98cd8cbb6bab98ea4c9a38e350a443b89cdacd16",
+    "startedAt": "2026-10-14T06:33:34.585613+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43127",
+      "WEB_QA_OUTPUT_DIR": "../artifacts/qa/sprint3-20261014/browser-regression-final/report"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-14T06:34:52.409985+00:00",
+    "sourceOverlaySha256": {
+      "backend/tests/test_diagnosis_qa_journeys.py": "025f84d8157427f212f792960552ba635aec251c3e57334acd547a1272439cf0",
+      "backend/tests/test_sprint3_service_history_qa.py": "088bd2e095cae6517ea806544235e2e29dd6c99d0d4020f96eb0cd07ab823dea",
+      "frontend/__tests__/diagnosis/storage.web.test.ts": "8ac4a04284342835246a2c2e75d6e6583067912a207c7337c06d44b71be73cca",
+      "frontend/__tests__/diagnosis/useDiagnosis.test.tsx": "7056268987614c07d9f29ca17d45154c2d0b5e1688c88fb2241b51308c8f3bed",
+      "frontend/__tests__/screens/diagnosis.test.tsx": "94c24fed2d9bfd21f51c513f9267ab45a94c8549a383dff8e52b44df66b328bb",
+      "frontend/e2e/sprint3-accessibility.spec.ts": "db4427f71dec6b40da0b6153c595e3a48762d1a2a3755c4e5244b675257af550",
+      "frontend/e2e/sprint3-diagnosis.spec.ts": "304ea9b24fe06dd12afc7148c2649953192a97cf217f6aa846502b9658a99878"
+    },
+    "sourceBaseline": "source-manifest.json#trackedBaselineSha256",
+    "originalExecutionSha256": "b8b5fa74d169687ad19e9624678fd776b777ab93a7a152510d0195ea5f248f81",
+    "console": "logs/browser-regression-final.txt"
+  },
+  {
+    "label": "frontend-android",
+    "command": [
+      "npm",
+      "run",
+      "test:android",
+      "--",
+      "--json",
+      "--outputFile=../artifacts/qa/sprint3-20261014/frontend-android/results.json"
+    ],
+    "cwd": "frontend",
+    "head": "98cd8cbb6bab98ea4c9a38e350a443b89cdacd16",
+    "startedAt": "2026-10-14T06:28:00.717077+00:00",
+    "environment": {},
+    "exitCode": 0,
+    "finishedAt": "2026-10-14T06:28:37.094412+00:00",
+    "sourceOverlaySha256": {
+      "backend/tests/test_diagnosis_qa_journeys.py": "025f84d8157427f212f792960552ba635aec251c3e57334acd547a1272439cf0",
+      "frontend/__tests__/diagnosis/storage.web.test.ts": "8ac4a04284342835246a2c2e75d6e6583067912a207c7337c06d44b71be73cca",
+      "frontend/__tests__/diagnosis/useDiagnosis.test.tsx": "7056268987614c07d9f29ca17d45154c2d0b5e1688c88fb2241b51308c8f3bed",
+      "frontend/__tests__/screens/diagnosis.test.tsx": "98046cc19e1821734a38b8e059a73f4b3c0dec348227bb5eae6053611294aaa8",
+      "frontend/e2e/sprint3-accessibility.spec.ts": "db4427f71dec6b40da0b6153c595e3a48762d1a2a3755c4e5244b675257af550",
+      "frontend/e2e/sprint3-diagnosis.spec.ts": "fcd464d776856549bd6a5eda31654abbda7f570744b4c0c08610776eea21f788"
+    },
+    "sourceBaseline": "source-manifest.json#trackedBaselineSha256",
+    "originalExecutionSha256": "52a8cd58e6949c86cfcc892981c572879ea665c56a8065da9ed6f7b52abb7118",
+    "console": "logs/frontend-android.txt"
+  },
+  {
+    "label": "frontend-android-defects",
+    "command": [
+      "npm",
+      "run",
+      "test:android:defects",
+      "--",
+      "--json",
+      "--outputFile=../artifacts/qa/sprint3-20261014/frontend-android-defects/results.json"
+    ],
+    "cwd": "frontend",
+    "head": "98cd8cbb6bab98ea4c9a38e350a443b89cdacd16",
+    "startedAt": "2026-10-14T06:29:21.127621+00:00",
+    "environment": {},
+    "exitCode": 1,
+    "finishedAt": "2026-10-14T06:29:27.730595+00:00",
+    "sourceOverlaySha256": {
+      "backend/tests/test_diagnosis_qa_journeys.py": "025f84d8157427f212f792960552ba635aec251c3e57334acd547a1272439cf0",
+      "backend/tests/test_sprint3_service_history_qa.py": "088bd2e095cae6517ea806544235e2e29dd6c99d0d4020f96eb0cd07ab823dea",
+      "frontend/__tests__/diagnosis/storage.web.test.ts": "8ac4a04284342835246a2c2e75d6e6583067912a207c7337c06d44b71be73cca",
+      "frontend/__tests__/diagnosis/useDiagnosis.test.tsx": "7056268987614c07d9f29ca17d45154c2d0b5e1688c88fb2241b51308c8f3bed",
+      "frontend/__tests__/screens/diagnosis.test.tsx": "98046cc19e1821734a38b8e059a73f4b3c0dec348227bb5eae6053611294aaa8",
+      "frontend/e2e/sprint3-accessibility.spec.ts": "db4427f71dec6b40da0b6153c595e3a48762d1a2a3755c4e5244b675257af550",
+      "frontend/e2e/sprint3-diagnosis.spec.ts": "304ea9b24fe06dd12afc7148c2649953192a97cf217f6aa846502b9658a99878"
+    },
+    "sourceBaseline": "source-manifest.json#trackedBaselineSha256",
+    "originalExecutionSha256": "d5c832db5fc15067871b2a8e64cb7a45743b9bee9cd6ac1a6fcdb120906faf34",
+    "console": "logs/frontend-android-defects.txt"
+  },
+  {
+    "label": "frontend-checks",
+    "command": [
+      "npm",
+      "run",
+      "lint"
+    ],
+    "cwd": "frontend",
+    "head": "98cd8cbb6bab98ea4c9a38e350a443b89cdacd16",
+    "startedAt": "2026-10-14T06:27:18.913026+00:00",
+    "environment": {},
+    "exitCode": 0,
+    "finishedAt": "2026-10-14T06:27:23.342547+00:00",
+    "sourceOverlaySha256": {
+      "backend/tests/test_diagnosis_qa_journeys.py": "025f84d8157427f212f792960552ba635aec251c3e57334acd547a1272439cf0",
+      "frontend/__tests__/diagnosis/storage.web.test.ts": "8ac4a04284342835246a2c2e75d6e6583067912a207c7337c06d44b71be73cca",
+      "frontend/__tests__/diagnosis/useDiagnosis.test.tsx": "7056268987614c07d9f29ca17d45154c2d0b5e1688c88fb2241b51308c8f3bed",
+      "frontend/__tests__/screens/diagnosis.test.tsx": "98046cc19e1821734a38b8e059a73f4b3c0dec348227bb5eae6053611294aaa8",
+      "frontend/e2e/sprint3-accessibility.spec.ts": "db4427f71dec6b40da0b6153c595e3a48762d1a2a3755c4e5244b675257af550",
+      "frontend/e2e/sprint3-diagnosis.spec.ts": "fcd464d776856549bd6a5eda31654abbda7f570744b4c0c08610776eea21f788"
+    },
+    "sourceBaseline": "source-manifest.json#trackedBaselineSha256",
+    "originalExecutionSha256": "6cec65a19ad5c525882fc377e2ccd8b6a43b727f206779103ab3de2b604be2c3",
+    "console": "logs/frontend-checks.txt"
+  },
+  {
+    "label": "frontend-defects",
+    "command": [
+      "npm",
+      "run",
+      "test:defects",
+      "--",
+      "--json",
+      "--outputFile=../artifacts/qa/sprint3-20261014/frontend-defects/results.json"
+    ],
+    "cwd": "frontend",
+    "head": "98cd8cbb6bab98ea4c9a38e350a443b89cdacd16",
+    "startedAt": "2026-10-14T06:29:00.817235+00:00",
+    "environment": {},
+    "exitCode": 1,
+    "finishedAt": "2026-10-14T06:29:07.124230+00:00",
+    "sourceOverlaySha256": {
+      "backend/tests/test_diagnosis_qa_journeys.py": "025f84d8157427f212f792960552ba635aec251c3e57334acd547a1272439cf0",
+      "backend/tests/test_sprint3_service_history_qa.py": "088bd2e095cae6517ea806544235e2e29dd6c99d0d4020f96eb0cd07ab823dea",
+      "frontend/__tests__/diagnosis/storage.web.test.ts": "8ac4a04284342835246a2c2e75d6e6583067912a207c7337c06d44b71be73cca",
+      "frontend/__tests__/diagnosis/useDiagnosis.test.tsx": "7056268987614c07d9f29ca17d45154c2d0b5e1688c88fb2241b51308c8f3bed",
+      "frontend/__tests__/screens/diagnosis.test.tsx": "98046cc19e1821734a38b8e059a73f4b3c0dec348227bb5eae6053611294aaa8",
+      "frontend/e2e/sprint3-accessibility.spec.ts": "db4427f71dec6b40da0b6153c595e3a48762d1a2a3755c4e5244b675257af550",
+      "frontend/e2e/sprint3-diagnosis.spec.ts": "304ea9b24fe06dd12afc7148c2649953192a97cf217f6aa846502b9658a99878"
+    },
+    "sourceBaseline": "source-manifest.json#trackedBaselineSha256",
+    "originalExecutionSha256": "10dd90e355b337ecc52e5a20ade8d6297312c844d8a1f446ab15652303e3c519",
+    "console": "logs/frontend-defects.txt"
+  },
+  {
+    "label": "frontend-final-static",
+    "command": [
+      "/bin/sh",
+      "-c",
+      "npm run lint && npm run typecheck"
+    ],
+    "cwd": "frontend",
+    "head": "98cd8cbb6bab98ea4c9a38e350a443b89cdacd16",
+    "startedAt": "2026-10-14T06:31:45.813583+00:00",
+    "environment": {},
+    "exitCode": 0,
+    "finishedAt": "2026-10-14T06:31:48.845803+00:00",
+    "sourceOverlaySha256": {
+      "backend/tests/test_diagnosis_qa_journeys.py": "025f84d8157427f212f792960552ba635aec251c3e57334acd547a1272439cf0",
+      "backend/tests/test_sprint3_service_history_qa.py": "088bd2e095cae6517ea806544235e2e29dd6c99d0d4020f96eb0cd07ab823dea",
+      "frontend/__tests__/diagnosis/storage.web.test.ts": "8ac4a04284342835246a2c2e75d6e6583067912a207c7337c06d44b71be73cca",
+      "frontend/__tests__/diagnosis/useDiagnosis.test.tsx": "7056268987614c07d9f29ca17d45154c2d0b5e1688c88fb2241b51308c8f3bed",
+      "frontend/__tests__/screens/diagnosis.test.tsx": "94c24fed2d9bfd21f51c513f9267ab45a94c8549a383dff8e52b44df66b328bb",
+      "frontend/e2e/sprint3-accessibility.spec.ts": "db4427f71dec6b40da0b6153c595e3a48762d1a2a3755c4e5244b675257af550",
+      "frontend/e2e/sprint3-diagnosis.spec.ts": "304ea9b24fe06dd12afc7148c2649953192a97cf217f6aa846502b9658a99878"
+    },
+    "sourceBaseline": "source-manifest.json#trackedBaselineSha256",
+    "originalExecutionSha256": "bcd8a8f0ee97ddeeb6d5a6b6994bf207f58b0542a0639be17ecb0b043d66db4e",
+    "console": "logs/frontend-final-static.txt"
+  },
+  {
+    "label": "frontend-ios",
+    "command": [
+      "npm",
+      "run",
+      "test:ios",
+      "--",
+      "--json",
+      "--outputFile=../artifacts/qa/sprint3-20261014/frontend-ios/results.json"
+    ],
+    "cwd": "frontend",
+    "head": "98cd8cbb6bab98ea4c9a38e350a443b89cdacd16",
+    "startedAt": "2026-10-14T06:27:18.908836+00:00",
+    "environment": {},
+    "exitCode": 0,
+    "finishedAt": "2026-10-14T06:27:54.015770+00:00",
+    "sourceOverlaySha256": {
+      "backend/tests/test_diagnosis_qa_journeys.py": "025f84d8157427f212f792960552ba635aec251c3e57334acd547a1272439cf0",
+      "frontend/__tests__/diagnosis/storage.web.test.ts": "8ac4a04284342835246a2c2e75d6e6583067912a207c7337c06d44b71be73cca",
+      "frontend/__tests__/diagnosis/useDiagnosis.test.tsx": "7056268987614c07d9f29ca17d45154c2d0b5e1688c88fb2241b51308c8f3bed",
+      "frontend/__tests__/screens/diagnosis.test.tsx": "98046cc19e1821734a38b8e059a73f4b3c0dec348227bb5eae6053611294aaa8",
+      "frontend/e2e/sprint3-accessibility.spec.ts": "db4427f71dec6b40da0b6153c595e3a48762d1a2a3755c4e5244b675257af550",
+      "frontend/e2e/sprint3-diagnosis.spec.ts": "fcd464d776856549bd6a5eda31654abbda7f570744b4c0c08610776eea21f788"
+    },
+    "sourceBaseline": "source-manifest.json#trackedBaselineSha256",
+    "originalExecutionSha256": "0a423430a6f4c38b53466cb6bcf39c83b1d0e0b6068e522249f590a54ee6cc78",
+    "console": "logs/frontend-ios.txt"
+  },
+  {
+    "label": "frontend-ios-defects",
+    "command": [
+      "npm",
+      "run",
+      "test:ios:defects",
+      "--",
+      "--json",
+      "--outputFile=../artifacts/qa/sprint3-20261014/frontend-ios-defects/results.json"
+    ],
+    "cwd": "frontend",
+    "head": "98cd8cbb6bab98ea4c9a38e350a443b89cdacd16",
+    "startedAt": "2026-10-14T06:29:21.127647+00:00",
+    "environment": {},
+    "exitCode": 1,
+    "finishedAt": "2026-10-14T06:29:27.731120+00:00",
+    "sourceOverlaySha256": {
+      "backend/tests/test_diagnosis_qa_journeys.py": "025f84d8157427f212f792960552ba635aec251c3e57334acd547a1272439cf0",
+      "backend/tests/test_sprint3_service_history_qa.py": "088bd2e095cae6517ea806544235e2e29dd6c99d0d4020f96eb0cd07ab823dea",
+      "frontend/__tests__/diagnosis/storage.web.test.ts": "8ac4a04284342835246a2c2e75d6e6583067912a207c7337c06d44b71be73cca",
+      "frontend/__tests__/diagnosis/useDiagnosis.test.tsx": "7056268987614c07d9f29ca17d45154c2d0b5e1688c88fb2241b51308c8f3bed",
+      "frontend/__tests__/screens/diagnosis.test.tsx": "98046cc19e1821734a38b8e059a73f4b3c0dec348227bb5eae6053611294aaa8",
+      "frontend/e2e/sprint3-accessibility.spec.ts": "db4427f71dec6b40da0b6153c595e3a48762d1a2a3755c4e5244b675257af550",
+      "frontend/e2e/sprint3-diagnosis.spec.ts": "304ea9b24fe06dd12afc7148c2649953192a97cf217f6aa846502b9658a99878"
+    },
+    "sourceBaseline": "source-manifest.json#trackedBaselineSha256",
+    "originalExecutionSha256": "cd247bb56027d754dc999ffcd0373b32715b9652e62ad6f04fc19b8effa2ff62",
+    "console": "logs/frontend-ios-defects.txt"
+  },
+  {
+    "label": "frontend-shared",
+    "command": [
+      "npm",
+      "run",
+      "test:coverage",
+      "--",
+      "--json",
+      "--outputFile=../artifacts/qa/sprint3-20261014/frontend-shared/results.json",
+      "--coverageDirectory=../artifacts/qa/sprint3-20261014/frontend-shared/coverage"
+    ],
+    "cwd": "frontend",
+    "head": "98cd8cbb6bab98ea4c9a38e350a443b89cdacd16",
+    "startedAt": "2026-10-14T06:26:57.334105+00:00",
+    "environment": {},
+    "exitCode": 0,
+    "finishedAt": "2026-10-14T06:27:34.516953+00:00",
+    "sourceOverlaySha256": {
+      "backend/tests/test_diagnosis_qa_journeys.py": "025f84d8157427f212f792960552ba635aec251c3e57334acd547a1272439cf0",
+      "frontend/__tests__/diagnosis/storage.web.test.ts": "8ac4a04284342835246a2c2e75d6e6583067912a207c7337c06d44b71be73cca",
+      "frontend/__tests__/diagnosis/useDiagnosis.test.tsx": "7056268987614c07d9f29ca17d45154c2d0b5e1688c88fb2241b51308c8f3bed",
+      "frontend/__tests__/screens/diagnosis.test.tsx": "44d673edd74c28802dd2d28059b0402976fcd6a4332ddcbbdc8ef3b0378bfeed",
+      "frontend/e2e/sprint3-diagnosis.spec.ts": "fcd464d776856549bd6a5eda31654abbda7f570744b4c0c08610776eea21f788"
+    },
+    "sourceBaseline": "source-manifest.json#trackedBaselineSha256",
+    "originalExecutionSha256": "7fb0a353faf65da87cd0f0f66906c37dcb4e0c1a7b63d1147cd46e21c8a7ebb3",
+    "console": "logs/frontend-shared.txt"
+  },
+  {
+    "label": "frontend-typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "cwd": "frontend",
+    "head": "98cd8cbb6bab98ea4c9a38e350a443b89cdacd16",
+    "startedAt": "2026-10-14T06:27:29.791431+00:00",
+    "environment": {},
+    "exitCode": 0,
+    "finishedAt": "2026-10-14T06:27:32.453422+00:00",
+    "sourceOverlaySha256": {
+      "backend/tests/test_diagnosis_qa_journeys.py": "025f84d8157427f212f792960552ba635aec251c3e57334acd547a1272439cf0",
+      "frontend/__tests__/diagnosis/storage.web.test.ts": "8ac4a04284342835246a2c2e75d6e6583067912a207c7337c06d44b71be73cca",
+      "frontend/__tests__/diagnosis/useDiagnosis.test.tsx": "7056268987614c07d9f29ca17d45154c2d0b5e1688c88fb2241b51308c8f3bed",
+      "frontend/__tests__/screens/diagnosis.test.tsx": "98046cc19e1821734a38b8e059a73f4b3c0dec348227bb5eae6053611294aaa8",
+      "frontend/e2e/sprint3-accessibility.spec.ts": "db4427f71dec6b40da0b6153c595e3a48762d1a2a3755c4e5244b675257af550",
+      "frontend/e2e/sprint3-diagnosis.spec.ts": "fcd464d776856549bd6a5eda31654abbda7f570744b4c0c08610776eea21f788"
+    },
+    "sourceBaseline": "source-manifest.json#trackedBaselineSha256",
+    "originalExecutionSha256": "29e2a2016c06349f3c4008a4857b9252329d7d96b1dcd0ae4008cfaad61d5b24",
+    "console": "logs/frontend-typecheck.txt"
+  },
+  {
+    "label": "repository-tooling",
+    "command": [
+      "backend/.venv/bin/python",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "scripts/tests",
+      "-v"
+    ],
+    "cwd": ".",
+    "head": "98cd8cbb6bab98ea4c9a38e350a443b89cdacd16",
+    "startedAt": "2026-10-14T06:30:27.643538+00:00",
+    "environment": {},
+    "exitCode": 0,
+    "finishedAt": "2026-10-14T06:30:28.734273+00:00",
+    "sourceOverlaySha256": {
+      "backend/tests/test_diagnosis_qa_journeys.py": "025f84d8157427f212f792960552ba635aec251c3e57334acd547a1272439cf0",
+      "backend/tests/test_sprint3_service_history_qa.py": "088bd2e095cae6517ea806544235e2e29dd6c99d0d4020f96eb0cd07ab823dea",
+      "frontend/__tests__/diagnosis/storage.web.test.ts": "8ac4a04284342835246a2c2e75d6e6583067912a207c7337c06d44b71be73cca",
+      "frontend/__tests__/diagnosis/useDiagnosis.test.tsx": "7056268987614c07d9f29ca17d45154c2d0b5e1688c88fb2241b51308c8f3bed",
+      "frontend/__tests__/screens/diagnosis.test.tsx": "98046cc19e1821734a38b8e059a73f4b3c0dec348227bb5eae6053611294aaa8",
+      "frontend/e2e/sprint3-accessibility.spec.ts": "db4427f71dec6b40da0b6153c595e3a48762d1a2a3755c4e5244b675257af550",
+      "frontend/e2e/sprint3-diagnosis.spec.ts": "304ea9b24fe06dd12afc7148c2649953192a97cf217f6aa846502b9658a99878"
+    },
+    "sourceBaseline": "source-manifest.json#trackedBaselineSha256",
+    "originalExecutionSha256": "2903004e2874b167a443e60624a2b618eb34db899cf4a54093ce00b9506fb852",
+    "console": "logs/repository-tooling.txt"
+  },
+  {
+    "label": "repository-traceability",
+    "command": [
+      "backend/.venv/bin/python",
+      "scripts/check_sprint2_qa_traceability.py"
+    ],
+    "cwd": ".",
+    "head": "98cd8cbb6bab98ea4c9a38e350a443b89cdacd16",
+    "startedAt": "2026-10-14T06:30:27.540567+00:00",
+    "environment": {},
+    "exitCode": 0,
+    "finishedAt": "2026-10-14T06:30:27.565193+00:00",
+    "sourceOverlaySha256": {
+      "backend/tests/test_diagnosis_qa_journeys.py": "025f84d8157427f212f792960552ba635aec251c3e57334acd547a1272439cf0",
+      "backend/tests/test_sprint3_service_history_qa.py": "088bd2e095cae6517ea806544235e2e29dd6c99d0d4020f96eb0cd07ab823dea",
+      "frontend/__tests__/diagnosis/storage.web.test.ts": "8ac4a04284342835246a2c2e75d6e6583067912a207c7337c06d44b71be73cca",
+      "frontend/__tests__/diagnosis/useDiagnosis.test.tsx": "7056268987614c07d9f29ca17d45154c2d0b5e1688c88fb2241b51308c8f3bed",
+      "frontend/__tests__/screens/diagnosis.test.tsx": "98046cc19e1821734a38b8e059a73f4b3c0dec348227bb5eae6053611294aaa8",
+      "frontend/e2e/sprint3-accessibility.spec.ts": "db4427f71dec6b40da0b6153c595e3a48762d1a2a3755c4e5244b675257af550",
+      "frontend/e2e/sprint3-diagnosis.spec.ts": "304ea9b24fe06dd12afc7148c2649953192a97cf217f6aa846502b9658a99878"
+    },
+    "sourceBaseline": "source-manifest.json#trackedBaselineSha256",
+    "originalExecutionSha256": "b9e408114bd00fb4fdfa0cc87c03f6ea951dbc7b129a855d52ad099fba4d1bd8",
+    "console": "logs/repository-traceability.txt"
+  }
+]

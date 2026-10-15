@@ -1,0 +1,84 @@
+[WebServer] Mail is NOT configured (MAILGUN_API_KEY and MAILGUN_DOMAIN missing): every message will be logged and discarded, including email confirmation and booking confirmations.
+
+Running 3 tests using 1 worker
+
+  ✘  1 [chromium-web] › e2e/sprint3-diagnosis.spec.ts:53:5 › US09/10/11 local Web diagnosis validates, resumes after login and isolates accounts (15.7s)
+  ✘  2 [chromium-web] › e2e/sprint3-diagnosis.spec.ts:83:5 › US12/13 local direction leads through a real professional and service to a stub booking (30.4s)
+  ✓  3 [chromium-web] › e2e/sprint3-diagnosis.spec.ts:123:5 › US09/12 cancelled local retake preserves the old direction and completed retake replaces it (10.9s)
+
+
+  1) [chromium-web] › e2e/sprint3-diagnosis.spec.ts:53:5 › US09/10/11 local Web diagnosis validates, resumes after login and isolates accounts 
+
+    Error: expect(locator).toBeChecked() failed
+
+    Locator:  getByRole('radio', { name: 'Something else', exact: true })
+    Expected: checked
+    Received: unchecked
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeChecked" getByRole('radio', { name: 'Something else', exact: true }) with timeout 5000ms
+      - waiting for getByRole('radio', { name: 'Something else', exact: true })
+        14 × locator resolved to <div role="radio" tabindex="0" aria-label="Something else" class="css-g5y9jx r-1loqt21 r-1otgn73 r-1awozwy r-cpet4d r-1rf8fdq r-1a8msfu r-1777fci r-gu64tb">…</div>
+           - unexpected value "unchecked"
+
+
+      77 |   await expect(page.getByRole('progressbar', { name: 'Step 2 of 6' })).toBeVisible();
+      78 |   await page.getByRole('button', { name: 'Back', exact: true }).click();
+    > 79 |   await expect(page.getByRole('radio', { name: 'Something else', exact: true })).toBeChecked();
+         |                                                                                  ^
+      80 |   await expect(page.getByLabel('Tell us a little more (optional)', { exact: true })).toHaveValue('Returning after caring for family');
+      81 | });
+      82 |
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-diagnosis.spec.ts:79:82
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/sprint3-dev-diagnosis/attachments/sprint3-diagnosis-US09-10--d370b-login-and-isolates-accounts-chromium-web/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/sprint3-dev-diagnosis/attachments/sprint3-diagnosis-US09-10--d370b-login-and-isolates-accounts-chromium-web/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/sprint3-dev-diagnosis/attachments/sprint3-diagnosis-US09-10--d370b-login-and-isolates-accounts-chromium-web/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/sprint3-dev-diagnosis/attachments/sprint3-diagnosis-US09-10--d370b-login-and-isolates-accounts-chromium-web/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium-web] › e2e/sprint3-diagnosis.spec.ts:83:5 › US12/13 local direction leads through a real professional and service to a stub booking 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: 'Choose a time', exact: true })
+
+
+       97 |   await page.getByRole('button', { name: service.title, exact: true }).click();
+       98 |   await expect(page).toHaveURL(new RegExp(`/services/${service.id}$`));
+    >  99 |   await page.getByRole('button', { name: 'Choose a time', exact: true }).click();
+          |                                                                          ^
+      100 |   await page.getByRole('radio').filter({ hasText: /min/ }).first().click();
+      101 |   await page.getByRole('button', { name: 'Continue to payment', exact: true }).click();
+      102 |   const paid = page.waitForResponse(r => r.url().endsWith('/payments/stub') && r.request().method() === 'POST');
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-diagnosis.spec.ts:99:74
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    test-results/sprint3-dev-diagnosis/attachments/sprint3-diagnosis-US12-13--115ca-d-service-to-a-stub-booking-chromium-web/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: test-results/sprint3-dev-diagnosis/attachments/sprint3-diagnosis-US12-13--115ca-d-service-to-a-stub-booking-chromium-web/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/sprint3-dev-diagnosis/attachments/sprint3-diagnosis-US12-13--115ca-d-service-to-a-stub-booking-chromium-web/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/sprint3-dev-diagnosis/attachments/sprint3-diagnosis-US12-13--115ca-d-service-to-a-stub-booking-chromium-web/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [chromium-web] › e2e/sprint3-diagnosis.spec.ts:53:5 › US09/10/11 local Web diagnosis validates, resumes after login and isolates accounts 
+    [chromium-web] › e2e/sprint3-diagnosis.spec.ts:83:5 › US12/13 local direction leads through a real professional and service to a stub booking 
+  1 passed (1.0m)

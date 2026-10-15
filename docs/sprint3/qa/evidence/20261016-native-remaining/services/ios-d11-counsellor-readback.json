@@ -1,0 +1,48 @@
+{
+  "at": "2026-10-15T21:51:51.200235+00:00",
+  "userId": "qa-nr-ios-pro",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/bookings/qa-nr-ios-move-booking": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-ios-move-booking",
+        "orderId": "qa-nr-ios-move-order",
+        "serviceId": "qa-nr-ios-move-service",
+        "serviceTitle": "QA iOS Reschedule Session",
+        "startsAt": "2026-10-24T03:00:00Z",
+        "endsAt": "2026-10-24T04:00:00Z",
+        "timezone": "Australia/Melbourne",
+        "modality": "online",
+        "status": "confirmed",
+        "paymentStatus": "paid",
+        "amountMinor": 8450,
+        "refundedMinor": 0,
+        "cancelledByRole": null,
+        "meetingUrl": "https://example.com/",
+        "counterpartyName": "QA iOS Buyer",
+        "counterpartyRole": "job_seeker",
+        "meetingArea": "",
+        "meetingAddress": "",
+        "preSessionBrief": "iOS fixture brief: discuss career direction.",
+        "review": null
+      }
+    },
+    "/me/availability-windows": {
+      "status": 200,
+      "data": [
+        {
+          "id": "qa-nr-ios-future-window",
+          "startsAt": "2026-10-23T23:00:00Z",
+          "endsAt": "2026-10-24T07:00:00Z",
+          "modalities": [
+            "online",
+            "in_person"
+          ],
+          "hasBookings": true,
+          "freeMinutes": 240
+        }
+      ]
+    }
+  }
+}

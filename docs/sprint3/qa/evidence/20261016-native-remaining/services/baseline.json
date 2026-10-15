@@ -1,0 +1,1896 @@
+{
+  "at": "2026-10-15T21:34:56.557407+00:00",
+  "scope": "Independent real API reads; seeded statuses are prerequisites, not provider evidence. Owner list responses filtered to platform fixture identifiers.",
+  "accounts": [
+    {
+      "platform": "ios",
+      "key": "buyer",
+      "userId": "qa-nr-ios-buyer",
+      "email": "i1@example.com",
+      "loginStatus": 200,
+      "reads": {
+        "/me/job-seeker-profile": {
+          "status": 200,
+          "data": {
+            "name": "QA iOS Buyer",
+            "email": "i1@example.com",
+            "photoUrl": null,
+            "headline": "",
+            "careerGoals": ""
+          }
+        },
+        "/me/profile-visibility": {
+          "status": 200,
+          "data": {
+            "visibility": "public"
+          }
+        },
+        "/me/bookings": {
+          "status": 200,
+          "data": [
+            {
+              "id": "qa-nr-ios-missing-booking",
+              "orderId": "qa-nr-ios-missing-order",
+              "serviceId": "qa-nr-ios-delivery-service",
+              "serviceTitle": "QA iOS In-person Session",
+              "startsAt": "2026-10-24T02:00:00Z",
+              "endsAt": "2026-10-24T03:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "in_person",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": null,
+              "counterpartyName": "QA iOS Pro",
+              "counterpartyRole": "counsellor",
+              "meetingArea": "Melbourne, VIC",
+              "meetingAddress": "",
+              "preSessionBrief": "iOS fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-ios-inperson-booking",
+              "orderId": "qa-nr-ios-inperson-order",
+              "serviceId": "qa-nr-ios-delivery-service",
+              "serviceTitle": "QA iOS In-person Session",
+              "startsAt": "2026-10-24T01:00:00Z",
+              "endsAt": "2026-10-24T02:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "in_person",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": null,
+              "counterpartyName": "QA iOS Pro",
+              "counterpartyRole": "counsellor",
+              "meetingArea": "Melbourne, VIC",
+              "meetingAddress": "QA Test Room, Melbourne",
+              "preSessionBrief": "iOS fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-ios-occupied-booking",
+              "orderId": "qa-nr-ios-occupied-order",
+              "serviceId": "qa-nr-ios-move-service",
+              "serviceTitle": "QA iOS Reschedule Session",
+              "startsAt": "2026-10-24T00:00:00Z",
+              "endsAt": "2026-10-24T01:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": "https://example.com/",
+              "counterpartyName": "QA iOS Pro",
+              "counterpartyRole": "counsellor",
+              "meetingArea": "",
+              "meetingAddress": "",
+              "preSessionBrief": "iOS fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-ios-move-booking",
+              "orderId": "qa-nr-ios-move-order",
+              "serviceId": "qa-nr-ios-move-service",
+              "serviceTitle": "QA iOS Reschedule Session",
+              "startsAt": "2026-10-23T23:00:00Z",
+              "endsAt": "2026-10-24T00:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": "https://example.com/",
+              "counterpartyName": "QA iOS Pro",
+              "counterpartyRole": "counsellor",
+              "meetingArea": "",
+              "meetingAddress": "",
+              "preSessionBrief": "iOS fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-ios-cancelled-booking",
+              "orderId": "qa-nr-ios-cancelled-order",
+              "serviceId": "qa-nr-ios-review-service",
+              "serviceTitle": "QA iOS Review Session",
+              "startsAt": "2026-10-12T22:34:11.498496Z",
+              "endsAt": "2026-10-12T23:34:11.498496Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "cancelled",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": null,
+              "counterpartyName": "QA iOS Pro",
+              "counterpartyRole": "counsellor",
+              "meetingArea": "",
+              "meetingAddress": "",
+              "preSessionBrief": "iOS fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-ios-completed-booking",
+              "orderId": "qa-nr-ios-completed-order",
+              "serviceId": "qa-nr-ios-review-service",
+              "serviceTitle": "QA iOS Review Session",
+              "startsAt": "2026-10-12T21:34:11.498496Z",
+              "endsAt": "2026-10-12T22:34:11.498496Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "completed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": null,
+              "counterpartyName": "QA iOS Pro",
+              "counterpartyRole": "counsellor",
+              "meetingArea": "",
+              "meetingAddress": "",
+              "preSessionBrief": "iOS fixture brief: discuss career direction.",
+              "review": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "platform": "ios",
+      "key": "other",
+      "userId": "qa-nr-ios-other",
+      "email": "i2@example.com",
+      "loginStatus": 200,
+      "reads": {
+        "/me/job-seeker-profile": {
+          "status": 200,
+          "data": {
+            "name": "QA iOS Other",
+            "email": "i2@example.com",
+            "photoUrl": null,
+            "headline": "",
+            "careerGoals": ""
+          }
+        },
+        "/me/profile-visibility": {
+          "status": 200,
+          "data": {
+            "visibility": "public"
+          }
+        },
+        "/me/bookings": {
+          "status": 200,
+          "data": []
+        }
+      }
+    },
+    {
+      "platform": "ios",
+      "key": "owner",
+      "userId": "qa-nr-ios-owner",
+      "email": "ia@example.com",
+      "loginStatus": 200,
+      "reads": {
+        "/admin/verifications": {
+          "status": 200,
+          "data": [
+            {
+              "id": "qa-nr-ios-candidate",
+              "counsellorId": "qa-nr-ios-candidate",
+              "counsellorName": "QA iOS Candidate",
+              "email": "iv@example.com",
+              "linkedInUrl": "",
+              "introduction": "iOS QA introduction",
+              "background": "iOS QA background",
+              "experience": "iOS QA experience",
+              "status": "pending",
+              "submittedAt": "2026-10-15T21:34:11.533644Z",
+              "decidedAt": null,
+              "decisionReason": null
+            },
+            {
+              "id": "qa-nr-ios-new",
+              "counsellorId": "qa-nr-ios-new",
+              "counsellorName": "QA iOS New",
+              "email": "in@example.com",
+              "linkedInUrl": "",
+              "introduction": "",
+              "background": "",
+              "experience": "",
+              "status": "pending",
+              "submittedAt": "2026-10-15T21:34:11.533720Z",
+              "decidedAt": null,
+              "decisionReason": null
+            }
+          ]
+        },
+        "/admin/bookings": {
+          "status": 200,
+          "data": [
+            {
+              "id": "qa-nr-ios-missing-booking",
+              "serviceTitle": "QA iOS In-person Session",
+              "jobSeekerName": "QA iOS Buyer",
+              "counsellorName": "QA iOS Pro",
+              "startsAt": "2026-10-24T02:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "in_person",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0
+            },
+            {
+              "id": "qa-nr-ios-inperson-booking",
+              "serviceTitle": "QA iOS In-person Session",
+              "jobSeekerName": "QA iOS Buyer",
+              "counsellorName": "QA iOS Pro",
+              "startsAt": "2026-10-24T01:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "in_person",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0
+            },
+            {
+              "id": "qa-nr-ios-occupied-booking",
+              "serviceTitle": "QA iOS Reschedule Session",
+              "jobSeekerName": "QA iOS Buyer",
+              "counsellorName": "QA iOS Pro",
+              "startsAt": "2026-10-24T00:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0
+            },
+            {
+              "id": "qa-nr-ios-move-booking",
+              "serviceTitle": "QA iOS Reschedule Session",
+              "jobSeekerName": "QA iOS Buyer",
+              "counsellorName": "QA iOS Pro",
+              "startsAt": "2026-10-23T23:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0
+            },
+            {
+              "id": "qa-nr-ios-cancelled-booking",
+              "serviceTitle": "QA iOS Review Session",
+              "jobSeekerName": "QA iOS Buyer",
+              "counsellorName": "QA iOS Pro",
+              "startsAt": "2026-10-12T22:34:11.498496Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "cancelled",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0
+            },
+            {
+              "id": "qa-nr-ios-completed-booking",
+              "serviceTitle": "QA iOS Review Session",
+              "jobSeekerName": "QA iOS Buyer",
+              "counsellorName": "QA iOS Pro",
+              "startsAt": "2026-10-12T21:34:11.498496Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "completed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0
+            }
+          ]
+        },
+        "/admin/payments": {
+          "status": 200,
+          "data": [
+            {
+              "paymentId": "qa-nr-ios-completed-order",
+              "orderId": "qa-nr-ios-completed-order",
+              "bookingId": "qa-nr-ios-completed-booking",
+              "jobSeekerName": "QA iOS Buyer",
+              "counsellorName": "QA iOS Pro",
+              "serviceTitle": "QA iOS Review Session",
+              "amountMinor": 8450,
+              "platformFeeMinor": 845,
+              "counsellorPayoutMinor": 7605,
+              "refundedMinor": 0,
+              "currency": "AUD",
+              "paymentStatus": "paid",
+              "orderStatus": "confirmed",
+              "createdAt": "2026-10-15T21:34:11.498496Z"
+            },
+            {
+              "paymentId": "qa-nr-ios-cancelled-order",
+              "orderId": "qa-nr-ios-cancelled-order",
+              "bookingId": "qa-nr-ios-cancelled-booking",
+              "jobSeekerName": "QA iOS Buyer",
+              "counsellorName": "QA iOS Pro",
+              "serviceTitle": "QA iOS Review Session",
+              "amountMinor": 8450,
+              "platformFeeMinor": 845,
+              "counsellorPayoutMinor": 7605,
+              "refundedMinor": 0,
+              "currency": "AUD",
+              "paymentStatus": "paid",
+              "orderStatus": "cancelled",
+              "createdAt": "2026-10-15T21:34:11.498496Z"
+            },
+            {
+              "paymentId": "qa-nr-ios-move-order",
+              "orderId": "qa-nr-ios-move-order",
+              "bookingId": "qa-nr-ios-move-booking",
+              "jobSeekerName": "QA iOS Buyer",
+              "counsellorName": "QA iOS Pro",
+              "serviceTitle": "QA iOS Reschedule Session",
+              "amountMinor": 8450,
+              "platformFeeMinor": 845,
+              "counsellorPayoutMinor": 7605,
+              "refundedMinor": 0,
+              "currency": "AUD",
+              "paymentStatus": "paid",
+              "orderStatus": "confirmed",
+              "createdAt": "2026-10-15T21:34:11.498496Z"
+            },
+            {
+              "paymentId": "qa-nr-ios-occupied-order",
+              "orderId": "qa-nr-ios-occupied-order",
+              "bookingId": "qa-nr-ios-occupied-booking",
+              "jobSeekerName": "QA iOS Buyer",
+              "counsellorName": "QA iOS Pro",
+              "serviceTitle": "QA iOS Reschedule Session",
+              "amountMinor": 8450,
+              "platformFeeMinor": 845,
+              "counsellorPayoutMinor": 7605,
+              "refundedMinor": 0,
+              "currency": "AUD",
+              "paymentStatus": "paid",
+              "orderStatus": "confirmed",
+              "createdAt": "2026-10-15T21:34:11.498496Z"
+            },
+            {
+              "paymentId": "qa-nr-ios-inperson-order",
+              "orderId": "qa-nr-ios-inperson-order",
+              "bookingId": "qa-nr-ios-inperson-booking",
+              "jobSeekerName": "QA iOS Buyer",
+              "counsellorName": "QA iOS Pro",
+              "serviceTitle": "QA iOS In-person Session",
+              "amountMinor": 8450,
+              "platformFeeMinor": 845,
+              "counsellorPayoutMinor": 7605,
+              "refundedMinor": 0,
+              "currency": "AUD",
+              "paymentStatus": "paid",
+              "orderStatus": "confirmed",
+              "createdAt": "2026-10-15T21:34:11.498496Z"
+            },
+            {
+              "paymentId": "qa-nr-ios-missing-order",
+              "orderId": "qa-nr-ios-missing-order",
+              "bookingId": "qa-nr-ios-missing-booking",
+              "jobSeekerName": "QA iOS Buyer",
+              "counsellorName": "QA iOS Pro",
+              "serviceTitle": "QA iOS In-person Session",
+              "amountMinor": 8450,
+              "platformFeeMinor": 845,
+              "counsellorPayoutMinor": 7605,
+              "refundedMinor": 0,
+              "currency": "AUD",
+              "paymentStatus": "paid",
+              "orderStatus": "confirmed",
+              "createdAt": "2026-10-15T21:34:11.498496Z"
+            },
+            {
+              "paymentId": "qa-s3-completed-order",
+              "orderId": "qa-s3-completed-order",
+              "bookingId": "qa-s3-completed-booking",
+              "jobSeekerName": "QA Review Buyer",
+              "counsellorName": "QA Review Professional",
+              "serviceTitle": "QA completed review session",
+              "amountMinor": 8450,
+              "platformFeeMinor": 845,
+              "counsellorPayoutMinor": 7605,
+              "refundedMinor": 0,
+              "currency": "AUD",
+              "paymentStatus": "paid",
+              "orderStatus": "confirmed",
+              "createdAt": "2026-10-15T21:34:11.456660Z"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "platform": "ios",
+      "key": "pro",
+      "userId": "qa-nr-ios-pro",
+      "email": "ic@example.com",
+      "loginStatus": 200,
+      "reads": {
+        "/me/counsellor-profile": {
+          "status": 200,
+          "data": {
+            "id": "qa-nr-ios-pro",
+            "displayName": "QA iOS Pro",
+            "linkedinUrl": "https://www.linkedin.com/in/qa-native-fixture/",
+            "introduction": "iOS QA introduction",
+            "background": "iOS QA background",
+            "experience": "iOS QA experience",
+            "qualifications": [
+              "QA qualification"
+            ],
+            "expertise": [
+              "Career planning"
+            ],
+            "languages": [
+              "English"
+            ],
+            "baseLocation": {
+              "state": "VIC",
+              "cityOrRegion": "Melbourne"
+            },
+            "defaultModality": "online",
+            "verificationStatus": "verified",
+            "reviewCount": 0
+          }
+        },
+        "/me/onboarding-state": {
+          "status": 200,
+          "data": {
+            "profileComplete": true,
+            "verificationSubmitted": true,
+            "complete": true
+          }
+        },
+        "/me/profile-visibility": {
+          "status": 200,
+          "data": {
+            "visibility": "public"
+          }
+        },
+        "/me/services": {
+          "status": 200,
+          "data": [
+            {
+              "id": "qa-nr-ios-editable-service",
+              "counsellor": {
+                "id": "qa-nr-ios-pro",
+                "displayName": "QA iOS Pro",
+                "introduction": "iOS QA introduction",
+                "verificationStatus": "verified",
+                "overallRating": null,
+                "reviewCount": 0
+              },
+              "title": "QA iOS Editable Session",
+              "description": "Isolated iOS editable acceptance fixture.",
+              "priceMinor": 8450,
+              "durationMinutes": 60,
+              "currency": "AUD",
+              "modalities": [
+                "online"
+              ],
+              "location": null,
+              "active": true,
+              "averageRating": null,
+              "reviewCount": 0,
+              "meetingUrl": null,
+              "nextAvailableAt": "2026-10-24T03:00:00Z"
+            },
+            {
+              "id": "qa-nr-ios-delivery-service",
+              "counsellor": {
+                "id": "qa-nr-ios-pro",
+                "displayName": "QA iOS Pro",
+                "introduction": "iOS QA introduction",
+                "verificationStatus": "verified",
+                "overallRating": null,
+                "reviewCount": 0
+              },
+              "title": "QA iOS In-person Session",
+              "description": "Isolated iOS delivery acceptance fixture.",
+              "priceMinor": 8450,
+              "durationMinutes": 60,
+              "currency": "AUD",
+              "modalities": [
+                "in_person"
+              ],
+              "location": {
+                "state": "VIC",
+                "cityOrRegion": "Melbourne"
+              },
+              "active": true,
+              "averageRating": null,
+              "reviewCount": 0,
+              "meetingUrl": null,
+              "nextAvailableAt": "2026-10-24T03:00:00Z"
+            },
+            {
+              "id": "qa-nr-ios-move-service",
+              "counsellor": {
+                "id": "qa-nr-ios-pro",
+                "displayName": "QA iOS Pro",
+                "introduction": "iOS QA introduction",
+                "verificationStatus": "verified",
+                "overallRating": null,
+                "reviewCount": 0
+              },
+              "title": "QA iOS Reschedule Session",
+              "description": "Isolated iOS move acceptance fixture.",
+              "priceMinor": 8450,
+              "durationMinutes": 60,
+              "currency": "AUD",
+              "modalities": [
+                "online"
+              ],
+              "location": null,
+              "active": true,
+              "averageRating": null,
+              "reviewCount": 0,
+              "meetingUrl": null,
+              "nextAvailableAt": "2026-10-24T03:00:00Z"
+            },
+            {
+              "id": "qa-nr-ios-review-service",
+              "counsellor": {
+                "id": "qa-nr-ios-pro",
+                "displayName": "QA iOS Pro",
+                "introduction": "iOS QA introduction",
+                "verificationStatus": "verified",
+                "overallRating": null,
+                "reviewCount": 0
+              },
+              "title": "QA iOS Review Session",
+              "description": "Isolated iOS review acceptance fixture.",
+              "priceMinor": 8450,
+              "durationMinutes": 60,
+              "currency": "AUD",
+              "modalities": [
+                "online"
+              ],
+              "location": null,
+              "active": true,
+              "averageRating": null,
+              "reviewCount": 0,
+              "meetingUrl": null,
+              "nextAvailableAt": "2026-10-24T03:00:00Z"
+            },
+            {
+              "id": "qa-nr-ios-unrated-service",
+              "counsellor": {
+                "id": "qa-nr-ios-pro",
+                "displayName": "QA iOS Pro",
+                "introduction": "iOS QA introduction",
+                "verificationStatus": "verified",
+                "overallRating": null,
+                "reviewCount": 0
+              },
+              "title": "QA iOS Unrated Session",
+              "description": "Isolated iOS unrated acceptance fixture.",
+              "priceMinor": 8450,
+              "durationMinutes": 60,
+              "currency": "AUD",
+              "modalities": [
+                "online"
+              ],
+              "location": null,
+              "active": true,
+              "averageRating": null,
+              "reviewCount": 0,
+              "meetingUrl": null,
+              "nextAvailableAt": "2026-10-24T03:00:00Z"
+            }
+          ]
+        },
+        "/me/availability-windows": {
+          "status": 200,
+          "data": [
+            {
+              "id": "qa-nr-ios-future-window",
+              "startsAt": "2026-10-23T23:00:00Z",
+              "endsAt": "2026-10-24T07:00:00Z",
+              "modalities": [
+                "online",
+                "in_person"
+              ],
+              "hasBookings": true,
+              "freeMinutes": 240
+            }
+          ]
+        },
+        "/me/payout-status": {
+          "status": 200,
+          "data": {
+            "stripeAccountId": null,
+            "chargesEnabled": false,
+            "payoutsEnabled": false,
+            "onboardingRequired": true,
+            "abn": null,
+            "gstRegistered": false
+          }
+        },
+        "/me/bookings": {
+          "status": 200,
+          "data": [
+            {
+              "id": "qa-nr-ios-missing-booking",
+              "orderId": "qa-nr-ios-missing-order",
+              "serviceId": "qa-nr-ios-delivery-service",
+              "serviceTitle": "QA iOS In-person Session",
+              "startsAt": "2026-10-24T02:00:00Z",
+              "endsAt": "2026-10-24T03:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "in_person",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": null,
+              "counterpartyName": "QA iOS Buyer",
+              "counterpartyRole": "job_seeker",
+              "meetingArea": "Melbourne, VIC",
+              "meetingAddress": "",
+              "preSessionBrief": "iOS fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-ios-inperson-booking",
+              "orderId": "qa-nr-ios-inperson-order",
+              "serviceId": "qa-nr-ios-delivery-service",
+              "serviceTitle": "QA iOS In-person Session",
+              "startsAt": "2026-10-24T01:00:00Z",
+              "endsAt": "2026-10-24T02:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "in_person",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": null,
+              "counterpartyName": "QA iOS Buyer",
+              "counterpartyRole": "job_seeker",
+              "meetingArea": "Melbourne, VIC",
+              "meetingAddress": "QA Test Room, Melbourne",
+              "preSessionBrief": "iOS fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-ios-occupied-booking",
+              "orderId": "qa-nr-ios-occupied-order",
+              "serviceId": "qa-nr-ios-move-service",
+              "serviceTitle": "QA iOS Reschedule Session",
+              "startsAt": "2026-10-24T00:00:00Z",
+              "endsAt": "2026-10-24T01:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": "https://example.com/",
+              "counterpartyName": "QA iOS Buyer",
+              "counterpartyRole": "job_seeker",
+              "meetingArea": "",
+              "meetingAddress": "",
+              "preSessionBrief": "iOS fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-ios-move-booking",
+              "orderId": "qa-nr-ios-move-order",
+              "serviceId": "qa-nr-ios-move-service",
+              "serviceTitle": "QA iOS Reschedule Session",
+              "startsAt": "2026-10-23T23:00:00Z",
+              "endsAt": "2026-10-24T00:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": "https://example.com/",
+              "counterpartyName": "QA iOS Buyer",
+              "counterpartyRole": "job_seeker",
+              "meetingArea": "",
+              "meetingAddress": "",
+              "preSessionBrief": "iOS fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-ios-cancelled-booking",
+              "orderId": "qa-nr-ios-cancelled-order",
+              "serviceId": "qa-nr-ios-review-service",
+              "serviceTitle": "QA iOS Review Session",
+              "startsAt": "2026-10-12T22:34:11.498496Z",
+              "endsAt": "2026-10-12T23:34:11.498496Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "cancelled",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": null,
+              "counterpartyName": "QA iOS Buyer",
+              "counterpartyRole": "job_seeker",
+              "meetingArea": "",
+              "meetingAddress": "",
+              "preSessionBrief": "iOS fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-ios-completed-booking",
+              "orderId": "qa-nr-ios-completed-order",
+              "serviceId": "qa-nr-ios-review-service",
+              "serviceTitle": "QA iOS Review Session",
+              "startsAt": "2026-10-12T21:34:11.498496Z",
+              "endsAt": "2026-10-12T22:34:11.498496Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "completed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": null,
+              "counterpartyName": "QA iOS Buyer",
+              "counterpartyRole": "job_seeker",
+              "meetingArea": "",
+              "meetingAddress": "",
+              "preSessionBrief": "iOS fixture brief: discuss career direction.",
+              "review": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "platform": "ios",
+      "key": "candidate",
+      "userId": "qa-nr-ios-candidate",
+      "email": "iv@example.com",
+      "loginStatus": 200,
+      "reads": {
+        "/me/counsellor-profile": {
+          "status": 200,
+          "data": {
+            "id": "qa-nr-ios-candidate",
+            "displayName": "QA iOS Candidate",
+            "linkedinUrl": "",
+            "introduction": "iOS QA introduction",
+            "background": "iOS QA background",
+            "experience": "iOS QA experience",
+            "qualifications": [
+              "QA qualification"
+            ],
+            "expertise": [
+              "Career planning"
+            ],
+            "languages": [
+              "English"
+            ],
+            "baseLocation": {
+              "state": "VIC",
+              "cityOrRegion": "Melbourne"
+            },
+            "defaultModality": "online",
+            "verificationStatus": "pending",
+            "reviewCount": 0
+          }
+        },
+        "/me/onboarding-state": {
+          "status": 200,
+          "data": {
+            "profileComplete": true,
+            "verificationSubmitted": false,
+            "complete": false
+          }
+        },
+        "/me/profile-visibility": {
+          "status": 200,
+          "data": {
+            "visibility": "public"
+          }
+        },
+        "/me/services": {
+          "status": 200,
+          "data": []
+        },
+        "/me/availability-windows": {
+          "status": 200,
+          "data": []
+        },
+        "/me/payout-status": {
+          "status": 200,
+          "data": {
+            "stripeAccountId": null,
+            "chargesEnabled": false,
+            "payoutsEnabled": false,
+            "onboardingRequired": true,
+            "abn": null,
+            "gstRegistered": false
+          }
+        },
+        "/me/bookings": {
+          "status": 200,
+          "data": []
+        }
+      }
+    },
+    {
+      "platform": "ios",
+      "key": "new",
+      "userId": "qa-nr-ios-new",
+      "email": "in@example.com",
+      "loginStatus": 200,
+      "reads": {
+        "/me/counsellor-profile": {
+          "status": 200,
+          "data": {
+            "id": "qa-nr-ios-new",
+            "displayName": "QA iOS New",
+            "linkedinUrl": "",
+            "introduction": "",
+            "background": "",
+            "experience": "",
+            "qualifications": [],
+            "expertise": [],
+            "languages": [],
+            "defaultModality": "online",
+            "verificationStatus": "pending",
+            "reviewCount": 0
+          }
+        },
+        "/me/onboarding-state": {
+          "status": 200,
+          "data": {
+            "profileComplete": false,
+            "verificationSubmitted": false,
+            "complete": false
+          }
+        },
+        "/me/profile-visibility": {
+          "status": 200,
+          "data": {
+            "visibility": "public"
+          }
+        },
+        "/me/services": {
+          "status": 200,
+          "data": []
+        },
+        "/me/availability-windows": {
+          "status": 200,
+          "data": []
+        },
+        "/me/payout-status": {
+          "status": 200,
+          "data": {
+            "stripeAccountId": null,
+            "chargesEnabled": false,
+            "payoutsEnabled": false,
+            "onboardingRequired": true,
+            "abn": null,
+            "gstRegistered": false
+          }
+        },
+        "/me/bookings": {
+          "status": 200,
+          "data": []
+        }
+      }
+    },
+    {
+      "platform": "ios",
+      "key": "unverified",
+      "userId": "qa-nr-ios-unverified",
+      "email": "iu@example.com",
+      "loginStatus": 200,
+      "reads": {
+        "/me/job-seeker-profile": {
+          "status": 200,
+          "data": {
+            "name": "QA iOS Unverified",
+            "email": "iu@example.com",
+            "photoUrl": null,
+            "headline": "",
+            "careerGoals": ""
+          }
+        },
+        "/me/profile-visibility": {
+          "status": 200,
+          "data": {
+            "visibility": "public"
+          }
+        },
+        "/me/bookings": {
+          "status": 200,
+          "data": []
+        }
+      }
+    },
+    {
+      "platform": "android",
+      "key": "buyer",
+      "userId": "qa-nr-android-buyer",
+      "email": "a1@example.com",
+      "loginStatus": 200,
+      "reads": {
+        "/me/job-seeker-profile": {
+          "status": 200,
+          "data": {
+            "name": "QA Android Buyer",
+            "email": "a1@example.com",
+            "photoUrl": null,
+            "headline": "",
+            "careerGoals": ""
+          }
+        },
+        "/me/profile-visibility": {
+          "status": 200,
+          "data": {
+            "visibility": "public"
+          }
+        },
+        "/me/bookings": {
+          "status": 200,
+          "data": [
+            {
+              "id": "qa-nr-android-missing-booking",
+              "orderId": "qa-nr-android-missing-order",
+              "serviceId": "qa-nr-android-delivery-service",
+              "serviceTitle": "QA Android In-person Session",
+              "startsAt": "2026-10-24T02:00:00Z",
+              "endsAt": "2026-10-24T03:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "in_person",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": null,
+              "counterpartyName": "QA Android Pro",
+              "counterpartyRole": "counsellor",
+              "meetingArea": "Melbourne, VIC",
+              "meetingAddress": "",
+              "preSessionBrief": "Android fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-android-inperson-booking",
+              "orderId": "qa-nr-android-inperson-order",
+              "serviceId": "qa-nr-android-delivery-service",
+              "serviceTitle": "QA Android In-person Session",
+              "startsAt": "2026-10-24T01:00:00Z",
+              "endsAt": "2026-10-24T02:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "in_person",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": null,
+              "counterpartyName": "QA Android Pro",
+              "counterpartyRole": "counsellor",
+              "meetingArea": "Melbourne, VIC",
+              "meetingAddress": "QA Test Room, Melbourne",
+              "preSessionBrief": "Android fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-android-occupied-booking",
+              "orderId": "qa-nr-android-occupied-order",
+              "serviceId": "qa-nr-android-move-service",
+              "serviceTitle": "QA Android Reschedule Session",
+              "startsAt": "2026-10-24T00:00:00Z",
+              "endsAt": "2026-10-24T01:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": "https://example.com/",
+              "counterpartyName": "QA Android Pro",
+              "counterpartyRole": "counsellor",
+              "meetingArea": "",
+              "meetingAddress": "",
+              "preSessionBrief": "Android fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-android-move-booking",
+              "orderId": "qa-nr-android-move-order",
+              "serviceId": "qa-nr-android-move-service",
+              "serviceTitle": "QA Android Reschedule Session",
+              "startsAt": "2026-10-23T23:00:00Z",
+              "endsAt": "2026-10-24T00:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": "https://example.com/",
+              "counterpartyName": "QA Android Pro",
+              "counterpartyRole": "counsellor",
+              "meetingArea": "",
+              "meetingAddress": "",
+              "preSessionBrief": "Android fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-android-cancelled-booking",
+              "orderId": "qa-nr-android-cancelled-order",
+              "serviceId": "qa-nr-android-review-service",
+              "serviceTitle": "QA Android Review Session",
+              "startsAt": "2026-10-12T22:34:11.498496Z",
+              "endsAt": "2026-10-12T23:34:11.498496Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "cancelled",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": null,
+              "counterpartyName": "QA Android Pro",
+              "counterpartyRole": "counsellor",
+              "meetingArea": "",
+              "meetingAddress": "",
+              "preSessionBrief": "Android fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-android-completed-booking",
+              "orderId": "qa-nr-android-completed-order",
+              "serviceId": "qa-nr-android-review-service",
+              "serviceTitle": "QA Android Review Session",
+              "startsAt": "2026-10-12T21:34:11.498496Z",
+              "endsAt": "2026-10-12T22:34:11.498496Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "completed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": null,
+              "counterpartyName": "QA Android Pro",
+              "counterpartyRole": "counsellor",
+              "meetingArea": "",
+              "meetingAddress": "",
+              "preSessionBrief": "Android fixture brief: discuss career direction.",
+              "review": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "platform": "android",
+      "key": "other",
+      "userId": "qa-nr-android-other",
+      "email": "a2@example.com",
+      "loginStatus": 200,
+      "reads": {
+        "/me/job-seeker-profile": {
+          "status": 200,
+          "data": {
+            "name": "QA Android Other",
+            "email": "a2@example.com",
+            "photoUrl": null,
+            "headline": "",
+            "careerGoals": ""
+          }
+        },
+        "/me/profile-visibility": {
+          "status": 200,
+          "data": {
+            "visibility": "public"
+          }
+        },
+        "/me/bookings": {
+          "status": 200,
+          "data": []
+        }
+      }
+    },
+    {
+      "platform": "android",
+      "key": "owner",
+      "userId": "qa-nr-android-owner",
+      "email": "aa@example.com",
+      "loginStatus": 200,
+      "reads": {
+        "/admin/verifications": {
+          "status": 200,
+          "data": [
+            {
+              "id": "qa-nr-android-candidate",
+              "counsellorId": "qa-nr-android-candidate",
+              "counsellorName": "QA Android Candidate",
+              "email": "av@example.com",
+              "linkedInUrl": "",
+              "introduction": "Android QA introduction",
+              "background": "Android QA background",
+              "experience": "Android QA experience",
+              "status": "pending",
+              "submittedAt": "2026-10-15T21:34:11.535621Z",
+              "decidedAt": null,
+              "decisionReason": null
+            },
+            {
+              "id": "qa-nr-android-new",
+              "counsellorId": "qa-nr-android-new",
+              "counsellorName": "QA Android New",
+              "email": "an@example.com",
+              "linkedInUrl": "",
+              "introduction": "",
+              "background": "",
+              "experience": "",
+              "status": "pending",
+              "submittedAt": "2026-10-15T21:34:11.535661Z",
+              "decidedAt": null,
+              "decisionReason": null
+            }
+          ]
+        },
+        "/admin/bookings": {
+          "status": 200,
+          "data": [
+            {
+              "id": "qa-nr-android-missing-booking",
+              "serviceTitle": "QA Android In-person Session",
+              "jobSeekerName": "QA Android Buyer",
+              "counsellorName": "QA Android Pro",
+              "startsAt": "2026-10-24T02:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "in_person",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0
+            },
+            {
+              "id": "qa-nr-android-inperson-booking",
+              "serviceTitle": "QA Android In-person Session",
+              "jobSeekerName": "QA Android Buyer",
+              "counsellorName": "QA Android Pro",
+              "startsAt": "2026-10-24T01:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "in_person",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0
+            },
+            {
+              "id": "qa-nr-android-occupied-booking",
+              "serviceTitle": "QA Android Reschedule Session",
+              "jobSeekerName": "QA Android Buyer",
+              "counsellorName": "QA Android Pro",
+              "startsAt": "2026-10-24T00:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0
+            },
+            {
+              "id": "qa-nr-android-move-booking",
+              "serviceTitle": "QA Android Reschedule Session",
+              "jobSeekerName": "QA Android Buyer",
+              "counsellorName": "QA Android Pro",
+              "startsAt": "2026-10-23T23:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0
+            },
+            {
+              "id": "qa-nr-android-cancelled-booking",
+              "serviceTitle": "QA Android Review Session",
+              "jobSeekerName": "QA Android Buyer",
+              "counsellorName": "QA Android Pro",
+              "startsAt": "2026-10-12T22:34:11.498496Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "cancelled",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0
+            },
+            {
+              "id": "qa-nr-android-completed-booking",
+              "serviceTitle": "QA Android Review Session",
+              "jobSeekerName": "QA Android Buyer",
+              "counsellorName": "QA Android Pro",
+              "startsAt": "2026-10-12T21:34:11.498496Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "completed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0
+            }
+          ]
+        },
+        "/admin/payments": {
+          "status": 200,
+          "data": [
+            {
+              "paymentId": "qa-nr-android-completed-order",
+              "orderId": "qa-nr-android-completed-order",
+              "bookingId": "qa-nr-android-completed-booking",
+              "jobSeekerName": "QA Android Buyer",
+              "counsellorName": "QA Android Pro",
+              "serviceTitle": "QA Android Review Session",
+              "amountMinor": 8450,
+              "platformFeeMinor": 845,
+              "counsellorPayoutMinor": 7605,
+              "refundedMinor": 0,
+              "currency": "AUD",
+              "paymentStatus": "paid",
+              "orderStatus": "confirmed",
+              "createdAt": "2026-10-15T21:34:11.498496Z"
+            },
+            {
+              "paymentId": "qa-nr-android-cancelled-order",
+              "orderId": "qa-nr-android-cancelled-order",
+              "bookingId": "qa-nr-android-cancelled-booking",
+              "jobSeekerName": "QA Android Buyer",
+              "counsellorName": "QA Android Pro",
+              "serviceTitle": "QA Android Review Session",
+              "amountMinor": 8450,
+              "platformFeeMinor": 845,
+              "counsellorPayoutMinor": 7605,
+              "refundedMinor": 0,
+              "currency": "AUD",
+              "paymentStatus": "paid",
+              "orderStatus": "cancelled",
+              "createdAt": "2026-10-15T21:34:11.498496Z"
+            },
+            {
+              "paymentId": "qa-nr-android-move-order",
+              "orderId": "qa-nr-android-move-order",
+              "bookingId": "qa-nr-android-move-booking",
+              "jobSeekerName": "QA Android Buyer",
+              "counsellorName": "QA Android Pro",
+              "serviceTitle": "QA Android Reschedule Session",
+              "amountMinor": 8450,
+              "platformFeeMinor": 845,
+              "counsellorPayoutMinor": 7605,
+              "refundedMinor": 0,
+              "currency": "AUD",
+              "paymentStatus": "paid",
+              "orderStatus": "confirmed",
+              "createdAt": "2026-10-15T21:34:11.498496Z"
+            },
+            {
+              "paymentId": "qa-nr-android-occupied-order",
+              "orderId": "qa-nr-android-occupied-order",
+              "bookingId": "qa-nr-android-occupied-booking",
+              "jobSeekerName": "QA Android Buyer",
+              "counsellorName": "QA Android Pro",
+              "serviceTitle": "QA Android Reschedule Session",
+              "amountMinor": 8450,
+              "platformFeeMinor": 845,
+              "counsellorPayoutMinor": 7605,
+              "refundedMinor": 0,
+              "currency": "AUD",
+              "paymentStatus": "paid",
+              "orderStatus": "confirmed",
+              "createdAt": "2026-10-15T21:34:11.498496Z"
+            },
+            {
+              "paymentId": "qa-nr-android-inperson-order",
+              "orderId": "qa-nr-android-inperson-order",
+              "bookingId": "qa-nr-android-inperson-booking",
+              "jobSeekerName": "QA Android Buyer",
+              "counsellorName": "QA Android Pro",
+              "serviceTitle": "QA Android In-person Session",
+              "amountMinor": 8450,
+              "platformFeeMinor": 845,
+              "counsellorPayoutMinor": 7605,
+              "refundedMinor": 0,
+              "currency": "AUD",
+              "paymentStatus": "paid",
+              "orderStatus": "confirmed",
+              "createdAt": "2026-10-15T21:34:11.498496Z"
+            },
+            {
+              "paymentId": "qa-nr-android-missing-order",
+              "orderId": "qa-nr-android-missing-order",
+              "bookingId": "qa-nr-android-missing-booking",
+              "jobSeekerName": "QA Android Buyer",
+              "counsellorName": "QA Android Pro",
+              "serviceTitle": "QA Android In-person Session",
+              "amountMinor": 8450,
+              "platformFeeMinor": 845,
+              "counsellorPayoutMinor": 7605,
+              "refundedMinor": 0,
+              "currency": "AUD",
+              "paymentStatus": "paid",
+              "orderStatus": "confirmed",
+              "createdAt": "2026-10-15T21:34:11.498496Z"
+            },
+            {
+              "paymentId": "qa-s3-completed-order",
+              "orderId": "qa-s3-completed-order",
+              "bookingId": "qa-s3-completed-booking",
+              "jobSeekerName": "QA Review Buyer",
+              "counsellorName": "QA Review Professional",
+              "serviceTitle": "QA completed review session",
+              "amountMinor": 8450,
+              "platformFeeMinor": 845,
+              "counsellorPayoutMinor": 7605,
+              "refundedMinor": 0,
+              "currency": "AUD",
+              "paymentStatus": "paid",
+              "orderStatus": "confirmed",
+              "createdAt": "2026-10-15T21:34:11.456660Z"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "platform": "android",
+      "key": "pro",
+      "userId": "qa-nr-android-pro",
+      "email": "ac@example.com",
+      "loginStatus": 200,
+      "reads": {
+        "/me/counsellor-profile": {
+          "status": 200,
+          "data": {
+            "id": "qa-nr-android-pro",
+            "displayName": "QA Android Pro",
+            "linkedinUrl": "https://www.linkedin.com/in/qa-native-fixture/",
+            "introduction": "Android QA introduction",
+            "background": "Android QA background",
+            "experience": "Android QA experience",
+            "qualifications": [
+              "QA qualification"
+            ],
+            "expertise": [
+              "Career planning"
+            ],
+            "languages": [
+              "English"
+            ],
+            "baseLocation": {
+              "state": "VIC",
+              "cityOrRegion": "Melbourne"
+            },
+            "defaultModality": "online",
+            "verificationStatus": "verified",
+            "reviewCount": 0
+          }
+        },
+        "/me/onboarding-state": {
+          "status": 200,
+          "data": {
+            "profileComplete": true,
+            "verificationSubmitted": true,
+            "complete": true
+          }
+        },
+        "/me/profile-visibility": {
+          "status": 200,
+          "data": {
+            "visibility": "public"
+          }
+        },
+        "/me/services": {
+          "status": 200,
+          "data": [
+            {
+              "id": "qa-nr-android-editable-service",
+              "counsellor": {
+                "id": "qa-nr-android-pro",
+                "displayName": "QA Android Pro",
+                "introduction": "Android QA introduction",
+                "verificationStatus": "verified",
+                "overallRating": null,
+                "reviewCount": 0
+              },
+              "title": "QA Android Editable Session",
+              "description": "Isolated Android editable acceptance fixture.",
+              "priceMinor": 8450,
+              "durationMinutes": 60,
+              "currency": "AUD",
+              "modalities": [
+                "online"
+              ],
+              "location": null,
+              "active": true,
+              "averageRating": null,
+              "reviewCount": 0,
+              "meetingUrl": null,
+              "nextAvailableAt": "2026-10-24T03:00:00Z"
+            },
+            {
+              "id": "qa-nr-android-delivery-service",
+              "counsellor": {
+                "id": "qa-nr-android-pro",
+                "displayName": "QA Android Pro",
+                "introduction": "Android QA introduction",
+                "verificationStatus": "verified",
+                "overallRating": null,
+                "reviewCount": 0
+              },
+              "title": "QA Android In-person Session",
+              "description": "Isolated Android delivery acceptance fixture.",
+              "priceMinor": 8450,
+              "durationMinutes": 60,
+              "currency": "AUD",
+              "modalities": [
+                "in_person"
+              ],
+              "location": {
+                "state": "VIC",
+                "cityOrRegion": "Melbourne"
+              },
+              "active": true,
+              "averageRating": null,
+              "reviewCount": 0,
+              "meetingUrl": null,
+              "nextAvailableAt": "2026-10-24T03:00:00Z"
+            },
+            {
+              "id": "qa-nr-android-move-service",
+              "counsellor": {
+                "id": "qa-nr-android-pro",
+                "displayName": "QA Android Pro",
+                "introduction": "Android QA introduction",
+                "verificationStatus": "verified",
+                "overallRating": null,
+                "reviewCount": 0
+              },
+              "title": "QA Android Reschedule Session",
+              "description": "Isolated Android move acceptance fixture.",
+              "priceMinor": 8450,
+              "durationMinutes": 60,
+              "currency": "AUD",
+              "modalities": [
+                "online"
+              ],
+              "location": null,
+              "active": true,
+              "averageRating": null,
+              "reviewCount": 0,
+              "meetingUrl": null,
+              "nextAvailableAt": "2026-10-24T03:00:00Z"
+            },
+            {
+              "id": "qa-nr-android-review-service",
+              "counsellor": {
+                "id": "qa-nr-android-pro",
+                "displayName": "QA Android Pro",
+                "introduction": "Android QA introduction",
+                "verificationStatus": "verified",
+                "overallRating": null,
+                "reviewCount": 0
+              },
+              "title": "QA Android Review Session",
+              "description": "Isolated Android review acceptance fixture.",
+              "priceMinor": 8450,
+              "durationMinutes": 60,
+              "currency": "AUD",
+              "modalities": [
+                "online"
+              ],
+              "location": null,
+              "active": true,
+              "averageRating": null,
+              "reviewCount": 0,
+              "meetingUrl": null,
+              "nextAvailableAt": "2026-10-24T03:00:00Z"
+            },
+            {
+              "id": "qa-nr-android-unrated-service",
+              "counsellor": {
+                "id": "qa-nr-android-pro",
+                "displayName": "QA Android Pro",
+                "introduction": "Android QA introduction",
+                "verificationStatus": "verified",
+                "overallRating": null,
+                "reviewCount": 0
+              },
+              "title": "QA Android Unrated Session",
+              "description": "Isolated Android unrated acceptance fixture.",
+              "priceMinor": 8450,
+              "durationMinutes": 60,
+              "currency": "AUD",
+              "modalities": [
+                "online"
+              ],
+              "location": null,
+              "active": true,
+              "averageRating": null,
+              "reviewCount": 0,
+              "meetingUrl": null,
+              "nextAvailableAt": "2026-10-24T03:00:00Z"
+            }
+          ]
+        },
+        "/me/availability-windows": {
+          "status": 200,
+          "data": [
+            {
+              "id": "qa-nr-android-future-window",
+              "startsAt": "2026-10-23T23:00:00Z",
+              "endsAt": "2026-10-24T07:00:00Z",
+              "modalities": [
+                "online",
+                "in_person"
+              ],
+              "hasBookings": true,
+              "freeMinutes": 240
+            }
+          ]
+        },
+        "/me/payout-status": {
+          "status": 200,
+          "data": {
+            "stripeAccountId": null,
+            "chargesEnabled": false,
+            "payoutsEnabled": false,
+            "onboardingRequired": true,
+            "abn": null,
+            "gstRegistered": false
+          }
+        },
+        "/me/bookings": {
+          "status": 200,
+          "data": [
+            {
+              "id": "qa-nr-android-missing-booking",
+              "orderId": "qa-nr-android-missing-order",
+              "serviceId": "qa-nr-android-delivery-service",
+              "serviceTitle": "QA Android In-person Session",
+              "startsAt": "2026-10-24T02:00:00Z",
+              "endsAt": "2026-10-24T03:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "in_person",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": null,
+              "counterpartyName": "QA Android Buyer",
+              "counterpartyRole": "job_seeker",
+              "meetingArea": "Melbourne, VIC",
+              "meetingAddress": "",
+              "preSessionBrief": "Android fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-android-inperson-booking",
+              "orderId": "qa-nr-android-inperson-order",
+              "serviceId": "qa-nr-android-delivery-service",
+              "serviceTitle": "QA Android In-person Session",
+              "startsAt": "2026-10-24T01:00:00Z",
+              "endsAt": "2026-10-24T02:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "in_person",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": null,
+              "counterpartyName": "QA Android Buyer",
+              "counterpartyRole": "job_seeker",
+              "meetingArea": "Melbourne, VIC",
+              "meetingAddress": "QA Test Room, Melbourne",
+              "preSessionBrief": "Android fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-android-occupied-booking",
+              "orderId": "qa-nr-android-occupied-order",
+              "serviceId": "qa-nr-android-move-service",
+              "serviceTitle": "QA Android Reschedule Session",
+              "startsAt": "2026-10-24T00:00:00Z",
+              "endsAt": "2026-10-24T01:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": "https://example.com/",
+              "counterpartyName": "QA Android Buyer",
+              "counterpartyRole": "job_seeker",
+              "meetingArea": "",
+              "meetingAddress": "",
+              "preSessionBrief": "Android fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-android-move-booking",
+              "orderId": "qa-nr-android-move-order",
+              "serviceId": "qa-nr-android-move-service",
+              "serviceTitle": "QA Android Reschedule Session",
+              "startsAt": "2026-10-23T23:00:00Z",
+              "endsAt": "2026-10-24T00:00:00Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "confirmed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": "https://example.com/",
+              "counterpartyName": "QA Android Buyer",
+              "counterpartyRole": "job_seeker",
+              "meetingArea": "",
+              "meetingAddress": "",
+              "preSessionBrief": "Android fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-android-cancelled-booking",
+              "orderId": "qa-nr-android-cancelled-order",
+              "serviceId": "qa-nr-android-review-service",
+              "serviceTitle": "QA Android Review Session",
+              "startsAt": "2026-10-12T22:34:11.498496Z",
+              "endsAt": "2026-10-12T23:34:11.498496Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "cancelled",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": null,
+              "counterpartyName": "QA Android Buyer",
+              "counterpartyRole": "job_seeker",
+              "meetingArea": "",
+              "meetingAddress": "",
+              "preSessionBrief": "Android fixture brief: discuss career direction.",
+              "review": null
+            },
+            {
+              "id": "qa-nr-android-completed-booking",
+              "orderId": "qa-nr-android-completed-order",
+              "serviceId": "qa-nr-android-review-service",
+              "serviceTitle": "QA Android Review Session",
+              "startsAt": "2026-10-12T21:34:11.498496Z",
+              "endsAt": "2026-10-12T22:34:11.498496Z",
+              "timezone": "Australia/Melbourne",
+              "modality": "online",
+              "status": "completed",
+              "paymentStatus": "paid",
+              "amountMinor": 8450,
+              "refundedMinor": 0,
+              "cancelledByRole": null,
+              "meetingUrl": null,
+              "counterpartyName": "QA Android Buyer",
+              "counterpartyRole": "job_seeker",
+              "meetingArea": "",
+              "meetingAddress": "",
+              "preSessionBrief": "Android fixture brief: discuss career direction.",
+              "review": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "platform": "android",
+      "key": "candidate",
+      "userId": "qa-nr-android-candidate",
+      "email": "av@example.com",
+      "loginStatus": 200,
+      "reads": {
+        "/me/counsellor-profile": {
+          "status": 200,
+          "data": {
+            "id": "qa-nr-android-candidate",
+            "displayName": "QA Android Candidate",
+            "linkedinUrl": "",
+            "introduction": "Android QA introduction",
+            "background": "Android QA background",
+            "experience": "Android QA experience",
+            "qualifications": [
+              "QA qualification"
+            ],
+            "expertise": [
+              "Career planning"
+            ],
+            "languages": [
+              "English"
+            ],
+            "baseLocation": {
+              "state": "VIC",
+              "cityOrRegion": "Melbourne"
+            },
+            "defaultModality": "online",
+            "verificationStatus": "pending",
+            "reviewCount": 0
+          }
+        },
+        "/me/onboarding-state": {
+          "status": 200,
+          "data": {
+            "profileComplete": true,
+            "verificationSubmitted": false,
+            "complete": false
+          }
+        },
+        "/me/profile-visibility": {
+          "status": 200,
+          "data": {
+            "visibility": "public"
+          }
+        },
+        "/me/services": {
+          "status": 200,
+          "data": []
+        },
+        "/me/availability-windows": {
+          "status": 200,
+          "data": []
+        },
+        "/me/payout-status": {
+          "status": 200,
+          "data": {
+            "stripeAccountId": null,
+            "chargesEnabled": false,
+            "payoutsEnabled": false,
+            "onboardingRequired": true,
+            "abn": null,
+            "gstRegistered": false
+          }
+        },
+        "/me/bookings": {
+          "status": 200,
+          "data": []
+        }
+      }
+    },
+    {
+      "platform": "android",
+      "key": "new",
+      "userId": "qa-nr-android-new",
+      "email": "an@example.com",
+      "loginStatus": 200,
+      "reads": {
+        "/me/counsellor-profile": {
+          "status": 200,
+          "data": {
+            "id": "qa-nr-android-new",
+            "displayName": "QA Android New",
+            "linkedinUrl": "",
+            "introduction": "",
+            "background": "",
+            "experience": "",
+            "qualifications": [],
+            "expertise": [],
+            "languages": [],
+            "defaultModality": "online",
+            "verificationStatus": "pending",
+            "reviewCount": 0
+          }
+        },
+        "/me/onboarding-state": {
+          "status": 200,
+          "data": {
+            "profileComplete": false,
+            "verificationSubmitted": false,
+            "complete": false
+          }
+        },
+        "/me/profile-visibility": {
+          "status": 200,
+          "data": {
+            "visibility": "public"
+          }
+        },
+        "/me/services": {
+          "status": 200,
+          "data": []
+        },
+        "/me/availability-windows": {
+          "status": 200,
+          "data": []
+        },
+        "/me/payout-status": {
+          "status": 200,
+          "data": {
+            "stripeAccountId": null,
+            "chargesEnabled": false,
+            "payoutsEnabled": false,
+            "onboardingRequired": true,
+            "abn": null,
+            "gstRegistered": false
+          }
+        },
+        "/me/bookings": {
+          "status": 200,
+          "data": []
+        }
+      }
+    },
+    {
+      "platform": "android",
+      "key": "unverified",
+      "userId": "qa-nr-android-unverified",
+      "email": "au@example.com",
+      "loginStatus": 200,
+      "reads": {
+        "/me/job-seeker-profile": {
+          "status": 200,
+          "data": {
+            "name": "QA Android Unverified",
+            "email": "au@example.com",
+            "photoUrl": null,
+            "headline": "",
+            "careerGoals": ""
+          }
+        },
+        "/me/profile-visibility": {
+          "status": 200,
+          "data": {
+            "visibility": "public"
+          }
+        },
+        "/me/bookings": {
+          "status": 200,
+          "data": []
+        }
+      }
+    }
+  ]
+}

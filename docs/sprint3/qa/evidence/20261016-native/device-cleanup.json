@@ -1,0 +1,75 @@
+{
+  "actions": [
+    {
+      "at": "2026-10-15T21:28:10.525142+00:00",
+      "command": [
+        "xcrun",
+        "simctl",
+        "terminate",
+        "579524DE-E6EA-42AE-9AB7-12FD385A0D08",
+        "host.exp.Exponent"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "at": "2026-10-15T21:28:10.566520+00:00",
+      "command": [
+        "/Users/zhouzhny/Library/Android/sdk/platform-tools/adb",
+        "-s",
+        "emulator-5554",
+        "shell",
+        "am",
+        "force-stop",
+        "host.exp.exponent"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "at": "2026-10-15T21:28:10.588276+00:00",
+      "command": [
+        "/Users/zhouzhny/Library/Android/sdk/platform-tools/adb",
+        "-s",
+        "emulator-5554",
+        "reverse",
+        "--remove",
+        "tcp:43189"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "at": "2026-10-15T21:28:10.610916+00:00",
+      "command": [
+        "/Users/zhouzhny/Library/Android/sdk/platform-tools/adb",
+        "-s",
+        "emulator-5554",
+        "reverse",
+        "--remove",
+        "tcp:8099"
+      ],
+      "exit_code": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "at": "2026-10-15T21:28:10.629671+00:00",
+      "command": [
+        "/Users/zhouzhny/Library/Android/sdk/platform-tools/adb",
+        "-s",
+        "emulator-5554",
+        "reverse",
+        "--list"
+      ],
+      "exit_code": 0,
+      "stdout": "\n",
+      "stderr": ""
+    }
+  ],
+  "deviceBootState": "Both devices already booted before this run; left booted. No app data cleared.",
+  "ideaHardwareInput": "Toggled back off through CUA; unselected toolbar icon visually confirmed."
+}

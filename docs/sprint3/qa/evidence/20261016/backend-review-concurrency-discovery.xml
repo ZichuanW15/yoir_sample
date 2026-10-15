@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="3" time="0.586" timestamp="2026-10-16T07:11:33.772175+11:00" hostname="ZhouzhnydeMacBook-Air.local"><testcase classname="tests.test_sprint3_review_concurrency_qa" name="test_simultaneous_duplicate_reviews_return_one_created_and_one_conflict" time="0.272"><failure message="assert [201, 500] == [201, 409]&#10;  &#10;  At index 1 diff: 500 != 409&#10;  Use -v to get more diff">client = &lt;starlette.testclient.TestClient object at 0x10ab1b6e0&gt;
+db_session = &lt;sqlalchemy.orm.session.Session object at 0x10ab3e900&gt;
+service = &lt;app.models.Service object at 0x10aba3170&gt;
+job_seeker_headers = {'Authorization': 'Bearer [REDACTED_LOCAL_TEST_TOKEN]'}
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x10ac509b0&gt;
+
+    def test_simultaneous_duplicate_reviews_return_one_created_and_one_conflict(
+        client, db_session, service, job_seeker_headers, monkeypatch,
+    ):
+        """US-53: a retried/double-clicked write must have a usable conflict response."""
+        _postgresql_only()
+        booking = _completed_booking(client, db_session, service, job_seeker_headers)
+        barrier = Barrier(2)
+        flush = Session.flush
+    
+        def concurrent_insert(self, *args, **kwargs):
+            if any(isinstance(row, Review) for row in self.new):
+                barrier.wait(timeout=10)
+            return flush(self, *args, **kwargs)
+    
+        with monkeypatch.context() as patch:
+            patch.setattr(Session, "flush", concurrent_insert)
+            with ThreadPoolExecutor(max_workers=2) as pool:
+                futures = [pool.submit(
+                    _review, client, job_seeker_headers, booking, rating, f"Attempt {rating}",
+                ) for rating in (2, 5)]
+                responses = [future.result(timeout=20) for future in futures]
+    
+        # Storage and the winning response are independent invariants. A fixture or
+        # database-integrity failure must not be mistaken for the expected conflict.
+        successes = [response.json() for response in responses if response.status_code == 201]
+        assert len(successes) == 1
+        with SessionLocal() as db:
+            rows = list(db.scalars(select(Review)))
+            assert len(rows) == 1 and rows[0].id == successes[0]["id"]
+            assert db.get(Service, service.id).review_count == 1
+            assert db.get(User, service.counsellor_id).review_count == 1
+&gt;       assert sorted(response.status_code for response in responses) == [201, 409]
+E       assert [201, 500] == [201, 409]
+E         
+E         At index 1 diff: 500 != 409
+E         Use -v to get more diff
+
+tests/test_sprint3_review_concurrency_qa.py:58: AssertionError</failure></testcase><testcase classname="tests.test_sprint3_review_concurrency_qa" name="test_simultaneous_distinct_reviews_keep_both_cached_aggregates_exact[same-service]" time="0.144"><failure message="AssertionError: assert {'counsellor'...ce': (1, 1.0)} == {'counsellor'...ce': (2, 3.0)}&#10;  &#10;  Differing items:&#10;  {'service': (1, 1.0)} != {'service': (2, 3.0)}&#10;  {'counsellor': (1, 1.0)} != {'counsellor': (2, 3.0)}&#10;  Use -v to get more diff">client = &lt;starlette.testclient.TestClient object at 0x10ab1b6e0&gt;
+db_session = &lt;sqlalchemy.orm.session.Session object at 0x10ad96600&gt;
+service = &lt;app.models.Service object at 0x10ad965d0&gt;
+job_seeker_headers = {'Authorization': 'Bearer [REDACTED_LOCAL_TEST_TOKEN]'}
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x10ad957f0&gt;
+same_service = True
+
+    @pytest.mark.parametrize("same_service", [True, False], ids=["same-service", "two-services"])
+    def test_simultaneous_distinct_reviews_keep_both_cached_aggregates_exact(
+        client, db_session, service, job_seeker_headers, monkeypatch, same_service,
+    ):
+        """US-54/55: successful concurrent reviews cannot overwrite each other's totals."""
+        _postgresql_only()
+        second_service = service
+        if not same_service:
+            second_service = Service(
+                counsellor_id=service.counsellor_id, title="Second offering", description="Feedback",
+                price_minor=7000, currency="AUD", modalities=["online"], active=True,
+            )
+            db_session.add(second_service)
+            db_session.commit()
+        first = _completed_booking(client, db_session, service, job_seeker_headers, day=2)
+        second = _completed_booking(client, db_session, second_service, job_seeker_headers, day=3)
+        barrier = Barrier(2)
+        recompute = bookings_router.recompute_counsellor_rating
+    
+        def concurrent_aggregates(db, counsellor_id):
+            recompute(db, counsellor_id)
+            # Both transactions have inserted their own review and calculated caches,
+            # but neither has committed. Real commits then compete for the shared row.
+            barrier.wait(timeout=10)
+    
+        with monkeypatch.context() as patch:
+            patch.setattr(bookings_router, "recompute_counsellor_rating", concurrent_aggregates)
+            with ThreadPoolExecutor(max_workers=2) as pool:
+                futures = [pool.submit(
+                    _review, client, job_seeker_headers, booking, rating, f"Score {rating}",
+                ) for booking, rating in ((first, 1), (second, 5))]
+                responses = [future.result(timeout=20) for future in futures]
+        assert [response.status_code for response in responses] == [201, 201]
+        with SessionLocal() as db:
+            stored_reviews = list(db.scalars(select(Review)))
+            assert len(stored_reviews) == 2
+            assert sorted(row.rating for row in stored_reviews) == [1, 5]
+            owner = db.get(User, service.counsellor_id)
+            stored_service = db.get(Service, service.id)
+            actual = {
+                "counsellor": (owner.review_count, owner.overall_rating),
+                "service": (stored_service.review_count, stored_service.average_rating),
+            }
+        expected = {"counsellor": (2, 3.0), "service": (2, 3.0) if same_service else (1, 1.0)}
+&gt;       assert actual == expected
+E       AssertionError: assert {'counsellor'...ce': (1, 1.0)} == {'counsellor'...ce': (2, 3.0)}
+E         
+E         Differing items:
+E         {'service': (1, 1.0)} != {'service': (2, 3.0)}
+E         {'counsellor': (1, 1.0)} != {'counsellor': (2, 3.0)}
+E         Use -v to get more diff
+
+tests/test_sprint3_review_concurrency_qa.py:105: AssertionError</failure></testcase><testcase classname="tests.test_sprint3_review_concurrency_qa" name="test_simultaneous_distinct_reviews_keep_both_cached_aggregates_exact[two-services]" time="0.120"><failure message="AssertionError: assert {'counsellor'...ce': (1, 1.0)} == {'counsellor'...ce': (1, 1.0)}&#10;  &#10;  Omitting 1 identical items, use -vv to show&#10;  Differing items:&#10;  {'counsellor': (1, 1.0)} != {'counsellor': (2, 3.0)}&#10;  Use -v to get more diff">client = &lt;starlette.testclient.TestClient object at 0x10ab1b6e0&gt;
+db_session = &lt;sqlalchemy.orm.session.Session object at 0x10adfb380&gt;
+service = &lt;app.models.Service object at 0x10adfa900&gt;
+job_seeker_headers = {'Authorization': 'Bearer [REDACTED_LOCAL_TEST_TOKEN]'}
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x10adfb620&gt;
+same_service = False
+
+    @pytest.mark.parametrize("same_service", [True, False], ids=["same-service", "two-services"])
+    def test_simultaneous_distinct_reviews_keep_both_cached_aggregates_exact(
+        client, db_session, service, job_seeker_headers, monkeypatch, same_service,
+    ):
+        """US-54/55: successful concurrent reviews cannot overwrite each other's totals."""
+        _postgresql_only()
+        second_service = service
+        if not same_service:
+            second_service = Service(
+                counsellor_id=service.counsellor_id, title="Second offering", description="Feedback",
+                price_minor=7000, currency="AUD", modalities=["online"], active=True,
+            )
+            db_session.add(second_service)
+            db_session.commit()
+        first = _completed_booking(client, db_session, service, job_seeker_headers, day=2)
+        second = _completed_booking(client, db_session, second_service, job_seeker_headers, day=3)
+        barrier = Barrier(2)
+        recompute = bookings_router.recompute_counsellor_rating
+    
+        def concurrent_aggregates(db, counsellor_id):
+            recompute(db, counsellor_id)
+            # Both transactions have inserted their own review and calculated caches,
+            # but neither has committed. Real commits then compete for the shared row.
+            barrier.wait(timeout=10)
+    
+        with monkeypatch.context() as patch:
+            patch.setattr(bookings_router, "recompute_counsellor_rating", concurrent_aggregates)
+            with ThreadPoolExecutor(max_workers=2) as pool:
+                futures = [pool.submit(
+                    _review, client, job_seeker_headers, booking, rating, f"Score {rating}",
+                ) for booking, rating in ((first, 1), (second, 5))]
+                responses = [future.result(timeout=20) for future in futures]
+        assert [response.status_code for response in responses] == [201, 201]
+        with SessionLocal() as db:
+            stored_reviews = list(db.scalars(select(Review)))
+            assert len(stored_reviews) == 2
+            assert sorted(row.rating for row in stored_reviews) == [1, 5]
+            owner = db.get(User, service.counsellor_id)
+            stored_service = db.get(Service, service.id)
+            actual = {
+                "counsellor": (owner.review_count, owner.overall_rating),
+                "service": (stored_service.review_count, stored_service.average_rating),
+            }
+        expected = {"counsellor": (2, 3.0), "service": (2, 3.0) if same_service else (1, 1.0)}
+&gt;       assert actual == expected
+E       AssertionError: assert {'counsellor'...ce': (1, 1.0)} == {'counsellor'...ce': (1, 1.0)}
+E         
+E         Omitting 1 identical items, use -vv to show
+E         Differing items:
+E         {'counsellor': (1, 1.0)} != {'counsellor': (2, 3.0)}
+E         Use -v to get more diff
+
+tests/test_sprint3_review_concurrency_qa.py:105: AssertionError</failure></testcase></testsuite></testsuites>

@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-15T21:58:21.679983+00:00",
+  "faults": [
+    {
+      "at": "2026-10-15T21:57:56.093235+00:00",
+      "ruleId": "android-d09-bookings-read",
+      "method": "GET",
+      "path": "/api/v1/admin/bookings",
+      "userId": "qa-nr-android-owner",
+      "hit": 1,
+      "action": "reject",
+      "status": 503
+    }
+  ],
+  "realReads": [
+    {
+      "at": "2026-10-15T21:34:56.305726+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/bookings",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T21:57:31.664979+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/bookings",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T21:58:21.043086+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/bookings",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    }
+  ],
+  "writesSinceFault": []
+}

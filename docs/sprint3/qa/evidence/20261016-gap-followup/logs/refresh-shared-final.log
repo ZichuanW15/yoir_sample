@@ -1,0 +1,25 @@
+PASS __tests__/screens/focus-refresh.test.tsx
+  ✓ QA-210 payment refresh failure clears formerly loaded rows and retry uses new data (109 ms)
+  QA-195/198 same-mounted counsellor focus refresh
+    ✓ profile replaces a prior status with confirmed pending after returning (66 ms)
+    ✓ profile replaces a prior status with confirmed verified after returning (63 ms)
+    ✓ profile replaces a prior status with confirmed rejected after returning (61 ms)
+    ✓ workspace replaces a prior status with confirmed pending after returning (61 ms)
+    ✓ workspace replaces a prior status with confirmed verified after returning (61 ms)
+    ✓ workspace replaces a prior status with confirmed rejected after returning (61 ms)
+    ✓ profile marks previously verified status unavailable on focus failure, then recovers (73 ms)
+    ✓ returning focus while a blur-triggered save is pending does not overwrite the draft (74 ms)
+  Sprint 3 mounted workspace and Users refresh recovery
+    ✓ workspace recovers all displayed data on the next focus after a successful read followed by failure (71 ms)
+    ✓ workspace uses the renewed token for every reload without remounting or logging in again (66 ms)
+    ✓ Users replaces the mounted counsellor directory after session renewal (59 ms)
+    ✓ Users replaces the mounted job_seeker directory after session renewal (56 ms)
+    ✓ Users retries both reads with the renewed token after the professionals refresh fails (119 ms)
+    ✓ Users retries both reads with the renewed token after the job seekers refresh fails (124 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       15 passed, 15 total
+Snapshots:   0 total
+Time:        1.647 s, estimated 2 s
+Ran all test suites within paths "__tests__/screens/focus-refresh.test.tsx".
+Test results written to: ../artifacts/qa/sprint3-next-20261016/refresh/shared-final.json

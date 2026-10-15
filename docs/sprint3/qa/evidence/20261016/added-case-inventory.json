@@ -1,0 +1,619 @@
+{
+  "regressionCount": 112,
+  "defectCount": 10,
+  "regression": [
+    {
+      "file": "frontend/__tests__/diagnosis/useDiagnosis.test.tsx",
+      "case": "diagnosis ownership on one device — QA-162/165/168 switching accounts hides the first record until the second account finishes loading",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/useDiagnosis.test.tsx",
+      "case": "diagnosis ownership on one device — QA-162/165/168 a late read from the previous account cannot replace the current account record",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/useDiagnosis.test.tsx",
+      "case": "diagnosis ownership on one device — QA-162/165/168 signing out hides private answers immediately and never reads a guest record",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/useDiagnosis.test.tsx",
+      "case": "diagnosis ownership on one device — QA-162/165/168 unreadable stored JSON becomes a new diagnosis instead of a completed direction",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) the queue asks for waiting applications and opens the selected submission",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) the Approved queue sends its filter and handles a successful empty result",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) the Rejected queue sends its filter and handles a successful empty result",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) the Everyone queue sends its filter and handles a successful empty result",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) queue failure shows a retry and does not claim nobody is waiting",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) detail exposes the supplied profile evidence and opens its exact LinkedIn URL",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) a missing profile link is stated explicitly and leaving pending makes no decision",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) approval requires confirmation and cancellation does not change the current status",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) confirmed approval stays pending and disables another decision until storage succeeds",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) rejection requires a non-blank explanation and stores the trimmed reason",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) failed rejection preserves reason and status and can be retried without a false success",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) additional investigation can approve a previously rejected application",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) a failed detail read can recover and is distinct from a missing submission",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) a missing submission offers no decision controls",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) the shell redirects a guest and withholds administration content",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) the shell redirects a job seeker and withholds administration content",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) the shell redirects a professional and withholds administration content",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) the owner sees all five sections and can open the account sheet to log out",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) overview renders stored money, unsplit gross, action counts and drill-down destinations",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) zero totals show genuine empty states without a made-up pending action or unsplit amount",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) failed statistics can be retried without displaying invented zero totals",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) the professional directory exposes a verified-but-unpayable account and links its verification",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) a Job Seeker directory deep link displays its read-only role, email state and booking count",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) a partial directory failure exposes no incomplete list and retries both role reads",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) the bookings overview shows the returned session identity, delivery and status",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "case": "US-48 / QA-210 admin payments (real components, mocked API) waits for orders without claiming the payment list is empty",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "case": "US-48 / QA-210 admin payments (real components, mocked API) renders server-frozen cent amounts, refund and parties and opens the correct order",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "case": "US-48 / QA-210 admin payments (real components, mocked API) an empty successful response explains there are no orders",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "case": "US-48 / QA-210 admin payments (real components, mocked API) failed reads are recoverable without being mislabelled an empty payment list",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "case": "US-48 / QA-210 admin payments (real components, mocked API) the detail joins the matching booking, shows its timezone and preserves all cents",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "case": "US-48 / QA-210 admin payments (real components, mocked API) a paid order without a booking does not invent a session time",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "case": "US-48 / QA-210 admin payments (real components, mocked API) a missing order is distinguished from a read failure",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "case": "US-48 / QA-210 admin payments (real components, mocked API) a failed payments dependency blocks partial detail and retries both reads",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "case": "US-48 / QA-210 admin payments (real components, mocked API) a failed bookings dependency blocks partial detail and retries both reads",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 a guest is sent to job-seeker login without reading or writing a diagnosis",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 a counsellor account is routed to its own workspace",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 a platform owner account is routed to its own workspace",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 questions stay hidden while saved progress loads, then resume at that question",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 question 0 refuses an empty required answer without advancing or saving",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 question 1 refuses an empty required answer without advancing or saving",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 question 3 refuses an empty required answer without advancing or saving",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 editing an earlier answer preserves the furthest resume point across a remount",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 skipping before the first answer records a skip and opens home",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 skipping part-way saves the current choice and resumes with it selected",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 a full journey retains optional text and toggled choices, permits empty optional answers and opens Explore",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 abandoning a retake keeps the previous completed answers and direction",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 a completed retake replaces the previous direction only at the final question",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 [QA-171/174] failed professional loading can be retried without losing the completed direction",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a guest is returned to login without fetching a booking",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a counsellor cannot use the Job Seeker review form",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a platform owner cannot use the Job Seeker review form",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a confirmed booking cannot be submitted for review",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a cancelled booking cannot be submitted for review",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a refunded booking cannot be submitted for review",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a paid-out session remains reviewable after payout",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a previously stored review prevents a second review form",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a rating and non-blank written comment are both required before any request",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) while a review is storing the button blocks duplicate writes and success is not shown early",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a 409 write refusal is visible, retains entered feedback and never claims success",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a 403 write refusal is visible, retains entered feedback and never claims success",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a temporary write failure is recoverable using the retained draft",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) booking read failure offers no review form or guessed eligibility",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.web.test.ts",
+      "case": "browser diagnosis persistence — QA-162/165/168 two accounts keep separate answers, and a retake replaces only its owner’s record",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.web.test.ts",
+      "case": "browser diagnosis persistence — QA-162/165/168 blocked site data returns no saved diagnosis and does not throw while saving",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.web.test.ts",
+      "case": "browser diagnosis persistence — QA-162/165/168 a full storage quota leaves the previous saved value readable",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_diagnosis_qa_journeys.py",
+      "case": "test_incomplete_progress_survives_logout_account_switch_and_fresh_login",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_diagnosis_qa_journeys.py",
+      "case": "test_replayed_final_save_after_lost_acknowledgement_recovers_without_double_write",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_diagnosis_qa_journeys.py",
+      "case": "test_failed_final_commit_keeps_confirmed_progress_and_allows_same_revision_retry",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_editing_confirmed_answers_refreshes_direction_criteria_and_catalog_together",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_marketplace_derivation_failure_preserves_answers_and_recovers_without_resaving",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_review_aggregates_are_weighted_per_session_and_agree_across_public_views",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_failed_review_commit_rolls_back_review_and_both_aggregates_then_retry_succeeds",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_invalid_review_metadata_cannot_publish_or_change_existing_ratings[payload0]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_invalid_review_metadata_cannot_publish_or_change_existing_ratings[payload1]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_invalid_review_metadata_cannot_publish_or_change_existing_ratings[payload2]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_invalid_review_metadata_cannot_publish_or_change_existing_ratings[payload3]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_full_length_unicode_review_round_trips_without_losing_text",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_verification_rejection_resubmission_and_approval_change_real_publish_permission",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_expired_hold_restores_calendar_minutes_and_public_next_time_without_cleanup_job",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_paid_rescheduled_and_cancelled_session_updates_calendar_and_admin_order_together",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_reschedule_commit_failure_preserves_booking_order_calendar_and_can_retry",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_complete[public]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_complete[partial]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_complete[restricted]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_privacy_transitions_survive_new_session_without_changing_another_account[job_seeker]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_privacy_transitions_survive_new_session_without_changing_another_account[counsellor]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_rejected_privacy_write_preserves_last_confirmed_choice[invalid0]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_rejected_privacy_write_preserves_last_confirmed_choice[invalid1]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_rejected_privacy_write_preserves_last_confirmed_choice[invalid2]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_rejected_privacy_write_preserves_last_confirmed_choice[invalid3]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_rejected_privacy_write_preserves_last_confirmed_choice[invalid4]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_profile_commit_failure_rolls_back_flushed_changes_and_same_payload_can_retry[/api/v1/me/profile-visibility-payload0]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_profile_commit_failure_rolls_back_flushed_changes_and_same_payload_can_retry[/api/v1/me/job-seeker-profile-payload1]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_profile_save_logout_switch_and_relogin_keeps_private_fields_and_email_owner_bound",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_profile_write_rejects_nonseeker_and_leaves_stored_seeker_unchanged[guest]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_profile_write_rejects_nonseeker_and_leaves_stored_seeker_unchanged[counsellor]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_profile_write_rejects_nonseeker_and_leaves_stored_seeker_unchanged[platform_owner]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_guest_cannot_read_or_change_privacy",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/e2e/sprint3-diagnosis.spec.ts",
+      "case": "US09/10/11 local Web diagnosis validates, resumes after login and isolates accounts",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-diagnosis.spec.ts",
+      "case": "US12/13 local direction leads through a real professional and service to a stub booking",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-diagnosis.spec.ts",
+      "case": "US09/12 cancelled local retake preserves the old direction and completed retake replaces it",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-workflows.spec.ts",
+      "case": "US53/54/55 real review validates, retains a failed draft, persists once and updates public ratings @injected-network",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-workflows.spec.ts",
+      "case": "US53 real confirmed booking blocks a review in the page and API",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-workflows.spec.ts",
+      "case": "US53 real cancelled booking blocks a review in the page and API",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-workflows.spec.ts",
+      "case": "US53 another buyer cannot open or review a completed booking",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-workflows.spec.ts",
+      "case": "US32/33/58 admin confirmation, approval and reasoned reinvestigation persist through the real API",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-workflows.spec.ts",
+      "case": "US48 admin payment detail retries a failed real read and preserves the recorded split @injected-network",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-workflows.spec.ts",
+      "case": "US40/41 alternate delivery and held time stay consistent across buyer and counsellor Web views",
+      "status": "expected"
+    }
+  ],
+  "defects": [
+    {
+      "file": "frontend/__tests__/defects/sprint3-privacy-acceptance.test.tsx",
+      "case": "Sprint 3 privacy acceptance (advisory suite) [S3-PRIVACY-ROLLBACK][US27-AC3][QA-183] a failed privacy update restores the last saved choice",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/sprint3-admin-acceptance.test.tsx",
+      "case": "Sprint 3 unresolved administration acceptance (advisory suite) [S3-ADMIN-BOOKINGS-EMPTY][QA-210] a failed booking read must not claim no sessions have been booked",
+      "status": "failed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_contract_qa.py",
+      "case": "test_partial_profile_omits_private_fields_instead_of_returning_empty_placeholders[guest]",
+      "status": "xfail"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_contract_qa.py",
+      "case": "test_partial_profile_omits_private_fields_instead_of_returning_empty_placeholders[other-seeker]",
+      "status": "xfail"
+    },
+    {
+      "file": "backend/tests/test_sprint3_review_concurrency_qa.py",
+      "case": "test_simultaneous_duplicate_reviews_return_one_created_and_one_conflict",
+      "status": "xfail"
+    },
+    {
+      "file": "backend/tests/test_sprint3_review_concurrency_qa.py",
+      "case": "test_simultaneous_distinct_reviews_keep_both_cached_aggregates_exact[same-service]",
+      "status": "xfail"
+    },
+    {
+      "file": "backend/tests/test_sprint3_review_concurrency_qa.py",
+      "case": "test_simultaneous_distinct_reviews_keep_both_cached_aggregates_exact[two-services]",
+      "status": "xfail"
+    },
+    {
+      "file": "backend/tests/test_sprint3_service_history_qa.py",
+      "case": "test_existing_booking_keeps_recorded_title_and_meeting_area_after_service_edit",
+      "status": "xfail"
+    },
+    {
+      "file": "frontend/e2e/sprint3-accessibility.spec.ts",
+      "case": "DEF-DIAGNOSIS-WEB-CHECKED: a selected diagnosis radio exposes its checked state @defect",
+      "status": "unexpected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-workflows.spec.ts",
+      "case": "US48 an old existing order opens by ID beyond the first 200 list rows @defect",
+      "status": "unexpected"
+    }
+  ],
+  "note": "Unique added source cases relative to dev. Shared/native repeats and re-executions are not counted again."
+}

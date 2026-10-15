@@ -1,0 +1,219 @@
+
+> yoir-mobile@0.1.0 test:defects
+> jest --ci --runInBand --config jest.config.defects.js --json --outputFile=../artifacts/qa/sprint3-20261014/frontend-defects/results.json
+
+PASS __tests__/defects/counsellor-issue-acceptance.test.tsx
+FAIL __tests__/defects/counsellor-acceptance.test.tsx
+  ● Counsellor known defects — correct acceptance expectations › QA #136 rejects a negative price instead of silently changing its sign
+
+    expect(jest.fn()).not.toHaveBeenCalled()
+
+    Expected number of calls: 0
+    Received number of calls: 1
+
+    1: "counsellor-1", {"currency": "AUD", "description": "A practical coaching session with individual interview feedback.", "durationMinutes": 60, "location": null, "modalities": ["online"], "priceMinor": 500, "title": "Interview coaching"}, "counsellor-access-token"
+
+      14 |     // rather than an async act warning after this intentionally failing assertion.
+      15 |     await waitFor(() => expect(screen.getByRole('button', { name: 'Publish service' })).toBeEnabled());
+    > 16 |     expect(apiMock.createService).not.toHaveBeenCalled();
+         |                                       ^
+      17 |     expect(screen.getByText('Enter a price greater than zero.')).toBeTruthy();
+      18 |   });
+      19 |   test('QA #145 retains a failed window creation error after refreshing the calendar', async () => {
+
+      at Object.toHaveBeenCalled (__tests__/defects/counsellor-acceptance.test.tsx:16:39)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● Counsellor known defects — correct acceptance expectations › QA #145 retains a failed window creation error after refreshing the calendar
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      30 |     // A boolean presence assertion keeps failure output focused on the missing
+      31 |     // expected feedback, rather than dumping the entire calendar render tree.
+    > 32 |     expect(screen.queryByText('We could not reach Yoir. Check your connection and try again.') !== null).toBe(true);
+         |                                                                                                          ^
+      33 |     expect(screen.queryByText('1 day added')).toBeNull();
+      34 |   });
+      35 | });
+
+      at Object.toBe (__tests__/defects/counsellor-acceptance.test.tsx:32:106)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL __tests__/defects/public-acceptance.test.tsx
+  ● known booking confirmation acceptance gaps › [QA-127][DEF-CONFIRM-UNVERIFIED] a direct confirmation URL without a receipt cannot claim payment success
+
+    expect(received).toBeNull()
+
+    Received: {"_fiber": {"_debugHookTypes": null, "_debugInfo": null, "_debugNeedsRemount": false, "_debugOwner": [FiberNode], "_debugStack": [Error: react-stack-top-frame], "_debugTask": null, "actualDuration": 0, "actualStartTime": 1791959346408, "alternate": [FiberNode], "child": [FiberNode], "childLanes": 0, "deletions": null, "dependencies": null, "elementType": "Text", "flags": 4, "index": 0, "key": null, "lanes": 0, "memoizedProps": [Object], "memoizedState": null, "mode": 3, "pendingProps": [Object], "ref": null, "refCleanup": null, "return": [FiberNode], "selfBaseDuration": 0, "sibling": null, "stateNode": [Object], "subtreeFlags": 262144, "tag": 5, "treeBaseDuration": 0, "type": "Text", "updateQueue": null}}
+
+      12 |     await renderPublic(<ConfirmationScreen />);
+      13 |     await screen.findByText(serviceFixture.title);
+    > 14 |     expect(screen.queryByText('You’re booked')).toBeNull();
+         |                                                 ^
+      15 |     expect(screen.queryByText(/Payment successful/)).toBeNull();
+      16 |   });
+      17 |
+
+      at Object.toBeNull (__tests__/defects/public-acceptance.test.tsx:14:49)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● known booking confirmation acceptance gaps › [QA-127][DEF-CONFIRM-RECEIPT] confirmation uses the server-confirmed booking time and modality
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: ObjectContaining {"params": ObjectContaining {"endsAt": "2026-09-02T03:00:00Z", "modality": "in_person", "startsAt": "2026-09-02T02:00:00Z"}}
+    Received: {"params": {"amountMinor": "9500", "bookingId": "booking-1", "endsAt": "2026-09-01T01:00:00.000Z", "modality": "online", "paymentId": "stub-payment-1", "pending": "", "serviceId": "service-1", "startsAt": "2026-09-01T00:00:00.000Z"}, "pathname": "/bookings/confirmation"}
+
+    Number of calls: 1
+
+      25 |     fireEvent.press(screen.getByRole('button', { name: 'Pay $95' }));
+      26 |     await tick();
+    > 27 |     expect(navigation.replace).toHaveBeenCalledWith(expect.objectContaining({ params: expect.objectContaining({ startsAt: receipt.booking.startsAt, endsAt: receipt.booking.endsAt, modality: receipt.booking.modality }) }));
+         |                                ^
+      28 |   });
+      29 | });
+      30 |
+
+      at Object.toHaveBeenCalledWith (__tests__/defects/public-acceptance.test.tsx:27:32)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL __tests__/defects/root-layout-acceptance.test.tsx
+  ● shared font-error recovery (mocked component risk, not browser/device white-screen proof) › DEF-STARTUP-FONT: a font error leaves a rendered application or recovery tree
+
+    expect(received).not.toBeNull()
+
+    Received: null
+
+      11 |     // asset must not suppress the entire shared tree. Real DOM visibility and
+      12 |     // device splash behaviour require separate browser/device validation.
+    > 13 |     expect(result.toJSON()).not.toBeNull();
+         |                                 ^
+      14 |   });
+      15 | });
+      16 |
+
+      at Object.toBeNull (__tests__/defects/root-layout-acceptance.test.tsx:13:33)
+
+FAIL __tests__/defects/public-issue-acceptance.test.tsx
+  ● implemented slot picker empty-response feedback › [QA-118][US40-AC4] no open slots has an explicit empty state, not an unexplained blank picker
+
+    expect(received).not.toBeNull()
+
+    Received: null
+
+      15 |     expect(screen.queryAllByRole('radio')).toHaveLength(0);
+      16 |     expect(screen.getByRole('button', { name: 'Continue to payment' })).toBeDisabled();
+    > 17 |     expect(screen.queryByText(/no (?:\w+ ){0,3}(?:slots|times|sessions)|fully booked/i)).not.toBeNull();
+         |                                                                                              ^
+      18 |   });
+      19 | });
+      20 |
+
+      at Object.toBeNull (__tests__/defects/public-issue-acceptance.test.tsx:17:94)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL __tests__/defects/format-planner-acceptance.test.ts
+  ● unresolved price and availability acceptance › F01 / QA #115 #124: displayed AUD prices preserve the charged cents
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "$70.50"
+    Received: "$71"
+
+       6 | describe('unresolved price and availability acceptance', () => {
+       7 |   test('F01 / QA #115 #124: displayed AUD prices preserve the charged cents', () => {
+    >  8 |     expect(money(7050)).toBe('$70.50');
+         |                         ^
+       9 |   });
+      10 |
+      11 |   test('F05 / QA #145: weekday recurrence visits every local day once across DST end', () => {
+
+      at Object.toBe (__tests__/defects/format-planner-acceptance.test.ts:8:25)
+
+  ● unresolved price and availability acceptance › F05 / QA #145: weekday recurrence visits every local day once across DST end
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 1
+
+      Array [
+        "2026-04-04",
+        "2026-04-05",
+    +   "2026-04-05",
+        "2026-04-06",
+        "2026-04-07",
+        "2026-04-08",
+        "2026-04-09",
+    -   "2026-04-10",
+      ]
+
+      13 |     expect(Intl.DateTimeFormat().resolvedOptions().timeZone).toBe('Australia/Melbourne');
+      14 |     const days = weekdayDatesInRange([0, 1, 2, 3, 4, 5, 6], new Date(2026, 3, 4), 1);
+    > 15 |     expect(days.map(dateKey)).toEqual([
+         |                               ^
+      16 |       '2026-04-04', '2026-04-05', '2026-04-06', '2026-04-07', '2026-04-08', '2026-04-09', '2026-04-10',
+      17 |     ]);
+      18 |   });
+
+      at Object.toEqual (__tests__/defects/format-planner-acceptance.test.ts:15:31)
+
+FAIL __tests__/defects/client-acceptance.test.ts
+  ● shared real-client boundary acceptance (mocked HTTP, not deployed endpoint evidence) › F06 / QA #109: null HTTP error body remains a structured response failure
+
+    expect(received).rejects.toBeInstanceOf(expected)
+
+    Expected constructor: ApiError
+    Received constructor: TypeError
+
+       7 |     fetchMock.mockResolvedValue(httpResponse(null, 502));
+       8 |     const { api, ApiError } = loadRealClient();
+    >  9 |     await expect(api.listServices()).rejects.toBeInstanceOf(ApiError);
+         |                                              ^
+      10 |   });
+      11 |
+      12 |   test('F07 / QA #109: malformed success payload cannot reach the service list as valid data', async () => {
+
+      at Object.toBeInstanceOf (node_modules/expect/build/index.js:218:22)
+      at Object.toBeInstanceOf (__tests__/defects/client-acceptance.test.ts:9:46)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+  ● shared real-client boundary acceptance (mocked HTTP, not deployed endpoint evidence) › F07 / QA #109: malformed success payload cannot reach the service list as valid data
+
+    expect(received).rejects.toThrow()
+
+    Received promise resolved instead of rejected
+    Resolved to value: {"services": "invalid"}
+
+      13 |     fetchMock.mockResolvedValue(httpResponse({ services: 'invalid' }, 200));
+      14 |     const { api } = loadRealClient();
+    > 15 |     await expect(api.listServices()).rejects.toThrow();
+         |           ^
+      16 |   });
+      17 |
+      18 | });
+
+      at expect (node_modules/expect/build/index.js:113:15)
+      at Object.expect (__tests__/defects/client-acceptance.test.ts:15:11)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+Test Suites: 6 failed, 1 passed, 7 total
+Tests:       10 failed, 3 passed, 13 total
+Snapshots:   0 total
+Time:        5.618 s
+Ran all test suites.
+Test results written to: ../artifacts/qa/sprint3-20261014/frontend-defects/results.json

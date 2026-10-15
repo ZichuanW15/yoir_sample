@@ -1,0 +1,460 @@
+FAIL __tests__/screens/focus-refresh.test.tsx
+  ✓ QA-210 payment refresh failure clears formerly loaded rows and retry uses new data (109 ms)
+  QA-195/198 same-mounted counsellor focus refresh
+    ✓ profile replaces a prior status with confirmed pending after returning (125 ms)
+    ✓ profile replaces a prior status with confirmed verified after returning (63 ms)
+    ✓ profile replaces a prior status with confirmed rejected after returning (62 ms)
+    ✓ workspace replaces a prior status with confirmed pending after returning (61 ms)
+    ✓ workspace replaces a prior status with confirmed verified after returning (60 ms)
+    ✓ workspace replaces a prior status with confirmed rejected after returning (61 ms)
+    ✓ profile marks previously verified status unavailable on focus failure, then recovers (76 ms)
+    ✓ returning focus while a blur-triggered save is pending does not overwrite the draft (73 ms)
+  Sprint 3 mounted workspace and Users refresh recovery
+    ✕ workspace recovers all displayed data on the next focus after a successful read followed by failure (72 ms)
+    ✓ workspace uses the renewed token for every reload without remounting or logging in again (65 ms)
+    ✓ Users replaces the mounted counsellor directory after session renewal (61 ms)
+    ✓ Users replaces the mounted job_seeker directory after session renewal (59 ms)
+    ✓ Users retries both reads with the renewed token after the professionals refresh fails (121 ms)
+    ✓ Users retries both reads with the renewed token after the job seekers refresh fails (124 ms)
+
+  ● Sprint 3 mounted workspace and Users refresh recovery › workspace recovers all displayed data on the next focus after a successful read followed by failure
+
+    Unable to find an element with text: /1h free to book, through/
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Yoir"[39m
+        [36m/>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Account, Maya Chen"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mMC[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mYour workspace[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mGood to see you, [0m
+              [0mMaya[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Verification"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGDefs>[39m
+                      [36m<RNSVGRadialGradient />[39m
+                    [36m</RNSVGDefs>[39m
+                    [36m<RNSVGCircle />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View />[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<View />[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGPath />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mVerification[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mVerification pending[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mYour LinkedIn profile is with the Platform Owner for review.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<RNSVGSvgView>[39m
+                [36m<RNSVGGroup>[39m
+                  [36m<RNSVGPath />[39m
+                [36m</RNSVGGroup>[39m
+              [36m</RNSVGSvgView>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Sessions you are delivering"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGRect />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGCircle />[39m
+                    [36m<RNSVGCircle />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mMy sessions[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mEverything booked with you, and how to join it.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mOpen[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Professional profile"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGCircle />[39m
+                    [36m<RNSVGCircle />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0m5[0m
+                    [0m/[0m
+                    [0m5[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mProfessional profile[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mAll sections complete. Looking sharp.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mEdit[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Payouts and tax details"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGPath />[39m
+                    [36m<RNSVGPath />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mPayouts[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mReady · not GST registered[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mManage[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mMy services[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0m1 published[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"New"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<RNSVGSvgView>[39m
+                [36m<RNSVGGroup>[39m
+                  [36m<RNSVGLine />[39m
+                  [36m<RNSVGLine />[39m
+                [36m</RNSVGGroup>[39m
+              [36m</RNSVGSvgView>[39m
+              [36m<Text>[39m
+                [0mNew[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGRect />[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGLine />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                [36m</View>[39m
+                [36m<Text>[39m
+                  [0mNewly published coaching[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0m$95[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<Text>[39m
+                [0mPractical interview preparation and feedback.[0m
+              [36m</Text>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mOnline[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"Edit Newly published coaching"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGLine />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                  [36m<Text>[39m
+                    [0mEdit[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"Delete Newly published coaching"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGLine />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                  [36m<Text>[39m
+                    [0mDelete[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Availability"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGRect />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGCircle />[39m
+                    [36m<RNSVGCircle />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mAvailability[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0m1 hour free to book, through Tue, 1 Sept.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<RNSVGSvgView>[39m
+                [36m<RNSVGGroup>[39m
+                  [36m<RNSVGPath />[39m
+                [36m</RNSVGGroup>[39m
+              [36m</RNSVGSvgView>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityRole[39m=[32m"tablist"[39m
+        [36m>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Workspace"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGLine />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mWorkspace[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Bookings"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGCircle />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mBookings[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Profile"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGPath />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mProfile[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      125 |     expect(await screen.findByText('Newly published coaching')).toBeOnTheScreen();
+      126 |     expect(screen.getByText('Verification pending')).toBeOnTheScreen();
+    > 127 |     expect(screen.getByText(/1h free to book, through/)).toBeOnTheScreen();
+          |                   ^
+      128 |     expect(screen.queryByText(serviceFixture.title)).toBeNull();
+      129 |     expect(screen.queryByText('Verified Career Professional')).toBeNull();
+      130 |     expect(screen.queryByText('Workspace refresh unavailable.')).toBeNull();
+
+      at Object.getByText (__tests__/screens/focus-refresh.test.tsx:127:19)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 14 passed, 15 total
+Snapshots:   0 total
+Time:        1.84 s
+Ran all test suites within paths "__tests__/screens/focus-refresh.test.tsx".
+Test results written to: ../artifacts/qa/sprint3-next-20261016/refresh/shared.json

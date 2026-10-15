@@ -1,0 +1,21 @@
+{
+  "at": "2026-10-15T23:20:54.354248+00:00",
+  "scope": "Exact owned process identity verified immediately before cleanup; no device or user-service process included.",
+  "processes": {
+    "87011": "87011 65769 backend/.venv/bin/python artifacts/qa/sprint3-native-remaining-20261016/services/run_api.py",
+    "87015": "87015 65769 /opt/homebrew/bin/node --dns-result-order=ipv4first node_modules/expo/bin/cli start --go --localhost --port 8099",
+    "92152": "92152 65769 backend/.venv/bin/python -m http.server 43219 --bind 127.0.0.1 --directory artifacts/qa/sprint3-native-remaining-20261016/services/links"
+  },
+  "listeners": "COMMAND     PID     USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME\npython3.1 87011 zhouzhny   11u  IPv4 0x3df55bfb92cfc32f      0t0  TCP 127.0.0.1:43189 (LISTEN)\nnode      87015 zhouzhny   22u  IPv4 0x7919f5ad0d70a909      0t0  TCP 127.0.0.1:8099 (LISTEN)\npython3.1 92152 zhouzhny    3u  IPv4 0xf78b1504eb638e89      0t0  TCP 127.0.0.1:43219 (LISTEN)\n",
+  "database": "/private/var/folders/5h/35gmrt4n5zq84_8vh5md45nm0000gn/T/yoir-web-qa-aqhcu3id/web_test.db",
+  "health": {
+    "api": 200,
+    "metro": 200,
+    "navigation": 200
+  },
+  "sessions": {
+    "api": 69983,
+    "metro": 38179,
+    "navigation": 49100
+  }
+}

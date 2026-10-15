@@ -1,0 +1,66 @@
+Window: "iPhone 18 Pro", App: Device Hub.
+0 standard window iPhone 18 Pro – iOS 27.0, ID: com.apple.dt.DeviceKit.DeviceManagementWindow-AppWindow-1, Secondary Actions: Raise
+	1 split group
+		2 split group com.apple.dt.DeviceKit.DeviceManagementWindow-AppWindow-1, SidebarNavigationSplitView
+			3 scroll area
+				4 list Sidebar
+					5 row (selectable) Description: Available, Value: Expanded
+					6 row (selected) Description: iphone.gen3, Value: iPhone 18 Pro
+27.0
+Simulator
+			7 search text field (settable) Search
+				8 button Search
+			9 splitter (disabled, settable, float) 248
+			10 container
+				11 container
+					12 text Description: Temporary QA connection failure. Please try again., Secondary Actions: Cancel
+					13 button Description: Dismiss error, Secondary Actions: Cancel
+					14 button Description: Account, QA iOS Candidate, Secondary Actions: Cancel
+					15 text Description: YOUR WORKSPACE, Secondary Actions: Cancel
+					16 text Description: Good to see you, QA, Secondary Actions: Cancel
+					17 button Description: Verification, Secondary Actions: Cancel
+					18 button Description: Set up payouts, Secondary Actions: Cancel
+					19 button Description: Sessions you are delivering, Secondary Actions: Cancel
+					20 button Description: Professional profile, Secondary Actions: Cancel
+					21 text Description: MY SERVICES, Secondary Actions: Cancel
+					22 button Description: New, Secondary Actions: Cancel
+					23 text Description: No services yet, Secondary Actions: Cancel
+					24 element Description: Publish your first service, Secondary Actions: Cancel
+					25 button Description: Availability, Secondary Actions: Cancel
+					26 element (selected) Description: Workspace, Secondary Actions: Cancel
+					27 element Description: Bookings, Secondary Actions: Cancel
+					28 element Description: Profile, Secondary Actions: Cancel
+					29 image Description: Gear Shape, Filled, ID: gearshape.fill, Secondary Actions: Cancel
+				30 button Description: Home, ID: app.grid.3x3
+				31 button Description: Screenshot, ID: camera.viewfinder
+				32 button Description: Record, ID: record.circle
+				33 button Rotate Left
+	34 toolbar
+		35 menu button Add, Help: Add Device, ID: plus
+		36 toggle button Description: Filter, Help: Sort and Filter, Value: off
+		37 button Description: Hide Sidebar, Secondary Actions: Increment, Decrement, Delete, Cancel
+		38 toggle button Description: Capture Keyboard, Value: off
+		39 toggle button (disabled) Description: Resize mode, Help: Enter resize mode, Value: off
+		40 Zoom
+			41 radio button Description: Zoom Out, Value: 0, ID: minus.magnifyingglass
+			42 radio button Description: arrowtriangles.up.right.down.left.magnifyingglass, Help: Zoom to Fit, Value: 1
+			43 radio button Description: Zoom To Actual Size, Help: Physical Size, Value: 0, ID: 1.magnifyingglass
+			44 radio button Description: Zoom In, Value: 0, ID: plus.magnifyingglass
+		45 button Description: Open in New Window, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		46 menu button More, Help: More Actions, ID: ellipsis
+		47 radio button Description: Edit, Help: Settings, Value: 0, ID: slider.horizontal.3
+		48 radio button Description: text.document, Help: Reports, Value: 0
+		49 radio button Description: Info, Value: 0, ID: info
+	50 close button
+	51 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	52 minimize button
+	53 text iPhone 18 Pro iOS 27.0
+54 menu bar
+	55 Device Hub
+	56 File
+	57 Edit
+	58 View
+	59 Device
+	60 Controls
+	61 Window
+	62 Help

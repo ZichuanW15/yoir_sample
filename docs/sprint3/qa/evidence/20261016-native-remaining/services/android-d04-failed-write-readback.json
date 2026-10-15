@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-15T22:35:40.247650+00:00",
+  "userId": "qa-nr-android-pro",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/me/profile-visibility": {
+      "status": 200,
+      "data": {
+        "visibility": "public"
+      }
+    }
+  }
+}

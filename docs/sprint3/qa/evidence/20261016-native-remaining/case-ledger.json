@@ -1,0 +1,3573 @@
+{
+  "status": "FINAL",
+  "initializedAt": "2026-10-15 21:34:39 UTC",
+  "baseline": "cdcc44e66d647a9c5993736b797312b495715a3f",
+  "scope": "D01 and D04\u2013D13 on iOS and Android; native UI acceptance",
+  "counting": "Whole case/platform outcomes are separate from checkpoints. Fixture setup and API-only actions are not native passes.",
+  "priorRun": {
+    "report": "../../test-results-native-20261016.md",
+    "cases": [
+      "D02",
+      "D03"
+    ],
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "passed": 4,
+    "includedInThisRunTotals": false
+  },
+  "totals": {
+    "passed": 11,
+    "failed": 8,
+    "blocked": 3,
+    "inProgress": 0,
+    "notRun": 0
+  },
+  "cases": [
+    {
+      "case": "D01",
+      "platform": "ios",
+      "status": "FAIL",
+      "checkpoints": [
+        {
+          "id": "ios-d01-entry",
+          "at": "2026-10-15T21:35:43.015Z",
+          "status": "PASS",
+          "observation": "New counsellor reached setup with profile and submission not done.",
+          "evidence": [
+            "observations.json#ios-d01-01-new-counsellor-gate",
+            "screens/ios-d01-01-new-counsellor-gate.png"
+          ]
+        },
+        {
+          "id": "ios-d01-setup",
+          "at": "2026-10-15T21:40:10.724Z",
+          "status": "PASS",
+          "observation": "Workspace and pending verification show saved profile/LinkedIn; independent account readback has complete:true.",
+          "evidence": [
+            "ios/observations.json#d01-workspace-restored",
+            "ios/observations.json#d01-verification-pending",
+            "services/ios-d01-profile-readback.json"
+          ]
+        },
+        {
+          "id": "ios-d01-restart",
+          "at": "2026-10-15T21:40:39.286Z",
+          "status": "PASS",
+          "observation": "After process termination and reopening, the same authenticated account returns to workspace.",
+          "evidence": [
+            "ios/observations.json#d01-restart-restored",
+            "ios/screens/d01-restart-restored.png"
+          ]
+        },
+        {
+          "id": "ios-d01-failed-read",
+          "at": "2026-10-15T21:41:11.313Z",
+          "status": "FAIL",
+          "observation": "One targeted onboarding read returned503; UI shows error and full workspace although actual onboarding remains incomplete.",
+          "evidence": [
+            "ios/screens/d01-onboarding-read-failure.png",
+            "services/fault-events.jsonl#ios-d01-onboarding-read",
+            "services/ios-d01-failed-read-readback.json"
+          ]
+        },
+        {
+          "id": "d01-onboarding-read-failure",
+          "at": "2026-10-15T21:41:11.313Z",
+          "status": "OBSERVED",
+          "observation": "Injected one onboarding GET503 for candidate account; error is visible but full workspace rendered despite incomplete setup.",
+          "evidence": [
+            "ios/observations.json#d01-onboarding-read-failure",
+            "ios/screens/d01-onboarding-read-failure.png"
+          ]
+        },
+        {
+          "id": "d01-onboarding-loading",
+          "at": "2026-10-15T22:10:00.508Z",
+          "status": "OBSERVED",
+          "observation": "Completed in account logs in while onboarding GET is deliberately delayed8s; checkpoint records interim native loading before resolved state.",
+          "evidence": [
+            "ios/observations.json#d01-onboarding-loading",
+            "ios/screens/d01-onboarding-loading.png"
+          ]
+        },
+        {
+          "id": "d01-explicit-relogin-restored",
+          "at": "2026-10-15T22:10:07.521Z",
+          "status": "OBSERVED",
+          "observation": "Explicit native logout followed by login to the same completed in account restores full workspace after delayed onboarding200.",
+          "evidence": [
+            "ios/observations.json#d01-explicit-relogin-restored",
+            "ios/screens/d01-explicit-relogin-restored.png"
+          ]
+        },
+        {
+          "id": "d01-relogin-profile-values",
+          "at": "2026-10-15T22:10:11.851Z",
+          "status": "OBSERVED",
+          "observation": "After explicit in account relogin, previously entered LinkedIn/introduction/background/experience remain present in native professional profile.",
+          "evidence": [
+            "ios/observations.json#d01-relogin-profile-values",
+            "ios/screens/d01-relogin-profile-values.png"
+          ]
+        },
+        {
+          "id": "d01-relogin-workspace-settled",
+          "at": "2026-10-15T22:10:19.845Z",
+          "status": "OBSERVED",
+          "observation": "Same in account after explicit relogin and resolved onboarding shows full workspace with saved profile and pending verification.",
+          "evidence": [
+            "ios/observations.json#d01-relogin-workspace-settled",
+            "ios/screens/d01-relogin-workspace-settled.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "new_counsellor_entry_and_loading",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#ios-d01-01-new-counsellor-gate",
+            "ios/observations.json#d01-onboarding-loading",
+            "services/ios-d01-loading-audit.json"
+          ],
+          "note": "Initial incomplete account reached setup gate; on later completed-account login an actual8-second pending onboarding read showed Welcome only, without workspace actions. Normal200 then resolved to workspace."
+        },
+        {
+          "id": "profile_and_verification_setup",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d01-verification-pending",
+            "services/ios-d01-profile-readback.json"
+          ],
+          "note": "Native setup result and independent stored state agree."
+        },
+        {
+          "id": "restart_and_relogin_restore",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d01-restart-restored",
+            "ios/observations.json#d01-explicit-relogin-restored",
+            "ios/observations.json#d01-relogin-profile-values",
+            "ios/observations.json#d01-relogin-workspace-settled"
+          ],
+          "note": "Actual process restart and explicit logout/same completed-account relogin restored workspace and saved LinkedIn/profile values."
+        },
+        {
+          "id": "failed_onboarding_read",
+          "status": "FAIL",
+          "evidence": [
+            "ios/screens/d01-onboarding-read-failure.png",
+            "services/fault-events.jsonl#ios-d01-onboarding-read",
+            "services/ios-d01-failed-read-readback.json"
+          ],
+          "note": "Failed check opens complete workspace despite persisted complete:false."
+        }
+      ],
+      "reason": "All named native substeps executed; targeted failed onboarding GET opens workspace despite complete:false, so whole case remains FAIL."
+    },
+    {
+      "case": "D01",
+      "platform": "android",
+      "status": "FAIL",
+      "checkpoints": [
+        {
+          "id": "android-d01-entry",
+          "at": "2026-10-15T21:38:25.535Z",
+          "status": "PASS",
+          "observation": "New counsellor sees both setup tasks Not done.",
+          "evidence": [
+            "observations.json#android-d01-01-new-counsellor-gate"
+          ]
+        },
+        {
+          "id": "android-d01-validation",
+          "at": "2026-10-15T21:39:22.285Z",
+          "status": "PASS",
+          "observation": "LinkedIn-only draft shows minimum introduction validation without completion claim.",
+          "evidence": [
+            "observations.json#android-d01-02-incomplete-profile-validation"
+          ]
+        },
+        {
+          "id": "android-d01-setup",
+          "at": "2026-10-15T21:42:02.772Z",
+          "status": "PASS",
+          "observation": "After required profile entry, returning to Workspace shows full workspace; independent profile and onboarding readback confirms stored completion.",
+          "evidence": [
+            "observations.json#android-d01-03-completed-workspace",
+            "screens/android-d01-03-completed-workspace.png",
+            "services/android-d01-profile-readback.json"
+          ]
+        },
+        {
+          "id": "android-d01-04-restart-restored",
+          "at": "2026-10-15T21:44:03.590Z",
+          "status": "PASS",
+          "observation": "After force-stop and reopening local project through IDEA, saved an counsellor session restored to full workspace, verification pending and profile 4/5.",
+          "evidence": [
+            "observations.json#android-d01-04-restart-restored",
+            "screens/android-d01-04-restart-restored.png"
+          ]
+        },
+        {
+          "id": "android-d01-05-relogin-restored",
+          "at": "2026-10-15T21:45:19.993Z",
+          "status": "PASS",
+          "observation": "Explicit UI logout and same-account login (an) restored full workspace with pending verification and saved profile 4/5.",
+          "evidence": [
+            "observations.json#android-d01-05-relogin-restored",
+            "screens/android-d01-05-relogin-restored.png"
+          ]
+        },
+        {
+          "id": "android-d01-06-failed-read-opens-workspace",
+          "at": "2026-10-15T21:46:28.425Z",
+          "status": "FAIL",
+          "observation": "FAIL: av incomplete onboarding (verification not submitted) logged in; delayed onboarding-state GET 503 produced Temporary QA connection failure toast yet full workspace, New service and Bookings controls rendered. Loading interim was blank welcome transition, no dedicated loading checkpoint saved.",
+          "evidence": [
+            "observations.json#android-d01-06-failed-read-opens-workspace",
+            "screens/android-d01-06-failed-read-opens-workspace.png",
+            "services/fault-events.jsonl#android-d01-onboarding-read",
+            "services/android-d01-failed-read-readback.json"
+          ]
+        },
+        {
+          "id": "android-d01-07-loading-gate",
+          "at": "2026-10-15T22:41:21.041Z",
+          "status": "OBSERVED",
+          "observation": "Resolved workspace after delayed onboarding read. Earlier CUA immediate screenshot was blank; this saved PNG is already resolved, not loading evidence.",
+          "evidence": [
+            "observations.json#android-d01-07-loading-gate",
+            "screens/android-d01-07-loading-gate.png"
+          ]
+        },
+        {
+          "id": "android-d01-09-pending-onboarding",
+          "at": "2026-10-15T22:54:54.091Z",
+          "status": "OBSERVED",
+          "observation": "After force-stop/reopen with one delayed onboarding read, native UI captured before workspace resolution; inspect this capture and request timestamps for pending state.",
+          "evidence": [
+            "observations.json#android-d01-09-pending-onboarding",
+            "screens/android-d01-09-pending-onboarding.png"
+          ]
+        },
+        {
+          "id": "android-d01-10-loading-resolved",
+          "at": "2026-10-15T22:55:21.724Z",
+          "status": "OBSERVED",
+          "observation": "The delayed onboarding read completed and Workspace appeared with verified status and 5/5 profile.",
+          "evidence": [
+            "observations.json#android-d01-10-loading-resolved",
+            "screens/android-d01-10-loading-resolved.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "new_counsellor_entry_and_loading",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d01-01-new-counsellor-gate",
+            "observations.json#android-d01-09-pending-onboarding",
+            "observations.json#android-d01-10-loading-resolved",
+            "services/fault-events.jsonl#android-d01-onboarding-restart-loading",
+            "services/requests.jsonl",
+            "services/android-d01-restart-loading-audit.json"
+          ],
+          "note": "Initial new-counsellor gate observed. On later restart of completed professional ac, loading screenshot at22:54:54.091 shows spinner with no workspace inside the delayed read window22:54:48.658\u201358.665; normal200 then resolves to Workspace. Earlier07 screenshot already resolved and is not used as loading evidence."
+        },
+        {
+          "id": "profile_and_verification_setup",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d01-03-completed-workspace",
+            "services/android-d01-profile-readback.json"
+          ],
+          "note": "Native completion checkpoint agrees with independent persisted profile/onboarding state."
+        },
+        {
+          "id": "restart_and_relogin_restore",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d01-04-restart-restored",
+            "observations.json#android-d01-05-relogin-restored"
+          ],
+          "note": "Actual process restart and explicit native logout/same-account login both restore saved workspace."
+        },
+        {
+          "id": "failed_onboarding_read",
+          "status": "FAIL",
+          "evidence": [
+            "observations.json#android-d01-06-failed-read-opens-workspace",
+            "screens/android-d01-06-failed-read-opens-workspace.png",
+            "services/fault-events.jsonl#android-d01-onboarding-read",
+            "services/android-d01-failed-read-readback.json"
+          ],
+          "note": "Failed check displays error plus workspace controls for an incomplete candidate."
+        }
+      ],
+      "reason": "All named local native steps executed: required setup saved, restart and explicit same-account relogin restored, pending read withheld Workspace. Separate failed503 for incomplete candidate still opened Workspace despite complete:false (FAIL)."
+    },
+    {
+      "case": "D04",
+      "platform": "ios",
+      "status": "PASS",
+      "checkpoints": [
+        {
+          "id": "d04-initial-public",
+          "at": "2026-10-15T22:01:59.206Z",
+          "status": "OBSERVED",
+          "observation": "Professional ic profile visibility starts Public, matching earlier second-account full public profile.",
+          "evidence": [
+            "ios/observations.json#d04-initial-public",
+            "ios/screens/d04-initial-public.png"
+          ]
+        },
+        {
+          "id": "d04-privacy-save-failed",
+          "at": "2026-10-15T22:02:16.130Z",
+          "status": "OBSERVED",
+          "observation": "Injected privacy PATCH503 displays error while Partially visible remains selected; server setting was Public before save.",
+          "evidence": [
+            "ios/observations.json#d04-privacy-save-failed",
+            "ios/screens/d04-privacy-save-failed.png"
+          ]
+        },
+        {
+          "id": "d04-failed-setting-reopened",
+          "at": "2026-10-15T22:02:22.224Z",
+          "status": "OBSERVED",
+          "observation": "Reopening privacy after failed save returns server-backed Public selection, rather than persisting failed Partially visible draft.",
+          "evidence": [
+            "ios/observations.json#d04-failed-setting-reopened",
+            "ios/screens/d04-failed-setting-reopened.png"
+          ]
+        },
+        {
+          "id": "d04-partial-saved",
+          "at": "2026-10-15T22:02:32.298Z",
+          "status": "OBSERVED",
+          "observation": "Successful retry saves Partially visible and shows Privacy settings saved.",
+          "evidence": [
+            "ios/observations.json#d04-partial-saved",
+            "ios/screens/d04-partial-saved.png"
+          ]
+        },
+        {
+          "id": "d04-partial-other-account",
+          "at": "2026-10-15T22:02:55.026Z",
+          "status": "OBSERVED",
+          "observation": "Buyer i1 public professional page under Partially visible: introduction retained, detailed background/experience/qualifications/skills/languages and LinkedIn absent.",
+          "evidence": [
+            "ios/observations.json#d04-partial-other-account",
+            "ios/screens/d04-partial-other-account.png"
+          ]
+        },
+        {
+          "id": "d04-restricted-saved",
+          "at": "2026-10-15T22:03:44.587Z",
+          "status": "OBSERVED",
+          "observation": "Professional ic saves Restricted visibility successfully.",
+          "evidence": [
+            "ios/observations.json#d04-restricted-saved",
+            "ios/screens/d04-restricted-saved.png"
+          ]
+        },
+        {
+          "id": "d04-restricted-other-account",
+          "at": "2026-10-15T22:04:05.454Z",
+          "status": "OBSERVED",
+          "observation": "Buyer i1 public professional page under Restricted shows This profile is restricted / This Career Professional has chosen not to share their profile details, with Back to Explore; full profile content is absent.",
+          "evidence": [
+            "ios/observations.json#d04-restricted-other-account",
+            "ios/screens/d04-restricted-other-account.png"
+          ]
+        },
+        {
+          "id": "d04-public-restored",
+          "at": "2026-10-15T22:04:37.730Z",
+          "status": "OBSERVED",
+          "observation": "Professional restores Public successfully after Partial and Restricted visibility checks.",
+          "evidence": [
+            "ios/observations.json#d04-public-restored",
+            "ios/screens/d04-public-restored.png"
+          ]
+        },
+        {
+          "id": "d04-restart-public-restored",
+          "at": "2026-10-15T22:09:02.671Z",
+          "status": "OBSERVED",
+          "observation": "After terminating Expo Go and reopening the same local project, professional session restores and privacy screen still selects Public.",
+          "evidence": [
+            "ios/observations.json#d04-restart-public-restored",
+            "ios/screens/d04-restart-public-restored.png"
+          ]
+        },
+        {
+          "id": "d04-public-other-account-restored",
+          "at": "2026-10-15T22:09:26.550Z",
+          "status": "OBSERVED",
+          "observation": "Buyer i1 sees restored Public professional profile, including introduction/background/experience/qualifications/skills/languages and LinkedIn action.",
+          "evidence": [
+            "ios/observations.json#d04-public-other-account-restored",
+            "ios/screens/d04-public-other-account-restored.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "public_partial_restricted_public",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d04-initial-public",
+            "ios/observations.json#d04-partial-saved",
+            "ios/observations.json#d04-restricted-saved",
+            "ios/observations.json#d04-public-restored",
+            "services/ios-d04-public-restored-readback.json"
+          ],
+          "note": "Native Public\u2192Partial\u2192Restricted\u2192Public saved. Independent final setting readback corroborates Public."
+        },
+        {
+          "id": "second_account_visibility",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d04-partial-other-account",
+            "services/ios-d04-partial-counterparty-readback.json",
+            "ios/observations.json#d04-restricted-other-account",
+            "ios/observations.json#d04-public-other-account-restored",
+            "services/ios-d04-public-restored-readback.json",
+            "ios/screens/d04-public-other-account-restored.txt"
+          ],
+          "note": "Buyer native views show Partial hiding details, Restricted placeholder and restored Public. The final Public screenshot has a system password-save prompt obscuring LinkedIn/introduction/qualification; its accessibility tree lists those fields while the screenshot shows skills/language/background. Independent partial/public readbacks agree. No unobscured full-screen visual claim."
+        },
+        {
+          "id": "reopen_confirmed_setting",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d04-failed-setting-reopened",
+            "ios/observations.json#d04-restart-public-restored"
+          ],
+          "note": "After actual Expo Go termination/reopen, authenticated professional privacy remains Public. Fresh route read also restored Public after rejected write."
+        },
+        {
+          "id": "rejected_write_and_retry",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d04-privacy-save-failed",
+            "ios/observations.json#d04-failed-setting-reopened",
+            "ios/observations.json#d04-partial-saved",
+            "services/ios-d04-visibility-write-audit.json",
+            "services/ios-d04-visibility-after-fault.json"
+          ],
+          "note": "Targeted PATCH503 reports failure; fresh native reopen restores confirmed Public. Retry saves Partial. Failed selection remains visible until reopen (existing rollback defect recorded separately). The independent JSON read occurs after retry and proves Partial only."
+        }
+      ],
+      "reason": "Named native privacy transitions, second-account allowed content, app restart and rejected-write/fresh-read/retry executed. Existing failed-selection rollback and empty-key contract defects explicitly remain separate, not claimed fixed."
+    },
+    {
+      "case": "D04",
+      "platform": "android",
+      "status": "PASS",
+      "checkpoints": [
+        {
+          "id": "android-d04-01-privacy-failure",
+          "at": "2026-10-15T22:35:22.325Z",
+          "status": "OBSERVED",
+          "observation": "Partial selection retained after controlled503; explicit temporary connection failure, Save remains available.",
+          "evidence": [
+            "observations.json#android-d04-01-privacy-failure",
+            "screens/android-d04-01-privacy-failure.png"
+          ]
+        },
+        {
+          "id": "android-d04-02-failure-not-saved",
+          "at": "2026-10-15T22:37:19.760Z",
+          "status": "OBSERVED",
+          "observation": "Reopened privacy after failed Partial save: persisted Public remains selected.",
+          "evidence": [
+            "observations.json#android-d04-02-failure-not-saved",
+            "screens/android-d04-02-failure-not-saved.png"
+          ]
+        },
+        {
+          "id": "android-d04-03-partial-saved",
+          "at": "2026-10-15T22:37:27.479Z",
+          "status": "OBSERVED",
+          "observation": "Retry saved Partial; selected value with Save disabled.",
+          "evidence": [
+            "observations.json#android-d04-03-partial-saved",
+            "screens/android-d04-03-partial-saved.png"
+          ]
+        },
+        {
+          "id": "android-d04-04-partial-other-view",
+          "at": "2026-10-15T22:39:01.660Z",
+          "status": "OBSERVED",
+          "observation": "Buyer sees name and introduction; personal experience, location, languages and specialisations from Public baseline are hidden.",
+          "evidence": [
+            "observations.json#android-d04-04-partial-other-view",
+            "screens/android-d04-04-partial-other-view.png"
+          ]
+        },
+        {
+          "id": "android-d04-05-restricted-saved",
+          "at": "2026-10-15T22:42:06.673Z",
+          "status": "OBSERVED",
+          "observation": "Restricted selected and saved for synthetic QA professional.",
+          "evidence": [
+            "observations.json#android-d04-05-restricted-saved",
+            "screens/android-d04-05-restricted-saved.png"
+          ]
+        },
+        {
+          "id": "android-d04-06-restricted-visitor",
+          "at": "2026-10-15T22:45:39.581Z",
+          "status": "OBSERVED",
+          "observation": "Logged-out visitor opens professional deep link: This profile is restricted; no profile details displayed.",
+          "evidence": [
+            "observations.json#android-d04-06-restricted-visitor",
+            "screens/android-d04-06-restricted-visitor.png"
+          ]
+        },
+        {
+          "id": "android-d04-07-restricted-other-account",
+          "at": "2026-10-15T22:49:34.241Z",
+          "status": "OBSERVED",
+          "observation": "Signed-in a2 opens QA Android Pro: restricted screen; no profile details. Existing Booking not found toast from retained prior navigation is separate.",
+          "evidence": [
+            "observations.json#android-d04-07-restricted-other-account",
+            "screens/android-d04-07-restricted-other-account.png"
+          ]
+        },
+        {
+          "id": "android-d04-08-public-restored",
+          "at": "2026-10-15T22:53:57.112Z",
+          "status": "OBSERVED",
+          "observation": "ac restored Public and native success confirmation appeared.",
+          "evidence": [
+            "observations.json#android-d04-08-public-restored",
+            "screens/android-d04-08-public-restored.png"
+          ]
+        },
+        {
+          "id": "android-d04-09-public-after-restart",
+          "at": "2026-10-15T22:55:36.976Z",
+          "status": "OBSERVED",
+          "observation": "Public remains selected after force-stop and fresh app restart.",
+          "evidence": [
+            "observations.json#android-d04-09-public-after-restart",
+            "screens/android-d04-09-public-after-restart.png"
+          ]
+        },
+        {
+          "id": "android-d04-10-public-visitor-restored",
+          "at": "2026-10-15T22:59:46.056Z",
+          "status": "OBSERVED",
+          "observation": "After saving Public visibility, force-stopping and reopening Expo Go, then logging out, the anonymous professional page shows introduction, LinkedIn link, qualifications, skills, languages and background again.",
+          "evidence": [
+            "observations.json#android-d04-10-public-visitor-restored",
+            "screens/android-d04-10-public-visitor-restored.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "public_partial_restricted_public",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d04-02-failure-not-saved",
+            "observations.json#android-d04-03-partial-saved",
+            "observations.json#android-d04-05-restricted-saved",
+            "observations.json#android-d04-08-public-restored",
+            "services/requests.jsonl",
+            "services/android-d04-public-restored-readback.json"
+          ],
+          "note": "Native confirmed Public, saved Partial, saved Restricted, then restored Public with success. Rejected initial PATCH is separately covered."
+        },
+        {
+          "id": "second_account_visibility",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d10-07-public-profile",
+            "observations.json#android-d04-04-partial-other-view",
+            "observations.json#android-d04-06-restricted-visitor",
+            "observations.json#android-d04-07-restricted-other-account",
+            "services/android-d04-partial-counterparty-readback.json",
+            "services/android-d04-restricted-counterparty-readback.json",
+            "observations.json#android-d04-10-public-visitor-restored",
+            "screens/android-d04-10-public-visitor-restored.png",
+            "services/android-d04-public-restored-readback.json"
+          ],
+          "note": "Buyer a1 saw Partial hide details, signed-in a2 saw Restricted placeholder, and after Public restoration/process restart a logged-out native visitor saw full profile fields. Independent buyer API readbacks agree on each visibility state. The final native view is explicitly anonymous, not an asserted a1/a2 login."
+        },
+        {
+          "id": "reopen_confirmed_setting",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d04-02-failure-not-saved",
+            "observations.json#android-d04-09-public-after-restart"
+          ],
+          "note": "Failed-save fresh route showed persisted Public; after completed transitions and actual force-stop/reopen, final Public remains selected."
+        },
+        {
+          "id": "rejected_write_and_retry",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d04-01-privacy-failure",
+            "observations.json#android-d04-02-failure-not-saved",
+            "observations.json#android-d04-03-partial-saved",
+            "services/fault-events.jsonl",
+            "services/requests.jsonl",
+            "services/android-d04-failed-write-readback.json"
+          ],
+          "note": "Targeted PATCH503 leaves draft Partial selected with explicit failure. Reopening restores persisted Public; native retry saves Partial. Existing unsaved-selection rollback issue is recorded separately under the original device procedure."
+        }
+      ],
+      "reason": "Named privacy transitions, non-owner visibility, process restart and rejected-write/fresh-read/retry executed. Partial and Restricted were checked while other buyers were signed in; restored Public was checked as a logged-out native visitor and independently via buyer API. Existing rollback-selection/empty-key defects remain separate."
+    },
+    {
+      "case": "D05",
+      "platform": "ios",
+      "status": "PASS",
+      "checkpoints": [
+        {
+          "id": "d05-profile-save-failed",
+          "at": "2026-10-15T21:47:05.143Z",
+          "status": "PASS",
+          "observation": "Injected profile PATCH503; current role and career goal draft remain visible.",
+          "evidence": [
+            "ios/observations.json#d05-profile-save-failed",
+            "ios/screens/d05-profile-save-failed.png",
+            "ios/observations.json#d05-profile-save-recovered",
+            "services/fault-events.jsonl#ios-d05-profile-write",
+            "services/ios-d05-profile-readback.json"
+          ]
+        },
+        {
+          "id": "d05-profile-save-recovered",
+          "at": "2026-10-15T21:47:07.281Z",
+          "status": "PASS",
+          "observation": "Retry saves buyer current role iOS QA Analyst and career goal iOS QA career goal.",
+          "evidence": [
+            "ios/observations.json#d05-profile-save-recovered",
+            "ios/screens/d05-profile-save-recovered.png",
+            "services/ios-d05-profile-readback.json"
+          ]
+        },
+        {
+          "id": "d05-photo-permission-denied",
+          "at": "2026-10-15T21:47:36.364Z",
+          "status": "OBSERVED",
+          "observation": "Denied Expo photo-library permission through native prompt; observe app response.",
+          "evidence": [
+            "ios/observations.json#d05-photo-permission-denied",
+            "ios/screens/d05-photo-permission-denied.png"
+          ]
+        },
+        {
+          "id": "d05-restart-profile-restored",
+          "at": "2026-10-15T21:48:12.089Z",
+          "status": "PASS",
+          "observation": "After force-close/reopen and native profile navigation, buyer current role and career goal remain saved.",
+          "evidence": [
+            "ios/observations.json#d05-restart-profile-restored",
+            "ios/screens/d05-restart-profile-restored.png"
+          ]
+        },
+        {
+          "id": "d05-photo-denied-message",
+          "at": "2026-10-15T21:54:46.815Z",
+          "status": "OBSERVED",
+          "observation": "Second attempt with denied photo access reports Allow photo access; saved profile remains.",
+          "evidence": [
+            "ios/observations.json#d05-photo-denied-message",
+            "ios/screens/d05-photo-denied-message.png"
+          ]
+        },
+        {
+          "id": "d05-limited-photo-access",
+          "at": "2026-10-15T21:57:51.956Z",
+          "status": "OBSERVED",
+          "observation": "User-authorized limited photo permission grants only the synthetic QA avatar; other simulator sample pictures were not selected.",
+          "evidence": [
+            "ios/observations.json#d05-limited-photo-access",
+            "ios/screens/d05-limited-photo-access.png"
+          ]
+        },
+        {
+          "id": "d05-picker-cancel",
+          "at": "2026-10-15T21:58:37.625Z",
+          "status": "OBSERVED",
+          "observation": "Cancel native photo picker returns to unchanged iOS QA buyer profile draft without adding a photo.",
+          "evidence": [
+            "ios/observations.json#d05-picker-cancel",
+            "ios/screens/d05-picker-cancel.png"
+          ]
+        },
+        {
+          "id": "d05-photo-saved",
+          "at": "2026-10-15T21:59:07.833Z",
+          "status": "OBSERVED",
+          "observation": "Synthetic QA avatar selected with limited photo permission and saved through native profile UI; Profile saved confirmation displayed.",
+          "evidence": [
+            "ios/observations.json#d05-photo-saved",
+            "ios/screens/d05-photo-saved.png"
+          ]
+        },
+        {
+          "id": "d05-other-account-isolation",
+          "at": "2026-10-15T21:59:38.935Z",
+          "status": "OBSERVED",
+          "observation": "Second account i2 displays its own name/email and blank role/goals with Add a photo, without buyer i1 text or avatar.",
+          "evidence": [
+            "ios/observations.json#d05-other-account-isolation",
+            "ios/screens/d05-other-account-isolation.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "edit_save_restart",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d05-profile-save-recovered",
+            "ios/observations.json#d05-restart-profile-restored",
+            "services/ios-d05-profile-readback.json"
+          ],
+          "note": "Native saved fields remain after process restart and navigation back to Edit profile."
+        },
+        {
+          "id": "account_isolation",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d05-other-account-isolation",
+            "services/ios-buyer-isolation-readback.json"
+          ],
+          "note": "Second account shows own name/email, blank role/goals and Add photo without first account content. Independent second-account readback agrees: null photo and blank role/goals."
+        },
+        {
+          "id": "failed_save_draft_and_retry",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d05-profile-save-failed",
+            "ios/observations.json#d05-profile-save-recovered",
+            "services/fault-events.jsonl#ios-d05-profile-write",
+            "services/ios-d05-profile-readback.json"
+          ],
+          "note": "Targeted PATCH 503 retained draft; native retry and independent persisted profile agree."
+        },
+        {
+          "id": "photo_permission_denial",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d05-photo-permission-denied",
+            "ios/observations.json#d05-photo-denied-message",
+            "services/ios-d05-profile-readback.json"
+          ],
+          "note": "Native permission denied, later Add photo attempt displays Allow photo access. Profile values and initial no-photo state remain visible; this is not image-selection coverage."
+        },
+        {
+          "id": "photo_picker_cancel",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d05-limited-photo-access",
+            "ios/observations.json#d05-picker-cancel"
+          ],
+          "note": "With user-authorized limited access to the synthetic QA avatar only, cancelling native picker returns to unchanged buyer draft and no photo. Permission approval itself is not counted as success."
+        },
+        {
+          "id": "supported_photo_selection_and_save",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d05-photo-saved",
+            "services/ios-d05-avatar-readback.json"
+          ],
+          "note": "Synthetic QA image selected and native Profile saved shown. API stores image/jpeg data URI (length3323, recorded SHA256), not an object-storage upload."
+        }
+      ],
+      "reason": "All named local native UI procedures and independent account/readback checks complete. Expo Go, isolated SQLite and stated synthetic fixtures only."
+    },
+    {
+      "case": "D05",
+      "platform": "android",
+      "status": "BLOCKED",
+      "checkpoints": [
+        {
+          "id": "android-d05-01-failed-save-retains",
+          "at": "2026-10-15T22:09:04.736Z",
+          "status": "OBSERVED",
+          "observation": "After editing current role to Qa tester, the injected profile PATCH503 shows a connection failure and retains the editable input. No success displayed.",
+          "evidence": [
+            "observations.json#android-d05-01-failed-save-retains",
+            "screens/android-d05-01-failed-save-retains.png"
+          ]
+        },
+        {
+          "id": "android-d05-02-save-retry",
+          "at": "2026-10-15T22:09:39.181Z",
+          "status": "OBSERVED",
+          "observation": "Retried Save profile after503; error cleared and editor still shows Qa tester. Success response and persistence are checked independently.",
+          "evidence": [
+            "observations.json#android-d05-02-save-retry",
+            "screens/android-d05-02-save-retry.png"
+          ]
+        },
+        {
+          "id": "android-d05-03-scoped-photo-picker",
+          "at": "2026-10-15T22:09:52.923Z",
+          "status": "OBSERVED",
+          "observation": "Android opens the system picker directly. It states Expo Go only receives selected photos; only the synthetic QA image is present. No separate deny-permission dialog was offered on this configured device.",
+          "evidence": [
+            "observations.json#android-d05-03-scoped-photo-picker",
+            "screens/android-d05-03-scoped-photo-picker.png"
+          ]
+        },
+        {
+          "id": "android-d05-04-photo-cancelled",
+          "at": "2026-10-15T22:10:20.594Z",
+          "status": "OBSERVED",
+          "observation": "Dismissed system photo picker without selecting. Original initials avatar and Qa tester remain; no image selected.",
+          "evidence": [
+            "observations.json#android-d05-04-photo-cancelled",
+            "screens/android-d05-04-photo-cancelled.png"
+          ]
+        },
+        {
+          "id": "android-d05-05-selected-photo-saved",
+          "at": "2026-10-15T22:11:22.567Z",
+          "status": "OBSERVED",
+          "observation": "Selected only the authorized synthetic QA image in Android scoped picker, confirmed crop, and saved profile. Preview shows the image with Qa tester. Image storage metadata is independently checked; this does not prove an upload service.",
+          "evidence": [
+            "observations.json#android-d05-05-selected-photo-saved",
+            "screens/android-d05-05-selected-photo-saved.png"
+          ]
+        },
+        {
+          "id": "android-d05-06-restart-retained",
+          "at": "2026-10-15T22:13:02.415Z",
+          "status": "OBSERVED",
+          "observation": "Force-stopped Expo Go, reopened Yoir through IDEA and returned to Edit profile. The authorized QA image and Qa tester are restored for a1.",
+          "evidence": [
+            "observations.json#android-d05-06-restart-retained",
+            "screens/android-d05-06-restart-retained.png"
+          ]
+        },
+        {
+          "id": "android-d05-07-other-profile-isolation",
+          "at": "2026-10-15T22:50:42.196Z",
+          "status": "OBSERVED",
+          "observation": "a2 edit profile shows own name/email, placeholder avatar, empty role/goals; no a1 Qa tester name or uploaded test avatar.",
+          "evidence": [
+            "observations.json#android-d05-07-other-profile-isolation",
+            "screens/android-d05-07-other-profile-isolation.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "edit_save_restart",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d05-02-save-retry",
+            "observations.json#android-d05-06-restart-retained",
+            "services/android-d05-success-readback.json",
+            "services/android-d05-avatar-readback.json"
+          ],
+          "note": "After actual Expo Go force-stop and IDEA relaunch, profile restores saved Qa tester and synthetic image for same buyer."
+        },
+        {
+          "id": "account_isolation",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d05-07-other-profile-isolation",
+            "services/android-buyer-isolation-readback.json"
+          ],
+          "note": "After actual account switch, a2 shows its own identity, blank headline/goals and no avatar. Fresh API readback confirms no a1 content."
+        },
+        {
+          "id": "failed_save_draft_and_retry",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d05-01-failed-save-retains",
+            "observations.json#android-d05-02-save-retry",
+            "services/android-d05-success-readback.json",
+            "services/android-d05-profile-write-audit.json"
+          ],
+          "note": "Matched PATCH503 retains Qa tester field without success; retry PATCH200 persists exact headline independently."
+        },
+        {
+          "id": "photo_permission_denial",
+          "status": "BLOCKED",
+          "evidence": [
+            "observations.json#android-d05-03-scoped-photo-picker"
+          ],
+          "note": "Configured Android system picker opens directly with selected-photo-only scope and no separate permission-denial prompt. Cancellation is observed separately and does not stand in for denial."
+        },
+        {
+          "id": "photo_picker_cancel",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d05-03-scoped-photo-picker",
+            "observations.json#android-d05-04-photo-cancelled"
+          ],
+          "note": "System picker says only selected photos are shared; dismissing without selection returns original initials avatar and saved headline."
+        },
+        {
+          "id": "supported_photo_selection_and_save",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d05-05-selected-photo-saved",
+            "services/android-d05-avatar-readback.json"
+          ],
+          "note": "Authorized synthetic QA image selected, crop confirmed and profile saved. API contains JPEG data URI length1987 with recorded SHA256; not upload-service evidence."
+        }
+      ],
+      "reason": "Five executable profile/picker substeps passed, including image save/restart and account isolation. Configured Android API36 scoped picker presents no separate permission-denial prompt, so that named substep remains BLOCKED rather than being substituted by cancellation."
+    },
+    {
+      "case": "D06",
+      "platform": "ios",
+      "status": "PASS",
+      "checkpoints": [
+        {
+          "id": "ios-d06-failed-submit",
+          "at": "2026-10-15T21:41:55.579Z",
+          "status": "PASS",
+          "observation": "Targeted submission503 shows error, retains LinkedIn URL and allows retry.",
+          "evidence": [
+            "ios/observations.json#d06-submit-failed-draft",
+            "ios/screens/d06-submit-failed-draft.png",
+            "services/fault-events.jsonl#ios-d06-submission-write"
+          ]
+        },
+        {
+          "id": "ios-d06-submit-retry",
+          "at": "2026-10-15T21:42:00.129Z",
+          "status": "PASS",
+          "observation": "Native retry returns verification pending with saved LinkedIn URL; independent readback confirms the submitted state.",
+          "evidence": [
+            "ios/observations.json#d06-submit-recovered",
+            "ios/screens/d06-submit-recovered.png",
+            "services/ios-d06-submission-readback.json"
+          ]
+        },
+        {
+          "id": "d06-submission-draft",
+          "at": "2026-10-15T21:41:40.169Z",
+          "status": "OBSERVED",
+          "observation": "Candidate LinkedIn URL entered in native verification form before deliberate one-request failure.",
+          "evidence": [
+            "ios/observations.json#d06-submission-draft",
+            "ios/screens/d06-submission-draft.png"
+          ]
+        },
+        {
+          "id": "d06-leave-pending",
+          "at": "2026-10-15T21:43:02.305Z",
+          "status": "OBSERVED",
+          "observation": "Owner selected Leave pending; verify no decision write from service audit.",
+          "evidence": [
+            "ios/observations.json#d06-leave-pending",
+            "ios/screens/d06-leave-pending.png"
+          ]
+        },
+        {
+          "id": "d06-reject-cancel",
+          "at": "2026-10-15T21:43:24.373Z",
+          "status": "OBSERVED",
+          "observation": "Cancel closes rejection form and keeps pending status.",
+          "evidence": [
+            "ios/observations.json#d06-reject-cancel",
+            "ios/screens/d06-reject-cancel.png"
+          ]
+        },
+        {
+          "id": "d06-empty-reason-validation",
+          "at": "2026-10-15T21:43:36.753Z",
+          "status": "OBSERVED",
+          "observation": "Confirm rejection with empty reason; record whether validation prevents change.",
+          "evidence": [
+            "ios/observations.json#d06-empty-reason-validation",
+            "ios/screens/d06-empty-reason-validation.png"
+          ]
+        },
+        {
+          "id": "d06-decision-failed",
+          "at": "2026-10-15T21:44:15.263Z",
+          "status": "OBSERVED",
+          "observation": "Owner rejection POST503 shows error; entered reason is retained for retry.",
+          "evidence": [
+            "ios/observations.json#d06-decision-failed",
+            "ios/screens/d06-decision-failed.png"
+          ]
+        },
+        {
+          "id": "d06-rejection-saved",
+          "at": "2026-10-15T21:44:26.234Z",
+          "status": "OBSERVED",
+          "observation": "Retry of rejection shows saved rejected status and reason.",
+          "evidence": [
+            "ios/observations.json#d06-rejection-saved",
+            "ios/screens/d06-rejection-saved.png"
+          ]
+        },
+        {
+          "id": "d06-redecided-verified",
+          "at": "2026-10-15T21:44:37.826Z",
+          "status": "OBSERVED",
+          "observation": "Mark as verified opens the confirmation dialog; no successful decision observed at this checkpoint.",
+          "evidence": [
+            "ios/observations.json#d06-redecided-verified",
+            "ios/screens/d06-redecided-verified.png"
+          ]
+        },
+        {
+          "id": "d06-verified-confirmed",
+          "at": "2026-10-15T21:45:04.608Z",
+          "status": "OBSERVED",
+          "observation": "Confirmed approval after rejection; resulting detail shows Verified.",
+          "evidence": [
+            "ios/observations.json#d06-verified-confirmed",
+            "ios/screens/d06-verified-confirmed.png"
+          ]
+        },
+        {
+          "id": "d06-users-after-decision",
+          "at": "2026-10-15T21:45:11.300Z",
+          "status": "OBSERVED",
+          "observation": "Owner navigated to Users after verifying candidate; inspect row status.",
+          "evidence": [
+            "ios/observations.json#d06-users-after-decision",
+            "ios/screens/d06-users-after-decision.png"
+          ]
+        },
+        {
+          "id": "d06-candidate-verified-workspace",
+          "at": "2026-10-15T22:10:34.093Z",
+          "status": "OBSERVED",
+          "observation": "Candidate iv native workspace after owner decision shows verification status after real relogin.",
+          "evidence": [
+            "ios/observations.json#d06-candidate-verified-workspace",
+            "ios/screens/d06-candidate-verified-workspace.png"
+          ]
+        },
+        {
+          "id": "d06-candidate-verified-detail",
+          "at": "2026-10-15T22:10:40.129Z",
+          "status": "OBSERVED",
+          "observation": "Candidate iv opens own Verification after native owner approval; verified result is visible to subject account.",
+          "evidence": [
+            "ios/observations.json#d06-candidate-verified-detail",
+            "ios/screens/d06-candidate-verified-detail.png"
+          ]
+        },
+        {
+          "id": "d06-profile-focus-after-rejection",
+          "at": "2026-10-15T22:11:08.775Z",
+          "status": "OBSERVED",
+          "observation": "Candidate returns to already mounted Profile after separate owner fixture decision to Rejected; screenshot records badge refresh state.",
+          "evidence": [
+            "ios/observations.json#d06-profile-focus-after-rejection",
+            "ios/screens/d06-profile-focus-after-rejection.png"
+          ]
+        },
+        {
+          "id": "d06-workspace-focus-after-rejection",
+          "at": "2026-10-15T22:11:11.988Z",
+          "status": "OBSERVED",
+          "observation": "Candidate returns to mounted Workspace after separate owner rejection; screenshot records verification card refresh.",
+          "evidence": [
+            "ios/observations.json#d06-workspace-focus-after-rejection",
+            "ios/screens/d06-workspace-focus-after-rejection.png"
+          ]
+        },
+        {
+          "id": "d06-candidate-rejected-reread",
+          "at": "2026-10-15T22:11:14.301Z",
+          "status": "OBSERVED",
+          "observation": "Candidate opens Verification and rereads Verification rejected with guidance that reason was emailed; exact reason is not displayed here and no real email delivery is claimed.",
+          "evidence": [
+            "ios/observations.json#d06-candidate-rejected-reread",
+            "ios/screens/d06-candidate-rejected-reread.png"
+          ]
+        },
+        {
+          "id": "d06-workspace-rejected-settled",
+          "at": "2026-10-15T22:11:27.028Z",
+          "status": "OBSERVED",
+          "observation": "Candidate workspace after separate owner rejection; settled screenshot records refreshed rejection card without password-save overlay.",
+          "evidence": [
+            "ios/observations.json#d06-workspace-rejected-settled",
+            "ios/screens/d06-workspace-rejected-settled.png"
+          ]
+        },
+        {
+          "id": "d06-profile-rejected-settled",
+          "at": "2026-10-15T22:11:30.723Z",
+          "status": "OBSERVED",
+          "observation": "Candidate Profile after focus return; settled screenshot records verification badge without password-save overlay.",
+          "evidence": [
+            "ios/observations.json#d06-profile-rejected-settled",
+            "ios/screens/d06-profile-rejected-settled.png"
+          ]
+        },
+        {
+          "id": "d06-users-mounted-verified",
+          "at": "2026-10-15T22:12:19.184Z",
+          "status": "OBSERVED",
+          "observation": "Owner Users list is mounted with iOS Candidate row visibly Verified before another decision.",
+          "evidence": [
+            "ios/observations.json#d06-users-mounted-verified",
+            "ios/screens/d06-users-mounted-verified.png"
+          ]
+        },
+        {
+          "id": "d06-owner-rerejected-from-users",
+          "at": "2026-10-15T22:12:43.205Z",
+          "status": "OBSERVED",
+          "observation": "Native owner confirms rejection with QA iOS mounted Users focus check reason after starting from a mounted Verified Users row.",
+          "evidence": [
+            "ios/observations.json#d06-owner-rerejected-from-users",
+            "ios/screens/d06-owner-rerejected-from-users.png"
+          ]
+        },
+        {
+          "id": "d06-mounted-users-refreshed-rejected",
+          "at": "2026-10-15T22:12:54.812Z",
+          "status": "OBSERVED",
+          "observation": "Returning to previously mounted Users shows iOS Candidate row visibly Rejected after native owner decision; badge agrees with decision detail.",
+          "evidence": [
+            "ios/observations.json#d06-mounted-users-refreshed-rejected",
+            "ios/screens/d06-mounted-users-refreshed-rejected.png"
+          ]
+        },
+        {
+          "id": "d06-final-native-verified",
+          "at": "2026-10-15T22:13:02.434Z",
+          "status": "OBSERVED",
+          "observation": "Native owner restores candidate Verified using explicit Approve confirmation after focus-return test.",
+          "evidence": [
+            "ios/observations.json#d06-final-native-verified",
+            "ios/screens/d06-final-native-verified.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "linkedin_submission",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d06-submit-recovered",
+            "services/ios-d06-submission-readback.json"
+          ],
+          "note": "Native submission succeeded after rejected request; submitted profile read back independently."
+        },
+        {
+          "id": "leave_pending_and_cancel_without_write",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d06-leave-pending",
+            "ios/observations.json#d06-reject-cancel",
+            "services/requests.jsonl"
+          ],
+          "note": "UI Leave pending and rejection Cancel preserve pending; request audit has no decision POST before the later explicit rejected-write attempt."
+        },
+        {
+          "id": "approve_reject_reason_redecide",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d06-empty-reason-validation",
+            "ios/observations.json#d06-rejection-saved",
+            "ios/observations.json#d06-verified-confirmed",
+            "services/ios-d06-rejection-readback.json",
+            "services/ios-d06-verified-readback.json"
+          ],
+          "note": "Empty reason validation observed; successful retry persists rejected reason; later confirmation persists verified. The earlier confirmation-dialog checkpoint alone is not success."
+        },
+        {
+          "id": "profile_workspace_users_focus_and_reread",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d06-users-after-decision",
+            "ios/observations.json#d06-candidate-verified-workspace",
+            "ios/observations.json#d06-candidate-verified-detail",
+            "ios/observations.json#d06-profile-focus-after-rejection",
+            "ios/observations.json#d06-workspace-focus-after-rejection",
+            "ios/observations.json#d06-candidate-rejected-reread",
+            "services/ios-d06-focus-rejection-fixture.json",
+            "ios/observations.json#d06-workspace-rejected-settled",
+            "ios/observations.json#d06-profile-rejected-settled",
+            "ios/observations.json#d06-users-mounted-verified",
+            "ios/observations.json#d06-owner-rerejected-from-users",
+            "ios/observations.json#d06-mounted-users-refreshed-rejected",
+            "ios/observations.json#d06-final-native-verified",
+            "services/ios-d06-owner-users-focus-final.json",
+            "services/ios-d06-owner-users-focus-audit.json"
+          ],
+          "note": "Clear settled Profile/Workspace images show Rejected after independent fixture change. Native owner then starts from mounted Users Verified, rejects, returns to same Users flow with Rejected and fresh account-listGETs; explicit approval restores Verified confirmed by readback. Initial overlay captures are not relied on for badge proof."
+        },
+        {
+          "id": "submission_and_decision_network_recovery",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d06-submit-failed-draft",
+            "ios/observations.json#d06-submit-recovered",
+            "ios/observations.json#d06-decision-failed",
+            "ios/observations.json#d06-rejection-saved",
+            "services/fault-events.jsonl",
+            "services/ios-d06-submission-readback.json",
+            "services/ios-d06-rejection-readback.json"
+          ],
+          "note": "Both matched one-shot503 writes show retained input, then UI retry and persisted successful state."
+        }
+      ],
+      "reason": "All named native submission/owner-decision/cancellation/failure-retry/candidate-focus/owner-Users-reread sequences completed with independent audit. Separate ownerAPI fixture action supported candidate focus testing and is not miscounted as native owner input."
+    },
+    {
+      "case": "D06",
+      "platform": "android",
+      "status": "PASS",
+      "checkpoints": [
+        {
+          "id": "android-d06-01-empty-url",
+          "at": "2026-10-15T21:47:16.743Z",
+          "status": "PASS",
+          "observation": "Empty verification submit displays Enter your LinkedIn profile URL inline, remains pending.",
+          "evidence": [
+            "observations.json#android-d06-01-empty-url",
+            "screens/android-d06-01-empty-url.png"
+          ]
+        },
+        {
+          "id": "android-d06-02-submission-failure-retains",
+          "at": "2026-10-15T21:48:42.535Z",
+          "status": "PASS",
+          "observation": "Submitted valid linkedin.com/in/qa with targeted POST 503. Connection failure displayed; URL draft retained and status remains unsubmitted pending.",
+          "evidence": [
+            "observations.json#android-d06-02-submission-failure-retains",
+            "screens/android-d06-02-submission-failure-retains.png"
+          ]
+        },
+        {
+          "id": "android-d06-03-retry-submitted",
+          "at": "2026-10-15T21:48:52.103Z",
+          "status": "PASS",
+          "observation": "Retry submitted successfully: Sent to Platform Owner for review, first step checked, normalized https://linkedin.com/in/qa and Update my submission button.",
+          "evidence": [
+            "observations.json#android-d06-03-retry-submitted",
+            "screens/android-d06-03-retry-submitted.png"
+          ]
+        },
+        {
+          "id": "android-d06-04-owner-pending",
+          "at": "2026-10-15T21:52:05.350Z",
+          "status": "OBSERVED",
+          "observation": "Owner aa opens av candidate: pending; submitted LinkedIn URL and seeded introduction/background/experience present.",
+          "evidence": [
+            "observations.json#android-d06-04-owner-pending",
+            "screens/android-d06-04-owner-pending.png"
+          ]
+        },
+        {
+          "id": "android-d06-05-approve-confirmation",
+          "at": "2026-10-15T21:52:12.022Z",
+          "status": "OBSERVED",
+          "observation": "Approve opens explicit confirmation for QA Android Candidate; choose Cancel next.",
+          "evidence": [
+            "observations.json#android-d06-05-approve-confirmation",
+            "screens/android-d06-05-approve-confirmation.png"
+          ]
+        },
+        {
+          "id": "android-d06-06-leave-pending",
+          "at": "2026-10-15T21:52:35.748Z",
+          "status": "OBSERVED",
+          "observation": "After cancelling Approve and choosing Leave pending, returned to Waiting queue containing candidate; no decision committed.",
+          "evidence": [
+            "observations.json#android-d06-06-leave-pending",
+            "screens/android-d06-06-leave-pending.png"
+          ]
+        },
+        {
+          "id": "android-d06-07-empty-reason",
+          "at": "2026-10-15T21:53:04.075Z",
+          "status": "OBSERVED",
+          "observation": "Confirm rejection with empty reason stays on form and shows Say why, so the Career Professional knows what to change.",
+          "evidence": [
+            "observations.json#android-d06-07-empty-reason",
+            "screens/android-d06-07-empty-reason.png"
+          ]
+        },
+        {
+          "id": "android-d06-08-decision-failure",
+          "at": "2026-10-15T21:54:13.577Z",
+          "status": "OBSERVED",
+          "observation": "Controlled decision POST 503 shows Temporary QA connection failure and retains Qa retry reason with Confirm rejection available.",
+          "evidence": [
+            "observations.json#android-d06-08-decision-failure",
+            "screens/android-d06-08-decision-failure.png"
+          ]
+        },
+        {
+          "id": "android-d06-09-rejected",
+          "at": "2026-10-15T21:54:45.270Z",
+          "status": "OBSERVED",
+          "observation": "Retry persists Rejected and exact Qa retry reason with decided date.",
+          "evidence": [
+            "observations.json#android-d06-09-rejected",
+            "screens/android-d06-09-rejected.png"
+          ]
+        },
+        {
+          "id": "android-d06-10-verified",
+          "at": "2026-10-15T21:55:24.917Z",
+          "status": "OBSERVED",
+          "observation": "Confirmed approval after rejection now displays Verified with decided date; reason no longer present.",
+          "evidence": [
+            "observations.json#android-d06-10-verified",
+            "screens/android-d06-10-verified.png"
+          ]
+        },
+        {
+          "id": "android-d06-11-candidate-verified-workspace",
+          "at": "2026-10-15T22:02:19.822Z",
+          "status": "OBSERVED",
+          "observation": "Fresh candidate login shows Verified Career Professional on workspace, after owner approval. Toast separately shows QA connection failure; fault audit required and not a clean focus-refresh claim.",
+          "evidence": [
+            "observations.json#android-d06-11-candidate-verified-workspace",
+            "screens/android-d06-11-candidate-verified-workspace.png"
+          ]
+        },
+        {
+          "id": "android-d06-12-candidate-profile",
+          "at": "2026-10-15T22:02:44.085Z",
+          "status": "OBSERVED",
+          "observation": "Candidate native Profile shows Verified Career Professional and normalized LinkedIn URL after fresh login. Prior toast dismissed; request audit shows no active fault and200profile/onboarding.",
+          "evidence": [
+            "observations.json#android-d06-12-candidate-profile",
+            "screens/android-d06-12-candidate-profile.png"
+          ]
+        },
+        {
+          "id": "android-d06-13-profile-focus-refresh",
+          "at": "2026-10-15T22:03:53.234Z",
+          "status": "OBSERVED",
+          "observation": "Previously mounted Profile updated from Verified to Verification rejected when returning from Bookings after separate owner API fixture decision, no logout/reload.",
+          "evidence": [
+            "observations.json#android-d06-13-profile-focus-refresh",
+            "screens/android-d06-13-profile-focus-refresh.png"
+          ]
+        },
+        {
+          "id": "android-d06-14-workspace-focus-refresh",
+          "at": "2026-10-15T22:05:27.320Z",
+          "status": "OBSERVED",
+          "observation": "After a separate QA owner fixture rejected the candidate, returning to the mounted workspace shows Verification rejected. Profile previously refreshed too. The old connection-error toast persists although these refresh requests succeeded.",
+          "evidence": [
+            "observations.json#android-d06-14-workspace-focus-refresh",
+            "screens/android-d06-14-workspace-focus-refresh.png"
+          ]
+        },
+        {
+          "id": "android-d06-14-users-before-decision",
+          "at": "2026-10-15T23:00:58.074Z",
+          "status": "OBSERVED",
+          "observation": "Owner Users tab initially shows QA Android Candidate / av@example.com as Verified.",
+          "evidence": [
+            "observations.json#android-d06-14-users-before-decision",
+            "screens/android-d06-14-users-before-decision.png"
+          ]
+        },
+        {
+          "id": "android-d06-15-users-refocused-rejected",
+          "at": "2026-10-15T23:03:13.073Z",
+          "status": "OBSERVED",
+          "observation": "After native owner rejects the synthetic candidate with Qa refresh, switching directly back to the already visited Users tab shows Rejected without reload or pull-to-refresh.",
+          "evidence": [
+            "observations.json#android-d06-15-users-refocused-rejected",
+            "screens/android-d06-15-users-refocused-rejected.png"
+          ]
+        },
+        {
+          "id": "android-d06-16-users-refocused-approved",
+          "at": "2026-10-15T23:05:17.064Z",
+          "status": "OBSERVED",
+          "observation": "After native owner reapproves QA Android Candidate, direct return to mounted Users displays Verified again without manual refresh.",
+          "evidence": [
+            "observations.json#android-d06-16-users-refocused-approved",
+            "screens/android-d06-16-users-refocused-approved.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "linkedin_submission",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d06-01-empty-url",
+            "observations.json#android-d06-03-retry-submitted",
+            "services/android-d06-submission-readback.json"
+          ],
+          "note": "Native retry shows submitted status/normalized URL; independent owner readback confirms pending submission and its timestamp."
+        },
+        {
+          "id": "leave_pending_and_cancel_without_write",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d06-05-approve-confirmation",
+            "observations.json#android-d06-06-leave-pending",
+            "services/android-d06-cancel-readback.json",
+            "services/requests.jsonl"
+          ],
+          "note": "Approve confirmation was cancelled; Leave pending returned to queue. Readback retains Pending without decidedAt or reason and no decision POST is present before the deliberate owner decision attempts."
+        },
+        {
+          "id": "approve_reject_reason_redecide",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d06-07-empty-reason",
+            "observations.json#android-d06-09-rejected",
+            "services/android-d06-rejection-readback.json",
+            "observations.json#android-d06-10-verified",
+            "services/android-d06-verified-readback.json"
+          ],
+          "note": "Empty rejection reason rejected; confirmed rejection stored exact reason. Confirmed redecision to Approved displays Verified and independent owner readback agrees."
+        },
+        {
+          "id": "profile_workspace_users_focus_and_reread",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d06-11-candidate-verified-workspace",
+            "observations.json#android-d06-12-candidate-profile",
+            "services/android-d01-obsolete-fault-audit.json",
+            "observations.json#android-d06-13-profile-focus-refresh",
+            "services/android-d06-focus-rejection-fixture.json",
+            "observations.json#android-d06-14-workspace-focus-refresh",
+            "observations.json#android-d06-14-users-before-decision",
+            "observations.json#android-d06-15-users-refocused-rejected",
+            "services/android-d06-owner-focus-intermediate.json",
+            "observations.json#android-d06-16-users-refocused-approved",
+            "services/android-d06-owner-users-focus-final.json",
+            "services/android-d06-owner-users-focus-audit.json"
+          ],
+          "note": "After a separately labelled owner API fixture change, mounted candidate Profile and Workspace refreshed to Rejected on focus return. Later mounted owner Users began Verified; native rejection with Qa refresh followed by direct Users return displayed Rejected without full reload. Independent current owner readback agrees. Earlier verified/rejected native decisions and reads remain separate. A final native reapproval and direct mounted Users return shows Verified again."
+        },
+        {
+          "id": "submission_and_decision_network_recovery",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d06-02-submission-failure-retains",
+            "observations.json#android-d06-03-retry-submitted",
+            "observations.json#android-d06-08-decision-failure",
+            "observations.json#android-d06-09-rejected",
+            "services/fault-events.jsonl",
+            "services/android-d06-submission-readback.json",
+            "services/android-d06-rejection-readback.json"
+          ],
+          "note": "Both targeted submission and decision POST503 retained draft/reason; retries persisted pending then Rejected with exact Qa retry reason."
+        }
+      ],
+      "reason": "All named local native submission, cancel/no-write, rejection/redecision, role-view focus reread and targeted503 recovery checkpoints executed. Fixture state change used for candidate focus is labelled separately from actual native owner decisions."
+    },
+    {
+      "case": "D07",
+      "platform": "ios",
+      "status": "FAIL",
+      "checkpoints": [
+        {
+          "id": "d07-stub-checkout",
+          "at": "2026-10-15T21:53:44.287Z",
+          "status": "OBSERVED",
+          "observation": "Checkout explicitly labels backend test payment no real money; order fed307bf-623d-4e57-95bb-76eaff2df633.",
+          "evidence": [
+            "ios/observations.json#d07-stub-checkout",
+            "ios/screens/d07-stub-checkout.png"
+          ]
+        },
+        {
+          "id": "d07-booking-confirmed",
+          "at": "2026-10-15T21:53:55.061Z",
+          "status": "OBSERVED",
+          "observation": "Native stub payment confirmation shows booked status and booking details after loading.",
+          "evidence": [
+            "ios/observations.json#d07-booking-confirmed",
+            "ios/screens/d07-booking-confirmed.png"
+          ]
+        },
+        {
+          "id": "d07-original-receipt",
+          "at": "2026-10-15T21:54:06.242Z",
+          "status": "OBSERVED",
+          "observation": "Original editable booking receipt before service change; exact monetary values captured.",
+          "evidence": [
+            "ios/observations.json#d07-original-receipt",
+            "ios/screens/d07-original-receipt.png"
+          ]
+        },
+        {
+          "id": "d07-service-edited",
+          "at": "2026-10-15T22:00:53.501Z",
+          "status": "OBSERVED",
+          "observation": "Professional edited title and price to QA iOS Edited Session / AUD 99.50 after buyer paid original AUD 84.50; native save returned workspace.",
+          "evidence": [
+            "ios/observations.json#d07-service-edited",
+            "ios/screens/d07-service-edited.png"
+          ]
+        },
+        {
+          "id": "d07-historical-title-mutated",
+          "at": "2026-10-15T22:01:09.299Z",
+          "status": "FAIL",
+          "observation": "Existing paid booking detail now displays edited live service title QA iOS Edited Session although its original booking/receipt title was QA iOS Editable Session.",
+          "evidence": [
+            "ios/observations.json#d07-historical-title-mutated",
+            "ios/screens/d07-historical-title-mutated.png"
+          ]
+        },
+        {
+          "id": "d07-receipt-after-edit",
+          "at": "2026-10-15T22:01:14.748Z",
+          "status": "FAIL",
+          "observation": "Original receipt YOIR-C788E80D now displays live edited title QA iOS Edited Session while its total stays AUD84.50 and session stays24Oct3pm; original receipt had QA iOS Editable Session.",
+          "evidence": [
+            "ios/observations.json#d07-receipt-after-edit",
+            "ios/screens/d07-receipt-after-edit.png"
+          ]
+        },
+        {
+          "id": "d07-service-withdrawn",
+          "at": "2026-10-15T22:01:49.035Z",
+          "status": "OBSERVED",
+          "observation": "Delete confirmed for isolated QA editable service; UI states existing bookings unaffected and workspace now has four published services.",
+          "evidence": [
+            "ios/observations.json#d07-service-withdrawn",
+            "ios/screens/d07-service-withdrawn.png"
+          ]
+        },
+        {
+          "id": "d07-buyer-history-after-withdrawal",
+          "at": "2026-10-15T22:03:02.377Z",
+          "status": "OBSERVED",
+          "observation": "Buyer can still open existing paid booking after service withdrawal; edited title remains and booked 24 October 3\u20134 pm is retained.",
+          "evidence": [
+            "ios/observations.json#d07-buyer-history-after-withdrawal",
+            "ios/screens/d07-buyer-history-after-withdrawal.png"
+          ]
+        },
+        {
+          "id": "d07-withdrawn-service-unbookable",
+          "at": "2026-10-15T22:03:13.733Z",
+          "status": "OBSERVED",
+          "observation": "Buyer opens withdrawn service native URL and sees Service not found with no booking action; historical booking remains accessible separately.",
+          "evidence": [
+            "ios/observations.json#d07-withdrawn-service-unbookable",
+            "ios/screens/d07-withdrawn-service-unbookable.png"
+          ]
+        },
+        {
+          "id": "d07-receipt-after-withdrawal",
+          "at": "2026-10-15T22:04:12.465Z",
+          "status": "OBSERVED",
+          "observation": "Buyer reopens original receipt YOIR-C788E80D after service withdrawal; accessible with edited title and original AUD84.50, same 24 October 3pm session.",
+          "evidence": [
+            "ios/observations.json#d07-receipt-after-withdrawal",
+            "ios/screens/d07-receipt-after-withdrawal.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "native_create_and_stub_pay",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d07-stub-checkout",
+            "ios/observations.json#d07-booking-confirmed",
+            "ios/observations.json#d07-original-receipt",
+            "services/ios-d07-paid-before-edit.json",
+            "services/ios-d07-booking-before-edit.json"
+          ],
+          "note": "Native new order and explicitly labelled test payment produced confirmed booking and AUD84.50 receipt, independently read back; no provider transaction."
+        },
+        {
+          "id": "edit_service_history",
+          "status": "FAIL",
+          "evidence": [
+            "ios/observations.json#d07-service-edited",
+            "ios/observations.json#d07-historical-title-mutated",
+            "ios/observations.json#d07-original-receipt",
+            "ios/observations.json#d07-receipt-after-edit",
+            "services/ios-d07-booking-before-edit.json",
+            "services/ios-d07-after-service-edit.json",
+            "services/ios-d07-payment-after-edit.json"
+          ],
+          "note": "Native edit changed current service to Edited Session/AUD99.50. Existing paid booking and same receipt reference mutated original title to Edited Session; amount AUD84.50/time/IDs retained."
+        },
+        {
+          "id": "withdraw_service",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d07-service-withdrawn",
+            "services/ios-d07-after-withdrawal.json"
+          ],
+          "note": "Native confirmation withdrew isolated service; public serviceGET404 while existing bookingGET200."
+        },
+        {
+          "id": "booking_order_receipt_preserved",
+          "status": "FAIL",
+          "evidence": [
+            "ios/observations.json#d07-service-edited",
+            "ios/observations.json#d07-historical-title-mutated",
+            "ios/observations.json#d07-original-receipt",
+            "ios/observations.json#d07-receipt-after-edit",
+            "services/ios-d07-booking-before-edit.json",
+            "services/ios-d07-after-service-edit.json",
+            "services/ios-d07-payment-after-edit.json",
+            "ios/observations.json#d07-buyer-history-after-withdrawal",
+            "services/ios-d07-after-withdrawal.json",
+            "services/ios-d07-payment-after-withdrawal.json",
+            "ios/observations.json#d07-receipt-after-withdrawal"
+          ],
+          "note": "Historical title changes in booking/receipt after edit, causing FAIL. After withdrawal buyer reopens booking and same receipt with same AUD84.50/session/reference; APIs agree. All named procedures executed but unmet history expectation retained."
+        },
+        {
+          "id": "new_booking_prevented",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d07-withdrawn-service-unbookable",
+            "services/ios-d07-after-withdrawal.json"
+          ],
+          "note": "Native withdrawn-service route shows Service not found with no booking action; publicGET404."
+        }
+      ],
+      "reason": "All named native steps executed. Service edit mutates historical booking/receipt title (FAIL); withdrawal retains access, amount/time/IDs and prevents new booking."
+    },
+    {
+      "case": "D07",
+      "platform": "android",
+      "status": "FAIL",
+      "checkpoints": [
+        {
+          "id": "android-d07-01-service-before",
+          "at": "2026-10-15T22:23:23.149Z",
+          "status": "OBSERVED",
+          "observation": "Editable service native baseline: QA Android Editable Session, display $85; API price 8450.",
+          "evidence": [
+            "observations.json#android-d07-01-service-before",
+            "screens/android-d07-01-service-before.png"
+          ]
+        },
+        {
+          "id": "android-d07-02-review-order",
+          "at": "2026-10-15T22:23:48.151Z",
+          "status": "OBSERVED",
+          "observation": "Native test order selected 24 October 16:00\u201317:00 Australia/Melbourne, Online, original service. Payment environment is local stub only.",
+          "evidence": [
+            "observations.json#android-d07-02-review-order",
+            "screens/android-d07-02-review-order.png"
+          ]
+        },
+        {
+          "id": "android-d07-03-stub-confirmation",
+          "at": "2026-10-15T22:24:01.656Z",
+          "status": "OBSERVED",
+          "observation": "Native confirmation explicitly says no real money charged, local payment stub. Editable service Oct24 16\u201317 confirmed.",
+          "evidence": [
+            "observations.json#android-d07-03-stub-confirmation",
+            "screens/android-d07-03-stub-confirmation.png"
+          ]
+        },
+        {
+          "id": "android-d07-04-receipt-before",
+          "at": "2026-10-15T22:27:48.671Z",
+          "status": "OBSERVED",
+          "observation": "Independent receipt before edit: YOIR-B4EB3216, QA Android Editable Session, Oct24 16:00, correct buyer/pro and AUD84.50.",
+          "evidence": [
+            "observations.json#android-d07-04-receipt-before",
+            "screens/android-d07-04-receipt-before.png"
+          ]
+        },
+        {
+          "id": "android-d07-05-edit-draft",
+          "at": "2026-10-15T22:33:25.198Z",
+          "status": "OBSERVED",
+          "observation": "Native counsellor edit: append changed to service title and change current listing price from AUD84.50 to AUD100; existing paid booking baseline captured before edit.",
+          "evidence": [
+            "observations.json#android-d07-05-edit-draft",
+            "screens/android-d07-05-edit-draft.png"
+          ]
+        },
+        {
+          "id": "android-d07-06-listing-edited",
+          "at": "2026-10-15T22:34:11.766Z",
+          "status": "OBSERVED",
+          "observation": "Counsellor workspace shows edited listing title changed and price $100.",
+          "evidence": [
+            "observations.json#android-d07-06-listing-edited",
+            "screens/android-d07-06-listing-edited.png"
+          ]
+        },
+        {
+          "id": "android-d07-07-withdrawn",
+          "at": "2026-10-15T22:34:29.006Z",
+          "status": "OBSERVED",
+          "observation": "Native Delete confirmation stated existing bookings unaffected; confirmed on isolated disposable Editable service. Workspace count reduced from5 to4 and edited service removed.",
+          "evidence": [
+            "observations.json#android-d07-07-withdrawn",
+            "screens/android-d07-07-withdrawn.png"
+          ]
+        },
+        {
+          "id": "android-d07-08-public-withdrawal",
+          "at": "2026-10-15T22:39:14.345Z",
+          "status": "OBSERVED",
+          "observation": "Public pro lists four remaining services; Editable Session is absent after withdrawal.",
+          "evidence": [
+            "observations.json#android-d07-08-public-withdrawal",
+            "screens/android-d07-08-public-withdrawal.png"
+          ]
+        },
+        {
+          "id": "android-d07-09-history-after-withdrawal",
+          "at": "2026-10-15T22:39:44.224Z",
+          "status": "OBSERVED",
+          "observation": "Buyer retained confirmed 24 October 16\u201317 booking after service withdrawal; title has mutated to changed listing name.",
+          "evidence": [
+            "observations.json#android-d07-09-history-after-withdrawal",
+            "screens/android-d07-09-history-after-withdrawal.png"
+          ]
+        },
+        {
+          "id": "android-d07-10-receipt-after-withdrawal",
+          "at": "2026-10-15T22:39:56.491Z",
+          "status": "OBSERVED",
+          "observation": "Receipt YOIR-B4EB3216 remains accessible, same date/time and AUD84.50/no GST, but service title changes retroactively.",
+          "evidence": [
+            "observations.json#android-d07-10-receipt-after-withdrawal",
+            "screens/android-d07-10-receipt-after-withdrawal.png"
+          ]
+        },
+        {
+          "id": "android-d07-11-withdrawn-direct-route",
+          "at": "2026-10-15T22:46:05.906Z",
+          "status": "OBSERVED",
+          "observation": "Withdrawn service deep link shows Service not found and no booking control.",
+          "evidence": [
+            "observations.json#android-d07-11-withdrawn-direct-route",
+            "screens/android-d07-11-withdrawn-direct-route.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "native_create_and_stub_pay",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d07-02-review-order",
+            "observations.json#android-d07-03-stub-confirmation",
+            "observations.json#android-d13-02-stub-receipt",
+            "services/android-d07-before-service-edit.json",
+            "services/android-d07-paid-before-edit.json"
+          ],
+          "note": "Actual native order and explicit local-stub payment confirmed 24 October 16:00\u201317:00 Melbourne. Independent booking/order/receipt API agrees on booking b4eb3216-d29f-42f7-adff-61cc6c32cb2a and amount 8450. No provider transaction or email delivery is established."
+        },
+        {
+          "id": "edit_service_history",
+          "status": "FAIL",
+          "evidence": [
+            "observations.json#android-d07-04-receipt-before",
+            "observations.json#android-d07-06-listing-edited",
+            "observations.json#android-d07-09-history-after-withdrawal",
+            "observations.json#android-d07-10-receipt-after-withdrawal",
+            "services/android-d07-before-service-edit.json",
+            "services/android-d07-after-service-edit.json",
+            "services/android-d07-after-withdrawal.json",
+            "services/android-d07-payment-after-edit.json",
+            "services/android-d07-payment-after-withdrawal.json"
+          ],
+          "note": "Native buyer historical booking and same receipt now show changed title after native service edit/withdrawal. Before/after API shows title mutation already after edit, before withdrawal. Original amount8450, reference, booking/order IDs and16:00\u201317:00 stay stable."
+        },
+        {
+          "id": "withdraw_service",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d07-06-listing-edited",
+            "observations.json#android-d07-07-withdrawn",
+            "services/android-d07-after-withdrawal.json"
+          ],
+          "note": "Native workspace shows saved changed title/AUD100, then confirmed Delete removes only the isolated editable service and count falls5\u21924; dialog states existing bookings unaffected. Existing-booking and public booking consequences remain separate substeps."
+        },
+        {
+          "id": "booking_order_receipt_preserved",
+          "status": "FAIL",
+          "evidence": [
+            "observations.json#android-d07-04-receipt-before",
+            "observations.json#android-d07-06-listing-edited",
+            "observations.json#android-d07-09-history-after-withdrawal",
+            "observations.json#android-d07-10-receipt-after-withdrawal",
+            "services/android-d07-before-service-edit.json",
+            "services/android-d07-after-service-edit.json",
+            "services/android-d07-after-withdrawal.json",
+            "services/android-d07-payment-after-edit.json",
+            "services/android-d07-payment-after-withdrawal.json"
+          ],
+          "note": "Booking and original receipt remain accessible after withdrawal with stable amount, time and identity; however the title is retroactively replaced, so complete history preservation fails."
+        },
+        {
+          "id": "new_booking_prevented",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d07-08-public-withdrawal",
+            "observations.json#android-d07-11-withdrawn-direct-route",
+            "services/android-d07-after-withdrawal.json",
+            "services/android-d07-withdrawn-order-api-probe.json"
+          ],
+          "note": "Native public list omits service; direct native withdrawn-service route shows Service not found with no booking control. Public service GET and a separately labelled API-only order attempt both404; API probe is not represented as native submission."
+        }
+      ],
+      "reason": "All named local native steps executed. Existing booking and receipt title changed after edit (FAIL); amount/time/identity/access remain stable after withdrawal and new native booking route is unavailable."
+    },
+    {
+      "case": "D08",
+      "platform": "ios",
+      "status": "PASS",
+      "checkpoints": [
+        {
+          "id": "d08-upcoming-bookings",
+          "at": "2026-10-15T21:48:21.729Z",
+          "status": "OBSERVED",
+          "observation": "Buyer upcoming list shows four fixture sessions in Melbourne time; native cards round84.50 to84.",
+          "evidence": [
+            "ios/observations.json#d08-upcoming-bookings",
+            "ios/screens/d08-upcoming-bookings.png"
+          ]
+        },
+        {
+          "id": "d08-online-detail",
+          "at": "2026-10-15T21:48:25.427Z",
+          "status": "OBSERVED",
+          "observation": "First future online booking detail includes exact start/end/timezone and delivery link.",
+          "evidence": [
+            "ios/observations.json#d08-online-detail",
+            "ios/screens/d08-online-detail.png"
+          ]
+        },
+        {
+          "id": "d08-external-handoff",
+          "at": "2026-10-15T21:48:43.731Z",
+          "status": "PASS",
+          "observation": "Join session opens iOS Safari at example.com; this validates URL handoff only, not a live meeting provider.",
+          "evidence": [
+            "ios/observations.json#d08-external-handoff",
+            "ios/screens/d08-external-handoff.png"
+          ]
+        },
+        {
+          "id": "d08-return-from-browser",
+          "at": "2026-10-15T21:48:45.263Z",
+          "status": "PASS",
+          "observation": "Native Expo Go return control restores original booking detail after external link.",
+          "evidence": [
+            "ios/observations.json#d08-return-from-browser",
+            "ios/screens/d08-return-from-browser.png"
+          ]
+        },
+        {
+          "id": "d08-inperson-detail",
+          "at": "2026-10-15T21:51:41.817Z",
+          "status": "OBSERVED",
+          "observation": "In-person12\u201313 booking detail; compare configured QA Test Room address against rendered meeting-point text.",
+          "evidence": [
+            "ios/observations.json#d08-inperson-detail",
+            "ios/screens/d08-inperson-detail.png"
+          ]
+        },
+        {
+          "id": "d08-missing-delivery-detail",
+          "at": "2026-10-15T21:51:51.654Z",
+          "status": "OBSERVED",
+          "observation": "13\u201314 in-person fixture has no exact address; UI clearly tells member counsellor confirms meeting point before session.",
+          "evidence": [
+            "ios/observations.json#d08-missing-delivery-detail",
+            "ios/screens/d08-missing-delivery-detail.png"
+          ]
+        },
+        {
+          "id": "d08-past-bookings",
+          "at": "2026-10-15T21:52:21.020Z",
+          "status": "OBSERVED",
+          "observation": "Past list includes cancelled and completed sessions; Write a review appears only for eligible completed session.",
+          "evidence": [
+            "ios/observations.json#d08-past-bookings",
+            "ios/screens/d08-past-bookings.png"
+          ]
+        },
+        {
+          "id": "d08-other-account-empty-upcoming",
+          "at": "2026-10-15T21:59:46.563Z",
+          "status": "OBSERVED",
+          "observation": "Second buyer i2 has no upcoming sessions and cannot see i1 buyer bookings in its own list.",
+          "evidence": [
+            "ios/observations.json#d08-other-account-empty-upcoming",
+            "ios/screens/d08-other-account-empty-upcoming.png"
+          ]
+        },
+        {
+          "id": "d08-other-account-own-past",
+          "at": "2026-10-15T21:59:48.760Z",
+          "status": "OBSERVED",
+          "observation": "Second buyer i2 Past shows only its cancelled collision-fixture booking, not the completed/reviewed or cancelled i1 bookings.",
+          "evidence": [
+            "ios/observations.json#d08-other-account-own-past",
+            "ios/screens/d08-other-account-own-past.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "upcoming_past_empty_lists",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d08-upcoming-bookings",
+            "ios/observations.json#d08-past-bookings",
+            "ios/observations.json#d08-other-account-empty-upcoming",
+            "ios/observations.json#d08-other-account-own-past"
+          ],
+          "note": "First buyer upcoming/past and second buyer empty upcoming/own cancelled collision Past were observed."
+        },
+        {
+          "id": "participant_isolation_and_timezone",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d08-other-account-empty-upcoming",
+            "ios/observations.json#d08-other-account-own-past",
+            "services/baseline.json",
+            "services/ios-d11-collision-cancel.json",
+            "services/ios-buyer-isolation-readback.json"
+          ],
+          "note": "Native second-account lists exclude first buyer records; Melbourne-converted times agree with records. Independent second-account list contains only its own cancelled collision fixture, matching UI."
+        },
+        {
+          "id": "online_inperson_missing_delivery",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d08-online-detail",
+            "ios/observations.json#d08-inperson-detail",
+            "ios/observations.json#d08-missing-delivery-detail"
+          ],
+          "note": "Online link shown; 12\u201313 in-person detail displays QA Test Room, Melbourne, while 13\u201314 missing-address detail explicitly says no specific address added. API comparison tracked separately."
+        },
+        {
+          "id": "external_link_handoff_and_return",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d08-external-handoff",
+            "ios/observations.json#d08-return-from-browser"
+          ],
+          "note": "example.com opened in Safari and native return restored the same booking detail; this establishes URL handoff only."
+        },
+        {
+          "id": "detail_matches_api",
+          "status": "PASS",
+          "evidence": [
+            "services/baseline.json",
+            "ios/observations.json#d08-online-detail",
+            "ios/observations.json#d08-inperson-detail",
+            "ios/observations.json#d08-missing-delivery-detail"
+          ],
+          "note": "Viewed native details agree with baseline participant, brief, Melbourne-converted times and delivery fields: online10\u201311, in-person12\u201313 with exact QA Test Room address, missing-address13\u201314."
+        }
+      ],
+      "reason": "All named local native UI procedures and independent account/readback checks complete. Expo Go, isolated SQLite and stated synthetic fixtures only."
+    },
+    {
+      "case": "D08",
+      "platform": "android",
+      "status": "PASS",
+      "checkpoints": [
+        {
+          "id": "android-d08-01-upcoming",
+          "at": "2026-10-15T22:14:43.016Z",
+          "status": "OBSERVED",
+          "observation": "My sessions Coming up shows confirmed seeded online booking, Melbourne timezone, brief, Join session and receipt actions.",
+          "evidence": [
+            "observations.json#android-d08-01-upcoming",
+            "screens/android-d08-01-upcoming.png"
+          ]
+        },
+        {
+          "id": "android-d08-02-browser-handoff",
+          "at": "2026-10-15T22:14:51.054Z",
+          "status": "OBSERVED",
+          "observation": "Join session hands off to Android Chrome at synthetic example.com URL. No real meeting provider or call tested.",
+          "evidence": [
+            "observations.json#android-d08-02-browser-handoff",
+            "screens/android-d08-02-browser-handoff.png"
+          ]
+        },
+        {
+          "id": "android-d08-03-browser-return",
+          "at": "2026-10-15T22:15:18.019Z",
+          "status": "OBSERVED",
+          "observation": "Android back gesture returns from Chrome to existing authenticated Coming up booking list.",
+          "evidence": [
+            "observations.json#android-d08-03-browser-return",
+            "screens/android-d08-03-browser-return.png"
+          ]
+        },
+        {
+          "id": "android-d08-04-inperson-detail",
+          "at": "2026-10-15T22:15:36.735Z",
+          "status": "OBSERVED",
+          "observation": "In-person booking detail shows exact synthetic address QA Test Room, Melbourne, Melbourne timezone and preparatory brief.",
+          "evidence": [
+            "observations.json#android-d08-04-inperson-detail",
+            "screens/android-d08-04-inperson-detail.png"
+          ]
+        },
+        {
+          "id": "android-d08-05-missing-address",
+          "at": "2026-10-15T22:16:24.553Z",
+          "status": "OBSERVED",
+          "observation": "Missing exact in-person address displays explicit not-added-yet fallback, general Melbourne area and brief.",
+          "evidence": [
+            "observations.json#android-d08-05-missing-address",
+            "screens/android-d08-05-missing-address.png"
+          ]
+        },
+        {
+          "id": "android-d08-06-past-cancelled",
+          "at": "2026-10-15T22:17:51.362Z",
+          "status": "OBSERVED",
+          "observation": "Past tab shows native-cancelled October24 booking plus seeded cancelled/completed October13 bookings; cancelled cards have receipt and no review/join.",
+          "evidence": [
+            "observations.json#android-d08-06-past-cancelled",
+            "screens/android-d08-06-past-cancelled.png"
+          ]
+        },
+        {
+          "id": "android-d08-07-other-coming-up",
+          "at": "2026-10-15T22:49:59.976Z",
+          "status": "OBSERVED",
+          "observation": "a2 Coming up is empty after switching from a1. Persistent old-route Booking not found toast is separate from empty own list.",
+          "evidence": [
+            "observations.json#android-d08-07-other-coming-up",
+            "screens/android-d08-07-other-coming-up.png"
+          ]
+        },
+        {
+          "id": "android-d08-08-other-past",
+          "at": "2026-10-15T22:50:16.217Z",
+          "status": "OBSERVED",
+          "observation": "a2 Past contains only its cancelled competing booking at 14:00-15:00, no a1 bookings.",
+          "evidence": [
+            "observations.json#android-d08-08-other-past",
+            "screens/android-d08-08-other-past.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "upcoming_past_empty_lists",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d08-01-upcoming",
+            "observations.json#android-d08-06-past-cancelled",
+            "observations.json#android-d08-07-other-coming-up",
+            "observations.json#android-d08-08-other-past",
+            "services/android-buyer-isolation-readback.json"
+          ],
+          "note": "Buyer a1 upcoming/Past and other buyer a2 empty upcoming/only-own-cancelled Past observed. The remaining a2 cancelled competing booking is an explicit API fixture, not a1 data."
+        },
+        {
+          "id": "participant_isolation_and_timezone",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d08-07-other-coming-up",
+            "observations.json#android-d08-08-other-past",
+            "observations.json#android-d11-01-original-detail",
+            "services/android-buyer-isolation-readback.json",
+            "services/android-d05-account-switch-audit.json"
+          ],
+          "note": "Actual switch excludes a1 records; a2 has only its own cancelled14:00\u201315:00 booking. Visible times match Melbourne API values. Persistent prior-route Booking not found toast is separate: fresh own bookings/profile reads succeed200."
+        },
+        {
+          "id": "online_inperson_missing_delivery",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d11-01-original-detail",
+            "observations.json#android-d08-04-inperson-detail",
+            "observations.json#android-d08-05-missing-address",
+            "services/baseline.json",
+            "services/android-d11-failure-readback.json"
+          ],
+          "note": "Actual online booking detail shows Melbourne 10:00\u201311:00, brief and Join action; in-person detail shows exact test address; separate missing-address booking explicitly says not added."
+        },
+        {
+          "id": "external_link_handoff_and_return",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d08-02-browser-handoff",
+            "observations.json#android-d08-03-browser-return"
+          ],
+          "note": "Join session opens synthetic example.com in Chrome; Android back gesture returns to same authenticated upcoming list. No real meeting-provider session."
+        },
+        {
+          "id": "detail_matches_api",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d11-01-original-detail",
+            "observations.json#android-d08-04-inperson-detail",
+            "observations.json#android-d08-05-missing-address",
+            "services/baseline.json",
+            "services/android-d11-failure-readback.json"
+          ],
+          "note": "Observed online/in-person/missing booking times, participant, brief and delivery match baseline account API records and independent original-booking readback. External link target is synthetic example.com."
+        }
+      ],
+      "reason": "All named native lists/isolation, timezone/delivery, external Chrome handoff/return and API comparison steps executed. Synthetic URL and fixture session states remain bounded; no meeting-provider or scheduler claim."
+    },
+    {
+      "case": "D09",
+      "platform": "ios",
+      "status": "FAIL",
+      "checkpoints": [
+        {
+          "id": "d09-payment-detail",
+          "at": "2026-10-15T21:45:32.540Z",
+          "status": "OBSERVED",
+          "observation": "Owner opened first QA iOS Review Session payment; record frozen financial detail against API.",
+          "evidence": [
+            "ios/observations.json#d09-payment-detail",
+            "ios/screens/d09-payment-detail.png"
+          ]
+        },
+        {
+          "id": "d09-payment-read-failed",
+          "at": "2026-10-15T21:45:50.835Z",
+          "status": "OBSERVED",
+          "observation": "Returning to payment list after successful detail read hits injected503; UI shows error and Try again without stale payment rows.",
+          "evidence": [
+            "ios/observations.json#d09-payment-read-failed",
+            "ios/screens/d09-payment-read-failed.png"
+          ]
+        },
+        {
+          "id": "d09-payment-read-recovered",
+          "at": "2026-10-15T21:46:05.394Z",
+          "status": "OBSERVED",
+          "observation": "Try again after503 reloads payment rows from successful request.",
+          "evidence": [
+            "ios/observations.json#d09-payment-read-recovered",
+            "ios/screens/d09-payment-read-recovered.png"
+          ]
+        },
+        {
+          "id": "d09-native-cancel-transition",
+          "at": "2026-10-15T21:52:09.962Z",
+          "status": "OBSERVED",
+          "observation": "Buyer confirmed cancelling13\u201314 missing-address fixture; observe resulting cancellation and refund messaging.",
+          "evidence": [
+            "ios/observations.json#d09-native-cancel-transition",
+            "ios/screens/d09-native-cancel-transition.png"
+          ]
+        },
+        {
+          "id": "d09-owner-cancelled-order-reread",
+          "at": "2026-10-15T22:13:33.676Z",
+          "status": "OBSERVED",
+          "observation": "Owner payment detail for qa-nr-ios-missing-order now reads Paid / Order Cancelled / Session Cancelled, 24Oct1pm, AUD84.50 commission8.45 and professional76.05 after native buyer cancellation.",
+          "evidence": [
+            "ios/observations.json#d09-owner-cancelled-order-reread",
+            "ios/screens/d09-owner-cancelled-order-reread.png"
+          ]
+        },
+        {
+          "id": "d09-owner-bookings-success",
+          "at": "2026-10-15T22:13:45.492Z",
+          "status": "OBSERVED",
+          "observation": "Owner Bookings initially successfully lists existing sessions, including cancelled missing-delivery booking and rescheduled2pm booking.",
+          "evidence": [
+            "ios/observations.json#d09-owner-bookings-success",
+            "ios/screens/d09-owner-bookings-success.png"
+          ]
+        },
+        {
+          "id": "d09-bookings-failed-false-empty",
+          "at": "2026-10-15T22:14:11.530Z",
+          "status": "FAIL",
+          "observation": "FAIL: after successful owner Bookings load, one GET503 clears sessions and displays Nothing has been booked yet alongside error toast.",
+          "evidence": [
+            "ios/observations.json#d09-bookings-failed-false-empty",
+            "ios/screens/d09-bookings-failed-false-empty.png"
+          ]
+        },
+        {
+          "id": "d09-bookings-fresh-recovery",
+          "at": "2026-10-15T22:14:21.449Z",
+          "status": "OBSERVED",
+          "observation": "After leaving and returning to Bookings, a fresh successful read restores actual sessions, including cancellation and moved-time updates.",
+          "evidence": [
+            "ios/observations.json#d09-bookings-fresh-recovery",
+            "ios/screens/d09-bookings-fresh-recovery.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "owner_payment_detail_matches_api",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d09-payment-detail",
+            "ios/screens/d09-payment-detail.txt",
+            "services/ios-d06-verified-readback.json"
+          ],
+          "note": "QA iOS completed-order participants, paid/confirmed/completed statuses and $84.50/$8.45/$76.05 agree with independently read order."
+        },
+        {
+          "id": "supported_order_transition_and_return",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d09-native-cancel-transition",
+            "services/ios-d09-transition-readback.json",
+            "ios/observations.json#d09-owner-cancelled-order-reread"
+          ],
+          "note": "Buyer native cancellation followed by owner native detail reread shows Paid/Cancelled/Cancelled and unchanged AUD84.50/8.45/76.05, matching independent owner readback."
+        },
+        {
+          "id": "failed_read_after_success",
+          "status": "FAIL",
+          "evidence": [
+            "ios/observations.json#d09-payment-read-failed",
+            "services/fault-events.jsonl#ios-d09-payments-read",
+            "ios/observations.json#d09-owner-bookings-success",
+            "ios/observations.json#d09-bookings-failed-false-empty",
+            "services/ios-d09-bookings-fault-audit.json"
+          ],
+          "note": "Payments503 path correctly showed error; separately, after successful native Bookings rows, targetedGET503 displayed false no-bookings claim. This unmet expectation makes substep FAIL."
+        },
+        {
+          "id": "recovery_uses_fresh_data",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d09-payment-read-recovered",
+            "services/requests.jsonl",
+            "ios/observations.json#d09-owner-cancelled-order-reread",
+            "services/ios-d09-transition-readback.json",
+            "ios/observations.json#d09-bookings-fresh-recovery",
+            "services/ios-d09-final-order-readback.json"
+          ],
+          "note": "Payments retry recovered; later Bookings navigation after503 issued fresh200 and showed actual sessions including cancelled and rescheduled updates. Owner order/detail readbacks agree."
+        }
+      ],
+      "reason": "Owner Payments recovery and native cancellation/reread pass, but successful owner Bookings list then GET503 clears rows and falsely says Nothing has been booked yet. Fresh navigation recovers; whole case FAIL."
+    },
+    {
+      "case": "D09",
+      "platform": "android",
+      "status": "FAIL",
+      "checkpoints": [
+        {
+          "id": "android-d09-01-payment-list",
+          "at": "2026-10-15T21:57:31.356Z",
+          "status": "OBSERVED",
+          "observation": "Owner Payments lists Android fixture buyer/pro and Paid status, total84.50 pro76.05 Yoir8.45, confirmed and cancelled orders.",
+          "evidence": [
+            "observations.json#android-d09-01-payment-list",
+            "screens/android-d09-01-payment-list.png"
+          ]
+        },
+        {
+          "id": "android-d09-02-payment-detail",
+          "at": "2026-10-15T21:57:48.165Z",
+          "status": "OBSERVED",
+          "observation": "Native owner detail shows Paid / Confirmed / Completed separately; Android Buyer and Pro, Oct13 Australia/Melbourne online session, total84.50 commission8.45 professional76.05.",
+          "evidence": [
+            "observations.json#android-d09-02-payment-detail",
+            "screens/android-d09-02-payment-detail.png"
+          ]
+        },
+        {
+          "id": "android-d09-03-payment-reference",
+          "at": "2026-10-15T21:57:55.313Z",
+          "status": "OBSERVED",
+          "observation": "Payment reference qa-nr-android-completed-order visible with expected fixture frozen split.",
+          "evidence": [
+            "observations.json#android-d09-03-payment-reference",
+            "screens/android-d09-03-payment-reference.png"
+          ]
+        },
+        {
+          "id": "android-d09-04-list-failure",
+          "at": "2026-10-15T21:58:01.441Z",
+          "status": "FAIL",
+          "observation": "First owner Bookings load returned injected503; transient QA error toast displayed, then empty-state text Nothing has been booked yet rather than retained error/retry control.",
+          "evidence": [
+            "observations.json#android-d09-04-list-failure",
+            "screens/android-d09-04-list-failure.png",
+            "services/fault-events.jsonl#android-d09-bookings-read"
+          ]
+        },
+        {
+          "id": "android-d09-05-list-recovery",
+          "at": "2026-10-15T21:58:30.463Z",
+          "status": "OBSERVED",
+          "observation": "Switching Payments then Bookings performs new successful load and populates list. No in-page Retry control was present on failed initial load.",
+          "evidence": [
+            "observations.json#android-d09-05-list-recovery",
+            "screens/android-d09-05-list-recovery.png"
+          ]
+        },
+        {
+          "id": "android-d09-07-owner-completed-list",
+          "at": "2026-10-15T23:06:54.763Z",
+          "status": "OBSERVED",
+          "observation": "Owner bookings list displays seeded Android completed review session, other platforms distinguishable; cards do not open a detail on title tap.",
+          "evidence": [
+            "observations.json#android-d09-07-owner-completed-list",
+            "screens/android-d09-07-owner-completed-list.png"
+          ]
+        },
+        {
+          "id": "android-d09-08-payment-success-before-refocus",
+          "at": "2026-10-15T23:07:29.757Z",
+          "status": "OBSERVED",
+          "observation": "Native owner payments read succeeds: cancelled competing Android order and confirmed edited Android order have Paid and $84.50/$67.60/$16.90 splits.",
+          "evidence": [
+            "observations.json#android-d09-08-payment-success-before-refocus",
+            "screens/android-d09-08-payment-success-before-refocus.png"
+          ]
+        },
+        {
+          "id": "android-d09-09-payment-refocus-failed",
+          "at": "2026-10-15T23:08:01.295Z",
+          "status": "OBSERVED",
+          "observation": "After successful Payments list, switching Users\u2192Payments triggers injected503; native screen shows error toast and Try again, no false empty platform message and no stale cards.",
+          "evidence": [
+            "observations.json#android-d09-09-payment-refocus-failed",
+            "screens/android-d09-09-payment-refocus-failed.png"
+          ]
+        },
+        {
+          "id": "android-d09-10-payment-refocus-recovered",
+          "at": "2026-10-15T23:08:07.444Z",
+          "status": "OBSERVED",
+          "observation": "Try again restores native owner payment cards with current cancelled/confirmed statuses and unchanged money splits.",
+          "evidence": [
+            "observations.json#android-d09-10-payment-refocus-recovered",
+            "screens/android-d09-10-payment-refocus-recovered.png"
+          ]
+        },
+        {
+          "id": "android-d09-11-owner-cancelled-order",
+          "at": "2026-10-15T23:09:33.093Z",
+          "status": "OBSERVED",
+          "observation": "Native owner payment detail for qa-nr-android-missing-order shows Payment Paid, Order Cancelled, Session Cancelled, Android Buyer/Pro, Oct24 13:00 Melbourne, In person, $84.50 price/$8.45 commission/$76.05 pro amount after native buyer cancellation.",
+          "evidence": [
+            "observations.json#android-d09-11-owner-cancelled-order",
+            "screens/android-d09-11-owner-cancelled-order.png"
+          ]
+        },
+        {
+          "id": "android-d09-12-cancelled-order-money",
+          "at": "2026-10-15T23:09:46.630Z",
+          "status": "OBSERVED",
+          "observation": "Native owner cancelled-order detail retains $84.50/$8.45/$76.05 and payment reference qa-nr-android-missing-order. No refund field is displayed on this screen; refund API value is separate evidence.",
+          "evidence": [
+            "observations.json#android-d09-12-cancelled-order-money",
+            "screens/android-d09-12-cancelled-order-money.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "owner_payment_detail_matches_api",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d09-01-payment-list",
+            "observations.json#android-d09-02-payment-detail",
+            "observations.json#android-d09-03-payment-reference",
+            "services/android-d06-verified-readback.json"
+          ],
+          "note": "Payment/order reference, participants, Paid/Confirmed/Completed and frozen fixture AUD84.50/8.45/76.05 amounts agree with owner API."
+        },
+        {
+          "id": "supported_order_transition_and_return",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d08-06-past-cancelled",
+            "observations.json#android-d09-11-owner-cancelled-order",
+            "observations.json#android-d09-12-cancelled-order-money",
+            "services/android-d08-missing-cancelled-readback.json",
+            "services/android-d09-transition-readback.json",
+            "services/android-d09-final-order-readback.json"
+          ],
+          "note": "Buyer natively cancelled missing-address booking; owner later reopened its exact payment detail and reference, seeing Paid/Order Cancelled/Session Cancelled, participants,13:00 Melbourne/in-person and stable84.50/8.45/76.05. API agrees. UI does not display a refund field; no UI-refund assertion."
+        },
+        {
+          "id": "failed_read_after_success",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d09-08-payment-success-before-refocus",
+            "observations.json#android-d09-09-payment-refocus-failed",
+            "observations.json#android-d09-10-payment-refocus-recovered",
+            "services/fault-events.jsonl#android-d09-payments-read",
+            "services/requests.jsonl",
+            "services/android-d09-payments-focus-audit.json"
+          ],
+          "note": "Completed required success\u2192failed read on Payments: native populated200 list\u2192Users\u2192Payments targeted503, correct error+Try again with no stale cards or empty-platform message; retry200 restores. Separate earlier Bookings read503 falsely claimed no bookings (FAIL checkpoint, without claimed prior native success) and keeps whole D09 FAIL."
+        },
+        {
+          "id": "recovery_uses_fresh_data",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d09-05-list-recovery",
+            "services/android-d09-bookings-fault-audit.json",
+            "services/android-d09-payments-recovery.json",
+            "observations.json#android-d09-10-payment-refocus-recovered",
+            "services/requests.jsonl",
+            "services/android-d09-payments-focus-audit.json"
+          ],
+          "note": "Bookings navigation recovery produced fresh200 and rows; later Payments in-page Try again produced fresh200 and current cancelled/confirmed cards. Initial Bookings had no in-page Retry; the correct later Payments recovery does not erase that false-empty failure."
+        }
+      ],
+      "reason": "All named local steps complete, including supported buyer-cancellation/owner reread and Payments success\u2192503\u2192retry200. Separate native Bookings503 falsely displayed no bookings (FAIL checkpoint), so whole D09 remains FAIL."
+    },
+    {
+      "case": "D10",
+      "platform": "ios",
+      "status": "PASS",
+      "checkpoints": [
+        {
+          "id": "d10-empty-review-validation",
+          "at": "2026-10-15T21:52:28.902Z",
+          "status": "PASS",
+          "observation": "Submitting with no rating or comment shows validation and stays on form.",
+          "evidence": [
+            "ios/observations.json#d10-empty-review-validation",
+            "ios/screens/d10-empty-review-validation.png"
+          ]
+        },
+        {
+          "id": "d10-review-failed-draft",
+          "at": "2026-10-15T21:52:39.769Z",
+          "status": "PASS",
+          "observation": "Injected reviewPOST503; five stars and comment remain for retry.",
+          "evidence": [
+            "ios/observations.json#d10-review-failed-draft",
+            "ios/screens/d10-review-failed-draft.png"
+          ]
+        },
+        {
+          "id": "d10-review-saved-public-service",
+          "at": "2026-10-15T21:52:50.584Z",
+          "status": "PASS",
+          "observation": "Double-click retry succeeds; public service shows5.0 and1 review with submitted text.",
+          "evidence": [
+            "ios/observations.json#d10-review-saved-public-service",
+            "ios/screens/d10-review-saved-public-service.png"
+          ]
+        },
+        {
+          "id": "d10-public-professional-rating",
+          "at": "2026-10-15T21:52:54.189Z",
+          "status": "PASS",
+          "observation": "Professional public profile after review; verify aggregate reflects5.0/1 review.",
+          "evidence": [
+            "ios/observations.json#d10-public-professional-rating",
+            "ios/screens/d10-public-professional-rating.png"
+          ]
+        },
+        {
+          "id": "d10-unrated-service",
+          "at": "2026-10-15T21:53:06.321Z",
+          "status": "PASS",
+          "observation": "Never-reviewed service detail should display no service star rating; counsellor aggregate may still show5.0/1.",
+          "evidence": [
+            "ios/observations.json#d10-unrated-service",
+            "ios/screens/d10-unrated-service.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "eligible_review_and_validation",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d10-empty-review-validation",
+            "ios/observations.json#d10-review-saved-public-service",
+            "services/ios-d10-review-readback.json"
+          ],
+          "note": "Completed/paid fixture was eligible; missing rating was rejected and valid five-star review accepted."
+        },
+        {
+          "id": "failed_draft_and_retry",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d10-review-failed-draft",
+            "ios/observations.json#d10-review-saved-public-service",
+            "services/fault-events.jsonl#ios-d10-review-write",
+            "services/ios-d10-review-readback.json"
+          ],
+          "note": "Matched review POST503 retained rating/comment; retry persisted exact values."
+        },
+        {
+          "id": "double_submit_single_persisted_review",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d10-review-saved-public-service",
+            "services/requests.jsonl",
+            "services/ios-d10-review-readback.json",
+            "services/ios-d10-review-request-audit.json"
+          ],
+          "note": "Native double-click retry produced one successful POST201 and one persisted review ID/count1. This is not multi-client aggregation concurrency coverage."
+        },
+        {
+          "id": "public_service_profile_ratings",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d10-review-saved-public-service",
+            "ios/observations.json#d10-public-professional-rating",
+            "services/ios-d10-review-readback.json"
+          ],
+          "note": "Service and professional UI both show5.0/1 matching public API."
+        },
+        {
+          "id": "never_reviewed_service",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d10-unrated-service",
+            "services/ios-d10-review-readback.json"
+          ],
+          "note": "Unrated service shows New on Yoir/No reviews yet, with API averageRating:null,count0; separate counsellor aggregate5.0/1 is labelled independently."
+        }
+      ],
+      "reason": "All named local native D10 procedures executed: validation, targeted failure/retry, double-click single persisted review, public aggregates and never-reviewed service. Seeded eligibility and concurrent aggregation gaps remain separate."
+    },
+    {
+      "case": "D10",
+      "platform": "android",
+      "status": "PASS",
+      "checkpoints": [
+        {
+          "id": "android-d10-01-review-gating",
+          "at": "2026-10-15T22:18:03.832Z",
+          "status": "OBSERVED",
+          "observation": "Completed seeded booking offers Write a review while adjacent cancelled booking does not. Completion is fixture state, not scheduler evidence.",
+          "evidence": [
+            "observations.json#android-d10-01-review-gating",
+            "screens/android-d10-01-review-gating.png"
+          ]
+        },
+        {
+          "id": "android-d10-02-rating-required",
+          "at": "2026-10-15T22:18:38.432Z",
+          "status": "OBSERVED",
+          "observation": "Submitting empty review displays Choose a star rating from 1 to 5 and stays on form.",
+          "evidence": [
+            "observations.json#android-d10-02-rating-required",
+            "screens/android-d10-02-rating-required.png"
+          ]
+        },
+        {
+          "id": "android-d10-03-text-required",
+          "at": "2026-10-15T22:18:52.117Z",
+          "status": "OBSERVED",
+          "observation": "Rating5 retained; empty text submission displays Write a short review before submitting.",
+          "evidence": [
+            "observations.json#android-d10-03-text-required",
+            "screens/android-d10-03-text-required.png"
+          ]
+        },
+        {
+          "id": "android-d10-04-failure-retains",
+          "at": "2026-10-15T22:19:56.239Z",
+          "status": "OBSERVED",
+          "observation": "One injected503 returns visible error, preserves rating5 and Qa native review text on form.",
+          "evidence": [
+            "observations.json#android-d10-04-failure-retains",
+            "screens/android-d10-04-failure-retains.png"
+          ]
+        },
+        {
+          "id": "android-d10-05-doubletap-pending",
+          "at": "2026-10-15T22:20:29.597Z",
+          "status": "OBSERVED",
+          "observation": "Double-tapped Submit review against a3second delayed real response to inspect pending behavior; final persistence independently audited.",
+          "evidence": [
+            "observations.json#android-d10-05-doubletap-pending",
+            "screens/android-d10-05-doubletap-pending.png"
+          ]
+        },
+        {
+          "id": "android-d10-06-service-rating",
+          "at": "2026-10-15T22:20:52.015Z",
+          "status": "OBSERVED",
+          "observation": "Successful retry returns public service page displaying service5.0/1reviews and counsellor5.0/1reviews.",
+          "evidence": [
+            "observations.json#android-d10-06-service-rating",
+            "screens/android-d10-06-service-rating.png"
+          ]
+        },
+        {
+          "id": "android-d10-07-public-profile",
+          "at": "2026-10-15T22:21:09.230Z",
+          "status": "OBSERVED",
+          "observation": "Public QA Android Pro profile displays5.0/1reviews and full qualifications/background, Public baseline for D04.",
+          "evidence": [
+            "observations.json#android-d10-07-public-profile",
+            "screens/android-d10-07-public-profile.png"
+          ]
+        },
+        {
+          "id": "android-d10-08-unrated-service",
+          "at": "2026-10-15T22:21:44.479Z",
+          "status": "OBSERVED",
+          "observation": "Never-reviewed service shows New on Yoir, no service score; counsellor aggregate remains separately5.0/1.",
+          "evidence": [
+            "observations.json#android-d10-08-unrated-service",
+            "screens/android-d10-08-unrated-service.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "eligible_review_and_validation",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d10-01-review-gating",
+            "observations.json#android-d10-02-rating-required",
+            "observations.json#android-d10-03-text-required",
+            "observations.json#android-d10-06-service-rating",
+            "services/android-d10-review-readback.json"
+          ],
+          "note": "Completed fixture offers review while cancelled does not; empty rating and empty text validate; valid native retry saves the review."
+        },
+        {
+          "id": "failed_draft_and_retry",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d10-04-failure-retains",
+            "observations.json#android-d10-06-service-rating",
+            "services/android-d10-failed-write-readback.json",
+            "services/android-d10-review-readback.json",
+            "services/android-d10-review-request-audit.json"
+          ],
+          "note": "Targeted 503 retains five stars and Qa native review; independent failed-write readback has no review. Native retry returns to public service and normal 201 persists exactly that draft."
+        },
+        {
+          "id": "double_submit_single_persisted_review",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d10-05-doubletap-pending",
+            "services/android-d10-review-request-audit.json",
+            "services/android-d10-review-readback.json"
+          ],
+          "note": "Actual native double tap while the first request was delayed three seconds yielded one real POST 201 and one stored review; this is pending UI control, not concurrent multi-client aggregation evidence."
+        },
+        {
+          "id": "public_service_profile_ratings",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d10-06-service-rating",
+            "observations.json#android-d10-07-public-profile",
+            "services/android-d10-review-readback.json"
+          ],
+          "note": "Native public service and professional profile each show 5.0 and one review; independent API aggregates agree."
+        },
+        {
+          "id": "never_reviewed_service",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d10-08-unrated-service",
+            "screens/android-d10-08-unrated-service.png",
+            "services/android-d10-review-readback.json"
+          ],
+          "note": "Native never-reviewed service shows New on Yoir with no service score; the separately labelled professional aggregate remains 5.0/1. API confirms averageRating null and reviewCount zero."
+        }
+      ],
+      "reason": "All named local native review, recovery, pending duplicate, public aggregate and unrated checkpoints passed; fixture completion and payment are not scheduler/provider evidence."
+    },
+    {
+      "case": "D11",
+      "platform": "ios",
+      "status": "PASS",
+      "checkpoints": [
+        {
+          "id": "d11-new-time-selected",
+          "at": "2026-10-15T21:48:56.644Z",
+          "status": "OBSERVED",
+          "observation": "Selected 24 October14:00\u201315:00 Melbourne while current booking remains10:00\u201311:00.",
+          "evidence": [
+            "ios/observations.json#d11-new-time-selected",
+            "ios/screens/d11-new-time-selected.png"
+          ]
+        },
+        {
+          "id": "d11-move-failed-retains-original",
+          "at": "2026-10-15T21:49:31.215Z",
+          "status": "OBSERVED",
+          "observation": "Immediate post-submit checkpoint showed busy state with selection cleared; use d11-failed-final for settled error outcome.",
+          "evidence": [
+            "ios/observations.json#d11-move-failed-retains-original",
+            "ios/screens/d11-move-failed-retains-original.png"
+          ]
+        },
+        {
+          "id": "d11-failed-final",
+          "at": "2026-10-15T21:49:40.542Z",
+          "status": "PASS",
+          "observation": "503 error shown; current booking stays10\u201311, selected new slot resets and Confirm is disabled.",
+          "evidence": [
+            "ios/observations.json#d11-failed-final",
+            "ios/screens/d11-failed-final.png"
+          ]
+        },
+        {
+          "id": "d11-occupied-conflict",
+          "at": "2026-10-15T21:50:43.806Z",
+          "status": "PASS",
+          "observation": "Actual concurrent booking caused This time is no longer available; occupied14:00 disappears and original10:00 remains.",
+          "evidence": [
+            "ios/observations.json#d11-occupied-conflict",
+            "ios/screens/d11-occupied-conflict.png"
+          ]
+        },
+        {
+          "id": "d11-original-after-conflict",
+          "at": "2026-10-15T21:51:08.760Z",
+          "status": "PASS",
+          "observation": "Return to booking details after503 and real409 still shows original24Oct10\u201311.",
+          "evidence": [
+            "ios/observations.json#d11-original-after-conflict",
+            "ios/screens/d11-original-after-conflict.png"
+          ]
+        },
+        {
+          "id": "d11-successful-move",
+          "at": "2026-10-15T21:51:26.818Z",
+          "status": "OBSERVED",
+          "observation": "After successful reschedule, detail shows24Oct14\u201315 with same service and counterparty.",
+          "evidence": [
+            "ios/observations.json#d11-successful-move",
+            "ios/screens/d11-successful-move.png"
+          ]
+        },
+        {
+          "id": "d11-nonparticipant-denied",
+          "at": "2026-10-15T22:00:00.001Z",
+          "status": "OBSERVED",
+          "observation": "Native deep link to i1 move-booking reschedule while signed in as i2 shows Booking not found and no slot/Confirm UI.",
+          "evidence": [
+            "ios/observations.json#d11-nonparticipant-denied",
+            "ios/screens/d11-nonparticipant-denied.png"
+          ]
+        },
+        {
+          "id": "d11-professional-move-visible",
+          "at": "2026-10-15T22:00:22.679Z",
+          "status": "OBSERVED",
+          "observation": "Professional ic native session list shows i1 QA iOS Reschedule Session at 24 October 2\u20133 pm Australia/Melbourne after successful move.",
+          "evidence": [
+            "ios/observations.json#d11-professional-move-visible",
+            "ios/screens/d11-professional-move-visible.png"
+          ]
+        },
+        {
+          "id": "d11-professional-move-detail",
+          "at": "2026-10-15T22:00:34.433Z",
+          "status": "OBSERVED",
+          "observation": "Professional ic opens moved booking and sees 24 October 2\u20133 pm Melbourne, matching buyer UI and independent API.",
+          "evidence": [
+            "ios/observations.json#d11-professional-move-detail",
+            "ios/screens/d11-professional-move-detail.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "successful_move_identity_amount_and_calendar",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d11-successful-move",
+            "services/ios-d11-success-readback.json"
+          ],
+          "note": "Native move to 14\u201315 succeeded. Readback retains booking/order identity and AUD84.50, lists old10\u201311 as free and omits occupied14\u201315. Native both-participant rereads are tracked separately."
+        },
+        {
+          "id": "occupied_time_conflict",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d11-occupied-conflict",
+            "ios/observations.json#d11-original-after-conflict",
+            "services/ios-d11-collision-create.json",
+            "services/requests.jsonl",
+            "services/ios-d11-conflict-readback.json"
+          ],
+          "note": "Another account created and stub-paid a competing reservation through the real API after the slot was selected. Native reschedule received genuine product 409, removed occupied option and retained original booking/time, corroborated by readback; not injected409 or native checkout evidence."
+        },
+        {
+          "id": "nonparticipant_rejection",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d11-nonparticipant-denied",
+            "services/requests.jsonl",
+            "services/ios-buyer-isolation-readback.json"
+          ],
+          "note": "Native reschedule deep-link as second buyer returned Booking not found with no slot/Confirm controls; real booking GET404 matches. No reschedule write was made by that account."
+        },
+        {
+          "id": "failed_move_retains_original",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d11-failed-final",
+            "services/fault-events.jsonl#ios-d11-reschedule-write",
+            "services/ios-d11-failure-readback.json"
+          ],
+          "note": "Settled native 503 outcome and independent readback retain original 10\u201311 Melbourne booking/order, IDs and AUD 84.50. The newly selected slot resets; no claim of draft selection retention."
+        },
+        {
+          "id": "reread_both_participants",
+          "status": "PASS",
+          "evidence": [
+            "services/ios-d11-success-readback.json",
+            "services/ios-d11-counsellor-readback.json",
+            "ios/observations.json#d11-successful-move",
+            "ios/observations.json#d11-professional-move-visible",
+            "ios/observations.json#d11-professional-move-detail"
+          ],
+          "note": "Buyer and counsellor native list/detail show new14\u201315 Melbourne time and counterparties; both independent API reads agree, booking/order/amount stable."
+        }
+      ],
+      "reason": "Named native procedures all executed:503 rejection, real competing-reservation409, successful move with old slot release, nonparticipant404 and both-participant native/API rereads. Cutoff/fee policy and PostgreSQL concurrency remain separate."
+    },
+    {
+      "case": "D11",
+      "platform": "android",
+      "status": "PASS",
+      "checkpoints": [
+        {
+          "id": "android-d11-01-original-detail",
+          "at": "2026-10-15T22:24:41.119Z",
+          "status": "OBSERVED",
+          "observation": "Native online booking detail: Confirmed Oct24 10\u201311 Melbourne, pre-session brief, Join session and Reschedule present.",
+          "evidence": [
+            "observations.json#android-d11-01-original-detail",
+            "screens/android-d11-01-original-detail.png"
+          ]
+        },
+        {
+          "id": "android-d11-02-valid-slot-list",
+          "at": "2026-10-15T22:25:01.236Z",
+          "status": "OBSERVED",
+          "observation": "Native reschedule excludes current 10\u201311 and occupied 11\u201312/in-person12\u201313, starts at13 after cancellation; confirm disabled without selection.",
+          "evidence": [
+            "observations.json#android-d11-02-valid-slot-list",
+            "screens/android-d11-02-valid-slot-list.png"
+          ]
+        },
+        {
+          "id": "android-d11-03-write-failure",
+          "at": "2026-10-15T22:25:17.488Z",
+          "status": "OBSERVED",
+          "observation": "503 displays retry error; existing10\u201311 remains shown; slots refreshed and selection cleared, no false success.",
+          "evidence": [
+            "observations.json#android-d11-03-write-failure",
+            "screens/android-d11-03-write-failure.png"
+          ]
+        },
+        {
+          "id": "android-d11-04-selected-before-race",
+          "at": "2026-10-15T22:25:43.105Z",
+          "status": "OBSERVED",
+          "observation": "14\u201315 selected in native UI before separate participant competes for the interval.",
+          "evidence": [
+            "observations.json#android-d11-04-selected-before-race",
+            "screens/android-d11-04-selected-before-race.png"
+          ]
+        },
+        {
+          "id": "android-d11-05-real-conflict",
+          "at": "2026-10-15T22:26:07.107Z",
+          "status": "OBSERVED",
+          "observation": "Real competing14\u201315 booking caused This time is no longer available; old10\u201311 remains; occupied interval removed from freshly loaded choices.",
+          "evidence": [
+            "observations.json#android-d11-05-real-conflict",
+            "screens/android-d11-05-real-conflict.png"
+          ]
+        },
+        {
+          "id": "android-d11-06-moved-detail",
+          "at": "2026-10-15T22:26:58.260Z",
+          "status": "OBSERVED",
+          "observation": "Native successful reschedule returned detail at Oct24 14\u201315 Melbourne, confirmed and brief retained.",
+          "evidence": [
+            "observations.json#android-d11-06-moved-detail",
+            "screens/android-d11-06-moved-detail.png"
+          ]
+        },
+        {
+          "id": "android-d11-07-buyer-list",
+          "at": "2026-10-15T22:27:34.972Z",
+          "status": "OBSERVED",
+          "observation": "Returning buyer list now has rescheduled14\u201315 and editable16\u201317 confirmed sessions; ordering refreshed.",
+          "evidence": [
+            "observations.json#android-d11-07-buyer-list",
+            "screens/android-d11-07-buyer-list.png"
+          ]
+        },
+        {
+          "id": "android-d11-08-counsellor-detail",
+          "at": "2026-10-15T22:31:56.309Z",
+          "status": "OBSERVED",
+          "observation": "Counsellor ac opened the moved booking from My sessions; confirmed 24 October 2\u20133pm Australia/Melbourne with original buyer, online mode and brief.",
+          "evidence": [
+            "observations.json#android-d11-08-counsellor-detail",
+            "screens/android-d11-08-counsellor-detail.png"
+          ]
+        },
+        {
+          "id": "android-d11-08-other-booking-denied",
+          "at": "2026-10-15T22:52:26.704Z",
+          "status": "OBSERVED",
+          "observation": "a2 opens a1 move-booking link. Booking details shows Booking not found and Try again, no booking data or reschedule controls.",
+          "evidence": [
+            "observations.json#android-d11-08-other-booking-denied",
+            "screens/android-d11-08-other-booking-denied.png"
+          ]
+        },
+        {
+          "id": "android-d11-09-owner-rescheduled-detail",
+          "at": "2026-10-15T23:10:18.764Z",
+          "status": "OBSERVED",
+          "observation": "Native owner payment detail shows Android Buyer/Pro rescheduled Oct24 14:00 Melbourne Online, Paid/Confirmed/Confirmed, $84.50/$8.45/$76.05, consistent with successful native reschedule and unchanged seeded order amount.",
+          "evidence": [
+            "observations.json#android-d11-09-owner-rescheduled-detail",
+            "screens/android-d11-09-owner-rescheduled-detail.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "successful_move_identity_amount_and_calendar",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d11-06-moved-detail",
+            "observations.json#android-d11-07-buyer-list",
+            "services/android-d11-collision-cancel.json",
+            "services/android-d11-success-readback.json",
+            "services/android-d11-success-order-readback.json",
+            "services/android-d11-reschedule-request-audit.json",
+            "observations.json#android-d11-09-owner-rescheduled-detail"
+          ],
+          "note": "After cancellation of the competing fixture, real native reschedule 200 moved the original booking to 14:00\u201315:00. Native buyer detail/list and API agree; booking/order identities and amount 8450 are stable, old interval free and new absent from slots. Later native owner payment detail also shows moved14:00 Melbourne and stable original seeded84.50/8.45/76.05 split."
+        },
+        {
+          "id": "occupied_time_conflict",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d11-04-selected-before-race",
+            "observations.json#android-d11-05-real-conflict",
+            "services/android-d11-collision-create.json",
+            "services/android-d11-conflict-readback.json",
+            "services/android-d11-reschedule-request-audit.json"
+          ],
+          "note": "Selected interval became occupied by a separate real API/stub-paid fixture. Native request returned genuine product 409, removed 14:00\u201315:00 and retained original 10:00\u201311:00; no injected 409."
+        },
+        {
+          "id": "nonparticipant_rejection",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d11-08-other-booking-denied",
+            "screens/android-d11-08-other-booking-denied.png",
+            "services/android-buyer-isolation-readback.json",
+            "services/android-d11-other-access-readback.json"
+          ],
+          "note": "Actual a2 native link to a1 move booking shows Booking not found and Try again with no booking data or reschedule controls. Independent same-resource request under a2 returns404."
+        },
+        {
+          "id": "failed_move_retains_original",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d11-03-write-failure",
+            "services/android-d11-failure-readback.json",
+            "services/android-d11-failure-order-readback.json"
+          ],
+          "note": "Targeted reschedule 503 displays error and retains original 10:00\u201311:00; independent booking/order identities, amounts and time remain unchanged. New-slot selection clears and must be selected again, so draft selection retention is not claimed."
+        },
+        {
+          "id": "reread_both_participants",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d11-06-moved-detail",
+            "observations.json#android-d11-07-buyer-list",
+            "observations.json#android-d11-08-counsellor-detail",
+            "services/android-d11-success-readback.json",
+            "services/android-d11-success-order-readback.json",
+            "services/android-d11-counsellor-readback.json"
+          ],
+          "note": "Buyer list and detail show moved 14:00\u201315:00; counsellor opens the same moved booking from My sessions and sees original buyer, time, modality and brief. Independent booking/order data agrees."
+        }
+      ],
+      "reason": "All named local native steps executed: failed503 retains original, genuine409 conflict, successful move with stable identity/amount and freed old time, both participant rereads, and nonparticipant rejection. SQLite/local stub fixtures are not PostgreSQL/provider concurrency evidence."
+    },
+    {
+      "case": "D12",
+      "platform": "ios",
+      "status": "BLOCKED",
+      "checkpoints": [
+        {
+          "id": "d12-invalid-email",
+          "at": "2026-10-15T22:05:27.900Z",
+          "status": "OBSERVED",
+          "observation": "Submitting not-an-email in native forgot-password form displays The request could not be validated; service audit confirms a real server POST400.",
+          "evidence": [
+            "ios/observations.json#d12-invalid-email",
+            "ios/screens/d12-invalid-email.png"
+          ]
+        },
+        {
+          "id": "d12-known-email-response",
+          "at": "2026-10-15T22:05:31.338Z",
+          "status": "OBSERVED",
+          "observation": "Forgot-password known local test email request gives generic inbox guidance; mail provider is unconfigured, so no inbox delivery is claimed.",
+          "evidence": [
+            "ios/observations.json#d12-known-email-response",
+            "ios/screens/d12-known-email-response.png"
+          ]
+        },
+        {
+          "id": "d12-unknown-email-response",
+          "at": "2026-10-15T22:05:41.788Z",
+          "status": "OBSERVED",
+          "observation": "Unknown local test address receives the same conditional inbox guidance as known address; account existence is not disclosed.",
+          "evidence": [
+            "ios/observations.json#d12-unknown-email-response",
+            "ios/screens/d12-unknown-email-response.png"
+          ]
+        },
+        {
+          "id": "d12-reset-request-failed",
+          "at": "2026-10-15T22:06:12.608Z",
+          "status": "OBSERVED",
+          "observation": "Single targeted password-reset request503 displays Temporary QA connection failure and retains i1@example.com address.",
+          "evidence": [
+            "ios/observations.json#d12-reset-request-failed",
+            "ios/screens/d12-reset-request-failed.png"
+          ]
+        },
+        {
+          "id": "d12-reset-request-retry",
+          "at": "2026-10-15T22:06:14.523Z",
+          "status": "OBSERVED",
+          "observation": "Retry returns generic Check your inbox response. No real mail delivery or reset-token consumption was exercised.",
+          "evidence": [
+            "ios/observations.json#d12-reset-request-retry",
+            "ios/screens/d12-reset-request-retry.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "reset_request_known_unknown_and_validation",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d12-invalid-email",
+            "ios/observations.json#d12-known-email-response",
+            "ios/observations.json#d12-unknown-email-response",
+            "services/requests.jsonl",
+            "services/ios-d12-reset-request-audit.json"
+          ],
+          "note": "Invalid input reaches serverPOST400, not client-only validation. Known and unknown addresses bothPOST202 and show same conditional inbox guidance."
+        },
+        {
+          "id": "offline_submit_recovery",
+          "status": "NOT RUN",
+          "evidence": [
+            "ios/observations.json#d12-reset-request-failed",
+            "ios/observations.json#d12-reset-request-retry",
+            "services/ios-d12-reset-request-audit.json"
+          ],
+          "note": "True offline/network-unreachable submission not executed. The linked checkpoints instead establish targetedHTTP503 retained email and retry202, preserved as a bounded partial result, not offline acceptance."
+        },
+        {
+          "id": "real_test_inbox_receipt",
+          "status": "BLOCKED",
+          "evidence": [
+            "services/environment.json",
+            "ios/observations.json#d12-known-email-response"
+          ],
+          "note": "Mail provider is unconfigured and no real test inbox delivery occurred. Generic accepted request is not delivery evidence."
+        },
+        {
+          "id": "received_link_native_routing",
+          "status": "BLOCKED",
+          "evidence": [
+            "services/environment.json"
+          ],
+          "note": "No received inbox link exists with mail unconfigured. Any later local token deep link is a separate route test and cannot satisfy actual received-link evidence."
+        },
+        {
+          "id": "valid_expired_reused_altered_tokens",
+          "status": "BLOCKED",
+          "evidence": [],
+          "note": "Native password-change submission was not attempted. CUA Computer/Browser Use Confirmation Policy \u00a71 Hand-Off Required says the user must enter, confirm and submit any new password. This is an explicit manual handoff requirement, not an actual auto-review rejection or technical failure. Real inbox/link remains separately unavailable."
+        },
+        {
+          "id": "confirmed_password_change_and_session_policy",
+          "status": "BLOCKED",
+          "evidence": [],
+          "note": "Native password-change submission was not attempted. CUA Computer/Browser Use Confirmation Policy \u00a71 Hand-Off Required says the user must enter, confirm and submit any new password. This is an explicit manual handoff requirement, not an actual auto-review rejection or technical failure. Real inbox/link remains separately unavailable."
+        }
+      ],
+      "reason": "Native invalid/known/unknown requests and503 recovery observed. Real inbox/received-link unavailable; new credential/token reset requires manual user handoff. True offline transport submit NOT RUN; not substituted by503."
+    },
+    {
+      "case": "D12",
+      "platform": "android",
+      "status": "BLOCKED",
+      "checkpoints": [
+        {
+          "id": "android-d12-01-reset-missing-token",
+          "at": "2026-10-15T22:46:41.429Z",
+          "status": "OBSERVED",
+          "observation": "Empty reset form submit with no token shows missing reset code; no new password entered.",
+          "evidence": [
+            "observations.json#android-d12-01-reset-missing-token",
+            "screens/android-d12-01-reset-missing-token.png"
+          ]
+        },
+        {
+          "id": "android-d12-02-empty-reset-email",
+          "at": "2026-10-15T23:15:54.601Z",
+          "status": "OBSERVED",
+          "observation": "Blank reset request is rejected with Enter the email you signed up with; form remains.",
+          "evidence": [
+            "observations.json#android-d12-02-empty-reset-email",
+            "screens/android-d12-02-empty-reset-email.png"
+          ]
+        },
+        {
+          "id": "android-d12-03-invalid-reset-email",
+          "at": "2026-10-15T23:16:55.980Z",
+          "status": "OBSERVED",
+          "observation": "Malformed email bad rejected: The request could not be validated; input retained.",
+          "evidence": [
+            "observations.json#android-d12-03-invalid-reset-email",
+            "screens/android-d12-03-invalid-reset-email.png"
+          ]
+        },
+        {
+          "id": "android-d12-04-reset-request-503",
+          "at": "2026-10-15T23:17:58.680Z",
+          "status": "OBSERVED",
+          "observation": "Single injected HTTP 503 reset request shows Temporary QA connection failure and retains au@example.com. This is a server-response failure, not an offline transport test.",
+          "evidence": [
+            "observations.json#android-d12-04-reset-request-503",
+            "screens/android-d12-04-reset-request-503.png"
+          ]
+        },
+        {
+          "id": "android-d12-05-reset-known-success",
+          "at": "2026-10-15T23:18:14.742Z",
+          "status": "OBSERVED",
+          "observation": "Retry for registered au@example.com returns generic Check your inbox: If this email has a Yoir account. Local request success only; actual inbox receipt untested.",
+          "evidence": [
+            "observations.json#android-d12-05-reset-known-success",
+            "screens/android-d12-05-reset-known-success.png"
+          ]
+        },
+        {
+          "id": "android-d12-06-reset-unknown-success",
+          "at": "2026-10-15T23:20:00.929Z",
+          "status": "OBSERVED",
+          "observation": "Unregistered synthetic no@example.com returns same generic Check your inbox wording as registered au. Read-only DB precheck confirms absent account. No real mail sent or password changed.",
+          "evidence": [
+            "observations.json#android-d12-06-reset-unknown-success",
+            "screens/android-d12-06-reset-unknown-success.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "reset_request_known_unknown_and_validation",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d12-02-empty-reset-email",
+            "observations.json#android-d12-03-invalid-reset-email",
+            "observations.json#android-d12-04-reset-request-503",
+            "observations.json#android-d12-05-reset-known-success",
+            "observations.json#android-d12-06-reset-unknown-success",
+            "services/android-final-auth-audit.json",
+            "services/android-d12-unknown-email-precheck.json"
+          ],
+          "note": "Blank input shows required validation. Malformed input reaches server POST400, not client-only validation. Known au@example.com and unknown no@example.com return real202 with the same conditional inbox guidance. The known retry follows a controlled503; account absence is recorded by the independent read-only SQLite query."
+        },
+        {
+          "id": "offline_submit_recovery",
+          "status": "NOT RUN",
+          "evidence": [
+            "observations.json#android-d12-04-reset-request-503",
+            "observations.json#android-d12-05-reset-known-success",
+            "services/android-final-auth-audit.json"
+          ],
+          "note": "True offline/network-unreachable submission not executed. These checkpoints establish only controlled HTTP503, retained email and retry202; they do not satisfy offline acceptance."
+        },
+        {
+          "id": "real_test_inbox_receipt",
+          "status": "BLOCKED",
+          "evidence": [
+            "services/environment.json",
+            "observations.json#android-d12-05-reset-known-success"
+          ],
+          "note": "Mail provider unconfigured. Accepted local requests do not prove actual inbox delivery."
+        },
+        {
+          "id": "received_link_native_routing",
+          "status": "BLOCKED",
+          "evidence": [
+            "services/environment.json",
+            "observations.json#android-d12-01-reset-missing-token"
+          ],
+          "note": "No actual received inbox link. The empty-token local reset route displays missing code, but is not inbox-link evidence."
+        },
+        {
+          "id": "valid_expired_reused_altered_tokens",
+          "status": "BLOCKED",
+          "evidence": [
+            "observations.json#android-d12-01-reset-missing-token"
+          ],
+          "note": "No new password entered or submitted. CUA Computer/Browser Use Confirmation Policy \u00a71 Hand-Off Required reserves entry, confirmation and submission of a new credential to the user. The empty-token route is only a partial routing/validation observation; valid/expired/reused/altered-token submission and session policy remain blocked. This is not an auto-review rejection or a product failure."
+        },
+        {
+          "id": "confirmed_password_change_and_session_policy",
+          "status": "BLOCKED",
+          "evidence": [
+            "observations.json#android-d12-01-reset-missing-token"
+          ],
+          "note": "No new password entered or submitted. CUA Computer/Browser Use Confirmation Policy \u00a71 Hand-Off Required reserves entry, confirmation and submission of a new credential to the user. The empty-token route is only a partial routing/validation observation; valid/expired/reused/altered-token submission and session policy remain blocked. This is not an auto-review rejection or a product failure."
+        }
+      ],
+      "reason": "Native blank/invalid/known/unknown request and controlled503\u2192202 recovery checks executed. Real inbox and received-link unavailable; password/token submission requires manual user handoff. True offline submission NOT RUN. Whole case BLOCKED."
+    },
+    {
+      "case": "D13",
+      "platform": "ios",
+      "status": "FAIL",
+      "checkpoints": [
+        {
+          "id": "d13-notifications-boundary",
+          "at": "2026-10-15T21:54:26.334Z",
+          "status": "OBSERVED",
+          "observation": "Notifications page shows current implemented boundary.",
+          "evidence": [
+            "ios/observations.json#d13-notifications-boundary",
+            "ios/screens/d13-notifications-boundary.png"
+          ]
+        },
+        {
+          "id": "d13-payout-settings",
+          "at": "2026-10-15T22:04:53.200Z",
+          "status": "OBSERVED",
+          "observation": "Professional payout screen reached through native workspace; provider setup is inspected with local test account.",
+          "evidence": [
+            "ios/observations.json#d13-payout-settings",
+            "ios/screens/d13-payout-settings.png"
+          ]
+        },
+        {
+          "id": "d13-payout-action-blocked",
+          "at": "2026-10-15T22:05:13.448Z",
+          "status": "OBSERVED",
+          "observation": "Payout page states this build is not connected to Stripe and no real payouts are made. Automated approval rejected clicking Set up payouts because it may initiate external financial-provider onboarding; action was not executed.",
+          "evidence": [
+            "ios/observations.json#d13-payout-action-blocked",
+            "ios/screens/d13-payout-action-blocked.png"
+          ]
+        },
+        {
+          "id": "d13-unverified-banner",
+          "at": "2026-10-15T22:06:54.863Z",
+          "status": "OBSERVED",
+          "observation": "Unverified iu account Explore page prompts Confirm your email to book a session with resend action.",
+          "evidence": [
+            "ios/observations.json#d13-unverified-banner",
+            "ios/screens/d13-unverified-banner.png"
+          ]
+        },
+        {
+          "id": "d13-resend-doubletap-pending",
+          "at": "2026-10-15T22:07:02.776Z",
+          "status": "OBSERVED",
+          "observation": "Attempted AX double-click left banner unchanged and request audit recorded no request. This is not a pending-state or duplicate-control result; later coordinate double-tap provides that evidence.",
+          "evidence": [
+            "ios/observations.json#d13-resend-doubletap-pending",
+            "ios/screens/d13-resend-doubletap-pending.png"
+          ]
+        },
+        {
+          "id": "d13-resend-settled",
+          "at": "2026-10-15T22:07:08.192Z",
+          "status": "OBSERVED",
+          "observation": "After attempted AX double-click, the banner remained unchanged (We sent a link...), so this checkpoint does not establish resend completion.",
+          "evidence": [
+            "ios/observations.json#d13-resend-settled",
+            "ios/screens/d13-resend-settled.png"
+          ]
+        },
+        {
+          "id": "d13-resend-coordinate-pending",
+          "at": "2026-10-15T22:07:22.093Z",
+          "status": "OBSERVED",
+          "observation": "Clicked visible Resend button; checkpoint records actual response state for request audit.",
+          "evidence": [
+            "ios/observations.json#d13-resend-coordinate-pending",
+            "ios/screens/d13-resend-coordinate-pending.png"
+          ]
+        },
+        {
+          "id": "d13-resend-completed",
+          "at": "2026-10-15T22:07:33.919Z",
+          "status": "OBSERVED",
+          "observation": "After visible coordinate click, banner states We have sent a new link to iu@example.com. It lasts a day, and Resend disappears; this does not prove delivery.",
+          "evidence": [
+            "ios/observations.json#d13-resend-completed",
+            "ios/screens/d13-resend-completed.png"
+          ]
+        },
+        {
+          "id": "d13-coordinate-doubletap",
+          "at": "2026-10-15T22:08:14.958Z",
+          "status": "FAIL",
+          "observation": "Two rapid native coordinate taps on visible Resend with first real request delayed3s; request audit determines whether another request entered during pending.",
+          "evidence": [
+            "ios/observations.json#d13-coordinate-doubletap",
+            "ios/screens/d13-coordinate-doubletap.png",
+            "services/ios-d13-resend-request-audit.json"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "real_email_verification_inbox_and_routing",
+          "status": "BLOCKED",
+          "evidence": [
+            "services/environment.json",
+            "ios/observations.json#d13-resend-completed"
+          ],
+          "note": "No mail provider/real test inbox delivery exists. Local token route tests, if run, remain separate from received-email acceptance."
+        },
+        {
+          "id": "resend_and_pending_duplicate_control",
+          "status": "FAIL",
+          "evidence": [
+            "ios/observations.json#d13-unverified-banner",
+            "ios/observations.json#d13-resend-doubletap-pending",
+            "ios/observations.json#d13-resend-settled",
+            "ios/observations.json#d13-resend-coordinate-pending",
+            "ios/observations.json#d13-resend-completed",
+            "services/fault-events.jsonl#ios-d13-verification-pending",
+            "ios/observations.json#d13-coordinate-doubletap",
+            "services/ios-d13-resend-request-audit.json"
+          ],
+          "note": "After an earlier ineffective AX attempt and one successful coordinate baseline request, two actual rapid coordinate taps sent two real POST202 requests: first delayed at22:08:12.847, second completed13.021, first completed15.851. Pending did not prevent duplicate requests. No email delivery inferred."
+        },
+        {
+          "id": "receipt_matches_api",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d07-original-receipt",
+            "services/ios-d07-paid-before-edit.json",
+            "services/ios-d07-booking-before-edit.json"
+          ],
+          "note": "Native receipt matches buyer/professional, editable service,24Oct15:00 Melbourne and AUD84.50 total; original new order stubpaid readback agrees."
+        },
+        {
+          "id": "payout_status_and_tax_settings",
+          "status": "PASS",
+          "evidence": [
+            "ios/observations.json#d13-payout-settings",
+            "services/ios-d13-payout-status-readback.json",
+            "ios/screens/d13-payout-settings.txt"
+          ],
+          "note": "Native accessibility tree reports not set up and charges/payouts pending; visible tax fields show GST Not registered and ABN placeholder. The screenshot has a system password-save prompt obscuring some status flags, so it is not sole visual proof of all flags. Independent status has no Stripe account, both enabled:false, onboardingRequired:true, abn:null,gstRegistered:false. View-only scope: the device procedure does not require tax mutation."
+        },
+        {
+          "id": "provider_onboarding_return_and_cancel",
+          "status": "BLOCKED",
+          "evidence": [
+            "ios/observations.json#d13-payout-settings",
+            "ios/observations.json#d13-payout-action-blocked",
+            "services/environment.json"
+          ],
+          "note": "Payout page states this build is not connected to Stripe. Automatic approval review rejected clicking Set up payouts as possible external financial-provider onboarding; action was not executed. No request, provider handoff, return or cancellation success is claimed."
+        },
+        {
+          "id": "notifications_implemented_boundary_only",
+          "status": "BLOCKED",
+          "evidence": [
+            "ios/observations.json#d13-notifications-boundary"
+          ],
+          "note": "Opened local notification panel shows You are all caught up. No notification backend is implemented in this baseline, so this fallback cannot establish delivery/read-state acceptance."
+        }
+      ],
+      "reason": "Actual native resend double tap issued two requests while the first was pending (FAIL). Receipt, local notification and payout/tax views were observed; real inbox, provider lifecycle and delivered-link token routing remain BLOCKED."
+    },
+    {
+      "case": "D13",
+      "platform": "android",
+      "status": "FAIL",
+      "checkpoints": [
+        {
+          "id": "android-d13-01-payout-state",
+          "at": "2026-10-15T22:05:48.986Z",
+          "status": "OBSERVED",
+          "observation": "Native Payouts page shows Payouts not set up, Charges pending, Payouts pending and explicitly states this build is not connected to Stripe. External provider onboarding is blocked and not exercised. No real bank/identity information entered.",
+          "evidence": [
+            "observations.json#android-d13-01-payout-state",
+            "screens/android-d13-01-payout-state.png"
+          ]
+        },
+        {
+          "id": "android-d13-02-stub-receipt",
+          "at": "2026-10-15T22:24:11.487Z",
+          "status": "OBSERVED",
+          "observation": "Confirmation has booking b4eb3216-d29f-42f7-adff-61cc6c32cb2a, stub payment and receipt YOIR-B4EB3216. Email wording visible but no inbox delivery proved.",
+          "evidence": [
+            "observations.json#android-d13-02-stub-receipt",
+            "screens/android-d13-02-stub-receipt.png"
+          ]
+        },
+        {
+          "id": "android-d13-04-invalid-verify-link",
+          "at": "2026-10-15T22:47:43.620Z",
+          "status": "OBSERVED",
+          "observation": "Synthetic invalid verification token opens expired-link screen with resend and sign-in options; not actual email delivery.",
+          "evidence": [
+            "observations.json#android-d13-04-invalid-verify-link",
+            "screens/android-d13-04-invalid-verify-link.png"
+          ]
+        },
+        {
+          "id": "android-d13-05-tax-readonly",
+          "at": "2026-10-15T22:57:40.595Z",
+          "status": "OBSERVED",
+          "observation": "Local Payouts shows not set up, Charges/Payouts pending; tax section states build not connected to Stripe/no real payouts. ABN empty placeholder; Not registered and no GST text. No setup, tax entry or save action.",
+          "evidence": [
+            "observations.json#android-d13-05-tax-readonly",
+            "screens/android-d13-05-tax-readonly.png"
+          ]
+        },
+        {
+          "id": "android-d13-07-unverified-banner",
+          "at": "2026-10-15T23:14:17.777Z",
+          "status": "OBSERVED",
+          "observation": "Unverified au account Explore displays confirm-email banner and Resend before requests. Local mock mail provider is absent; banner wording does not prove inbox delivery.",
+          "evidence": [
+            "observations.json#android-d13-07-unverified-banner",
+            "screens/android-d13-07-unverified-banner.png"
+          ]
+        },
+        {
+          "id": "android-d13-08-resend-double-tap",
+          "at": "2026-10-15T23:14:30.351Z",
+          "status": "OBSERVED",
+          "observation": "Double-tapped Resend with first request deliberately delayed 3 seconds; final UI says new link sent and hides Resend. Request count must be correlated with service audit; no real email provider configured.",
+          "evidence": [
+            "observations.json#android-d13-08-resend-double-tap",
+            "screens/android-d13-08-resend-double-tap.png"
+          ]
+        },
+        {
+          "id": "android-d13-09-notifications-ui",
+          "at": "2026-10-15T23:14:43.499Z",
+          "status": "OBSERVED",
+          "observation": "Notification bell opens empty UI with You are all caught up and future booking updates wording. This is UI-only; absent notification backend is not delivery acceptance.",
+          "evidence": [
+            "observations.json#android-d13-09-notifications-ui",
+            "screens/android-d13-09-notifications-ui.png"
+          ]
+        },
+        {
+          "id": "android-d13-10-missing-verification-token",
+          "at": "2026-10-15T23:15:16.016Z",
+          "status": "OBSERVED",
+          "observation": "Opened /auth/verify without token through local Chrome deep-link navigation; native UI reports missing confirmation code and offers email/new-link form. Not a real received inbox link.",
+          "evidence": [
+            "observations.json#android-d13-10-missing-verification-token",
+            "screens/android-d13-10-missing-verification-token.png"
+          ]
+        }
+      ],
+      "substeps": [
+        {
+          "id": "real_email_verification_inbox_and_routing",
+          "status": "BLOCKED",
+          "evidence": [
+            "observations.json#android-d13-04-invalid-verify-link",
+            "observations.json#android-d13-07-unverified-banner",
+            "services/environment.json"
+          ],
+          "note": "Mail provider and actual controlled inbox delivery are absent. Synthetic invalid token reached native expired-link screen, but this cannot establish an actually received link or successful verification."
+        },
+        {
+          "id": "resend_and_pending_duplicate_control",
+          "status": "FAIL",
+          "evidence": [
+            "observations.json#android-d13-07-unverified-banner",
+            "observations.json#android-d13-08-resend-double-tap",
+            "services/android-d13-resend-request-audit.json"
+          ],
+          "note": "Actual double tap with first request delayed three seconds sent two real202 requests: delay23:14:22.292, second completion22.447, first completion25.304UTC. Pending did not prevent duplicate sends. Settled new-link wording/hiding resend is not real email delivery."
+        },
+        {
+          "id": "receipt_matches_api",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d07-04-receipt-before",
+            "screens/android-d07-04-receipt-before.png",
+            "services/android-d07-before-service-edit.json"
+          ],
+          "note": "Independent native receipt displays YOIR-B4EB3216, original title, supplier/buyer, 24 October 16:00 Melbourne and AUD84.50, matching receipt API. Confirmation References alone was a separate earlier checkpoint."
+        },
+        {
+          "id": "payout_status_and_tax_settings",
+          "status": "PASS",
+          "evidence": [
+            "observations.json#android-d13-01-payout-state",
+            "observations.json#android-d13-05-tax-readonly",
+            "screens/android-d13-05-tax-readonly.png",
+            "services/android-d13-payout-status-readback.json"
+          ],
+          "note": "Native local Payouts shows no setup, pending charges/payouts, ABN placeholder and GST Not registered/no GST. Current pro readback has stripeAccountId null, both enabled false, onboardingRequired true, ABN null/GSTfalse. No tax mutation or external onboarding attempted; view-only procedure."
+        },
+        {
+          "id": "provider_onboarding_return_and_cancel",
+          "status": "BLOCKED",
+          "evidence": [
+            "observations.json#android-d13-01-payout-state",
+            "services/environment.json"
+          ],
+          "note": "Native Payouts states build is not connected to Stripe. External provider flow not attempted; no bank/identity data entered, no handoff/return/cancel evidence."
+        },
+        {
+          "id": "notifications_implemented_boundary_only",
+          "status": "BLOCKED",
+          "evidence": [
+            "observations.json#android-d13-09-notifications-ui",
+            "services/requests.jsonl",
+            "services/environment.json"
+          ],
+          "note": "Native bell opens local empty UI/You are all caught up. Baseline has no notification backend and me/notifications returns404; fallback UI is not delivery/read-state acceptance."
+        }
+      ],
+      "reason": "Actual native resend double tap sent two requests while first was pending (FAIL). Receipt and payout/tax views passed; real inbox/provider lifecycle and notification delivery remain explicitly BLOCKED."
+    }
+  ],
+  "lastReviewedObservationUtc": "2026-10-15T23:20:00.929Z",
+  "freezeObservationCounts": {
+    "root": 106,
+    "ios": 104
+  }
+}

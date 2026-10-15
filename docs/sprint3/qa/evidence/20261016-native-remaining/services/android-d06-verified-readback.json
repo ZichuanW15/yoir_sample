@@ -1,0 +1,60 @@
+{
+  "at": "2026-10-15T21:55:10.211421+00:00",
+  "userId": "qa-nr-android-owner",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/admin/verifications/qa-nr-android-candidate": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-android-candidate",
+        "counsellorId": "qa-nr-android-candidate",
+        "counsellorName": "QA Android Candidate",
+        "email": "av@example.com",
+        "linkedInUrl": "https://linkedin.com/in/qa",
+        "introduction": "Android QA introduction",
+        "background": "Android QA background",
+        "experience": "Android QA experience",
+        "status": "verified",
+        "submittedAt": "2026-10-15T21:48:42.749136Z",
+        "decidedAt": "2026-10-15T21:54:56.635133Z",
+        "decisionReason": null
+      }
+    },
+    "/admin/payments/qa-nr-android-completed-order": {
+      "status": 200,
+      "data": {
+        "paymentId": "qa-nr-android-completed-order",
+        "orderId": "qa-nr-android-completed-order",
+        "bookingId": "qa-nr-android-completed-booking",
+        "jobSeekerName": "QA Android Buyer",
+        "counsellorName": "QA Android Pro",
+        "serviceTitle": "QA Android Review Session",
+        "amountMinor": 8450,
+        "platformFeeMinor": 845,
+        "counsellorPayoutMinor": 7605,
+        "refundedMinor": 0,
+        "currency": "AUD",
+        "paymentStatus": "paid",
+        "orderStatus": "confirmed",
+        "createdAt": "2026-10-15T21:34:11.498496Z",
+        "jobSeekerId": "qa-nr-android-buyer",
+        "jobSeekerEmail": "a1@example.com",
+        "counsellorId": "qa-nr-android-pro",
+        "counsellorEmail": "ac@example.com",
+        "serviceId": "qa-nr-android-review-service",
+        "startsAt": "2026-10-12T21:34:11.498496Z",
+        "endsAt": "2026-10-12T22:34:11.498496Z",
+        "timezone": "Australia/Melbourne",
+        "modality": "online",
+        "sessionGstMinor": 0,
+        "platformFeeGstMinor": 77,
+        "holdExpiresAt": null,
+        "bookingStatus": "completed",
+        "completedAt": "2026-10-12T22:34:11.498496Z",
+        "paidOutAt": null,
+        "cancelledAt": null,
+        "cancelledByRole": null
+      }
+    }
+  }
+}

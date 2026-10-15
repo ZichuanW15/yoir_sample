@@ -1,0 +1,730 @@
+[
+  {
+    "label": "d01-workspace-restored",
+    "atUtc": "2026-10-15T21:40:05.639Z",
+    "note": "New counsellor workspace after profile setup; previously submitted fields read back by service agent.",
+    "ax": "screens/d01-workspace-restored.txt",
+    "screenshot": "screens/d01-workspace-restored.png"
+  },
+  {
+    "label": "d01-verification-pending",
+    "atUtc": "2026-10-15T21:40:10.724Z",
+    "note": "Verification page shows pending and the saved LinkedIn profile URL.",
+    "ax": "screens/d01-verification-pending.txt",
+    "screenshot": "screens/d01-verification-pending.png"
+  },
+  {
+    "label": "d01-restart-restored",
+    "atUtc": "2026-10-15T21:40:39.286Z",
+    "note": "After terminate and exp:// reopen, same QA iOS New account returns directly to full workspace.",
+    "ax": "screens/d01-restart-restored.txt",
+    "screenshot": "screens/d01-restart-restored.png"
+  },
+  {
+    "label": "d01-onboarding-read-failure",
+    "atUtc": "2026-10-15T21:41:11.313Z",
+    "note": "Injected one onboarding GET503 for candidate account; error is visible but full workspace rendered despite incomplete setup.",
+    "ax": "screens/d01-onboarding-read-failure.txt",
+    "screenshot": "screens/d01-onboarding-read-failure.png"
+  },
+  {
+    "label": "d06-submission-draft",
+    "atUtc": "2026-10-15T21:41:40.169Z",
+    "note": "Candidate LinkedIn URL entered in native verification form before deliberate one-request failure.",
+    "ax": "screens/d06-submission-draft.txt",
+    "screenshot": "screens/d06-submission-draft.png"
+  },
+  {
+    "label": "d06-submit-failed-draft",
+    "atUtc": "2026-10-15T21:41:55.579Z",
+    "note": "Deliberate submission POST503 shows error and retains LinkedIn URL; submit button available for retry.",
+    "ax": "screens/d06-submit-failed-draft.txt",
+    "screenshot": "screens/d06-submit-failed-draft.png"
+  },
+  {
+    "label": "d06-submit-recovered",
+    "atUtc": "2026-10-15T21:42:00.129Z",
+    "note": "Retry returns verification pending with saved LinkedIn URL.",
+    "ax": "screens/d06-submit-recovered.txt",
+    "screenshot": "screens/d06-submit-recovered.png"
+  },
+  {
+    "label": "d06-leave-pending",
+    "atUtc": "2026-10-15T21:43:02.305Z",
+    "note": "Owner selected Leave pending; verify no decision write from service audit.",
+    "ax": "screens/d06-leave-pending.txt",
+    "screenshot": "screens/d06-leave-pending.png"
+  },
+  {
+    "label": "d06-reject-cancel",
+    "atUtc": "2026-10-15T21:43:24.373Z",
+    "note": "Cancel closes rejection form and keeps pending status.",
+    "ax": "screens/d06-reject-cancel.txt",
+    "screenshot": "screens/d06-reject-cancel.png"
+  },
+  {
+    "label": "d06-empty-reason-validation",
+    "atUtc": "2026-10-15T21:43:36.753Z",
+    "note": "Confirm rejection with empty reason; record whether validation prevents change.",
+    "ax": "screens/d06-empty-reason-validation.txt",
+    "screenshot": "screens/d06-empty-reason-validation.png"
+  },
+  {
+    "label": "d06-decision-failed",
+    "atUtc": "2026-10-15T21:44:15.263Z",
+    "note": "Owner rejection POST503 shows error; entered reason is retained for retry.",
+    "ax": "screens/d06-decision-failed.txt",
+    "screenshot": "screens/d06-decision-failed.png"
+  },
+  {
+    "label": "d06-rejection-saved",
+    "atUtc": "2026-10-15T21:44:26.234Z",
+    "note": "Retry of rejection shows saved rejected status and reason.",
+    "ax": "screens/d06-rejection-saved.txt",
+    "screenshot": "screens/d06-rejection-saved.png"
+  },
+  {
+    "label": "d06-redecided-verified",
+    "atUtc": "2026-10-15T21:44:37.826Z",
+    "note": "Mark as verified opens the confirmation dialog; no successful decision observed at this checkpoint.",
+    "ax": "screens/d06-redecided-verified.txt",
+    "screenshot": "screens/d06-redecided-verified.png"
+  },
+  {
+    "label": "d06-verified-confirmed",
+    "atUtc": "2026-10-15T21:45:04.608Z",
+    "note": "Confirmed approval after rejection; resulting detail shows Verified.",
+    "ax": "screens/d06-verified-confirmed.txt",
+    "screenshot": "screens/d06-verified-confirmed.png"
+  },
+  {
+    "label": "d06-users-after-decision",
+    "atUtc": "2026-10-15T21:45:11.300Z",
+    "note": "Owner navigated to Users after verifying candidate; inspect row status.",
+    "ax": "screens/d06-users-after-decision.txt",
+    "screenshot": "screens/d06-users-after-decision.png"
+  },
+  {
+    "label": "d09-payment-detail",
+    "atUtc": "2026-10-15T21:45:32.540Z",
+    "note": "Owner opened first QA iOS Review Session payment; record frozen financial detail against API.",
+    "ax": "screens/d09-payment-detail.txt",
+    "screenshot": "screens/d09-payment-detail.png"
+  },
+  {
+    "label": "d09-payment-read-failed",
+    "atUtc": "2026-10-15T21:45:50.835Z",
+    "note": "Returning to payment list after successful detail read hits injected503; UI shows error and Try again without stale payment rows.",
+    "ax": "screens/d09-payment-read-failed.txt",
+    "screenshot": "screens/d09-payment-read-failed.png"
+  },
+  {
+    "label": "d09-payment-read-recovered",
+    "atUtc": "2026-10-15T21:46:05.394Z",
+    "note": "Try again after503 reloads payment rows from successful request.",
+    "ax": "screens/d09-payment-read-recovered.txt",
+    "screenshot": "screens/d09-payment-read-recovered.png"
+  },
+  {
+    "label": "d05-profile-save-failed",
+    "atUtc": "2026-10-15T21:47:05.143Z",
+    "note": "Injected profile PATCH503; current role and career goal draft remain visible.",
+    "ax": "screens/d05-profile-save-failed.txt",
+    "screenshot": "screens/d05-profile-save-failed.png"
+  },
+  {
+    "label": "d05-profile-save-recovered",
+    "atUtc": "2026-10-15T21:47:07.281Z",
+    "note": "Retry saves buyer current role iOS QA Analyst and career goal iOS QA career goal.",
+    "ax": "screens/d05-profile-save-recovered.txt",
+    "screenshot": "screens/d05-profile-save-recovered.png"
+  },
+  {
+    "label": "d05-photo-permission-denied",
+    "atUtc": "2026-10-15T21:47:36.364Z",
+    "note": "Denied Expo photo-library permission through native prompt; observe app response.",
+    "ax": "screens/d05-photo-permission-denied.txt",
+    "screenshot": "screens/d05-photo-permission-denied.png"
+  },
+  {
+    "label": "d05-restart-profile-restored",
+    "atUtc": "2026-10-15T21:48:12.089Z",
+    "note": "After force-close/reopen and native profile navigation, buyer current role and career goal remain saved.",
+    "ax": "screens/d05-restart-profile-restored.txt",
+    "screenshot": "screens/d05-restart-profile-restored.png"
+  },
+  {
+    "label": "d08-upcoming-bookings",
+    "atUtc": "2026-10-15T21:48:21.729Z",
+    "note": "Buyer upcoming list shows four fixture sessions in Melbourne time; native cards round84.50 to84.",
+    "ax": "screens/d08-upcoming-bookings.txt",
+    "screenshot": "screens/d08-upcoming-bookings.png"
+  },
+  {
+    "label": "d08-online-detail",
+    "atUtc": "2026-10-15T21:48:25.427Z",
+    "note": "First future online booking detail includes exact start/end/timezone and delivery link.",
+    "ax": "screens/d08-online-detail.txt",
+    "screenshot": "screens/d08-online-detail.png"
+  },
+  {
+    "label": "d08-external-handoff",
+    "atUtc": "2026-10-15T21:48:43.731Z",
+    "note": "Join session opens iOS Safari at example.com; this validates URL handoff only, not a live meeting provider.",
+    "ax": "screens/d08-external-handoff.txt",
+    "screenshot": "screens/d08-external-handoff.png"
+  },
+  {
+    "label": "d08-return-from-browser",
+    "atUtc": "2026-10-15T21:48:45.263Z",
+    "note": "Native Expo Go return control restores original booking detail after external link.",
+    "ax": "screens/d08-return-from-browser.txt",
+    "screenshot": "screens/d08-return-from-browser.png"
+  },
+  {
+    "label": "d11-new-time-selected",
+    "atUtc": "2026-10-15T21:48:56.644Z",
+    "note": "Selected 24 October14:00–15:00 Melbourne while current booking remains10:00–11:00.",
+    "ax": "screens/d11-new-time-selected.txt",
+    "screenshot": "screens/d11-new-time-selected.png"
+  },
+  {
+    "label": "d11-move-failed-retains-original",
+    "atUtc": "2026-10-15T21:49:31.215Z",
+    "note": "Immediate post-submit checkpoint showed busy state with selection cleared; use d11-failed-final for settled error outcome.",
+    "ax": "screens/d11-move-failed-retains-original.txt",
+    "screenshot": "screens/d11-move-failed-retains-original.png"
+  },
+  {
+    "label": "d11-failed-final",
+    "atUtc": "2026-10-15T21:49:40.542Z",
+    "note": "503 error shown; current booking stays10–11, selected new slot resets and Confirm is disabled.",
+    "ax": "screens/d11-failed-final.txt",
+    "screenshot": "screens/d11-failed-final.png"
+  },
+  {
+    "label": "d11-occupied-conflict",
+    "atUtc": "2026-10-15T21:50:43.806Z",
+    "note": "Actual concurrent booking caused This time is no longer available; occupied14:00 disappears and original10:00 remains.",
+    "ax": "screens/d11-occupied-conflict.txt",
+    "screenshot": "screens/d11-occupied-conflict.png"
+  },
+  {
+    "label": "d11-original-after-conflict",
+    "atUtc": "2026-10-15T21:51:08.760Z",
+    "note": "Return to booking details after503 and real409 still shows original24Oct10–11.",
+    "ax": "screens/d11-original-after-conflict.txt",
+    "screenshot": "screens/d11-original-after-conflict.png"
+  },
+  {
+    "label": "d11-successful-move",
+    "atUtc": "2026-10-15T21:51:26.818Z",
+    "note": "After successful reschedule, detail shows24Oct14–15 with same service and counterparty.",
+    "ax": "screens/d11-successful-move.txt",
+    "screenshot": "screens/d11-successful-move.png"
+  },
+  {
+    "label": "d08-inperson-detail",
+    "atUtc": "2026-10-15T21:51:41.817Z",
+    "note": "In-person12–13 booking detail; compare configured QA Test Room address against rendered meeting-point text.",
+    "ax": "screens/d08-inperson-detail.txt",
+    "screenshot": "screens/d08-inperson-detail.png"
+  },
+  {
+    "label": "d08-missing-delivery-detail",
+    "atUtc": "2026-10-15T21:51:51.654Z",
+    "note": "13–14 in-person fixture has no exact address; UI clearly tells member counsellor confirms meeting point before session.",
+    "ax": "screens/d08-missing-delivery-detail.txt",
+    "screenshot": "screens/d08-missing-delivery-detail.png"
+  },
+  {
+    "label": "d09-native-cancel-transition",
+    "atUtc": "2026-10-15T21:52:09.962Z",
+    "note": "Buyer confirmed cancelling13–14 missing-address fixture; observe resulting cancellation and refund messaging.",
+    "ax": "screens/d09-native-cancel-transition.txt",
+    "screenshot": "screens/d09-native-cancel-transition.png"
+  },
+  {
+    "label": "d08-past-bookings",
+    "atUtc": "2026-10-15T21:52:21.020Z",
+    "note": "Past list includes cancelled and completed sessions; Write a review appears only for eligible completed session.",
+    "ax": "screens/d08-past-bookings.txt",
+    "screenshot": "screens/d08-past-bookings.png"
+  },
+  {
+    "label": "d10-empty-review-validation",
+    "atUtc": "2026-10-15T21:52:28.902Z",
+    "note": "Submitting with no rating or comment shows validation and stays on form.",
+    "ax": "screens/d10-empty-review-validation.txt",
+    "screenshot": "screens/d10-empty-review-validation.png"
+  },
+  {
+    "label": "d10-review-failed-draft",
+    "atUtc": "2026-10-15T21:52:39.769Z",
+    "note": "Injected reviewPOST503; five stars and comment remain for retry.",
+    "ax": "screens/d10-review-failed-draft.txt",
+    "screenshot": "screens/d10-review-failed-draft.png"
+  },
+  {
+    "label": "d10-review-saved-public-service",
+    "atUtc": "2026-10-15T21:52:50.584Z",
+    "note": "Double-click retry succeeds; public service shows5.0 and1 review with submitted text.",
+    "ax": "screens/d10-review-saved-public-service.txt",
+    "screenshot": "screens/d10-review-saved-public-service.png"
+  },
+  {
+    "label": "d10-public-professional-rating",
+    "atUtc": "2026-10-15T21:52:54.189Z",
+    "note": "Professional public profile after review; verify aggregate reflects5.0/1 review.",
+    "ax": "screens/d10-public-professional-rating.txt",
+    "screenshot": "screens/d10-public-professional-rating.png"
+  },
+  {
+    "label": "d10-unrated-service",
+    "atUtc": "2026-10-15T21:53:06.321Z",
+    "note": "Never-reviewed service detail should display no service star rating; counsellor aggregate may still show5.0/1.",
+    "ax": "screens/d10-unrated-service.txt",
+    "screenshot": "screens/d10-unrated-service.png"
+  },
+  {
+    "label": "d07-stub-checkout",
+    "atUtc": "2026-10-15T21:53:44.287Z",
+    "note": "Checkout explicitly labels backend test payment no real money; order fed307bf-623d-4e57-95bb-76eaff2df633.",
+    "ax": "screens/d07-stub-checkout.txt",
+    "screenshot": "screens/d07-stub-checkout.png"
+  },
+  {
+    "label": "d07-booking-confirmed",
+    "atUtc": "2026-10-15T21:53:55.061Z",
+    "note": "Native stub payment confirmation shows booked status and booking details after loading.",
+    "ax": "screens/d07-booking-confirmed.txt",
+    "screenshot": "screens/d07-booking-confirmed.png"
+  },
+  {
+    "label": "d07-original-receipt",
+    "atUtc": "2026-10-15T21:54:06.242Z",
+    "note": "Original editable booking receipt before service change; exact monetary values captured.",
+    "ax": "screens/d07-original-receipt.txt",
+    "screenshot": "screens/d07-original-receipt.png"
+  },
+  {
+    "label": "d13-notifications-boundary",
+    "atUtc": "2026-10-15T21:54:26.334Z",
+    "note": "Notifications page shows current implemented boundary.",
+    "ax": "screens/d13-notifications-boundary.txt",
+    "screenshot": "screens/d13-notifications-boundary.png"
+  },
+  {
+    "label": "d05-photo-denied-message",
+    "atUtc": "2026-10-15T21:54:46.815Z",
+    "note": "Second attempt with denied photo access reports Allow photo access; saved profile remains.",
+    "ax": "screens/d05-photo-denied-message.txt",
+    "screenshot": "screens/d05-photo-denied-message.png"
+  },
+  {
+    "label": "d05-limited-photo-access",
+    "atUtc": "2026-10-15T21:57:51.956Z",
+    "note": "User-authorized limited photo permission grants only the synthetic QA avatar; other simulator sample pictures were not selected.",
+    "ax": "screens/d05-limited-photo-access.txt",
+    "screenshot": "screens/d05-limited-photo-access.png"
+  },
+  {
+    "label": "d05-picker-cancel",
+    "atUtc": "2026-10-15T21:58:37.625Z",
+    "note": "Cancel native photo picker returns to unchanged iOS QA buyer profile draft without adding a photo.",
+    "ax": "screens/d05-picker-cancel.txt",
+    "screenshot": "screens/d05-picker-cancel.png"
+  },
+  {
+    "label": "d05-photo-saved",
+    "atUtc": "2026-10-15T21:59:07.833Z",
+    "note": "Synthetic QA avatar selected with limited photo permission and saved through native profile UI; Profile saved confirmation displayed.",
+    "ax": "screens/d05-photo-saved.txt",
+    "screenshot": "screens/d05-photo-saved.png"
+  },
+  {
+    "label": "d05-other-account-isolation",
+    "atUtc": "2026-10-15T21:59:38.935Z",
+    "note": "Second account i2 displays its own name/email and blank role/goals with Add a photo, without buyer i1 text or avatar.",
+    "ax": "screens/d05-other-account-isolation.txt",
+    "screenshot": "screens/d05-other-account-isolation.png"
+  },
+  {
+    "label": "d08-other-account-empty-upcoming",
+    "atUtc": "2026-10-15T21:59:46.563Z",
+    "note": "Second buyer i2 has no upcoming sessions and cannot see i1 buyer bookings in its own list.",
+    "ax": "screens/d08-other-account-empty-upcoming.txt",
+    "screenshot": "screens/d08-other-account-empty-upcoming.png"
+  },
+  {
+    "label": "d08-other-account-own-past",
+    "atUtc": "2026-10-15T21:59:48.760Z",
+    "note": "Second buyer i2 Past shows only its cancelled collision-fixture booking, not the completed/reviewed or cancelled i1 bookings.",
+    "ax": "screens/d08-other-account-own-past.txt",
+    "screenshot": "screens/d08-other-account-own-past.png"
+  },
+  {
+    "label": "d11-nonparticipant-denied",
+    "atUtc": "2026-10-15T22:00:00.001Z",
+    "note": "Native deep link to i1 move-booking reschedule while signed in as i2 shows Booking not found and no slot/Confirm UI.",
+    "ax": "screens/d11-nonparticipant-denied.txt",
+    "screenshot": "screens/d11-nonparticipant-denied.png"
+  },
+  {
+    "label": "d11-professional-move-visible",
+    "atUtc": "2026-10-15T22:00:22.679Z",
+    "note": "Professional ic native session list shows i1 QA iOS Reschedule Session at 24 October 2–3 pm Australia/Melbourne after successful move.",
+    "ax": "screens/d11-professional-move-visible.txt",
+    "screenshot": "screens/d11-professional-move-visible.png"
+  },
+  {
+    "label": "d11-professional-move-detail",
+    "atUtc": "2026-10-15T22:00:34.433Z",
+    "note": "Professional ic opens moved booking and sees 24 October 2–3 pm Melbourne, matching buyer UI and independent API.",
+    "ax": "screens/d11-professional-move-detail.txt",
+    "screenshot": "screens/d11-professional-move-detail.png"
+  },
+  {
+    "label": "d07-service-edited",
+    "atUtc": "2026-10-15T22:00:53.501Z",
+    "note": "Professional edited title and price to QA iOS Edited Session / AUD 99.50 after buyer paid original AUD 84.50; native save returned workspace.",
+    "ax": "screens/d07-service-edited.txt",
+    "screenshot": "screens/d07-service-edited.png"
+  },
+  {
+    "label": "d07-historical-title-mutated",
+    "atUtc": "2026-10-15T22:01:09.299Z",
+    "note": "Existing paid booking detail now displays edited live service title QA iOS Edited Session although its original booking/receipt title was QA iOS Editable Session.",
+    "ax": "screens/d07-historical-title-mutated.txt",
+    "screenshot": "screens/d07-historical-title-mutated.png"
+  },
+  {
+    "label": "d07-receipt-after-edit",
+    "atUtc": "2026-10-15T22:01:14.748Z",
+    "note": "Original receipt YOIR-C788E80D now displays live edited title QA iOS Edited Session while its total stays AUD84.50 and session stays24Oct3pm; original receipt had QA iOS Editable Session.",
+    "ax": "screens/d07-receipt-after-edit.txt",
+    "screenshot": "screens/d07-receipt-after-edit.png"
+  },
+  {
+    "label": "d07-service-withdrawn",
+    "atUtc": "2026-10-15T22:01:49.035Z",
+    "note": "Delete confirmed for isolated QA editable service; UI states existing bookings unaffected and workspace now has four published services.",
+    "ax": "screens/d07-service-withdrawn.txt",
+    "screenshot": "screens/d07-service-withdrawn.png"
+  },
+  {
+    "label": "d04-initial-public",
+    "atUtc": "2026-10-15T22:01:59.206Z",
+    "note": "Professional ic profile visibility starts Public, matching earlier second-account full public profile.",
+    "ax": "screens/d04-initial-public.txt",
+    "screenshot": "screens/d04-initial-public.png"
+  },
+  {
+    "label": "d04-privacy-save-failed",
+    "atUtc": "2026-10-15T22:02:16.130Z",
+    "note": "Injected privacy PATCH503 displays error while Partially visible remains selected; server setting was Public before save.",
+    "ax": "screens/d04-privacy-save-failed.txt",
+    "screenshot": "screens/d04-privacy-save-failed.png"
+  },
+  {
+    "label": "d04-failed-setting-reopened",
+    "atUtc": "2026-10-15T22:02:22.224Z",
+    "note": "Reopening privacy after failed save returns server-backed Public selection, rather than persisting failed Partially visible draft.",
+    "ax": "screens/d04-failed-setting-reopened.txt",
+    "screenshot": "screens/d04-failed-setting-reopened.png"
+  },
+  {
+    "label": "d04-partial-saved",
+    "atUtc": "2026-10-15T22:02:32.298Z",
+    "note": "Successful retry saves Partially visible and shows Privacy settings saved.",
+    "ax": "screens/d04-partial-saved.txt",
+    "screenshot": "screens/d04-partial-saved.png"
+  },
+  {
+    "label": "d04-partial-other-account",
+    "atUtc": "2026-10-15T22:02:55.026Z",
+    "note": "Buyer i1 public professional page under Partially visible: introduction retained, detailed background/experience/qualifications/skills/languages and LinkedIn absent.",
+    "ax": "screens/d04-partial-other-account.txt",
+    "screenshot": "screens/d04-partial-other-account.png"
+  },
+  {
+    "label": "d07-buyer-history-after-withdrawal",
+    "atUtc": "2026-10-15T22:03:02.377Z",
+    "note": "Buyer can still open existing paid booking after service withdrawal; edited title remains and booked 24 October 3–4 pm is retained.",
+    "ax": "screens/d07-buyer-history-after-withdrawal.txt",
+    "screenshot": "screens/d07-buyer-history-after-withdrawal.png"
+  },
+  {
+    "label": "d07-withdrawn-service-unbookable",
+    "atUtc": "2026-10-15T22:03:13.733Z",
+    "note": "Buyer opens withdrawn service native URL and sees Service not found with no booking action; historical booking remains accessible separately.",
+    "ax": "screens/d07-withdrawn-service-unbookable.txt",
+    "screenshot": "screens/d07-withdrawn-service-unbookable.png"
+  },
+  {
+    "label": "d04-restricted-saved",
+    "atUtc": "2026-10-15T22:03:44.587Z",
+    "note": "Professional ic saves Restricted visibility successfully.",
+    "ax": "screens/d04-restricted-saved.txt",
+    "screenshot": "screens/d04-restricted-saved.png"
+  },
+  {
+    "label": "d04-restricted-other-account",
+    "atUtc": "2026-10-15T22:04:05.454Z",
+    "note": "Buyer i1 public professional page under Restricted shows This profile is restricted / This Career Professional has chosen not to share their profile details, with Back to Explore; full profile content is absent.",
+    "ax": "screens/d04-restricted-other-account.txt",
+    "screenshot": "screens/d04-restricted-other-account.png"
+  },
+  {
+    "label": "d07-receipt-after-withdrawal",
+    "atUtc": "2026-10-15T22:04:12.465Z",
+    "note": "Buyer reopens original receipt YOIR-C788E80D after service withdrawal; accessible with edited title and original AUD84.50, same 24 October 3pm session.",
+    "ax": "screens/d07-receipt-after-withdrawal.txt",
+    "screenshot": "screens/d07-receipt-after-withdrawal.png"
+  },
+  {
+    "label": "d04-public-restored",
+    "atUtc": "2026-10-15T22:04:37.730Z",
+    "note": "Professional restores Public successfully after Partial and Restricted visibility checks.",
+    "ax": "screens/d04-public-restored.txt",
+    "screenshot": "screens/d04-public-restored.png"
+  },
+  {
+    "label": "d13-payout-settings",
+    "atUtc": "2026-10-15T22:04:53.200Z",
+    "note": "Professional payout screen reached through native workspace; provider setup is inspected with local test account.",
+    "ax": "screens/d13-payout-settings.txt",
+    "screenshot": "screens/d13-payout-settings.png"
+  },
+  {
+    "label": "d13-payout-action-blocked",
+    "atUtc": "2026-10-15T22:05:13.448Z",
+    "note": "Payout page states this build is not connected to Stripe and no real payouts are made. Automated approval rejected clicking Set up payouts because it may initiate external financial-provider onboarding; action was not executed.",
+    "ax": "screens/d13-payout-action-blocked.txt",
+    "screenshot": "screens/d13-payout-action-blocked.png"
+  },
+  {
+    "label": "d12-invalid-email",
+    "atUtc": "2026-10-15T22:05:27.900Z",
+    "note": "Submitting not-an-email in native forgot-password form displays The request could not be validated; service audit confirms a real server POST400.",
+    "ax": "screens/d12-invalid-email.txt",
+    "screenshot": "screens/d12-invalid-email.png"
+  },
+  {
+    "label": "d12-known-email-response",
+    "atUtc": "2026-10-15T22:05:31.338Z",
+    "note": "Forgot-password known local test email request gives generic inbox guidance; mail provider is unconfigured, so no inbox delivery is claimed.",
+    "ax": "screens/d12-known-email-response.txt",
+    "screenshot": "screens/d12-known-email-response.png"
+  },
+  {
+    "label": "d12-unknown-email-response",
+    "atUtc": "2026-10-15T22:05:41.788Z",
+    "note": "Unknown local test address receives the same conditional inbox guidance as known address; account existence is not disclosed.",
+    "ax": "screens/d12-unknown-email-response.txt",
+    "screenshot": "screens/d12-unknown-email-response.png"
+  },
+  {
+    "label": "d12-reset-request-failed",
+    "atUtc": "2026-10-15T22:06:12.608Z",
+    "note": "Single targeted password-reset request503 displays Temporary QA connection failure and retains i1@example.com address.",
+    "ax": "screens/d12-reset-request-failed.txt",
+    "screenshot": "screens/d12-reset-request-failed.png"
+  },
+  {
+    "label": "d12-reset-request-retry",
+    "atUtc": "2026-10-15T22:06:14.523Z",
+    "note": "Retry returns generic Check your inbox response. No real mail delivery or reset-token consumption was exercised.",
+    "ax": "screens/d12-reset-request-retry.txt",
+    "screenshot": "screens/d12-reset-request-retry.png"
+  },
+  {
+    "label": "d13-unverified-banner",
+    "atUtc": "2026-10-15T22:06:54.863Z",
+    "note": "Unverified iu account Explore page prompts Confirm your email to book a session with resend action.",
+    "ax": "screens/d13-unverified-banner.txt",
+    "screenshot": "screens/d13-unverified-banner.png"
+  },
+  {
+    "label": "d13-resend-doubletap-pending",
+    "atUtc": "2026-10-15T22:07:02.776Z",
+    "note": "Attempted AX double-click left banner unchanged and request audit recorded no request. This is not a pending-state or duplicate-control result; later coordinate double-tap provides that evidence.",
+    "ax": "screens/d13-resend-doubletap-pending.txt",
+    "screenshot": "screens/d13-resend-doubletap-pending.png"
+  },
+  {
+    "label": "d13-resend-settled",
+    "atUtc": "2026-10-15T22:07:08.192Z",
+    "note": "After attempted AX double-click, the banner remained unchanged (We sent a link...), so this checkpoint does not establish resend completion.",
+    "ax": "screens/d13-resend-settled.txt",
+    "screenshot": "screens/d13-resend-settled.png"
+  },
+  {
+    "label": "d13-resend-coordinate-pending",
+    "atUtc": "2026-10-15T22:07:22.093Z",
+    "note": "Clicked visible Resend button; checkpoint records actual response state for request audit.",
+    "ax": "screens/d13-resend-coordinate-pending.txt",
+    "screenshot": "screens/d13-resend-coordinate-pending.png"
+  },
+  {
+    "label": "d13-resend-completed",
+    "atUtc": "2026-10-15T22:07:33.919Z",
+    "note": "After visible coordinate click, banner states We have sent a new link to iu@example.com. It lasts a day, and Resend disappears; this does not prove delivery.",
+    "ax": "screens/d13-resend-completed.txt",
+    "screenshot": "screens/d13-resend-completed.png"
+  },
+  {
+    "label": "d13-coordinate-doubletap",
+    "atUtc": "2026-10-15T22:08:14.958Z",
+    "note": "Two rapid native coordinate taps on visible Resend with first real request delayed3s; request audit determines whether another request entered during pending.",
+    "ax": "screens/d13-coordinate-doubletap.txt",
+    "screenshot": "screens/d13-coordinate-doubletap.png"
+  },
+  {
+    "label": "d04-restart-public-restored",
+    "atUtc": "2026-10-15T22:09:02.671Z",
+    "note": "After terminating Expo Go and reopening the same local project, professional session restores and privacy screen still selects Public.",
+    "ax": "screens/d04-restart-public-restored.txt",
+    "screenshot": "screens/d04-restart-public-restored.png"
+  },
+  {
+    "label": "d04-public-other-account-restored",
+    "atUtc": "2026-10-15T22:09:26.550Z",
+    "note": "Buyer i1 sees restored Public professional profile, including introduction/background/experience/qualifications/skills/languages and LinkedIn action.",
+    "ax": "screens/d04-public-other-account-restored.txt",
+    "screenshot": "screens/d04-public-other-account-restored.png"
+  },
+  {
+    "label": "d01-onboarding-loading",
+    "atUtc": "2026-10-15T22:10:00.508Z",
+    "note": "Completed in account logs in while onboarding GET is deliberately delayed8s; checkpoint records interim native loading before resolved state.",
+    "ax": "screens/d01-onboarding-loading.txt",
+    "screenshot": "screens/d01-onboarding-loading.png"
+  },
+  {
+    "label": "d01-explicit-relogin-restored",
+    "atUtc": "2026-10-15T22:10:07.521Z",
+    "note": "Explicit native logout followed by login to the same completed in account restores full workspace after delayed onboarding200.",
+    "ax": "screens/d01-explicit-relogin-restored.txt",
+    "screenshot": "screens/d01-explicit-relogin-restored.png"
+  },
+  {
+    "label": "d01-relogin-profile-values",
+    "atUtc": "2026-10-15T22:10:11.851Z",
+    "note": "After explicit in account relogin, previously entered LinkedIn/introduction/background/experience remain present in native professional profile.",
+    "ax": "screens/d01-relogin-profile-values.txt",
+    "screenshot": "screens/d01-relogin-profile-values.png"
+  },
+  {
+    "label": "d01-relogin-workspace-settled",
+    "atUtc": "2026-10-15T22:10:19.845Z",
+    "note": "Same in account after explicit relogin and resolved onboarding shows full workspace with saved profile and pending verification.",
+    "ax": "screens/d01-relogin-workspace-settled.txt",
+    "screenshot": "screens/d01-relogin-workspace-settled.png"
+  },
+  {
+    "label": "d06-candidate-verified-workspace",
+    "atUtc": "2026-10-15T22:10:34.093Z",
+    "note": "Candidate iv native workspace after owner decision shows verification status after real relogin.",
+    "ax": "screens/d06-candidate-verified-workspace.txt",
+    "screenshot": "screens/d06-candidate-verified-workspace.png"
+  },
+  {
+    "label": "d06-candidate-verified-detail",
+    "atUtc": "2026-10-15T22:10:40.129Z",
+    "note": "Candidate iv opens own Verification after native owner approval; verified result is visible to subject account.",
+    "ax": "screens/d06-candidate-verified-detail.txt",
+    "screenshot": "screens/d06-candidate-verified-detail.png"
+  },
+  {
+    "label": "d06-profile-focus-after-rejection",
+    "atUtc": "2026-10-15T22:11:08.775Z",
+    "note": "Candidate returns to already mounted Profile after separate owner fixture decision to Rejected; screenshot records badge refresh state.",
+    "ax": "screens/d06-profile-focus-after-rejection.txt",
+    "screenshot": "screens/d06-profile-focus-after-rejection.png"
+  },
+  {
+    "label": "d06-workspace-focus-after-rejection",
+    "atUtc": "2026-10-15T22:11:11.988Z",
+    "note": "Candidate returns to mounted Workspace after separate owner rejection; screenshot records verification card refresh.",
+    "ax": "screens/d06-workspace-focus-after-rejection.txt",
+    "screenshot": "screens/d06-workspace-focus-after-rejection.png"
+  },
+  {
+    "label": "d06-candidate-rejected-reread",
+    "atUtc": "2026-10-15T22:11:14.301Z",
+    "note": "Candidate opens Verification and rereads Verification rejected with guidance that reason was emailed; exact reason is not displayed here and no real email delivery is claimed.",
+    "ax": "screens/d06-candidate-rejected-reread.txt",
+    "screenshot": "screens/d06-candidate-rejected-reread.png"
+  },
+  {
+    "label": "d06-workspace-rejected-settled",
+    "atUtc": "2026-10-15T22:11:27.028Z",
+    "note": "Candidate workspace after separate owner rejection; settled screenshot records refreshed rejection card without password-save overlay.",
+    "ax": "screens/d06-workspace-rejected-settled.txt",
+    "screenshot": "screens/d06-workspace-rejected-settled.png"
+  },
+  {
+    "label": "d06-profile-rejected-settled",
+    "atUtc": "2026-10-15T22:11:30.723Z",
+    "note": "Candidate Profile after focus return; settled screenshot records verification badge without password-save overlay.",
+    "ax": "screens/d06-profile-rejected-settled.txt",
+    "screenshot": "screens/d06-profile-rejected-settled.png"
+  },
+  {
+    "label": "d06-users-mounted-verified",
+    "atUtc": "2026-10-15T22:12:19.184Z",
+    "note": "Owner Users list is mounted with iOS Candidate row visibly Verified before another decision.",
+    "ax": "screens/d06-users-mounted-verified.txt",
+    "screenshot": "screens/d06-users-mounted-verified.png"
+  },
+  {
+    "label": "d06-owner-rerejected-from-users",
+    "atUtc": "2026-10-15T22:12:43.205Z",
+    "note": "Native owner confirms rejection with QA iOS mounted Users focus check reason after starting from a mounted Verified Users row.",
+    "ax": "screens/d06-owner-rerejected-from-users.txt",
+    "screenshot": "screens/d06-owner-rerejected-from-users.png"
+  },
+  {
+    "label": "d06-mounted-users-refreshed-rejected",
+    "atUtc": "2026-10-15T22:12:54.812Z",
+    "note": "Returning to previously mounted Users shows iOS Candidate row visibly Rejected after native owner decision; badge agrees with decision detail.",
+    "ax": "screens/d06-mounted-users-refreshed-rejected.txt",
+    "screenshot": "screens/d06-mounted-users-refreshed-rejected.png"
+  },
+  {
+    "label": "d06-final-native-verified",
+    "atUtc": "2026-10-15T22:13:02.434Z",
+    "note": "Native owner restores candidate Verified using explicit Approve confirmation after focus-return test.",
+    "ax": "screens/d06-final-native-verified.txt",
+    "screenshot": "screens/d06-final-native-verified.png"
+  },
+  {
+    "label": "d09-owner-cancelled-order-reread",
+    "atUtc": "2026-10-15T22:13:33.676Z",
+    "note": "Owner payment detail for qa-nr-ios-missing-order now reads Paid / Order Cancelled / Session Cancelled, 24Oct1pm, AUD84.50 commission8.45 and professional76.05 after native buyer cancellation.",
+    "ax": "screens/d09-owner-cancelled-order-reread.txt",
+    "screenshot": "screens/d09-owner-cancelled-order-reread.png"
+  },
+  {
+    "label": "d09-owner-bookings-success",
+    "atUtc": "2026-10-15T22:13:45.492Z",
+    "note": "Owner Bookings initially successfully lists existing sessions, including cancelled missing-delivery booking and rescheduled2pm booking.",
+    "ax": "screens/d09-owner-bookings-success.txt",
+    "screenshot": "screens/d09-owner-bookings-success.png"
+  },
+  {
+    "label": "d09-bookings-failed-false-empty",
+    "atUtc": "2026-10-15T22:14:11.530Z",
+    "note": "FAIL: after successful owner Bookings load, one GET503 clears sessions and displays Nothing has been booked yet alongside error toast.",
+    "ax": "screens/d09-bookings-failed-false-empty.txt",
+    "screenshot": "screens/d09-bookings-failed-false-empty.png"
+  },
+  {
+    "label": "d09-bookings-fresh-recovery",
+    "atUtc": "2026-10-15T22:14:21.449Z",
+    "note": "After leaving and returning to Bookings, a fresh successful read restores actual sessions, including cancellation and moved-time updates.",
+    "ax": "screens/d09-bookings-fresh-recovery.txt",
+    "screenshot": "screens/d09-bookings-fresh-recovery.png"
+  }
+]

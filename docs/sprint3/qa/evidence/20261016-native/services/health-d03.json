@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-15T21:25:40.251147+00:00",
+  "checks": [
+    {
+      "url": "http://127.0.0.1:43189/api/v1/health",
+      "status": 200,
+      "body": "{\"status\":\"ok\"}"
+    },
+    {
+      "url": "http://127.0.0.1:8099/status",
+      "status": 200,
+      "body": "packager-status:running"
+    }
+  ]
+}

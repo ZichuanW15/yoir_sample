@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-15T22:09:41.295863+00:00",
+  "faults": [
+    {
+      "at": "2026-10-15T22:08:46.401831+00:00",
+      "ruleId": "android-d05-profile-write",
+      "method": "PATCH",
+      "path": "/api/v1/me/job-seeker-profile",
+      "userId": "qa-nr-android-buyer",
+      "hit": 1,
+      "action": "reject",
+      "status": 503
+    }
+  ],
+  "posts": [
+    {
+      "at": "2026-10-15T22:09:17.680361+00:00",
+      "method": "PATCH",
+      "path": "/api/v1/me/job-seeker-profile",
+      "userId": "qa-nr-android-buyer",
+      "status": 200
+    }
+  ]
+}

@@ -1,0 +1,521 @@
+{
+  "algorithm": "SHA-256",
+  "scope": "Every packaged file except manifest.json; no publication performed",
+  "files": [
+    {
+      "path": "README.md",
+      "bytes": 3352,
+      "sha256": "30be02ffb7870088d3422754c00ac5977e84a8d53594937532233799675fb0aa"
+    },
+    {
+      "path": "android-final-restart.json",
+      "bytes": 881,
+      "sha256": "36d8072862287e48b43d46b9ae48ec99b9e0176504ea8cead50d19c72bd7728c"
+    },
+    {
+      "path": "device-cleanup.json",
+      "bytes": 1763,
+      "sha256": "51faa2944d26f4eb3041eaa6d1b71fedff47044a57974f059613a6243b7526dd"
+    },
+    {
+      "path": "ios-preflight/expo-appinfo.txt",
+      "bytes": 1225,
+      "sha256": "4ddb02a6567d8701181eb691ae1ed8132085f58305a5c991d5aa86ab93fa9891"
+    },
+    {
+      "path": "ios-preflight/expo-devicehub-source.txt",
+      "bytes": 901,
+      "sha256": "9b3ea1ae9acb8a8edbbeeb6c7e47db500c7a3eea0494e0258963b2ad22d61e48"
+    },
+    {
+      "path": "ios-preflight/inventory.json",
+      "bytes": 2927,
+      "sha256": "8047591434bd84c8ade4960b41a4d4dfb0f3fb37d079d9e19acdb3dec33975b8"
+    },
+    {
+      "path": "ios-preflight/simctl-appinfo-help.txt",
+      "bytes": 100,
+      "sha256": "ff022e47c52b615a8d610a40cab2a5e1e63f9bccdb38ee4feb669a06a4f5408a"
+    },
+    {
+      "path": "ios-preflight/simctl-bootstatus-help.txt",
+      "bytes": 442,
+      "sha256": "1bb8a0fabb52cfad5e7cdb4e93b7f1b22bc643c8cb875d2f3fd15bf70085e5eb"
+    },
+    {
+      "path": "ios-preflight/simctl-devices.txt",
+      "bytes": 6037,
+      "sha256": "3dcbe1c75de72f93f62d82f87e11e1d314dd1698b4eba9ebf4a2678414d7e584"
+    },
+    {
+      "path": "ios-preflight/simctl-help.txt",
+      "bytes": 2969,
+      "sha256": "edcf34728ad706062dce09b5c9f26dac4d65f4009bf20415e6a6cb3e6574005b"
+    },
+    {
+      "path": "ios-preflight/simctl-io-help.txt",
+      "bytes": 2823,
+      "sha256": "b0e9c698cc6101e5bf23c2dded0661dd970292ecb53eac16b7daeca61fe210b1"
+    },
+    {
+      "path": "ios-preflight/simctl-launch-help.txt",
+      "bytes": 1363,
+      "sha256": "94ae148cf375cb65a0e14daa78230d1cd0520ea6772d75afecba422d96fcc4b2"
+    },
+    {
+      "path": "ios-preflight/simctl-openurl-help.txt",
+      "bytes": 61,
+      "sha256": "0470714f0bf54357d49e9bb3bd0e5818a74aae72e7dcfc72e9fd22b72f4f05ee"
+    },
+    {
+      "path": "ios-preflight/simctl-runtimes.txt",
+      "bytes": 20033,
+      "sha256": "6e596458acaf58fb14878d52445de656788ff4df935c96c90e1cb4432dee6d54"
+    },
+    {
+      "path": "ios-preflight/simctl-terminate-help.txt",
+      "bytes": 109,
+      "sha256": "adfc3efac5761d0e5f2053e224803770f06e1254918dc526184c764fb5739ef3"
+    },
+    {
+      "path": "ios-preflight/simctl-ui-help.txt",
+      "bytes": 1776,
+      "sha256": "2fa67269b4a75d4856edcaf9f65ed4bd830bd0ecae95e370173fa8ed2fe87084"
+    },
+    {
+      "path": "ios-preflight/summary.json",
+      "bytes": 2240,
+      "sha256": "d60d4e8567609b4fcce33c49249cb100cda77fa9a0a0fe625cf4f52b515f646a"
+    },
+    {
+      "path": "lifecycle-notes.md",
+      "bytes": 1903,
+      "sha256": "041e9ab79e1b4dfcc86e965d4bdcf2cacc6d3118425babddd5e8ae21c9b41140"
+    },
+    {
+      "path": "observations.json",
+      "bytes": 8567,
+      "sha256": "91c97271e89013109fe0143cdfb8dc6a4eb6e86321be03a1ceaf08e2f57956c8"
+    },
+    {
+      "path": "screens/android-01-launch.png",
+      "bytes": 146269,
+      "sha256": "3479e961c7e73fa0db08f2e961597698aab1afc6694cfbbb1356f3ca906b5ee8"
+    },
+    {
+      "path": "screens/android-02-expo-load-error.ax.txt",
+      "bytes": 108,
+      "sha256": "b081844f138cf30b3b07328ddb2dc1b75abe0a9cdc8feed1cc65b2a4d8ed5da2"
+    },
+    {
+      "path": "screens/android-02-expo-load-error.png",
+      "bytes": 171741,
+      "sha256": "231a0212e6cf1e2dc1ad2540cb381b9728d35e404b90c80f3afa4f732c4833ac"
+    },
+    {
+      "path": "screens/android-03-login-step1.ax.txt",
+      "bytes": 108,
+      "sha256": "b081844f138cf30b3b07328ddb2dc1b75abe0a9cdc8feed1cc65b2a4d8ed5da2"
+    },
+    {
+      "path": "screens/android-03-login-step1.png",
+      "bytes": 205127,
+      "sha256": "5d78a3502cddf35c35881597b31ddcb4f25ab2e5dd411052d1887be0d65c3718"
+    },
+    {
+      "path": "screens/android-04-required.ax.txt",
+      "bytes": 108,
+      "sha256": "b081844f138cf30b3b07328ddb2dc1b75abe0a9cdc8feed1cc65b2a4d8ed5da2"
+    },
+    {
+      "path": "screens/android-04-required.png",
+      "bytes": 209217,
+      "sha256": "50f486efb11c44c2f115c58966f09765ad59468e22d97febfb7f69250dc57ef5"
+    },
+    {
+      "path": "screens/android-05-partial-step3.ax.txt",
+      "bytes": 108,
+      "sha256": "b081844f138cf30b3b07328ddb2dc1b75abe0a9cdc8feed1cc65b2a4d8ed5da2"
+    },
+    {
+      "path": "screens/android-05-partial-step3.png",
+      "bytes": 209798,
+      "sha256": "7917a248d3e7ae0c3353945695bb972b43d07e898ff4fb087802c8a0ee0ad1db"
+    },
+    {
+      "path": "screens/android-06-back-retains-note.ax.txt",
+      "bytes": 108,
+      "sha256": "b081844f138cf30b3b07328ddb2dc1b75abe0a9cdc8feed1cc65b2a4d8ed5da2"
+    },
+    {
+      "path": "screens/android-06-back-retains-note.png",
+      "bytes": 214437,
+      "sha256": "8e681f046712aa37ecae0d2c78346cac3111e2db2f542adad2050526133b362e"
+    },
+    {
+      "path": "screens/android-07-skip-preserves-progress.ax.txt",
+      "bytes": 108,
+      "sha256": "b081844f138cf30b3b07328ddb2dc1b75abe0a9cdc8feed1cc65b2a4d8ed5da2"
+    },
+    {
+      "path": "screens/android-07-skip-preserves-progress.png",
+      "bytes": 260890,
+      "sha256": "fb3cac78b400e4463b65b8e39c54f594490e7630e4c30e4c504f1984c8f14110"
+    },
+    {
+      "path": "screens/android-08-restart-restores-step.ax.txt",
+      "bytes": 108,
+      "sha256": "b081844f138cf30b3b07328ddb2dc1b75abe0a9cdc8feed1cc65b2a4d8ed5da2"
+    },
+    {
+      "path": "screens/android-08-restart-restores-step.png",
+      "bytes": 260953,
+      "sha256": "2dcf3fbabf44875d5c08b5108e42bab615aac8ed902b8dcd381eb5ebfb9d48e4"
+    },
+    {
+      "path": "screens/android-09-restart-retains-answers.ax.txt",
+      "bytes": 108,
+      "sha256": "b081844f138cf30b3b07328ddb2dc1b75abe0a9cdc8feed1cc65b2a4d8ed5da2"
+    },
+    {
+      "path": "screens/android-09-restart-retains-answers.png",
+      "bytes": 214363,
+      "sha256": "f78fb9b33a1fe7b88c741fe6792009fd8f0f4a8cecb5743a76b0c420cc81d559"
+    },
+    {
+      "path": "screens/android-10-second-account-empty.ax.txt",
+      "bytes": 108,
+      "sha256": "b081844f138cf30b3b07328ddb2dc1b75abe0a9cdc8feed1cc65b2a4d8ed5da2"
+    },
+    {
+      "path": "screens/android-10-second-account-empty.png",
+      "bytes": 204931,
+      "sha256": "c96cc70599bd9e7c75e5a37b8374c122063e5e7048fe135c3061856be17a1849"
+    },
+    {
+      "path": "screens/android-11-first-account-restored.ax.txt",
+      "bytes": 108,
+      "sha256": "b081844f138cf30b3b07328ddb2dc1b75abe0a9cdc8feed1cc65b2a4d8ed5da2"
+    },
+    {
+      "path": "screens/android-11-first-account-restored.png",
+      "bytes": 261435,
+      "sha256": "0a387e01a7fc12c1e87b74c357f34acdca4cd36a7b5b2d062a3f1744dfbc8c14"
+    },
+    {
+      "path": "screens/android-12-first-account-note-restored.ax.txt",
+      "bytes": 108,
+      "sha256": "b081844f138cf30b3b07328ddb2dc1b75abe0a9cdc8feed1cc65b2a4d8ed5da2"
+    },
+    {
+      "path": "screens/android-12-first-account-note-restored.png",
+      "bytes": 214387,
+      "sha256": "6bc98041d5b425a92343e87399735fa65c22432670ee92e59f891171ac79e1ed"
+    },
+    {
+      "path": "screens/android-13-completed-direction.ax.txt",
+      "bytes": 108,
+      "sha256": "b081844f138cf30b3b07328ddb2dc1b75abe0a9cdc8feed1cc65b2a4d8ed5da2"
+    },
+    {
+      "path": "screens/android-13-completed-direction.png",
+      "bytes": 262051,
+      "sha256": "aaa12e86274ca07f2875682076bc424cb65d146f3ed2208f5f11d121cc868890"
+    },
+    {
+      "path": "screens/android-14-explore-empty-search.ax.txt",
+      "bytes": 108,
+      "sha256": "b081844f138cf30b3b07328ddb2dc1b75abe0a9cdc8feed1cc65b2a4d8ed5da2"
+    },
+    {
+      "path": "screens/android-14-explore-empty-search.png",
+      "bytes": 239252,
+      "sha256": "aab0099ae530a2393c7cfadae40ebddb8cde84271e29c484e73ca4ac566c05d9"
+    },
+    {
+      "path": "screens/android-15-retake-updates-result.ax.txt",
+      "bytes": 108,
+      "sha256": "b081844f138cf30b3b07328ddb2dc1b75abe0a9cdc8feed1cc65b2a4d8ed5da2"
+    },
+    {
+      "path": "screens/android-15-retake-updates-result.png",
+      "bytes": 267625,
+      "sha256": "195830265c68eef7bdc80318cdc60c5edecd41561cc1d1244d2209fa28c250d4"
+    },
+    {
+      "path": "screens/android-16-abandon-retake-keeps-result.ax.txt",
+      "bytes": 108,
+      "sha256": "b081844f138cf30b3b07328ddb2dc1b75abe0a9cdc8feed1cc65b2a4d8ed5da2"
+    },
+    {
+      "path": "screens/android-16-abandon-retake-keeps-result.png",
+      "bytes": 247794,
+      "sha256": "b1e6803ee23f1cf9041bdb6be56c0b3233bd0a8d10bc78a12a63776e8096d814"
+    },
+    {
+      "path": "screens/android-17-completed-result-after-restart.ax.txt",
+      "bytes": 108,
+      "sha256": "b081844f138cf30b3b07328ddb2dc1b75abe0a9cdc8feed1cc65b2a4d8ed5da2"
+    },
+    {
+      "path": "screens/android-17-completed-result-after-restart.png",
+      "bytes": 247737,
+      "sha256": "801c8a303af4b441a11598f73cd9aabc624443a4116704b6610b454422f4c096"
+    },
+    {
+      "path": "screens/android-18-result-detail-after-restart.ax.txt",
+      "bytes": 108,
+      "sha256": "b081844f138cf30b3b07328ddb2dc1b75abe0a9cdc8feed1cc65b2a4d8ed5da2"
+    },
+    {
+      "path": "screens/android-18-result-detail-after-restart.png",
+      "bytes": 267751,
+      "sha256": "6ad1418030134db1193bfec135a31b0078d52247e7f9d402a181ee41fd8e6c9a"
+    },
+    {
+      "path": "screens/ios-01-login-step1.ax.txt",
+      "bytes": 225,
+      "sha256": "9821295d28471b330b6e3dcc338b66ac502ab53a4c12a7393453897c1dd18560"
+    },
+    {
+      "path": "screens/ios-01-login-step1.png",
+      "bytes": 170064,
+      "sha256": "ee796df8bcf1adcf8f7a4af92aa1955fb25e310698790578a1fed4012cb3cbd8"
+    },
+    {
+      "path": "screens/ios-02-required.ax.txt",
+      "bytes": 79,
+      "sha256": "ddbce48f2b081d4f6b9ccd8b0c389454c2bc6a3588ee67fc80da0c71d8e7d748"
+    },
+    {
+      "path": "screens/ios-02-required.png",
+      "bytes": 170614,
+      "sha256": "803bd064c4807a54d4b7c1cfcf3212932961561754db0fe935ebb5b373077e47"
+    },
+    {
+      "path": "screens/ios-03-partial-before-restart.ax.txt",
+      "bytes": 79,
+      "sha256": "ddbce48f2b081d4f6b9ccd8b0c389454c2bc6a3588ee67fc80da0c71d8e7d748"
+    },
+    {
+      "path": "screens/ios-03-partial-before-restart.png",
+      "bytes": 178336,
+      "sha256": "02a71545a424daa136bf2f1444dd5287cb4a74de077eb6cce704e0b71ecbc194"
+    },
+    {
+      "path": "screens/ios-04-back-retains-note.ax.txt",
+      "bytes": 79,
+      "sha256": "ddbce48f2b081d4f6b9ccd8b0c389454c2bc6a3588ee67fc80da0c71d8e7d748"
+    },
+    {
+      "path": "screens/ios-04-back-retains-note.png",
+      "bytes": 175644,
+      "sha256": "276b2c985ec5eb41dc35225b393fe065ceb5bf43082297d055419a3a6d975b06"
+    },
+    {
+      "path": "screens/ios-05-restart-restores-step.ax.txt",
+      "bytes": 79,
+      "sha256": "ddbce48f2b081d4f6b9ccd8b0c389454c2bc6a3588ee67fc80da0c71d8e7d748"
+    },
+    {
+      "path": "screens/ios-05-restart-restores-step.png",
+      "bytes": 216045,
+      "sha256": "b50ba8b4cc15c2c3fcc987ebd629dd3aa2e6dfcb4beb2a5b457369420522a20e"
+    },
+    {
+      "path": "screens/ios-06-restart-retains-answers.ax.txt",
+      "bytes": 79,
+      "sha256": "ddbce48f2b081d4f6b9ccd8b0c389454c2bc6a3588ee67fc80da0c71d8e7d748"
+    },
+    {
+      "path": "screens/ios-06-restart-retains-answers.png",
+      "bytes": 183173,
+      "sha256": "33de35328419962e59aa363b2b19c604f1492f1c294d2935da54630560d8c6b1"
+    },
+    {
+      "path": "screens/ios-07-skip-preserves-progress.ax.txt",
+      "bytes": 79,
+      "sha256": "ddbce48f2b081d4f6b9ccd8b0c389454c2bc6a3588ee67fc80da0c71d8e7d748"
+    },
+    {
+      "path": "screens/ios-07-skip-preserves-progress.png",
+      "bytes": 215889,
+      "sha256": "29a15a3c54b0b96e487f206882f82e788ebb12af19b56006e4db2db56ace078f"
+    },
+    {
+      "path": "screens/ios-08-second-account-empty.ax.txt",
+      "bytes": 225,
+      "sha256": "1129f82711a7f95b5648e977f261def74777e2c865b4d0bd5ee12ea8adab8c1c"
+    },
+    {
+      "path": "screens/ios-08-second-account-empty.png",
+      "bytes": 170200,
+      "sha256": "e0da36ee5168f130df250ec4a34fd1382da9061c993b8933c5d296e60d0e827a"
+    },
+    {
+      "path": "screens/ios-09-first-account-restored.ax.txt",
+      "bytes": 225,
+      "sha256": "221bb57aeb2f523cd54296eda7dd5f654911f573f18a1ab42b22c64dad55af8d"
+    },
+    {
+      "path": "screens/ios-09-first-account-restored.png",
+      "bytes": 203859,
+      "sha256": "185ca298e1272de8ef8f62fd5b0bda7578acf5228f8a4c7e4224fd884eb6f978"
+    },
+    {
+      "path": "screens/ios-10-completed-direction.ax.txt",
+      "bytes": 79,
+      "sha256": "ddbce48f2b081d4f6b9ccd8b0c389454c2bc6a3588ee67fc80da0c71d8e7d748"
+    },
+    {
+      "path": "screens/ios-10-completed-direction.png",
+      "bytes": 196639,
+      "sha256": "fa70ccc56d283b999d95e503913ef40b879eeffdcd711786fceb27b79aa493d1"
+    },
+    {
+      "path": "screens/ios-11-explore-empty-search.ax.txt",
+      "bytes": 79,
+      "sha256": "ddbce48f2b081d4f6b9ccd8b0c389454c2bc6a3588ee67fc80da0c71d8e7d748"
+    },
+    {
+      "path": "screens/ios-11-explore-empty-search.png",
+      "bytes": 190424,
+      "sha256": "c6aee1b632185c29be56d11aa111ac3172faf8059334e29b3dc4cce929cc4553"
+    },
+    {
+      "path": "screens/ios-12-retake-updates-result.ax.txt",
+      "bytes": 79,
+      "sha256": "ddbce48f2b081d4f6b9ccd8b0c389454c2bc6a3588ee67fc80da0c71d8e7d748"
+    },
+    {
+      "path": "screens/ios-12-retake-updates-result.png",
+      "bytes": 201110,
+      "sha256": "a924cdd3ff56c8604d7de2dd040ae088ae254f5734198ae594f9d7e22bbdf468"
+    },
+    {
+      "path": "screens/ios-13-abandon-retake-keeps-result.ax.txt",
+      "bytes": 79,
+      "sha256": "ddbce48f2b081d4f6b9ccd8b0c389454c2bc6a3588ee67fc80da0c71d8e7d748"
+    },
+    {
+      "path": "screens/ios-13-abandon-retake-keeps-result.png",
+      "bytes": 198273,
+      "sha256": "3456fe09af5c75d298d695697c3639e478b6413453e06b9ac616f093982207d7"
+    },
+    {
+      "path": "screens/ios-14-completed-result-after-restart.ax.txt",
+      "bytes": 79,
+      "sha256": "ddbce48f2b081d4f6b9ccd8b0c389454c2bc6a3588ee67fc80da0c71d8e7d748"
+    },
+    {
+      "path": "screens/ios-14-completed-result-after-restart.png",
+      "bytes": 205966,
+      "sha256": "4ab3a6e76b82e9f77886ac4dcbd9a800be13c485870a972f980345468440d536"
+    },
+    {
+      "path": "screens/ios-15-result-detail-after-restart.ax.txt",
+      "bytes": 242,
+      "sha256": "479842ba3ec41c721a9af9e34e7d5d1fa787e5f81cb62241e9f71df1e18faf21"
+    },
+    {
+      "path": "screens/ios-15-result-detail-after-restart.png",
+      "bytes": 224256,
+      "sha256": "423c1e3f718f1f21cb238f8878e46e4e7ec0eaf1b50655a827437699698c6aaa"
+    },
+    {
+      "path": "services/android-loading-diagnostic.json",
+      "bytes": 1524,
+      "sha256": "8ed34eb25029835de1fd41a2ee306c9f5bb851a83aba39a54abee0d3dffaed5d"
+    },
+    {
+      "path": "services/android-reverse-missing.json",
+      "bytes": 347,
+      "sha256": "291ae127321fc8a6dd0a34846e8abf60d8a8eadee7b3115db929e314458f6b01"
+    },
+    {
+      "path": "services/android-reverse-probes.json",
+      "bytes": 915,
+      "sha256": "b99ebb1789cee746b012cfb67bb7eea92b6d38a0dfe224104562d17aecd43e2e"
+    },
+    {
+      "path": "services/android-update-failure.json",
+      "bytes": 14684,
+      "sha256": "6ad5f6d2f135de588341415d5921c94617a4ef0680702e673621a2c690e928f0"
+    },
+    {
+      "path": "services/api.log",
+      "bytes": 169,
+      "sha256": "a354104f44a629e01887293fc58bbc0dc38ed156953b8f49cd408c5b08ece3a4"
+    },
+    {
+      "path": "services/bundle-prewarm.json",
+      "bytes": 1104,
+      "sha256": "c2229ba5334528c7478043caa334ee21096e67505de419ddc5045ceb0d6e902e"
+    },
+    {
+      "path": "services/cleanup-start.json",
+      "bytes": 814,
+      "sha256": "1112059651b598b750f05a88245c9e1febdbbf5aeeb2262a13037885f5eaf564"
+    },
+    {
+      "path": "services/cleanup.json",
+      "bytes": 1336,
+      "sha256": "c1e987759bc51acd195599e7db2ab7b52f13fb282d4082832d25a5780eb053a8"
+    },
+    {
+      "path": "services/diagnosis-baseline.json",
+      "bytes": 1561,
+      "sha256": "dfaf90b922c645c0b33bd8d2851cb90b3d393f9d5a2c5ff72d6bced6da570a13"
+    },
+    {
+      "path": "services/diagnosis-final.json",
+      "bytes": 1561,
+      "sha256": "35e900cf6905e6133926cfce070c7ba6b518d36a52abc3eb2a52c0c2b9bcd356"
+    },
+    {
+      "path": "services/environment.json",
+      "bytes": 41598,
+      "sha256": "cd18c4de8a9fa1ca7fc95faf4a2ecd70ade05db280bb2301a4c559c521a84721"
+    },
+    {
+      "path": "services/health-d03.json",
+      "bytes": 307,
+      "sha256": "5a4efaceb2e3a5d76a83dbcdee82ec8e93ff5652875919da85644edc048d2ff1"
+    },
+    {
+      "path": "services/health.json",
+      "bytes": 891,
+      "sha256": "0998b913b1e020d70646e14f040ead89e1e7af3104f934f7a7bce0c254497c9f"
+    },
+    {
+      "path": "services/metro-ipv4.log",
+      "bytes": 789,
+      "sha256": "283a9fe3ee59ea25fdeed67251664b63ffb23f5dc79435c1bf372aaae1b6eed1"
+    },
+    {
+      "path": "services/metro.log",
+      "bytes": 334,
+      "sha256": "8bb4c90135e6d2f00e0ea813ceb362914014ef14f58ec704a7a27e2ca9d7f4ef"
+    },
+    {
+      "path": "services/safe-evidence-review.json",
+      "bytes": 1084,
+      "sha256": "7e51a364dfbfdc3e2132c2c444bf3dcc9091c76d1ecbe7bde951592046dd26d1"
+    },
+    {
+      "path": "services/source-verification.json",
+      "bytes": 242,
+      "sha256": "65ad0274867bf45f4212033ae40c669a7dc6b25a0956f74aff09828a7db3b0c6"
+    },
+    {
+      "path": "summary.json",
+      "bytes": 1553,
+      "sha256": "a3133831361fd8e422fc0bc8c04908ce4445bea25b4f243f04669ad8cf2ca7d2"
+    },
+    {
+      "path": "validation.json",
+      "bytes": 607,
+      "sha256": "1b4694b4130f2fcc869e7c3665334a3d710b8880a7f5e43632215039949e63ef"
+    }
+  ]
+}

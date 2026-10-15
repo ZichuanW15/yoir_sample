@@ -1,0 +1,93 @@
+Window: "iPhone 18 Pro", App: Device Hub.
+0 standard window iPhone 18 Pro – iOS 27.0, ID: com.apple.dt.DeviceKit.DeviceManagementWindow-AppWindow-1, Secondary Actions: Raise
+	1 split group
+		2 split group com.apple.dt.DeviceKit.DeviceManagementWindow-AppWindow-1, SidebarNavigationSplitView
+			3 scroll area
+				4 list Sidebar
+					5 row (selectable) Description: Available, Value: Expanded
+					6 row (selected) Description: iphone.gen3, Value: iPhone 18 Pro
+27.0
+Simulator
+			7 search text field (settable) Search
+				8 button Search
+			9 splitter (disabled, settable, float) 248
+			10 container
+				11 container
+					12 element Description: Account, QA iOS Candidate, Secondary Actions: Cancel
+					13 text Description: Professional profile, Secondary Actions: Cancel
+					14 text Description: QI, Secondary Actions: Cancel
+					15 button Description: Edit profile photo, Secondary Actions: Cancel
+					16 text Description: QA iOS Candidate, Secondary Actions: Cancel
+					17 button Description: Verification, Secondary Actions: Cancel
+					18 button Description: Paste an image URL instead, Secondary Actions: Cancel
+					19 button Description: Profile privacy, Secondary Actions: Cancel
+					20 text Description: How you introduce yourself, Secondary Actions: Cancel
+					21 text Description: LinkedIn profile URL, Secondary Actions: Cancel
+					22 secure text field (settable) Description: LinkedIn profile URL, Value: https://www.linkedin.com/in/nativeqa-ios-candidate/, Placeholder: https://www.linkedin.com/in/your-name, Secondary Actions: Cancel
+					23 text Description: The Platform Owner opens this link to verify you before your listings go live., Secondary Actions: Cancel
+					24 text Description: Introduction, Secondary Actions: Cancel
+					25 Group (settable) Description: Introduction, Value: iOS QA introduction, Secondary Actions: Cancel
+					26 text Description: Background, Secondary Actions: Cancel
+					27 Group (settable) Description: Background, Value: iOS QA background, Secondary Actions: Cancel
+					28 text Description: Experience, Secondary Actions: Cancel
+					29 Group (settable) Description: Experience, Value: iOS QA experience, Secondary Actions: Cancel
+					30 text Description: What Job Seekers check before booking, Secondary Actions: Cancel
+					31 text Description: Qualifications, Secondary Actions: Cancel
+					32 Group (settable) Description: Qualifications, Value: QA qualification, Secondary Actions: Cancel
+					33 text Description: Skills and expertise, Secondary Actions: Cancel
+					34 Group (settable) Description: Skills and expertise, Value: Career planning, Secondary Actions: Cancel
+					35 text Description: Languages you work in, Secondary Actions: Cancel
+					36 text field (settable) Description: Languages you work in, Value: English, Placeholder: Separate with commas, e.g. English, Hindi, Secondary Actions: Cancel
+					37 text Description: Default delivery, Secondary Actions: Cancel
+					38 text Description: New services start with this delivery method. You can change it per service., Secondary Actions: Cancel
+					39 button (selected) Description: Online, Value: radio button, checked, Secondary Actions: Cancel
+					40 button Description: In person, Value: radio button, unchecked, Secondary Actions: Cancel
+					41 text Description: Where you are based, Secondary Actions: Cancel
+					42 button Description: NSW, Value: radio button, unchecked, Secondary Actions: Cancel
+					43 button (selected) Description: VIC, Value: radio button, checked, Secondary Actions: Cancel
+					44 button Description: QLD, Value: radio button, unchecked, Secondary Actions: Cancel
+					45 button Description: WA, Value: radio button, unchecked, Secondary Actions: Cancel
+					46 button Description: SA, Value: radio button, unchecked, Secondary Actions: Cancel
+					47 element Description: TAS, Value: radio button, unchecked, Secondary Actions: Cancel
+					48 button Description: ACT, Value: radio button, unchecked, Secondary Actions: Cancel
+					49 button Description: NT, Value: radio button, unchecked, Secondary Actions: Cancel
+					50 text Description: City or region, Secondary Actions: Cancel
+					51 secure text field (settable) Description: City or region, Value: Melbourne, Secondary Actions: Cancel
+					52 text Description: Changes save automatically., Secondary Actions: Cancel
+					53 button Description: Workspace, Secondary Actions: Cancel
+					54 button Description: Bookings, Secondary Actions: Cancel
+					55 element (selected) Description: Profile, Secondary Actions: Cancel
+					56 image Description: Gear Shape, Filled, ID: gearshape.fill, Secondary Actions: Cancel
+				57 button Description: Home, ID: app.grid.3x3
+				58 button Description: Screenshot, ID: camera.viewfinder
+				59 button Description: Record, ID: record.circle
+				60 button Rotate Left
+	61 toolbar
+		62 menu button Add, Help: Add Device, ID: plus
+		63 toggle button Description: Filter, Help: Sort and Filter, Value: off
+		64 button Description: Hide Sidebar, Secondary Actions: Increment, Decrement, Delete, Cancel
+		65 toggle button Description: Capture Keyboard, Value: off
+		66 toggle button (disabled) Description: Resize mode, Help: Enter resize mode, Value: off
+		67 Zoom
+			68 radio button Description: Zoom Out, Value: 0, ID: minus.magnifyingglass
+			69 radio button Description: arrowtriangles.up.right.down.left.magnifyingglass, Help: Zoom to Fit, Value: 1
+			70 radio button Description: Zoom To Actual Size, Help: Physical Size, Value: 0, ID: 1.magnifyingglass
+			71 radio button Description: Zoom In, Value: 0, ID: plus.magnifyingglass
+		72 button Description: Open in New Window, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		73 menu button More, Help: More Actions, ID: ellipsis
+		74 radio button Description: Edit, Help: Settings, Value: 0, ID: slider.horizontal.3
+		75 radio button Description: text.document, Help: Reports, Value: 0
+		76 radio button Description: Info, Value: 0, ID: info
+	77 close button
+	78 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	79 minimize button
+	80 text iPhone 18 Pro iOS 27.0
+81 menu bar
+	82 Device Hub
+	83 File
+	84 Edit
+	85 View
+	86 Device
+	87 Controls
+	88 Window
+	89 Help

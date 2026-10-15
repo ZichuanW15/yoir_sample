@@ -1,0 +1,8 @@
+{
+  "status": 404,
+  "body": {
+    "code": "NOT_FOUND",
+    "message": "Diagnosis not found.",
+    "requestId": "5f481a77-bea5-49ea-bd55-42399990cea9"
+  }
+}

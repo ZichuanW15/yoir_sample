@@ -1,0 +1,287 @@
+{
+  "baselineRegressionCases": 9,
+  "addedRegressionCases": 6,
+  "addedDefectCases": 3,
+  "results": {
+    "shared-final": {
+      "numPassedTests": 15,
+      "numFailedTests": 0,
+      "numPendingTests": 0,
+      "numRuntimeErrorTestSuites": 0,
+      "wasInterrupted": false,
+      "cases": [
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed pending after returning",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed verified after returning",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed rejected after returning",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed pending after returning",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed verified after returning",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed rejected after returning",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh profile marks previously verified status unavailable on focus failure, then recovers",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh returning focus while a blur-triggered save is pending does not overwrite the draft",
+          "status": "passed"
+        },
+        {
+          "name": "QA-210 payment refresh failure clears formerly loaded rows and retry uses new data",
+          "status": "passed"
+        },
+        {
+          "name": "Sprint 3 mounted workspace and Users refresh recovery workspace recovers all displayed data on the next focus after a successful read followed by failure",
+          "status": "passed"
+        },
+        {
+          "name": "Sprint 3 mounted workspace and Users refresh recovery workspace uses the renewed token for every reload without remounting or logging in again",
+          "status": "passed"
+        },
+        {
+          "name": "Sprint 3 mounted workspace and Users refresh recovery Users replaces the mounted counsellor directory after session renewal",
+          "status": "passed"
+        },
+        {
+          "name": "Sprint 3 mounted workspace and Users refresh recovery Users replaces the mounted job_seeker directory after session renewal",
+          "status": "passed"
+        },
+        {
+          "name": "Sprint 3 mounted workspace and Users refresh recovery Users retries both reads with the renewed token after the professionals refresh fails",
+          "status": "passed"
+        },
+        {
+          "name": "Sprint 3 mounted workspace and Users refresh recovery Users retries both reads with the renewed token after the job seekers refresh fails",
+          "status": "passed"
+        }
+      ]
+    },
+    "shared-defects-final": {
+      "numPassedTests": 0,
+      "numFailedTests": 3,
+      "numPendingTests": 0,
+      "numRuntimeErrorTestSuites": 0,
+      "wasInterrupted": false,
+      "cases": [
+        {
+          "name": "Sprint 3 refresh acceptance (advisory; ordinary assertions) [S3-WORKSPACE-STALE-STATUS][QA-195/198] a failed profile refresh must not present the old verification as current",
+          "status": "failed"
+        },
+        {
+          "name": "Sprint 3 refresh acceptance (advisory; ordinary assertions) [S3-ADMIN-USERS-FOCUS][US-71] returning to the mounted Users directory rereads account status",
+          "status": "failed"
+        },
+        {
+          "name": "Sprint 3 refresh acceptance (advisory; ordinary assertions) [S3-ADMIN-USERS-STALE-REFRESH][US-71] a failed renewed-session read withholds the old directory until retry succeeds",
+          "status": "failed"
+        }
+      ]
+    },
+    "ios": {
+      "numPassedTests": 15,
+      "numFailedTests": 0,
+      "numPendingTests": 0,
+      "numRuntimeErrorTestSuites": 0,
+      "wasInterrupted": false,
+      "cases": [
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed pending after returning",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed verified after returning",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed rejected after returning",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed pending after returning",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed verified after returning",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed rejected after returning",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh profile marks previously verified status unavailable on focus failure, then recovers",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh returning focus while a blur-triggered save is pending does not overwrite the draft",
+          "status": "passed"
+        },
+        {
+          "name": "QA-210 payment refresh failure clears formerly loaded rows and retry uses new data",
+          "status": "passed"
+        },
+        {
+          "name": "Sprint 3 mounted workspace and Users refresh recovery workspace recovers all displayed data on the next focus after a successful read followed by failure",
+          "status": "passed"
+        },
+        {
+          "name": "Sprint 3 mounted workspace and Users refresh recovery workspace uses the renewed token for every reload without remounting or logging in again",
+          "status": "passed"
+        },
+        {
+          "name": "Sprint 3 mounted workspace and Users refresh recovery Users replaces the mounted counsellor directory after session renewal",
+          "status": "passed"
+        },
+        {
+          "name": "Sprint 3 mounted workspace and Users refresh recovery Users replaces the mounted job_seeker directory after session renewal",
+          "status": "passed"
+        },
+        {
+          "name": "Sprint 3 mounted workspace and Users refresh recovery Users retries both reads with the renewed token after the professionals refresh fails",
+          "status": "passed"
+        },
+        {
+          "name": "Sprint 3 mounted workspace and Users refresh recovery Users retries both reads with the renewed token after the job seekers refresh fails",
+          "status": "passed"
+        }
+      ]
+    },
+    "ios-defects": {
+      "numPassedTests": 0,
+      "numFailedTests": 3,
+      "numPendingTests": 0,
+      "numRuntimeErrorTestSuites": 0,
+      "wasInterrupted": false,
+      "cases": [
+        {
+          "name": "Sprint 3 refresh acceptance (advisory; ordinary assertions) [S3-WORKSPACE-STALE-STATUS][QA-195/198] a failed profile refresh must not present the old verification as current",
+          "status": "failed"
+        },
+        {
+          "name": "Sprint 3 refresh acceptance (advisory; ordinary assertions) [S3-ADMIN-USERS-FOCUS][US-71] returning to the mounted Users directory rereads account status",
+          "status": "failed"
+        },
+        {
+          "name": "Sprint 3 refresh acceptance (advisory; ordinary assertions) [S3-ADMIN-USERS-STALE-REFRESH][US-71] a failed renewed-session read withholds the old directory until retry succeeds",
+          "status": "failed"
+        }
+      ]
+    },
+    "android": {
+      "numPassedTests": 15,
+      "numFailedTests": 0,
+      "numPendingTests": 0,
+      "numRuntimeErrorTestSuites": 0,
+      "wasInterrupted": false,
+      "cases": [
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed pending after returning",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed verified after returning",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed rejected after returning",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed pending after returning",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed verified after returning",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed rejected after returning",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh profile marks previously verified status unavailable on focus failure, then recovers",
+          "status": "passed"
+        },
+        {
+          "name": "QA-195/198 same-mounted counsellor focus refresh returning focus while a blur-triggered save is pending does not overwrite the draft",
+          "status": "passed"
+        },
+        {
+          "name": "QA-210 payment refresh failure clears formerly loaded rows and retry uses new data",
+          "status": "passed"
+        },
+        {
+          "name": "Sprint 3 mounted workspace and Users refresh recovery workspace recovers all displayed data on the next focus after a successful read followed by failure",
+          "status": "passed"
+        },
+        {
+          "name": "Sprint 3 mounted workspace and Users refresh recovery workspace uses the renewed token for every reload without remounting or logging in again",
+          "status": "passed"
+        },
+        {
+          "name": "Sprint 3 mounted workspace and Users refresh recovery Users replaces the mounted counsellor directory after session renewal",
+          "status": "passed"
+        },
+        {
+          "name": "Sprint 3 mounted workspace and Users refresh recovery Users replaces the mounted job_seeker directory after session renewal",
+          "status": "passed"
+        },
+        {
+          "name": "Sprint 3 mounted workspace and Users refresh recovery Users retries both reads with the renewed token after the professionals refresh fails",
+          "status": "passed"
+        },
+        {
+          "name": "Sprint 3 mounted workspace and Users refresh recovery Users retries both reads with the renewed token after the job seekers refresh fails",
+          "status": "passed"
+        }
+      ]
+    },
+    "android-defects": {
+      "numPassedTests": 0,
+      "numFailedTests": 3,
+      "numPendingTests": 0,
+      "numRuntimeErrorTestSuites": 0,
+      "wasInterrupted": false,
+      "cases": [
+        {
+          "name": "Sprint 3 refresh acceptance (advisory; ordinary assertions) [S3-WORKSPACE-STALE-STATUS][QA-195/198] a failed profile refresh must not present the old verification as current",
+          "status": "failed"
+        },
+        {
+          "name": "Sprint 3 refresh acceptance (advisory; ordinary assertions) [S3-ADMIN-USERS-FOCUS][US-71] returning to the mounted Users directory rereads account status",
+          "status": "failed"
+        },
+        {
+          "name": "Sprint 3 refresh acceptance (advisory; ordinary assertions) [S3-ADMIN-USERS-STALE-REFRESH][US-71] a failed renewed-session read withholds the old directory until retry succeeds",
+          "status": "failed"
+        }
+      ]
+    }
+  },
+  "sourceHashes": {
+    "frontend/__tests__/screens/focus-refresh.test.tsx": "d77572998a80673f8e9cb906a018b2e571f3a632640da2c96673ace114222013",
+    "frontend/__tests__/defects/sprint3-refresh-acceptance.test.tsx": "122e7bf680baab88b6aa4c6ea5133bf0b3ed14ff3a6ae82300756b6993217be9",
+    "frontend/__tests__/screens/counsellor-screen-utils.tsx": "3005e891ccc6fbf7d7ca10276f3ade7c55032a8b6957cd8caff78803ae09c717",
+    "frontend/app/counsellor/index.tsx": "2783fb0253bb5e0527d180ceff0a4553965378ca9fd8359f7e1cf749848e0303",
+    "frontend/app/admin/counsellors.tsx": "551887abadaad179d108adbace6b85aa61fbdd5d7dc29da92507ec651ed4a266",
+    "frontend/src/auth/AuthContext.tsx": "b7b3c37c67d9f8fcccbd47816293c611a10697365d9c27f3e9a45a8e6aa68e8d",
+    "frontend/src/api/authBridge.ts": "be78156bff860635562929f16b5e8d13145ffe5f32a9157b4db9fd0fbebe3d3a",
+    "frontend/package-lock.json": "c3b6f9355f8cb29624fe40c7565b12c77a1ab2c6619d59abe3203da1d48f4b78"
+  }
+}

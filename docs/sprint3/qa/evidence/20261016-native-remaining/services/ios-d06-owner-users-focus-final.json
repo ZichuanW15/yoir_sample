@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-15T22:13:13.183500+00:00",
+  "userId": "qa-nr-ios-owner",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/admin/verifications/qa-nr-ios-candidate": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-ios-candidate",
+        "counsellorId": "qa-nr-ios-candidate",
+        "counsellorName": "QA iOS Candidate",
+        "email": "iv@example.com",
+        "linkedInUrl": "https://www.linkedin.com/in/nativeqa-ios-candidate/",
+        "introduction": "iOS QA introduction",
+        "background": "iOS QA background",
+        "experience": "iOS QA experience",
+        "status": "verified",
+        "submittedAt": "2026-10-15T21:41:58.741222Z",
+        "decidedAt": "2026-10-15T22:13:00.637913Z",
+        "decisionReason": null
+      }
+    }
+  }
+}

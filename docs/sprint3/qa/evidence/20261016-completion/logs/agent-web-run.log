@@ -1,0 +1,55 @@
+[WebServer] Mail is NOT configured (MAILGUN_API_KEY and MAILGUN_DOMAIN missing): every message will be logged and discarded, including email confirmation and booking confirmations.
+
+Running 7 tests using 1 worker
+
+  ✓  1 [chromium-web] › e2e/sprint3-completion.spec.ts:88:7 › US32/33/71 real pending decision refreshes profile, My Services and administrator users (3.4s)
+  ✓  2 [chromium-web] › e2e/sprint3-completion.spec.ts:88:7 › US32/33/71 real verified decision refreshes profile, My Services and administrator users (3.1s)
+  ✓  3 [chromium-web] › e2e/sprint3-completion.spec.ts:88:7 › US32/33/71 real rejected decision refreshes profile, My Services and administrator users (3.3s)
+  ✓  4 [chromium-web] › e2e/sprint3-completion.spec.ts:128:5 › US31/32 a real conflicting verification submission never falsely becomes Pending (2.5s)
+  ✓  5 [chromium-web] › e2e/sprint3-completion.spec.ts:157:5 › US27/28 an already-open public profile removes private fields after real privacy changes and refresh (2.5s)
+  ✓  6 [chromium-web] › e2e/sprint3-completion.spec.ts:214:5 › US54/55 an unrated real service stays New in listings and shows an empty review state (1.8s)
+  ✘  7 [chromium-web] › e2e/sprint3-completion.spec.ts:241:5 › US09/12/13 a no-results marketplace search preserves completed diagnosis and original answers (6.8s)
+
+
+  1) [chromium-web] › e2e/sprint3-completion.spec.ts:241:5 › US09/12/13 a no-results marketplace search preserves completed diagnosis and original answers 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Resume and applications', { exact: true })
+    Expected: visible
+    Error: strict mode violation: getByText('Resume and applications', { exact: true }) resolved to 3 elements:
+        1) <div dir="auto" class="css-146c3p1">Resume and applications</div> aka getByText('Resume and applications').first()
+        2) <div dir="auto" class="css-146c3p1">Resume and applications</div> aka getByText('Resume and applications').nth(1)
+        3) <div dir="auto" class="css-146c3p1">Resume and applications</div> aka getByText('Resume and applications').nth(2)
+
+    Call log:
+      - Expect "toBeVisible" getByText('Resume and applications', { exact: true }) with timeout 5000ms
+      - waiting for getByText('Resume and applications', { exact: true })
+
+
+      259 |   await expect(page.getByText('No services match your search.', { exact: true })).toBeVisible();
+      260 |   await page.getByRole('button', { name: 'View my Yoir Direction', exact: true }).click();
+    > 261 |   await expect(page.getByText('Resume and applications', { exact: true })).toBeVisible();
+          |                                                                            ^
+      262 |   await page.reload();
+      263 |   await expect(page.getByText('Resume and applications', { exact: true })).toBeVisible();
+      264 |   await page.getByRole('button', { name: 'Retake the diagnosis', exact: true }).click();
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-completion.spec.ts:261:76
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-completion-20261016/agent-web/attachments/sprint3-completion-US09-12-bf4ee-gnosis-and-original-answers-chromium-web/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../artifacts/qa/sprint3-completion-20261016/agent-web/attachments/sprint3-completion-US09-12-bf4ee-gnosis-and-original-answers-chromium-web/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-completion-20261016/agent-web/attachments/sprint3-completion-US09-12-bf4ee-gnosis-and-original-answers-chromium-web/trace.zip
+    Usage:
+
+        npx playwright show-trace ../artifacts/qa/sprint3-completion-20261016/agent-web/attachments/sprint3-completion-US09-12-bf4ee-gnosis-and-original-answers-chromium-web/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium-web] › e2e/sprint3-completion.spec.ts:241:5 › US09/12/13 a no-results marketplace search preserves completed diagnosis and original answers 
+  6 passed (25.3s)

@@ -1,0 +1,17 @@
+{
+  "at": "2026-10-15T22:09:03.993392+00:00",
+  "userId": "qa-nr-android-buyer",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/me/job-seeker-profile": {
+      "status": 200,
+      "data": {
+        "name": "QA Android Buyer",
+        "email": "a1@example.com",
+        "photoUrl": null,
+        "headline": "",
+        "careerGoals": ""
+      }
+    }
+  }
+}

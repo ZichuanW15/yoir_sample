@@ -1,0 +1,33 @@
+{
+  "at": "2026-10-15T22:02:35.779603+00:00",
+  "userId": "qa-nr-ios-pro",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/me/profile-visibility": {
+      "status": 200,
+      "data": {
+        "visibility": "partial"
+      }
+    },
+    "/counsellors/qa-nr-ios-pro": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-ios-pro",
+        "displayName": "QA iOS Pro",
+        "linkedinUrl": "",
+        "introduction": "iOS QA introduction",
+        "background": "",
+        "experience": "",
+        "qualifications": [],
+        "expertise": [],
+        "languages": [],
+        "defaultModality": "online",
+        "verificationStatus": "verified",
+        "overallRating": 5.0,
+        "reviewCount": 1,
+        "visibility": "partial"
+      }
+    }
+  },
+  "timingNote": "Independent read occurred after successful native retry; it proves partial persisted, not the intermediate public state. Intermediate failed-write public state is shown by native reopen capture and no downstream PATCH for the injected request."
+}

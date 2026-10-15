@@ -1,0 +1,41 @@
+{
+  "at": "2026-10-15T21:41:26.047284+00:00",
+  "userId": "qa-nr-ios-candidate",
+  "reads": {
+    "/me/onboarding-state": {
+      "status": 200,
+      "data": {
+        "profileComplete": true,
+        "verificationSubmitted": false,
+        "complete": false
+      }
+    },
+    "/me/counsellor-profile": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-ios-candidate",
+        "displayName": "QA iOS Candidate",
+        "linkedinUrl": "",
+        "introduction": "iOS QA introduction",
+        "background": "iOS QA background",
+        "experience": "iOS QA experience",
+        "qualifications": [
+          "QA qualification"
+        ],
+        "expertise": [
+          "Career planning"
+        ],
+        "languages": [
+          "English"
+        ],
+        "baseLocation": {
+          "state": "VIC",
+          "cityOrRegion": "Melbourne"
+        },
+        "defaultModality": "online",
+        "verificationStatus": "pending",
+        "reviewCount": 0
+      }
+    }
+  }
+}

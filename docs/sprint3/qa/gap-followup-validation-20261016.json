@@ -1,0 +1,51 @@
+{
+  "verifiedAt": "2026-10-15T21:06:11.760333+00:00",
+  "checks": {
+    "manifest:20261014": 48,
+    "manifest:20261016": 104,
+    "manifest:20261016-completion": 69,
+    "manifest:20261016-gap-followup": 66,
+    "qaSources": 36,
+    "productDependenciesAndCiUnchanged": true,
+    "sourceMatch:browser-integration-final": 355,
+    "sourceMatch:frontend-typecheck-complete": 355,
+    "sourceMatch:frontend-lint-complete": 355,
+    "sourceMatch:browser-defect-health-final": 355,
+    "sourceMatch:repository-metadata": 355,
+    "sourceMatch:frontend-shared-excluding-unexecuted-e2e": 207,
+    "sourceMatch:refresh": 8,
+    "sharedRegression": {
+      "passed": 568,
+      "suites": 64
+    },
+    "refreshEachPreset": {
+      "regressionPassed": 15,
+      "defectFailed": 3,
+      "runtimeErrors": 0,
+      "skipped": 0
+    },
+    "browserIntegration": {
+      "failedAssertions": 4,
+      "skipped": 0,
+      "flaky": 0,
+      "globalErrors": 0
+    },
+    "browserReadbacksAndUnreached503Verified": true,
+    "addedCases": {
+      "regression": 6,
+      "defectAssertions": 7,
+      "overlayRegression": 245,
+      "overlayDefectAssertions": 17
+    },
+    "matrixIssueLinksAligned": true,
+    "coverageTotalsUnchanged": true,
+    "repositoryMetadataPassed": true,
+    "ownedPortsStopped": [
+      43169,
+      43179,
+      8089
+    ],
+    "deviceStatus": "Blocked before Yoir UI; D02/D03 NOT RUN, 0 acceptance assertions"
+  },
+  "scope": "Evidence/source consistency and final report classification, not another application execution."
+}

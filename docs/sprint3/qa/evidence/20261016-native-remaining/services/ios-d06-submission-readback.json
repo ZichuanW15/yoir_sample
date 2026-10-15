@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-15T21:42:12.256026+00:00",
+  "userId": "qa-nr-ios-owner",
+  "reads": {
+    "/admin/verifications/qa-nr-ios-candidate": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-ios-candidate",
+        "counsellorId": "qa-nr-ios-candidate",
+        "counsellorName": "QA iOS Candidate",
+        "email": "iv@example.com",
+        "linkedInUrl": "https://www.linkedin.com/in/nativeqa-ios-candidate/",
+        "introduction": "iOS QA introduction",
+        "background": "iOS QA background",
+        "experience": "iOS QA experience",
+        "status": "pending",
+        "submittedAt": "2026-10-15T21:41:58.741222Z",
+        "decidedAt": null,
+        "decisionReason": null
+      }
+    }
+  }
+}

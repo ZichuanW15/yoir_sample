@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-15T21:35:31.212799+00:00",
+  "purpose": "Harness-only single-hit fault validation on health; no device acceptance claim",
+  "checks": [
+    {
+      "attempt": 1,
+      "status": 503,
+      "body": {
+        "code": "QA_INJECTED_FAILURE",
+        "message": "Temporary QA connection failure. Please try again.",
+        "requestId": "selfcheck-health"
+      }
+    },
+    {
+      "attempt": 2,
+      "status": 200,
+      "body": {
+        "status": "ok"
+      }
+    }
+  ],
+  "pass": true
+}

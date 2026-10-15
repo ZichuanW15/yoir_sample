@@ -1,0 +1,8 @@
+
+> yoir-mobile@0.1.0 lint
+> expo lint
+
+
+> yoir-mobile@0.1.0 typecheck
+> tsc --noEmit
+

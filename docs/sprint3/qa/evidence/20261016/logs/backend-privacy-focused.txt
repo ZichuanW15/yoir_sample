@@ -1,0 +1,162 @@
+FFF..............                                                        [100%]
+=================================== FAILURES ===================================
+_ test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_complete[public] _
+
+client = <starlette.testclient.TestClient object at 0x10d91a150>
+db_session = <sqlalchemy.orm.session.Session object at 0x10d91a330>
+counsellor = <app.models.User object at 0x10d8d28a0>
+counsellor_headers = {'Authorization': 'Bearer [REDACTED_LOCAL_TEST_TOKEN]'}
+job_seeker_headers = {'Authorization': 'Bearer [REDACTED_LOCAL_TEST_TOKEN]'}
+level = 'public'
+
+    @pytest.mark.parametrize("level", ["public", "partial", "restricted"])
+    def test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_complete(
+        client, db_session, counsellor, counsellor_headers, job_seeker_headers, level,
+    ):
+        counsellor.linkedin_url = "https://www.linkedin.com/in/qa-owner"
+        counsellor.background = "Private professional background"
+        counsellor.experience = "Private experience"
+        counsellor.qualifications = ["Private qualification"]
+        counsellor.expertise = ["Private expertise"]
+        counsellor.languages = ["Private language"]
+        counsellor.photo_url = "https://example.com/qa-photo.png"
+        counsellor.base_location_state = "VIC"
+        counsellor.base_location_city = "Melbourne"
+        db_session.commit()
+        _, outsider = _register(client, "counsellor", "outside")
+        before = client.get(OWN_COUNSELLOR, headers=counsellor_headers).json()
+    
+        saved = client.patch(VISIBILITY, headers=counsellor_headers, json={"visibility": level})
+        assert saved.status_code == 200, saved.text
+        renewed = _login(client, counsellor.email)
+        assert client.get(VISIBILITY, headers=renewed).json() == {"visibility": level}
+        # Owner's /me route must retain full details, even after a fresh login.
+        assert client.get(OWN_COUNSELLOR, headers=renewed).json() == before
+    
+        protected = ["linkedinUrl", "background", "experience", "qualifications",
+                     "expertise", "languages", "photoUrl", "baseLocation"]
+        for headers in ({}, job_seeker_headers, outsider):
+            public = client.get(f"/api/v1/counsellors/{counsellor.id}", headers=headers)
+            assert public.status_code == 200, public.text
+            detail = public.json()
+            listed = client.get("/api/v1/counsellors", headers=headers)
+            assert listed.status_code == 200, listed.text
+>           card = next(row for row in listed.json() if row["id"] == counsellor.id)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           StopIteration
+
+tests/test_sprint3_privacy_profile_qa.py:70: StopIteration
+------------------------------ Captured log setup ------------------------------
+WARNING  app.mail.sender:sender.py:59 Mail is NOT configured (MAILGUN_API_KEY and MAILGUN_DOMAIN missing): every message will be logged and discarded, including email confirmation and booking confirmations.
+_ test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_complete[partial] _
+
+client = <starlette.testclient.TestClient object at 0x10d91a150>
+db_session = <sqlalchemy.orm.session.Session object at 0x10dcfaae0>
+counsellor = <app.models.User object at 0x10dcf9b80>
+counsellor_headers = {'Authorization': 'Bearer [REDACTED_LOCAL_TEST_TOKEN]'}
+job_seeker_headers = {'Authorization': 'Bearer [REDACTED_LOCAL_TEST_TOKEN]'}
+level = 'partial'
+
+    @pytest.mark.parametrize("level", ["public", "partial", "restricted"])
+    def test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_complete(
+        client, db_session, counsellor, counsellor_headers, job_seeker_headers, level,
+    ):
+        counsellor.linkedin_url = "https://www.linkedin.com/in/qa-owner"
+        counsellor.background = "Private professional background"
+        counsellor.experience = "Private experience"
+        counsellor.qualifications = ["Private qualification"]
+        counsellor.expertise = ["Private expertise"]
+        counsellor.languages = ["Private language"]
+        counsellor.photo_url = "https://example.com/qa-photo.png"
+        counsellor.base_location_state = "VIC"
+        counsellor.base_location_city = "Melbourne"
+        db_session.commit()
+        _, outsider = _register(client, "counsellor", "outside")
+        before = client.get(OWN_COUNSELLOR, headers=counsellor_headers).json()
+    
+        saved = client.patch(VISIBILITY, headers=counsellor_headers, json={"visibility": level})
+        assert saved.status_code == 200, saved.text
+        renewed = _login(client, counsellor.email)
+        assert client.get(VISIBILITY, headers=renewed).json() == {"visibility": level}
+        # Owner's /me route must retain full details, even after a fresh login.
+        assert client.get(OWN_COUNSELLOR, headers=renewed).json() == before
+    
+        protected = ["linkedinUrl", "background", "experience", "qualifications",
+                     "expertise", "languages", "photoUrl", "baseLocation"]
+        for headers in ({}, job_seeker_headers, outsider):
+            public = client.get(f"/api/v1/counsellors/{counsellor.id}", headers=headers)
+            assert public.status_code == 200, public.text
+            detail = public.json()
+            listed = client.get("/api/v1/counsellors", headers=headers)
+            assert listed.status_code == 200, listed.text
+>           card = next(row for row in listed.json() if row["id"] == counsellor.id)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           StopIteration
+
+tests/test_sprint3_privacy_profile_qa.py:70: StopIteration
+_ test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_complete[restricted] _
+
+client = <starlette.testclient.TestClient object at 0x10d91a150>
+db_session = <sqlalchemy.orm.session.Session object at 0x10dd2ecc0>
+counsellor = <app.models.User object at 0x10dd2fb90>
+counsellor_headers = {'Authorization': 'Bearer [REDACTED_LOCAL_TEST_TOKEN]'}
+job_seeker_headers = {'Authorization': 'Bearer [REDACTED_LOCAL_TEST_TOKEN]'}
+level = 'restricted'
+
+    @pytest.mark.parametrize("level", ["public", "partial", "restricted"])
+    def test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_complete(
+        client, db_session, counsellor, counsellor_headers, job_seeker_headers, level,
+    ):
+        counsellor.linkedin_url = "https://www.linkedin.com/in/qa-owner"
+        counsellor.background = "Private professional background"
+        counsellor.experience = "Private experience"
+        counsellor.qualifications = ["Private qualification"]
+        counsellor.expertise = ["Private expertise"]
+        counsellor.languages = ["Private language"]
+        counsellor.photo_url = "https://example.com/qa-photo.png"
+        counsellor.base_location_state = "VIC"
+        counsellor.base_location_city = "Melbourne"
+        db_session.commit()
+        _, outsider = _register(client, "counsellor", "outside")
+        before = client.get(OWN_COUNSELLOR, headers=counsellor_headers).json()
+    
+        saved = client.patch(VISIBILITY, headers=counsellor_headers, json={"visibility": level})
+        assert saved.status_code == 200, saved.text
+        renewed = _login(client, counsellor.email)
+        assert client.get(VISIBILITY, headers=renewed).json() == {"visibility": level}
+        # Owner's /me route must retain full details, even after a fresh login.
+        assert client.get(OWN_COUNSELLOR, headers=renewed).json() == before
+    
+        protected = ["linkedinUrl", "background", "experience", "qualifications",
+                     "expertise", "languages", "photoUrl", "baseLocation"]
+        for headers in ({}, job_seeker_headers, outsider):
+            public = client.get(f"/api/v1/counsellors/{counsellor.id}", headers=headers)
+            assert public.status_code == 200, public.text
+            detail = public.json()
+            listed = client.get("/api/v1/counsellors", headers=headers)
+            assert listed.status_code == 200, listed.text
+>           card = next(row for row in listed.json() if row["id"] == counsellor.id)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           StopIteration
+
+tests/test_sprint3_privacy_profile_qa.py:70: StopIteration
+=============================== warnings summary ===============================
+tests/test_sprint3_privacy_profile_qa.py::test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_complete[public]
+  /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/test_sprint3_privacy_profile_qa.py::test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_complete[public]
+  /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+tests/test_sprint3_privacy_profile_qa.py::test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_complete[public]
+  /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/lib/python3.12/site-packages/alembic/config.py:604: DeprecationWarning: No path_separator found in configuration; falling back to legacy splitting on spaces, commas, and colons for prepend_sys_path.  Consider adding path_separator=os to Alembic config.
+    util.warn_deprecated(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-20261016/backend-privacy-focused/junit.xml -
+=========================== short test summary info ============================
+FAILED tests/test_sprint3_privacy_profile_qa.py::test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_complete[public]
+FAILED tests/test_sprint3_privacy_profile_qa.py::test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_complete[partial]
+FAILED tests/test_sprint3_privacy_profile_qa.py::test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_complete[restricted]
+3 failed, 14 passed, 3 warnings in 1.94s

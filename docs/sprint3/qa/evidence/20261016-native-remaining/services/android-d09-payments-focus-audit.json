@@ -1,0 +1,60 @@
+{
+  "at": "2026-10-15T23:10:59.035630+00:00",
+  "scope": "Native Android Payments successful list, injected read failure, fresh real recovery and detail reads; no fixture mutations.",
+  "faults": [
+    {
+      "at": "2026-10-15T23:07:50.044614+00:00",
+      "ruleId": "android-d09-payments-read",
+      "method": "GET",
+      "path": "/api/v1/admin/payments",
+      "userId": "qa-nr-android-owner",
+      "hit": 1,
+      "action": "reject",
+      "status": 503
+    }
+  ],
+  "requests": [
+    {
+      "at": "2026-10-15T23:07:20.075923+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/payments",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T23:08:02.008270+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/payments",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T23:09:19.037170+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/bookings",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T23:09:19.044001+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/payments",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T23:10:06.644824+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/bookings",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T23:10:06.650237+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/payments",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    }
+  ]
+}

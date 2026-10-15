@@ -1,0 +1,7 @@
+{
+  "at": "2026-10-15T23:19:04.995621+00:00",
+  "scope": "Read-only query of exact owned temporary SQLite database discovered from API PID87011; no product or default database accessed.",
+  "email": "no@example.com",
+  "matchingUserCount": 0,
+  "databaseDirectory": "yoir-web-qa-aqhcu3id"
+}

@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-15T21:47:19.509929+00:00",
+  "userId": "qa-nr-ios-buyer",
+  "reads": {
+    "/me/job-seeker-profile": {
+      "status": 200,
+      "data": {
+        "name": "QA iOS Buyer",
+        "email": "i1@example.com",
+        "photoUrl": null,
+        "headline": "iOS QA Analyst",
+        "careerGoals": "iOS QA career goal"
+      }
+    },
+    "/me/profile-visibility": {
+      "status": 200,
+      "data": {
+        "visibility": "public"
+      }
+    }
+  }
+}

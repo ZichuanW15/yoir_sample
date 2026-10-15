@@ -1,0 +1,1841 @@
+{
+  "regressionCountRelativeToDev": 239,
+  "regressionCountThisFollowup": 127,
+  "followup": [
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests requires a counsellor role before showing bank or tax controls (null)",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests requires a counsellor role before showing bank or tax controls ({\n  accessToken: 'test-access-token',\n  expiresAt: '2026-08-28T07:00:00.000Z',\n  user: [Object]\n})",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests before status arrives does not claim readiness and displays the non-Stripe disclosure",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests server-ready status shows update action, enabled flags and populated tax details",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests a pending connected account polls and only becomes ready from the server update",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests an exhausted readiness poll keeps incomplete setup actionable",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests unmount cancels the active readiness poll",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests a status-read failure is visible and never presented as ready",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests opens a fresh platform return link, blocks duplicate setup presses and re-reads status after returning",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests a failed onboarding request does not open the browser and can be retried with a new request",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests a browser-launch failure restores the setup action without assuming successful onboarding",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests a short ABN is rejected before saving and changing the input clears its error",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests GST registration requires an ABN and toggling it off allows null tax details",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests normalizes and caps an ABN, submits tax details and blocks duplicate saves until confirmation",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests server tax validation preserves input and shows field and general errors before a successful retry",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests a tax network failure restores the save button without success feedback",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests Back falls back to the counsellor workspace when there is no history",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "case": "job seeker home — QA-162/174 and entry navigation guests can browse and register without reading a private diagnosis",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "case": "job seeker home — QA-162/174 and entry navigation a non-seeker goes to the correct workspace",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "case": "job seeker home — QA-162/174 and entry navigation a non-seeker goes to the correct workspace",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "case": "job seeker home — QA-162/174 and entry navigation no question or match is fabricated while progress loads; a new user enters diagnosis",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "case": "job seeker home — QA-162/174 and entry navigation a skipped diagnosis offers a fresh start without claiming completed results",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "case": "job seeker home — QA-162/174 and entry navigation unfinished answers expose the actual resume step and continue action",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "case": "job seeker home — QA-162/174 and entry navigation completed answers offer result, retake, professional detail and Explore navigation",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "case": "job seeker home — QA-162/174 and entry navigation a failed catalogue keeps the local result and retry recovers real client data",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "case": "job seeker home — QA-162/174 and entry navigation an empty catalogue preserves the completed direction and retake action",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed pending after returning",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed verified after returning",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed rejected after returning",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed pending after returning",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed verified after returning",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed rejected after returning",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "QA-195/198 same-mounted counsellor focus refresh profile marks previously verified status unavailable on focus failure, then recovers",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "QA-195/198 same-mounted counsellor focus refresh returning focus while a blur-triggered save is pending does not overwrite the draft",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "QA-210 payment refresh failure clears formerly loaded rows and retry uses new data",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "case": "public professional detail — QA-186/219 waits for profile and services before presenting identity or booking navigation",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "case": "public professional detail — QA-186/219 renders returned qualifications, location and rating, and only this professional’s services",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "case": "public professional detail — QA-186/219 requests the exact external LinkedIn URL without claiming an OS handoff",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "case": "public professional detail — QA-186/219 a failed profile read hides profile data until a successful retry",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "case": "public professional detail — QA-186/219 a failed services read hides profile data until a successful retry",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "case": "public professional detail — QA-186/219 a restricted response never reconstructs private content from services: {\"restricted\":true}",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "case": "public professional detail — QA-186/219 a restricted response never reconstructs private content from services: {\"visibility\":\"restricted\"}",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "case": "public professional detail — QA-186/219 a sparse partially visible response omits unavailable sections and external links",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "case": "public professional detail — QA-186/219 an unrated pending profile does not fabricate a score or verified badge",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary guest state makes no authenticated request and can close the panel",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary refreshes the signed-in account and shows an empty successful result without bulk-read action",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary pending responses do not fabricate notifications; resolved rows distinguish read/unread and relative age",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary opening a linked notification marks only that row read, closes and navigates to its route",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary a notification without a destination is marked read while the panel stays open",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary mark-all only submits unread IDs and removes the unread action after the local update",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary the intentionally missing endpoint HTTP 404 degrades to the empty panel",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary the intentionally missing endpoint HTTP 405 degrades to the empty panel",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary the intentionally missing endpoint HTTP 501 degrades to the empty panel",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary a read-mark failure does not prevent opening the intended booking",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary an unavailable notification service leaves the surrounding panel usable",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary opening the panel again refreshes cached rows from the current server response",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary logout hides cached private notifications immediately",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt renders supplier, buyer, invoice and exact cents from the authenticated API response",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt does not fabricate a receipt while its API response is pending",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt a non-tax receipt hides ABN and explains that no GST was charged",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt a tax invoice without a supplier ABN omits an empty ABN row",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt HTTP 403 never renders another booking receipt",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt HTTP 404 never renders another booking receipt",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt a network error renders a recoverable explanation without payment facts",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt guest access does not request or expose receipt data",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt missing booking ID does not request an unrelated receipt",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt Back respects history availability = true",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt Back respects history availability = false",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "email verification link and recovery waits for server confirmation, adopts and persists the returned session exactly once",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "email verification link and recovery a missing token makes no verification request and offers sign-in navigation",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "email verification link and recovery a rejected token shows Expired token. without adopting a session",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "email verification link and recovery a rejected token shows This link has already been used. without adopting a session",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "email verification link and recovery network failure offers recovery without claiming verification succeeded",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "email verification link and recovery resend rejects whitespace without an HTTP request",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "email verification link and recovery resend trims the address, disables repeated presses and uses enumeration-safe success copy",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "email verification link and recovery the signed-in email is prefilled and a failed resend can be retried",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "unverified-email banner is absent for a guest",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "unverified-email banner is absent for a verified account",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "unverified-email banner describes the default booking prerequisite",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "unverified-email banner supports publishing copy and only shows sent state after the resend response",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.native.test.ts",
+      "case": "uses the exact account-specific key and leaves serialized answers intact",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.native.test.ts",
+      "case": "an unreadable secure store returns no record without a fabricated saved answer",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.native.test.ts",
+      "case": "characterizes swallowed native write errors; resolution is not proof of persistence",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_failed_verification_decision_retains_all_readers_and_sends_no_email_then_retries[pending-verified]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_failed_verification_decision_retains_all_readers_and_sends_no_email_then_retries[pending-rejected]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_failed_verification_decision_retains_all_readers_and_sends_no_email_then_retries[verified-pending]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_failed_verification_decision_retains_all_readers_and_sends_no_email_then_retries[rejected-verified]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_failed_submission_preserves_link_decision_and_queue_until_successful_retry[pending]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_failed_submission_preserves_link_decision_and_queue_until_successful_retry[rejected]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_withdrawing_service_preserves_paid_booking_order_receipt_and_admin_history[confirmed-online]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_withdrawing_service_preserves_paid_booking_order_receipt_and_admin_history[confirmed-in_person]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_withdrawing_service_preserves_paid_booking_order_receipt_and_admin_history[completed-online]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_withdrawing_service_preserves_paid_booking_order_receipt_and_admin_history[completed-in_person]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_withdrawing_service_preserves_paid_booking_order_receipt_and_admin_history[paid_out-online]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_withdrawing_service_preserves_paid_booking_order_receipt_and_admin_history[paid_out-in_person]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_failed_service_change_preserves_listing_and_paid_history_then_same_request_retries[edit]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_failed_service_change_preserves_listing_and_paid_history_then_same_request_retries[withdraw]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_loaded_public_profile_refresh_tracks_each_privacy_transition_without_data_loss[guest]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_loaded_public_profile_refresh_tracks_each_privacy_transition_without_data_loss[seeker]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_loaded_public_profile_refresh_tracks_each_privacy_transition_without_data_loss[owner]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_counsellor_privacy_failed_commit_preserves_public_readers_and_retry_redacts[partial]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_counsellor_privacy_failed_commit_preserves_public_readers_and_retry_redacts[restricted]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_failed_counsellor_profile_save_keeps_public_onboarding_and_review_details_then_retries",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_invalid_review_queue_filter_is_explicit_error_and_does_not_change_submissions[approved]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_invalid_review_queue_filter_is_explicit_error_and_does_not_change_submissions[]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_invalid_review_queue_filter_is_explicit_error_and_does_not_change_submissions[PENDING]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_invalid_review_queue_filter_is_explicit_error_and_does_not_change_submissions[pending,rejected]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_public_professional_detail_rejects_nonprofessional_ids_without_disclosing_profiles[missing]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_public_professional_detail_rejects_nonprofessional_ids_without_disclosing_profiles[job_seeker]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_public_professional_detail_rejects_nonprofessional_ids_without_disclosing_profiles[platform_owner]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_signed_success_recovers_intent_metadata_when_its_id_was_not_persisted",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_unrelated_signed_delivery_is_acknowledged_without_changing_a_real_order[payment_intent.succeeded-payload0]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_unrelated_signed_delivery_is_acknowledged_without_changing_a_real_order[payment_intent.succeeded-payload1]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_unrelated_signed_delivery_is_acknowledged_without_changing_a_real_order[charge.dispute.created-payload2]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_late_payment_failed_delivery_cannot_regress_an_already_confirmed_purchase",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_webhook_database_failure_releases_event_claim_and_booking_for_same_delivery_retry",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_failed_hold_cancellation_does_not_block_other_rows_and_next_tick_recovers",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_failed_payout_row_does_not_block_peer_and_retry_transfers_each_booking_once[PaymentProviderError]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_failed_payout_row_does_not_block_peer_and_retry_transfers_each_booking_once[RuntimeError]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_connect_redelivery_cannot_overwrite_a_newer_readiness_event",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/e2e/sprint3-completion.spec.ts",
+      "case": "US32/33/71 real pending decision refreshes profile, My Services and administrator users",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-completion.spec.ts",
+      "case": "US32/33/71 real verified decision refreshes profile, My Services and administrator users",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-completion.spec.ts",
+      "case": "US32/33/71 real rejected decision refreshes profile, My Services and administrator users",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-completion.spec.ts",
+      "case": "US31/32 a real conflicting verification submission never falsely becomes Pending",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-completion.spec.ts",
+      "case": "US27/28 an already-open public profile removes private fields after real privacy changes and refresh",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-completion.spec.ts",
+      "case": "US54/55 an unrated real service stays New in listings and shows an empty review state",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-completion.spec.ts",
+      "case": "US09/12/13 a no-results marketplace search preserves completed diagnosis and original answers",
+      "status": "expected"
+    }
+  ],
+  "regressionRelativeToDev": [
+    {
+      "file": "frontend/__tests__/diagnosis/useDiagnosis.test.tsx",
+      "case": "diagnosis ownership on one device — QA-162/165/168 switching accounts hides the first record until the second account finishes loading",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/useDiagnosis.test.tsx",
+      "case": "diagnosis ownership on one device — QA-162/165/168 a late read from the previous account cannot replace the current account record",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/useDiagnosis.test.tsx",
+      "case": "diagnosis ownership on one device — QA-162/165/168 signing out hides private answers immediately and never reads a guest record",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/useDiagnosis.test.tsx",
+      "case": "diagnosis ownership on one device — QA-162/165/168 unreadable stored JSON becomes a new diagnosis instead of a completed direction",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests requires a counsellor role before showing bank or tax controls (null)",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests requires a counsellor role before showing bank or tax controls ({\n  accessToken: 'test-access-token',\n  expiresAt: '2026-08-28T07:00:00.000Z',\n  user: [Object]\n})",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests before status arrives does not claim readiness and displays the non-Stripe disclosure",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests server-ready status shows update action, enabled flags and populated tax details",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests a pending connected account polls and only becomes ready from the server update",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests an exhausted readiness poll keeps incomplete setup actionable",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests unmount cancels the active readiness poll",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests a status-read failure is visible and never presented as ready",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests opens a fresh platform return link, blocks duplicate setup presses and re-reads status after returning",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests a failed onboarding request does not open the browser and can be retried with a new request",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests a browser-launch failure restores the setup action without assuming successful onboarding",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests a short ABN is rejected before saving and changing the input clears its error",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests GST registration requires an ABN and toggling it off allows null tax details",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests normalizes and caps an ABN, submits tax details and blocks duplicate saves until confirmation",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests server tax validation preserves input and shows field and general errors before a successful retry",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests a tax network failure restores the save button without success feedback",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "case": "US-47 payout setup and tax details — component/API boundary tests Back falls back to the counsellor workspace when there is no history",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) the queue asks for waiting applications and opens the selected submission",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) the Approved queue sends its filter and handles a successful empty result",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) the Rejected queue sends its filter and handles a successful empty result",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) the Everyone queue sends its filter and handles a successful empty result",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) queue failure shows a retry and does not claim nobody is waiting",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) detail exposes the supplied profile evidence and opens its exact LinkedIn URL",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) a missing profile link is stated explicitly and leaving pending makes no decision",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) approval requires confirmation and cancellation does not change the current status",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) confirmed approval stays pending and disables another decision until storage succeeds",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) rejection requires a non-blank explanation and stores the trimmed reason",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) failed rejection preserves reason and status and can be retried without a false success",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) additional investigation can approve a previously rejected application",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) a failed detail read can recover and is distinct from a missing submission",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "case": "US-32/33/58 admin verification (real components, mocked API) a missing submission offers no decision controls",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) the shell redirects a guest and withholds administration content",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) the shell redirects a job seeker and withholds administration content",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) the shell redirects a professional and withholds administration content",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) the owner sees all five sections and can open the account sheet to log out",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) overview renders stored money, unsplit gross, action counts and drill-down destinations",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) zero totals show genuine empty states without a made-up pending action or unsplit amount",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) failed statistics can be retried without displaying invented zero totals",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) the professional directory exposes a verified-but-unpayable account and links its verification",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) a Job Seeker directory deep link displays its read-only role, email state and booking count",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) a partial directory failure exposes no incomplete list and retries both role reads",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "case": "US-48/71 platform-owner workspace (real components, mocked API) the bookings overview shows the returned session identity, delivery and status",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "case": "job seeker home — QA-162/174 and entry navigation guests can browse and register without reading a private diagnosis",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "case": "job seeker home — QA-162/174 and entry navigation a non-seeker goes to the correct workspace",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "case": "job seeker home — QA-162/174 and entry navigation a non-seeker goes to the correct workspace",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "case": "job seeker home — QA-162/174 and entry navigation no question or match is fabricated while progress loads; a new user enters diagnosis",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "case": "job seeker home — QA-162/174 and entry navigation a skipped diagnosis offers a fresh start without claiming completed results",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "case": "job seeker home — QA-162/174 and entry navigation unfinished answers expose the actual resume step and continue action",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "case": "job seeker home — QA-162/174 and entry navigation completed answers offer result, retake, professional detail and Explore navigation",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "case": "job seeker home — QA-162/174 and entry navigation a failed catalogue keeps the local result and retry recovers real client data",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "case": "job seeker home — QA-162/174 and entry navigation an empty catalogue preserves the completed direction and retake action",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed pending after returning",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed verified after returning",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed rejected after returning",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed pending after returning",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed verified after returning",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed rejected after returning",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "QA-195/198 same-mounted counsellor focus refresh profile marks previously verified status unavailable on focus failure, then recovers",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "QA-195/198 same-mounted counsellor focus refresh returning focus while a blur-triggered save is pending does not overwrite the draft",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "QA-210 payment refresh failure clears formerly loaded rows and retry uses new data",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "case": "US-48 / QA-210 admin payments (real components, mocked API) waits for orders without claiming the payment list is empty",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "case": "US-48 / QA-210 admin payments (real components, mocked API) renders server-frozen cent amounts, refund and parties and opens the correct order",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "case": "US-48 / QA-210 admin payments (real components, mocked API) an empty successful response explains there are no orders",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "case": "US-48 / QA-210 admin payments (real components, mocked API) failed reads are recoverable without being mislabelled an empty payment list",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "case": "US-48 / QA-210 admin payments (real components, mocked API) the detail joins the matching booking, shows its timezone and preserves all cents",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "case": "US-48 / QA-210 admin payments (real components, mocked API) a paid order without a booking does not invent a session time",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "case": "US-48 / QA-210 admin payments (real components, mocked API) a missing order is distinguished from a read failure",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "case": "US-48 / QA-210 admin payments (real components, mocked API) a failed payments dependency blocks partial detail and retries both reads",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "case": "US-48 / QA-210 admin payments (real components, mocked API) a failed bookings dependency blocks partial detail and retries both reads",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 a guest is sent to job-seeker login without reading or writing a diagnosis",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 a counsellor account is routed to its own workspace",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 a platform owner account is routed to its own workspace",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 questions stay hidden while saved progress loads, then resume at that question",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 question 0 refuses an empty required answer without advancing or saving",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 question 1 refuses an empty required answer without advancing or saving",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 question 3 refuses an empty required answer without advancing or saving",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 editing an earlier answer preserves the furthest resume point across a remount",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 skipping before the first answer records a skip and opens home",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 skipping part-way saves the current choice and resumes with it selected",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 a full journey retains optional text and toggled choices, permits empty optional answers and opens Explore",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 abandoning a retake keeps the previous completed answers and direction",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 a completed retake replaces the previous direction only at the final question",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "case": "diagnosis questions — local persistence boundary, QA-162/165/168 [QA-171/174] failed professional loading can be retried without losing the completed direction",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a guest is returned to login without fetching a booking",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a counsellor cannot use the Job Seeker review form",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a platform owner cannot use the Job Seeker review form",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a confirmed booking cannot be submitted for review",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a cancelled booking cannot be submitted for review",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a refunded booking cannot be submitted for review",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a paid-out session remains reviewable after payout",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a previously stored review prevents a second review form",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a rating and non-blank written comment are both required before any request",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) while a review is storing the button blocks duplicate writes and success is not shown early",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a 409 write refusal is visible, retains entered feedback and never claims success",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a 403 write refusal is visible, retains entered feedback and never claims success",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a temporary write failure is recoverable using the retained draft",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "case": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) booking read failure offers no review form or guessed eligibility",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "case": "public professional detail — QA-186/219 waits for profile and services before presenting identity or booking navigation",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "case": "public professional detail — QA-186/219 renders returned qualifications, location and rating, and only this professional’s services",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "case": "public professional detail — QA-186/219 requests the exact external LinkedIn URL without claiming an OS handoff",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "case": "public professional detail — QA-186/219 a failed profile read hides profile data until a successful retry",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "case": "public professional detail — QA-186/219 a failed services read hides profile data until a successful retry",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "case": "public professional detail — QA-186/219 a restricted response never reconstructs private content from services: {\"restricted\":true}",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "case": "public professional detail — QA-186/219 a restricted response never reconstructs private content from services: {\"visibility\":\"restricted\"}",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "case": "public professional detail — QA-186/219 a sparse partially visible response omits unavailable sections and external links",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "case": "public professional detail — QA-186/219 an unrated pending profile does not fabricate a score or verified badge",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary guest state makes no authenticated request and can close the panel",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary refreshes the signed-in account and shows an empty successful result without bulk-read action",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary pending responses do not fabricate notifications; resolved rows distinguish read/unread and relative age",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary opening a linked notification marks only that row read, closes and navigates to its route",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary a notification without a destination is marked read while the panel stays open",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary mark-all only submits unread IDs and removes the unread action after the local update",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary the intentionally missing endpoint HTTP 404 degrades to the empty panel",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary the intentionally missing endpoint HTTP 405 degrades to the empty panel",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary the intentionally missing endpoint HTTP 501 degrades to the empty panel",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary a read-mark failure does not prevent opening the intended booking",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary an unavailable notification service leaves the surrounding panel usable",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary opening the panel again refreshes cached rows from the current server response",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "case": "notification panel — implemented UI with controlled HTTP boundary logout hides cached private notifications immediately",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt renders supplier, buyer, invoice and exact cents from the authenticated API response",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt does not fabricate a receipt while its API response is pending",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt a non-tax receipt hides ABN and explains that no GST was charged",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt a tax invoice without a supplier ABN omits an empty ABN row",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt HTTP 403 never renders another booking receipt",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt HTTP 404 never renders another booking receipt",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt a network error renders a recoverable explanation without payment facts",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt guest access does not request or expose receipt data",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt missing booking ID does not request an unrelated receipt",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt Back respects history availability = true",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "case": "server-issued booking receipt Back respects history availability = false",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "email verification link and recovery waits for server confirmation, adopts and persists the returned session exactly once",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "email verification link and recovery a missing token makes no verification request and offers sign-in navigation",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "email verification link and recovery a rejected token shows Expired token. without adopting a session",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "email verification link and recovery a rejected token shows This link has already been used. without adopting a session",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "email verification link and recovery network failure offers recovery without claiming verification succeeded",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "email verification link and recovery resend rejects whitespace without an HTTP request",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "email verification link and recovery resend trims the address, disables repeated presses and uses enumeration-safe success copy",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "email verification link and recovery the signed-in email is prefilled and a failed resend can be retried",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "unverified-email banner is absent for a guest",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "unverified-email banner is absent for a verified account",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "unverified-email banner describes the default booking prerequisite",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "case": "unverified-email banner supports publishing copy and only shows sent state after the resend response",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.web.test.ts",
+      "case": "browser diagnosis persistence — QA-162/165/168 two accounts keep separate answers, and a retake replaces only its owner’s record",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.web.test.ts",
+      "case": "browser diagnosis persistence — QA-162/165/168 blocked site data returns no saved diagnosis and does not throw while saving",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.web.test.ts",
+      "case": "browser diagnosis persistence — QA-162/165/168 a full storage quota leaves the previous saved value readable",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.native.test.ts",
+      "case": "uses the exact account-specific key and leaves serialized answers intact",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.native.test.ts",
+      "case": "an unreadable secure store returns no record without a fabricated saved answer",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.native.test.ts",
+      "case": "characterizes swallowed native write errors; resolution is not proof of persistence",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_diagnosis_qa_journeys.py",
+      "case": "test_incomplete_progress_survives_logout_account_switch_and_fresh_login",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_diagnosis_qa_journeys.py",
+      "case": "test_replayed_final_save_after_lost_acknowledgement_recovers_without_double_write",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_diagnosis_qa_journeys.py",
+      "case": "test_failed_final_commit_keeps_confirmed_progress_and_allows_same_revision_retry",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_editing_confirmed_answers_refreshes_direction_criteria_and_catalog_together",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_marketplace_derivation_failure_preserves_answers_and_recovers_without_resaving",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_review_aggregates_are_weighted_per_session_and_agree_across_public_views",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_failed_review_commit_rolls_back_review_and_both_aggregates_then_retry_succeeds",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_invalid_review_metadata_cannot_publish_or_change_existing_ratings[payload0]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_invalid_review_metadata_cannot_publish_or_change_existing_ratings[payload1]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_invalid_review_metadata_cannot_publish_or_change_existing_ratings[payload2]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_invalid_review_metadata_cannot_publish_or_change_existing_ratings[payload3]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_full_length_unicode_review_round_trips_without_losing_text",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_verification_rejection_resubmission_and_approval_change_real_publish_permission",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_expired_hold_restores_calendar_minutes_and_public_next_time_without_cleanup_job",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_paid_rescheduled_and_cancelled_session_updates_calendar_and_admin_order_together",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_api_journeys_qa.py",
+      "case": "test_reschedule_commit_failure_preserves_booking_order_calendar_and_can_retry",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_failed_verification_decision_retains_all_readers_and_sends_no_email_then_retries[pending-verified]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_failed_verification_decision_retains_all_readers_and_sends_no_email_then_retries[pending-rejected]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_failed_verification_decision_retains_all_readers_and_sends_no_email_then_retries[verified-pending]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_failed_verification_decision_retains_all_readers_and_sends_no_email_then_retries[rejected-verified]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_failed_submission_preserves_link_decision_and_queue_until_successful_retry[pending]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_failed_submission_preserves_link_decision_and_queue_until_successful_retry[rejected]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_withdrawing_service_preserves_paid_booking_order_receipt_and_admin_history[confirmed-online]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_withdrawing_service_preserves_paid_booking_order_receipt_and_admin_history[confirmed-in_person]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_withdrawing_service_preserves_paid_booking_order_receipt_and_admin_history[completed-online]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_withdrawing_service_preserves_paid_booking_order_receipt_and_admin_history[completed-in_person]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_withdrawing_service_preserves_paid_booking_order_receipt_and_admin_history[paid_out-online]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_withdrawing_service_preserves_paid_booking_order_receipt_and_admin_history[paid_out-in_person]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_failed_service_change_preserves_listing_and_paid_history_then_same_request_retries[edit]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_failed_service_change_preserves_listing_and_paid_history_then_same_request_retries[withdraw]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_loaded_public_profile_refresh_tracks_each_privacy_transition_without_data_loss[guest]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_loaded_public_profile_refresh_tracks_each_privacy_transition_without_data_loss[seeker]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_loaded_public_profile_refresh_tracks_each_privacy_transition_without_data_loss[owner]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_counsellor_privacy_failed_commit_preserves_public_readers_and_retry_redacts[partial]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_counsellor_privacy_failed_commit_preserves_public_readers_and_retry_redacts[restricted]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_failed_counsellor_profile_save_keeps_public_onboarding_and_review_details_then_retries",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_invalid_review_queue_filter_is_explicit_error_and_does_not_change_submissions[approved]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_invalid_review_queue_filter_is_explicit_error_and_does_not_change_submissions[]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_invalid_review_queue_filter_is_explicit_error_and_does_not_change_submissions[PENDING]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_invalid_review_queue_filter_is_explicit_error_and_does_not_change_submissions[pending,rejected]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_public_professional_detail_rejects_nonprofessional_ids_without_disclosing_profiles[missing]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_public_professional_detail_rejects_nonprofessional_ids_without_disclosing_profiles[job_seeker]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_completion_qa.py",
+      "case": "test_public_professional_detail_rejects_nonprofessional_ids_without_disclosing_profiles[platform_owner]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_complete[public]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_complete[partial]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_complete[restricted]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_privacy_transitions_survive_new_session_without_changing_another_account[job_seeker]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_privacy_transitions_survive_new_session_without_changing_another_account[counsellor]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_rejected_privacy_write_preserves_last_confirmed_choice[invalid0]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_rejected_privacy_write_preserves_last_confirmed_choice[invalid1]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_rejected_privacy_write_preserves_last_confirmed_choice[invalid2]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_rejected_privacy_write_preserves_last_confirmed_choice[invalid3]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_rejected_privacy_write_preserves_last_confirmed_choice[invalid4]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_profile_commit_failure_rolls_back_flushed_changes_and_same_payload_can_retry[/api/v1/me/profile-visibility-payload0]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_profile_commit_failure_rolls_back_flushed_changes_and_same_payload_can_retry[/api/v1/me/job-seeker-profile-payload1]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_profile_save_logout_switch_and_relogin_keeps_private_fields_and_email_owner_bound",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_profile_write_rejects_nonseeker_and_leaves_stored_seeker_unchanged[guest]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_profile_write_rejects_nonseeker_and_leaves_stored_seeker_unchanged[counsellor]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_profile_write_rejects_nonseeker_and_leaves_stored_seeker_unchanged[platform_owner]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_privacy_profile_qa.py",
+      "case": "test_guest_cannot_read_or_change_privacy",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_signed_success_recovers_intent_metadata_when_its_id_was_not_persisted",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_unrelated_signed_delivery_is_acknowledged_without_changing_a_real_order[payment_intent.succeeded-payload0]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_unrelated_signed_delivery_is_acknowledged_without_changing_a_real_order[payment_intent.succeeded-payload1]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_unrelated_signed_delivery_is_acknowledged_without_changing_a_real_order[charge.dispute.created-payload2]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_late_payment_failed_delivery_cannot_regress_an_already_confirmed_purchase",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_webhook_database_failure_releases_event_claim_and_booking_for_same_delivery_retry",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_failed_hold_cancellation_does_not_block_other_rows_and_next_tick_recovers",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_failed_payout_row_does_not_block_peer_and_retry_transfers_each_booking_once[PaymentProviderError]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_failed_payout_row_does_not_block_peer_and_retry_transfers_each_booking_once[RuntimeError]",
+      "status": "passed"
+    },
+    {
+      "file": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+      "case": "test_connect_redelivery_cannot_overwrite_a_newer_readiness_event",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/e2e/sprint3-completion.spec.ts",
+      "case": "US32/33/71 real pending decision refreshes profile, My Services and administrator users",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-completion.spec.ts",
+      "case": "US32/33/71 real verified decision refreshes profile, My Services and administrator users",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-completion.spec.ts",
+      "case": "US32/33/71 real rejected decision refreshes profile, My Services and administrator users",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-completion.spec.ts",
+      "case": "US31/32 a real conflicting verification submission never falsely becomes Pending",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-completion.spec.ts",
+      "case": "US27/28 an already-open public profile removes private fields after real privacy changes and refresh",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-completion.spec.ts",
+      "case": "US54/55 an unrated real service stays New in listings and shows an empty review state",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-completion.spec.ts",
+      "case": "US09/12/13 a no-results marketplace search preserves completed diagnosis and original answers",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-diagnosis.spec.ts",
+      "case": "US09/10/11 local Web diagnosis validates, resumes after login and isolates accounts",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-diagnosis.spec.ts",
+      "case": "US12/13 local direction leads through a real professional and service to a stub booking",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-diagnosis.spec.ts",
+      "case": "US09/12 cancelled local retake preserves the old direction and completed retake replaces it",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-workflows.spec.ts",
+      "case": "US53/54/55 real review validates, retains a failed draft, persists once and updates public ratings @injected-network",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-workflows.spec.ts",
+      "case": "US53 real confirmed booking blocks a review in the page and API",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-workflows.spec.ts",
+      "case": "US53 real cancelled booking blocks a review in the page and API",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-workflows.spec.ts",
+      "case": "US53 another buyer cannot open or review a completed booking",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-workflows.spec.ts",
+      "case": "US32/33/58 admin confirmation, approval and reasoned reinvestigation persist through the real API",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-workflows.spec.ts",
+      "case": "US48 admin payment detail retries a failed real read and preserves the recorded split @injected-network",
+      "status": "expected"
+    },
+    {
+      "file": "frontend/e2e/sprint3-workflows.spec.ts",
+      "case": "US40/41 alternate delivery and held time stay consistent across buyer and counsellor Web views",
+      "status": "expected"
+    }
+  ],
+  "historicalDefectCountRelativeToDev": 10,
+  "historicalDefectInventory": "../20261016/added-case-inventory.json",
+  "note": "Unique source cases, excluding native repeats. No defect cases were added in this follow-up. Jest/Playwright defect suites were not rerun; existing backend strict XFAILs were rerun in the full suite."
+}

@@ -1,0 +1,95 @@
+Window: "iPhone 18 Pro", App: Device Hub.
+0 Device, Secondary Actions: Cancel, Pick
+	1 menu Secondary Actions: Cancel
+		2 Restart, ID: menuAction:
+		3 Shut Down, ID: menuAction:
+		4 Force Shut Down, ID: menuAction:
+		5 Accessibility, ID: ID(id: 45270)
+			6 menu Secondary Actions: Cancel
+				7 Reduce Motion, ID: menuAction:
+				8 Reduce Transparency, ID: menuAction:
+				9 Increase Contrast, ID: menuAction:
+				10 Show Borders, ID: menuAction:
+				11 Increase Text Size, ID: menuAction:
+				12 Decrease Text Size, ID: menuAction:
+				13 VoiceOver, ID: menuAction:
+		14 Appearance, ID: ID(id: 42797)
+			15 menu Secondary Actions: Cancel
+				16 Toggle Appearance, ID: menuAction:
+				17 Light, ID: menuAction:
+				18 Dark, ID: menuAction:
+				19 Auto, ID: menuAction:
+		20 Battery, ID: ID(id: 41693)
+			21 menu Secondary Actions: Cancel
+				22 100%, ID: menuAction:
+				23 75%, ID: menuAction:
+				24 50%, ID: menuAction:
+				25 25%, ID: menuAction:
+		26 Face ID, ID: ID(id: 40224)
+			27 menu Secondary Actions: Cancel
+				28 Enrolled, ID: menuAction:
+				29 (disabled) Authorized with Face ID
+				30 (disabled) Unauthorized with Face ID
+		31 Touch ID, ID: ID(id: 39601)
+			32 menu Secondary Actions: Cancel
+				33 (disabled) Enrolled
+				34 (disabled) Authorized with Touch ID
+				35 (disabled) Unauthorized with Touch ID
+		36 Optic ID, ID: ID(id: 38978)
+			37 menu Secondary Actions: Cancel
+				38 (disabled) Enrolled
+				39 (disabled) Authorized with Optic ID
+				40 (disabled) Unauthorized with Optic ID
+		41 Location, ID: ID(id: 31307)
+			42 menu Secondary Actions: Cancel
+				43 None, ID: menuAction:
+				44 Berlin, Germany, ID: menuAction:
+				45 Cupertino, CA, USA, ID: menuAction:
+				46 Hong Kong, China, ID: menuAction:
+				47 Johannesburg, South Africa, ID: menuAction:
+				48 London, England, ID: menuAction:
+				49 Mexico City, Mexico, ID: menuAction:
+				50 Mumbai, India, ID: menuAction:
+				51 New York, NY, USA, ID: menuAction:
+				52 Paris, France, ID: menuAction:
+				53 Rio de Janeiro, Brazil, ID: menuAction:
+				54 San Francisco, CA, USA, ID: menuAction:
+				55 Sydney, Australia, ID: menuAction:
+				56 Tokyo, Japan, ID: menuAction:
+				57 Warsaw, Poland, ID: menuAction:
+				58 Trips
+				59 City Run, ID: menuAction:
+				60 City Bicycle Ride, ID: menuAction:
+				61 Freeway Drive, ID: menuAction:
+				62 Apple, ID: menuAction:
+				63 Custom Coordinates…, ID: menuAction:
+		64 Orientation, ID: ID(id: 110570)
+			65 menu Secondary Actions: Cancel
+				66 Portrait, ID: menuAction:
+				67 Portrait Upside Down, ID: menuAction:
+				68 Landscape Left, ID: menuAction:
+				69 Landscape Right, ID: menuAction:
+				70 Face Up, ID: menuAction:
+				71 Face Down, ID: menuAction:
+		72 Sound, ID: ID(id: 29230)
+			73 menu Secondary Actions: Cancel
+				74 Increase Volume, ID: menuAction:
+				75 Decrease Volume, ID: menuAction:
+				76 Input
+				77 None, ID: menuAction:
+				78 Use System Settings, ID: menuAction:
+				79 [personal microphone name redacted], ID: menuAction:
+				80 MacBook Air麦克风, ID: menuAction:
+				81 ZoomAudioDevice, ID: menuAction:
+				82 Output
+				83 None, ID: menuAction:
+				84 Use System Settings, ID: menuAction:
+				85 MacBook Air扬声器, ID: menuAction:
+				86 ZoomAudioDevice, ID: menuAction:
+		87 (disabled) Enter Resize Mode
+		88 Keyboard, ID: ID(id: 26927)
+			89 menu Secondary Actions: Cancel
+				90 Keyboard Capture, ID: menuAction:
+				91 Simulate Hardware Keyboard, ID: menuAction:
+				92 Toggle Software Keyboard, ID: menuAction:
+		93 Reset Content and Settings…, ID: menuAction:

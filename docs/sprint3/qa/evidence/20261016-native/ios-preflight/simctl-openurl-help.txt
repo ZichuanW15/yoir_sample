@@ -1,0 +1,2 @@
+Open a URL in a device.
+Usage: simctl openurl <device> <URL>

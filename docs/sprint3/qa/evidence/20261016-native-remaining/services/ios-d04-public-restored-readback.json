@@ -1,0 +1,36 @@
+{
+  "at": "2026-10-15T22:04:46.629275+00:00",
+  "userId": "qa-nr-ios-buyer",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/counsellors/qa-nr-ios-pro": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-ios-pro",
+        "displayName": "QA iOS Pro",
+        "linkedinUrl": "https://www.linkedin.com/in/qa-native-fixture/",
+        "introduction": "iOS QA introduction",
+        "background": "iOS QA background",
+        "experience": "iOS QA experience",
+        "qualifications": [
+          "QA qualification"
+        ],
+        "expertise": [
+          "Career planning"
+        ],
+        "languages": [
+          "English"
+        ],
+        "baseLocation": {
+          "state": "VIC",
+          "cityOrRegion": "Melbourne"
+        },
+        "defaultModality": "online",
+        "verificationStatus": "verified",
+        "overallRating": 5.0,
+        "reviewCount": 1,
+        "visibility": "public"
+      }
+    }
+  }
+}

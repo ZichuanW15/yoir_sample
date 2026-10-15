@@ -1,0 +1,154 @@
+{
+  "at": "2026-10-15T22:11:44.222351+00:00",
+  "scope": "Explicit independent owner API fixture restore after native focus-refresh observation. Not a native owner action. No email provider configured.",
+  "actor": "qa-nr-ios-owner",
+  "path": "/admin/verifications/qa-nr-ios-candidate/decision",
+  "before": {
+    "status": 200,
+    "data": {
+      "id": "qa-nr-ios-candidate",
+      "counsellorId": "qa-nr-ios-candidate",
+      "counsellorName": "QA iOS Candidate",
+      "email": "iv@example.com",
+      "linkedInUrl": "https://www.linkedin.com/in/nativeqa-ios-candidate/",
+      "introduction": "iOS QA introduction",
+      "background": "iOS QA background",
+      "experience": "iOS QA experience",
+      "status": "rejected",
+      "submittedAt": "2026-10-15T21:41:58.741222Z",
+      "decidedAt": "2026-10-15T22:10:52.606260Z",
+      "decisionReason": "QA iOS focus-return check"
+    }
+  },
+  "requestBody": {
+    "decision": "verified",
+    "reason": ""
+  },
+  "result": {
+    "status": 200,
+    "data": {
+      "id": "qa-nr-ios-candidate",
+      "counsellorId": "qa-nr-ios-candidate",
+      "counsellorName": "QA iOS Candidate",
+      "email": "iv@example.com",
+      "linkedInUrl": "https://www.linkedin.com/in/nativeqa-ios-candidate/",
+      "introduction": "iOS QA introduction",
+      "background": "iOS QA background",
+      "experience": "iOS QA experience",
+      "status": "verified",
+      "submittedAt": "2026-10-15T21:41:58.741222Z",
+      "decidedAt": "2026-10-15T22:11:44.217866Z",
+      "decisionReason": null
+    }
+  },
+  "after": {
+    "status": 200,
+    "data": {
+      "id": "qa-nr-ios-candidate",
+      "counsellorId": "qa-nr-ios-candidate",
+      "counsellorName": "QA iOS Candidate",
+      "email": "iv@example.com",
+      "linkedInUrl": "https://www.linkedin.com/in/nativeqa-ios-candidate/",
+      "introduction": "iOS QA introduction",
+      "background": "iOS QA background",
+      "experience": "iOS QA experience",
+      "status": "verified",
+      "submittedAt": "2026-10-15T21:41:58.741222Z",
+      "decidedAt": "2026-10-15T22:11:44.217866Z",
+      "decisionReason": null
+    }
+  },
+  "candidateReadsAfterRejectedFixture": [
+    {
+      "at": "2026-10-15T22:11:05.818604+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/counsellor-profile",
+      "userId": "qa-nr-ios-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:11:10.830896+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/onboarding-state",
+      "userId": "qa-nr-ios-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:11:10.834727+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/services",
+      "userId": "qa-nr-ios-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:11:10.835091+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/payout-status",
+      "userId": "qa-nr-ios-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:11:10.835233+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/counsellor-profile",
+      "userId": "qa-nr-ios-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:11:10.836369+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/availability-windows",
+      "userId": "qa-nr-ios-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:11:12.623160+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/counsellor-profile",
+      "userId": "qa-nr-ios-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:11:25.812537+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/onboarding-state",
+      "userId": "qa-nr-ios-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:11:25.812896+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/payout-status",
+      "userId": "qa-nr-ios-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:11:25.813032+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/services",
+      "userId": "qa-nr-ios-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:11:25.813472+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/counsellor-profile",
+      "userId": "qa-nr-ios-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:11:25.813984+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/availability-windows",
+      "userId": "qa-nr-ios-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:11:27.588356+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/counsellor-profile",
+      "userId": "qa-nr-ios-candidate",
+      "status": 200
+    }
+  ]
+}

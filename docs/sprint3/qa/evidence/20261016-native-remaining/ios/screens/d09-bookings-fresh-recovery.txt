@@ -1,0 +1,143 @@
+Window: "iPhone 18 Pro", App: Device Hub.
+0 standard window iPhone 18 Pro – iOS 27.0, ID: com.apple.dt.DeviceKit.DeviceManagementWindow-AppWindow-1, Secondary Actions: Raise
+	1 split group
+		2 split group com.apple.dt.DeviceKit.DeviceManagementWindow-AppWindow-1, SidebarNavigationSplitView
+			3 scroll area
+				4 list Sidebar
+					5 row (selectable) Expanded
+					6 row (selected) iPhone 18 Pro
+27.0
+Simulator
+			7 search text field (settable) Search
+				8 button Search
+			9 splitter (settable, float) 248
+			10 container
+				11 container
+					12 element Description: Account, QA iOS Owner, Secondary Actions: Cancel
+					13 text Description: YOIR ADMINISTRATION, Secondary Actions: Cancel
+					14 text Description: Bookings, Secondary Actions: Cancel
+					15 text Description: Every session on the platform, most recent first., Secondary Actions: Cancel
+					16 text Description: QA iOS Edited Session, Secondary Actions: Cancel
+					17 text Description: confirmed, Secondary Actions: Cancel
+					18 text Description: QA iOS Buyer with QA iOS Pro, Secondary Actions: Cancel
+					19 text Description: Saturday 24 October · 3:00 pm (Australia/Melbourne), Secondary Actions: Cancel
+					20 text Description: Online · $84, Secondary Actions: Cancel
+					21 text Description: QA iOS Reschedule Session, Secondary Actions: Cancel
+					22 text Description: confirmed, Secondary Actions: Cancel
+					23 text Description: QA iOS Buyer with QA iOS Pro, Secondary Actions: Cancel
+					24 text Description: Saturday 24 October · 2:00 pm (Australia/Melbourne), Secondary Actions: Cancel
+					25 text Description: Online · $84, Secondary Actions: Cancel
+					26 text Description: QA iOS Reschedule Session, Secondary Actions: Cancel
+					27 text Description: cancelled, Secondary Actions: Cancel
+					28 text Description: QA iOS Other with QA iOS Pro, Secondary Actions: Cancel
+					29 text Description: Saturday 24 October · 2:00 pm (Australia/Melbourne), Secondary Actions: Cancel
+					30 text Description: Online · $84, Secondary Actions: Cancel
+					31 text Description: QA iOS In-person Session, Secondary Actions: Cancel
+					32 text Description: cancelled, Secondary Actions: Cancel
+					33 text Description: QA iOS Buyer with QA iOS Pro, Secondary Actions: Cancel
+					34 text Description: Saturday 24 October · 1:00 pm (Australia/Melbourne), Secondary Actions: Cancel
+					35 text Description: In person · $84, Secondary Actions: Cancel
+					36 text Description: QA Android In-person Session, Secondary Actions: Cancel
+					37 text Description: confirmed, Secondary Actions: Cancel
+					38 text Description: QA Android Buyer with QA Android Pro, Secondary Actions: Cancel
+					39 text Description: Saturday 24 October · 1:00 pm (Australia/Melbourne), Secondary Actions: Cancel
+					40 text Description: In person · $84, Secondary Actions: Cancel
+					41 text Description: QA iOS In-person Session, Secondary Actions: Cancel
+					42 text Description: confirmed, Secondary Actions: Cancel
+					43 text Description: QA iOS Buyer with QA iOS Pro, Secondary Actions: Cancel
+					44 text Description: Saturday 24 October · 12:00 pm (Australia/Melbourne), Secondary Actions: Cancel
+					45 text Description: In person · $84, Secondary Actions: Cancel
+					46 text Description: QA Android In-person Session, Secondary Actions: Cancel
+					47 text Description: confirmed, Secondary Actions: Cancel
+					48 text Description: QA Android Buyer with QA Android Pro, Secondary Actions: Cancel
+					49 text Description: Saturday 24 October · 12:00 pm (Australia/Melbourne), Secondary Actions: Cancel
+					50 text Description: In person · $84, Secondary Actions: Cancel
+					51 text Description: QA iOS Reschedule Session, Secondary Actions: Cancel
+					52 text Description: confirmed, Secondary Actions: Cancel
+					53 text Description: QA iOS Buyer with QA iOS Pro, Secondary Actions: Cancel
+					54 text Description: Saturday 24 October · 11:00 am (Australia/Melbourne), Secondary Actions: Cancel
+					55 text Description: Online · $84, Secondary Actions: Cancel
+					56 text Description: QA Android Reschedule Session, Secondary Actions: Cancel
+					57 text Description: confirmed, Secondary Actions: Cancel
+					58 text Description: QA Android Buyer with QA Android Pro, Secondary Actions: Cancel
+					59 text Description: Saturday 24 October · 11:00 am (Australia/Melbourne), Secondary Actions: Cancel
+					60 text Description: Online · $84, Secondary Actions: Cancel
+					61 text Description: QA Android Reschedule Session, Secondary Actions: Cancel
+					62 text Description: confirmed, Secondary Actions: Cancel
+					63 text Description: QA Android Buyer with QA Android Pro, Secondary Actions: Cancel
+					64 text Description: Saturday 24 October · 10:00 am (Australia/Melbourne), Secondary Actions: Cancel
+					65 text Description: Online · $84, Secondary Actions: Cancel
+					66 text Description: QA completed review session, Secondary Actions: Cancel
+					67 text Description: cancelled, Secondary Actions: Cancel
+					68 text Description: QA Review Buyer with QA Review Professional, Secondary Actions: Cancel
+					69 text Description: Tuesday 13 October · 10:34 am (Australia/Melbourne), Secondary Actions: Cancel
+					70 text Description: Online · $84, Secondary Actions: Cancel
+					71 text Description: QA iOS Review Session, Secondary Actions: Cancel
+					72 text Description: cancelled, Secondary Actions: Cancel
+					73 text Description: QA iOS Buyer with QA iOS Pro, Secondary Actions: Cancel
+					74 text Description: Tuesday 13 October · 9:34 am (Australia/Melbourne), Secondary Actions: Cancel
+					75 text Description: Online · $84, Secondary Actions: Cancel
+					76 text Description: QA Android Review Session, Secondary Actions: Cancel
+					77 text Description: cancelled, Secondary Actions: Cancel
+					78 text Description: QA Android Buyer with QA Android Pro, Secondary Actions: Cancel
+					79 text Description: Tuesday 13 October · 9:34 am (Australia/Melbourne), Secondary Actions: Cancel
+					80 text Description: Online · $84, Secondary Actions: Cancel
+					81 text Description: QA completed review session, Secondary Actions: Cancel
+					82 text Description: confirmed, Secondary Actions: Cancel
+					83 text Description: QA Review Buyer with QA Review Professional, Secondary Actions: Cancel
+					84 text Description: Tuesday 13 October · 9:34 am (Australia/Melbourne), Secondary Actions: Cancel
+					85 text Description: Online · $84, Secondary Actions: Cancel
+					86 text Description: QA iOS Review Session, Secondary Actions: Cancel
+					87 text Description: completed, Secondary Actions: Cancel
+					88 text Description: QA iOS Buyer with QA iOS Pro, Secondary Actions: Cancel
+					89 text Description: Tuesday 13 October · 8:34 am (Australia/Melbourne), Secondary Actions: Cancel
+					90 text Description: Online · $84, Secondary Actions: Cancel
+					91 text Description: QA Android Review Session, Secondary Actions: Cancel
+					92 text Description: completed, Secondary Actions: Cancel
+					93 text Description: QA Android Buyer with QA Android Pro, Secondary Actions: Cancel
+					94 text Description: Tuesday 13 October · 8:34 am (Australia/Melbourne), Secondary Actions: Cancel
+					95 text Description: Online · $84, Secondary Actions: Cancel
+					96 text Description: QA completed review session, Secondary Actions: Cancel
+					97 text Description: completed, Secondary Actions: Cancel
+					98 text Description: QA Review Buyer with QA Review Professional, Secondary Actions: Cancel
+					99 text Description: Tuesday 13 October · 8:34 am (Australia/Melbourne), Secondary Actions: Cancel
+					100 text Description: Online · $84, Secondary Actions: Cancel
+					101 element Description: Overview, Secondary Actions: Cancel
+					102 element Description: Verify, Secondary Actions: Cancel
+					103 element Description: Users, Secondary Actions: Cancel
+					104 element (selected) Description: Bookings, Secondary Actions: Cancel
+					105 button Description: Payments, Secondary Actions: Cancel
+					106 image Description: Gear Shape, Filled, ID: gearshape.fill, Secondary Actions: Cancel
+				107 button app.grid.3x3
+				108 button camera.viewfinder
+				109 button record.circle
+				110 button
+	111 toolbar
+		112 menu button Add, Help: Add Device, ID: plus
+		113 toggle button Help: Sort and Filter, Value: off
+		114 button Description: Hide Sidebar, Secondary Actions: Increment, Decrement, Delete, Cancel
+		115 toggle button Description: Capture Keyboard, Value: off
+		116 toggle button (disabled) Description: Resize mode, Help: Enter resize mode, Value: off
+		117 Zoom
+			118 radio button Description: Zoom Out, Value: 0, ID: minus.magnifyingglass
+			119 radio button Description: arrowtriangles.up.right.down.left.magnifyingglass, Help: Zoom to Fit, Value: 1
+			120 radio button Description: Zoom To Actual Size, Help: Physical Size, Value: 0, ID: 1.magnifyingglass
+			121 radio button Description: Zoom In, Value: 0, ID: plus.magnifyingglass
+		122 button Description: Open in New Window, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		123 menu button More, Help: More Actions, ID: ellipsis
+		124 radio button Description: Edit, Help: Settings, Value: 0, ID: slider.horizontal.3
+		125 radio button Description: text.document, Help: Reports, Value: 0
+		126 radio button Description: Info, Value: 0, ID: info
+	127 close button
+	128 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	129 minimize button
+	130 text iPhone 18 Pro iOS 27.0
+131 menu bar
+	132 Device Hub
+	133 File
+	134 Edit
+	135 View
+	136 Device
+	137 Controls
+	138 Window
+	139 Help

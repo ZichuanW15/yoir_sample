@@ -1,0 +1,97 @@
+{
+  "source": "backend/tests/test_sprint3_recovery_boundaries_qa.py",
+  "sha256": "2d9ce0f25cc5ace1cc12be3958f49cd2d70e8797da8a416e3ed091ce187e0c43",
+  "new_cases": 10,
+  "engine": "owned temporary SQLite database",
+  "result": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "82",
+    "time": "4.555",
+    "timestamp": "2026-10-16T07:42:42.625906+11:00",
+    "hostname": "ZhouzhnydeMacBook-Air.local"
+  },
+  "lint": "passed",
+  "command_workdir": "backend",
+  "command": "COVERAGE_FILE=../artifacts/qa/sprint3-completion-20261016/agent-backend-recovery/.coverage .venv/bin/python -m pytest tests/test_sprint3_recovery_boundaries_qa.py tests/test_payments.py -q --cov=app.routers.webhooks --cov=app.payments.jobs --cov=app.payments.service --cov-report=json:../artifacts/qa/sprint3-completion-20261016/agent-backend-recovery/coverage.json --junitxml=../artifacts/qa/sprint3-completion-20261016/agent-backend-recovery/junit-final.xml",
+  "coverage_observation": {
+    "app/payments/jobs.py": {
+      "previous_missing_lines_executed": [
+        95,
+        96,
+        97
+      ],
+      "previous_missing_branches_executed": [
+        [
+          43,
+          33
+        ]
+      ]
+    },
+    "app/payments/service.py": {
+      "previous_missing_lines_executed": [
+        160,
+        163,
+        164
+      ],
+      "previous_missing_branches_executed": []
+    },
+    "app/routers/webhooks.py": {
+      "previous_missing_lines_executed": [
+        70,
+        71,
+        72,
+        73,
+        108,
+        109,
+        111,
+        130,
+        139,
+        164
+      ],
+      "previous_missing_branches_executed": [
+        [
+          68,
+          70
+        ],
+        [
+          71,
+          72
+        ],
+        [
+          71,
+          73
+        ],
+        [
+          107,
+          108
+        ],
+        [
+          110,
+          111
+        ],
+        [
+          129,
+          130
+        ],
+        [
+          138,
+          139
+        ],
+        [
+          163,
+          164
+        ]
+      ]
+    }
+  },
+  "scope_limits": [
+    "Coverage intersection only: previous full PostgreSQL misses versus current focused SQLite execution; not a replacement global coverage percentage",
+    "All Stripe outbound SDK calls mocked by existing fixtures; signatures verified with real local HMAC",
+    "No mail delivery/provider/device acceptance claimed",
+    "No product code, existing tests or defect expectations changed",
+    "No artificial missing-record foreign-key corruption or unsupported database-engine cases added"
+  ]
+}

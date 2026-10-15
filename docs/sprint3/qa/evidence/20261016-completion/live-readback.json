@@ -1,0 +1,47 @@
+{
+  "checkedAt": "2026-10-15T20:43:02.647375+00:00",
+  "httpChecks": [
+    {
+      "path": "/api/v1/health",
+      "status": 200,
+      "contentType": "application/json"
+    },
+    {
+      "path": "/job-seeker",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8"
+    },
+    {
+      "path": "/api/v1/qa-intentionally-missing",
+      "status": 404,
+      "contentType": "application/json"
+    }
+  ],
+  "database": "owned sprint3_completion_live_test / PostgreSQL16",
+  "counts": {
+    "users": 10,
+    "services": 8,
+    "orders": 2,
+    "bookings": 2,
+    "availability_windows": 12
+  },
+  "confirmedPaidBookings": [
+    {
+      "id": "6ba201aa-c469-4acb-af40-cdcb8e62e478",
+      "order_id": "3534ce23-7d5f-44dd-adc2-e1bca4328cc6",
+      "status": "confirmed",
+      "payment_status": "paid",
+      "amount_minor": 9500,
+      "currency": "AUD"
+    },
+    {
+      "id": "898d0eed-acf6-4fb3-bb25-f81ea792e5cc",
+      "order_id": "353a3818-71b7-4c2a-81b7-6b546df0975c",
+      "status": "confirmed",
+      "payment_status": "paid",
+      "amount_minor": 9500,
+      "currency": "AUD"
+    }
+  ],
+  "note": "Independent reads after the two real-client suites. No before/after delta claim; provider payments remain stubs."
+}

@@ -1,0 +1,22 @@
+{
+    ApplicationType = User;
+    Bundle = "file:///Users/zhouzhny/Library/Developer/CoreSimulator/Devices/579524DE-E6EA-42AE-9AB7-12FD385A0D08/data/Containers/Bundle/Application/16E9656E-0BE7-4269-B4F7-7B12843B7EF3/Expo-Go-57.0.9.tar.app/";
+    BundleContainer = "file:///Users/zhouzhny/Library/Developer/CoreSimulator/Devices/579524DE-E6EA-42AE-9AB7-12FD385A0D08/data/Containers/Bundle/Application/16E9656E-0BE7-4269-B4F7-7B12843B7EF3/";
+    CFBundleDisplayName = "Expo Go";
+    CFBundleExecutable = "Expo Go";
+    CFBundleIdentifier = "host.exp.Exponent";
+    CFBundleName = Expo;
+    CFBundleShortVersionString = "57.0.9";
+    CFBundleVersion = "57.0.9";
+    DataContainer = "file:///Users/zhouzhny/Library/Developer/CoreSimulator/Devices/579524DE-E6EA-42AE-9AB7-12FD385A0D08/data/Containers/Data/Application/B9F4ED4F-5532-45FA-A8A7-96A1D801E5D6/";
+    GroupContainers =     {
+    };
+    IsAppClip = 0;
+    IsDeveloperApp = 1;
+    IsFirstParty = 0;
+    IsHidden = 0;
+    IsRemovable = 1;
+    Path = "/Users/zhouzhny/Library/Developer/CoreSimulator/Devices/579524DE-E6EA-42AE-9AB7-12FD385A0D08/data/Containers/Bundle/Application/16E9656E-0BE7-4269-B4F7-7B12843B7EF3/Expo-Go-57.0.9.tar.app";
+    SBAppTags =     (
+    );
+}

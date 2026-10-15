@@ -1,0 +1,59 @@
+{
+  "at": "2026-10-15T22:20:08.785071+00:00",
+  "userId": "qa-nr-android-buyer",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/bookings/qa-nr-android-completed-booking": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-android-completed-booking",
+        "orderId": "qa-nr-android-completed-order",
+        "serviceId": "qa-nr-android-review-service",
+        "serviceTitle": "QA Android Review Session",
+        "startsAt": "2026-10-12T21:34:11.498496Z",
+        "endsAt": "2026-10-12T22:34:11.498496Z",
+        "timezone": "Australia/Melbourne",
+        "modality": "online",
+        "status": "completed",
+        "paymentStatus": "paid",
+        "amountMinor": 8450,
+        "refundedMinor": 0,
+        "cancelledByRole": null,
+        "meetingUrl": null,
+        "counterpartyName": "QA Android Pro",
+        "counterpartyRole": "counsellor",
+        "meetingArea": "",
+        "meetingAddress": "",
+        "preSessionBrief": "Android fixture brief: discuss career direction.",
+        "review": null
+      }
+    },
+    "/services/qa-nr-android-review-service": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-android-review-service",
+        "counsellor": {
+          "id": "qa-nr-android-pro",
+          "displayName": "QA Android Pro",
+          "introduction": "Android QA introduction",
+          "verificationStatus": "verified",
+          "overallRating": null,
+          "reviewCount": 0
+        },
+        "title": "QA Android Review Session",
+        "description": "Isolated Android review acceptance fixture.",
+        "priceMinor": 8450,
+        "durationMinutes": 60,
+        "currency": "AUD",
+        "modalities": [
+          "online"
+        ],
+        "location": null,
+        "active": true,
+        "averageRating": null,
+        "reviewCount": 0,
+        "reviews": []
+      }
+    }
+  }
+}

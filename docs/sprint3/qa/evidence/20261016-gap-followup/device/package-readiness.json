@@ -1,0 +1,71 @@
+{
+  "capturedAtUtc": "2026-10-15T20:57:27.912644+00:00",
+  "method": "Read only package metadata and relevant cache filenames; no app data or secrets read",
+  "tools": {
+    "node": "/opt/homebrew/bin/node",
+    "npm": "/opt/homebrew/bin/npm",
+    "maestro": null,
+    "appium": null,
+    "idb": null,
+    "idb_companion": null,
+    "xcodebuild": "/usr/bin/xcodebuild",
+    "adb": null
+  },
+  "paths": {
+    "frontend/node_modules/expo/package.json": {
+      "exists": true,
+      "version": "57.0.20"
+    },
+    "frontend/node_modules/react-native/package.json": {
+      "exists": true,
+      "version": "0.86.3"
+    },
+    "frontend/dist/web/index.html": {
+      "exists": true
+    },
+    "backend/.venv/bin/python": {
+      "exists": true
+    },
+    "frontend/e2e/native/guest-booking.yaml": {
+      "exists": true
+    },
+    "frontend/e2e/native/counsellor-login-logout.yaml": {
+      "exists": true
+    },
+    "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/android": {
+      "exists": false
+    },
+    "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/ios": {
+      "exists": false
+    },
+    "/Users/zhouzhny/.maestro/bin/maestro": {
+      "exists": false
+    }
+  },
+  "iosExpoGo": [
+    {
+      "path": "/Users/zhouzhny/Library/Developer/CoreSimulator/Devices/579524DE-E6EA-42AE-9AB7-12FD385A0D08/data/Containers/Bundle/Application/16E9656E-0BE7-4269-B4F7-7B12843B7EF3/Expo-Go-57.0.9.tar.app",
+      "deviceUdid": "579524DE-E6EA-42AE-9AB7-12FD385A0D08",
+      "identifier": "host.exp.Exponent",
+      "version": "57.0.9",
+      "build": "57.0.9"
+    }
+  ],
+  "androidAvd": {
+    "AvdId": null,
+    "avd.ini.displayname": null,
+    "abi.type": "arm64-v8a",
+    "hw.device.name": "pixel_8",
+    "hw.cpu.arch": "arm64",
+    "image.sysdir.1": "system-images/android-36/google_apis/arm64-v8a/",
+    "tag.id": "google_apis",
+    "PlayStore.enabled": "no",
+    "systemImagePresent": true
+  },
+  "expoCacheFiles": [
+    {
+      "path": "/Users/zhouzhny/.expo/ios-simulator-app-cache/Expo-Go-57.0.9.tar.app",
+      "directory": true
+    }
+  ]
+}

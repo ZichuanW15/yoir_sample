@@ -1,0 +1,13 @@
+{
+  "os": "macOS-26.6.2-arm64-arm-64bit",
+  "python": "3.12.14",
+  "node": "v20.20.2",
+  "npm": "10.8.2",
+  "postgres": "postgres (PostgreSQL) 16.15 (Homebrew)",
+  "dependencyVersionMismatches": [],
+  "missingLockedPackages": [
+    "colorama",
+    "greenlet"
+  ],
+  "lockfileDeltaSinceOct14": []
+}

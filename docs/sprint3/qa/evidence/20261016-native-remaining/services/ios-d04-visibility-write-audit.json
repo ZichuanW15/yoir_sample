@@ -1,0 +1,52 @@
+{
+  "at": "2026-10-15T22:02:42.175181+00:00",
+  "faults": [
+    {
+      "at": "2026-10-15T22:02:14.877318+00:00",
+      "ruleId": "ios-d04-visibility-write",
+      "method": "PATCH",
+      "path": "/api/v1/me/profile-visibility",
+      "userId": "qa-nr-ios-pro",
+      "hit": 1,
+      "action": "reject",
+      "status": 503
+    }
+  ],
+  "requests": [
+    {
+      "at": "2026-10-15T21:34:55.700454+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/profile-visibility",
+      "userId": "qa-nr-ios-pro",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:01:57.590531+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/profile-visibility",
+      "userId": "qa-nr-ios-pro",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:02:20.409263+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/profile-visibility",
+      "userId": "qa-nr-ios-pro",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:02:31.044555+00:00",
+      "method": "PATCH",
+      "path": "/api/v1/me/profile-visibility",
+      "userId": "qa-nr-ios-pro",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:02:35.778325+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/profile-visibility",
+      "userId": "qa-nr-ios-pro",
+      "status": 200
+    }
+  ]
+}

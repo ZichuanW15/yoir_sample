@@ -1,0 +1,9 @@
+[WebServer] Mail is NOT configured (MAILGUN_API_KEY and MAILGUN_DOMAIN missing): every message will be logged and discarded, including email confirmation and booking confirmations.
+
+Running 3 tests using 1 worker
+
+  ✓  1 [chromium-web] › e2e/sprint3-diagnosis.spec.ts:53:5 › US09/10/11 local Web diagnosis validates, resumes after login and isolates accounts (11.1s)
+  ✓  2 [chromium-web] › e2e/sprint3-diagnosis.spec.ts:85:5 › US12/13 local direction leads through a real professional and service to a stub booking (9.8s)
+  ✓  3 [chromium-web] › e2e/sprint3-diagnosis.spec.ts:131:5 › US09/12 cancelled local retake preserves the old direction and completed retake replaces it (10.7s)
+
+  3 passed (33.1s)
