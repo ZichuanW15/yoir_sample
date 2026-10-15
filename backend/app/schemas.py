@@ -356,6 +356,16 @@ class OwnServiceOut(ServiceOut):
     """
 
     meeting_url: str | None = None
+    #: The earliest time a job seeker could book it, exactly as its time picker would
+    #: offer it. None when nothing is open, which is what the counsellor needs to see:
+    #: a count of windows says nothing about whether this service fits in any of them.
+    next_available_at: datetime | None = None
+
+
+class ServiceDetailOut(ServiceOut):
+    """US-54 — the service detail screen only; the Marketplace list stays light."""
+
+    reviews: list["ReviewOut"] = []
 
 
 class CreateAvailabilityWindowRequest(CamelModel):
@@ -389,6 +399,9 @@ class AvailabilityWindowOut(CamelModel):
     #: True once any part of the window has been booked, so the screen can show that
     #: shortening it would strand a session rather than silently refusing the edit.
     has_bookings: bool = False
+    #: Minutes still open to book: the part not yet past, less every booking and
+    #: unpaid hold inside it. A fully booked window is on the calendar but not free.
+    free_minutes: int = 0
 
 
 class BookableStartOut(CamelModel):
@@ -479,6 +492,8 @@ class BookingOut(CamelModel):
     #: US-42 — what the job seeker asked to cover, frozen from the order at booking
     #: time. Empty when none was given.
     pre_session_brief: str = ""
+    #: US-53 — the buyer's review once written, so the app stops offering another.
+    review: "ReviewOut | None" = None
 
 
 class UpdateMeetingAddressRequest(CamelModel):
@@ -564,6 +579,36 @@ class RescheduleBookingRequest(CamelModel):
     starts_at: datetime
     modality: Modality
     timezone: str = Field(min_length=1, max_length=100)
+
+
+class SubmitReviewRequest(CamelModel):
+    """US-53 — the buyer's rating and comment on one completed booking."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    rating: int = Field(ge=1, le=5)
+    comment: str = Field(min_length=1, max_length=4000)
+
+    @field_validator("comment")
+    @classmethod
+    def _comment_says_something(cls, value: str) -> str:
+        # min_length alone lets "   " through, and a written review has to say something.
+        value = value.strip()
+        if not value:
+            raise ValueError("Write a short review.")
+        return value
+
+
+class ReviewOut(CamelModel):
+    """US-54/US-55 — one stored review, as published by the executable contract."""
+
+    id: str
+    booking_id: str
+    service_id: str
+    job_seeker_id: str
+    rating: int
+    comment: str
+    created_at: datetime
 
 
 class StripeOnboardingRequest(CamelModel):
@@ -775,6 +820,35 @@ class PaymentOversightOut(CamelModel):
     created_at: datetime
 
 
+class PaymentOversightDetailOut(PaymentOversightOut):
+    """US-48. One order end to end: the list row, plus who exactly, which session,
+    the whole frozen split and how far the order has got.
+
+    The session is read off the order, not the booking, so an order still being paid
+    for — or one that never got a booking — still shows the time it was for.
+    """
+
+    job_seeker_id: str
+    job_seeker_email: str
+    counsellor_id: str
+    counsellor_email: str
+    service_id: str
+    starts_at: datetime
+    ends_at: datetime
+    timezone: str
+    modality: Modality
+    session_gst_minor: int
+    platform_fee_gst_minor: int
+    #: Set while an unpaid order holds its time; the time is released when it passes.
+    hold_expires_at: datetime | None = None
+    #: The session's own progress once paid for. None until a booking exists.
+    booking_status: BookingStatus | None = None
+    completed_at: datetime | None = None
+    paid_out_at: datetime | None = None
+    cancelled_at: datetime | None = None
+    cancelled_by_role: Role | None = None
+
+
 class AdminBookingOut(CamelModel):
     """Every booking on the platform, named on both sides."""
 
@@ -848,3 +922,5 @@ class AdminStatsOut(CamelModel):
 # Location is declared after the profile models that reference it.
 CounsellorProfileOut.model_rebuild()
 UpdateCounsellorProfileRequest.model_rebuild()
+# ReviewOut is declared after ServiceDetailOut, which references it (US-54).
+ServiceDetailOut.model_rebuild()

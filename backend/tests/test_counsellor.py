@@ -623,3 +623,113 @@ def test_windows_offering_different_modalities_are_not_merged(
     assert {frozenset(w.modalities) for w in windows} == {
         frozenset(["online"]), frozenset(["online", "in_person"]),
     }
+
+
+# --- what the counsellor is shown as open -----------------------------------
+
+
+def test_the_calendar_leaves_out_windows_that_have_ended(
+    client: TestClient,
+    db_session: Session,
+    counsellor: Any,
+    counsellor_headers: dict[str, str],
+) -> None:
+    """An ended window can take no booking, so listing it only reads as open time."""
+    now = datetime.now(UTC)
+    add_window(db_session, counsellor, starts_at=now - timedelta(days=3))
+    under_way = add_window(db_session, counsellor, starts_at=now - timedelta(hours=1))
+    ahead = add_window(db_session, counsellor, starts_at=now + timedelta(days=2))
+
+    calendar = client.get(
+        "/api/v1/me/availability-windows", headers=counsellor_headers,
+    ).json()
+
+    assert [window["id"] for window in calendar] == [under_way.id, ahead.id]
+
+
+def test_each_window_reports_the_time_still_free_to_book(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    counsellor: Any,
+    counsellor_headers: dict[str, str],
+    job_seeker_headers: dict[str, str],
+) -> None:
+    """Booked time is gone, and so is the part of a window already behind us."""
+    now = datetime.now(UTC)
+    booked = add_window(db_session, counsellor)
+    untouched = add_window(db_session, counsellor, starts_at=now + timedelta(days=3))
+    under_way = add_window(db_session, counsellor, starts_at=now - timedelta(hours=1))
+    order = client.post(
+        "/api/v1/orders", headers=job_seeker_headers, json=order_payload(service, booked),
+    )
+    client.post(f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers)
+
+    calendar = {
+        window["id"]: window
+        for window in client.get(
+            "/api/v1/me/availability-windows", headers=counsellor_headers,
+        ).json()
+    }
+
+    assert calendar[booked.id]["hasBookings"] is True
+    assert calendar[booked.id]["freeMinutes"] == 180 - service.duration_minutes
+    assert calendar[untouched.id]["freeMinutes"] == 180
+    # Two of its three hours are still to come; allow for the clock moving on.
+    assert 119 <= calendar[under_way.id]["freeMinutes"] <= 120
+
+
+def test_an_unpaid_hold_takes_the_time_it_holds(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    counsellor: Any,
+    counsellor_headers: dict[str, str],
+    job_seeker_headers: dict[str, str],
+) -> None:
+    """The picker offers nothing while a hold is alive, so the calendar must not either."""
+    window = add_window(db_session, counsellor, hours=1)
+    held = client.post(
+        "/api/v1/orders", headers=job_seeker_headers, json=order_payload(service, window),
+    )
+    assert held.status_code == 201
+
+    calendar = client.get(
+        "/api/v1/me/availability-windows", headers=counsellor_headers,
+    ).json()
+
+    assert calendar[0]["hasBookings"] is False
+    assert calendar[0]["freeMinutes"] == 0
+
+
+def test_each_service_reports_the_next_time_a_job_seeker_could_book_it(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    counsellor: Any,
+    counsellor_headers: dict[str, str],
+    job_seeker_headers: dict[str, str],
+) -> None:
+    """The first of exactly what the time picker offers, so the two never disagree."""
+    def next_open() -> str | None:
+        own = client.get("/api/v1/me/services", headers=counsellor_headers).json()
+        return own[0]["nextAvailableAt"]
+
+    def first_offered() -> str:
+        return client.get(f"/api/v1/services/{service.id}/slots").json()[0]["startsAt"]
+
+    # Availability that has already ended offers nothing, however much of it there is.
+    add_window(db_session, counsellor, starts_at=datetime.now(UTC) - timedelta(days=3))
+    assert next_open() is None
+
+    window = add_window(db_session, counsellor)
+    assert next_open() == first_offered()
+
+    order = client.post(
+        "/api/v1/orders", headers=job_seeker_headers, json=order_payload(service, window),
+    )
+    client.post(f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers)
+
+    # Booking the first time moves the next one on, for the counsellor and the picker alike.
+    assert next_open() == first_offered()
+    assert next_open() != window.starts_at.isoformat().replace("+00:00", "Z")

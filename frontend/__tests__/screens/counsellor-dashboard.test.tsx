@@ -5,24 +5,42 @@ import Dashboard from '@/app/counsellor';
 import { OnboardingState } from '@/src/api/types';
 import { sessionFixture } from '../fixtures';
 import { apiError } from '@/src/api/errors';
+import { fmtDay, fmtTime } from '@/src/format';
 beforeEach(setupCounsellorMocks);
 describe('Counsellor dashboard UI — QA #133 (mocked API boundary)', () => {
   test.each([null, sessionFixture])('hides the workspace from anonymous or job-seeker users (%j)', async (session) => {
     await renderCounsellor(<Dashboard />, session); expect(screen.getByTestId('redirect')).toHaveTextContent('/');
     expect(screen.queryByRole('button', { name: 'New' })).toBeNull();
   });
-  test('loads the signed-in counsellor services, profile completion and availability window counts', async () => {
+  test('loads the signed-in counsellor services, profile completion and the time still open to book', async () => {
+    apiMock.listOwnServices.mockResolvedValue([{ ...serviceFixture, nextAvailableAt: '2030-09-19T10:00:00Z' }]);
     apiMock.listOwnAvailabilityWindows.mockResolvedValue([
-      { id: 'open', modalities: ['online'], startsAt: '2030-09-20T09:00:00Z', endsAt: '2030-09-20T10:00:00Z', hasBookings: false },
-      { id: 'booked', modalities: ['online'], startsAt: '2030-09-19T09:00:00Z', endsAt: '2030-09-19T10:00:00Z', hasBookings: true },
+      { id: 'open', modalities: ['online'], startsAt: '2030-09-20T09:00:00Z', endsAt: '2030-09-20T10:00:00Z', hasBookings: false, freeMinutes: 60 },
+      { id: 'booked', modalities: ['online'], startsAt: '2030-09-19T09:00:00Z', endsAt: '2030-09-19T11:00:00Z', hasBookings: true, freeMinutes: 60 },
     ]);
     await renderCounsellor(<Dashboard />); await screen.findByText(serviceFixture.title);
     expect(apiMock.listOwnServices).toHaveBeenCalledWith('counsellor-1', 'counsellor-access-token');
-    expect(screen.getByText('Verified Career Professional')).toBeTruthy(); expect(screen.getByText('5/5')).toBeTruthy(); expect(screen.getByText(/2 open slots\. Next on/)).toBeTruthy();
+    expect(screen.getByText('Verified Career Professional')).toBeTruthy(); expect(screen.getByText('5/5')).toBeTruthy();
+    // Booked time is not counted as open, and the service shows when it can next be booked.
+    expect(screen.getByText(`2 hours free to book, through ${fmtDay('2030-09-20T10:00:00Z')}.`)).toBeTruthy();
+    expect(screen.getByText(`Next open ${fmtDay('2030-09-19T10:00:00Z')} · ${fmtTime('2030-09-19T10:00:00Z')}`)).toBeTruthy();
     fireEvent.press(screen.getByRole('button', { name: 'New' })); expect(router.push).toHaveBeenLastCalledWith('/counsellor/services/new');
     fireEvent.press(screen.getByRole('button', { name: `Edit ${serviceFixture.title}` })); expect(router.push).toHaveBeenLastCalledWith('/counsellor/services/service-1/edit');
     fireEvent.press(screen.getByRole('button', { name: 'Professional profile' })); expect(router.push).toHaveBeenLastCalledWith('/counsellor/profile');
     fireEvent.press(screen.getByRole('button', { name: 'Availability' })); expect(router.push).toHaveBeenLastCalledWith('/counsellor/availability');
+  });
+  test('a fully booked calendar is not shown as open, and a service with nothing open says so', async () => {
+    apiMock.listOwnServices.mockResolvedValue([{ ...serviceFixture, nextAvailableAt: null }]);
+    apiMock.listOwnAvailabilityWindows.mockResolvedValue([
+      { id: 'booked', modalities: ['online'], startsAt: '2030-09-19T09:00:00Z', endsAt: '2030-09-19T10:00:00Z', hasBookings: true, freeMinutes: 0 },
+    ]);
+    await renderCounsellor(<Dashboard />); await screen.findByText(serviceFixture.title);
+    expect(screen.getByText('Fully booked. Add availability so buyers can choose a time.')).toBeTruthy();
+    expect(screen.getByText('No open times')).toBeTruthy(); expect(screen.queryByText(/^Next open/)).toBeNull();
+  });
+  test('an empty calendar asks for availability', async () => {
+    await renderCounsellor(<Dashboard />); await screen.findByText(serviceFixture.title);
+    expect(screen.getByText('No open times. Add availability so buyers can choose a time.')).toBeTruthy();
   });
   test('shows the first-service entry and missing LinkedIn guidance for an empty pending profile', async () => {
     apiMock.listOwnServices.mockResolvedValue([]);

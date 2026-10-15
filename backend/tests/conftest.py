@@ -40,6 +40,7 @@ _DATABASE_CLEANUP_ORDER = (
     "processed_webhook_events",
     "revoked_tokens",
     "refresh_tokens",
+    "reviews",
     "bookings",
     "orders",
     "availability_windows",

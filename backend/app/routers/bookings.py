@@ -9,7 +9,7 @@ from app.availability import is_free
 from app.config import get_settings
 from app.db import get_db
 from app.errors import FORBIDDEN, NOT_FOUND, VALIDATION_ERROR, ApiError
-from app.models import AvailabilityWindow, Booking, Order, Service, User
+from app.models import AvailabilityWindow, Booking, Order, Review, Service, User
 from app.payments import gateway, receipts
 from app.payments.service import (
     apply_amounts,
@@ -17,6 +17,12 @@ from app.payments.service import (
     cancel_booking,
     confirm_paid_order,
     stored_amounts,
+)
+from app.reviews import (
+    REVIEWABLE_STATUSES,
+    recompute_counsellor_rating,
+    recompute_service_rating,
+    review_out,
 )
 from app.schemas import (
     BookingAmountsOut,
@@ -29,7 +35,9 @@ from app.schemas import (
     PaymentIntentOut,
     ReceiptOut,
     RescheduleBookingRequest,
+    ReviewOut,
     StubPaymentConfirmation,
+    SubmitReviewRequest,
     UpdateMeetingAddressRequest,
 )
 from app.security import get_current_user, require_job_seeker, require_verified_email_job_seeker
@@ -67,6 +75,7 @@ def _booking_out(
     viewer: User | None = None,
     job_seeker: User | None = None,
     counsellor: User | None = None,
+    review: Review | None = None,
 ) -> BookingOut:
     """The booking as one of its two parties sees it.
 
@@ -100,6 +109,8 @@ def _booking_out(
         meeting_area=area if booking.modality == "in_person" else "",
         meeting_address=booking.meeting_address or "",
         pre_session_brief=(order.pre_session_brief or "") if order is not None else "",
+        # US-53: present once written, so the app stops offering a second review.
+        review=review_out(review) if review is not None else None,
     )
 
 
@@ -316,10 +327,18 @@ def list_bookings(
         )
         .order_by(Booking.starts_at.desc())
     ).all()
+    # One query for every listed booking's review, not one per booking.
+    reviews = {
+        review.booking_id: review
+        for review in db.scalars(
+            select(Review).where(Review.booking_id.in_([row[0].id for row in rows]))
+        )
+    } if rows else {}
     return [
         _booking_out(
             booking, service, order,
             viewer=user, job_seeker=seeker_row, counsellor=counsellor_row,
+            review=reviews.get(booking.id),
         )
         for booking, order, service, seeker_row, counsellor_row in rows
     ]
@@ -337,6 +356,7 @@ def get_booking(
         viewer=user,
         job_seeker=db.get(User, booking.job_seeker_id),
         counsellor=db.get(User, booking.counsellor_id),
+        review=db.scalar(select(Review).where(Review.booking_id == booking.id)),
     )
 
 
@@ -509,6 +529,59 @@ def cancel_booking_endpoint(
         refunded_minor=refunded,
         currency=order.currency,
     )
+
+
+@router.post(
+    "/bookings/{booking_id}/review", status_code=status.HTTP_201_CREATED,
+    response_model=ReviewOut, operation_id="createReview",
+)
+def create_review(
+    booking_id: str,
+    payload: SubmitReviewRequest,
+    user: User = Depends(require_job_seeker),
+    db: Session = Depends(get_db),
+) -> ReviewOut:
+    """US-53. One review per completed booking, from its buyer only.
+
+    `_visible_booking` restricts to a party of the booking, and only a Job
+    Seeker reaches this far (require_job_seeker), so the only caller who can
+    pass both is the buyer — a counsellor is refused before either check runs,
+    and a different Job Seeker gets the same not-found a stranger would.
+
+    Both aggregates are recomputed in the same transaction as the insert: a
+    reader must never see a stored review before the service or counsellor
+    rating has caught up to it.
+    """
+    booking, order, service = _visible_booking(db, booking_id, user)
+    if booking.status not in REVIEWABLE_STATUSES:
+        raise ApiError(
+            status.HTTP_409_CONFLICT,
+            "INVALID_STATE_TRANSITION",
+            "Only a completed session can be reviewed.",
+        )
+    if db.scalar(select(Review).where(Review.booking_id == booking.id)) is not None:
+        raise ApiError(
+            status.HTTP_409_CONFLICT,
+            "INVALID_STATE_TRANSITION",
+            "This booking has already been reviewed.",
+        )
+
+    review = Review(
+        booking_id=booking.id,
+        order_id=booking.order_id,
+        service_id=booking.service_id,
+        counsellor_id=booking.counsellor_id,
+        job_seeker_id=user.id,
+        rating=payload.rating,
+        comment=payload.comment,
+    )
+    db.add(review)
+    db.flush()
+    recompute_service_rating(db, booking.service_id)
+    recompute_counsellor_rating(db, booking.counsellor_id)
+    db.commit()
+    db.refresh(review)
+    return review_out(review)
 
 
 @router.get("/bookings/{booking_id}/receipt", response_model=ReceiptOut)

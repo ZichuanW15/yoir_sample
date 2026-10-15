@@ -114,4 +114,17 @@ describe('Counsellor availability windows — QA #145', () => {
     await waitFor(() => expect(screen.getByText('This availability has a booking.')).toBeTruthy());
     expect(screen.getByText('1 on your calendar')).toBeTruthy();
   });
+
+  test('each window says what is left to book: nothing, part of it, or (unsaid) all of it', async () => {
+    apiMock.listOwnAvailabilityWindows.mockResolvedValue([
+      { ...window(), id: 'full', hasBookings: true, freeMinutes: 0 },
+      { ...window(), id: 'part', hasBookings: true, freeMinutes: 120 },
+      { ...window(), id: 'open', freeMinutes: 180 },
+    ]);
+    await renderCounsellor(<Availability />);
+    await screen.findByText('3 on your calendar');
+    expect(screen.getByText(/has a booking · fully booked$/)).toBeTruthy();
+    expect(screen.getByText(/has a booking · 2 hours free$/)).toBeTruthy();
+    expect(screen.getAllByText(/(free|fully booked)$/)).toHaveLength(2);
+  });
 });

@@ -47,10 +47,19 @@ The screen shows:
   `BookableStart[]`, sorted by `startsAt` and grouped by `toDateString()`. The
   client does no status filtering. The backend derives these starts from the Career
   Professional's availability windows, the service duration and the time already
-  taken, so reserved or unavailable times are never sent and never rendered.
+  taken, so reserved or unavailable times are never sent and never rendered. A
+  spinner shows until the first answer arrives, so loading never reads as "nothing
+  open".
+- **No open times (AC4).** A successful empty answer shows "No open times right
+  now" with the Career Professional's name and, for a service offered both ways,
+  which delivery method is empty. If the other method has times, "Show in-person
+  times" (or online) switches to it. "See other Career Professionals" opens
+  Explore. A failed read shows the error with "Try again" instead, never the
+  empty state.
 - **Delivery choice.** It is preselected to the first modality the service lists.
-  Tapping another chip changes `modality`, which reloads the slots for that mode. A
-  selection that is not in the new list leaves "Continue to payment" disabled.
+  Tapping another chip changes `modality` and clears the shown slots until that
+  mode's arrive, so one mode's times are never booked as the other's. A selection
+  that is not in the new list leaves "Continue to payment" disabled.
 - **Selection.** Tapping a row selects it (`accessibilityState.checked`). "Continue
   to payment" is disabled until a slot is chosen.
 - **Continue.** This calls `api.createOrder` ([US-41](us41-double-booking.md)). On
@@ -81,7 +90,7 @@ The screen shows:
 | Only slots the backend reports as open are selectable | Met. Only the backend's bookable starts are rendered, and each is a selectable radio. | `timeslots.test.tsx` "[QA-118] server-derived starts are selectable and payment requires a selection"; `web.spec.ts` "US40/41/47/68 real browser booking to stub receipt (not provider acceptance)"; QA #118 records "One future online slot selected" on iOS and Android. |
 | Continuing carries the service, modality, slot and pre-session brief forward, with no booking shown as created | Partly met. The service, modality and slot (with order data) are passed to checkout. No pre-session brief is captured anywhere in the app. | `timeslots.test.tsx` "[QA-118/121] selection reserves through the real client with identity and passes server order data" |
 | With both modalities, the Job Seeker must choose online or in person before continuing | Partly met. The choice is offered, but it is preselected to the first modality, so the Job Seeker can continue without making an explicit choice. | Planned `public-search-and-selection.test.tsx` "[QA-118][US40-AC3] both-modality booking requires an explicit delivery choice before continuing" fails (18 Sept 2026, `64cb324`). |
-| With no open slots, a no-open-slots state is shown and nothing is selectable | Not met. Nothing is selectable, but no explanation is shown. | Defect `public-issue-acceptance.test.tsx` "[QA-118][US40-AC4] no open slots has an explicit empty state, not an unexplained blank picker" fails; `web.spec.ts` "[QA-118][US40-AC4] real empty availability has an explanatory state @defect" fails. |
+| With no open slots, a no-open-slots state is shown and nothing is selectable | Met (13 Oct 2026). "No open times right now" is shown, nothing is selectable, and the buyer is pointed to the other delivery method or to Explore. A failed read is an error with a retry, not an empty state. | `timeslots.test.tsx` "[QA-118][US40-AC4] an empty answer says nothing is open and points to other Career Professionals" and the three "[US40-AC4]" cases; defect `public-issue-acceptance.test.tsx` "[QA-118][US40-AC4] no open slots has an explicit empty state, not an unexplained blank picker" now passes. `web.spec.ts` "[QA-118][US40-AC4] real empty availability has an explanatory state @defect" not re-run. |
 | An unauthenticated user is sent to login | Met. After login, a Job Seeker returns to this screen. | `timeslots.test.tsx` "[QA-118] a guest deep link returns to login before reading slots"; `login.test.tsx` "[QA-100] a pending booking returns %s to the appropriate route" |
 
 The parent story's scope also asks for slot times with timezone information. The
@@ -90,8 +99,10 @@ picker and checkout now name the device timezone. The "known gap" recorded on
 
 ## Tests
 
-- [timeslots.test.tsx](../../../frontend/__tests__/screens/timeslots.test.tsx): seven cases.
-  The "[QA-118]" cases cover the guard, selection and connection failure.
+- [timeslots.test.tsx](../../../frontend/__tests__/screens/timeslots.test.tsx): thirteen cases.
+  The "[QA-118]" cases cover the guard, selection and connection failure; the
+  "[US40-AC4]" cases cover the empty state, the other-delivery-method switch,
+  loading and retry.
 - [client.test.ts](../../../frontend/__tests__/api/client.test.ts): "listServiceSlots
   URL-encodes the service identifier".
 - Defect: [public-issue-acceptance.test.tsx](../../../frontend/__tests__/defects/public-issue-acceptance.test.tsx).
@@ -109,12 +120,10 @@ npm run test:defects -- __tests__/defects/public-issue-acceptance.test.tsx
 
 ## Known gaps
 
-- No empty state when there are no open slots (F09). It still fails at the
-  [18 September review](../qa/dev-sync-review-20260918.md).
 - No pre-session brief step (AC2), and no enforced explicit modality choice (AC3).
-- No loading indicator while the slots are fetched. A slot-load error stays on
-  screen after a later successful reload, because `slotsError` is cleared only when
-  Continue is pressed.
+- Apart from "Try again", a slot-load error stays on screen after a later
+  successful reload (for example after switching delivery method), because
+  `slotsError` is otherwise cleared only when Continue is pressed.
 - On first open, the slot list is requested twice. The first load sets `modality`,
   which re-creates `load` and triggers the effect again. The conflict test depends
   on this: it expects three slot requests.
