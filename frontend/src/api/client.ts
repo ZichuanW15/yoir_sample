@@ -9,6 +9,8 @@ import {
   Role, Service, ServiceDraft, ServiceUpdate, Session, StripeOnboarding,
   StubPaymentConfirmation, TaxDetailsUpdate, User, VerificationSubmission, WindowDraft,
   JobSeekerProfile, JobSeekerProfileUpdate, AppNotification, PrivacySettings, ProfileVisibility, Review, ReviewDraft,
+  DiagnosisDirection, DiagnosisMarketplaceCriteria, DiagnosisQuestionnaire,
+  DiagnosisRecord, DiagnosisStepId, Modality,
 } from './types';
 
 export { ApiError };
@@ -119,8 +121,13 @@ export const api = {
           accessToken,
         ).catch(() => undefined),
 
-  listServices: (query = ''): Promise<Service[]> =>
-    request(`/services${query.trim() ? `?query=${encodeURIComponent(query.trim())}` : ''}`),
+  listServices: (query = '', modality?: Modality | null): Promise<Service[]> => {
+    const filters = [
+      query.trim() ? `query=${encodeURIComponent(query.trim())}` : '',
+      modality ? `modality=${encodeURIComponent(modality)}` : '',
+    ].filter(Boolean).join('&');
+    return request(`/services${filters ? `?${filters}` : ''}`);
+  },
 
   getService: (id: string): Promise<Service> =>
     request(`/services/${encodeURIComponent(id)}`),
@@ -268,8 +275,58 @@ export const api = {
   // --- counsellor workspace (contract-published, backend pending) ---
 
   /** The Career Professionals a Job Seeker can book: the people behind Explore's services. */
-  listCounsellors: async (): Promise<CounsellorProfile[]> =>
-    (await request<CounsellorProfileResponse[]>('/counsellors')).map(normaliseCounsellorProfile),
+  listCounsellors: async (query = ''): Promise<CounsellorProfile[]> =>
+    (await request<CounsellorProfileResponse[]>(
+      `/counsellors${query.trim() ? `?query=${encodeURIComponent(query.trim())}` : ''}`,
+    )).map(normaliseCounsellorProfile),
+
+  // --- Yoir Diagnosis ------------------------------------------------------
+
+  getDiagnosisQuestionnaire: (accessToken: string): Promise<DiagnosisQuestionnaire> =>
+    request('/me/diagnosis/questionnaire', undefined, accessToken),
+
+  getOwnDiagnosis: (accessToken: string): Promise<DiagnosisRecord> =>
+    request('/me/diagnosis', undefined, accessToken),
+
+  startDiagnosis: (questionnaireVersion: string, accessToken: string): Promise<DiagnosisRecord> =>
+    request(
+      '/me/diagnosis',
+      { method: 'POST', body: JSON.stringify({ questionnaireVersion }) },
+      accessToken,
+    ),
+
+  saveDiagnosisStep: (
+    diagnosisId: string,
+    stepId: DiagnosisStepId,
+    input: {
+      questionnaireVersion: string;
+      expectedRevision: number;
+      value: string | string[];
+      other?: string | null;
+    },
+    accessToken: string,
+  ): Promise<DiagnosisRecord> =>
+    request(
+      `/diagnoses/${encodeURIComponent(diagnosisId)}/steps/${encodeURIComponent(stepId)}`,
+      { method: 'PUT', body: JSON.stringify(input) },
+      accessToken,
+    ),
+
+  getDiagnosisDirection: (
+    diagnosisId: string, accessToken: string,
+  ): Promise<DiagnosisDirection> =>
+    request(
+      `/diagnoses/${encodeURIComponent(diagnosisId)}/direction`, undefined, accessToken,
+    ),
+
+  getDiagnosisMarketplaceCriteria: (
+    diagnosisId: string, accessToken: string,
+  ): Promise<DiagnosisMarketplaceCriteria> =>
+    request(
+      `/diagnoses/${encodeURIComponent(diagnosisId)}/marketplace-criteria`,
+      undefined,
+      accessToken,
+    ),
 
   /** A Career Professional's public profile: what a Job Seeker reads before booking. */
   getCounsellorProfile: async (counsellorId: string): Promise<CounsellorProfile> =>

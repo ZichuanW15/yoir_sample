@@ -1,70 +1,183 @@
 import { router } from 'expo-router';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { api, userFacingError } from '@/src/api/client';
+import { api, ApiError, userFacingError } from '@/src/api/client';
+import {
+  CounsellorProfile,
+  DiagnosisDirection,
+  DiagnosisMarketplaceCriteria,
+  DiagnosisQuestionnaire,
+  DiagnosisRecord,
+  DiagnosisStepId,
+  Service,
+} from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { Glyph } from '@/src/components/Glyph';
 import { Avatar, Button, Card, ErrorBanner, Spinner, Tag } from '@/src/components/ui';
-import { Answers, Direction, Professional, rankProfessionals } from '@/src/diagnosis/model';
-import { readDiagnosis, writeDiagnosis } from '@/src/diagnosis/storage';
 import { initials, modalityLabel, money } from '@/src/format';
 import { colors, fonts, radius, type } from '@/src/theme';
 
-/**
- * A person's diagnosis. Null answers mean they skipped it. `step` is set only while
- * it is unfinished, and is the question it resumes at.
- */
-export interface DiagnosisRecord { answers: Answers | null; step?: number }
+interface DiagnosisState {
+  accountId: string | null;
+  questionnaire: DiagnosisQuestionnaire | null;
+  record: DiagnosisRecord | null;
+  direction: DiagnosisDirection | null;
+  criteria: DiagnosisMarketplaceCriteria | null;
+}
 
-/** The answers of a finished diagnosis; null if it was skipped, left part-way or never taken. */
-export const finishedAnswers = (record: DiagnosisRecord | null | undefined): Answers | null =>
-  (record?.answers && record.step === undefined ? record.answers : null);
+const emptyState: DiagnosisState = {
+  accountId: null,
+  questionnaire: null,
+  record: null,
+  direction: null,
+  criteria: null,
+};
 
 /**
- * This person's diagnosis: undefined while it is read, null if they have never
- * been through it — which is what sends a new job seeker into it.
+ * The signed-in Job Seeker's server-backed diagnosis.
+ *
+ * The backend owns the questionnaire, saved progress and direction rules. This hook
+ * deliberately keeps no device copy, so reopening on another device returns the
+ * same confirmed revision instead of running a second set of client-side rules.
  */
 export function useDiagnosis() {
   const { session } = useAuth();
-  const userId = session?.user.id;
-  const key = `yoir.diagnosis.${userId ?? 'guest'}`;
-  // Tagged with its key, so a different person's record never shows while theirs loads.
-  const [loaded, setLoaded] = useState<{ key: string; record: DiagnosisRecord | null } | null>(null);
+  const token = session?.user.role === 'job_seeker' ? session.accessToken : null;
+  const accountId = session?.user.role === 'job_seeker' ? session.user.id : null;
+  const activeToken = useRef(token);
+  const [state, setState] = useState<DiagnosisState>(emptyState);
+  const [loading, setLoading] = useState(Boolean(token));
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    let live = true;
-    // A guest has no diagnosis: nothing is ever stored for one, so nothing is read.
-    if (!userId) return;
-    void readDiagnosis(key).then((raw) => {
-      if (!live) return;
+    activeToken.current = token;
+    return () => {
+      if (activeToken.current === token) activeToken.current = null;
+    };
+  }, [token]);
+
+  const loadResult = useCallback(async (record: DiagnosisRecord, accessToken: string) => {
+    if (activeToken.current !== accessToken) return;
+    if (record.status !== 'answers_complete') {
+      setState((current) => ({ ...current, direction: null, criteria: null }));
+      return;
+    }
+    const [direction, criteria] = await Promise.all([
+      api.getDiagnosisDirection(record.id, accessToken),
+      api.getDiagnosisMarketplaceCriteria(record.id, accessToken),
+    ]);
+    if (activeToken.current !== accessToken) return;
+    setState((current) => ({ ...current, direction, criteria }));
+  }, []);
+
+  const refresh = useCallback(async () => {
+    if (!token) return;
+    setLoading(true);
+    setError('');
+    try {
+      const questionnaire = await api.getDiagnosisQuestionnaire(token);
+      if (activeToken.current !== token) return;
       let record: DiagnosisRecord | null = null;
       try {
-        record = raw ? (JSON.parse(raw) as DiagnosisRecord) : null;
-      } catch {
-        // Unreadable answers are treated as none: they take the diagnosis again.
+        record = await api.getOwnDiagnosis(token);
+      } catch (cause) {
+        if (!(cause instanceof ApiError) || cause.status !== 404) throw cause;
       }
-      setLoaded({ key, record });
-    });
-    return () => { live = false; };
-  }, [key, userId]);
+      if (activeToken.current !== token) return;
+      setState({ accountId, questionnaire, record, direction: null, criteria: null });
+      if (record?.status === 'answers_complete') await loadResult(record, token);
+    } catch (cause) {
+      if (activeToken.current === token) setError(userFacingError(cause));
+    } finally {
+      if (activeToken.current === token) setLoading(false);
+    }
+  }, [accountId, loadResult, token]);
 
-  const save = useCallback(async (next: DiagnosisRecord) => {
-    setLoaded({ key, record: next });
-    await writeDiagnosis(key, JSON.stringify(next));
-  }, [key]);
+  useEffect(() => {
+    if (token) void Promise.resolve().then(refresh);
+  }, [refresh, token]);
 
-  return { record: !userId ? null : loaded?.key === key ? loaded.record : undefined, save };
+  const start = useCallback(async (): Promise<DiagnosisRecord> => {
+    if (!token || !state.questionnaire) throw new Error('Diagnosis is not ready.');
+    setSaving(true);
+    setError('');
+    try {
+      const record = await api.startDiagnosis(state.questionnaire.version, token);
+      if (activeToken.current !== token) return record;
+      setState((current) => ({ ...current, record }));
+      return record;
+    } catch (cause) {
+      if (activeToken.current === token) setError(userFacingError(cause));
+      throw cause;
+    } finally {
+      if (activeToken.current === token) setSaving(false);
+    }
+  }, [state.questionnaire, token]);
+
+  const saveStep = useCallback(async (
+    stepId: DiagnosisStepId,
+    value: string | string[],
+    other?: string | null,
+  ): Promise<DiagnosisRecord> => {
+    const record = state.record;
+    if (!token || !record) throw new Error('Diagnosis has not started.');
+    setSaving(true);
+    setError('');
+    try {
+      const next = await api.saveDiagnosisStep(
+        record.id,
+        stepId,
+        {
+          questionnaireVersion: record.questionnaireVersion,
+          expectedRevision: record.revision,
+          value,
+          other,
+        },
+        token,
+      );
+      if (activeToken.current !== token) return next;
+      setState((current) => ({ ...current, record: next, direction: null, criteria: null }));
+      if (next.status === 'answers_complete' && stepId === 'barriers') {
+        try {
+          await loadResult(next, token);
+        } catch (cause) {
+          // The answer is already confirmed. Move to the result screen and let its
+          // retry recover the derived result instead of submitting this step twice.
+          if (activeToken.current === token) setError(userFacingError(cause));
+        }
+      }
+      return next;
+    } catch (cause) {
+      if (activeToken.current === token) {
+        setError(userFacingError(cause));
+        if (cause instanceof ApiError && cause.status === 409) await refresh();
+      }
+      throw cause;
+    } finally {
+      if (activeToken.current === token) setSaving(false);
+    }
+  }, [loadResult, refresh, state.record, token]);
+
+  return {
+    ...(token && state.accountId === accountId ? state : emptyState),
+    loading: token ? (state.accountId !== accountId || loading) : false,
+    saving: token ? saving : false,
+    error: token ? error : '',
+    refresh,
+    start,
+    saveStep,
+  };
 }
 
-/** The main area to work on and the suggested next steps. */
-export function DirectionCard({ direction }: { direction: Direction }) {
+export function DirectionCard({ direction }: { direction: DiagnosisDirection }) {
   return (
     <Card style={styles.direction}>
       <View style={styles.tag}><Tag label="Main area to work on" bg={colors.yellowTint} fg={colors.amberInk} /></View>
       <Text style={type.display24}>{direction.area}</Text>
       <Text style={type.body}>{direction.summary}</Text>
       <Text style={[type.label, styles.stepsLabel]}>Suggested next steps</Text>
-      {direction.steps.map((step, index) => (
+      {direction.suggestedSteps.map((step, index) => (
         <View key={step} style={styles.step}>
           <View style={styles.stepNumber}><Text style={styles.stepNumberText}>{index + 1}</Text></View>
           <Text style={[type.bodySm, styles.stepText]}>{step}</Text>
@@ -74,31 +187,36 @@ export function DirectionCard({ direction }: { direction: Direction }) {
   );
 }
 
-/** Career Professionals ranked against the direction; by rating when there is none. */
-export function BestMatches({ direction, limit }: { direction: Direction | null; limit: number }) {
+interface Professional { profile: CounsellorProfile; services: Service[] }
+
+/** Career Professionals selected by the backend's diagnosis criteria. */
+export function BestMatches({
+  criteria, limit,
+}: {
+  criteria: DiagnosisMarketplaceCriteria | null;
+  limit: number;
+}) {
   const [professionals, setProfessionals] = useState<Professional[] | null>(null);
   const [error, setError] = useState('');
+  const query = criteria?.query ?? '';
+  const modality = criteria?.modality ?? null;
 
   const load = useCallback(async () => {
     try {
-      const [profiles, services] = await Promise.all([api.listCounsellors(), api.listServices()]);
+      const [profiles, services] = await Promise.all([
+        api.listCounsellors(query),
+        api.listServices(query, modality),
+      ]);
       setProfessionals(profiles.map((profile) => ({
-        profile, services: services.filter((service) => service.counsellor.id === profile.id),
+        profile,
+        services: services.filter((service) => service.counsellor.id === profile.id),
       })));
       setError('');
     } catch (value) {
       setError(userFacingError(value));
     }
-  }, []);
-  useEffect(() => {
-    const run = async () => { await load(); };
-    void run();
-  }, [load]);
-
-  const ranked = useMemo(
-    () => (professionals ? rankProfessionals(professionals, direction).slice(0, limit) : []),
-    [professionals, direction, limit],
-  );
+  }, [modality, query]);
+  useEffect(() => { void Promise.resolve().then(load); }, [load]);
 
   if (error) {
     return (
@@ -109,11 +227,19 @@ export function BestMatches({ direction, limit }: { direction: Direction | null;
     );
   }
   if (!professionals) return <View style={styles.loading}><Spinner size={26} color={colors.green} /></View>;
-  if (ranked.length === 0) return <Text style={type.body}>No Career Professionals are listed yet. Check back soon.</Text>;
+  if (professionals.length === 0) {
+    return (
+      <Text style={type.body}>
+        {criteria
+          ? 'No Career Professionals currently match this direction. Explore all services or check back soon.'
+          : 'No Career Professionals are listed yet. Check back soon.'}
+      </Text>
+    );
+  }
 
   return (
     <View style={styles.list}>
-      {ranked.map(({ professional: { profile, services }, match }, index) => {
+      {professionals.slice(0, limit).map(({ profile, services }, index) => {
         const verified = profile.verificationStatus === 'verified';
         const from = services.length ? Math.min(...services.map((s) => s.priceMinor)) : null;
         return (
@@ -123,7 +249,7 @@ export function BestMatches({ direction, limit }: { direction: Direction | null;
             onPress={() => router.push({ pathname: '/professionals/[counsellorId]', params: { counsellorId: profile.id } })}
             style={styles.professional}
           >
-            {match ? (
+            {criteria ? (
               <View style={styles.tag}>
                 <Tag
                   label={index === 0 ? 'Best match' : 'Good match'}

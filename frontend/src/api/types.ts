@@ -24,6 +24,66 @@ export interface Session {
   /** When the sliding window closes if the session is never used again. */
   refreshExpiresAt?: string | null;
 }
+
+export type DiagnosisStepId = 'now' | 'goal' | 'tried' | 'stuck' | 'barriers';
+
+export interface DiagnosisQuestion {
+  id: DiagnosisStepId;
+  step: number;
+  title: string;
+  hint: string;
+  multiple: boolean;
+  options: { id: string; label: string }[];
+  otherAllowed: boolean;
+}
+
+export interface DiagnosisQuestionnaire {
+  version: string;
+  totalSteps: number;
+  steps: DiagnosisQuestion[];
+  resultStep: { step: number; title: string; requiresAnswers: boolean };
+}
+
+export interface DiagnosisAnswers {
+  now?: string;
+  goal?: string;
+  tried?: string[];
+  stuck?: string;
+  barriers?: string[];
+  other: Partial<Record<DiagnosisStepId, string>>;
+}
+
+export interface DiagnosisRecord {
+  id: string;
+  questionnaireVersion: string;
+  revision: number;
+  status: 'in_progress' | 'answers_complete';
+  currentStep: number;
+  totalSteps: number;
+  completedSteps: DiagnosisStepId[];
+  answers: DiagnosisAnswers;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DiagnosisDirection {
+  diagnosisId: string;
+  questionnaireVersion: string;
+  sourceRevision: number;
+  ruleVersion: string;
+  area: string;
+  summary: string;
+  suggestedSteps: string[];
+  matchingWeights: Record<string, number>;
+}
+
+export interface DiagnosisMarketplaceCriteria {
+  diagnosisId: string;
+  area: string;
+  query: string | null;
+  modality: Modality | null;
+  unsupportedSignals: string[];
+}
 export interface Location { state: string; cityOrRegion: string }
 
 export interface CounsellorSummary {

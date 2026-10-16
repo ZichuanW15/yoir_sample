@@ -117,6 +117,49 @@ def test_the_query_actually_finds_a_service_named_for_the_same_term(
     assert any(service["title"] == "Mock interview coaching" for service in found.json())
 
 
+def test_marketplace_query_matches_service_descriptions_and_professional_expertise(
+    client, job_seeker_headers, counsellor_headers, counsellor, db_session,
+):
+    created = client.post(
+        "/api/v1/me/services", headers=counsellor_headers,
+        json={
+            "title": "Career progress session",
+            "description": "Structured interview preparation and practice.",
+            "priceMinor": 8000,
+            "currency": "AUD",
+            "modalities": ["online"],
+        },
+    )
+    assert created.status_code == 201, created.text
+    counsellor.expertise = ["Interview coaching"]
+    db_session.commit()
+
+    services = client.get("/api/v1/services", params={"query": "interview"})
+    professionals = client.get("/api/v1/counsellors", params={"query": "interview"})
+
+    assert [service["id"] for service in services.json()] == [created.json()["id"]]
+    assert [professional["id"] for professional in professionals.json()] == [counsellor.id]
+
+
+def test_marketplace_query_returns_no_unrelated_services_or_professionals(
+    client, counsellor_headers,
+):
+    created = client.post(
+        "/api/v1/me/services", headers=counsellor_headers,
+        json={
+            "title": "Resume review",
+            "description": "Application feedback.",
+            "priceMinor": 8000,
+            "currency": "AUD",
+            "modalities": ["online"],
+        },
+    )
+    assert created.status_code == 201, created.text
+
+    assert client.get("/api/v1/services", params={"query": "licensing"}).json() == []
+    assert client.get("/api/v1/counsellors", params={"query": "licensing"}).json() == []
+
+
 @pytest.mark.parametrize("completed", range(5))
 def test_incomplete_triage_names_missing_progress_and_never_fabricates_criteria(
     client, job_seeker_headers, completed,
