@@ -492,6 +492,64 @@ def test_editing_a_service_needs_a_counsellor_session(
     ).status_code == 403
 
 
+def test_renaming_a_service_does_not_rewrite_what_was_already_bought(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    counsellor_headers: dict[str, str],
+    job_seeker_headers: dict[str, str],
+    platform_owner_headers: dict[str, str],
+) -> None:
+    """US-36 AC3: an order and its booking keep the service information they were
+    bought with. The receipt is a tax invoice for a GST-registered Career Professional,
+    so its description must not change after it has been issued."""
+    start = datetime.now(UTC) + timedelta(days=3)
+    db_session.add(AvailabilityWindow(
+        counsellor_id=service.counsellor_id, starts_at=start, ends_at=start + timedelta(hours=3),
+    ))
+    db_session.commit()
+    order = client.post(
+        "/api/v1/orders",
+        headers=job_seeker_headers,
+        json={
+            "serviceId": service.id, "startsAt": start.isoformat(),
+            "modality": "online", "timezone": "Australia/Melbourne",
+        },
+    )
+    assert order.status_code == 201, order.text
+    paid = client.post(
+        f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers,
+    )
+    booking_id = paid.json()["booking"]["id"]
+    bought_as = service.title
+
+    renamed = client.patch(
+        f"/api/v1/me/services/{service.id}",
+        headers=counsellor_headers,
+        json=service_body(title="Renamed after it was bought", priceMinor=1),
+    )
+    assert renamed.status_code == 200, renamed.text
+
+    detail = client.get(f"/api/v1/bookings/{booking_id}", headers=job_seeker_headers).json()
+    mine = client.get("/api/v1/me/bookings", headers=job_seeker_headers).json()
+    receipt = client.get(
+        f"/api/v1/bookings/{booking_id}/receipt", headers=job_seeker_headers,
+    ).json()
+    admin_bookings = client.get("/api/v1/admin/bookings", headers=platform_owner_headers).json()
+    admin_payments = client.get("/api/v1/admin/payments", headers=platform_owner_headers).json()
+
+    assert detail["serviceTitle"] == bought_as
+    assert [row["serviceTitle"] for row in mine] == [bought_as]
+    assert receipt["description"] == bought_as
+    assert receipt["totalMinor"] == 9500
+    assert [row["serviceTitle"] for row in admin_bookings] == [bought_as]
+    assert [row["serviceTitle"] for row in admin_payments] == [bought_as]
+    # The listing itself shows the new name to anyone browsing.
+    assert client.get(f"/api/v1/services/{service.id}").json()["title"] == (
+        "Renamed after it was bought"
+    )
+
+
 # --- US-39: availability can differ by how the session is delivered ----------
 
 

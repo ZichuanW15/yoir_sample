@@ -147,3 +147,45 @@ def test_the_baseline_names_a_revision_that_exists() -> None:
 
     revisions = {r.revision for r in ScriptDirectory.from_config(alembic_config()).walk_revisions()}
     assert BASELINE_REVISION in revisions
+
+
+def test_existing_orders_are_backfilled_with_their_service_title(database) -> None:
+    """US-36: 0011 freezes the title onto each order. Orders that predate it take the
+    service's title at upgrade time, so no existing booking or receipt reads blank."""
+    from datetime import UTC, datetime, timedelta
+
+    from sqlalchemy import MetaData
+
+    command.upgrade(alembic_config(database), "0010")
+    metadata = MetaData()
+    metadata.reflect(bind=database, only=("users", "services", "availability_windows", "orders"))
+    t = metadata.tables
+    start = datetime(2026, 10, 10, 9, tzinfo=UTC)
+    with database.begin() as connection:
+        for user_id, role in (("seeker", "job_seeker"), ("professional", "counsellor")):
+            connection.execute(t["users"].insert().values(
+                id=user_id, name=user_id, email=f"{user_id}@example.com",
+                password_hash="x", role=role, created_at=start,
+            ))
+        connection.execute(t["services"].insert().values(
+            id="service", counsellor_id="professional", title="Resume review",
+            description="An existing service", price_minor=9500, currency="AUD",
+            modalities=["online"], active=True,
+        ))
+        connection.execute(t["availability_windows"].insert().values(
+            id="window", counsellor_id="professional", starts_at=start,
+            ends_at=start + timedelta(hours=2), modalities=["online"],
+        ))
+        connection.execute(t["orders"].insert().values(
+            id="order", job_seeker_id="seeker", service_id="service", window_id="window",
+            starts_at=start, ends_at=start + timedelta(hours=1), amount_minor=9500,
+            currency="AUD", timezone="Australia/Melbourne", modality="online",
+            status="confirmed", payment_status="paid", created_at=start,
+        ))
+
+    upgrade_database(database)
+
+    with database.connect() as connection:
+        assert connection.execute(
+            text("SELECT service_title FROM orders WHERE id = 'order'"),
+        ).scalar_one() == "Resume review"

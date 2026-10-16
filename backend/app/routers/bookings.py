@@ -93,7 +93,7 @@ def _booking_out(
         id=booking.id,
         order_id=booking.order_id,
         service_id=booking.service_id,
-        service_title=service.title,
+        service_title=order.title_for(service) if order is not None else service.title,
         starts_at=booking.starts_at,
         ends_at=booking.ends_at,
         timezone=booking.timezone,
@@ -212,6 +212,8 @@ def create_order(
         ends_at=ends_at,
         amount_minor=service.price_minor,
         currency=service.currency,
+        # US-36: frozen with the price, so a later rename never rewrites this order.
+        service_title=service.title,
         timezone=payload.timezone,
         modality=payload.modality,
         pre_session_brief=(payload.pre_session_brief or "").strip() or None,
