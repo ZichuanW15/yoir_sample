@@ -7,7 +7,7 @@ Running 3 tests using 1 worker
   ✓  3 [chromium-web] › e2e/sprint3-diagnosis.spec.ts:123:5 › US09/12 cancelled local retake preserves the old direction and completed retake replaces it (10.9s)
 
 
-  1) [chromium-web] › e2e/sprint3-diagnosis.spec.ts:53:5 › US09/10/11 local Web diagnosis validates, resumes after login and isolates accounts 
+  1) [chromium-web] › e2e/sprint3-diagnosis.spec.ts:53:5 › US09/10/11 local Web diagnosis validates, resumes after login and isolates accounts
 
     Error: expect(locator).toBeChecked() failed
 
@@ -46,7 +46,7 @@ Running 3 tests using 1 worker
 
     ────────────────────────────────────────────────────────────────────────────────────────────────
 
-  2) [chromium-web] › e2e/sprint3-diagnosis.spec.ts:83:5 › US12/13 local direction leads through a real professional and service to a stub booking 
+  2) [chromium-web] › e2e/sprint3-diagnosis.spec.ts:83:5 › US12/13 local direction leads through a real professional and service to a stub booking
 
     Test timeout of 30000ms exceeded.
 
@@ -79,6 +79,6 @@ Running 3 tests using 1 worker
     ────────────────────────────────────────────────────────────────────────────────────────────────
 
   2 failed
-    [chromium-web] › e2e/sprint3-diagnosis.spec.ts:53:5 › US09/10/11 local Web diagnosis validates, resumes after login and isolates accounts 
-    [chromium-web] › e2e/sprint3-diagnosis.spec.ts:83:5 › US12/13 local direction leads through a real professional and service to a stub booking 
+    [chromium-web] › e2e/sprint3-diagnosis.spec.ts:53:5 › US09/10/11 local Web diagnosis validates, resumes after login and isolates accounts
+    [chromium-web] › e2e/sprint3-diagnosis.spec.ts:83:5 › US12/13 local direction leads through a real professional and service to a stub booking
   1 passed (1.0m)

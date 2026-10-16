@@ -39,8 +39,16 @@
     },
     {
       "path": "ios-preflight/simctl-bootstatus-help.txt",
-      "bytes": 442,
-      "sha256": "1bb8a0fabb52cfad5e7cdb4e93b7f1b22bc643c8cb875d2f3fd15bf70085e5eb"
+      "bytes": 441,
+      "sha256": "3a0e9e3722e4d34f4f8c1499d874a52ba9cbbd01a6cfd3dcc31fd503c28845be",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "1bb8a0fabb52cfad5e7cdb4e93b7f1b22bc643c8cb875d2f3fd15bf70085e5eb",
+        "previousPackagedBytes": 442,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
     },
     {
       "path": "ios-preflight/simctl-devices.txt",
@@ -54,8 +62,16 @@
     },
     {
       "path": "ios-preflight/simctl-io-help.txt",
-      "bytes": 2823,
-      "sha256": "b0e9c698cc6101e5bf23c2dded0661dd970292ecb53eac16b7daeca61fe210b1"
+      "bytes": 2820,
+      "sha256": "8e04b10aa485c8ee05f738bd84612dae8c5f182b93d2369512968d4e6496c178",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "b0e9c698cc6101e5bf23c2dded0661dd970292ecb53eac16b7daeca61fe210b1",
+        "previousPackagedBytes": 2823,
+        "trailingWhitespaceLinesRemoved": 1,
+        "extraEofNewlinesRemoved": 2,
+        "outcomesChanged": false
+      }
     },
     {
       "path": "ios-preflight/simctl-launch-help.txt",
@@ -79,8 +95,16 @@
     },
     {
       "path": "ios-preflight/simctl-ui-help.txt",
-      "bytes": 1776,
-      "sha256": "2fa67269b4a75d4856edcaf9f65ed4bd830bd0ecae95e370173fa8ed2fe87084"
+      "bytes": 1774,
+      "sha256": "1d26416b69d5376e485294e8d4fa979cc115308b18fbd1fbd6322f60a4043f5a",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "2fa67269b4a75d4856edcaf9f65ed4bd830bd0ecae95e370173fa8ed2fe87084",
+        "previousPackagedBytes": 1776,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 2,
+        "outcomesChanged": false
+      }
     },
     {
       "path": "ios-preflight/summary.json",
@@ -517,5 +541,12 @@
       "bytes": 607,
       "sha256": "1b4694b4130f2fcc869e7c3665334a3d710b8880a7f5e43632215039949e63ef"
     }
-  ]
+  ],
+  "publicationWhitespaceNormalization": {
+    "performedAt": "2026-10-16T00:04:56.232172+00:00",
+    "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+    "originalManifestSha256": "68c560f471986fbe86e4cdb81a8b8bb66733881233ee7f04f701cd0c8d310c53",
+    "filesNormalized": 3,
+    "transformation": "Remove trailing horizontal whitespace and extra blank lines at EOF from published text evidence. Original source hashes and recorded outcomes are unchanged. No tests were rerun."
+  }
 }

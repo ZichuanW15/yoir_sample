@@ -24,10 +24,18 @@
     },
     {
       "path": "logs/browser-defects.txt",
-      "sha256": "a5bc1f302691b48ca6af54ed2896aecede9a8c59ee45262459709c72f6f676c8",
-      "bytes": 21369,
+      "sha256": "b9ce25217254429da1809890b7d4cc463b3105da5db016ab0e3604989aeedaad",
+      "bytes": 21359,
       "source": "artifacts/qa/sprint3-20261014/browser-defects/console.txt",
-      "sourceSha256": "a5bc1f302691b48ca6af54ed2896aecede9a8c59ee45262459709c72f6f676c8"
+      "sourceSha256": "a5bc1f302691b48ca6af54ed2896aecede9a8c59ee45262459709c72f6f676c8",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "a5bc1f302691b48ca6af54ed2896aecede9a8c59ee45262459709c72f6f676c8",
+        "previousPackagedBytes": 21369,
+        "trailingWhitespaceLinesRemoved": 10,
+        "extraEofNewlinesRemoved": 0,
+        "outcomesChanged": false
+      }
     },
     {
       "path": "logs/browser-diagnosis-final.txt",
@@ -38,10 +46,18 @@
     },
     {
       "path": "logs/browser-regression.txt",
-      "sha256": "6a76fef5eeffe99197e56ce9e61f0d21e2ed74262e1caa392b91ec72358e8b11",
-      "bytes": 6444,
+      "sha256": "6d83c80650411130085b5ee235bc1a0363122d14fa914118488f3726cd514532",
+      "bytes": 6442,
       "source": "artifacts/qa/sprint3-20261014/browser-regression/console.txt",
-      "sourceSha256": "6a76fef5eeffe99197e56ce9e61f0d21e2ed74262e1caa392b91ec72358e8b11"
+      "sourceSha256": "6a76fef5eeffe99197e56ce9e61f0d21e2ed74262e1caa392b91ec72358e8b11",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "6a76fef5eeffe99197e56ce9e61f0d21e2ed74262e1caa392b91ec72358e8b11",
+        "previousPackagedBytes": 6444,
+        "trailingWhitespaceLinesRemoved": 2,
+        "extraEofNewlinesRemoved": 0,
+        "outcomesChanged": false
+      }
     },
     {
       "path": "logs/browser-regression-final.txt",
@@ -66,10 +82,18 @@
     },
     {
       "path": "logs/frontend-checks.txt",
-      "sha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd",
-      "bytes": 39,
+      "sha256": "b0d139fb9ee6b501b6c9166c07126de5c63fe59e4d9170762e12a6b77792cb26",
+      "bytes": 38,
       "source": "artifacts/qa/sprint3-20261014/frontend-checks/console.txt",
-      "sourceSha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd"
+      "sourceSha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd",
+        "previousPackagedBytes": 39,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
     },
     {
       "path": "logs/frontend-defects.txt",
@@ -80,10 +104,18 @@
     },
     {
       "path": "logs/frontend-final-static.txt",
-      "sha256": "baaee2a6abd02f4e14419fb454ca8b82feee050d4fac906533fa58a0d0bd642d",
-      "bytes": 86,
+      "sha256": "e06e984716a8f5a8624a93d1f2bb7216b24493b8771cb79978d3e35574e1dac1",
+      "bytes": 85,
       "source": "artifacts/qa/sprint3-20261014/frontend-final-static/console.txt",
-      "sourceSha256": "baaee2a6abd02f4e14419fb454ca8b82feee050d4fac906533fa58a0d0bd642d"
+      "sourceSha256": "baaee2a6abd02f4e14419fb454ca8b82feee050d4fac906533fa58a0d0bd642d",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "baaee2a6abd02f4e14419fb454ca8b82feee050d4fac906533fa58a0d0bd642d",
+        "previousPackagedBytes": 86,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
     },
     {
       "path": "logs/frontend-ios.txt",
@@ -108,10 +140,18 @@
     },
     {
       "path": "logs/frontend-typecheck.txt",
-      "sha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
-      "bytes": 47,
+      "sha256": "15c7a0e30c0924df227605778969f7eb32b19ab419c5f0096b1f7552103f70a9",
+      "bytes": 46,
       "source": "artifacts/qa/sprint3-20261014/frontend-typecheck/console.txt",
-      "sourceSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2"
+      "sourceSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+        "previousPackagedBytes": 47,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
     },
     {
       "path": "logs/repository-tooling.txt",
@@ -300,10 +340,18 @@
     },
     {
       "path": "logs/browser-authoring-initial.txt",
-      "sha256": "f63057d5f412a01a8223da6873032b41c7911f790bb3bb4a6e17b6fe65f9de86",
-      "bytes": 6872,
+      "sha256": "edb35a927c0de7541ae45cecd02093c35a798c8c1277d7b15d4ea88e4acadcd7",
+      "bytes": 6868,
       "source": "/private/tmp/yoir-sprint3-qa.M8gGCi/browser-dev.log",
-      "sourceSha256": "f63057d5f412a01a8223da6873032b41c7911f790bb3bb4a6e17b6fe65f9de86"
+      "sourceSha256": "f63057d5f412a01a8223da6873032b41c7911f790bb3bb4a6e17b6fe65f9de86",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "f63057d5f412a01a8223da6873032b41c7911f790bb3bb4a6e17b6fe65f9de86",
+        "previousPackagedBytes": 6872,
+        "trailingWhitespaceLinesRemoved": 4,
+        "extraEofNewlinesRemoved": 0,
+        "outcomesChanged": false
+      }
     },
     {
       "path": "logs/backend-history-unmasked-sqlite.txt",
@@ -333,5 +381,12 @@
     "Jest/Playwright originals are reduced to all per-case outcomes, diagnostic messages and selected attachments; original SHA-256 values accompany each derivative.",
     "No native-device screenshots/acceptance, deployed smoke, provider-payment/email delivery, new remote CI or live HTTPX/TypeScript-client runs are claimed."
   ],
-  "notARerun": true
+  "notARerun": true,
+  "publicationWhitespaceNormalization": {
+    "performedAt": "2026-10-16T00:04:56.232172+00:00",
+    "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+    "originalManifestSha256": "e70007d7436010ea7b826cca8204169a780722f40e4553f6fc5e28078a512ef1",
+    "filesNormalized": 6,
+    "transformation": "Remove trailing horizontal whitespace and extra blank lines at EOF from published text evidence. Original source hashes and recorded outcomes are unchanged. No tests were rerun."
+  }
 }

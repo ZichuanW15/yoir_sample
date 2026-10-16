@@ -38,5 +38,3 @@ Supported Options:
 
     content_size [increment | decrement | desired_size]
 	Set the preferred content size category. If 'increment' or 'decrement' is passed, the preferred content size will beset to the category one increment larger or smaller than the currently set value respectively.
-
-

@@ -26,7 +26,7 @@ Running 18 tests using 1 worker
   ✓  18 [chromium-web] › e2e/web.spec.ts:332:5 › US45 implemented Web keyword search shows matching results and a recoverable empty state (1.6s)
 
 
-  1) [chromium-web] › e2e/sprint3-diagnosis.spec.ts:85:5 › US12/13 local direction leads through a real professional and service to a stub booking 
+  1) [chromium-web] › e2e/sprint3-diagnosis.spec.ts:85:5 › US12/13 local direction leads through a real professional and service to a stub booking
 
     Test timeout of 30000ms exceeded.
 
@@ -70,5 +70,5 @@ Running 18 tests using 1 worker
     ────────────────────────────────────────────────────────────────────────────────────────────────
 
   1 failed
-    [chromium-web] › e2e/sprint3-diagnosis.spec.ts:85:5 › US12/13 local direction leads through a real professional and service to a stub booking 
+    [chromium-web] › e2e/sprint3-diagnosis.spec.ts:85:5 › US12/13 local direction leads through a real professional and service to a stub booking
   17 passed (1.7m)

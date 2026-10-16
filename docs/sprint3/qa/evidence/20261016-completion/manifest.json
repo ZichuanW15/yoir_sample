@@ -87,10 +87,18 @@
     },
     {
       "path": "logs/frontend-lint.txt",
-      "sha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd",
-      "bytes": 39,
+      "sha256": "b0d139fb9ee6b501b6c9166c07126de5c63fe59e4d9170762e12a6b77792cb26",
+      "bytes": 38,
       "source": "artifacts/qa/sprint3-completion-20261016/frontend-lint/console.txt",
-      "sourceSha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd"
+      "sourceSha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd",
+        "previousPackagedBytes": 39,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
     },
     {
       "path": "logs/frontend-shared.txt",
@@ -101,10 +109,18 @@
     },
     {
       "path": "logs/frontend-typecheck.txt",
-      "sha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
-      "bytes": 47,
+      "sha256": "15c7a0e30c0924df227605778969f7eb32b19ab419c5f0096b1f7552103f70a9",
+      "bytes": 46,
       "source": "artifacts/qa/sprint3-completion-20261016/frontend-typecheck/console.txt",
-      "sourceSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2"
+      "sourceSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+        "previousPackagedBytes": 47,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
     },
     {
       "path": "logs/live-httpx.txt",
@@ -405,17 +421,33 @@
     },
     {
       "path": "logs/agent-screens-typecheck.log",
-      "sha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
-      "bytes": 47,
+      "sha256": "15c7a0e30c0924df227605778969f7eb32b19ab419c5f0096b1f7552103f70a9",
+      "bytes": 46,
       "source": "artifacts/qa/sprint3-completion-20261016/agent-screens/typecheck.log",
-      "sourceSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2"
+      "sourceSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+        "previousPackagedBytes": 47,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
     },
     {
       "path": "logs/agent-web-run.log",
-      "sha256": "ee7379007e95c1eb2332ced3d2fb9717d048981ca5f3548cfb0022b3028b7bab",
-      "bytes": 5002,
+      "sha256": "6d1e43ae4b38c8a005740608b2ce38083cb71782f92fa86d54905b31a7581b5c",
+      "bytes": 5000,
       "source": "artifacts/qa/sprint3-completion-20261016/agent-web/run.log",
-      "sourceSha256": "ee7379007e95c1eb2332ced3d2fb9717d048981ca5f3548cfb0022b3028b7bab"
+      "sourceSha256": "ee7379007e95c1eb2332ced3d2fb9717d048981ca5f3548cfb0022b3028b7bab",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "ee7379007e95c1eb2332ced3d2fb9717d048981ca5f3548cfb0022b3028b7bab",
+        "previousPackagedBytes": 5002,
+        "trailingWhitespaceLinesRemoved": 2,
+        "extraEofNewlinesRemoved": 0,
+        "outcomesChanged": false
+      }
     },
     {
       "path": "logs/agent-web-final-run.log",
@@ -482,5 +514,12 @@
     "Jest/Playwright JSONs are reduced to per-case outcomes, diagnostics and selected attachments; original hashes identify source reports.",
     "No new defect-suite, native-device, deployed-system, external provider delivery/transfer or remote CI evidence."
   ],
-  "notARerun": true
+  "notARerun": true,
+  "publicationWhitespaceNormalization": {
+    "performedAt": "2026-10-16T00:04:56.232172+00:00",
+    "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+    "originalManifestSha256": "2bfafe3f2d91508fe9ce7e8f52286fba1a77745c625a4a472571bbba247247cb",
+    "filesNormalized": 4,
+    "transformation": "Remove trailing horizontal whitespace and extra blank lines at EOF from published text evidence. Original source hashes and recorded outcomes are unchanged. No tests were rerun."
+  }
 }

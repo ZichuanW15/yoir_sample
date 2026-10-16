@@ -11,7 +11,7 @@ Running 7 tests using 1 worker
   ✘  7 [chromium-web] › e2e/sprint3-completion.spec.ts:241:5 › US09/12/13 a no-results marketplace search preserves completed diagnosis and original answers (6.8s)
 
 
-  1) [chromium-web] › e2e/sprint3-completion.spec.ts:241:5 › US09/12/13 a no-results marketplace search preserves completed diagnosis and original answers 
+  1) [chromium-web] › e2e/sprint3-completion.spec.ts:241:5 › US09/12/13 a no-results marketplace search preserves completed diagnosis and original answers
 
     Error: expect(locator).toBeVisible() failed
 
@@ -51,5 +51,5 @@ Running 7 tests using 1 worker
     ────────────────────────────────────────────────────────────────────────────────────────────────
 
   1 failed
-    [chromium-web] › e2e/sprint3-completion.spec.ts:241:5 › US09/12/13 a no-results marketplace search preserves completed diagnosis and original answers 
+    [chromium-web] › e2e/sprint3-completion.spec.ts:241:5 › US09/12/13 a no-results marketplace search preserves completed diagnosis and original answers
   6 passed (25.3s)

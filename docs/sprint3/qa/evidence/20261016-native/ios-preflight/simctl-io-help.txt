@@ -3,7 +3,7 @@ Usage: simctl io <device> <operation> <arguments>
 
 Common arguments:
 	    --display    Specifies which display to record. Accepts:
-	                 - Screen ID (eg: "1") 
+	                 - Screen ID (eg: "1")
 	                 - Screen name (eg: "Internal-1")
 	                 - Screen device name (eg: "primary")
 	                 - Screen UUID (eg: "D5293DAA-4D8C-453E-B049-969FE81936A0")
@@ -58,5 +58,3 @@ Supported operations:
 Example:
 	Save a screenshot of the booted device to screenshot.png:
 	simctl io booted screenshot screenshot.png
-
-

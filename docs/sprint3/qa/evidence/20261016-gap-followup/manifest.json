@@ -234,27 +234,51 @@
     },
     {
       "path": "logs/browser-integration-final.txt",
-      "sha256": "333a991d2ce0a0ebf6b3d0e2c5ee1b6f1e646d1081c94c2793083318031c2ac2",
-      "bytes": 14652,
+      "sha256": "63eecdf9d93f9db5c0b887e4e3d914d87c313cf2079383a0826d8046b218a508",
+      "bytes": 14644,
       "source": "artifacts/qa/sprint3-next-20261016/browser-integration-final/console.txt",
       "sourceSha256": "333a991d2ce0a0ebf6b3d0e2c5ee1b6f1e646d1081c94c2793083318031c2ac2",
-      "transformation": "none"
+      "transformation": "none",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "333a991d2ce0a0ebf6b3d0e2c5ee1b6f1e646d1081c94c2793083318031c2ac2",
+        "previousPackagedBytes": 14652,
+        "trailingWhitespaceLinesRemoved": 8,
+        "extraEofNewlinesRemoved": 0,
+        "outcomesChanged": false
+      }
     },
     {
       "path": "logs/browser-integration.txt",
-      "sha256": "c9f5797e7d3bbe2a1213bffeb3421150ce3c7a99cbc202daf2019252bceade96",
-      "bytes": 14231,
+      "sha256": "42c3f3aa2f4a4436ccf1cbb1fa529858f6e8effb19df36e6b42fc2eaad50ddc4",
+      "bytes": 14223,
       "source": "artifacts/qa/sprint3-next-20261016/browser-integration/console.txt",
       "sourceSha256": "c9f5797e7d3bbe2a1213bffeb3421150ce3c7a99cbc202daf2019252bceade96",
-      "transformation": "none"
+      "transformation": "none",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "c9f5797e7d3bbe2a1213bffeb3421150ce3c7a99cbc202daf2019252bceade96",
+        "previousPackagedBytes": 14231,
+        "trailingWhitespaceLinesRemoved": 8,
+        "extraEofNewlinesRemoved": 0,
+        "outcomesChanged": false
+      }
     },
     {
       "path": "logs/browser-types.txt",
-      "sha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
-      "bytes": 47,
+      "sha256": "15c7a0e30c0924df227605778969f7eb32b19ab419c5f0096b1f7552103f70a9",
+      "bytes": 46,
       "source": "artifacts/qa/sprint3-next-20261016/browser-types/console.txt",
       "sourceSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
-      "transformation": "none"
+      "transformation": "none",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+        "previousPackagedBytes": 47,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
     },
     {
       "path": "logs/frontend-lint-complete.txt",
@@ -282,19 +306,35 @@
     },
     {
       "path": "logs/frontend-typecheck-complete.txt",
-      "sha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
-      "bytes": 47,
+      "sha256": "15c7a0e30c0924df227605778969f7eb32b19ab419c5f0096b1f7552103f70a9",
+      "bytes": 46,
       "source": "artifacts/qa/sprint3-next-20261016/frontend-typecheck-complete/console.txt",
       "sourceSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
-      "transformation": "none"
+      "transformation": "none",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+        "previousPackagedBytes": 47,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
     },
     {
       "path": "logs/frontend-typecheck-final.txt",
-      "sha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
-      "bytes": 47,
+      "sha256": "15c7a0e30c0924df227605778969f7eb32b19ab419c5f0096b1f7552103f70a9",
+      "bytes": 46,
       "source": "artifacts/qa/sprint3-next-20261016/frontend-typecheck-final/console.txt",
       "sourceSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
-      "transformation": "none"
+      "transformation": "none",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+        "previousPackagedBytes": 47,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
     },
     {
       "path": "logs/refresh-android-defects-health.log",
@@ -522,5 +562,12 @@
     "Original machine reports, trace ZIPs, duplicate/blank screenshots and regenerable HTML/LCOV remain in ignored artifacts.",
     "No API auth tokens or real user data are intentionally included; browser account setup uses ephemeral example.com QA accounts."
   ],
-  "notARerun": true
+  "notARerun": true,
+  "publicationWhitespaceNormalization": {
+    "performedAt": "2026-10-16T00:04:56.232172+00:00",
+    "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+    "originalManifestSha256": "e1e152ce2e0fb94d29aaf65fe62eaba42d4892bbdc922aa80e44da72b170a69d",
+    "filesNormalized": 5,
+    "transformation": "Remove trailing horizontal whitespace and extra blank lines at EOF from published text evidence. Original source hashes and recorded outcomes are unchanged. No tests were rerun."
+  }
 }

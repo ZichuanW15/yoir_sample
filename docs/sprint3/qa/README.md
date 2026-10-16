@@ -95,7 +95,7 @@ policy and individual story sign-off still require their own evidence or decisio
 
 [14 October results](test-results-20261014.md) and
 [their evidence](evidence/20261014/README.md) describe the older `98cd8cb` baseline
-and are unchanged. Statements there that direction/review APIs were absent are
+and retain their original outcomes. Statements there that direction/review APIs were absent are
 superseded for the current baseline by the Oct16 reports.
 The [earlier 16 October execution](test-results-20261016.md),
 [its evidence](evidence/20261016/README.md), the
@@ -106,3 +106,10 @@ including original defect outcomes, authoring corrections and dependency finding
 Publication copies of seven earlier Oct16 log/XML files redact truncated local
 test authentication fragments. Outcomes remain unchanged; original and published
 hashes are recorded in the [publication-redaction manifest](evidence/20261016/manifest.json).
+
+Published text evidence also removes trailing spaces and extra blank lines at EOF
+to satisfy the existing CI whitespace check. The five affected package manifests
+record the previous packaged hashes, sizes and transformation counts alongside
+the updated hashes. Original `sourceSha256` values remain unchanged, and the
+previous published bytes remain available at commit `7ce59e5`. This formatting
+correction changes no test outcomes and does not represent another test run.

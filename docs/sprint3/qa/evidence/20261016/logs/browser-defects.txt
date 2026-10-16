@@ -14,7 +14,7 @@ Running 6 tests using 1 worker
   ✘  6 [chromium-web] › e2e/web.spec.ts:374:5 › US68 forged anonymous confirmation URL must not claim success @defect (5.2s)
 
 
-  1) [chromium-web] › e2e/integrity.spec.ts:96:5 › DEF-MONEY-CENTS: real persisted cents remain visible in the marketplace and service detail @defect 
+  1) [chromium-web] › e2e/integrity.spec.ts:96:5 › DEF-MONEY-CENTS: real persisted cents remain visible in the marketplace and service detail @defect
 
     Error: expect(locator).toHaveAccessibleName(expected) failed
 
@@ -74,7 +74,7 @@ Running 6 tests using 1 worker
 
     ────────────────────────────────────────────────────────────────────────────────────────────────
 
-  2) [chromium-web] › e2e/integrity.spec.ts:125:5 › DEF-PRICE-SIGN: negative browser input must not publish a positive-price service @defect 
+  2) [chromium-web] › e2e/integrity.spec.ts:125:5 › DEF-PRICE-SIGN: negative browser input must not publish a positive-price service @defect
 
     Error: expect(locator).toBeVisible() failed
 
@@ -192,7 +192,7 @@ Running 6 tests using 1 worker
 
     ────────────────────────────────────────────────────────────────────────────────────────────────
 
-  3) [chromium-web] › e2e/sprint3-accessibility.spec.ts:7:5 › DEF-DIAGNOSIS-WEB-CHECKED: a selected diagnosis radio exposes its checked state @defect 
+  3) [chromium-web] › e2e/sprint3-accessibility.spec.ts:7:5 › DEF-DIAGNOSIS-WEB-CHECKED: a selected diagnosis radio exposes its checked state @defect
 
     Error: expect(locator).toHaveAttribute(expected) failed
 
@@ -230,7 +230,7 @@ Running 6 tests using 1 worker
 
     ────────────────────────────────────────────────────────────────────────────────────────────────
 
-  4) [chromium-web] › e2e/sprint3-workflows.spec.ts:193:5 › US48 an old existing order opens by ID beyond the first 200 list rows @defect 
+  4) [chromium-web] › e2e/sprint3-workflows.spec.ts:193:5 › US48 an old existing order opens by ID beyond the first 200 list rows @defect
 
     Error: expect(locator).toBeVisible() failed
 
@@ -267,7 +267,7 @@ Running 6 tests using 1 worker
 
     ────────────────────────────────────────────────────────────────────────────────────────────────
 
-  5) [chromium-web] › e2e/web.spec.ts:374:5 › US68 forged anonymous confirmation URL must not claim success @defect 
+  5) [chromium-web] › e2e/web.spec.ts:374:5 › US68 forged anonymous confirmation URL must not claim success @defect
 
     Error: expect(locator).toHaveCount(expected) failed
 
@@ -306,9 +306,9 @@ Running 6 tests using 1 worker
     ────────────────────────────────────────────────────────────────────────────────────────────────
 
   5 failed
-    [chromium-web] › e2e/integrity.spec.ts:96:5 › DEF-MONEY-CENTS: real persisted cents remain visible in the marketplace and service detail @defect 
-    [chromium-web] › e2e/integrity.spec.ts:125:5 › DEF-PRICE-SIGN: negative browser input must not publish a positive-price service @defect 
-    [chromium-web] › e2e/sprint3-accessibility.spec.ts:7:5 › DEF-DIAGNOSIS-WEB-CHECKED: a selected diagnosis radio exposes its checked state @defect 
-    [chromium-web] › e2e/sprint3-workflows.spec.ts:193:5 › US48 an old existing order opens by ID beyond the first 200 list rows @defect 
-    [chromium-web] › e2e/web.spec.ts:374:5 › US68 forged anonymous confirmation URL must not claim success @defect 
+    [chromium-web] › e2e/integrity.spec.ts:96:5 › DEF-MONEY-CENTS: real persisted cents remain visible in the marketplace and service detail @defect
+    [chromium-web] › e2e/integrity.spec.ts:125:5 › DEF-PRICE-SIGN: negative browser input must not publish a positive-price service @defect
+    [chromium-web] › e2e/sprint3-accessibility.spec.ts:7:5 › DEF-DIAGNOSIS-WEB-CHECKED: a selected diagnosis radio exposes its checked state @defect
+    [chromium-web] › e2e/sprint3-workflows.spec.ts:193:5 › US48 an old existing order opens by ID beyond the first 200 list rows @defect
+    [chromium-web] › e2e/web.spec.ts:374:5 › US68 forged anonymous confirmation URL must not claim success @defect
   1 passed (49.8s)

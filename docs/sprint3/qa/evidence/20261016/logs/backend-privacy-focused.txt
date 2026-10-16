@@ -25,14 +25,14 @@ level = 'public'
         db_session.commit()
         _, outsider = _register(client, "counsellor", "outside")
         before = client.get(OWN_COUNSELLOR, headers=counsellor_headers).json()
-    
+
         saved = client.patch(VISIBILITY, headers=counsellor_headers, json={"visibility": level})
         assert saved.status_code == 200, saved.text
         renewed = _login(client, counsellor.email)
         assert client.get(VISIBILITY, headers=renewed).json() == {"visibility": level}
         # Owner's /me route must retain full details, even after a fresh login.
         assert client.get(OWN_COUNSELLOR, headers=renewed).json() == before
-    
+
         protected = ["linkedinUrl", "background", "experience", "qualifications",
                      "expertise", "languages", "photoUrl", "baseLocation"]
         for headers in ({}, job_seeker_headers, outsider):
@@ -73,14 +73,14 @@ level = 'partial'
         db_session.commit()
         _, outsider = _register(client, "counsellor", "outside")
         before = client.get(OWN_COUNSELLOR, headers=counsellor_headers).json()
-    
+
         saved = client.patch(VISIBILITY, headers=counsellor_headers, json={"visibility": level})
         assert saved.status_code == 200, saved.text
         renewed = _login(client, counsellor.email)
         assert client.get(VISIBILITY, headers=renewed).json() == {"visibility": level}
         # Owner's /me route must retain full details, even after a fresh login.
         assert client.get(OWN_COUNSELLOR, headers=renewed).json() == before
-    
+
         protected = ["linkedinUrl", "background", "experience", "qualifications",
                      "expertise", "languages", "photoUrl", "baseLocation"]
         for headers in ({}, job_seeker_headers, outsider):
@@ -119,14 +119,14 @@ level = 'restricted'
         db_session.commit()
         _, outsider = _register(client, "counsellor", "outside")
         before = client.get(OWN_COUNSELLOR, headers=counsellor_headers).json()
-    
+
         saved = client.patch(VISIBILITY, headers=counsellor_headers, json={"visibility": level})
         assert saved.status_code == 200, saved.text
         renewed = _login(client, counsellor.email)
         assert client.get(VISIBILITY, headers=renewed).json() == {"visibility": level}
         # Owner's /me route must retain full details, even after a fresh login.
         assert client.get(OWN_COUNSELLOR, headers=renewed).json() == before
-    
+
         protected = ["linkedinUrl", "background", "experience", "qualifications",
                      "expertise", "languages", "photoUrl", "baseLocation"]
         for headers in ({}, job_seeker_headers, outsider):

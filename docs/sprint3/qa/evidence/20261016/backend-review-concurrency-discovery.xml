@@ -12,12 +12,12 @@ monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x10ac509b0&gt;
         booking = _completed_booking(client, db_session, service, job_seeker_headers)
         barrier = Barrier(2)
         flush = Session.flush
-    
+
         def concurrent_insert(self, *args, **kwargs):
             if any(isinstance(row, Review) for row in self.new):
                 barrier.wait(timeout=10)
             return flush(self, *args, **kwargs)
-    
+
         with monkeypatch.context() as patch:
             patch.setattr(Session, "flush", concurrent_insert)
             with ThreadPoolExecutor(max_workers=2) as pool:
@@ -25,7 +25,7 @@ monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x10ac509b0&gt;
                     _review, client, job_seeker_headers, booking, rating, f"Attempt {rating}",
                 ) for rating in (2, 5)]
                 responses = [future.result(timeout=20) for future in futures]
-    
+
         # Storage and the winning response are independent invariants. A fixture or
         # database-integrity failure must not be mistaken for the expected conflict.
         successes = [response.json() for response in responses if response.status_code == 201]
@@ -37,7 +37,7 @@ monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x10ac509b0&gt;
             assert db.get(User, service.counsellor_id).review_count == 1
 &gt;       assert sorted(response.status_code for response in responses) == [201, 409]
 E       assert [201, 500] == [201, 409]
-E         
+E
 E         At index 1 diff: 500 != 409
 E         Use -v to get more diff
 
@@ -66,13 +66,13 @@ same_service = True
         second = _completed_booking(client, db_session, second_service, job_seeker_headers, day=3)
         barrier = Barrier(2)
         recompute = bookings_router.recompute_counsellor_rating
-    
+
         def concurrent_aggregates(db, counsellor_id):
             recompute(db, counsellor_id)
             # Both transactions have inserted their own review and calculated caches,
             # but neither has committed. Real commits then compete for the shared row.
             barrier.wait(timeout=10)
-    
+
         with monkeypatch.context() as patch:
             patch.setattr(bookings_router, "recompute_counsellor_rating", concurrent_aggregates)
             with ThreadPoolExecutor(max_workers=2) as pool:
@@ -94,7 +94,7 @@ same_service = True
         expected = {"counsellor": (2, 3.0), "service": (2, 3.0) if same_service else (1, 1.0)}
 &gt;       assert actual == expected
 E       AssertionError: assert {'counsellor'...ce': (1, 1.0)} == {'counsellor'...ce': (2, 3.0)}
-E         
+E
 E         Differing items:
 E         {'service': (1, 1.0)} != {'service': (2, 3.0)}
 E         {'counsellor': (1, 1.0)} != {'counsellor': (2, 3.0)}
@@ -125,13 +125,13 @@ same_service = False
         second = _completed_booking(client, db_session, second_service, job_seeker_headers, day=3)
         barrier = Barrier(2)
         recompute = bookings_router.recompute_counsellor_rating
-    
+
         def concurrent_aggregates(db, counsellor_id):
             recompute(db, counsellor_id)
             # Both transactions have inserted their own review and calculated caches,
             # but neither has committed. Real commits then compete for the shared row.
             barrier.wait(timeout=10)
-    
+
         with monkeypatch.context() as patch:
             patch.setattr(bookings_router, "recompute_counsellor_rating", concurrent_aggregates)
             with ThreadPoolExecutor(max_workers=2) as pool:
@@ -153,7 +153,7 @@ same_service = False
         expected = {"counsellor": (2, 3.0), "service": (2, 3.0) if same_service else (1, 1.0)}
 &gt;       assert actual == expected
 E       AssertionError: assert {'counsellor'...ce': (1, 1.0)} == {'counsellor'...ce': (1, 1.0)}
-E         
+E
 E         Omitting 1 identical items, use -vv to show
 E         Differing items:
 E         {'counsellor': (1, 1.0)} != {'counsellor': (2, 3.0)}

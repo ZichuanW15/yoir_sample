@@ -30,7 +30,7 @@ requester = 'guest'
         assert own.status_code == 200
         private_fields = {"background", "experience", "qualifications"}
         assert all(own.json()[field] for field in private_fields)
-    
+
         response = client.get(
             f"/api/v1/counsellors/{counsellor.id}",
             headers={} if requester == "guest" else job_seeker_headers,
@@ -77,7 +77,7 @@ requester = 'other-seeker'
         assert own.status_code == 200
         private_fields = {"background", "experience", "qualifications"}
         assert all(own.json()[field] for field in private_fields)
-    
+
         response = client.get(
             f"/api/v1/counsellors/{counsellor.id}",
             headers={} if requester == "guest" else job_seeker_headers,

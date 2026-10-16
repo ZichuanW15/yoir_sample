@@ -12,7 +12,7 @@ Running 4 tests using 1 worker
   ✘  4 [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:167:5 › @defect [S3-PROFILE-UNRATED][QA-219] a real unrated professional has an explicit neutral rating state (183ms)
 
 
-  1) [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:73:5 › @defect [S3-DIAGNOSIS-SERVER-ACK][QA-165] Continue waits for the real saved-step acknowledgement 
+  1) [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:73:5 › @defect [S3-DIAGNOSIS-SERVER-ACK][QA-165] Continue waits for the real saved-step acknowledgement
 
     Error: The UI advanced without attempting the required diagnosis API save.
 
@@ -44,7 +44,7 @@ Running 4 tests using 1 worker
 
     ────────────────────────────────────────────────────────────────────────────────────────────────
 
-  2) [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:109:5 › @defect [S3-DIAGNOSIS-SAVE-RECOVERY][QA-165] a refused server save retains the answer and retries without advancement 
+  2) [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:109:5 › @defect [S3-DIAGNOSIS-SAVE-RECOVERY][QA-165] a refused server save retains the answer and retries without advancement
 
     Error: No diagnosis save was attempted; the injected failure and retry UI were not reached.
 
@@ -76,7 +76,7 @@ Running 4 tests using 1 worker
 
     ────────────────────────────────────────────────────────────────────────────────────────────────
 
-  3) [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:142:5 › @defect [S3-DIAGNOSIS-SERVER-RESUME][QA-162][QA-168] a fresh browser resumes the same account server-confirmed answers 
+  3) [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:142:5 › @defect [S3-DIAGNOSIS-SERVER-RESUME][QA-162][QA-168] a fresh browser resumes the same account server-confirmed answers
 
     Error: expect(locator).toBeVisible() failed
 
@@ -117,7 +117,7 @@ Running 4 tests using 1 worker
 
     ────────────────────────────────────────────────────────────────────────────────────────────────
 
-  4) [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:167:5 › @defect [S3-PROFILE-UNRATED][QA-219] a real unrated professional has an explicit neutral rating state 
+  4) [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:167:5 › @defect [S3-PROFILE-UNRATED][QA-219] a real unrated professional has an explicit neutral rating state
 
     Error: expect(received).toMatchObject(expected)
 
@@ -153,7 +153,7 @@ Running 4 tests using 1 worker
     ────────────────────────────────────────────────────────────────────────────────────────────────
 
   4 failed
-    [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:73:5 › @defect [S3-DIAGNOSIS-SERVER-ACK][QA-165] Continue waits for the real saved-step acknowledgement 
-    [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:109:5 › @defect [S3-DIAGNOSIS-SAVE-RECOVERY][QA-165] a refused server save retains the answer and retries without advancement 
-    [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:142:5 › @defect [S3-DIAGNOSIS-SERVER-RESUME][QA-162][QA-168] a fresh browser resumes the same account server-confirmed answers 
-    [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:167:5 › @defect [S3-PROFILE-UNRATED][QA-219] a real unrated professional has an explicit neutral rating state 
+    [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:73:5 › @defect [S3-DIAGNOSIS-SERVER-ACK][QA-165] Continue waits for the real saved-step acknowledgement
+    [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:109:5 › @defect [S3-DIAGNOSIS-SAVE-RECOVERY][QA-165] a refused server save retains the answer and retries without advancement
+    [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:142:5 › @defect [S3-DIAGNOSIS-SERVER-RESUME][QA-162][QA-168] a fresh browser resumes the same account server-confirmed answers
+    [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:167:5 › @defect [S3-PROFILE-UNRATED][QA-219] a real unrated professional has an explicit neutral rating state

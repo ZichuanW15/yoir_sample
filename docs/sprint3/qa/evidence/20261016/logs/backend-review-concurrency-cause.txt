@@ -40,7 +40,7 @@ monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x11208fd40>
             if constraint["column_names"] == ["booking_id"]
         }
         assert booking_constraints, "The review fixture schema lacks the booking uniqueness constraint"
-    
+
         def concurrent_insert(self, *args, **kwargs):
             inserts_review = any(isinstance(row, Review) for row in self.new)
             if inserts_review:
@@ -58,7 +58,7 @@ monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x11208fd40>
                         "constraint": getattr(diagnostic, "constraint_name", None),
                     })
                 raise
-    
+
         with monkeypatch.context() as patch:
             patch.setattr(Session, "flush", concurrent_insert)
             with ThreadPoolExecutor(max_workers=2) as pool:
@@ -66,7 +66,7 @@ monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x11208fd40>
                     _review, client, job_seeker_headers, booking, rating, f"Attempt {rating}",
                 ) for rating in (2, 5)]
                 responses = [future.result(timeout=20) for future in futures]
-    
+
         # Storage and the winning response are independent invariants. A fixture or
         # database-integrity failure must not be mistaken for the expected conflict.
         successes = [response.json() for response in responses if response.status_code == 201]
@@ -133,14 +133,14 @@ same_service = True
         recompute = bookings_router.recompute_counsellor_rating
         arrivals = []
         synchronization = []
-    
+
         def concurrent_aggregates(db, counsellor_id):
             recompute(db, counsellor_id)
             # Both transactions have inserted their own review and calculated caches,
             # but neither has committed. Real commits then compete for the shared row.
             arrivals.append(id(db))
             synchronization.append(_meet(barrier))
-    
+
         with monkeypatch.context() as patch:
             patch.setattr(bookings_router, "recompute_counsellor_rating", concurrent_aggregates)
             with ThreadPoolExecutor(max_workers=2) as pool:
@@ -209,14 +209,14 @@ same_service = False
         recompute = bookings_router.recompute_counsellor_rating
         arrivals = []
         synchronization = []
-    
+
         def concurrent_aggregates(db, counsellor_id):
             recompute(db, counsellor_id)
             # Both transactions have inserted their own review and calculated caches,
             # but neither has committed. Real commits then compete for the shared row.
             arrivals.append(id(db))
             synchronization.append(_meet(barrier))
-    
+
         with monkeypatch.context() as patch:
             patch.setattr(bookings_router, "recompute_counsellor_rating", concurrent_aggregates)
             with ThreadPoolExecutor(max_workers=2) as pool:
