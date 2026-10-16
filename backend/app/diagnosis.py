@@ -392,11 +392,16 @@ def direction_for(
         for keyword in _AREAS[area_id].keywords:
             weights[keyword] = max(weights.get(keyword, 0), weight)
 
+    # Insert the main area's keywords first as well as giving them the strongest
+    # weight.  ``marketplace_criteria_for`` uses a stable sort to break equal
+    # weights, and updating a dict entry does not change its insertion position.
+    # Adding supporting areas first could therefore let a shared word such as
+    # "plan" precede the main area's first keyword (for example "career").
+    add(main, _MAIN_WEIGHT)
     add(_AREA_FOR_GOAL.get(answers["goal"]), 1)
     barriers = answers["barriers"]
     for barrier in barriers:
         add(_AREA_FOR_BARRIER.get(barrier), 1)
-    add(main, _MAIN_WEIGHT)
 
     already_tried = any(item in answers["tried"] for item in area.tried)
     summary = area.summary

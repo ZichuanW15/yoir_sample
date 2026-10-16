@@ -84,6 +84,27 @@ def test_the_top_weighted_term_becomes_the_marketplace_query(client, job_seeker_
     assert {"qualification", "job search"} <= set(body["unsupportedSignals"])
 
 
+def test_main_area_first_keyword_wins_when_supporting_area_shares_a_keyword(
+    client, job_seeker_headers,
+):
+    # Job search contributes "plan" as a low-weight goal signal, while the
+    # explicit blocker makes Career direction the main area.  Dict insertion
+    # order must not let that shared supporting word become the applied query.
+    record = complete(
+        client,
+        job_seeker_headers,
+        now="job",
+        goal="find_job",
+        stuck="direction",
+    )
+
+    body = client.get(criteria_url(record), headers=job_seeker_headers).json()
+
+    assert body["area"] == "Career direction"
+    assert body["query"] == "career"
+    assert "plan" in body["unsupportedSignals"]
+
+
 def test_modality_is_never_claimed_because_no_answer_names_one(
     client, job_seeker_headers,
 ):
