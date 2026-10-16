@@ -21,17 +21,25 @@ from app.schemas import (
 router = APIRouter(tags=["Marketplace"])
 
 
-def service_to_out(service: Service) -> ServiceOut:
-    """Shared ORM -> wire mapping; also used by the counsellor-owned service routes."""
+def service_to_out(service: Service, *, enforce_visibility: bool = True) -> ServiceOut:
+    """Map a service without leaking a restricted professional's introduction.
+
+    Public Marketplace routes use the safe default.  The counsellor-owned service
+    routes opt out through ``own_service_to_out`` because privacy controls what
+    other users can read, not what the owner can read about themselves.
+    """
     location = None
     if service.location_state and service.location_city:
         location = Location(state=service.location_state, city_or_region=service.location_city)
+    introduction = service.counsellor.introduction
+    if enforce_visibility and service.counsellor.profile_visibility == "restricted":
+        introduction = None
     return ServiceOut(
         id=service.id,
         counsellor=CounsellorSummary(
             id=service.counsellor.id,
             display_name=service.counsellor.name,
-            introduction=service.counsellor.introduction,
+            introduction=introduction,
             verification_status=service.counsellor.verification_status,
             overall_rating=service.counsellor.overall_rating,
             review_count=service.counsellor.review_count,
@@ -52,7 +60,7 @@ def service_to_out(service: Service) -> ServiceOut:
 def own_service_to_out(service: Service) -> OwnServiceOut:
     """The same service, plus the one field only its owner may see."""
     return OwnServiceOut(
-        **service_to_out(service).model_dump(),
+        **service_to_out(service, enforce_visibility=False).model_dump(),
         meeting_url=service.meeting_url,
     )
 

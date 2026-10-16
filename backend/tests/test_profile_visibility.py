@@ -234,6 +234,44 @@ def test_counsellor_list_applies_the_same_restricted_filter(
     assert response.headers["cache-control"] == "private, no-store"
 
 
+def test_restricted_introduction_is_hidden_from_public_service_list_and_detail(
+    client: TestClient,
+    db_session: Any,
+    counsellor: Any,
+    service: Any,
+) -> None:
+    counsellor.profile_visibility = "restricted"
+    counsellor.introduction = "Private introduction that must not reach the Marketplace"
+    db_session.commit()
+
+    listed = client.get("/api/v1/services")
+    detail = client.get(f"/api/v1/services/{service.id}")
+
+    assert listed.status_code == 200
+    listed_service = next(item for item in listed.json() if item["id"] == service.id)
+    assert listed_service["counsellor"]["introduction"] is None
+    assert detail.status_code == 200
+    assert detail.json()["counsellor"]["introduction"] is None
+
+
+def test_restricted_owner_still_sees_introduction_on_owned_services(
+    client: TestClient,
+    db_session: Any,
+    counsellor: Any,
+    service: Any,
+    counsellor_headers: dict[str, str],
+) -> None:
+    counsellor.profile_visibility = "restricted"
+    counsellor.introduction = "Still visible to the profile owner"
+    db_session.commit()
+
+    response = client.get("/api/v1/me/services", headers=counsellor_headers)
+
+    assert response.status_code == 200
+    owned_service = next(item for item in response.json() if item["id"] == service.id)
+    assert owned_service["counsellor"]["introduction"] == counsellor.introduction
+
+
 def test_visibility_change_removes_previously_public_fields_on_the_next_read(
     client: TestClient,
     db_session: Any,
