@@ -37,7 +37,6 @@
       "overlayRegression": 245,
       "overlayDefectAssertions": 17
     },
-    "matrixIssueLinksAligned": true,
     "coverageTotalsUnchanged": true,
     "repositoryMetadataPassed": true,
     "ownedPortsStopped": [
@@ -47,5 +46,6 @@
     ],
     "deviceStatus": "Blocked before Yoir UI; D02/D03 NOT RUN, 0 acceptance assertions"
   },
-  "scope": "Evidence/source consistency and final report classification, not another application execution."
+  "scope": "Evidence/source consistency and final report classification, not another application execution.",
+  "publicationNote": "Documentation maintenance on 16 October 2026 removed a retired cross-version mapping check from this summary. Other results and verification timestamps are unchanged. Original record: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/f7e0cb8df4e45e804df0c64857a0c69bf3542fed/docs/sprint3/qa/gap-followup-validation-20261016.json. No application tests were rerun."
 }

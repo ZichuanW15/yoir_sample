@@ -26,8 +26,6 @@
     },
     "retainedDefectCasesUnchanged": 10,
     "qa-matrix.md:mappedQATasks": 23,
-    "qa-matrix.zh-CN.md:mappedQATasks": 23,
-    "matrixLinksAligned": true,
     "coverageDenominatorsUnchanged": true,
     "productDependenciesAndCiUnchanged": true,
     "metadataValidation": {
@@ -47,5 +45,6 @@
       "checkedAt": "2026-10-15T20:48:15.752862+00:00"
     }
   },
-  "scope": "Local evidence consistency, source hashes and documentation mappings; not another application execution."
+  "scope": "Local evidence consistency, source hashes and documentation mappings; not another application execution.",
+  "publicationNote": "Documentation maintenance on 16 October 2026 removed retired document-reference and cross-version mapping checks from this summary. Other results and verification timestamps are unchanged. Original record: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/f7e0cb8df4e45e804df0c64857a0c69bf3542fed/docs/sprint3/qa/completion-validation-20261016.json. No application tests were rerun."
 }

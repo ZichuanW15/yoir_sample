@@ -26,7 +26,7 @@ be reviewed separately; these local results do not establish its outcome.
    for the complete recorded case table.
 2. [Gap-follow-up results](test-results-gap-followup-20261016.md): refresh
    recovery, diagnosis integration, unrated profiles and the earlier device preflight.
-3. [All 23 QA tasks](qa-matrix.md), also [in Chinese](qa-matrix.zh-CN.md): parent
+3. [All 23 QA tasks](qa-matrix.md): parent
    criteria, implementation, executable sources and remaining acceptance gaps.
 4. [Repeatable plan](test-plan.md): commands, fixtures and expected outcomes.
 5. [Native evidence](evidence/20261016-native-remaining/README.md) and

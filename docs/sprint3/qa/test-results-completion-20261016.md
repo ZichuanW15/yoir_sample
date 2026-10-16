@@ -83,7 +83,7 @@ The separate email-verification banner remains at 92.3% branch coverage.
 
 The [case inventory](evidence/20261016-completion/added-case-inventory.json)
 records each added case. All 23 QA tasks remain mapped in the
-[English matrix](qa-matrix.md) and [Chinese matrix](qa-matrix.zh-CN.md).
+[QA matrix](qa-matrix.md).
 The [test plan](test-plan.md) supplies reproducible setups and expected outcomes.
 
 ## Environment and execution evidence
@@ -110,8 +110,8 @@ The [test plan](test-plan.md) supplies reproducible setups and expected outcomes
 
 [Final consistency verification](completion-validation-20261016.json) checks the
 three dated evidence manifests, current execution-source hashes, case totals,
-unchanged defect sources, matching English/Chinese task links and unchanged
-coverage denominators. Repository metadata checks passed with zero broken
+unchanged defect sources and unchanged coverage denominators. Repository
+metadata checks passed with zero broken
 relative Markdown links.
 
 Authoring failures are retained: draft screen/browser selectors, a focus-hook

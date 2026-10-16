@@ -102,11 +102,11 @@ on the evening of 15 October. Packaging and consistency checks are not new test
 executions. Original traces and full machine reports remain in ignored artifacts.
 
 [Consistency verification](gap-followup-validation-20261016.json) confirms the
-four evidence manifests, 36 current QA source hashes, case totals, unchanged
-coverage totals and matching English/Chinese issue mappings. Repository contract,
+four evidence manifests, 36 current QA source hashes, case totals and unchanged
+coverage totals. Repository contract,
 JSON/YAML and local Markdown-link checks passed; owned test ports are released.
 
-The [English matrix](qa-matrix.md), [Chinese matrix](qa-matrix.zh-CN.md) and
+The [QA matrix](qa-matrix.md) and
 [repeatable plan](test-plan.md) now link these executed boundaries. Remaining work
 requires product integration/stale-state fixes followed by these same assertions,
 and working device UI access for actual persistence/account-isolation acceptance.
