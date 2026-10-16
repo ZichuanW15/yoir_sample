@@ -39,8 +39,13 @@ shows the change only once the backend confirms it.
 - **What an edit does not touch:** each order keeps the amount, the fee breakdown and the service's
   title frozen at purchase (`Order.service_title`). Changing the price or renaming the listing never
   changes what a Job Seeker already paid for, or the name it appears under on their booking, their
-  receipt, the Career Professional's commission statement or the Platform Owner's order views. Only
-  the listing itself shows the new name.
+  receipt, the booking confirmation emails, the Career Professional's commission statement or the
+  Platform Owner's order views. Only the listing itself shows the new name.
+- **Emails use the frozen title too.** The title is frozen when the order is placed, but the two
+  confirmation emails are sent later, when payment confirms. `booking_received` and
+  `booking_confirmed` in [`app/mail/messages.py`](../../../backend/app/mail/messages.py) read
+  `order.title_for(service)`, so a rename between ordering and paying does not give the emails a
+  different name from the receipt they carry.
 - **Existing orders:** migration `0011` adds `orders.service_title` and fills it for every existing
   order from its service's title at upgrade time. Reading code falls back to the live title only for
   an order that has none, through `Order.title_for`.
@@ -63,14 +68,14 @@ shows the change only once the backend confirms it.
 |---|---|---|
 | An edit shows only after the backend confirms it | Update returns the stored listing | `test_update_service_replaces_the_listing`, `test_update_service_clears_a_location_the_form_left_empty`, `test_an_in_person_service_still_needs_a_meeting_area_when_edited` |
 | A removed service leaves My Services and is no longer returned as active | Soft delete; public routes exclude it | `test_deleting_a_service_withdraws_it_without_erasing_it`, `test_deleting_a_service_twice_is_not_an_error`; the workspace filters on `active` |
-| An existing order and booking still return their recorded service information | Amount, breakdown and title are frozen on the order | `test_renaming_a_service_does_not_rewrite_what_was_already_bought` (booking detail, My Bookings, receipt and both Platform Owner views keep the original title and amount); `test_existing_orders_are_backfilled_with_their_service_title` |
+| An existing order and booking still return their recorded service information | Amount, breakdown and title are frozen on the order | `test_renaming_a_service_does_not_rewrite_what_was_already_bought` (booking detail, My Bookings, the receipt and both Platform Owner views keep the original title; the receipt keeps the original amount); `test_a_rename_before_payment_does_not_change_the_confirmation_emails`; `test_existing_orders_are_backfilled_with_their_service_title` |
 | Another Career Professional cannot edit or remove it | `404`, service unchanged | `test_a_counsellor_cannot_edit_or_delete_someone_elses_service`, `test_editing_a_service_needs_a_counsellor_session` |
 | A rejected or failed request leaves the listing unchanged | Validation before write; rollback | `test_an_in_person_service_still_needs_a_meeting_area_when_edited` |
 
 ## Tests
 
 - [`tests/test_counsellor.py`](../../../backend/tests/test_counsellor.py), section "US-36: editing and
-  withdrawing a service": 8 tests, all named above.
+  withdrawing a service": 9 tests, all named above.
 - [`tests/test_migrations.py`](../../../backend/tests/test_migrations.py):
   `test_existing_orders_are_backfilled_with_their_service_title`.
 - [`tests/test_diagnosis_migration.py`](../../../backend/tests/test_diagnosis_migration.py) pins the
@@ -81,15 +86,13 @@ Run from `backend/`:
 
 ```bash
 env -u DATABASE_URL pytest tests/test_counsellor.py tests/test_migrations.py -q \
-  -k "update_service or clears_a_location or still_needs_a_meeting_area_when_edited or deleting_a_service or cannot_edit_or_delete or editing_a_service_needs or renaming_a_service or backfilled_with_their_service_title"
+  -k "update_service or clears_a_location or still_needs_a_meeting_area_when_edited or deleting_a_service or cannot_edit_or_delete or editing_a_service_needs or renaming_a_service or rename_before_payment or backfilled_with_their_service_title"
 ```
 
 Local run on `dev` at `03978fd` plus this change, 17 October 2026, Python 3.12.8, temporary SQLite
-database: 9 passed. Full backend suite: 796 passed, 8 skipped, 18 expected failures.
+database: 10 passed. Full backend suite: 797 passed, 8 skipped, 18 expected failures.
 
 ## Known gaps
 
 - Migration `0011` backfills each existing order with its service's title at upgrade time. A rename
   made before the migration ran cannot be recovered, so those orders take the newer name.
-- The emails sent when a booking is confirmed read the live title. They are sent at purchase, when it
-  is the same as the frozen one, so they are not affected.

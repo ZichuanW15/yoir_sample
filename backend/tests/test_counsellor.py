@@ -550,6 +550,58 @@ def test_renaming_a_service_does_not_rewrite_what_was_already_bought(
     )
 
 
+def test_a_rename_before_payment_does_not_change_the_confirmation_emails(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    counsellor_headers: dict[str, str],
+    job_seeker_headers: dict[str, str],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """US-36 AC3: the title is frozen when the order is placed, but the emails are
+    sent when payment confirms. A rename in between must not give the emails a
+    different name from the receipt they carry."""
+    from app.mail import messages
+
+    sent: dict[str, dict[str, Any]] = {}
+    monkeypatch.setattr(
+        messages, "_deliver",
+        lambda template, /, *, to, subject, **context: sent.update(
+            {template: {"subject": subject, **context}},
+        ) or True,
+    )
+    start = datetime.now(UTC) + timedelta(days=3)
+    db_session.add(AvailabilityWindow(
+        counsellor_id=service.counsellor_id, starts_at=start, ends_at=start + timedelta(hours=3),
+    ))
+    db_session.commit()
+    order = client.post(
+        "/api/v1/orders",
+        headers=job_seeker_headers,
+        json={
+            "serviceId": service.id, "startsAt": start.isoformat(),
+            "modality": "online", "timezone": "Australia/Melbourne",
+        },
+    )
+    assert order.status_code == 201, order.text
+    bought_as = service.title
+
+    renamed = client.patch(
+        f"/api/v1/me/services/{service.id}",
+        headers=counsellor_headers,
+        json=service_body(title="Renamed before payment"),
+    )
+    assert renamed.status_code == 200, renamed.text
+    paid = client.post(
+        f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers,
+    )
+    assert paid.status_code == 200, paid.text
+
+    assert sent["booking_confirmed"]["service_title"] == bought_as
+    assert sent["booking_received"]["service_title"] == bought_as
+    assert sent["booking_received"]["subject"] == f"New booking: {bought_as}"
+
+
 # --- US-39: availability can differ by how the session is delivered ----------
 
 

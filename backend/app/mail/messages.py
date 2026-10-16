@@ -120,13 +120,16 @@ def booking_received(
         if service.location_city and service.location_state
         else ""
     )
+    # US-36: what was bought, by the name it had when the order was placed. Payment
+    # can confirm after a rename, and the receipt already uses the frozen title.
+    service_title = order.title_for(service)
     return _deliver(
         "booking_received",
         to=counsellor.email,
-        subject=f"New booking: {service.title}",
+        subject=f"New booking: {service_title}",
         name=counsellor.name,
         job_seeker_name=job_seeker.name,
-        service_title=service.title,
+        service_title=service_title,
         details=[
             ("When", _when(booking.starts_at, booking.timezone)),
             ("Delivery", "Online" if booking.modality == "online" else "In person"),
@@ -174,7 +177,8 @@ def booking_confirmed(
         to=job_seeker.email,
         subject=f"Your session with {counsellor.name} is booked",
         name=job_seeker.name,
-        service_title=service.title,
+        # US-36: the frozen title, matching the receipt this email carries.
+        service_title=order.title_for(service),
         counsellor_name=counsellor.name,
         when=_when(booking.starts_at, booking.timezone),
         details=[
