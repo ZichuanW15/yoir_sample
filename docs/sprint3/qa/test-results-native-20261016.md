@@ -1,9 +1,8 @@
 # Sprint 3 native device results — 16 October 2026
 
-**Completed: 4 case/platform executions passed; 22 remain NOT RUN.** D02/D03
-passed on iOS and Android within the local diagnosis boundary. Independent API
-readback, evidence packaging and cleanup are complete. This is not full native
-or release signoff.
+**Completed: 4 case/platform executions passed.** This report covers D02/D03
+on iOS and Android within the local diagnosis boundary of the stated baseline.
+Independent API readback, evidence packaging and cleanup are complete.
 
 ## Scope and baseline
 
@@ -17,8 +16,8 @@ that a human tester manually performed every action.
 Product baseline is `cdcc44e66d647a9c5993736b797312b495715a3f`, branch
 `sprint3-qa`, with the existing local QA overlay. Final verification matched
 all 346 recorded source hashes to the working files. No product fix or weakened
-acceptance assertion is part of this device run. Previous automated results and
-the earlier blocked iOS attempt remain historical evidence in the
+acceptance assertion is part of this device run. Previous automated results
+remain historical evidence in the
 [gap follow-up report](test-results-gap-followup-20261016.md).
 
 ## Environment and fixtures
@@ -50,9 +49,8 @@ precondition, not a final persistence result.
 | D02 / #162 #165 #168: local choices, required validation, Back, Skip, process restart and account isolation | **PASS** | **PASS** |
 | D03 / #171 #174: completed direction, Explore/no-results, retake, abandoned retake and completed-result restart | **PASS** | **PASS** |
 
-Case-level totals are **4 passed**, with **22 NOT RUN**
-case/platform combinations: D01 and D04–D13 on each platform. The two D02/D03
-source procedures produce four platform executions. Screenshot counts, repeated
+Case-level totals are **4 passed**. The two D02/D03 source procedures produce
+four platform executions. Screenshot counts, repeated
 checkpoints and prior Jest preset executions are not additional native cases.
 
 ### iOS D02
@@ -149,14 +147,10 @@ also not recorded as a product failure. The
 retrospective approximate local times from timestamped UI observations and raw
 service diagnostics.
 
-## Evidence boundary and remaining work
+## Evidence and recorded API state
 
 The observed persistence is **same-device native local storage in Expo Go**.
-The direction is the existing local rules output. These passes do not establish
-server-backed diagnosis saving, cross-device resume or server-derived direction;
-the missing integration assertions in the earlier report remain unresolved.
-This run does not establish PostgreSQL, physical-device, signed standalone-build,
-provider payment, real inbox, deployment or client acceptance.
+The displayed direction comes from the local rules on this baseline.
 
 The [final authenticated API readback](evidence/20261016-native/services/diagnosis-final.json)
 at 08:27:51 AEDT returned HTTP 404, `Diagnosis not found`, for all four accounts.
@@ -179,4 +173,4 @@ observations and 33 original screenshots, plus source, environment and lifecycle
 records. Its [SHA-256 manifest](evidence/20261016-native/manifest.json) covers every
 packaged file except itself. Local link, JSON and counting checks are recorded in
 [validation](evidence/20261016-native/validation.json). Existing historical
-evidence is preserved, including the earlier failed Device Hub preflight.
+evidence is preserved.

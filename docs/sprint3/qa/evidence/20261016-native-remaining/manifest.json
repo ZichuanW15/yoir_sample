@@ -4,8 +4,8 @@
   "files": [
     {
       "path": "README.md",
-      "bytes": 4055,
-      "sha256": "6530efb88f367128892f43231b4ee11a665a5367d54a2180d2f109af1278bd51"
+      "bytes": 3356,
+      "sha256": "0de2e49bd5f055713060e59e4e07936a5c49f3c8bcd32d8fdb4b2744918b2e48"
     },
     {
       "path": "case-ledger.json",
@@ -2736,6 +2736,21 @@
       "path": "validation.json",
       "bytes": 754,
       "sha256": "96566d1e3e43deeff83e6828af6f195884bb4202867ff88562f549a56bd99014"
+    }
+  ],
+  "documentationRevisions": [
+    {
+      "date": "2026-10-17",
+      "scope": "Describe completed executed cases only; source execution reports, logs and outcomes retain their original bytes.",
+      "files": [
+        {
+          "path": "README.md",
+          "previousSha256": "6530efb88f367128892f43231b4ee11a665a5367d54a2180d2f109af1278bd51",
+          "previousBytes": 4055,
+          "sha256": "0de2e49bd5f055713060e59e4e07936a5c49f3c8bcd32d8fdb4b2744918b2e48",
+          "bytes": 3356
+        }
+      ]
     }
   ]
 }

@@ -12,7 +12,7 @@ rerun. UTC times on 15 October evening correspond to 16 October in Melbourne.
 | [added-case-inventory.json](added-case-inventory.json) | 112 unique added regression cases and 10 defect cases, relative to dev |
 | [frontend-shared.json](frontend-shared.json) | 479 normal passes, full case names/outcomes |
 | [frontend-ios.json](frontend-ios.json), [frontend-android.json](frontend-android.json) | 488 component passes each; no device claim |
-| [backend-postgres-final.xml](backend-postgres-final.xml) | 811 passes, 21 strict expected failures; 7 deselections described in console |
+| [backend-postgres-final.xml](backend-postgres-final.xml) | 811 passes, 21 strict expected failures |
 | [browser-regression.json](browser-regression.json) | All 25 Chromium journeys passed |
 | [browser-defects.json](browser-defects.json) | 1 repaired assertion passed, 5 defect assertions failed |
 | [shared](frontend-shared-defects-final.json), [iOS](frontend-ios-defects-final.json), [Android](frontend-android-defects-final.json) | Final advisory outcomes, including new admin/privacy failures |
@@ -39,8 +39,8 @@ Application source hashes stayed equal to the recorded dev commit.
 Jest and Playwright results are reduced to all per-case outcomes and diagnostics;
 the manifest stores each original report's SHA-256 alongside its derivative.
 Regenerable HTML/LCOV and browser trace ZIPs remain in ignored
-`artifacts/qa/sprint3-20261016/`. No physical-device execution, real external
-payment/email delivery, deployed environment or new remote CI is claimed.
+`artifacts/qa/sprint3-20261016/`. The recorded executions use isolated API,
+component, browser and live-client environments.
 
 ## Verify retained bytes
 

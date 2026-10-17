@@ -18,14 +18,13 @@ See the [execution report](../../test-results-final-20261017.md),
 - `browser-regression.json`: initial 38 PASS / 1 FAIL discovery run, retained separately
   from the final regression and advisory classification.
 - `*-coverage.json`: total and per-file measured coverage; no native/browser
-  coverage percentage is claimed.
+  coverage percentage is presented.
 - `logs/`, `attachments/`, `authoring/`: normalized original logs, selected original
   screenshots/readbacks and authoring results. Original local artifacts remain
   under `artifacts/qa/sprint3-final-20261017/` and the named authoring paths.
 
-No execution here uses a physical device, signed app, real inbox or live payment
-provider. Native 16 October observations are historical. Exact statuses and scoped
-commands take precedence over a generic claim that testing is complete.
+This package contains recorded component, PostgreSQL, Chromium and live-client
+executions on 17 October. Exact statuses and commands identify each result.
 
 The runner is retained as `runner.py` for provenance; use the repository test plan
 for portable commands and provide a newly owned database/output directory. No

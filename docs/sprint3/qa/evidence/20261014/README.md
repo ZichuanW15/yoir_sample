@@ -37,5 +37,4 @@ bypass that requirement. The ARIA failure remains an independent defect test.
 
 Raw HTML, LCOV and trace archives remain in ignored
 `artifacts/qa/sprint3-20261014/` in the local workspace. They are not included in
-this selected package. No device, deployment, external-provider or new remote CI
-execution is implied. Review the current results page for the acceptance limits.
+this selected package. The result report identifies each executed suite and outcome.

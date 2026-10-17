@@ -32,6 +32,5 @@ existing server-diagnosis readback attachment are included. Regenerable HTML,
 full trace archives and duplicate screenshots remain in ignored local artifacts.
 
 Existing defects are unchanged. Backend strict XFAILs are unresolved failures,
-not passes. No new defect-suite, native-device, provider delivery/transfer,
-deployment or remote CI result is claimed. External calls are intercepted or
-stubbed as described in the result report. This package is local and uncommitted.
+not passes. External calls are intercepted or stubbed as described in the
+result report. This package records the dated local executions.

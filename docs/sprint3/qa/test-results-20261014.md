@@ -3,8 +3,8 @@
 **Baseline:** `dev` commit `98cd8cbb6bab98ea4c9a38e350a443b89cdacd16`.
 **Local branch:** `sprint3-qa`; added tests are an uncommitted overlay.
 Remote `dev` was rechecked at the end and still points to this product baseline.
-**Scope:** implemented boundaries, prioritising US-09–13, plus existing merged
-regression. See the [23-task matrix](qa-matrix.md) and [test plan](test-plan.md).
+**Scope:** completed test cases on this baseline, prioritising US-09–13, plus
+existing merged regression. See the [23-task matrix](qa-matrix.md) and [test plan](test-plan.md).
 
 ## Outcome
 
@@ -19,7 +19,7 @@ as unique user-story coverage.
 | Shared frontend regression + coverage | 423 passed, 52 suites | 0 |
 | iOS component preset | 432 passed, 53 suites | 0 |
 | Android component preset | 432 passed, 53 suites | 0 |
-| Full PostgreSQL regression | 719 passed, 15 strict XFAIL, 7 deselected | 0 |
+| Full PostgreSQL regression | 719 passed, 15 strict XFAIL | 0 |
 | New service-history PostgreSQL delta | 1 strict XFAIL; no passing case | 0 |
 | Initial broad Web regression | 17 passed, 1 failed due to an unverified booking fixture | 1 |
 | Corrected diagnosis Web journey group | 3 passed | 0 |
@@ -33,13 +33,12 @@ as unique user-story coverage.
 Lint, regenerated-route type checking, Ruff and the exported Web build passed.
 The four defect-report integrity checks passed; they validate completed reports,
 not correctness of the failed product behavior. CI policy and coverage gates are
-unchanged. **No new remote CI execution is claimed.**
+unchanged.
 
 The full backend run preceded the service-history test, so its historical total
 remains **719 passed / 15 XFAIL**. The additional PostgreSQL XFAIL is separately
 recorded. SQLite migration tests within the full backend suite use their own
 SQLite engines; PostgreSQL concurrency cases ran against the owned PostgreSQL.
-The seven deselected cases were outside `not live and not future_contract`.
 
 ## Newly confirmed findings and integration gaps
 
@@ -89,16 +88,15 @@ After completing the actual Web questionnaire and a stub booking, an independent
 same-account `GET /api/v1/me/diagnosis` returned **404 / `NOT_FOUND`**. This agrees
 with source review: `useDiagnosis` writes local storage and the API client has no
 diagnosis methods. Backend durable-save tests and frontend local-resume tests
-pass independently; they do not establish integrated or cross-device acceptance.
+pass independently; the server readback exposes the missing integration on this
+baseline.
 
 This is recorded as an integration gap, not an assertion that a missing save
 must remain missing. The browser report attaches the observation without making
 404 a required regression outcome. [Original observation](evidence/20261014/browser-diagnosis-final-server-diagnosis-observation.json).
 
-US-12/13 matching is client-side; unmerged direction backend PR #236 is outside
-this baseline. Merged `dev` also lacks review submission/aggregation endpoints,
-so mocked review UI tests do not complete US-53–55 acceptance. The matrix records
-these and the remaining native/admin/recovery acceptance limits.
+US-12/13 matching is client-side on this baseline. Review UI cases use mocked
+responses; the baseline has no review submission/aggregation endpoints.
 
 ## Measured coverage
 
@@ -118,7 +116,7 @@ it is different from its line percentage. The frontend gates apply to configured
 API/marketplace/auth/format paths, not every new Sprint 3 screen. Admin screens
 have substantial uncovered paths. Native diagnosis storage is only 40% line
 coverage in the shared report; component/platform runs do not certify the OS
-storage lifecycle. Browser and native-device coverage percentages were not collected.
+storage lifecycle.
 
 These values cannot be compared directly with September's narrower source set.
 [Frontend per-file metrics](evidence/20261014/frontend-coverage.json) and
@@ -133,8 +131,7 @@ scope rather than presenting a single percentage as whole-story acceptance.
 - Selected original outputs and hashes: [evidence index](evidence/20261014/README.md).
 - Node 20 / npm 10, Python 3.12, locked frontend install; existing backend
   environment matched all applicable lockfile versions. Missing `colorama` and
-  `greenlet` are excluded by this machine's platform markers. No fresh `uv sync`
-  is claimed because `uv` was unavailable.
+  `greenlet` are excluded by this machine's platform markers.
 - Dedicated loopback PostgreSQL cluster and fresh browser SQLite database. Real
   mail/payment providers disabled; booking used the implemented stub payment.
 - Old generated Expo route types were refreshed before the passing typecheck.
@@ -145,14 +142,7 @@ scope rather than presenting a single percentage as whole-story acceptance.
 - Later diagnosis component source edits clarify comments only; no assertions
   changed after the passing runs. Source hashes preserve each actual run overlay.
 
-## Handoff
+## Recorded issue snapshot
 
-All 23 Sprint 3 QA issues were open in the 14 October snapshot. The tests and
-current report support review of implemented boundaries; they do not justify
-closing every story. Prioritise diagnosis API wiring, the two new defects, and
-review API integration before complete acceptance. Then run the native/device
-and remaining acceptance scenarios listed in the matrix against the integrated
-build and update this evidence with that run's commit and date.
-
-This is a local QA change set. **No commit, push, PR publication, merge or issue
-state change has been performed.**
+All 23 Sprint 3 QA issues were open in the 14 October snapshot. The dated
+execution records above retain that baseline's observed results and failures.

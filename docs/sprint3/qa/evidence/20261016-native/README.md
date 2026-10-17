@@ -7,12 +7,13 @@ Running Devices; iOS UI was operated in Xcode Device Hub.
 
 ## Results and counting
 
-D02 and D03 passed on each platform: **4 case/platform executions**. D01 and
-D04–D13 remain **NOT RUN** on both platforms (22 combinations). The 32 timestamped
+D02 and D03 passed on each platform: **4 completed case/platform executions**.
+The 32 timestamped
 observations and 33 screenshots are checkpoints and setup captures, not extra
 test cases. `android-01-launch.png` is a setup capture without an observation row.
 
-- [Summary](summary.json): case totals and the measured boundary.
+- [Completed case selection](../../completed-native-cases-20261016.json): dated PASS/FAIL cases.
+- [Original execution summary](summary.json): captured run metadata.
 - [Observations](observations.json): timestamped operator observations, with
   corresponding original screenshots and accessibility snapshots in `screens/`.
   Android accessibility text describes the host window; its screenshots show
@@ -47,8 +48,8 @@ are recorded in the report and observations. Do not inject stored app state.
 
 The temporary database used here has been cleaned up; its accounts are historical
 fixtures, not reusable credentials. Scripts containing the disposable password
-are intentionally outside this package. There is no claim of signed-build,
-physical-device, PostgreSQL, server-backed resume, provider or client acceptance.
+are intentionally outside this package. The observed diagnosis persistence
+used the same device and local storage on the recorded product revision.
 
 The SHA-256 manifest covers packaged files other than itself. It verifies file
 integrity; it does not convert a setup capture into a successful acceptance case.

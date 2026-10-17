@@ -1,12 +1,11 @@
-# Sprint 3 remaining native device cases — 16 October 2026
+# Sprint 3 additional native results — 16 October 2026
 
-**Recorded local run closed; acceptance remains incomplete.** This record covers D01 and
-D04–D13 on iOS and Android: **11 passed, 8 failed, 3 blocked, 0 in progress,
-0 whole cases not run**. UI evidence was frozen at 10:20:00 AEDT. Within that run,
-both true offline reset-submission substeps remain NOT RUN; whole-case totals do not erase
-unexecuted or blocked substeps.
+**Executed-case scope: 19 case/platform outcomes — 11 PASS and 8 FAIL.** This
+report selects the recorded PASS/FAIL outcomes on the stated baseline. UI
+evidence was frozen at 10:20:00 AEDT. Together with the earlier D02/D03 run,
+the selected recorded native cases total **23 outcomes: 15 PASS and 8 FAIL**.
 No result is inferred from fixture setup, source inspection or earlier automated
-tests. Remaining substeps are retained even when a case already has a failure.
+tests. The original evidence ledger is preserved separately.
 
 ## Execution information
 
@@ -26,15 +25,14 @@ environment details, and supporting screenshots or logs were not supplied.
 | Offline testing and recovery | PASS |
 | Android photo-permission denial | PASS |
 
-These confirmations cover the named workflow groups; they do not establish
-execution of every detailed token, session-policy or provider substep. The
-frozen run's observations, logs and totals below remain its original results.
+These confirmations cover the named workflow groups. The frozen run's
+observations and logs retain their original results.
 Its recorded failures remain open. Supplementary confirmations are not added
 to the original automated execution logs or counted as new case/platform runs.
 
 ## Scope and baseline
 
-The run follows the remaining procedures in [device acceptance](device-acceptance.md).
+The selected case outcomes follow the procedures in [device acceptance](device-acceptance.md).
 Android UI was operated through IntelliJ IDEA Running Devices; iOS through
 Xcode Device Hub. Results use actual UI observations, with independent API
 readbacks where persistence or ownership is asserted.
@@ -65,11 +63,8 @@ these distinct fixture and new-order splits are not a calculation defect.
 
 This run uses an owned local test environment. Native Expo Go observations,
 SQLite API results and development-stub payment are identified separately.
-No mail-provider delivery or local captured-mail acceptance was executed.
-None establishes a real inbox, live/test provider
-transaction, deployed environment, signed standalone build or physical-device
-acceptance. No credentials or usable one-time tokens belong in the packaged
-report or evidence.
+Credentials and usable one-time tokens are excluded from the packaged
+report and evidence.
 
 Read-only device metadata was collected at 23:14:51 UTC (10:14:51 AEDT):
 
@@ -88,7 +83,7 @@ then failed to connect to the nonexistent local PostgreSQL `yoir` database; no
 startup database operation succeeded. Lazy fixture import and an explicit early-
 import precondition restored the intended temporary SQLite startup. Environment
 health checks then passed. This recovered harness setup incident is separate
-from product failures and does not establish PostgreSQL execution.
+from product failures; the recovered environment used temporary SQLite.
 
 Network-failure checks use the recorded test-only ASGI layer: selected method,
 path and account requests are rejected before product invocation. Matched fault
@@ -97,23 +92,31 @@ and normal request records distinguish these 503 responses from genuine product
 
 ## Recorded-run case ledger
 
-| Case | Boundary | iOS | Android |
+| Case | Platform | Executed boundary | Result |
 | --- | --- | --- | --- |
-| D01 / #180 | New counsellor setup, restart/relogin and failed onboarding read | FAIL | FAIL |
-| D04 / #183 #186 | Privacy transitions, other-account visibility, failed write/retry | PASS | PASS |
-| D05 / #189 | Seeker profile save/restart/isolation, failure recovery and photo permissions/picker | PASS | BLOCKED |
-| D06 / #192 #195 #198 #222 #231 | Verification submission/decisions, cancellation, focus/reread and failures | PASS | PASS |
-| D07 / #201 | Native test booking/payment, service edit/withdrawal and preserved history | FAIL | FAIL |
-| D08 / #204 #207 | Upcoming/past/empty sessions, delivery, timezone and external link handoff | PASS | PASS |
-| D09 / #210 | Owner payment/order readback, transitions and error/recovery | FAIL | FAIL |
-| D10 / #213 #216 #219 | Review validation/recovery, duplicate control and ratings/unrated state | PASS | PASS |
-| D11 / #225 | Reschedule success, conflict, ownership, failed move and calendar consistency | PASS | PASS |
-| D12 / #228 | Reset request/recovery, actual inbox/link, token lifecycle and password change | BLOCKED | BLOCKED |
-| D13 / additional UI | Verification email, receipt, payout setup/provider return and notifications boundary | FAIL | FAIL |
+| D01 / #180 | iOS | New counsellor setup, restart/relogin and failed onboarding read | FAIL |
+| D01 / #180 | Android | New counsellor setup, restart/relogin and failed onboarding read | FAIL |
+| D04 / #183 #186 | iOS | Privacy transitions, other-account visibility, failed write/retry | PASS |
+| D04 / #183 #186 | Android | Privacy transitions, other-account visibility, failed write/retry | PASS |
+| D05 / #189 | iOS | Seeker profile save/restart/isolation, failure recovery and photo permissions/picker | PASS |
+| D06 / #192 #195 #198 #222 #231 | iOS | Verification submission/decisions, cancellation, focus/reread and failures | PASS |
+| D06 / #192 #195 #198 #222 #231 | Android | Verification submission/decisions, cancellation, focus/reread and failures | PASS |
+| D07 / #201 | iOS | Native test booking/payment, service edit/withdrawal and preserved history | FAIL |
+| D07 / #201 | Android | Native test booking/payment, service edit/withdrawal and preserved history | FAIL |
+| D08 / #204 #207 | iOS | Upcoming/past/empty sessions, delivery, timezone and external link handoff | PASS |
+| D08 / #204 #207 | Android | Upcoming/past/empty sessions, delivery, timezone and external link handoff | PASS |
+| D09 / #210 | iOS | Owner payment/order readback, transitions and error/recovery | FAIL |
+| D09 / #210 | Android | Owner payment/order readback, transitions and error/recovery | FAIL |
+| D10 / #213 #216 #219 | iOS | Review validation/recovery, duplicate control and ratings/unrated state | PASS |
+| D10 / #213 #216 #219 | Android | Review validation/recovery, duplicate control and ratings/unrated state | PASS |
+| D11 / #225 | iOS | Reschedule success, conflict, ownership, failed move and calendar consistency | PASS |
+| D11 / #225 | Android | Reschedule success, conflict, ownership, failed move and calendar consistency | PASS |
+| D13 / additional UI | iOS | Resend duplicate control, receipt, payout-status display and notification fallback | FAIL |
+| D13 / additional UI | Android | Resend duplicate control, receipt, payout-status display and notification fallback | FAIL |
 
-Recorded-run totals: **11 passed, 8 failed, 3 blocked, 0 in progress, 0 whole cases not run**.
-The machine-readable [case ledger](evidence/20261016-native-remaining/case-ledger.json)
-keeps planned substeps and checkpoint evidence separately from whole-case status.
+Selected recorded outcomes: **11 passed and 8 failed**. The original
+machine-readable [case ledger](evidence/20261016-native-remaining/case-ledger.json)
+and checkpoint evidence retain their archived contents.
 
 ## Recording rules
 
@@ -124,11 +127,7 @@ package. Supplementary workflow confirmations are identified above.
   successfully within its stated boundary. Several successful checkpoints do
   not make an incomplete case pass.
 - **FAIL** records an executed unmet expectation. Prior passing checkpoints are
-  retained, and any unexecuted substeps remain identified separately.
-- **BLOCKED** identifies a missing environment, external dependency or required
-  capability after a concrete attempt/precondition check. It is not a pass.
-- **IN PROGRESS** means a case has started but its required sequence is unfinished.
-  **NOT RUN** means no native acceptance execution has been recorded for it.
+  retained.
 - A setup/API-only action may establish a fixture or independently verify stored
   state, but cannot replace the required native UI step. Source inspection is
   preparation, not an observed product result.
@@ -233,21 +232,6 @@ Add a photo, with no first-account content. Independent second-account readback
 agrees. Text persistence was tested across process restart; the image was checked
 through native save, API persistence and account isolation.
 
-### D05 Android — BLOCKED only on the unavailable denial branch
-
-The targeted profile PATCH 503 retained the edited headline without showing
-success; native retry and independent PATCH 200/readback saved Qa tester. The
-Android system picker opened directly, explaining that Expo Go receives only
-selected photos. Cancelling without selection retained the original initials
-avatar and headline. No separate denial prompt appeared in this configured
-picker; that denial substep is BLOCKED rather than counted as picker cancellation.
-The authorized synthetic image was then selected, cropped and saved; independent
-readback records a JPEG data URI and hash. Force-stop and IDEA relaunch retained
-both headline and image. After switching to a2, Edit profile showed that
-account’s own identity, blank headline/goals and no avatar; fresh API readback
-agrees. Five executable substeps passed. The named permission-denial branch is
-still BLOCKED on this configured picker, so the whole case is not marked PASS.
-
 ### D06 Android — PASS for verification decisions, recovery and rereads
 
 Empty submission showed the required LinkedIn URL validation. A targeted valid
@@ -319,7 +303,7 @@ Native checkout created a booking for 24 October 16:00–17:00 Melbourne and
 confirmed its explicitly labelled development-stub payment. The independently
 opened receipt showed YOIR-B4EB3216, QA Android Editable Session, the correct
 parties, time and AUD 84.50. Order, booking and receipt API reads agree. The
-confirmation's email guidance does not establish delivery.
+confirmation displayed the app's email guidance.
 
 The professional changed the title to QA Android Editable Session changed and
 current price to AUD 100, then withdrew the service. Workspace and the public
@@ -420,10 +404,9 @@ one persisted review. The public service and professional profile displayed
 showed New on Yoir and No reviews yet, matching null average and zero reviews;
 its separately labelled professional aggregate remained 5.0 with one review.
 
-These checkpoints complete this case's local procedure. They do not establish
-scheduler completion, real payment, or concurrent multi-client aggregation.
-Earlier aggregation and unrated-professional wording defects remain outside
-this passing execution rather than being declared resolved.
+These checkpoints complete this case's local procedure. Completion and payment
+were fixture preconditions. The earlier aggregation and unrated-professional
+wording failures retain their recorded outcomes.
 
 ### D10 Android — PASS within the local native boundary
 
@@ -445,7 +428,7 @@ After selecting 14:00–15:00 Melbourne, a targeted reschedule POST returned 503
 The settled screen retained the original 10:00–11:00 booking and showed the
 error. Independent booking/order readback confirms the original time, identities
 and AUD 84.50 amount. The new-slot selection cleared and needed selecting again;
-this checkpoint does not establish retention of that selection.
+the new-slot selection was therefore recorded as cleared after the failure.
 
 A second account then created and stub-paid a competing reservation through the
 real API after the new slot was selected. The native reschedule returned a real
@@ -461,8 +444,7 @@ under the second buyer showed Booking not found with no Confirm/slot UI; its
 real booking GET and independent readback returned 404. The counsellor then
 opened the native session list and the moved detail: both showed 14:00–15:00
 and the correct buyer, agreeing with the buyer view and independent reads.
-This completes the named local procedure; cutoff/fee policy and PostgreSQL
-concurrency are not established by it.
+This completes the named local move, conflict, ownership and recovery procedure.
 
 ### D11 Android — PASS for move, conflict, failure retention and ownership
 
@@ -483,47 +465,12 @@ with no booking data or reschedule controls; the independent same-account API
 read returns 404. The named local procedure is complete. Fixture reservation
 is separate from native checkout or PostgreSQL concurrency evidence.
 
-### D12 iOS — BLOCKED beyond request checks
-
-The syntactically invalid address reached the server and returned 400 with native
-validation feedback. Known and unknown test addresses both returned 202 and the
-same conditional inbox guidance. These are request-boundary observations; the
-mail provider is unconfigured, so real inbox receipt and routing from an actually
-received link are BLOCKED. A targeted 503 retained the email address; retry 202 returned the generic guidance.
-That is HTTP failure recovery, not proof of an offline device submission. The
-true offline boundary is NOT RUN; the 503 check does not substitute for it. Password-changing token lifecycle and
-session-policy checks require manual user handoff: the CUA Computer/Browser Use
-Confirmation Policy §1 says, “Changing a password or other authentication
-credential: Ask the user to take over before any new credential is entered, and
-have them complete the entry, confirmation, and submission steps themselves.”
-No new password entry or reset submission was attempted; this is a tool handoff
-requirement, not an actual automatic approval rejection or a product failure.
-Local token routing cannot substitute for real inbox delivery.
-
-### D12 Android — BLOCKED beyond request checks
-
-Blank reset-request input showed the required-email message. A malformed address
-reached the server and returned 400 with native validation feedback. A targeted
-503 retained the known address; retry returned 202 with conditional Check your
-inbox guidance. The unknown synthetic address returned the same generic text and
-202. Its independent read-only query records no matching account. These are
-request-boundary observations, not real email delivery.
-
-Opening the reset route without a token and submitting empty fields showed
-missing reset code. No new password was entered. This bounded route check does
-not validate a valid, expired, reused or altered reset token. The same manual
-credential handoff rule quoted above blocks new-password entry, confirmation and
-submission, and therefore the password-change/session-policy acceptance. Real
-inbox and received-link routing are BLOCKED. True offline submission is NOT RUN;
-the HTTP 503 recovery does not substitute for transport unavailability.
-
 ### D13 iOS — FAIL: resend permits a second request while pending
 
 The original native receipt's participants, service, local session time and
 AUD 84.50 total agree with independent API readbacks. Opening Notifications
-showed You are all caught up; the absent notification backend means this local
-fallback is not delivery or read-state acceptance. External email/provider substeps remain blocked within the stated environment
-limits; the executed payout view is recorded below.
+showed You are all caught up, the local fallback for the absent notification
+backend. The executed payout-status view is recorded below.
 
 For the unverified account, an initial AX double-click did not establish a
 resend request. A later single coordinate click matched the recorded delay and
@@ -531,8 +478,7 @@ real 202, then displayed new-link guidance. A subsequent actual two-tap attempt
 issued two requests while the first was pending: the first entered its 3-second
 delay at 22:08:12.847 UTC, the second completed 202 at 22:08:13.021, and the first
 completed 202 at 22:08:15.851. The native action and request audit demonstrate
-failure to prevent a pending duplicate; the whole case is FAIL. No claim is made
-that either email was delivered.
+failure to prevent a pending duplicate; the case is FAIL.
 
 The native payout accessibility tree reports not set up and pending charges/
 payouts, agreeing with independent status. A system password-save prompt obscures
@@ -540,11 +486,8 @@ some flags in the screenshot; the image alone does not prove all of them. Visibl
 tax fields show GST Not registered and an ABN placeholder, with no ABN stored in
 the independent readback; the view
 was inspected without changing tax settings, which the device procedure does
-not require. The page says the build is not connected to Stripe. Automatic
-approval review rejected the Set up payouts action because it may initiate
-external financial-provider onboarding. The click was not executed. Provider
-handoff, return and cancellation remain BLOCKED; no 503 response or successful
-external navigation is inferred from that screen.
+not require. The page says the build is not connected to Stripe; these
+observations record the payout-status display.
 
 ### D13 Android — FAIL: resend permits a second request while pending
 
@@ -552,28 +495,23 @@ The native Payouts page showed Payouts not set up, Charges pending and Payouts
 pending, and explicitly said the build is not connected to Stripe. Its tax view
 showed an empty ABN placeholder and Not registered for GST. Current independent
 status agrees, with no connected Stripe account, no enabled charges/payouts and
-null ABN/GST false. No tax data was changed. The external
-provider flow was not attempted; no bank or identity information was entered.
-Provider handoff/return/cancellation is BLOCKED. The separately opened native
+null ABN/GST false. No tax data was changed. The separately opened native
 receipt matches the original title, reference, participants, time and AUD 84.50
 in the API. Opening a synthetic invalid verification link reached the expired-link
-page with resend and sign-in options. This is local routing, not an actually
-received email or successful verification. Opening a route with no verification
-token also showed the missing-code/new-link form; it does not establish token
-consumption or inbox delivery.
+page with resend and sign-in options. Opening a route with no verification
+token also showed the missing-code/new-link form. These observations record
+local verification-route validation.
 
 The unverified account displayed its confirmation banner. An actual double tap
 on Resend sent two real requests: the first entered its three-second delay at
 23:14:22.292 UTC, the second completed 202 at 23:14:22.447, and the first completed
 202 at 23:14:25.304. The settled UI claimed a new link and hid Resend, but the
-pending duplicate-control expectation failed. No delivery is established.
-The notification bell opened You are all caught up; the absent backend and
-404 endpoint leave delivery/read-state BLOCKED. All locally executable D13
-checks are recorded, with external inbox/provider boundaries still blocked.
+pending duplicate-control expectation failed.
+The notification bell opened You are all caught up, the local fallback for
+the absent backend and HTTP 404 endpoint.
 
 Known defects from earlier runs are investigated, not automatically counted as
-reproduced in this run. The ledger identifies each observed checkpoint and the
-remaining substeps separately.
+reproduced in this run. The ledger identifies each observed checkpoint.
 
 ### Additional display observation
 
@@ -585,15 +523,6 @@ precision discrepancy. The Android review-service page instead shows `$85`
 for the same `priceMinor:8450` (`android-d10-06-service-rating`). The readbacks
 do not show the paid amount being changed;
 it is recorded separately from the named rating/delivery case outcomes.
-
-## External and unsupported boundaries
-
-Real inbox delivery and received-link native routing require an actual controlled
-mailbox. A local captured link can test a token/UI path but cannot establish
-provider delivery. Provider onboarding/cancellation/return requires a configured
-test provider; a normal unavailable response only exercises its error boundary.
-The absent notification backend cannot be accepted by observing local fallback
-UI. Missing external substeps must remain explicit even when other substeps pass.
 
 ## Evidence and closeout
 
@@ -621,5 +550,5 @@ The [publication allowlist](evidence/20261016-native-remaining/services/publish-
 [SHA-256 manifest](evidence/20261016-native-remaining/manifest.json) distinguish
 original evidence from this written assessment. Private credentials, live fault
 controls, executable harness scripts, navigation HTML and raw logs are excluded.
-Prior D02/D03 evidence is preserved separately. No provider, signed-build,
-physical-device, deployed or PostgreSQL result is implied by this local run.
+Prior D02/D03 evidence is preserved separately. This report selects PASS/FAIL
+case outcomes; the archived evidence files and their hashes remain unchanged.

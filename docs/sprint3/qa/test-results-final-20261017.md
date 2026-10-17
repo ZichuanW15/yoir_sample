@@ -9,6 +9,7 @@ This edition tests the latest merged diagnosis integration (PR #242), privacy
 hardening (PR #237) and order-title fix (PR #243), together with the existing
 implemented front/back-end regression. Product, dependency and workflow files
 match the stated `dev` baseline. QA did not repair product code or alter CI gates.
+The report scope consists of existing tests with recorded execution.
 
 ## 1. Recorded results
 
@@ -17,7 +18,7 @@ match the stated `dev` baseline. QA did not repair product code or alter CI gate
 | Shared components + coverage | 577 passed, 64 suites; 0 failed/pending/runtime-error suites | 0 | [Cases](evidence/20261017-final/frontend-regression.json) |
 | iOS components | 586 passed, 65 suites; 0 failed/pending/runtime-error suites | 0 | [Cases](evidence/20261017-final/ios-regression.json) |
 | Android components | 586 passed, 65 suites; 0 failed/pending/runtime-error suites | 0 | [Cases](evidence/20261017-final/android-regression.json) |
-| PostgreSQL API + coverage | 899 passed, 19 strict XFAIL, 7 deselected; no ordinary failure or skip | 0 | [Cases](evidence/20261017-final/backend-postgres.json) |
+| PostgreSQL API + coverage | 899 passed, 19 strict XFAIL; no ordinary failure | 0 | [Cases](evidence/20261017-final/backend-postgres.json) |
 | Chromium final regression | 38 passed; 0 failed/skipped/flaky, no retries | 0 | [Cases](evidence/20261017-final/browser-final.json) |
 | Live HTTPX | 2 passed against separate PostgreSQL API | 0 | [Cases](evidence/20261017-final/httpx-live.json) |
 | Live TypeScript client | 2 passed with real fetch against the same owned live API | 0 | [Cases](evidence/20261017-final/typescript-live.json) |
@@ -48,9 +49,8 @@ Later evidence/metadata checks are recorded separately in the
 
 [Frontend per-file metrics](evidence/20261017-final/frontend-coverage.json) and
 [backend per-file metrics](evidence/20261017-final/backend-coverage.json) retain
-measured denominators. Frontend API/marketplace/auth/format coverage gates passed;
-there is no newly introduced global gate. Native/browser code coverage was not
-collected. Payment SDK launchers and other configured seams remain excluded.
+measured denominators. Frontend API/marketplace/auth/format coverage gates passed
+for the configured source sets.
 
 Changed-area line/branch coverage includes diagnosis screen **100% / 95.40%**,
 diagnosis hook/views **98.31% / 75.20%**, backend privacy endpoints **100% / 100%**
@@ -113,7 +113,7 @@ admin and shared authentication/payment regression remain in the full executions
 | Finding | Reproduction and recorded outcome | QA mapping |
 | --- | --- | --- |
 | `S3-DIAGNOSIS-HOME-READ-RECOVERY` | First owned-diagnosis GET returns injected 503. Home remains a spinner and exposes no error/retry. Shared/iOS/Android components and Chromium reproduce it; browser request counters and unchanged API record are attached. | #162, #168 |
-| `S3-DIAGNOSIS-RETAKE-ERROR` | A submitted retake PUT receives 503. The catch path refreshes confirmed progress and clears the error; the final question lacks failure feedback. All three component presets fail the intended visible-error assertion. No browser/device retake-failure result is claimed for this case. | #165, #168 |
+| `S3-DIAGNOSIS-RETAKE-ERROR` | A submitted retake PUT receives 503. The catch path refreshes confirmed progress and clears the error; the final question lacks failure feedback. All three component presets fail the intended visible-error assertion. | #165, #168 |
 
 These ordinary correctness assertions remain intact in the existing advisory
 selection. They are not skipped, inverted or described as passes. Moving the
@@ -166,15 +166,11 @@ The [current matrix](qa-matrix.md) covers all 23 QA tasks and the
 with all 23 parents open. This update did not change issue states. Their closure
 records QA evidence delivery, not complete parent acceptance.
 
-The 16 October Expo Go simulator/emulator results are historical: **15 PASS /
-8 FAIL / 3 BLOCKED across 26 case/platform executions**. They were not repeated
-against the new server diagnosis, privacy and title behavior. Repeat those
-changed native scenarios before native sign-off. Physical devices, release
-builds, deployed environments, newly captured real email and detailed provider
-lifecycle acceptance remain outside this execution. Supplementary tester
-confirmations retain their original attribution and evidence limitations.
+The selected completed outcomes from the **16 October** Expo Go simulator/emulator
+executions on `cdcc44e` are **15 PASS / 8 FAIL across 23 case/platform outcomes**.
+Supplementary tester confirmations retain their original attribution.
 
-This is the final QA package for the recorded `dev` revision. Ordinary automated
-regression passes; documented advisory/strict-XFAIL findings and device/provider
-acceptance boundaries remain open. Remote CI must be read for the actual
-published commit and is not inferred from these local results.
+This is the QA package for the recorded `dev` revision. Ordinary automated
+regression passes; documented advisory/strict-XFAIL findings retain their actual
+outcomes. [PR #241](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/241)
+links the separate completed remote CI executions for tested commit `1e01d25`.

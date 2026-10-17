@@ -1,116 +1,102 @@
-# Sprint 3 device and external-boundary acceptance procedures
+# Sprint 3 executed native acceptance procedures
 
-> **17 October baseline update:** this document retains the dated 16 October
-> native procedures and results. Product `dev@0df4068` subsequently replaced local
-> diagnosis storage with server integration and repaired order-title/privacy
-> behavior. No native case here was rerun for that revision. Repeat the affected
-> diagnosis save/retry/resume/retake/Explore, privacy and historical-title scenarios
-> before new device sign-off. See the [current QA matrix](qa-matrix.md) and
-> [final automated report](test-results-final-20261017.md).
-
-Prepared for product `cdcc44e66d647a9c5993736b797312b495715a3f` on 16 October 2026.
+This page describes the native procedures that produced recorded **PASS or FAIL**
+results on **16 October 2026**, with product baseline
+`cdcc44e66d647a9c5993736b797312b495715a3f` and the recorded QA overlay.
 **Test owner: Wilson.**
-**D02/D03 passed on iOS and Android in the earlier native run. The remaining
-22 case/platform combinations were exercised in the follow-up: 11 PASS, 8 FAIL
-and 3 BLOCKED.** The [earlier native report](test-results-native-20261016.md)
-retains its four passing executions; the
-[remaining-cases report](test-results-native-remaining-20261016.md) records the
-separate follow-up, defects and incomplete external substeps. Android was
-operated through IntelliJ IDEA in both runs.
-The two recorded runs total **26 case/platform combinations: 15 PASS, 8 FAIL,
-3 BLOCKED**. Wilson's five supplementary PASS confirmations
-are recorded in the report's
-[execution information](test-results-native-remaining-20261016.md#execution-information).
-They cover the named workflows without replacing the frozen run's results or
-specifying every detailed substep, platform, build or execution date.
-Shared/iOS/Android Jest results establish component behaviour with controlled OS
-boundaries, not device acceptance.
 
-Use the [test plan](test-plan.md) and [QA matrix](qa-matrix.md) for automated
-sources. The [gap follow-up report](test-results-gap-followup-20261016.md) identifies
-what ran before this native follow-up. The September Expo Go observations are
-historical and cannot be reused as observations of this product build.
+The [completed-case projection](completed-native-cases-20261016.json) records
+**23 case/platform outcomes: 15 PASS and 8 FAIL** in the retained scope.
+The [first native report](test-results-native-20261016.md) contributes four
+D02/D03 passes. The [follow-up report](test-results-native-remaining-20261016.md)
+contributes eleven passes and eight failures. This scoped summary counts the
+listed PASS/FAIL results; original execution artifacts retain their collected
+records. Repeated screenshots and API readbacks are supporting evidence rather
+than additional native cases.
 
-## Earlier 16 October device preflight and bounded attempt
+The [17 October automated report](test-results-final-20261017.md) records the
+later `dev@0df4068` API, component and browser executions. Native observations
+below remain attached to their 16 October source revision.
 
-Xcode 27 and iOS 27 runtime were installed, with Expo Go 57.0.9 on the existing
-iPhone 18 Pro simulator. An Android API 36 QA AVD also existed but remained shut
-down. Initial absence of a booted/attached device did not mean runtimes were absent.
+## Recorded environment
 
-The iOS attempt booted that simulator and started an owned isolated SQLite API on
-43179 plus Metro on 8089; both health checks returned 200. The Device Hub UI tool
-then exposed only a menu, could not capture a screenshot and rejected a refreshed
-element with error `-10005`. No Yoir screen, diagnosis answer or persistence
-checkpoint was reached. **At that attempt, setup was attempted but D02/D03 were
-NOT RUN, with zero native acceptance assertions.** This was a tooling blocker,
-not a product defect.
+| Boundary | Environment |
+| --- | --- |
+| iOS | iPhone 18 Pro simulator, iOS 27.0 runtime build `24A434`, Xcode Device Hub |
+| Android | Android 16 / API 36 emulator, `emulator-5554`, IntelliJ IDEA Running Devices |
+| App host | Expo Go 57.0.9 |
+| JavaScript delivery | Owned Metro at port 8099; demo API disabled |
+| API and database | Owned local API at port 43189 and isolated temporary SQLite database |
+| Accounts and fixtures | Separate platform-specific seekers, counsellors and owner; labelled verification, payment and completed-session fixture states |
+| Failure injection | Selected method, path and account requests rejected by a test-only ASGI layer; matched request records and restored API readbacks retained |
 
-The owned API and Metro exited cleanly, ports were released and the simulator was
-restored to Shutdown. [Packaged device evidence](evidence/20261016-gap-followup/device/summary.json)
-and the [attempt record](evidence/20261016-gap-followup/device/native-ios-smoke/status.json)
-include the environment, source hashes, observed blocker and cleanup. A later run
-obtained working UI access and completed D02/D03 on both platforms. Its separate
-native report records save/restart/account isolation and completed-result
-observations without changing this earlier attempt's outcome.
+The evidence packages record environment details, source hashes, timestamps,
+observed UI, selected accessibility snapshots and independent persisted-state
+readbacks. Native test-payment cases use the explicitly labelled development
+stub. Image persistence uses the observed JPEG data URI boundary. Controlled
+HTTP 503 responses identify the network-failure boundary of those cases.
 
-## Setup and evidence for each platform
+## Executed procedures and results
 
-1. Use a dedicated simulator/device and isolated test API/database. Record device
-   model, OS/runtime, app build/commit, Expo Go or standalone build, API commit,
-   database engine, tester and UTC start/end. Confirm API URL and demo mode false.
-2. Prepare two test seekers, two counsellors and an owner. Use controlled accounts;
-   never use a shared/production database or real payment method for these cases.
-3. Record fixture preconditions: email verified/unverified, profile visibility,
-   verification state, service owner, availability, booking/order IDs and ratings.
-   Historical completed sessions may be seeded but must be labelled fixtures.
-4. For deliberate network faults, interrupt only this device's test API connection
-   or inject the named test response. Record when the fault starts/ends. Restore
-   connectivity and independently read the API/database before claiming recovery.
-5. Execute each row separately on iOS and Android. Capture the decisive before/
-   after UI and, where relevant, persisted API state. Record PASS, FAIL, BLOCKED
-   or NOT RUN with a reason. No failure or missing integration may become a pass
-   merely because the corresponding component test passed.
+Each procedure below is limited to the observed steps supporting its recorded
+outcome. “Both” means one iOS execution and one Android execution.
 
-## Cases and recorded-run outcomes
+| Case / QA | Platforms | Executed procedure and result boundary | Recorded outcome |
+| --- | --- | --- | --- |
+| D01 / #180 | Both | Complete counsellor setup; restart and sign in again; inspect a delayed onboarding read; inject a failed onboarding read for an incomplete account. Setup/restoration succeeded, but the failed read exposed the full workspace while stored completion remained false. | 2 FAIL |
+| D02 / #162 #165 #168 | Both | Enter local diagnosis answers, validate a required choice, use Back and Skip, restart Expo Go, switch to a second seeker and return. Saved choices and step were restored for the owning account; the second account had separate answers. | 2 PASS |
+| D03 / #171 #174 | Both | Complete the local diagnosis, open direction and Explore, search for no matches, complete a retake, abandon another retake and restart. Local direction and completed-result persistence behaved as recorded. | 2 PASS |
+| D04 / #183 #186 | Both | Save Public, Partial and Restricted settings, inspect other-account views, restore Public, restart, inject a rejected write and retry. Confirmed visibility and rereads agreed with the API. The observed unsaved selection remaining selected after failure is retained separately. | 2 PASS |
+| D05 / #189 | iOS | Edit the seeker profile; inject a failed save and retry; restart; deny photo access, cancel the picker, save the synthetic QA image and switch accounts. Text/image persistence and account isolation matched independent readbacks. | 1 PASS |
+| D06 / #192 #195 #198 #222 #231 | Both | Submit verification details; exercise required URL/reason validation, failed submission/decision and retry; leave pending, cancel, reject and approve; return to candidate and owner views. Confirmed decisions and rereads agreed with stored state. | 2 PASS |
+| D07 / #201 | Both | Create a native stub-paid booking, open the receipt, edit the service title/price, withdraw the service and reopen history. Amount, time and identity remained stable, but the existing booking/receipt title changed with the service edit on this baseline. | 2 FAIL |
+| D08 / #204 #207 | Both | Inspect upcoming, past and empty booking lists; compare online/in-person details and timezone display with the API; follow the external meeting link and return. Recorded participant, delivery and display checks passed. | 2 PASS |
+| D09 / #210 | Both | Read owner order/payment information, perform supported transitions, inject a subsequent read failure and recover. Successful reads matched stored records; the failed Bookings read incorrectly displayed an empty state. | 2 FAIL |
+| D10 / #213 #216 #219 | Both | Exercise review validation, failed submission/retry and duplicate control; submit as the eligible buyer and inspect service/profile ratings and an unrated service. Confirmed review and rating readbacks matched the recorded UI boundary. | 2 PASS |
+| D11 / #225 | Both | Reschedule an owned booking, exercise conflict and failed-move recovery, inspect booking/calendar state and open a foreign participant's booking. Identity/amount remained stable and rejected moves preserved the confirmed booking. | 2 PASS |
+| D13 / additional implemented UI | Both | Read the native receipt, payout-status display and notification fallback; delay verification-email resend and double-tap the action. Receipt/status displays matched API values, but two resend requests were issued while the first was pending. | 2 FAIL |
 
-The platform columns below describe the two recorded runs. Wilson's later
-workflow confirmations are listed in the linked execution information, rather
-than counted as additional case/platform executions.
+## Observed findings
 
-| Case / QA | Procedure | Expected result and boundary | iOS | Android |
-| --- | --- | --- | --- | --- |
-| D01 / #180 | Log in as a new counsellor; complete each required setup step; close/reopen the app and sign in again. Repeat with a deliberately failed onboarding read. | Stored setup is restored; loading precedes routing; a failed check must not be called a successful completion. Pending-versus-verified publishing policy remains separately agreed. | FAIL | FAIL |
-| D02 / #162 #165 #168 | Answer part of the local diagnosis; use Back; skip; force-stop/reopen; sign out; sign in as the second seeker, then return to the first. | Same-device saved choices and resume step are retained, required single-choice validation works and other accounts do not see those answers. Actual local persistence after process restart is observed in Expo Go; this is not a storage security audit. Server-backed/cross-device resume is not implemented and is excluded. | PASS — [native report](test-results-native-20261016.md) | PASS — [native report](test-results-native-20261016.md) |
-| D03 / #171 #174 | Complete diagnosis; inspect direction; open Explore, make a no-results search, return; retake and then abandon a second retake. | Saved local result survives navigation/restart, no results are fabricated, and abandoned retake retains the completed result. This does not establish server-derived direction/criteria integration. | PASS — [native report](test-results-native-20261016.md) | PASS — [native report](test-results-native-20261016.md) |
-| D04 / #183 #186 | Change Public→Partial→Restricted→Public; inspect from the second account; reopen the app and retry after a rejected write. | Only allowed content is visible; a fresh read reflects the stored setting; old private data is absent. Existing failed-selection rollback and empty-key contract defects remain recorded separately. | PASS | PASS |
-| D05 / #189 | Edit seeker profile, save, restart, change account; repeat with failed save. Try photo permission denial, picker cancellation and a supported selected image. | Only confirmed edits persist under the correct account; errors retain editable input. Cancellation/denial do not overwrite the old image. Record the actual image storage boundary; a data URL is not proof of an upload service. | PASS | BLOCKED |
-| D06 / #192 #195 #198 #222 #231 | Submit LinkedIn details; owner leaves pending, approves, rejects with reason and redecides; return to Profile, My Services and owner Users; repeat submission/decision with a network failure. | Confirmed states agree after reread; cancelled actions have no write; failed writes have no false success. Capture focus-return separately from a complete reload, including any stale-state defect. OS link opening does not prove LinkedIn identity. | PASS | PASS |
-| D07 / #201 | Create and pay a test booking; edit then withdraw its service; reopen booking/order/receipt and attempt a new booking. | Withdrawal prevents new orders but retains the recorded booking, amount, times and receipt. Existing edited-title/history defect is not treated as resolved. | FAIL | FAIL |
-| D08 / #204 #207 | Inspect upcoming/past/empty booking lists in the configured timezone; open online and in-person details; follow an external meeting link and return. | Only the participant's records appear; times, brief and address match the API; missing delivery data is explicit. Record actual OS handoff and target app separately from simulated link calls. | PASS | PASS |
-| D09 / #210 | Owner opens payment/order details, changes order state through supported operations, then returns; repeat after loading data successfully and causing the next read to fail. | Amounts, participants and progress match the stored order; error is not an empty-platform claim; recovered reads use fresh data. Existing old-order and stale-data defects remain visible. | FAIL | FAIL |
-| D10 / #213 #216 #219 | As the eligible buyer, submit a valid review; exercise validation, double tap and failed submission/retry; open public service/profile. Also inspect a never-reviewed service. | One confirmed review persists, drafts recover and displayed ratings match the API. No fabricated score for unrated records. Concurrent aggregation defects and missing explicit profile wording remain unresolved. | PASS | PASS |
-| D11 / #225 | Move an owned booking to another free time; repeat with an occupied time, invalid participant and failed request; revisit both calendars/order detail. | Booking/order identity and amount remain stable; old time is released only after a successful move; conflicts/failures retain the original booking. Fees or cutoff policy need agreed requirements. | PASS | PASS |
-| D12 / #228 | Request reset using a controlled test inbox; follow the received link; test valid, expired, reused and altered tokens; repeat an offline submit then recover. | Generic request response, real inbox receipt and actual app routing are recorded separately; only a confirmed reset changes the password. Record session invalidation against the agreed policy. | BLOCKED | BLOCKED |
-| D13 / additional implemented UI | Open email verification from the controlled inbox, complete resend; view receipt and payout setup; return from provider onboarding and deny/cancel external navigation. | Receipt formatting and current payout state agree with the API; pending calls prevent duplicate actions. Use provider test mode only; component mocks do not prove OS/provider success. Notification UI may be inspected, but its absent backend cannot be signed off as delivered. | FAIL | FAIL |
+- **Onboarding failed-read gate:** the incomplete counsellor workspace became
+  accessible after an injected onboarding-state read failure.
+- **Historical title mutation:** the paid booking and receipt adopted an edited
+  service title on the 16 October baseline. The later automated report records
+  frozen-title assertions passing against `dev@0df4068`.
+- **False empty admin Bookings:** a failed read produced an empty-state claim.
+- **Duplicate email resend:** actual double taps issued two requests while the
+  first was pending on both platforms.
+- **Display precision:** native service/session cards rounded an AUD 84.50 value
+  while the receipt retained the exact cents; persisted amounts were unchanged.
 
-Case status does not erase incomplete substeps. In the recorded run, D12 was
-blocked on actual inbox delivery and user-performed password entry/change, and
-true offline transport recovery was not run. D13 recorded local UI failures;
-provider onboarding, return and delivery were blocked. Android D05 could not
-exercise a permission-denial prompt because its scoped system picker exposed
-only selected images. The follow-up report and machine-readable ledger preserve
-those observations. Wilson subsequently confirmed PASS for real-email delivery,
-password reset, payment-provider flow including Set up payouts, offline
-testing/recovery and Android photo-permission denial. The confirmation does not
-identify all detailed token/session/provider branches or supply per-platform
-execution evidence, so it does not revise the original ledger or erase failures.
+These observed failures remain attached to their recorded source and environment.
+The [QA matrix](qa-matrix.md) maps current automated assertions and findings to
+all 23 QA tasks.
 
-## Separate release-environment checks
+## Supplementary tester confirmations
 
-Signed standalone iOS/Android builds, deployment migration rehearsal and rollback
-on a disposable copy, and deployed browser-origin/CORS/deep-link configuration
-remain **NOT RUN** in the reviewed evidence. The supplementary email and payment
-flow confirmations are recorded above; they do not specify full provider
-test-mode payment/webhook/refund/payout lifecycle coverage. Execute remaining
-release checks against named test environments with agreed expected outcomes.
-Local unit, API, browser and Expo Go results do not establish those boundaries.
+On 16 October 2026, Wilson reported the following workflow groups as tested
+successfully. These are attributed tester confirmations and are listed
+separately from the captured case/platform outcomes above.
+
+| Confirmed workflow group | Result |
+| --- | --- |
+| Real-email delivery | PASS |
+| Password-reset flow | PASS |
+| Payment-provider flow, including Set up payouts | PASS |
+| Offline testing and recovery | PASS |
+| Android photo-permission denial | PASS |
+
+## Evidence and reproduction
+
+The [first native evidence package](evidence/20261016-native/README.md) and
+[follow-up package](evidence/20261016-native-remaining/README.md) retain source and
+environment records, dated observations, screenshots, independent API readbacks
+and SHA-256 manifests. Their case IDs connect the procedures above to the
+original observations. Successful cleanup records identify the owned API/Metro
+processes, temporary databases and Android test-port mappings released after
+execution.
+
+The [automated test plan](test-plan.md) provides commands and fixtures for the
+current automated suites. The native table above provides the procedure,
+environment and observed result for each retained native execution.

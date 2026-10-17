@@ -6,7 +6,7 @@
 
 **QA branch:** `sprint3-qa`. **Owner:** Wilson (`Zhouzhny`).
 
-This edition updates tests and documentation for merged diagnosis integration,
+This edition documents existing tests with recorded execution for merged diagnosis integration,
 privacy hardening and frozen order titles. Product files, dependencies and CI
 workflows match the recorded `dev` baseline. QA changes affect tests, fixtures
 and evidence/documentation.
@@ -15,16 +15,18 @@ and evidence/documentation.
 
 1. [Final execution report](test-results-final-20261017.md): actual run results,
    coverage, repaired boundaries and unresolved findings.
-2. [All 23 QA tasks](qa-matrix.md): parent criteria, current sources and remaining
-   acceptance boundaries, reconciled with the [latest issue snapshot](issue-snapshot-20261017.json).
+2. [All 23 QA tasks](qa-matrix.md): parent criteria, executed sources and recorded
+   findings, reconciled with the [latest issue snapshot](issue-snapshot-20261017.json).
 3. [Repeatable test plan](test-plan.md): commands, isolated databases, environments
    and expected outcomes.
 4. [17 October evidence](evidence/20261017-final/README.md): per-case outcomes,
    original-log provenance, coverage, source hashes and packaging manifest.
-5. [Device procedures and historical results](device-acceptance.md): prior native
-   observations and the scenarios that must be repeated for the changed product.
+5. [Executed simulator procedures and results](device-acceptance.md): completed
+   native cases and their dated observations.
 6. [Final package validation](final-validation-20261017.json): source and evidence
-   hashes, task counts, report health and repository metadata checks.
+   hashes, task counts, report health and repository metadata checks. The
+   [documentation scope check](documentation-scope-validation-20261017.json)
+   verifies the completed-case selection against original execution records.
 
 ## Current automated results
 
@@ -33,7 +35,7 @@ and evidence/documentation.
 | Shared frontend components | 577 passed |
 | iOS components | 586 passed |
 | Android components | 586 passed |
-| PostgreSQL API | 899 passed, 19 strict XFAIL, 7 deselected |
+| PostgreSQL API | 899 passed, 19 strict XFAIL |
 | Chromium regression | 38 passed; no retry or skip |
 | Real HTTPX / TypeScript clients | 2 passed each |
 
@@ -62,28 +64,25 @@ visible; passing required gates do not mean all product defects are repaired.
 - Updated all 23 task mappings and procedures; removed obsolete source links and
   preserved historical reports with their original outcomes.
 
-## Evidence and acceptance boundaries
+## Executed scope and evidence
 
 The [issue snapshot](issue-snapshot-20261017.json) records 23 closed QA tasks and
 23 open parent stories. Their previous closure records QA delivery, not full
 parent-story acceptance. This review did not change remote issue states.
 
-The current tests were run locally on the recorded product plus the hashed QA
-source overlay. Remote CI belongs to its own commit and execution; old green
-checks are not evidence for this edition.
+The current automated tests were run on the recorded product plus the hashed QA
+source overlay. [PR #241](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/241)
+links the completed remote CI executions for tested commit `1e01d25`.
 
 The [first native run](test-results-native-20261016.md) and
 [remaining native run](test-results-native-remaining-20261016.md) recorded
-**15 PASS / 8 FAIL / 3 BLOCKED across 26 case/platform executions on 16 October**.
-Those Expo Go simulator/emulator runs were not repeated on the new baseline.
-In particular, they exercised the former local diagnosis behavior and pre-fix
-booking titles. Repeat affected scenarios before accepting the new native build.
-Jest presets are component evidence, not a substitute for those device runs.
+contain **23 completed case/platform outcomes: 15 PASS / 8 FAIL**, selected from
+the dated **16 October** Expo Go simulator/emulator executions on `cdcc44e`.
+The procedures and results identify the product revision for each execution.
 
 Wilson's supplementary mail/reset/payment/offline/permission confirmations remain
-attributed separately in the native report. This edition does not establish new
-physical-device, signed-build, deployed-site, real-inbox or live-provider results.
-Known concurrency, error-state, accessibility and other failures remain documented.
+attributed separately in the native report. Known concurrency, error-state,
+accessibility and other executed failures remain documented.
 
 ## Historical reports
 

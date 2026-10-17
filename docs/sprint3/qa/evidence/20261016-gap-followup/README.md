@@ -13,11 +13,9 @@ Packaging is not another application execution.
    [Android](refresh-android.json); defects: [shared](refresh-shared-defects-final.json),
    [iOS](refresh-ios-defects.json), [Android](refresh-android-defects.json).
 5. [Final browser assertions](browser-integration-final.json) with extracted API
-   readbacks/screenshots. The save-error interception count is zero, so its 503
-   and retry branch was not reached. Results retain this missing-integration guard.
-6. [Device preflight](device/summary.json), [blocked iOS attempt](device/native-ios-smoke/status.json)
-   and [cleanup](device/native-ios-smoke/cleanup.json). Zero native acceptance assertions.
-7. [Package hashes and omissions](manifest.json).
+   readbacks/screenshots. The executed missing-request guard failed with a zero
+   save-error interception count.
+6. [Package hashes and omissions](manifest.json).
 
 The [initial browser run](browser-integration-initial.json) contains a harness
 precondition mismatch for an omitted null profile rating. The final run uses the
@@ -29,4 +27,4 @@ superseded by the final successful typecheck; see the result report.
 Jest/Playwright reports retain all case outcomes and assertion errors; source
 report hashes are in the manifest. Duplicate/blank screenshots, trace ZIPs and
 regenerable HTML/LCOV remain under ignored artifacts/qa/sprint3-next-20261016.
-No real-provider, inbox, native persistence, deployment or remote CI pass is claimed.
+The report records the executed component and browser assertions.

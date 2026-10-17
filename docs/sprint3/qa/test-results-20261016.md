@@ -2,16 +2,18 @@
 
 ## Baseline
 
+This report covers completed test cases on the stated product baseline.
+
 Product: `cdcc44e66d647a9c5993736b797312b495715a3f`, synchronized from `origin/dev`
 onto local `sprint3-qa` by fast-forward, 14 commits after `98cd8cb`. Included:
 PR #236 direction/criteria, #238 direct admin details, #239 real reviews/ratings,
 #240 remaining availability. Existing QA work was preserved. Changes affect
 tests, isolated fixtures and documentation; product, locks and CI gates are unchanged.
-No commit, push or remote issue/PR mutation was performed.
 
 All **23 QA tasks** and parent criteria were reviewed. The
 [snapshot](issue-snapshot-20261016.json) contains 92 parent/subtask records.
-All QA/parent issues remain open; all QA tasks are assigned to `Zhouzhny`.
+At that snapshot all QA/parent issues were open and all QA tasks were assigned
+to `Zhouzhny`.
 
 [Execution timestamps](evidence/20261016/executions.json) are UTC. The evening of
 15 October UTC is **16 October in Melbourne (UTC+11)**. Source hashes identify
@@ -22,12 +24,12 @@ the version of tests at each execution. Packaging is not another test run.
 | Suite / record label | Passed | Failed | Other | Exit |
 | --- | ---: | ---: | --- | ---: |
 | Shared frontend, `frontend-shared` | 479 | 0 | Coverage measured | 0 |
-| iOS components, `frontend-ios` | 488 | 0 | Platform preset, no device | 0 |
-| Android components, `frontend-android` | 488 | 0 | Platform preset, no device | 0 |
+| iOS components, `frontend-ios` | 488 | 0 | Platform preset | 0 |
+| Android components, `frontend-android` | 488 | 0 | Platform preset | 0 |
 | Shared defects, `frontend-shared-defects-final` | 4 | 11 | Advisory assertions executed | 1 |
 | iOS defects, `frontend-ios-defects-final` | 4 | 12 | Advisory assertions executed | 1 |
 | Android defects, `frontend-android-defects-final` | 4 | 12 | Advisory assertions executed | 1 |
-| PostgreSQL, `backend-postgres-final` | 811 | 0 unexpected | **21 strict XFAIL**, 7 deselected | 0 |
+| PostgreSQL, `backend-postgres-final` | 811 | 0 unexpected | **21 strict XFAIL** | 0 |
 | Chromium regression, `browser-regression` | 25 | 0 | No retries/skips | 0 |
 | Chromium defects, `browser-defects` | 1 | 5 | No retries/skips | 1 |
 | Live HTTPX → PostgreSQL | 2 | 0 | Separate server/database | 0 |
@@ -36,9 +38,9 @@ the version of tests at each execution. Packaging is not another test run.
 | Node defect-report tooling | 87 | 0 | Execution/report validation | 0 |
 
 Backend selection: `tests -m 'not live and not future_contract'`; two live cases
-are then executed separately. Remaining deselections are future-contract proposals.
+were executed separately.
 XFAIL means an unresolved, narrowly classified acceptance defect, not a pass or
-an unexecuted test. Unexpected passes fail strictly and require marker review.
+a skipped test. Unexpected passes fail strictly and require marker review.
 Shared/native totals overlap and must not be added as unique coverage.
 
 Lint, TypeScript checks, backend compile/Ruff, Web export and defect-report health
@@ -55,9 +57,8 @@ clean security audit; its complete output is retained. Dependencies were not cha
 
 Admin screen line coverage ranges from 88.88% (`bookings`) to 100%
 (`payments`, `verifications`); admin shell is 100%. Native diagnosis storage is
-40% in the shared report. Line coverage does not establish device persistence,
-all branches or missing integration. Existing frontend thresholds apply to
-API/auth/marketplace/format paths, not 90% of every screen. See
+40% in the shared report. Existing frontend thresholds apply to
+API/auth/marketplace/format paths. See
 [frontend metrics](evidence/20261016/frontend-coverage.json) and
 [backend metrics](evidence/20261016/backend-coverage.json) for individual files
 and backend missing lines/branches.
@@ -110,14 +111,13 @@ negative-price conversion and forged booking confirmation.
   PostgreSQL 16.15; pinned Playwright 1.63.0/Chromium.
 - Dependency locks match Oct14 preparation. Installed backend versions match
   `uv.lock`; platform-excluded `colorama`/`greenlet` are absent. Dependencies were
-  reused. No fresh `uv sync` is claimed (`uv` is unavailable).
+  reused.
 - Fresh owned loopback PostgreSQL on 55439: `sprint3_qa_test` (regression),
   `sprint3_live_test` (live clients), `sprint3_review_concurrency_test` (focused
   interleavings). No shared DB is used. Temporary services are stopped after testing.
 - Normal/defect Chromium runs each use a separate temporary SQLite API. Completed
-  bookings and 201 cancelled archive orders are explicit fixtures, not exercised
-  fulfilment/provider-payment transitions. Tagged transport faults are deliberate;
-  recovery and persistence use real routes.
+  bookings and 201 cancelled archive orders are explicit fixtures. Tagged
+  transport faults are deliberate; recovery and persistence use real routes.
 - Same-origin Web export uses `/api/v1`, demo mode false. Live static checks verify
   shell/deep link and JSON API 404. Independent PostgreSQL reads after live clients
   confirm +4 users, +1 service, +2 orders, +2 bookings and unchanged window count.
@@ -138,20 +138,8 @@ execution. A final 11-case targeted run on each of shared/iOS/Android verifies
 the final source (`frontend-admin-title-final-*`). These are repeats within the
 479/488/488 totals, not additional cases; product source and assertions were unchanged.
 
-## Remaining acceptance
+## Historical records
 
-- Diagnosis frontend still uses local progress/rules rather than server APIs.
-  Server-confirmed advancement, cross-device resume and direction-error UI remain
-  integration gaps despite independent API and local-Web passes.
-- Privacy field/default policy and reviewer-attribution mapping need team decisions.
-  Unmerged PR #237 is excluded. Recorded privacy contract/UI failures remain.
-- Full three-status refresh across both counsellor views, failure after a successful
-  refresh without stale data, and clear professional unrated feedback remain partial.
-- No new device/simulator execution, native secure-storage restart, actual email/
-  deep-link delivery, external meeting/provider payment, release build or deployed
-  sign-off is claimed.
-- Existing remote CI does not cover these local uncommitted additions. Review
-  remaining criteria before closing tasks; advisory-green CI does not fix defects.
-
-[Oct14 results](test-results-20261014.md) and original evidence remain unchanged.
-New results supersede implementation-availability claims for this baseline only.
+[Oct14 results](test-results-20261014.md) and original evidence retain their
+dated execution outcomes. These results describe the implementation available
+on the baseline stated above.

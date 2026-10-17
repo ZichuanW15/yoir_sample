@@ -4,8 +4,8 @@
   "files": [
     {
       "path": "README.md",
-      "bytes": 3352,
-      "sha256": "30be02ffb7870088d3422754c00ac5977e84a8d53594937532233799675fb0aa"
+      "bytes": 3379,
+      "sha256": "c9487859ae98e23e48a09aaeb373b809cce37e81811ada5f0d5e78181ba2a64c"
     },
     {
       "path": "android-final-restart.json",
@@ -548,5 +548,20 @@
     "originalManifestSha256": "68c560f471986fbe86e4cdb81a8b8bb66733881233ee7f04f701cd0c8d310c53",
     "filesNormalized": 3,
     "transformation": "Remove trailing horizontal whitespace and extra blank lines at EOF from published text evidence. Original source hashes and recorded outcomes are unchanged. No tests were rerun."
-  }
+  },
+  "documentationRevisions": [
+    {
+      "date": "2026-10-17",
+      "scope": "Describe completed executed cases only; source execution reports, logs and outcomes retain their original bytes.",
+      "files": [
+        {
+          "path": "README.md",
+          "previousSha256": "30be02ffb7870088d3422754c00ac5977e84a8d53594937532233799675fb0aa",
+          "previousBytes": 3352,
+          "sha256": "c9487859ae98e23e48a09aaeb373b809cce37e81811ada5f0d5e78181ba2a64c",
+          "bytes": 3379
+        }
+      ]
+    }
+  ]
 }

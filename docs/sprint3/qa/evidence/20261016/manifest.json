@@ -855,8 +855,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "2638c7643c16f8ed9b6a1f01570a947606f31a479fdd1749380917f3a054f896",
-      "bytes": 4440,
+      "sha256": "a89899ebc1c7256d30c0b0043be520a9b7a89ef0db5ce5c5a7dae7df80ac53ed",
+      "bytes": 4376,
       "publicationNote": {
         "originalPackagedSha256": "daed3ddceffc850ddbd1b7fa106bfbf44d012a3fe67eb712bf6ad64b4287ee81",
         "change": "Added publication-redaction provenance note"
@@ -911,5 +911,20 @@
     "originalManifestSha256": "7e590c34437fe93dca9adecdd17895ba601f573824d45809c2b4bed94274c84a",
     "filesNormalized": 11,
     "transformation": "Remove trailing horizontal whitespace and extra blank lines at EOF from published text evidence. Original source hashes and recorded outcomes are unchanged. No tests were rerun."
-  }
+  },
+  "documentationRevisions": [
+    {
+      "date": "2026-10-17",
+      "scope": "Describe completed executed cases only; source execution reports, logs and outcomes retain their original bytes.",
+      "files": [
+        {
+          "path": "README.md",
+          "previousSha256": "2638c7643c16f8ed9b6a1f01570a947606f31a479fdd1749380917f3a054f896",
+          "previousBytes": 4440,
+          "sha256": "a89899ebc1c7256d30c0b0043be520a9b7a89ef0db5ce5c5a7dae7df80ac53ed",
+          "bytes": 4376
+        }
+      ]
+    }
+  ]
 }

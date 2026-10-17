@@ -3,8 +3,8 @@
   "files": [
     {
       "path": "README.md",
-      "sha256": "bcf78ff9e9a73d6cddb3a64858e51ab09d335ab1ebfbf07347097fa328e124ea",
-      "bytes": 2167
+      "sha256": "da5d6a83515faa84a6f7b07c17d71c43f27571e4355717361a1372bb3e0ba3d1",
+      "bytes": 1903
     },
     {
       "path": "added-case-inventory.json",
@@ -569,5 +569,20 @@
     "originalManifestSha256": "e1e152ce2e0fb94d29aaf65fe62eaba42d4892bbdc922aa80e44da72b170a69d",
     "filesNormalized": 5,
     "transformation": "Remove trailing horizontal whitespace and extra blank lines at EOF from published text evidence. Original source hashes and recorded outcomes are unchanged. No tests were rerun."
-  }
+  },
+  "documentationRevisions": [
+    {
+      "date": "2026-10-17",
+      "scope": "Describe completed executed cases only; source execution reports, logs and outcomes retain their original bytes.",
+      "files": [
+        {
+          "path": "README.md",
+          "previousSha256": "bcf78ff9e9a73d6cddb3a64858e51ab09d335ab1ebfbf07347097fa328e124ea",
+          "previousBytes": 2167,
+          "sha256": "da5d6a83515faa84a6f7b07c17d71c43f27571e4355717361a1372bb3e0ba3d1",
+          "bytes": 1903
+        }
+      ]
+    }
+  ]
 }

@@ -1414,8 +1414,8 @@
     },
     {
       "path": "README.md",
-      "sha256": "a297d02e1a53ad44111a6a8f262bd623698857e8ade635abfdb0510a3dbb8fdc",
-      "bytes": 1974
+      "sha256": "f1332f78ce84cc382fc96e78b0e011c8101ba81c62274d738779c2da86515f34",
+      "bytes": 1895
     }
   ],
   "omitted": [
@@ -1423,5 +1423,20 @@
     "Raw full Jest/Playwright reports (selected per-case data retained)",
     "Full HTML/LCOV/coverage per-line data; per-file metrics retained"
   ],
-  "note": "Publication formatting/redaction does not create a new test execution or change recorded outcomes. Initial browser failure is retained separately from final regression and advisory reports."
+  "note": "Publication formatting/redaction does not create a new test execution or change recorded outcomes. Initial browser failure is retained separately from final regression and advisory reports.",
+  "documentationRevisions": [
+    {
+      "date": "2026-10-17",
+      "scope": "Describe completed executed cases only; source execution reports, logs and outcomes retain their original bytes.",
+      "files": [
+        {
+          "path": "README.md",
+          "previousSha256": "a297d02e1a53ad44111a6a8f262bd623698857e8ade635abfdb0510a3dbb8fdc",
+          "previousBytes": 1974,
+          "sha256": "f1332f78ce84cc382fc96e78b0e011c8101ba81c62274d738779c2da86515f34",
+          "bytes": 1895
+        }
+      ]
+    }
+  ]
 }

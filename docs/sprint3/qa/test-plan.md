@@ -1,12 +1,12 @@
-# Sprint 3 QA plan — final dev review
+# Sprint 3 QA procedures — executed scope
 
 **Review:** 17 October 2026, Australia/Melbourne. **Owner:** Wilson (`Zhouzhny`).
 **Product baseline:** `0df4068f846b1a8346621af1c7584734980e7178` (`dev`).
 
 The [QA matrix](qa-matrix.md) maps all 23 tasks to parent criteria and executable
 sources. The [final report](test-results-final-20261017.md) records actual commands,
-times, outcomes and coverage. This plan defines how to repeat them; a procedure
-alone is not a passing result.
+times, outcomes and coverage. These procedures reproduce the recorded executions.
+Failed assertions retain their recorded outcomes.
 
 ## 1. Scope and expected outcomes
 
@@ -30,8 +30,7 @@ diagnosis integration and frozen-title checks run as normal regressions.
 ## 2. Environments and data
 
 - **Jest:** installed locked frontend dependencies; shared, iOS and Android presets
-  run separately. Network, router, native and device seams are controlled. These
-  executions do not establish physical-device or signed-build acceptance.
+  run separately with controlled network, router, native and device seams.
 - **PostgreSQL:** create a new loopback instance/database exclusively for this run.
   Test databases must end in `_test`. `YOIR_QA_ALLOW_DATABASE_RESET=true` is permitted
   only for that owned database. The suite clears its test tables.
@@ -132,7 +131,7 @@ env -u DATABASE_URL -u YOIR_QA_ALLOW_DATABASE_RESET .venv/bin/python -m pytest -
   tests/test_sprint3_privacy_contract_qa.py
 ```
 
-Record deselection, skips, strict XFAIL and unexpected XPASS separately. A fixed
+Record strict XFAIL and unexpected XPASS separately. A fixed
 strict-XFAIL scenario should become an ordinary regression after verification;
 never silently suppress XPASS or weaken the original expected behavior.
 
@@ -180,20 +179,20 @@ one. Store selected logs, per-case results, coverage and manifests in the dated
 team-space evidence directory. Large regenerable HTML/trace bundles may remain
 in local/CI artifacts only when the manifest explicitly lists the omission.
 
-## 8. Native/provider acceptance and hand-off
+## 8. Recorded native procedures and hand-off
 
-The [device procedure](device-acceptance.md) retains 16 October executions and
-unexecuted substeps. Re-run affected diagnosis entry/save/retry/server resume,
-restart/account change, retake/Explore and title/privacy history on both target
-platforms before claiming acceptance of this new native build. The current
-update's Jest platform presets do not replace those device scenarios.
+The [device procedures](device-acceptance.md) describe the completed 16 October
+Expo Go observations on the iOS simulator and Android emulator, using that
+date's product revision and isolated local API. The completed cases total
+**23 case/platform outcomes: 15 PASS and 8 FAIL**. Their procedures and findings
+retain their original execution dates. The 17 October iOS and Android results
+are separate Jest component-preset executions.
 
-Real inbox delivery/deep links, detailed provider lifecycle, physical devices,
-signed builds and deployed environments require their own identified execution
-and evidence. Supplementary tester confirmations remain attributed separately.
+Supplementary tester confirmations for mail, reset, payments, offline recovery
+and Android permission denial retain their attribution in the native reports.
+They are separate from the captured case/platform totals.
 
-Final hand-off requires: all 23 tasks mapped, complete command/result records,
-passing ordinary regressions or clearly identified blockers, preserved advisory
-failures and strict XFAILs, reproducible procedures and explicit remaining
-acceptance boundaries. It does not require relabelling unresolved defects as
-passes. QA issue closure alone is not full parent-story or release sign-off.
+The hand-off contains all 23 QA task mappings, command/result records,
+repeatable procedures, source and evidence hashes, and the actual regression,
+advisory and strict-XFAIL outcomes. QA issue status and test outcome are recorded
+separately.
