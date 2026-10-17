@@ -1,0 +1,23 @@
+{
+  "interceptedWrites": 1,
+  "injectedFailureReached": true,
+  "stored": {
+    "id": "219939f7-1848-40e3-a851-9733294b5b68",
+    "questionnaireVersion": "yoir-six-step-v1",
+    "revision": 1,
+    "status": "in_progress",
+    "currentStep": 2,
+    "totalSteps": 6,
+    "completedSteps": [
+      "now"
+    ],
+    "answers": {
+      "now": "other",
+      "other": {
+        "now": "Retain this answer while offline"
+      }
+    },
+    "createdAt": "2026-10-17T04:54:54.336942Z",
+    "updatedAt": "2026-10-17T04:54:56.593434Z"
+  }
+}

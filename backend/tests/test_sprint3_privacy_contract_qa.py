@@ -6,18 +6,9 @@ it checks the parent's explicit omission requirement for those known fields.
 """
 
 import pytest
-from qa_acceptance import KnownAcceptanceDefect
 
 
 @pytest.mark.parametrize("requester", ["guest", "other-seeker"])
-@pytest.mark.xfail(
-    strict=True,
-    raises=KnownAcceptanceDefect,
-    reason=(
-        "S3-BE-PRIVACY-FIELD-OMISSION: US-28 AC2 / QA #186; partial profiles "
-        "return empty private fields instead of omitting them from the API response"
-    ),
-)
 def test_partial_profile_omits_private_fields_instead_of_returning_empty_placeholders(
     client, db_session, counsellor, counsellor_headers, job_seeker_headers, requester,
 ):
@@ -45,5 +36,4 @@ def test_partial_profile_omits_private_fields_instead_of_returning_empty_placeho
     # Actual private-value leakage or a failure to save privacy remains blocking.
     assert all(not data.get(field) for field in private_fields)
     retained = sorted(private_fields.intersection(data))
-    if retained:
-        raise KnownAcceptanceDefect(f"Hidden field keys remain in partial response: {retained}")
+    assert retained == [], f"Hidden field keys remain in partial response: {retained}"

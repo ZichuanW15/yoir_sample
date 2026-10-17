@@ -1,18 +1,19 @@
 import { apiFailure, callsTo, deferred, jsonResponse, navigation, renderPublic, reply } from '../public-screen-utils';
 import { act, fireEvent, screen } from '@testing-library/react-native';
 import Home from '@/app/job-seeker';
-import { readDiagnosis, writeDiagnosis } from '@/src/diagnosis/storage';
-import { Answers } from '@/src/diagnosis/model';
+import { completeDiagnosis, diagnosisCriteria, diagnosisDirection, diagnosisQuestionnaire, diagnosisRecord } from '../diagnosis-fixtures';
 import { counsellorProfileFixture, counsellorSessionFixture, serviceFixture, sessionFixture } from '../fixtures';
 
-// Real home, diagnosis hook/ranking and API client; storage and transport controlled.
-jest.mock('@/src/diagnosis/storage', () => ({ readDiagnosis: jest.fn(), writeDiagnosis: jest.fn() }));
-const read = jest.mocked(readDiagnosis);
-const answers: Answers = { now: 'job', goal: 'interview', tried: [], stuck: 'interview', barriers: [] };
+// Real home, diagnosis hook and API client; HTTP is the controlled boundary.
+function completed() {
+  reply('GET', '/me/diagnosis', jsonResponse(completeDiagnosis));
+  reply('GET', '/diagnoses/diagnosis-1/direction', jsonResponse(diagnosisDirection));
+  reply('GET', '/diagnoses/diagnosis-1/marketplace-criteria', jsonResponse(diagnosisCriteria));
+}
 
 beforeEach(() => {
-  read.mockReset().mockResolvedValue(null);
-  jest.mocked(writeDiagnosis).mockReset();
+  reply('GET', '/me/diagnosis/questionnaire', jsonResponse(diagnosisQuestionnaire));
+  reply('GET', '/me/diagnosis', apiFailure('NOT_FOUND', 'No diagnosis.', 404));
   reply('GET', '/counsellors', jsonResponse([counsellorProfileFixture]));
   reply('GET', '/services', jsonResponse([serviceFixture]));
   reply('GET', '/me/notifications', jsonResponse([]));
@@ -23,7 +24,7 @@ describe('job seeker home — QA-162/174 and entry navigation', () => {
     await renderPublic(<Home />);
     expect(await screen.findByText('Welcome to Yoir')).toBeOnTheScreen();
     expect(await screen.findByText('Maya Chen')).toBeOnTheScreen();
-    expect(read).not.toHaveBeenCalled();
+    expect(callsTo('GET', '/me/diagnosis')).toHaveLength(0);
     fireEvent.press(screen.getByRole('button', { name: 'Create an account' }));
     expect(navigation.push).toHaveBeenCalledWith({ pathname: '/auth/register', params: { role: 'job_seeker' } });
     fireEvent.press(screen.getByRole('tab', { name: 'Bookings' }));
@@ -41,38 +42,38 @@ describe('job seeker home — QA-162/174 and entry navigation', () => {
   });
 
   test('no question or match is fabricated while progress loads; a new user enters diagnosis', async () => {
-    const pending = deferred<string | null>();
-    read.mockReturnValueOnce(pending.promise);
+    const pending = deferred<Response>();
+    reply('GET', '/me/diagnosis', pending.promise);
     await renderPublic(<Home />, sessionFixture);
     expect(screen.queryByText('Your best matches')).toBeNull();
     expect(navigation.replace).not.toHaveBeenCalled();
     expect(callsTo('GET', '/counsellors')).toHaveLength(0);
-    await act(async () => pending.resolve(null));
+    await act(async () => pending.resolve(apiFailure('NOT_FOUND', 'No diagnosis.', 404)));
     expect(navigation.replace).toHaveBeenCalledWith('/job-seeker/diagnosis');
   });
 
-  test('a skipped diagnosis offers a fresh start without claiming completed results', async () => {
-    read.mockResolvedValue(JSON.stringify({ answers: null }));
+  test('a skipped first question offers resume without claiming completed results', async () => {
+    reply('GET', '/me/diagnosis', jsonResponse(diagnosisRecord()));
     await renderPublic(<Home />, sessionFixture);
     expect(await screen.findByText('Welcome back, Alex')).toBeOnTheScreen();
     expect(screen.getByText('Top rated Career Professionals')).toBeOnTheScreen();
-    fireEvent.press(screen.getByRole('button', { name: 'Take the Yoir Diagnosis' }));
+    fireEvent.press(screen.getByRole('button', { name: 'Continue the Yoir Diagnosis' }));
     expect(navigation.push).toHaveBeenCalledWith('/job-seeker/diagnosis');
     expect(screen.queryByText('Your best matches')).toBeNull();
   });
 
   test('unfinished answers expose the actual resume step and continue action', async () => {
-    read.mockResolvedValue(JSON.stringify({ answers, step: 3 }));
+    reply('GET', '/me/diagnosis', jsonResponse(diagnosisRecord({ currentStep: 4, revision: 3, answers: { now: 'job', goal: 'find_job', tried: [], other: {} } })));
     await renderPublic(<Home />, sessionFixture);
     expect(await screen.findByLabelText('Step 4 of 6')).toBeOnTheScreen();
     expect(screen.getByText('Pick up where you left off')).toBeOnTheScreen();
     fireEvent.press(screen.getByRole('button', { name: 'Continue the Yoir Diagnosis' }));
     expect(navigation.push).toHaveBeenCalledWith('/job-seeker/diagnosis');
-    expect(writeDiagnosis).not.toHaveBeenCalled();
+    expect(callsTo('PUT', '/diagnoses/diagnosis-1/steps/stuck')).toHaveLength(0);
   });
 
   test('completed answers offer result, retake, professional detail and Explore navigation', async () => {
-    read.mockResolvedValue(JSON.stringify({ answers }));
+    completed();
     await renderPublic(<Home />, sessionFixture);
     fireEvent.press(await screen.findByRole('button', { name: 'View my Yoir Direction: Interview skills' }));
     expect(navigation.push).toHaveBeenLastCalledWith({ pathname: '/job-seeker/diagnosis', params: { result: '1' } });
@@ -86,8 +87,8 @@ describe('job seeker home — QA-162/174 and entry navigation', () => {
     expect(navigation.replace).toHaveBeenLastCalledWith('/bookings');
   });
 
-  test('a failed catalogue keeps the local result and retry recovers real client data', async () => {
-    read.mockResolvedValue(JSON.stringify({ answers }));
+  test('a failed catalogue keeps the confirmed server result and retry recovers real client data', async () => {
+    completed();
     reply('GET', '/counsellors', apiFailure('UNAVAILABLE', 'Career Professionals could not be loaded.', 503));
     await renderPublic(<Home />, sessionFixture);
     expect(await screen.findByText('Career Professionals could not be loaded.')).toBeOnTheScreen();
@@ -100,11 +101,11 @@ describe('job seeker home — QA-162/174 and entry navigation', () => {
   });
 
   test('an empty catalogue preserves the completed direction and retake action', async () => {
-    read.mockResolvedValue(JSON.stringify({ answers }));
+    completed();
     reply('GET', '/counsellors', jsonResponse([]));
     reply('GET', '/services', jsonResponse([]));
     await renderPublic(<Home />, sessionFixture);
-    expect(await screen.findByText('No Career Professionals are listed yet. Check back soon.')).toBeOnTheScreen();
+    expect(await screen.findByText('No Career Professionals currently match this direction. Explore all services or check back soon.')).toBeOnTheScreen();
     expect(screen.getByRole('button', { name: 'Retake diagnosis' })).toBeOnTheScreen();
     expect(screen.getByRole('button', { name: 'View my Yoir Direction: Interview skills' })).toBeOnTheScreen();
   });

@@ -1,0 +1,22 @@
+{
+  "recordedAt": "2026-10-17T05:01:56.549300+00:00",
+  "python": "3.12.14",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "node": "v20.20.2",
+  "npm": "10.8.2",
+  "postgres": "psql (PostgreSQL) 16.15 (Homebrew)",
+  "packages": {
+    "fastapi": "0.141.1",
+    "pytest": "8.4.2",
+    "pytest-cov": "6.2.1",
+    "sqlalchemy": "2.0.52",
+    "psycopg2-binary": "2.9.12",
+    "httpx": "0.28.1",
+    "ruff": "0.12.12"
+  },
+  "timezone": "Australia/Melbourne",
+  "apiDatabase": "Dedicated loopback PostgreSQL16.15, port55437, yoir_sprint3_final_test",
+  "liveDatabase": "Separate yoir_sprint3_live_test on the same owned instance; API port43137",
+  "browser": "Chromium, fresh Expo web export, temporary SQLite API on43117",
+  "providers": "Mailgun/Stripe disabled or mocked; stub payment; no real email/provider/device execution"
+}

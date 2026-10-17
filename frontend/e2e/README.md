@@ -43,12 +43,14 @@ export built with the API settings above.
 - Availability creation, time/duration editing and removal through the browser,
   with independent API reads after each operation and Melbourne time checks.
 - A newly registered pending counsellor's current publish-403 path: draft retained,
-  no claimed success and no service persisted. This characterizes today's backend
-  gate, not the final policy for the deferred Sprint 3 verification workflow.
+  no claimed success and no service persisted. This verifies the current
+  verified-professional publication gate; verification decisions have their own
+  separate scenarios below.
 
-The `@injected-network` tests intercept browser requests. They abort a
-request to exercise failure handling, then remove interception and use the real
-API for recovery. Other tests use no mocked transport responses.
+The `@injected-network` tests intercept browser requests. They abort, refuse or
+delay an explicitly selected request to exercise failure/acknowledgement handling,
+then remove interception and use the real API for recovery. Other tests use no
+mocked transport responses.
 
 The defect group retains correctness assertions for empty-slot feedback,
 forged-confirmation claims, exact-price display and negative-price publication.
@@ -61,10 +63,25 @@ planning material; they do not establish current implementation or test results.
 
 ## Sprint 3 real browser workflows
 
-`sprint3-diagnosis.spec.ts` exercises persisted browser diagnosis progress,
-account isolation, retaking, and the result-to-stub-booking journey. The diagnosis
-screen currently stores answers locally; those cases do not claim frontend use
-of the separate server diagnosis, direction or marketplace-criteria APIs.
+`sprint3-diagnosis.spec.ts` exercises server-confirmed diagnosis progress,
+account isolation, cancelled and completed retakes, and the result-to-stub-booking
+journey. Independent API reads confirm saved revisions and derived direction.
+
+`sprint3-integration-acceptance.spec.ts` gates saved-step acknowledgement, refused
+save/retry, fresh-browser resume, real revision conflicts and
+derived-result retry without resubmitting a saved answer. Its old diagnosis
+`@defect` tags were removed after API integration; the professional unrated-state
+assertion stays advisory. The new initial home read-failure assertion also stays
+advisory: a 503 currently leaves the home screen loading instead of offering
+retry. It retains a request counter and unchanged server-record evidence; no
+success is claimed for the unreachable retry. Injected cases are labelled `@injected-network` and
+preserve real API recovery/readbacks.
+
+`sprint3-completion.spec.ts` checks privacy key omission as well as visible
+redaction, backend-derived marketplace criteria and matching order, and frozen
+purchased booking titles/prices after service editing and withdrawal. A real
+stub-paid order is read by buyer, counsellor and administrator; a different
+listing title must never rewrite its purchased title.
 
 `sprint3-workflows.spec.ts` adds these independently reproducible scenarios:
 

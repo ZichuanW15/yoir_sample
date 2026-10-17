@@ -194,6 +194,9 @@ test('US27/28 an already-open public profile removes private fields after real p
         await expect(visitor.getByRole('button', { name: 'View LinkedIn profile', exact: true })).toHaveCount(0);
         expect(JSON.stringify(publicProfile)).not.toContain(data.background);
         expect(JSON.stringify(publicProfile)).not.toContain(data.linkedinUrl);
+        for (const privateKey of ['background', 'experience', 'qualifications', 'linkedinUrl']) {
+          expect(publicProfile).not.toHaveProperty(privateKey);
+        }
         if (value === 'partial') {
           await expect(visitor.getByText(data.introduction, { exact: true })).toBeVisible();
           await expect(visitor.getByText('This profile is restricted', { exact: true })).toHaveCount(0);
@@ -253,8 +256,32 @@ test('US09/12/13 a no-results marketplace search preserves completed diagnosis a
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await page.getByRole('button', { name: 'See my Yoir Direction', exact: true }).click();
   await expect(page.getByText('Resume and applications', { exact: true }).filter({ visible: true })).toBeVisible();
+  const confirmedReply = await request.get('/api/v1/me/diagnosis', { headers: headers(user) });
+  expect(confirmedReply.status()).toBe(200);
+  const confirmed = await confirmedReply.json();
+  expect(confirmed).toMatchObject({ status: 'answers_complete', revision: 5,
+    answers: { now: 'other', tried: ['resume'], other: { now: answer } } });
+  const criteriaReply = await request.get(`/api/v1/diagnoses/${confirmed.id}/marketplace-criteria`, { headers: headers(user) });
+  expect(criteriaReply.status()).toBe(200);
+  const criteria = await criteriaReply.json();
+  expect(criteria).toMatchObject({ diagnosisId: confirmed.id, area: 'Resume and applications', modality: null });
+  expect(criteria.query).toBeTruthy();
+  const matched = page.waitForResponse(response => {
+    const url = new URL(response.url());
+    return url.pathname === '/api/v1/services' && url.searchParams.get('query') === criteria.query;
+  });
   await page.getByRole('button', { name: 'View Career Professionals', exact: true }).click();
   await expect(page).toHaveURL(/\/marketplace\?match=1$/);
+  const matchedReply = await matched;
+  expect(matchedReply.status()).toBe(200);
+  expect(new URL(matchedReply.url()).searchParams.has('modality')).toBe(false);
+  const matchingServices = await matchedReply.json();
+  expect(matchingServices.length).toBeGreaterThan(0);
+  const cards = page.getByRole('button', { name: / by .*\$/ });
+  await expect(cards.first()).toHaveAccessibleName(new RegExp(`^${matchingServices[0].title} by `));
+  await expect(page.getByText('Best for your direction', { exact: true })).toBeVisible();
+  const original = await request.get('/api/v1/me/diagnosis', { headers: headers(user) });
+  expect(await original.json()).toEqual(confirmed);
   await page.getByLabel('Search services or Career Professionals', { exact: true }).fill(`no-service-${randomUUID()}`);
   await expect(page.getByText('No services match your search.', { exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'View my Yoir Direction', exact: true }).click();
@@ -266,10 +293,92 @@ test('US09/12/13 a no-results marketplace search preserves completed diagnosis a
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await expect(page.getByText('What have you tried so far?', { exact: true })).toBeVisible();
+  const afterExplore = await request.get('/api/v1/me/diagnosis', { headers: headers(user) });
+  expect(await afterExplore.json()).toEqual(confirmed);
   // Complete without choosing replacements: original required answers remain
   // usable, and returning to a no-result catalogue did not reset the diagnosis.
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await page.getByRole('button', { name: 'Continue', exact: true }).click();
   await page.getByRole('button', { name: 'See my Yoir Direction', exact: true }).click();
   await expect(page.getByText('Resume and applications', { exact: true }).filter({ visible: true })).toBeVisible();
+});
+
+test('US36/43/48 a real paid booking keeps its purchased title and price across service edit and withdrawal', async ({ page, request, browser }, info) => {
+  const seller = await apiLogin(request, 'maya@example.com', 'password123');
+  const buyer = await apiLogin(request, 'qa-s3-buyer@example.com', 'qa-browser-fixture-password');
+  const owner = await admin(request);
+  const title = `Purchased session ${randomUUID().slice(0, 8)}`;
+  const draft = { title, description: 'An isolated service used to verify immutable purchased booking details.',
+    priceMinor: 8450, currency: 'AUD', durationMinutes: 60, modalities: ['online'], location: null };
+  const created = await request.post('/api/v1/me/services', { headers: headers(seller), data: draft });
+  expect(created.status()).toBe(201);
+  const service = await created.json();
+  const slots = await request.get(`/api/v1/services/${service.id}/slots?modality=online`);
+  expect(slots.status()).toBe(200);
+  const available = await slots.json();
+  expect(available.length).toBeGreaterThan(0);
+  // Use the final available start so other seeded journey cases can use the first.
+  const ordered = await request.post('/api/v1/orders', { headers: headers(buyer), data: {
+    serviceId: service.id, startsAt: available[available.length - 1].startsAt,
+    modality: 'online', timezone: 'Australia/Melbourne', preSessionBrief: 'Keep my agreed session details.',
+  } });
+  expect(ordered.status()).toBe(201);
+  const order = await ordered.json();
+  const paid = await request.post(`/api/v1/orders/${order.id}/payments/stub`, { headers: headers(buyer) });
+  expect(paid.status()).toBe(200);
+  const receipt = await paid.json();
+  const id = receipt.booking.id;
+  expect(receipt.booking).toMatchObject({ serviceTitle: title, status: 'confirmed' });
+
+  await login(page, 'maya@example.com', 'password123');
+  await page.goto(`/counsellor/services/${service.id}/edit`);
+  await expect(page.getByLabel('Service title', { exact: true })).toHaveValue(title);
+  const revisedTitle = `Revised listing ${randomUUID().slice(0, 8)}`;
+  await page.getByLabel('Service title', { exact: true }).fill(revisedTitle);
+  await page.getByLabel('Price (AUD)', { exact: true }).fill('125');
+  const edited = page.waitForResponse(reply => reply.url().endsWith(`/me/services/${service.id}`)
+    && reply.request().method() === 'PATCH');
+  await page.getByRole('button', { name: 'Save changes', exact: true }).click();
+  expect((await edited).status()).toBe(200);
+  const listing = await request.get(`/api/v1/services/${service.id}`);
+  expect(await listing.json()).toMatchObject({ title: revisedTitle, priceMinor: 12500 });
+
+  const buyerContext = await context(browser, page);
+  const adminContext = await context(browser, page);
+  try {
+    const buyerPage = await buyerContext.newPage();
+    const adminPage = await adminContext.newPage();
+    await login(buyerPage, 'qa-s3-buyer@example.com', 'qa-browser-fixture-password');
+    await login(adminPage, 'qa-s3-admin@example.com', 'qa-browser-fixture-password');
+    const assertHistory = async () => {
+      for (const [viewer, auth] of [[buyerPage, buyer], [page, seller]] as const) {
+        await viewer.goto(`/bookings/${id}`);
+        await expect(viewer.getByText(title, { exact: true })).toBeVisible();
+        await expect(viewer.getByText(revisedTitle, { exact: true })).toHaveCount(0);
+        const stored = await request.get(`/api/v1/bookings/${id}`, { headers: headers(auth) });
+        expect(stored.status()).toBe(200);
+        expect(await stored.json()).toMatchObject({ serviceTitle: title, status: 'confirmed',
+          amountMinor: 8450 });
+      }
+      await adminPage.goto(`/admin/payments/${order.id}`);
+      await expect(adminPage.getByText(title, { exact: true }).first()).toBeVisible();
+      await expect(adminPage.getByText(revisedTitle, { exact: true })).toHaveCount(0);
+      const stored = await request.get(`/api/v1/admin/payments/${order.id}`, { headers: headers(owner) });
+      expect(stored.status()).toBe(200);
+      expect(await stored.json()).toMatchObject({ serviceTitle: title, amountMinor: 8450 });
+    };
+    await assertHistory();
+    // Withdraw through the actual owner API; the browser history must still read.
+    const removed = await request.delete(`/api/v1/me/services/${service.id}`, { headers: headers(seller) });
+    expect(removed.status()).toBe(204);
+    expect((await request.get(`/api/v1/services/${service.id}`)).status()).toBe(404);
+    await assertHistory();
+    await info.attach('frozen-booking-history', { body: JSON.stringify({ orderId: order.id,
+      bookingId: id, purchasedTitle: title, revisedListingTitle: revisedTitle,
+      purchasedAmountMinor: 8450, revisedListingAmountMinor: 12500, serviceWithdrawn: true }),
+    contentType: 'application/json' });
+  } finally {
+    await buyerContext.close();
+    await adminContext.close();
+  }
 });

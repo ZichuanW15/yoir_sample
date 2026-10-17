@@ -1,7 +1,7 @@
 """US-27/28/29: saved privacy, requester filtering and atomic profile changes.
 
 Real API/database boundaries on current dev; external image storage, device
-permissions and the unmerged privacy-hardening PR are not exercised here.
+permissions are not exercised here.
 """
 
 import pytest
@@ -74,8 +74,11 @@ def test_saved_visibility_filters_every_public_reader_but_keeps_own_profile_comp
             if level == "public":
                 assert detail.get(field) == before.get(field), field
             else:
-                assert not detail.get(field), (level, field, detail.get(field))
-        assert detail["introduction"] == ("" if level == "restricted" else before["introduction"])
+                assert field not in detail, (level, field, detail.get(field))
+        if level == "restricted":
+            assert "introduction" not in detail
+        else:
+            assert detail["introduction"] == before["introduction"]
         assert detail["displayName"] == before["displayName"]
         assert detail["verificationStatus"] == before["verificationStatus"]
 

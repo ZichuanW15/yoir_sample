@@ -1,115 +1,98 @@
-# Sprint 3 QA — implemented features
+# Sprint 3 QA — final dev review
 
-Product baseline: `cdcc44e66d647a9c5993736b797312b495715a3f` (`dev`).
-Local branch: `sprint3-qa`. Review and execution: **16 October 2026**, Melbourne.
-**Test owner: Wilson** (`Zhouzhny` on GitHub).
+**Reviewed and executed:** 17 October 2026 (Australia/Melbourne).
 
-The automated gap follow-up adds **6 regression cases and 7 advisory acceptance
-cases**, after the earlier 127-case completion increment. The local package now
-contains **245 regression cases and 17 defect cases relative to dev**, counting
-each source case once, not once per platform or execution. Failed assertions
-remain failures, and several may describe the same underlying integration gap.
+**Product baseline:** `0df4068f846b1a8346621af1c7584734980e7178` (`dev`).
 
-Changes affect tests, isolated fixtures and QA documentation/evidence. Product
-sources, dependencies and CI gates are unchanged. The recorded execution was
-completed locally before publication. Remote CI for the published commit must
-be reviewed separately; these local results do not establish its outcome.
+**QA branch:** `sprint3-qa`. **Owner:** Wilson (`Zhouzhny`).
+
+This edition updates tests and documentation for merged diagnosis integration,
+privacy hardening and frozen order titles. Product files, dependencies and CI
+workflows match the recorded `dev` baseline. QA changes affect tests, fixtures
+and evidence/documentation.
 
 ## Read first
 
-1. [Remaining native results](test-results-native-remaining-20261016.md):
-   D01 and D04–D13 on both platforms, **11 PASS, 8 FAIL, 3 BLOCKED**;
-   [execution information](test-results-native-remaining-20261016.md#execution-information)
-   also records Wilson's five supplementary workflow confirmations.
-   The [earlier native report](test-results-native-20261016.md) retains the
-   separate four D02/D03 passes. Use the [device procedures](device-acceptance.md)
-   for the complete recorded case table.
-2. [Gap-follow-up results](test-results-gap-followup-20261016.md): refresh
-   recovery, diagnosis integration, unrated profiles and the earlier device preflight.
-3. [All 23 QA tasks](qa-matrix.md): parent
-   criteria, implementation, executable sources and remaining acceptance gaps.
-4. [Repeatable plan](test-plan.md): commands, fixtures and expected outcomes.
-5. [Native evidence](evidence/20261016-native-remaining/README.md) and
-   [gap-follow-up evidence](evidence/20261016-gap-followup/README.md): observations,
-   screenshots, per-case results, logs, hashes and API readbacks. Each package
-   retains its own execution scope and totals.
-6. [Issue snapshot](issue-snapshot-20261016.json): 23 parents and their 69 subtasks.
-   At that snapshot all 23 QA tasks were open and assigned to Wilson;
-   workflow state is not an acceptance result. No remote issue state was changed.
+1. [Final execution report](test-results-final-20261017.md): actual run results,
+   coverage, repaired boundaries and unresolved findings.
+2. [All 23 QA tasks](qa-matrix.md): parent criteria, current sources and remaining
+   acceptance boundaries, reconciled with the [latest issue snapshot](issue-snapshot-20261017.json).
+3. [Repeatable test plan](test-plan.md): commands, isolated databases, environments
+   and expected outcomes.
+4. [17 October evidence](evidence/20261017-final/README.md): per-case outcomes,
+   original-log provenance, coverage, source hashes and packaging manifest.
+5. [Device procedures and historical results](device-acceptance.md): prior native
+   observations and the scenarios that must be repeated for the changed product.
+6. [Final package validation](final-validation-20261017.json): source and evidence
+   hashes, task counts, report health and repository metadata checks.
 
-## Current results and boundaries
+## Current automated results
 
-The earlier native run passed **4 case/platform executions**: D02/D03 on iOS and
-Android, with Android operated in IntelliJ IDEA. These cover local diagnosis
-validation, Back/Skip, actual process restart, account isolation, direction,
-no-results search and retakes. They establish same-device Expo Go observations;
-server-backed diagnosis integration remains absent.
+| Suite | Result |
+| --- | --- |
+| Shared frontend components | 577 passed |
+| iOS components | 586 passed |
+| Android components | 586 passed |
+| PostgreSQL API | 899 passed, 19 strict XFAIL, 7 deselected |
+| Chromium regression | 38 passed; no retry or skip |
+| Real HTTPX / TypeScript clients | 2 passed each |
 
-The remaining native run exercised the other **22 case/platform combinations**:
-**11 PASS, 8 FAIL, 3 BLOCKED**. Together, the two recorded runs cover **26
-case/platform combinations: 15 PASS, 8 FAIL, 3 BLOCKED**. Android was operated
-through IntelliJ IDEA; both platforms used Expo Go and an isolated local API.
-The follow-up reproduced failed-onboarding-check access, historical service-title
-changes, false empty Bookings after a read error, and duplicate email-resend
-requests on both platforms. Those failures remain unresolved.
+Measured lines/branches: **94.52% / 86.61% frontend** and
+**94.83% / 85.40% backend**, for the configured source sets. Existing coverage
+gates, lint, type checking, Web export, backend compilation and test tooling
+checks passed. Coverage is not whole-story or device acceptance.
 
-The
-[execution information](test-results-native-remaining-20261016.md#execution-information)
-records five supplementary groups as PASS based on Wilson's confirmation:
-real-email delivery, password reset, payment-provider flow including Set up
-payouts, offline testing/recovery, and Android photo-permission denial. Their
-execution dates, platform/build/environment details and supporting logs were
-not supplied. They are not added to the 26 recorded executions and do not imply
-that every detailed token, session-policy or provider substep was exercised.
+Separate component advisory suites recorded **4 passed / 16 failed** on the shared
+preset and **4 passed / 17 failed** on each native preset. The browser advisory suite recorded **1 passed / 7 failed**. Failed assertions and strict XFAILs remain
+visible; passing required gates do not mean all product defects are repaired.
 
-The latest full shared component run passed **568 cases in 64 suites**. Focused
-refresh checks passed **15 per shared/iOS/Android preset**, including the 6 new
-cases. New advisory checks failed **3 per component preset and 4 in Chromium**.
-These are completed assertions, not passes; the browser save-recovery case stops
-at its missing-request guard and does not reach the injected 503/retry sequence.
+## What changed in this edition
 
-The [earlier completion execution](test-results-completion-20261016.md) passed
-571 iOS components, 571 Android components, 848 PostgreSQL cases, 32 normal
-Chromium journeys and 2 cases per real HTTPX/TypeScript client. It also retained
-21 backend strict XFAILs. Those full component/backend/browser/live suites were
-not repeated during the native device run. Historical defect suites remain separately
-reported; new failures have not been presented as fresh results for every old case.
+- Replaced tests for removed local diagnosis storage/rules with server-backed
+  questionnaire, save/revision, resume, ownership, result, retake and Explore tests.
+- Promoted the three repaired browser diagnosis-integration assertions to normal
+  regression. Two repaired API private-field-omission assertions are also ordinary
+  regression tests now.
+- Added API coverage for privacy-safe search, readiness/ranking and per-order
+  history across edits, receipts, emails, commissions and withdrawal. Frozen-title
+  correctness is separated from the remaining meeting-area history defect.
+- Recorded two newly reproduced diagnosis error-state defects: initial progress
+  read failure leaves an endless home spinner; failed retake submission loses its
+  error message after refresh. Assertions remain intact in advisory suites.
+- Updated all 23 task mappings and procedures; removed obsolete source links and
+  preserved historical reports with their original outcomes.
 
-Measured line/branch coverage remains **94.45% / 86.69% frontend** in the latest
-run and **94.78% / 85.16% backend** in the earlier completion run, for their
-configured source sets. Coverage is not whole-story or device acceptance.
+## Evidence and acceptance boundaries
 
-Backend direction/criteria and review/aggregation APIs exist and were tested.
-The diagnosis app still uses local storage/rules: executable browser assertions
-now show missing saves and missing server-confirmed resume. Refresh assertions
-also expose stale workspace status and missing/stale administrator directory
-refresh. Unrated professional profiles lack an explicit neutral rating state.
-Known defects remain visible; existing advisory CI policy is unchanged.
+The [issue snapshot](issue-snapshot-20261017.json) records 23 closed QA tasks and
+23 open parent stories. Their previous closure records QA delivery, not full
+parent-story acceptance. This review did not change remote issue states.
 
-The recorded native runs establish bounded Expo Go observations, not signed-build,
-physical-device or deployed-environment acceptance. The supplementary confirmations
-retain the scope above. Detailed provider lifecycle coverage, agreed privacy/matching
-policy and individual story sign-off still require their own evidence or decisions.
+The current tests were run locally on the recorded product plus the hashed QA
+source overlay. Remote CI belongs to its own commit and execution; old green
+checks are not evidence for this edition.
 
-## Historical evidence
+The [first native run](test-results-native-20261016.md) and
+[remaining native run](test-results-native-remaining-20261016.md) recorded
+**15 PASS / 8 FAIL / 3 BLOCKED across 26 case/platform executions on 16 October**.
+Those Expo Go simulator/emulator runs were not repeated on the new baseline.
+In particular, they exercised the former local diagnosis behavior and pre-fix
+booking titles. Repeat affected scenarios before accepting the new native build.
+Jest presets are component evidence, not a substitute for those device runs.
 
-[14 October results](test-results-20261014.md) and
-[their evidence](evidence/20261014/README.md) describe the older `98cd8cb` baseline
-and retain their original outcomes. Statements there that direction/review APIs were absent are
-superseded for the current baseline by the Oct16 reports.
-The [earlier 16 October execution](test-results-20261016.md),
-[its evidence](evidence/20261016/README.md), the
-[completion report](test-results-completion-20261016.md) and
-[completion evidence](evidence/20261016-completion/README.md) are retained as dated records,
-including original defect outcomes, authoring corrections and dependency findings.
+Wilson's supplementary mail/reset/payment/offline/permission confirmations remain
+attributed separately in the native report. This edition does not establish new
+physical-device, signed-build, deployed-site, real-inbox or live-provider results.
+Known concurrency, error-state, accessibility and other failures remain documented.
 
-Publication copies of seven earlier Oct16 log/XML files redact truncated local
-test authentication fragments. Outcomes remain unchanged; original and published
-hashes are recorded in the [publication-redaction manifest](evidence/20261016/manifest.json).
+## Historical reports
 
-Published text evidence also removes trailing spaces and extra blank lines at EOF
-to satisfy the existing CI whitespace check. The five affected package manifests
-record the previous packaged hashes, sizes and transformation counts alongside
-the updated hashes. Original `sourceSha256` values remain unchanged, and the
-previous published bytes remain available at commit `7ce59e5`. This formatting
-correction changes no test outcomes and does not represent another test run.
+- [14 October baseline](test-results-20261014.md)
+- [16 October initial run](test-results-20261016.md)
+- [16 October completion run](test-results-completion-20261016.md)
+- [16 October focused follow-up](test-results-gap-followup-20261016.md)
+
+These reports remain valid records of their dated executions. Their old claims
+about missing diagnosis integration, privacy key omission and mutable order
+titles are superseded for the current product by this edition's tests. Historical
+failures are not erased or relabelled as passes.

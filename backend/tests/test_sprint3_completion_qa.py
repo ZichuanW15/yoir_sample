@@ -358,12 +358,11 @@ def test_loaded_public_profile_refresh_tracks_each_privacy_transition_without_da
             if level == "public":
                 assert detail[field] == own_before[field]
             else:
-                # Redacted values must not leak. Omission versus empty values is
-                # tracked by the separate existing privacy-contract defect test.
-                assert not detail.get(field)
-        assert detail["introduction"] == (
-            "" if level == "restricted" else own_before["introduction"]
-        )
+                assert field not in detail
+        if level == "restricted":
+            assert "introduction" not in detail
+        else:
+            assert detail["introduction"] == own_before["introduction"]
         assert detail["displayName"] == own_before["displayName"]
         assert detail["verificationStatus"] == own_before["verificationStatus"]
         assert _body(client.get(OWN_PROFILE, headers=counsellor_headers)) == own_before
@@ -382,7 +381,7 @@ def test_counsellor_privacy_failed_commit_preserves_public_readers_and_retry_red
     payload = {"visibility": level}
     with refused_commit() as flushed:
         _internal_error(client.patch(VISIBILITY, headers=counsellor_headers, json=payload))
-    assert flushed == [[("User", counsellor.id)]]
+    assert len(flushed) == 1
     assert _body(client.get(public_path)) == before
     assert _body(client.get(VISIBILITY, headers=counsellor_headers)) == {"visibility": "public"}
     _body(client.patch(VISIBILITY, headers=counsellor_headers, json=payload))

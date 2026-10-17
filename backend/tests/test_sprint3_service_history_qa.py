@@ -37,11 +37,11 @@ def _booking_views(client, order_id, booking_id, seeker_headers, counsellor_head
     strict=True,
     raises=KnownAcceptanceDefect,
     reason=(
-        "S3-BE-SERVICE-HISTORY: US-36 AC3 / #201; booking title and meeting area "
-        "are read from the edited listing instead of retaining the booked values"
+        "S3-BE-SERVICE-HISTORY: US-36 AC3 / #201; meeting area is still "
+        "read from the edited listing instead of retaining the booked value"
     ),
 )
-def test_existing_booking_keeps_recorded_title_and_meeting_area_after_service_edit(
+def test_existing_booking_keeps_recorded_meeting_area_after_service_edit(
     client, db_session, service, job_seeker_headers, counsellor_headers,
 ):
     service.modalities = ["in_person"]
@@ -98,6 +98,7 @@ def test_existing_booking_keeps_recorded_title_and_meeting_area_after_service_ed
     stable_fields = (
         "id", "orderId", "serviceId", "startsAt", "endsAt", "timezone", "modality",
         "status", "paymentStatus", "amountMinor", "meetingAddress", "preSessionBrief",
+        "serviceTitle",
     )
     for source, after in after_views.items():
         before = before_views[source]
@@ -109,7 +110,7 @@ def test_existing_booking_keeps_recorded_title_and_meeting_area_after_service_ed
     changed = {
         source: {
             key: {"recorded": before_views[source][key], "returned": after[key]}
-            for key in ("serviceTitle", "meetingArea")
+            for key in ("meetingArea",)
             if after[key] != before_views[source][key]
         }
         for source, after in after_views.items()

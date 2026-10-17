@@ -1,10 +1,10 @@
 import { randomUUID } from 'node:crypto';
 import { expect, test, type APIRequestContext, type Page, type TestInfo } from '@playwright/test';
 
-// These are unmet parent acceptance boundaries, not passing characterizations of
-// the current local-only diagnosis. Successful setup/readback uses the real API.
-// A missing application request is reported explicitly before any injected-save
-// failure can be described as exercised. No product or provider is mocked green.
+// Successful setup, saves and independent readbacks use the real isolated API.
+// Only explicitly marked failure/delay cases intercept transport. The diagnosis
+// integration checks are regression gates now that dev implements the API hook;
+// the unresolved professional-rating assertion remains advisory.
 const password = 'sprint3-integration-qa-password';
 const version = 'yoir-six-step-v1';
 const savePattern = '**/api/v1/diagnoses/*/steps/now';
@@ -70,7 +70,7 @@ test.afterEach(async ({ page }, info) => {
   });
 });
 
-test('@defect [S3-DIAGNOSIS-SERVER-ACK][QA-165] Continue waits for the real saved-step acknowledgement', async ({ page, request }, info) => {
+test('[S3-DIAGNOSIS-SERVER-ACK][QA-165] Continue waits for the real saved-step acknowledgement @injected-network', async ({ page, request }, info) => {
   const user = await account(request);
   let writes = 0;
   let serverStatus: number | undefined;
@@ -94,6 +94,7 @@ test('@defect [S3-DIAGNOSIS-SERVER-ACK][QA-165] Continue waits for the real save
     expect(writes, 'The UI advanced without attempting the required diagnosis API save.').toBe(1);
     await expect.poll(() => serverStatus).toBe(200);
     await expect(page.getByRole('progressbar', { name: 'Step 1 of 6' })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Continue', exact: true })).toBeDisabled();
     release();
     await expect(page.getByRole('progressbar', { name: 'Step 2 of 6' })).toBeVisible();
     expect(await readback(request, user)).toMatchObject({
@@ -106,7 +107,7 @@ test('@defect [S3-DIAGNOSIS-SERVER-ACK][QA-165] Continue waits for the real save
   }
 });
 
-test('@defect [S3-DIAGNOSIS-SAVE-RECOVERY][QA-165] a refused server save retains the answer and retries without advancement', async ({ page, request }, info) => {
+test('[S3-DIAGNOSIS-SAVE-RECOVERY][QA-165] a refused server save retains the answer and retries without advancement @injected-network', async ({ page, request }, info) => {
   const user = await account(request);
   let interceptedWrites = 0;
   await page.route(savePattern, async route => {
@@ -139,7 +140,7 @@ test('@defect [S3-DIAGNOSIS-SAVE-RECOVERY][QA-165] a refused server save retains
   }
 });
 
-test('@defect [S3-DIAGNOSIS-SERVER-RESUME][QA-162][QA-168] a fresh browser resumes the same account server-confirmed answers', async ({ browser, request, baseURL }, info) => {
+test('[S3-DIAGNOSIS-SERVER-RESUME][QA-162][QA-168] a fresh browser resumes the same account server-confirmed answers', async ({ browser, request, baseURL }, info) => {
   const user = await account(request);
   const saved = await request.put(`/api/v1/diagnoses/${user.diagnosis.id}/steps/now`, {
     headers: headers(user), data: { questionnaireVersion: version, expectedRevision: 0,
@@ -182,4 +183,118 @@ test('@defect [S3-PROFILE-UNRATED][QA-219] a real unrated professional has an ex
     reviewCount: profile.reviewCount }), contentType: 'application/json' });
   // Accept neutral equivalent wording; verification status is not a rating state.
   await expect(page.getByText(/^(No reviews yet|No ratings yet|Not yet rated|Unrated|New on Yoir)$/i)).toBeVisible();
+});
+
+test('@defect [S3-DIAGNOSIS-HOME-READ-RECOVERY][QA-162][QA-168] an unavailable saved diagnosis offers retry without replacing confirmed answers @injected-network', async ({ page, request }, info) => {
+  const user = await account(request);
+  const saved = await request.put(`/api/v1/diagnoses/${user.diagnosis.id}/steps/now`, {
+    headers: headers(user), data: { questionnaireVersion: version, expectedRevision: 0,
+      value: 'other', other: 'Keep the server-confirmed answer' },
+  });
+  expect(saved.status()).toBe(200);
+  const confirmed = await readback(request, user);
+  let starts = 0;
+  let refusedReads = 0;
+  page.on('request', reply => {
+    if (reply.url().endsWith('/me/diagnosis') && reply.method() === 'POST') starts += 1;
+  });
+  await page.route('**/api/v1/me/diagnosis', async route => {
+    if (route.request().method() !== 'GET') return route.continue();
+    refusedReads += 1;
+    await route.fulfill({ status: 503, contentType: 'application/json', body: JSON.stringify({
+      code: 'UNAVAILABLE', message: 'Saved diagnosis is temporarily unavailable.', requestId: 'qa-diagnosis-read',
+    }) });
+  });
+  try {
+    // Login lands at the home load-error boundary; no new diagnosis may be started.
+    await page.goto('/auth/login');
+    await page.getByLabel('Email', { exact: true }).fill(user.email);
+    await page.getByLabel('Password', { exact: true }).fill(password);
+    await page.getByRole('button', { name: 'Log in', exact: true }).click();
+    await expect.poll(() => refusedReads).toBeGreaterThan(0);
+    await expect(page.getByRole('alert')).toContainText('Saved diagnosis is temporarily unavailable');
+    await expect(page.getByRole('button', { name: 'Continue', exact: true })).toHaveCount(0);
+    expect(starts).toBe(0);
+    expect(await readback(request, user)).toEqual(confirmed);
+    await page.unroute('**/api/v1/me/diagnosis');
+    await page.getByRole('button', { name: 'Try again', exact: true }).click();
+    await expect(page.getByRole('progressbar', { name: 'Step 2 of 6' })).toBeVisible();
+    await page.getByRole('button', { name: 'Continue the Yoir Diagnosis', exact: true }).click();
+    await page.getByRole('button', { name: 'Back', exact: true }).click();
+    await expect(page.getByLabel('Tell us a little more (optional)', { exact: true })).toHaveValue('Keep the server-confirmed answer');
+    expect(starts).toBe(0);
+    expect(await readback(request, user)).toEqual(confirmed);
+  } finally {
+    await evidence(info, { injectedStatus: 503, refusedReads, replacementStarts: starts,
+      pageUrl: page.url(), original: confirmed, stored: await readback(request, user) });
+  }
+});
+
+test('[QA-165][QA-168] a real revision conflict reloads confirmed progress before an explicit retry', async ({ page, request }, info) => {
+  const user = await account(request);
+  await login(page, user);
+  await choose(page, 'This browser draft');
+  const otherSession = await request.put(`/api/v1/diagnoses/${user.diagnosis.id}/steps/now`, {
+    headers: headers(user), data: { questionnaireVersion: version, expectedRevision: 0,
+      value: 'other', other: 'Other session confirmed answer' },
+  });
+  expect(otherSession.status()).toBe(200);
+  const conflict = page.waitForResponse(reply => reply.url().endsWith(`/diagnoses/${user.diagnosis.id}/steps/now`)
+    && reply.request().method() === 'PUT');
+  await page.getByRole('button', { name: 'Continue', exact: true }).click();
+  expect((await conflict).status()).toBe(409);
+  await expect(page.getByRole('progressbar', { name: 'Step 2 of 6' })).toBeVisible();
+  const confirmed = await readback(request, user);
+  expect(confirmed).toMatchObject({ revision: 1,
+    answers: { other: { now: 'Other session confirmed answer' } } });
+  await page.getByRole('button', { name: 'Back', exact: true }).click();
+  await expect(page.getByLabel('Tell us a little more (optional)', { exact: true })).toHaveValue('This browser draft');
+  const retry = page.waitForResponse(reply => reply.url().endsWith(`/diagnoses/${user.diagnosis.id}/steps/now`)
+    && reply.request().method() === 'PUT');
+  await page.getByRole('button', { name: 'Continue', exact: true }).click();
+  const retried = await retry;
+  expect(retried.status()).toBe(200);
+  expect(retried.request().postDataJSON()).toMatchObject({ expectedRevision: 1 });
+  expect(await readback(request, user)).toMatchObject({ revision: 2,
+    answers: { other: { now: 'This browser draft' } } });
+  await evidence(info, { conflictStatus: 409, beforeExplicitRetry: confirmed,
+    afterExplicitRetry: await readback(request, user) });
+});
+
+test('[QA-171] result retry recovers the real direction without submitting the completed answer twice @injected-network', async ({ page, request }, info) => {
+  const user = await account(request);
+  for (const [step, value, revision] of [
+    ['now', 'job', 0], ['goal', 'resume', 1], ['tried', [], 2], ['stuck', 'resume', 3],
+  ] as const) {
+    const saved = await request.put(`/api/v1/diagnoses/${user.diagnosis.id}/steps/${step}`, {
+      headers: headers(user), data: { questionnaireVersion: version, expectedRevision: revision, value },
+    });
+    expect(saved.status()).toBe(200);
+  }
+  let writes = 0;
+  page.on('request', reply => {
+    if (reply.url().endsWith(`/diagnoses/${user.diagnosis.id}/steps/barriers`)
+      && reply.method() === 'PUT') writes += 1;
+  });
+  await page.route(`**/api/v1/diagnoses/${user.diagnosis.id}/direction`, route => route.fulfill({
+    status: 503, contentType: 'application/json', body: JSON.stringify({
+      code: 'UNAVAILABLE', message: 'Direction is temporarily unavailable.', requestId: 'qa-direction-read',
+    }),
+  }));
+  await login(page, user);
+  await expect(page.getByRole('progressbar', { name: 'Step 5 of 6' })).toBeVisible();
+  await page.getByRole('button', { name: 'See my Yoir Direction', exact: true }).click();
+  await expect(page.getByText('Your Yoir Direction', { exact: true })).toBeVisible();
+  await expect(page.getByRole('alert')).toContainText('Direction is temporarily unavailable');
+  expect(writes).toBe(1);
+  const confirmed = await readback(request, user);
+  expect(confirmed).toMatchObject({ revision: 5, currentStep: 6, status: 'answers_complete', answers: { barriers: [] } });
+  await page.unroute(`**/api/v1/diagnoses/${user.diagnosis.id}/direction`);
+  await page.getByRole('button', { name: 'Try again', exact: true }).click();
+  await expect(page.getByText('Resume and applications', { exact: true })).toBeVisible();
+  await expect(page.getByRole('button', { name: 'View Career Professionals', exact: true })).toBeVisible();
+  await expect(page.getByRole('alert')).toHaveCount(0);
+  expect(writes).toBe(1);
+  expect(await readback(request, user)).toEqual(confirmed);
+  await evidence(info, { finalStepWrites: writes, confirmed });
 });

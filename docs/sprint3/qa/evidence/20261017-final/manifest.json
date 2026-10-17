@@ -1,0 +1,1427 @@
+{
+  "packagedAt": "2026-10-17T05:01:56.622990+00:00",
+  "reviewDate": "2026-10-17 Australia/Melbourne",
+  "files": [
+    {
+      "path": "source-manifest.json",
+      "sha256": "f9707da6df634fe20846f3fdbba8147bf7e701f5d008162d2133492149614d26",
+      "bytes": 41839
+    },
+    {
+      "path": "logs/android-defects.txt",
+      "sha256": "13f001a3bac08748784eddf7b733dbb270faa4652bb9cc8c580e8cf24a7e475b",
+      "bytes": 25513,
+      "source": "artifacts/qa/sprint3-final-20261017/android-defects/console.txt",
+      "sourceSha256": "13f001a3bac08748784eddf7b733dbb270faa4652bb9cc8c580e8cf24a7e475b",
+      "sourceBytes": 25513,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/android-regression.txt",
+      "sha256": "71265f3056bc5d8f8152fa11a8111260cb8b1e17eec424f1db560b75819e070f",
+      "bytes": 4712,
+      "source": "artifacts/qa/sprint3-final-20261017/android-regression/console.txt",
+      "sourceSha256": "71265f3056bc5d8f8152fa11a8111260cb8b1e17eec424f1db560b75819e070f",
+      "sourceBytes": 4712,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/backend-compile.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source": "artifacts/qa/sprint3-final-20261017/backend-compile/console.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourceBytes": 0,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/backend-postgres.txt",
+      "sha256": "ea7eb8843275e9467aa0d70a2e4aa42a66f1f93abcd7f01a1147f1320eaca5be",
+      "bytes": 10472,
+      "source": "artifacts/qa/sprint3-final-20261017/backend-postgres/console.txt",
+      "sourceSha256": "ea7eb8843275e9467aa0d70a2e4aa42a66f1f93abcd7f01a1147f1320eaca5be",
+      "sourceBytes": 10472,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/backend-quality.txt",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19,
+      "source": "artifacts/qa/sprint3-final-20261017/backend-quality/console.txt",
+      "sourceSha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "sourceBytes": 19,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/backend-test-lint.txt",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19,
+      "source": "artifacts/qa/sprint3-final-20261017/backend-test-lint/console.txt",
+      "sourceSha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "sourceBytes": 19,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/board-tests.txt",
+      "sha256": "2d88ba773b790a093eaca1941d4bcea2c1d717997b722e079cbd41d2f23c58a7",
+      "bytes": 7210,
+      "source": "artifacts/qa/sprint3-final-20261017/board-tests/console.txt",
+      "sourceSha256": "2d88ba773b790a093eaca1941d4bcea2c1d717997b722e079cbd41d2f23c58a7",
+      "sourceBytes": 7210,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/browser-defects.txt",
+      "sha256": "c920ff18c1a92b14c8753722609d915581bef1a4ca7a0df41dd5849dbb474f39",
+      "bytes": 28791,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/console.txt",
+      "sourceSha256": "74d3e34fc603390ead7842836952fb2d4904d6c2059ffd668f3ce649ef95bc51",
+      "sourceBytes": 28805,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/browser-final.txt",
+      "sha256": "b862f729a92cf5ea6b7aedef9f0ec71556253c2bd75b1ca75e74439a1d0e0e00",
+      "bytes": 6406,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/console.txt",
+      "sourceSha256": "b862f729a92cf5ea6b7aedef9f0ec71556253c2bd75b1ca75e74439a1d0e0e00",
+      "sourceBytes": 6406,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/browser-regression.txt",
+      "sha256": "d7a02ffef7526d5565c078b8e904c67d99dcb1fead1a27e25035096ffecce4cb",
+      "bytes": 9766,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/console.txt",
+      "sourceSha256": "d46d6ca88d5d90dff59e77cc3bb2fba7ceb47586417e724cc5d68ba63279d3df",
+      "sourceBytes": 9768,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/browser-report-health.txt",
+      "sha256": "fcdd31c2f113ece91750c074fe8f9c1c6228f1169b7cc096d9ce319da8845979",
+      "bytes": 344,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-report-health/console.txt",
+      "sourceSha256": "fcdd31c2f113ece91750c074fe8f9c1c6228f1169b7cc096d9ce319da8845979",
+      "sourceBytes": 344,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/frontend-defects.txt",
+      "sha256": "fb7e9f7ff60cf11c6b35646f6fb07d91020f0940500c019faaf201a2aa7853bc",
+      "bytes": 24660,
+      "source": "artifacts/qa/sprint3-final-20261017/frontend-defects/console.txt",
+      "sourceSha256": "fb7e9f7ff60cf11c6b35646f6fb07d91020f0940500c019faaf201a2aa7853bc",
+      "sourceBytes": 24660,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/frontend-lint.txt",
+      "sha256": "b0d139fb9ee6b501b6c9166c07126de5c63fe59e4d9170762e12a6b77792cb26",
+      "bytes": 38,
+      "source": "artifacts/qa/sprint3-final-20261017/frontend-lint/console.txt",
+      "sourceSha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd",
+      "sourceBytes": 39,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/frontend-regression.txt",
+      "sha256": "296c22ca7553b383b4ce11743f1935c18ee2d6a2d9007a05366b7f2f302230b2",
+      "bytes": 3544,
+      "source": "artifacts/qa/sprint3-final-20261017/frontend-regression/console.txt",
+      "sourceSha256": "296c22ca7553b383b4ce11743f1935c18ee2d6a2d9007a05366b7f2f302230b2",
+      "sourceBytes": 3544,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/frontend-typecheck.txt",
+      "sha256": "15c7a0e30c0924df227605778969f7eb32b19ab419c5f0096b1f7552103f70a9",
+      "bytes": 46,
+      "source": "artifacts/qa/sprint3-final-20261017/frontend-typecheck/console.txt",
+      "sourceSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+      "sourceBytes": 47,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/httpx-live.txt",
+      "sha256": "7306db8d5fbc9a1e89bcb5a96c8176dd6328177da538895604fc689aa1eb3993",
+      "bytes": 230,
+      "source": "artifacts/qa/sprint3-final-20261017/httpx-live/console.txt",
+      "sourceSha256": "7306db8d5fbc9a1e89bcb5a96c8176dd6328177da538895604fc689aa1eb3993",
+      "sourceBytes": 230,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/ios-defects.txt",
+      "sha256": "028bc125943b2f0e967671f9ac810e9a5ec8012e549903a250914a8bcdde43a3",
+      "bytes": 25448,
+      "source": "artifacts/qa/sprint3-final-20261017/ios-defects/console.txt",
+      "sourceSha256": "028bc125943b2f0e967671f9ac810e9a5ec8012e549903a250914a8bcdde43a3",
+      "sourceBytes": 25448,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/ios-regression.txt",
+      "sha256": "873de012c45fab98cf3434f8cde1e029fc92e0457066bf3d85f5963b5b2a4f47",
+      "bytes": 4436,
+      "source": "artifacts/qa/sprint3-final-20261017/ios-regression/console.txt",
+      "sourceSha256": "873de012c45fab98cf3434f8cde1e029fc92e0457066bf3d85f5963b5b2a4f47",
+      "sourceBytes": 4436,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/production-audit.txt",
+      "sha256": "14041f17f557d86f8a52081b314652cfa3de70244a9116ae688cf1e1a9d9ca53",
+      "bytes": 39883,
+      "source": "artifacts/qa/sprint3-final-20261017/production-audit/console.txt",
+      "sourceSha256": "14041f17f557d86f8a52081b314652cfa3de70244a9116ae688cf1e1a9d9ca53",
+      "sourceBytes": 39883,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/qa-tooling.txt",
+      "sha256": "b06255bb1a00ee4ce95c25f1fbcd235757341bd2f9e318a8a2a649a2991dab1a",
+      "bytes": 6088,
+      "source": "artifacts/qa/sprint3-final-20261017/qa-tooling/console.txt",
+      "sourceSha256": "b06255bb1a00ee4ce95c25f1fbcd235757341bd2f9e318a8a2a649a2991dab1a",
+      "sourceBytes": 6088,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/report-validator-tests.txt",
+      "sha256": "48a186011b05ff4b56466818089863913d39331fb4f20d2b3bff01dc186fba2a",
+      "bytes": 14142,
+      "source": "artifacts/qa/sprint3-final-20261017/report-validator-tests/console.txt",
+      "sourceSha256": "48a186011b05ff4b56466818089863913d39331fb4f20d2b3bff01dc186fba2a",
+      "sourceBytes": 14142,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/repository-metadata.txt",
+      "sha256": "624a86bc2f3b0b2189b67890eb0e1252a6b2e27ae87b3597c85fef731177b260",
+      "bytes": 139,
+      "source": "artifacts/qa/sprint3-final-20261017/repository-metadata/console.txt",
+      "sourceSha256": "624a86bc2f3b0b2189b67890eb0e1252a6b2e27ae87b3597c85fef731177b260",
+      "sourceBytes": 139,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/served-web.txt",
+      "sha256": "4c1c391d405502eb3cca3bb62c4457237093740591363c618e767b81154c5a26",
+      "bytes": 61,
+      "source": "artifacts/qa/sprint3-final-20261017/served-web/console.txt",
+      "sourceSha256": "4c1c391d405502eb3cca3bb62c4457237093740591363c618e767b81154c5a26",
+      "sourceBytes": 61,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/traceability.txt",
+      "sha256": "f59ee47fec1d7b1533be0b410c3b52a7e6f3328fbe7a9ff8515008fd7caa7888",
+      "bytes": 117,
+      "source": "artifacts/qa/sprint3-final-20261017/traceability/console.txt",
+      "sourceSha256": "f59ee47fec1d7b1533be0b410c3b52a7e6f3328fbe7a9ff8515008fd7caa7888",
+      "sourceBytes": 117,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/typescript-live.txt",
+      "sha256": "d29cd8199a7e1eb2f0971409f13396cda72b15d07eedc2b43396003bccf322fe",
+      "bytes": 891,
+      "source": "artifacts/qa/sprint3-final-20261017/typescript-live/console.txt",
+      "sourceSha256": "d29cd8199a7e1eb2f0971409f13396cda72b15d07eedc2b43396003bccf322fe",
+      "sourceBytes": 891,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/web-build.txt",
+      "sha256": "94be9ad2babc479d07d970d5e1dd8f5c1ea5cd8a911381610918b9b0b129113c",
+      "bytes": 1639,
+      "source": "artifacts/qa/sprint3-final-20261017/web-build/console.txt",
+      "sourceSha256": "94be9ad2babc479d07d970d5e1dd8f5c1ea5cd8a911381610918b9b0b129113c",
+      "sourceBytes": 1639,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "executions.json",
+      "sha256": "bbd72d358549504c155dbd618fffc5d38192f41a720d425bfa855eb59141355d",
+      "bytes": 34594
+    },
+    {
+      "path": "android-defects.json",
+      "sha256": "034469726a28ba89bc66dbb5f3f025f4c167e275cb9ee27e2770d23fecf62da0",
+      "bytes": 35617,
+      "source": "artifacts/qa/sprint3-final-20261017/android-defects/results.json",
+      "sourceSha256": "c1d66a010c938ea1bca1f9e71b82f8fd4608b930a80014fce65ecfa42d36f7f6",
+      "sourceBytes": 75096,
+      "transformation": "Runner report reduced to counts, per-case identities, timings and failures; authentication fragments redacted if present."
+    },
+    {
+      "path": "android-regression.json",
+      "sha256": "b4ab534c430554944d0d8d1b89b92123261ba572e87a0b3ee8a57ce43112c9d4",
+      "bytes": 170779,
+      "source": "artifacts/qa/sprint3-final-20261017/android-regression/results.json",
+      "sourceSha256": "04ee911b86bd9440f97aae7dd5a3b474488f7942a2e557d2e2fd9e45e8786fd1",
+      "sourceBytes": 260203,
+      "transformation": "Runner report reduced to counts, per-case identities, timings and failures; authentication fragments redacted if present."
+    },
+    {
+      "path": "frontend-defects.json",
+      "sha256": "e25282ed38c2f5029446ca59ce9d46a0f25300279ef1705c8db8c0ada867f435",
+      "bytes": 33478,
+      "source": "artifacts/qa/sprint3-final-20261017/frontend-defects/results.json",
+      "sourceSha256": "e88c1bc4111be5349abc1f74e58935090d4038f5507dd24bdf740765c99e15de",
+      "sourceBytes": 72010,
+      "transformation": "Runner report reduced to counts, per-case identities, timings and failures; authentication fragments redacted if present."
+    },
+    {
+      "path": "frontend-regression.json",
+      "sha256": "5cda5c7cf313fcf5d6a8af2ca75b6475c563fc1afdd9f5bc9a593eeef8b00c63",
+      "bytes": 168097,
+      "source": "artifacts/qa/sprint3-final-20261017/frontend-regression/results.json",
+      "sourceSha256": "454f238f86d452e12bcfa26b6c09c7dba207898fac38f6f2cf8fa907fe384901",
+      "sourceBytes": 969312,
+      "transformation": "Runner report reduced to counts, per-case identities, timings and failures; authentication fragments redacted if present."
+    },
+    {
+      "path": "ios-defects.json",
+      "sha256": "0f494f9c4c93ff2dfb2deb836485047ed872a568e47686017548d59e322dc165",
+      "bytes": 35612,
+      "source": "artifacts/qa/sprint3-final-20261017/ios-defects/results.json",
+      "sourceSha256": "60590587da32de2918a86aeb6df86f92aca9f7f487c5bcd27cb8c925ad3a8348",
+      "sourceBytes": 75083,
+      "transformation": "Runner report reduced to counts, per-case identities, timings and failures; authentication fragments redacted if present."
+    },
+    {
+      "path": "ios-regression.json",
+      "sha256": "aec6b36bdd7da4e0cf683193fe2dfd0c05d4e2bffc8e8391106a1ba4ced779e0",
+      "bytes": 170773,
+      "source": "artifacts/qa/sprint3-final-20261017/ios-regression/results.json",
+      "sourceSha256": "bc4a4d5340b5b660d5d5f7091336c348d73631300f58165a878975cb0cf1e9a5",
+      "sourceBytes": 260185,
+      "transformation": "Runner report reduced to counts, per-case identities, timings and failures; authentication fragments redacted if present."
+    },
+    {
+      "path": "typescript-live.json",
+      "sha256": "28c9ef861232c78cc48958ff40225a115a529da64d817286a47e92f9db8d1b4d",
+      "bytes": 884,
+      "source": "artifacts/qa/sprint3-final-20261017/typescript-live/results.json",
+      "sourceSha256": "f83f17a6f18decc00a7764ed316844ece609a5b9e9c6fd12ce07361c0618a6c3",
+      "sourceBytes": 1660,
+      "transformation": "Runner report reduced to counts, per-case identities, timings and failures; authentication fragments redacted if present."
+    },
+    {
+      "path": "backend-postgres.json",
+      "sha256": "30442580c3d08b859884d4050e0e790d3d0d1ddb52f6fb161b588a3d9686c840",
+      "bytes": 220216,
+      "source": "artifacts/qa/sprint3-final-20261017/backend-postgres/results.xml",
+      "sourceSha256": "cbf46f8e9b9447ae5e7be681f7501b144bc232ff5a57a658dc65b1ba05942532",
+      "sourceBytes": 133332,
+      "transformation": "JUnit converted to per-case status/timing/diagnostic records; authentication fragments redacted if present."
+    },
+    {
+      "path": "httpx-live.json",
+      "sha256": "637e57b905189ce3b53d6aa54933bb1e0ab38d2216fa7cd6b7b08f50eeb6aa6a",
+      "bytes": 542,
+      "source": "artifacts/qa/sprint3-final-20261017/httpx-live/results.xml",
+      "sourceSha256": "939d842f3a1493cc676218c9856cb0ea16920607fd6deb01d68b20143da528b7",
+      "sourceBytes": 498,
+      "transformation": "JUnit converted to per-case status/timing/diagnostic records; authentication fragments redacted if present."
+    },
+    {
+      "path": "attachments/browser-defects-01-0.png",
+      "sha256": "e94b1659ee0eba8499103c83e9f1ec723a05134b04cb02235a1cbcad9bce545a",
+      "bytes": 77513,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/report/results.json",
+      "sourceSha256": "69d0e1f9dddf9b7ecf958de9c0a00a55c39a56cfea0240e86f6377b014604b56",
+      "sourceBytes": 332581,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-02-0.png",
+      "sha256": "6515969dd3546f52d2795e4cb9ba58b0a95e409d8ec22b75f256f6c081d382c3",
+      "bytes": 69020,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/report/results.json",
+      "sourceSha256": "69d0e1f9dddf9b7ecf958de9c0a00a55c39a56cfea0240e86f6377b014604b56",
+      "sourceBytes": 332581,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-03-0.json",
+      "sha256": "6e5c492f1ee1d93c22bf3c4e1fb823edc4282dd8a12ae8dbbeb91b4a643ad7a6",
+      "bytes": 131,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/report/results.json",
+      "sourceSha256": "69d0e1f9dddf9b7ecf958de9c0a00a55c39a56cfea0240e86f6377b014604b56",
+      "sourceBytes": 332581,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-defects-03-1.png",
+      "sha256": "431ef2b38cd217e2f8006b44ca516e9c56571738e66e4381687e495b8ade7aa8",
+      "bytes": 48752,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/report/results.json",
+      "sourceSha256": "69d0e1f9dddf9b7ecf958de9c0a00a55c39a56cfea0240e86f6377b014604b56",
+      "sourceBytes": 332581,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-03-2.png",
+      "sha256": "7e3a536a169ef7f491ecc96e702549e06bdbb97215ac4aada79ce75863b9f0d0",
+      "bytes": 42195,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/report/results.json",
+      "sourceSha256": "69d0e1f9dddf9b7ecf958de9c0a00a55c39a56cfea0240e86f6377b014604b56",
+      "sourceBytes": 332581,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-04-0.json",
+      "sha256": "36b97c9e87c1aa9e1c387b36e246f1b1bc108ddbbe4e22dbd086c8493638d002",
+      "bytes": 89,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/report/results.json",
+      "sourceSha256": "69d0e1f9dddf9b7ecf958de9c0a00a55c39a56cfea0240e86f6377b014604b56",
+      "sourceBytes": 332581,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-defects-04-1.png",
+      "sha256": "b391ce9a5533a70a0693f42ce5c64406d0215775cecbe7c2a20cc7091fc227cc",
+      "bytes": 59651,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/report/results.json",
+      "sourceSha256": "69d0e1f9dddf9b7ecf958de9c0a00a55c39a56cfea0240e86f6377b014604b56",
+      "sourceBytes": 332581,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-04-2.png",
+      "sha256": "b391ce9a5533a70a0693f42ce5c64406d0215775cecbe7c2a20cc7091fc227cc",
+      "bytes": 59651,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/report/results.json",
+      "sourceSha256": "69d0e1f9dddf9b7ecf958de9c0a00a55c39a56cfea0240e86f6377b014604b56",
+      "sourceBytes": 332581,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-05-0.json",
+      "sha256": "4b3ac1f16306ebbfe194d6b95df5006ca6796282c318f9bbc921d892a8fe2c38",
+      "bytes": 1061,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/report/results.json",
+      "sourceSha256": "69d0e1f9dddf9b7ecf958de9c0a00a55c39a56cfea0240e86f6377b014604b56",
+      "sourceBytes": 332581,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-defects-05-1.png",
+      "sha256": "0d23c86d8c1222021d838e77df9f75a5a7ecca7b2b2dfa5256484a6a9ec39d02",
+      "bytes": 5190,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/report/results.json",
+      "sourceSha256": "69d0e1f9dddf9b7ecf958de9c0a00a55c39a56cfea0240e86f6377b014604b56",
+      "sourceBytes": 332581,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-05-2.png",
+      "sha256": "1a71e464927ad57651b8bda5e0ecde6dadd8ba4c3b6a7e189c2ea80b2eaed8f0",
+      "bytes": 5160,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/report/results.json",
+      "sourceSha256": "69d0e1f9dddf9b7ecf958de9c0a00a55c39a56cfea0240e86f6377b014604b56",
+      "sourceBytes": 332581,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-06-0.json",
+      "sha256": "c758b1616b1370bf4d2a5b2dcc882efbca55a968a0692a8bf62ba09c6ff45c94",
+      "bytes": 947,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/report/results.json",
+      "sourceSha256": "69d0e1f9dddf9b7ecf958de9c0a00a55c39a56cfea0240e86f6377b014604b56",
+      "sourceBytes": 332581,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-defects-06-1.png",
+      "sha256": "9b22f43acc7e245c68c51555253ab06cb605011f60b08cd6c78d76781042970c",
+      "bytes": 25241,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/report/results.json",
+      "sourceSha256": "69d0e1f9dddf9b7ecf958de9c0a00a55c39a56cfea0240e86f6377b014604b56",
+      "sourceBytes": 332581,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-06-2.png",
+      "sha256": "9b22f43acc7e245c68c51555253ab06cb605011f60b08cd6c78d76781042970c",
+      "bytes": 25241,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/report/results.json",
+      "sourceSha256": "69d0e1f9dddf9b7ecf958de9c0a00a55c39a56cfea0240e86f6377b014604b56",
+      "sourceBytes": 332581,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-07-0.png",
+      "sha256": "cce57513b15a6d54ae0c683b1df033dd7c2e6008a9123f4d796567064efed499",
+      "bytes": 15669,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/report/results.json",
+      "sourceSha256": "69d0e1f9dddf9b7ecf958de9c0a00a55c39a56cfea0240e86f6377b014604b56",
+      "sourceBytes": 332581,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-08-0.png",
+      "sha256": "d8ab9c3a0593052d7b732e0285a19810200d3fa37a6c349d101a643c26fca0cf",
+      "bytes": 48435,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/report/results.json",
+      "sourceSha256": "69d0e1f9dddf9b7ecf958de9c0a00a55c39a56cfea0240e86f6377b014604b56",
+      "sourceBytes": 332581,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-08-1.png",
+      "sha256": "d8ab9c3a0593052d7b732e0285a19810200d3fa37a6c349d101a643c26fca0cf",
+      "bytes": 48435,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/report/results.json",
+      "sourceSha256": "69d0e1f9dddf9b7ecf958de9c0a00a55c39a56cfea0240e86f6377b014604b56",
+      "sourceBytes": 332581,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "browser-defects.json",
+      "sha256": "5b5976ef20354311b1eca3b4f1a65a919242c4fe93d361527752ee541a2dcfb4",
+      "bytes": 23024,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-defects/report/results.json",
+      "sourceSha256": "69d0e1f9dddf9b7ecf958de9c0a00a55c39a56cfea0240e86f6377b014604b56",
+      "sourceBytes": 332581,
+      "transformation": "Browser report reduced to per-case outcomes and retained selected attachments; full HTML/trace bundles omitted."
+    },
+    {
+      "path": "attachments/browser-final-03-0.png",
+      "sha256": "dc8022facabc5d2ed03492ea93fec9f9a3ec3b2045e17d25a02d2da1a10508fa",
+      "bytes": 57952,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-04-0.png",
+      "sha256": "dc8af71a09da346e23e70c71fe6274faf2458bf111bf7d2de576090c49af598a",
+      "bytes": 57795,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-05-0.png",
+      "sha256": "dc661e741c72bf46fda8b30554fe0442344c6051080f9939be3cb3e6369c377e",
+      "bytes": 57175,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-06-0.png",
+      "sha256": "1390223522a853c02fccc09396ed469d304a0f6b47f5e22d9c71f60505a467da",
+      "bytes": 22641,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-07-0.png",
+      "sha256": "fc97de9203e96d520369e283b5c905114495da38b0a34422a4239346375707cf",
+      "bytes": 59236,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-08-0.png",
+      "sha256": "12a11e6be80dc8ed6dc143cbe807fde62a591f14f9073ae83cf6ccb102742d75",
+      "bytes": 45610,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-09-0.png",
+      "sha256": "d050e9d716ac772c71a7cf5f91430bbb34893308de6f9b145022ea57d010be1b",
+      "bytes": 58068,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-10-0.json",
+      "sha256": "ead55a89e8723849f84870b84be12151022f79fc927a1b1a2d563723202becfd",
+      "bytes": 283,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-final-10-1.png",
+      "sha256": "2f34a0ab4b4ced6142ea32a77f90ceaabb385e52da01644a6e6412d906c62a69",
+      "bytes": 47415,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-11-0.png",
+      "sha256": "4f18c0eb0040934599531b5f01e65e1746f4e8ea13e011358e6acfa40311f752",
+      "bytes": 26435,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-12-0.json",
+      "sha256": "a16d52fcabda25c1b7662937e5f3dd4df75074f53661ccae38fdfb6f297614e6",
+      "bytes": 583,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-final-12-1.png",
+      "sha256": "59d96277bb3e8e296f34121c9df74b3843eec3d755d16c55b465a0c692c8bdd1",
+      "bytes": 15506,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-13-0.json",
+      "sha256": "0f9be538fa47b460567618134d24f01963c13db05a566d6a19d5c470a176af0d",
+      "bytes": 1136,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-final-13-1.png",
+      "sha256": "58ad5adf4ad7a77225452ae3f8f92226c1aee49fb7f2ebc4d8d0ee219fc2ca71",
+      "bytes": 28201,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-14-0.json",
+      "sha256": "6b0e75b5eec8aedcb35bc25b8505250c4aea82f25fa4e52a5272ecd424028933",
+      "bytes": 509,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-final-14-1.png",
+      "sha256": "29628be2e72a66324eae5e8051f919ab1ac5b21e4f7643f3c93eff11dfbdf76b",
+      "bytes": 13822,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-15-0.json",
+      "sha256": "126c5f66f7b0bc2ad7e208d0dabbc48045e49b0d95f923e48a3522b8307b88f9",
+      "bytes": 530,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-final-15-1.png",
+      "sha256": "29628be2e72a66324eae5e8051f919ab1ac5b21e4f7643f3c93eff11dfbdf76b",
+      "bytes": 13822,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-16-0.json",
+      "sha256": "8a9037f4c4e543a9f2844a437654faacda050a837b8e8441fb1b54c5918d699c",
+      "bytes": 524,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-final-16-1.png",
+      "sha256": "4b88dbf812acc4a9e163424f4857523d83a5a9c388a776124fc0f160d3916a88",
+      "bytes": 8826,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-16-2.png",
+      "sha256": "3878570f4a62a0d65f57cf1754e0269e56ec797f4e36e26b44c172eb6e800401",
+      "bytes": 4254,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-17-0.json",
+      "sha256": "693fd5b462b05bd17572931fc685d4bae4bd5c0faf3929f375d76d790094dd93",
+      "bytes": 971,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-final-17-1.png",
+      "sha256": "29628be2e72a66324eae5e8051f919ab1ac5b21e4f7643f3c93eff11dfbdf76b",
+      "bytes": 13822,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-18-0.json",
+      "sha256": "e5036b6180cd31a78fc5f08e5e8de0f391112761c3920ea1637852ceb44aeafc",
+      "bytes": 595,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-final-18-1.png",
+      "sha256": "0356a9b6d7c344024b84519ac8372d3051f03df93cc0d8c862a05a05e759e0be",
+      "bytes": 42839,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-19-0.png",
+      "sha256": "f146924184ea6c82df8518b5ffd1a69220dc5d2e0308f6cf9802b6077db29a90",
+      "bytes": 25068,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-20-0.png",
+      "sha256": "e7c203893fb164c6f2332738500722b85de78ad49f436fd59f5d728bed597224",
+      "bytes": 23369,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-21-0.png",
+      "sha256": "63fa2e1c1db7d3212f17c77bc6da07d297c23d59f6495c74e1fe29fbc963a834",
+      "bytes": 25661,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-22-0.png",
+      "sha256": "c89acf5b9f822d6ce8d40e9e3d1cba188d917c88e19913c707190dd1a1c2309b",
+      "bytes": 16453,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-23-0.png",
+      "sha256": "daa4335b3b129b951ce09687f175f5288fe79851f22d2359a93dbc1e2e5e181d",
+      "bytes": 20926,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-24-0.png",
+      "sha256": "5dd20a6f4e407cc3cdd20445cbd43a53bf74ed76e561f2b3b56899089de185a0",
+      "bytes": 33773,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-25-0.png",
+      "sha256": "5055a5e3e96a6078d977709cfcebb6fb2697ba716d930caa4b9a65789716a086",
+      "bytes": 56033,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-26-0.png",
+      "sha256": "b10a671290d7d90a094ece1cd795f8f51e4007b7c059bf1a2a48a2afb8af8ef6",
+      "bytes": 64026,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-27-0.png",
+      "sha256": "78d2e6cc1d55a1719b358f48c0ec6d34258b6ee74bb0eedff3295a16abb8b397",
+      "bytes": 5768,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-28-0.png",
+      "sha256": "375023b61bd5a1cabbac6c85daefa2aeeeda84a4c8bf1ca1a14a610acae738c5",
+      "bytes": 5704,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-29-0.png",
+      "sha256": "dc00452c97e11d5870ecd6cc43902f0b303d8e4257ce5d3f9b74560f19726c37",
+      "bytes": 58550,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-30-0.png",
+      "sha256": "d4814ef282b92cc16be598e957338167f74f2f22f53556fcba426a7e6b2c5cd4",
+      "bytes": 47698,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-31-0.png",
+      "sha256": "b04d24cb9751aac0e567aba2f54d79755a2ee0d23ca575fecb3259c008b13dcb",
+      "bytes": 12352,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-32-0.png",
+      "sha256": "9c5a4fb47c8a80ee0db9e64be2e71f4c007434dc7a4550b4d9a00812f4c29a8e",
+      "bytes": 9752,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-33-0.png",
+      "sha256": "0b7280254c517c76c6ba3ede1b434accf3d4de224f799c1b680819aaef476062",
+      "bytes": 86564,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-34-0.png",
+      "sha256": "75159b199b2670d1b3cdfd7339e036bb799fb2d004eb2f7242687fdca1f43e89",
+      "bytes": 75000,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-35-0.png",
+      "sha256": "38c44f034ab0388509fca742a0ff7534dec1e7b7198faedc791ec0274f3cbad3",
+      "bytes": 22601,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-36-0.png",
+      "sha256": "3176c64d5399fe0ea0adf9fab141666336438f165b5cd93f9184493907163d2a",
+      "bytes": 71393,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-37-0.png",
+      "sha256": "b70f0a7246bc96e42ce1eeabe74f0ac50c357b5e8875cf52ffc7f758fab70ff2",
+      "bytes": 12207,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-final-38-0.png",
+      "sha256": "75fc35b3a422bbaac17ea98d51f616f8fb86ab77eb28fc71d12feb68a17db035",
+      "bytes": 37094,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "browser-final.json",
+      "sha256": "3e91b5440e0fc0dc2426eba5339d3cd16f40aca7447c1433f758f1df55f0a104",
+      "bytes": 21883,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-final/report/results.json",
+      "sourceSha256": "d5792d49012df59a7f31986db851185c9fafdb46b99cc0cceb561e9b48f1ace0",
+      "sourceBytes": 1772814,
+      "transformation": "Browser report reduced to per-case outcomes and retained selected attachments; full HTML/trace bundles omitted."
+    },
+    {
+      "path": "attachments/browser-regression-03-0.png",
+      "sha256": "2a6bbe04e7d86722e0d9b79790ed5ff20665807201d96431b429ba1fa3cf4f38",
+      "bytes": 57499,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-04-0.png",
+      "sha256": "39b3754f245f2c69dd34a18e8ed4992ea6bf08f46dbb817046c95830d31d27d8",
+      "bytes": 57313,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-05-0.png",
+      "sha256": "cc87fe190d027094a2dc64a2fc4a8c7b7b3c59b32273c6eda115065699c43d42",
+      "bytes": 56795,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-06-0.png",
+      "sha256": "dcdd6fea9d7e882c1f99906fd44709e940d646a38c5c572a3464dba84317f3fd",
+      "bytes": 20363,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-07-0.png",
+      "sha256": "fc97de9203e96d520369e283b5c905114495da38b0a34422a4239346375707cf",
+      "bytes": 59236,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-08-0.png",
+      "sha256": "9ec56410fd1a9af7031f3423e41c135f0f9cc5eef542f11eba6db715d55413be",
+      "bytes": 44993,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-09-0.png",
+      "sha256": "b6479c7caa0b8f5e47c0658d4536c6043a16d61fb65963305335db10403af232",
+      "bytes": 53122,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-10-0.json",
+      "sha256": "740e4c3275e9e1a8c757bc085e0f82f36eba0a5ae0999013872e0111ecba210f",
+      "bytes": 283,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-regression-10-1.png",
+      "sha256": "87a4a908df98574abe1597673df1ebd30136ff7f3a501d5cc11af7274e26e6c4",
+      "bytes": 48853,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-11-0.png",
+      "sha256": "c4736cbe2d57d5918904465ab07810521fc7ccf961f63b68392723aaad995147",
+      "bytes": 18491,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-12-0.json",
+      "sha256": "b16ec941f146cb930e2b25b0bb25d05f0520f3c31a032cf15faf55431d5c1e80",
+      "bytes": 583,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-regression-12-1.png",
+      "sha256": "a615378a52cb591750b39246db0b2e050ae88865897216534aa4f9973cb32b3d",
+      "bytes": 15040,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-13-0.json",
+      "sha256": "892f91fd2cadd7ede92ceac82eb68fecf830831cfbf4b144f868b606a0e18260",
+      "bytes": 1136,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-regression-13-1.png",
+      "sha256": "2cad605c82ef8a6ac396abdd14b4f6ed495766742ecd4228b82502892b4701bd",
+      "bytes": 42529,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-14-0.json",
+      "sha256": "3b80c86793d84093c773fed562f1fb4cc7027fa2556f0a4f36a4fca45c687101",
+      "bytes": 509,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-regression-14-1.png",
+      "sha256": "29628be2e72a66324eae5e8051f919ab1ac5b21e4f7643f3c93eff11dfbdf76b",
+      "bytes": 13822,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-15-0.json",
+      "sha256": "6cbf95c5d9bde9805572e2cbfba54ab214140387df88dc0fde463811f891597c",
+      "bytes": 530,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-regression-15-1.png",
+      "sha256": "29628be2e72a66324eae5e8051f919ab1ac5b21e4f7643f3c93eff11dfbdf76b",
+      "bytes": 13822,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-16-0.json",
+      "sha256": "e7b9a2518fc056603f586e78ea8f046b7b45dfc45cfdd2ee615fe37e8390c8c8",
+      "bytes": 524,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-regression-16-1.png",
+      "sha256": "151328a4f5ee6328b06dfcb1c64a33f19bcbd561f037c9d4fde06c149fb74e77",
+      "bytes": 25792,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-16-2.png",
+      "sha256": "3878570f4a62a0d65f57cf1754e0269e56ec797f4e36e26b44c172eb6e800401",
+      "bytes": 4254,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-17-0.png",
+      "sha256": "04d2610dc9921099ca26f034af2d8c9e48e1de81efaf75a14e2376dfeb453f11",
+      "bytes": 5185,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-17-1.png",
+      "sha256": "3b543a2898db564d6df0efdbf6a85afe5d2579894aee698ae8f15f091605ef6e",
+      "bytes": 5192,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-18-0.json",
+      "sha256": "541cb5fd9664a841d86c7a7e393ee3abc7c29ad2a15f059cb21e8ccede94ccf1",
+      "bytes": 971,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-regression-18-1.png",
+      "sha256": "29628be2e72a66324eae5e8051f919ab1ac5b21e4f7643f3c93eff11dfbdf76b",
+      "bytes": 13822,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-19-0.json",
+      "sha256": "c8bd9a01526481075d29d974e5d291e7d27c5bd2eeca8a6e82532162ccc51e6f",
+      "bytes": 595,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-regression-19-1.png",
+      "sha256": "cce7ddec096c313e65f78053ace7a48c69292eeac5ebb9415910744da6f8f0eb",
+      "bytes": 42827,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-20-0.png",
+      "sha256": "69dc3ede0fdd45cb00d1ddf8871306e493339067072167396b13fcc4cb137135",
+      "bytes": 25628,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-21-0.png",
+      "sha256": "290240e27a7e741305d3e6d4cf513a070f786564e45e6cec59fa627e0ed6a59e",
+      "bytes": 27014,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-22-0.png",
+      "sha256": "a84a7af1f8063522a55cf1ae1e701a00679d64b34d6170ae901b7120674705d7",
+      "bytes": 26180,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-23-0.png",
+      "sha256": "74b8cc8d8e306a8b1c72ff7671c424565702dde37ffa2d74d0ee725c624db4ec",
+      "bytes": 16091,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-24-0.png",
+      "sha256": "6a96a639f46b1722d0e1fa429ca54d4a0b8b931ae78b92f9d3fef6cc2d7e7733",
+      "bytes": 21441,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-25-0.png",
+      "sha256": "130182c977e97e332ed36b2a40c719470a0c2bfcea6d508804efbd7f494a9db3",
+      "bytes": 31745,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-26-0.png",
+      "sha256": "5055a5e3e96a6078d977709cfcebb6fb2697ba716d930caa4b9a65789716a086",
+      "bytes": 56033,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-27-0.png",
+      "sha256": "b10a671290d7d90a094ece1cd795f8f51e4007b7c059bf1a2a48a2afb8af8ef6",
+      "bytes": 64026,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-28-0.png",
+      "sha256": "78d2e6cc1d55a1719b358f48c0ec6d34258b6ee74bb0eedff3295a16abb8b397",
+      "bytes": 5768,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-29-0.png",
+      "sha256": "42f812c66396feaa5e874d8ccd6578eea739955fd8e0a85ba9dffc4dc7370670",
+      "bytes": 5843,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-30-0.png",
+      "sha256": "7c6633ecf5b20f4c23c8f3073e6f8e2d783f3f4de69348459b43bf29586af64e",
+      "bytes": 59266,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-31-0.png",
+      "sha256": "d9709fef116357347759a30d1afe95906d16e2677b5ab766f7bfed631081c696",
+      "bytes": 57720,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-32-0.png",
+      "sha256": "21d1b20edc681201916c1a5668c3bfb127b5a3fd96a5740ecf7c90a3fbfc19c2",
+      "bytes": 13524,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-33-0.png",
+      "sha256": "4bfa732e0bff1cec3319436a426eb114a2f275cb7df50d2eaa8bda13f8934630",
+      "bytes": 13851,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-34-0.png",
+      "sha256": "d56fda83407e2741d3b025f73f052e53505bee83bd7275b1ca7af4f890698f7e",
+      "bytes": 86657,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-35-0.png",
+      "sha256": "6aacd9ce19de84c56cdc9ba4d486daa7999c52b190219af37115217a9ef6aeb6",
+      "bytes": 74977,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-36-0.png",
+      "sha256": "b34022d0bc76613d537f3cc347680ed6af1787c05cf9f0d6d423afd5e0b42a50",
+      "bytes": 22734,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-37-0.png",
+      "sha256": "3176c64d5399fe0ea0adf9fab141666336438f165b5cd93f9184493907163d2a",
+      "bytes": 71393,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-38-0.png",
+      "sha256": "0b750f2b25dc5cbe54ecab86061f5d11b2567cd6e2e781cb67245b26e5911f29",
+      "bytes": 12315,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-39-0.png",
+      "sha256": "75fc35b3a422bbaac17ea98d51f616f8fb86ab77eb28fc71d12feb68a17db035",
+      "bytes": 37094,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "browser-regression.json",
+      "sha256": "578e267c586365b3bdc45446188fbf939825e364ca0e9ff636389e2e3009b98c",
+      "bytes": 24219,
+      "source": "artifacts/qa/sprint3-final-20261017/browser-regression/report/results.json",
+      "sourceSha256": "98bf3104a122d4b6ad638daff409ae61099ddc815b6d80c56c6f4bf797881da5",
+      "sourceBytes": 1832072,
+      "transformation": "Browser report reduced to per-case outcomes and retained selected attachments; full HTML/trace bundles omitted."
+    },
+    {
+      "path": "frontend-coverage.json",
+      "sha256": "44a863076db0456c947e438a88d5ef7165e5a925142c094e689d5537aa536199",
+      "bytes": 33360,
+      "source": "artifacts/qa/sprint3-final-20261017/frontend-regression/coverage/coverage-summary.json",
+      "sourceSha256": "d57100703514f083297be8db5cb7a2db9e17bb991a08ba10dae3f95916be6341",
+      "sourceBytes": 23923,
+      "transformation": "Absolute source paths made repository-relative."
+    },
+    {
+      "path": "backend-coverage.json",
+      "sha256": "210d7f597c4c1eb41e9fbd439b44b1ae52752b2ba49f6f4f8487504045041e03",
+      "bytes": 21966,
+      "source": "artifacts/qa/sprint3-final-20261017/backend-postgres/coverage.json",
+      "sourceSha256": "030b3c96d5333a8fe97b8169bb452e318f529127b8303699f966a944d2b1ce30",
+      "sourceBytes": 333805,
+      "transformation": "Per-line detail omitted; per-file and total line/branch coverage preserved."
+    },
+    {
+      "path": "authoring/backend-authoring-initial.txt",
+      "sha256": "feb68efed509a3a29b7e90564d38076f8c10ade698fc4bce8e5a417d8d520e80",
+      "bytes": 10243,
+      "source": "/private/tmp/sprint3-final-backend-before.log",
+      "sourceSha256": "9fa00b49f62c2897d099d0d3b64b3b55537f519b4091cee757cfde24dffc9c01",
+      "sourceBytes": 10283,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/backend-focused.txt",
+      "sha256": "7321c64e0ad37d0cd876a13e1519c3d3aac24ee2168c14afe86b9818241e269c",
+      "bytes": 2056,
+      "source": "/private/tmp/sprint3-final-backend-focused.log",
+      "sourceSha256": "7321c64e0ad37d0cd876a13e1519c3d3aac24ee2168c14afe86b9818241e269c",
+      "sourceBytes": 2056,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/components-focused.txt",
+      "sha256": "f3365ee64db0792dbc1214651b5ded8567e28841740fc950ad4fa529b275f797",
+      "bytes": 814,
+      "source": "frontend/artifacts/sprint3-final-20261017/diagnosis-and-marketplace-focused.log",
+      "sourceSha256": "f3365ee64db0792dbc1214651b5ded8567e28841740fc950ad4fa529b275f797",
+      "sourceBytes": 814,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/diagnosis-defects-focused.txt",
+      "sha256": "f487c712fca6632d3d3e5c493eea57c94958f9432266c08e8058962d671ce7d5",
+      "bytes": 6869,
+      "source": "frontend/artifacts/sprint3-final-20261017/diagnosis-recovery-defects.log",
+      "sourceSha256": "f487c712fca6632d3d3e5c493eea57c94958f9432266c08e8058962d671ce7d5",
+      "sourceBytes": 6869,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "environment.json",
+      "sha256": "381a8b989b320d26d46a055740c750695ae68c9395da47bdfcef61fc5c910d3e",
+      "bytes": 828
+    },
+    {
+      "path": "runner.py",
+      "sha256": "a50b40c9b906e7056d52679fdc0752651fb957c4d6c93148c910f405259bf9b1",
+      "bytes": 1700
+    },
+    {
+      "path": "component-report-health.json",
+      "sha256": "2d1841acccf5c22f2407add158ddc16fe417a9c221bafe02de24215db9b2433c",
+      "bytes": 1311,
+      "source": "/private/tmp/yoir-sprint3-final-20261017/report-health-components.json",
+      "sourceSha256": "2d1841acccf5c22f2407add158ddc16fe417a9c221bafe02de24215db9b2433c",
+      "sourceBytes": 1311
+    },
+    {
+      "path": "metadata-check.py",
+      "sha256": "9fa58cab57ce29f064c5f1746ea3eda2829578f2e0557faf72e7f271d82b2c8a",
+      "bytes": 535
+    },
+    {
+      "path": "README.md",
+      "sha256": "a297d02e1a53ad44111a6a8f262bd623698857e8ade635abfdb0510a3dbb8fdc",
+      "bytes": 1974
+    }
+  ],
+  "omitted": [
+    "Regenerable browser HTML, trace.zip and non-selected attachments; complete originals remain in artifacts/qa/sprint3-final-20261017",
+    "Raw full Jest/Playwright reports (selected per-case data retained)",
+    "Full HTML/LCOV/coverage per-line data; per-file metrics retained"
+  ],
+  "note": "Publication formatting/redaction does not create a new test execution or change recorded outcomes. Initial browser failure is retained separately from final regression and advisory reports."
+}

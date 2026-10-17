@@ -1,5 +1,13 @@
 # Sprint 3 device and external-boundary acceptance procedures
 
+> **17 October baseline update:** this document retains the dated 16 October
+> native procedures and results. Product `dev@0df4068` subsequently replaced local
+> diagnosis storage with server integration and repaired order-title/privacy
+> behavior. No native case here was rerun for that revision. Repeat the affected
+> diagnosis save/retry/resume/retake/Explore, privacy and historical-title scenarios
+> before new device sign-off. See the [current QA matrix](qa-matrix.md) and
+> [final automated report](test-results-final-20261017.md).
+
 Prepared for product `cdcc44e66d647a9c5993736b797312b495715a3f` on 16 October 2026.
 **Test owner: Wilson.**
 **D02/D03 passed on iOS and Android in the earlier native run. The remaining
