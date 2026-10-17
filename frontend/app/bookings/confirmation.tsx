@@ -3,7 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { Linking, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { api } from '@/src/api/client';
-import { Modality, Service } from '@/src/api/types';
+import { Booking, Modality, Service } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { usePaymentConfig } from '@/src/payments';
 import { BookingSteps, mono } from '@/src/components/booking';
@@ -52,7 +52,7 @@ export default function ConfirmationScreen() {
   const { config } = usePaymentConfig();
   const [service, setService] = useState<Service | null>(null);
   const [receiptNumber, setReceiptNumber] = useState('');
-  const [meetingUrl, setMeetingUrl] = useState('');
+  const [booked, setBooked] = useState<Booking | null>(null);
   const pending = params.pending === '1';
   const byCard = config?.provider === 'stripe';
 
@@ -73,7 +73,8 @@ export default function ConfirmationScreen() {
   /**
    * The meeting room is decided by the backend when the booking is confirmed, so it
    * is read back rather than derived here — the link shown must be the one that was
-   * also emailed, not a second guess at what it should be.
+   * also emailed, not a second guess at what it should be. The same read gives the
+   * title and meeting area frozen on the order (US-36).
    */
   useEffect(() => {
     if (!session || !params.bookingId) return;
@@ -81,7 +82,7 @@ export default function ConfirmationScreen() {
     const run = async () => {
       try {
         const booking = await api.getBooking(params.bookingId, session.accessToken);
-        if (!cancelled) setMeetingUrl(booking.meetingUrl ?? '');
+        if (!cancelled) setBooked(booking);
       } catch {
         // The confirmation stands without it; the link is in the email either way.
       }
@@ -110,7 +111,13 @@ export default function ConfirmationScreen() {
     return () => { cancelled = true; };
   }, [params.bookingId, session]);
 
-  const meetingArea = service?.location ? `${service.location.cityOrRegion}, ${service.location.state}` : '';
+  // US-36: what was bought, as frozen on the order — the Career Professional may have
+  // renamed or moved the listing since. The listing is only a stand-in until the
+  // booking has been read, or when it cannot be (a card payment still confirming).
+  const liveArea = service?.location ? `${service.location.cityOrRegion}, ${service.location.state}` : '';
+  const title = booked?.serviceTitle ?? service?.title;
+  const meetingArea = booked ? booked.meetingArea ?? '' : liveArea;
+  const meetingUrl = booked?.meetingUrl ?? '';
 
   /** The purchase is finished: the flow is unwound rather than stacked on. */
   function backToMarketplace() {
@@ -133,7 +140,7 @@ export default function ConfirmationScreen() {
 
   const bookingSummary = (
     <FadeUp delay={700} style={s.summary}>
-      <Text style={s.summaryTitle}>{service?.title}</Text>
+      <Text style={s.summaryTitle}>{title}</Text>
       <Text style={type.small}>with {service?.counsellor.displayName}</Text>
       <View style={s.rule} />
       <Row label="When" value={fmtLong(params.startsAt)} />
