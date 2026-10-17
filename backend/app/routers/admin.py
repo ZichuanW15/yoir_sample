@@ -273,7 +273,7 @@ def _payment_fields(
         "booking_id": booking.id if booking is not None else None,
         "job_seeker_name": seeker_row.name,
         "counsellor_name": counsellor_row.name,
-        "service_title": service.title,
+        "service_title": order.title_for(service),
         "amount_minor": order.amount_minor,
         "platform_fee_minor": order.platform_fee_minor,
         "counsellor_payout_minor": order.counsellor_payout_minor,
@@ -378,7 +378,7 @@ def list_all_bookings(
     return [
         AdminBookingOut(
             id=booking.id,
-            service_title=service.title,
+            service_title=order.title_for(service),
             job_seeker_name=seeker_row.name,
             counsellor_name=counsellor_row.name,
             starts_at=booking.starts_at,
