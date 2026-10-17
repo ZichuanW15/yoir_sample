@@ -7,6 +7,7 @@ import { Receipt } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { BackBar } from '@/src/components/booking';
 import { Card, ErrorBanner, Spinner } from '@/src/components/ui';
+import { BackPill, DesktopPage, useDesktop } from '@/src/desktop';
 import { fmtLong, fmtTime } from '@/src/format';
 import { goBack } from '@/src/navigation';
 import { FadeUp, ScreenIn } from '@/src/motion';
@@ -26,6 +27,7 @@ const currency = (minor: number, code: string) =>
 export default function ReceiptScreen() {
   const { bookingId } = useLocalSearchParams<{ bookingId?: string }>();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const { session } = useAuth();
   const [receipt, setReceipt] = useState<Receipt | null>(null);
   const [error, setError] = useState('');
@@ -44,52 +46,68 @@ export default function ReceiptScreen() {
     void run();
   }, [load]);
 
+  // Shared by the mobile and desktop layouts; desktop only frames it differently.
+  const content = (
+    <>
+      {error ? <ErrorBanner message={error} /> : null}
+      {!receipt && !error ? (
+        <View style={styles.centred}><Spinner size={28} color={colors.green} /></View>
+      ) : null}
+
+      {receipt ? (
+        <FadeUp delay={100}>
+          <Card pad={22} style={styles.sheet}>
+            <Text style={type.groupLabel}>{receipt.isTaxInvoice ? 'Tax invoice' : 'Receipt'}</Text>
+            <Text style={type.display24}>{receipt.receiptNumber}</Text>
+            <Text style={type.small}>Issued {fmtLong(receipt.issuedAt)}</Text>
+
+            <View style={styles.rule} />
+
+            <Row label="From" value={receipt.supplierName} />
+            {receipt.isTaxInvoice && receipt.supplierAbn ? (
+              <Row label="ABN" value={receipt.supplierAbn} />
+            ) : null}
+            <Row label="To" value={receipt.buyerName} />
+
+            <View style={styles.rule} />
+
+            <Row label="Service" value={receipt.description} />
+            <Row
+              label="Session"
+              value={`${fmtLong(receipt.sessionStartsAt)} · ${fmtTime(receipt.sessionStartsAt)}`}
+            />
+
+            <View style={styles.rule} />
+
+            <View style={styles.totalRow}>
+              <Text style={styles.totalLabel}>Total paid</Text>
+              <Text style={styles.totalValue}>{currency(receipt.totalMinor, receipt.currency)}</Text>
+            </View>
+            <Text style={styles.gst}>
+              {receipt.isTaxInvoice
+                ? `Includes GST of ${currency(receipt.gstMinor, receipt.currency)}.`
+                : 'No GST has been charged on this supply.'}
+            </Text>
+          </Card>
+        </FadeUp>
+      ) : null}
+    </>
+  );
+
+  if (desktop) {
+    return (
+      <DesktopPage>
+        <BackPill label="Back" accessibilityLabel="Go back" onPress={() => goBack('/bookings')} />
+        <View style={styles.desktopColumn}>{content}</View>
+      </DesktopPage>
+    );
+  }
+
   return (
     <ScreenIn duration={450} style={styles.screen}>
       <BackBar title="Receipt" onBack={() => goBack('/bookings')} />
       <ScrollView contentContainerStyle={[styles.body, { paddingBottom: 32 + insets.bottom }]}>
-        {error ? <ErrorBanner message={error} /> : null}
-        {!receipt && !error ? (
-          <View style={styles.centred}><Spinner size={28} color={colors.green} /></View>
-        ) : null}
-
-        {receipt ? (
-          <FadeUp delay={100}>
-            <Card pad={22} style={styles.sheet}>
-              <Text style={type.groupLabel}>{receipt.isTaxInvoice ? 'Tax invoice' : 'Receipt'}</Text>
-              <Text style={type.display24}>{receipt.receiptNumber}</Text>
-              <Text style={type.small}>Issued {fmtLong(receipt.issuedAt)}</Text>
-
-              <View style={styles.rule} />
-
-              <Row label="From" value={receipt.supplierName} />
-              {receipt.isTaxInvoice && receipt.supplierAbn ? (
-                <Row label="ABN" value={receipt.supplierAbn} />
-              ) : null}
-              <Row label="To" value={receipt.buyerName} />
-
-              <View style={styles.rule} />
-
-              <Row label="Service" value={receipt.description} />
-              <Row
-                label="Session"
-                value={`${fmtLong(receipt.sessionStartsAt)} · ${fmtTime(receipt.sessionStartsAt)}`}
-              />
-
-              <View style={styles.rule} />
-
-              <View style={styles.totalRow}>
-                <Text style={styles.totalLabel}>Total paid</Text>
-                <Text style={styles.totalValue}>{currency(receipt.totalMinor, receipt.currency)}</Text>
-              </View>
-              <Text style={styles.gst}>
-                {receipt.isTaxInvoice
-                  ? `Includes GST of ${currency(receipt.gstMinor, receipt.currency)}.`
-                  : 'No GST has been charged on this supply.'}
-              </Text>
-            </Card>
-          </FadeUp>
-        ) : null}
+        {content}
       </ScrollView>
     </ScreenIn>
   );
@@ -117,4 +135,6 @@ const styles = StyleSheet.create({
   totalLabel: { fontFamily: fonts.bold, fontSize: 15, color: colors.ink },
   totalValue: { fontFamily: fonts.extra, fontSize: 20, color: colors.ink },
   gst: { marginTop: 6, fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, color: colors.sub },
+
+  desktopColumn: { width: '100%', maxWidth: 600, gap: 20 },
 });

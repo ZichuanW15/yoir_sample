@@ -9,6 +9,7 @@ import { useChrome } from '@/src/chrome';
 import { BackBar } from '@/src/components/booking';
 import { StarMark } from '@/src/components/Glyph';
 import { Button, Card, ErrorBanner, Field, Press, Spinner } from '@/src/components/ui';
+import { BackPill, DesktopPage, useDesktop } from '@/src/desktop';
 import { goBack, homeFor } from '@/src/navigation';
 import { ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, type } from '@/src/theme';
@@ -17,6 +18,7 @@ import { colors, fonts, radius, type } from '@/src/theme';
 export default function ReviewBookingScreen() {
   const { bookingId } = useLocalSearchParams<{ bookingId: string }>();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const { session } = useAuth();
   const { flash } = useChrome();
   const [booking, setBooking] = useState<Booking | null>(null);
@@ -57,47 +59,59 @@ export default function ReviewBookingScreen() {
     }
   };
 
+  // Shared by the mobile and desktop layouts; desktop only frames it differently.
+  const content = loading ? <View style={styles.loading}><Spinner size={28} color={colors.green} /></View> : !booking ? (
+    <ErrorBanner message={error || 'That booking is not available.'} />
+  ) : !eligible ? (
+    <Card style={styles.card}>
+      <Text style={type.display24}>{booking.review ? 'Review already submitted' : 'This session is not ready to review'}</Text>
+      <Text style={type.body}>{booking.review ? 'Each completed booking can be reviewed once.' : 'Reviews become available after the session is completed.'}</Text>
+      <Button label="Back to My sessions" tone="outline" onPress={() => router.replace('/bookings')} />
+    </Card>
+  ) : (
+    <Card style={styles.card}>
+      <View style={styles.heading}>
+        <Text style={type.eyebrow}>Completed session</Text>
+        <Text style={type.display24}>{booking.serviceTitle}</Text>
+        <Text style={type.body}>How was your session with {booking.counterpartyName || 'your Career Professional'}?</Text>
+      </View>
+      <View style={styles.ratingGroup}>
+        <Text style={styles.label}>Star rating</Text>
+        <View accessibilityRole="radiogroup" style={styles.stars}>
+          {[1, 2, 3, 4, 5].map((value) => (
+            <Press
+              key={value}
+              accessibilityRole="radio"
+              accessibilityLabel={`${value} star${value === 1 ? '' : 's'}`}
+              accessibilityState={{ checked: rating === value, selected: rating === value }}
+              onPress={() => setRating(value)}
+              style={[styles.star, rating >= value && styles.starSelected]}
+            >
+              <StarMark size={24} color={rating >= value ? colors.amber : colors.line} />
+            </Press>
+          ))}
+        </View>
+      </View>
+      <Field label="Your review" value={comment} onChangeText={setComment} multiline maxLength={2000} placeholder="What was useful about the session?" />
+      {error ? <ErrorBanner message={error} /> : null}
+      <Button label="Submit review" busy={saving} onPress={() => { void submit(); }} />
+    </Card>
+  );
+
+  if (desktop) {
+    return (
+      <DesktopPage>
+        <BackPill label="My sessions" accessibilityLabel="Go back" onPress={() => goBack('/bookings')} />
+        <View style={styles.desktopColumn}>{content}</View>
+      </DesktopPage>
+    );
+  }
+
   return (
     <ScreenIn style={styles.screen}>
       <BackBar title="Review your session" onBack={() => goBack('/bookings')} />
       <ScrollView contentContainerStyle={[styles.body, { paddingBottom: 28 + insets.bottom }]} keyboardShouldPersistTaps="handled">
-        {loading ? <View style={styles.loading}><Spinner size={28} color={colors.green} /></View> : !booking ? (
-          <ErrorBanner message={error || 'That booking is not available.'} />
-        ) : !eligible ? (
-          <Card style={styles.card}>
-            <Text style={type.display24}>{booking.review ? 'Review already submitted' : 'This session is not ready to review'}</Text>
-            <Text style={type.body}>{booking.review ? 'Each completed booking can be reviewed once.' : 'Reviews become available after the session is completed.'}</Text>
-            <Button label="Back to My sessions" tone="outline" onPress={() => router.replace('/bookings')} />
-          </Card>
-        ) : (
-          <Card style={styles.card}>
-            <View style={styles.heading}>
-              <Text style={type.eyebrow}>Completed session</Text>
-              <Text style={type.display24}>{booking.serviceTitle}</Text>
-              <Text style={type.body}>How was your session with {booking.counterpartyName || 'your Career Professional'}?</Text>
-            </View>
-            <View style={styles.ratingGroup}>
-              <Text style={styles.label}>Star rating</Text>
-              <View accessibilityRole="radiogroup" style={styles.stars}>
-                {[1, 2, 3, 4, 5].map((value) => (
-                  <Press
-                    key={value}
-                    accessibilityRole="radio"
-                    accessibilityLabel={`${value} star${value === 1 ? '' : 's'}`}
-                    accessibilityState={{ checked: rating === value, selected: rating === value }}
-                    onPress={() => setRating(value)}
-                    style={[styles.star, rating >= value && styles.starSelected]}
-                  >
-                    <StarMark size={24} color={rating >= value ? colors.amber : colors.line} />
-                  </Press>
-                ))}
-              </View>
-            </View>
-            <Field label="Your review" value={comment} onChangeText={setComment} multiline maxLength={2000} placeholder="What was useful about the session?" />
-            {error ? <ErrorBanner message={error} /> : null}
-            <Button label="Submit review" busy={saving} onPress={() => { void submit(); }} />
-          </Card>
-        )}
+        {content}
       </ScrollView>
     </ScreenIn>
   );
@@ -114,4 +128,6 @@ const styles = StyleSheet.create({
   stars: { flexDirection: 'row', gap: 8 },
   star: { width: 48, height: 48, borderRadius: radius.md, borderWidth: 1.5, borderColor: colors.line, backgroundColor: colors.white, alignItems: 'center', justifyContent: 'center' },
   starSelected: { borderColor: colors.amber, backgroundColor: colors.yellowTint },
+
+  desktopColumn: { width: '100%', maxWidth: 640 },
 });

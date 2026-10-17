@@ -6,6 +6,7 @@ import { DiagnosisAnswers, DiagnosisQuestion } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { Button, Chip, ErrorBanner, Field, Press, Spinner } from '@/src/components/ui';
 import { BestMatches, DirectionCard, useDiagnosis } from '@/src/diagnosis/view';
+import { desktopCard, DesktopPage, useDesktop } from '@/src/desktop';
 import { FadeUp, ScreenIn } from '@/src/motion';
 import { homeFor } from '@/src/navigation';
 import { colors, fonts, radius, type } from '@/src/theme';
@@ -29,6 +30,7 @@ const OPEN = 'other';
  */
 export default function DiagnosisScreen() {
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const { session } = useAuth();
   const {
     questionnaire, record, direction, criteria, loading, saving, error,
@@ -104,6 +106,108 @@ export default function DiagnosisScreen() {
   };
 
   const skip = () => router.replace('/job-seeker' as Href);
+  const retake = () => { setEdited({ ...answers }); go(0); };
+  const progress = (
+    <View style={[styles.progress, desktop && styles.dProgress]} accessibilityRole="progressbar" accessibilityLabel={`Step ${step + 1} of ${totalSteps}`}>
+      {Array.from({ length: totalSteps }, (_, i) => (
+        <View key={i} style={[styles.segment, desktop && styles.dSegment, i <= step && styles.segmentDone]} />
+      ))}
+    </View>
+  );
+
+  // Desktop: one centred column, the question in a card with its own Back and Continue.
+  if (desktop) {
+    return (
+      <DesktopPage>
+        <View style={styles.dColumn}>
+          <View style={styles.dHeader}>
+            <Text style={type.eyebrow}>Yoir Diagnosis</Text>
+            {question ? (
+              <Press onPress={skip} accessibilityLabel="Skip for now" style={styles.skip}>
+                <Text style={styles.skipText}>Skip for now</Text>
+              </Press>
+            ) : null}
+          </View>
+          {progress}
+
+          {question ? (
+            <FadeUp key={step}>
+              <View style={[desktopCard, styles.dQuestion]}>
+                <Text style={styles.stepCount}>Step {step + 1} of {totalSteps}</Text>
+                <Text style={styles.dTitle}>{question.title}</Text>
+                <Text style={type.body}>{question.hint}</Text>
+                <View style={styles.options}>
+                  {question.options.map((option) => (
+                    <Chip
+                      key={option.id}
+                      label={option.label}
+                      role={question.multiple ? 'checkbox' : 'radio'}
+                      selected={question.multiple
+                        ? (answers[question.id] as string[]).includes(option.id)
+                        : answers[question.id] === option.id}
+                      onPress={() => choose(question, option.id)}
+                    />
+                  ))}
+                </View>
+                {open ? (
+                  <Field
+                    label="Tell us a little more (optional)"
+                    value={answers.other?.[question.id] ?? ''}
+                    onChangeText={(text) => setEdited({ ...answers, other: { ...answers.other, [question.id]: text } })}
+                    placeholder="In your own words"
+                    maxLength={200}
+                    style={styles.other}
+                  />
+                ) : null}
+                {missing ? <Text accessibilityRole="alert" style={styles.missing}>Choose an option to continue.</Text> : null}
+                {error ? <ErrorBanner message={error} /> : null}
+                <View style={styles.dActions}>
+                  {step > 0 ? <Button label="Back" tone="outline" height={50} labelSize={15} onPress={() => go(step - 1)} /> : null}
+                  <Button
+                    label={step === questions.length - 1 ? 'See my Yoir Direction' : 'Continue'}
+                    height={50}
+                    labelSize={15}
+                    onPress={() => { void next(); }}
+                    busy={saving}
+                    style={styles.dContinue}
+                  />
+                </View>
+              </View>
+            </FadeUp>
+          ) : (
+            <FadeUp style={styles.result}>
+              <View style={styles.dResultHead}>
+                <Text style={styles.stepCount}>Step {totalSteps} of {totalSteps}</Text>
+                <Text style={styles.dTitle}>Your Yoir Direction</Text>
+              </View>
+              {error ? <ErrorBanner message={error} /> : null}
+              {direction ? (
+                <>
+                  <DirectionCard direction={direction} />
+                  <Text style={[type.display24, styles.dSubhead]}>Relevant Career Professionals</Text>
+                  <BestMatches criteria={criteria} limit={3} grid={250} />
+                </>
+              ) : error ? (
+                <Button label="Try again" tone="outline" onPress={() => { void refresh(); }} style={styles.dStart} />
+              ) : <Spinner size={28} color={colors.green} />}
+              <View style={styles.dResultActions}>
+                {direction ? (
+                  <Button
+                    label="View Career Professionals"
+                    height={50}
+                    labelSize={15}
+                    onPress={() => router.push({ pathname: '/marketplace', params: { match: '1' } })}
+                  />
+                ) : null}
+                <Button label="Go to my home" tone="outline" height={50} labelSize={15} onPress={() => router.replace('/job-seeker' as Href)} />
+                <Button label="Retake the diagnosis" tone="quiet" height={50} labelSize={15} onPress={retake} />
+              </View>
+            </FadeUp>
+          )}
+        </View>
+      </DesktopPage>
+    );
+  }
 
   return (
     <ScreenIn style={[styles.screen, { paddingTop: insets.top }]}>
@@ -115,11 +219,7 @@ export default function DiagnosisScreen() {
           </Press>
         ) : null}
       </View>
-      <View style={styles.progress} accessibilityRole="progressbar" accessibilityLabel={`Step ${step + 1} of ${totalSteps}`}>
-        {Array.from({ length: totalSteps }, (_, i) => (
-          <View key={i} style={[styles.segment, i <= step && styles.segmentDone]} />
-        ))}
-      </View>
+      {progress}
 
       <ScrollView contentContainerStyle={styles.body} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
         {question ? (
@@ -173,7 +273,7 @@ export default function DiagnosisScreen() {
               <Button label="Try again" tone="outline" onPress={() => { void refresh(); }} />
             ) : <Spinner size={28} color={colors.green} />}
             <Button label="Go to my home" tone="outline" onPress={() => router.replace('/job-seeker' as Href)} />
-            <Button label="Retake the diagnosis" tone="quiet" height={48} onPress={() => { setEdited({ ...answers }); go(0); }} />
+            <Button label="Retake the diagnosis" tone="quiet" height={48} onPress={retake} />
           </FadeUp>
         )}
       </ScrollView>
@@ -213,4 +313,17 @@ const styles = StyleSheet.create({
   footer: { flexDirection: 'row', gap: 12, paddingHorizontal: 22, paddingTop: 12 },
   back: { flex: 1 },
   continue: { flex: 2 },
+
+  dColumn: { width: '100%', maxWidth: 860, alignSelf: 'center', gap: 22 },
+  dHeader: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  dProgress: { paddingHorizontal: 0, paddingTop: 0 },
+  dSegment: { height: 6 },
+  dQuestion: { borderRadius: radius.xxl, paddingVertical: 36, paddingHorizontal: 40 },
+  dTitle: { fontFamily: fonts.serif, fontSize: 32, lineHeight: 37, letterSpacing: -0.4, color: colors.ink },
+  dActions: { flexDirection: 'row', justifyContent: 'flex-end', gap: 12, marginTop: 14 },
+  dContinue: { paddingHorizontal: 28 },
+  dResultHead: { gap: 6 },
+  dSubhead: { marginTop: 6 },
+  dStart: { alignSelf: 'flex-start' },
+  dResultActions: { flexDirection: 'row', flexWrap: 'wrap', gap: 12, marginTop: 6 },
 });

@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Glyph, GlyphName } from '@/src/components/Glyph';
 import { Press } from '@/src/components/ui';
+import { useDesktop } from '@/src/responsive';
 import { colors, fonts, radius, shadow } from '@/src/theme';
 
 export type BottomNavTab = { label: string; glyph: GlyphName; active: boolean; onPress: () => void };
@@ -14,6 +15,8 @@ export type BottomNavTab = { label: string; glyph: GlyphName; active: boolean; o
  */
 export function BottomNav({ tabs }: { tabs: BottomNavTab[] }) {
   const insets = useSafeAreaInsets();
+  // Desktop navigates from the sidebar.
+  if (useDesktop()) return null;
   return (
     <View style={[styles.host, { paddingBottom: Math.max(insets.bottom, 12) }]}>
       <View style={[styles.nav, shadow.card]} accessibilityRole="tablist">

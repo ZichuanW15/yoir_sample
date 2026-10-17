@@ -9,6 +9,7 @@ import { Service } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { Button, ErrorBanner, IconButton, Spinner } from '@/src/components/ui';
 import ServiceForm from '@/src/counsellor/ServiceForm';
+import { DesktopPage, PageHeader, useDesktop } from '@/src/desktop';
 import { ScreenIn } from '@/src/motion';
 import { colors, fonts } from '@/src/theme';
 
@@ -21,6 +22,7 @@ export default function EditServiceScreen() {
   const { serviceId } = useLocalSearchParams<{ serviceId: string }>();
   const { session } = useAuth();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
 
   const [service, setService] = useState<Service | null>(null);
   const [loading, setLoading] = useState(true);
@@ -45,9 +47,21 @@ export default function EditServiceScreen() {
 
   if (loading) {
     return (
-      <ScreenIn style={s.centered}>
+      <ScreenIn style={[s.centered, desktop && s.desktopCanvas]}>
         <Spinner color={colors.green} />
       </ScreenIn>
+    );
+  }
+
+  if ((loadError || !service) && desktop) {
+    return (
+      <DesktopPage>
+        <PageHeader eyebrow="Edit service" title="Update your listing" />
+        <View style={s.desktopBody}>
+          <ErrorBanner message={loadError || 'This service is no longer available.'} />
+          <Button label="Back to workspace" tone="outline" height={50} labelSize={15} onPress={() => router.replace('/counsellor')} style={s.desktopButton} />
+        </View>
+      </DesktopPage>
     );
   }
 
@@ -81,4 +95,8 @@ const s = StyleSheet.create({
   topTitle: { fontFamily: fonts.bold, fontSize: 15, color: colors.ink },
   topSpacer: { width: 44 },
   body: { paddingHorizontal: 22, paddingTop: 6, gap: 16 },
+
+  desktopCanvas: { backgroundColor: colors.canvas },
+  desktopBody: { maxWidth: 520, gap: 16 },
+  desktopButton: { alignSelf: 'flex-start', paddingHorizontal: 24 },
 });

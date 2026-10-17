@@ -6,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { userFacingError } from '@/src/api/client';
 import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
+import { desktopAuthBody, useDesktop } from '@/src/desktop';
 import { Glyph } from '@/src/components/Glyph';
 import { Button, ErrorBanner, Field, IconButton, Press } from '@/src/components/ui';
 import { FadeUp, Pop, SheetUp } from '@/src/motion';
@@ -16,6 +17,7 @@ type PublicRole = 'job_seeker' | 'counsellor';
 export default function LoginScreen() {
   const { serviceId, role, email: prefill } = useLocalSearchParams<{ serviceId?: string; role?: PublicRole; email?: string }>();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const { login } = useAuth();
   const { flash } = useChrome();
   const [email, setEmail] = useState(prefill ?? '');
@@ -52,21 +54,29 @@ export default function LoginScreen() {
     }
   }
 
+  // Desktop: the bar scrolls with the form, so the column is one centred group
+  // and the whole panel is what scrolls (see desktopAuthBody).
+  const bar = (
+    <View style={[styles.bar, desktop && styles.desktopBar]}>
+      <IconButton label="Close" onPress={() => goBack('/auth/welcome')}>
+        <Glyph name="close" size={18} color={colors.green} />
+      </IconButton>
+      <Image source={require('@/assets/images/yoir-wordmark.png')} style={styles.wordmark} resizeMode="contain" accessibilityLabel="Yoir" />
+      <View style={styles.spacer} />
+    </View>
+  );
+
   return (
-    <SheetUp duration={500} style={[styles.screen, { paddingTop: insets.top }]}>
-      <View style={styles.bar}>
-        <IconButton label="Close" onPress={() => goBack('/auth/welcome')}>
-          <Glyph name="close" size={18} color={colors.green} />
-        </IconButton>
-        <Image source={require('@/assets/images/yoir-wordmark.png')} style={styles.wordmark} resizeMode="contain" accessibilityLabel="Yoir" />
-        <View style={styles.spacer} />
-      </View>
+    <SheetUp duration={500} style={[styles.screen, { paddingTop: insets.top }, desktop && styles.desktopScreen]}>
+      {desktop ? null : bar}
 
       <KeyboardAvoidingView style={styles.fill} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView
-          contentContainerStyle={[styles.body, { paddingBottom: 24 + insets.bottom }]}
+          showsVerticalScrollIndicator={!desktop}
+          contentContainerStyle={[styles.body, { paddingBottom: 24 + insets.bottom }, desktop && styles.desktopBody]}
           keyboardShouldPersistTaps="handled"
         >
+          {desktop ? bar : null}
           <FadeUp delay={100} style={styles.intro}>
             <Text style={type.display36}>Welcome back</Text>
             <Text style={type.body}>
@@ -142,4 +152,9 @@ const styles = StyleSheet.create({
   switchRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
   switchText: { fontFamily: fonts.sans, fontSize: 14, color: colors.muted },
   switchLink: { fontFamily: fonts.bold, fontSize: 14, color: colors.green },
+  // Desktop: the screen fills the panel beside the brand panel and scrolls as a whole;
+  // its content is the centred 460px column, bar included.
+  desktopScreen: { flex: 1, backgroundColor: 'transparent' },
+  desktopBar: { paddingHorizontal: 0 },
+  desktopBody: desktopAuthBody,
 });

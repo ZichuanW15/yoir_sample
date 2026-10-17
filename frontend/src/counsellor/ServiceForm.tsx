@@ -1,15 +1,17 @@
 import { router } from 'expo-router';
 import { goBack } from '@/src/navigation';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Polyline } from 'react-native-svg';
 import { api, userFacingError } from '@/src/api/client';
-import { Modality, Service } from '@/src/api/types';
+import { Modality, Service, VerificationStatus } from '@/src/api/types';
+import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
-import { Glyph } from '@/src/components/Glyph';
-import { Button, Chip, ErrorBanner, Field, IconButton, Press } from '@/src/components/ui';
-import { modalityLabel, STATES } from '@/src/format';
+import { Glyph, StarMark } from '@/src/components/Glyph';
+import { Avatar, Button, Chip, ErrorBanner, Field, IconButton, Press, Tag } from '@/src/components/ui';
+import { BackPill, DesktopPage, desktopCard, PageHeader, useDesktop } from '@/src/desktop';
+import { initials, modalityLabel, money, STATES } from '@/src/format';
 import { FadeUp, Pop, ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, shadow, type } from '@/src/theme';
 
@@ -33,6 +35,8 @@ interface ServiceFormProps {
 export default function ServiceForm({ counsellorId, accessToken, service }: ServiceFormProps) {
   const { flash, confirm } = useChrome();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
+  const { session } = useAuth();
   const editing = Boolean(service);
 
   const [title, setTitle] = useState(service?.title ?? '');
@@ -47,6 +51,18 @@ export default function ServiceForm({ counsellorId, accessToken, service }: Serv
   const [busy, setBusy] = useState(false);
   const [deleting, setDeleting] = useState(false);
   const [formError, setFormError] = useState('');
+  // Desktop previews the listing as Explore shows it, and Explore shows the
+  // counsellor's verification. Only read there; a failed read just leaves it out.
+  const [verified, setVerified] = useState<VerificationStatus | null>(null);
+
+  useEffect(() => {
+    if (!desktop || !session) return;
+    let live = true;
+    api.getOwnCounsellorProfile(session.user, accessToken)
+      .then((profile) => { if (live) setVerified(profile.verificationStatus); })
+      .catch(() => undefined);
+    return () => { live = false; };
+  }, [desktop, session, accessToken]);
 
   const inPerson = modalities.includes('in_person');
   const toggle = (option: Modality) =>
@@ -111,6 +127,161 @@ export default function ServiceForm({ counsellorId, accessToken, service }: Serv
       setDeleting(false);
     }
   };
+
+  // Desktop: the form on the left, a live preview of the Explore card on the right,
+  // and the submit button at the foot of the form rather than pinned to the screen.
+  if (desktop) {
+    const minor = Math.round(Number(price.replace(/[^0-9.]/g, '')) * 100);
+    const name = session?.user.name ?? '';
+    const durationLabel = (minutes: number) => (minutes >= 60 && minutes % 60 === 0 ? `${minutes / 60} hr` : `${minutes} min`);
+    return (
+      <DesktopPage>
+        <BackPill label="Workspace" accessibilityLabel="Back to workspace" onPress={() => goBack('/counsellor')} />
+        <PageHeader
+          eyebrow={editing ? 'Edit service' : 'New service'}
+          title={editing ? 'Update your listing' : 'What are you offering?'}
+          subtitle="This is what a Job Seeker sees in Explore before they book."
+        />
+
+        {formError ? <Pop duration={300}><ErrorBanner message={formError} /></Pop> : null}
+
+        <View style={s.desktopColumns}>
+          <View style={s.desktopMain}>
+            <View style={[s.card, s.desktopCard]}>
+              <Text style={s.cardTitle}>The session</Text>
+              <Field label="Service title" value={title} onChangeText={setTitle} placeholder="Interview confidence coaching" />
+              <Field
+                label="Description"
+                value={description}
+                onChangeText={setDescription}
+                placeholder="What happens in the session, and what the buyer walks away with."
+                multiline
+              />
+            </View>
+
+            <View style={[s.card, s.desktopCard]}>
+              <Text style={s.cardTitle}>What it costs</Text>
+              <View style={[s.price, s.desktopPrice]}>
+                <Text style={s.priceLabel}>Price (AUD)</Text>
+                <View style={s.priceBox}>
+                  <Text style={s.priceSymbol}>$</Text>
+                  <TextInput
+                    accessibilityLabel="Price (AUD)"
+                    value={price}
+                    onChangeText={setPrice}
+                    placeholder="95"
+                    placeholderTextColor={colors.sub}
+                    inputMode="decimal"
+                    style={s.priceInput}
+                  />
+                </View>
+                <Text style={s.priceHint}>The full price of one session, in Australian dollars.</Text>
+              </View>
+              <Text style={[s.durationLabel, s.desktopDurationLabel]}>How long is a session?</Text>
+              <View style={[s.durationRow, s.desktopDurationRow]}>
+                {DURATIONS.map((option) => (
+                  <Chip key={option} label={durationLabel(option)} selected={duration === option} onPress={() => setDuration(option)} />
+                ))}
+              </View>
+              <Text style={s.priceHint}>Job seekers are offered start times that fit this length inside your availability.</Text>
+            </View>
+
+            <View style={[s.card, s.desktopCard]}>
+              <Text style={s.cardTitle}>How do you deliver it?</Text>
+              <Text style={s.cardBody}>Choose one or both. In-person services need a meeting area.</Text>
+              <View style={s.desktopOptions}>
+                {OPTIONS.map((option) => {
+                  const selected = modalities.includes(option);
+                  return (
+                    <Press
+                      key={option}
+                      onPress={() => toggle(option)}
+                      scaleTo={0.98}
+                      accessibilityRole="checkbox"
+                      accessibilityLabel={modalityLabel(option)}
+                      accessibilityState={{ checked: selected }}
+                      style={[s.option, s.desktopOption, { borderColor: selected ? colors.green : colors.line, backgroundColor: selected ? colors.greenTint : colors.field }]}
+                    >
+                      <Text style={s.optionLabel}>{modalityLabel(option)}</Text>
+                      <View style={[s.optionMark, { borderColor: selected ? colors.green : colors.mark, backgroundColor: selected ? colors.green : colors.white }]}>
+                        {selected ? <Pop duration={300}><Glyph name="check" size={13} color={colors.white} /></Pop> : null}
+                      </View>
+                    </Press>
+                  );
+                })}
+              </View>
+              {inPerson ? (
+                <FadeUp duration={400} style={s.desktopWhere}>
+                  <Text style={s.durationLabel}>Where you meet</Text>
+                  <View style={s.chipWrap}>
+                    {STATES.map((option) => (
+                      <Chip key={option} label={option} selected={state === option} onPress={() => setState(state === option ? '' : option)} />
+                    ))}
+                  </View>
+                  <Field label="City or region" value={city} onChangeText={setCity} placeholder="Melbourne" style={s.desktopCity} />
+                </FadeUp>
+              ) : null}
+            </View>
+
+            <View style={s.desktopActions}>
+              {editing ? (
+                <Press onPress={() => { void remove(); }} disabled={deleting} scaleTo={0.98} accessibilityLabel="Delete service" style={[s.deleteRow, s.desktopDelete]}>
+                  <Glyph name="trash" size={16} color={colors.danger} />
+                  <Text style={s.deleteText}>{deleting ? 'Deleting…' : 'Delete this service'}</Text>
+                </Press>
+              ) : null}
+              <View style={s.desktopFill} />
+              <Button
+                label={editing ? 'Save changes' : 'Publish service'}
+                height={54}
+                labelSize={15}
+                busy={busy}
+                disabled={deleting}
+                onPress={() => { void submit(); }}
+                style={[shadow.toast, s.desktopSubmit]}
+              />
+            </View>
+          </View>
+
+          <View style={s.desktopAside}>
+            <Text style={type.groupLabel}>How it appears in Explore</Text>
+            <View style={[desktopCard, s.desktopPreview]}>
+              <View style={s.desktopPreviewHead}>
+                <Avatar initials={initials(name)} size={44} bg={colors.greenTint} fg={colors.ink} />
+                <View style={s.desktopPreviewWho}>
+                  <Text style={s.desktopPreviewName}>{name}</Text>
+                  {verified ? (
+                    <View style={s.desktopPreviewVerify}>
+                      {verified === 'verified' ? <Glyph name="shieldCheck" size={13} color={colors.greenDeep} /> : null}
+                      <Text style={[s.desktopPreviewVerifyText, { color: verified === 'verified' ? colors.greenDeep : colors.amberInk }]}>
+                        {verified === 'verified' ? 'Verified' : 'Verification pending'}
+                      </Text>
+                    </View>
+                  ) : null}
+                </View>
+                <Text style={s.desktopPreviewPrice}>{minor > 0 ? money(minor) : '$—'}</Text>
+              </View>
+              <Text style={type.display24}>{title.trim() || 'Your service title'}</Text>
+              <Text numberOfLines={2} style={s.desktopPreviewBody}>
+                {description.trim() || 'What happens in the session, and what the buyer walks away with.'}
+              </Text>
+              <View style={s.desktopPreviewFoot}>
+                <View style={s.chipWrap}>
+                  {modalities.map((option) => <Tag key={option} label={modalityLabel(option)} />)}
+                  {inPerson && state ? <Tag label={`${city.trim() || 'City'}, ${state}`} bg={colors.yellowTint} fg={colors.amberDeep} /> : null}
+                  <Tag label={durationLabel(duration)} />
+                </View>
+                <View style={s.desktopPreviewRating}>
+                  <StarMark size={14} />
+                  <Text style={s.desktopPreviewNew}>New</Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </DesktopPage>
+    );
+  }
 
   return (
     <ScreenIn style={s.screen}>
@@ -275,4 +446,31 @@ const s = StyleSheet.create({
   deleteText: { fontFamily: fonts.bold, fontSize: 14, color: colors.danger },
 
   footer: { paddingHorizontal: 22, paddingTop: 14, backgroundColor: colors.white },
+
+  desktopColumns: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', gap: 28 },
+  desktopMain: { flexGrow: 999, flexShrink: 1, flexBasis: 0, minWidth: '60%', gap: 18 },
+  desktopAside: { flexGrow: 1, flexShrink: 1, flexBasis: 300, gap: 10 },
+  desktopCard: { padding: 24, borderRadius: 22 },
+  desktopPrice: { maxWidth: 260 },
+  desktopDurationLabel: { marginTop: 6 },
+  desktopDurationRow: { marginTop: 0 },
+  desktopOptions: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  desktopOption: { flexGrow: 1, flexShrink: 1, flexBasis: 200 },
+  desktopWhere: { gap: 12, marginTop: 8, paddingTop: 16, borderTopWidth: 1, borderTopColor: colors.lineSoft },
+  desktopCity: { maxWidth: 320 },
+  desktopActions: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 12 },
+  desktopDelete: { paddingHorizontal: 14, borderRadius: radius.pill },
+  desktopFill: { flex: 1 },
+  desktopSubmit: { paddingHorizontal: 28 },
+  desktopPreview: { padding: 20, gap: 12 },
+  desktopPreviewHead: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  desktopPreviewWho: { flex: 1, minWidth: 0, gap: 2 },
+  desktopPreviewName: { fontFamily: fonts.bold, fontSize: 14, color: colors.ink },
+  desktopPreviewVerify: { flexDirection: 'row', alignItems: 'center', gap: 5 },
+  desktopPreviewVerifyText: { fontFamily: fonts.semi, fontSize: 12 },
+  desktopPreviewPrice: { fontFamily: fonts.extra, fontSize: 20, letterSpacing: -0.3, color: colors.green },
+  desktopPreviewBody: { fontFamily: fonts.sans, fontSize: 14, lineHeight: 21, color: colors.muted },
+  desktopPreviewFoot: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 10 },
+  desktopPreviewRating: { flexDirection: 'row', alignItems: 'center', gap: 4 },
+  desktopPreviewNew: { fontFamily: fonts.bold, fontSize: 13, color: colors.ink },
 });

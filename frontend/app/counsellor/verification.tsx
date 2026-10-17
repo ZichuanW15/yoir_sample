@@ -8,6 +8,7 @@ import { BackBar } from '@/src/components/booking';
 import { CounsellorNav } from '@/src/components/CounsellorNav';
 import { Glyph } from '@/src/components/Glyph';
 import { Button, ErrorBanner, Field, Press, Spinner } from '@/src/components/ui';
+import { DesktopPage, PageHeader, useDesktop } from '@/src/desktop';
 import { FadeUp, ScreenIn } from '@/src/motion';
 import { goBack } from '@/src/navigation';
 import { colors, fonts, radius, type } from '@/src/theme';
@@ -33,6 +34,7 @@ const reached: Record<VerificationState, number> = { unsubmitted: 0, pending: 1,
 export default function VerificationScreen() {
   const { session } = useAuth();
   const { flash } = useChrome();
+  const desktop = useDesktop();
   const [state, setState] = useState<VerificationState | null>(null);
   const [submitted, setSubmitted] = useState('');
   const [url, setUrl] = useState('');
@@ -79,6 +81,84 @@ export default function VerificationScreen() {
   };
 
   const copy = state ? verificationCopy[state] : null;
+
+  // Desktop: where you stand and how it works on the left, what you send on the right.
+  if (desktop) {
+    return (
+      <DesktopPage>
+        <PageHeader eyebrow="Trust" title="Verification" />
+        {error ? <ErrorBanner message={error} /> : null}
+
+        {!state || !copy ? (
+          error
+            ? <Button label="Try again" tone="outline" height={48} onPress={() => { setError(''); void load(); }} style={s.desktopButton} />
+            : <View style={s.loading}><Spinner size={26} color={colors.green} /></View>
+        ) : (
+          <View style={s.desktopColumns}>
+            <View style={[s.desktopHalf, s.desktopStack]}>
+              <View style={[s.status, s.desktopStatus, { backgroundColor: copy.bg }]}>
+                <View style={s.statusTile}>
+                  <Glyph name={state === 'rejected' ? 'close' : 'shieldCheck'} size={24} color={copy.fg} />
+                </View>
+                <Text style={[type.eyebrow, { color: copy.fg }]}>Your status</Text>
+                <Text style={[type.display28, { color: copy.fg }]}>{copy.label}</Text>
+                <Text style={[type.bodySm, { color: copy.fg }]}>{copy.body}</Text>
+              </View>
+
+              <View style={[s.card, s.desktopCard]}>
+                <Text style={s.cardTitle}>How verification works</Text>
+                <Stage done={reached[state] >= 1} label="You send your LinkedIn profile" />
+                <Stage
+                  done={reached[state] >= 2}
+                  current={state === 'pending'}
+                  label={state === 'pending' ? 'The Platform Owner is reviewing it now' : 'The Platform Owner reviews it'}
+                />
+                <Stage
+                  done={state === 'verified'}
+                  failed={state === 'rejected'}
+                  label={state === 'rejected' ? 'Not verified this time' : 'Your profile carries the verified mark'}
+                  last
+                />
+              </View>
+            </View>
+
+            {state === 'verified' ? (
+              submitted ? (
+                <View style={[s.card, s.desktopCard, s.desktopHalf]}>
+                  <Text style={s.cardTitle}>Verified from</Text>
+                  <Press accessibilityLabel="Open your LinkedIn profile" style={s.link} onPress={() => { void Linking.openURL(submitted); }}>
+                    <Glyph name="briefcase" size={16} color={colors.green} />
+                    <Text style={s.linkText} numberOfLines={1}>{submitted}</Text>
+                    <Glyph name="chevronRight" size={14} color={colors.green} />
+                  </Press>
+                </View>
+              ) : <View style={s.desktopHalf} />
+            ) : (
+              <View style={[s.card, s.desktopCard, s.desktopHalf]}>
+                <Text style={s.cardTitle}>Your LinkedIn profile</Text>
+                <Text style={type.small}>
+                  {state === 'rejected'
+                    ? 'Fix what the email asked for, then send your profile again.'
+                    : 'The Platform Owner opens this link to check who you are. It is all you need to send.'}
+                </Text>
+                <Field
+                  label="LinkedIn profile URL"
+                  value={url}
+                  onChangeText={(text) => { setUrl(text); setInvalid(''); }}
+                  placeholder="https://www.linkedin.com/in/your-name"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  keyboardType="url"
+                />
+                {invalid ? <Text accessibilityRole="alert" style={s.invalid}>{invalid}</Text> : null}
+                <Button label={submitLabel[state]} height={50} labelSize={15} busy={busy} onPress={() => { void submit(); }} />
+              </View>
+            )}
+          </View>
+        )}
+      </DesktopPage>
+    );
+  }
 
   return (
     <ScreenIn style={s.screen}>
@@ -199,4 +279,11 @@ const s = StyleSheet.create({
   link: { flexDirection: 'row', alignItems: 'center', gap: 8, padding: 14, borderRadius: radius.md, backgroundColor: colors.field },
   linkText: { flex: 1, fontFamily: fonts.semi, fontSize: 13, color: colors.green },
   invalid: { marginTop: -6, fontFamily: fonts.semi, fontSize: 13, lineHeight: 19, color: colors.danger },
+
+  desktopColumns: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', gap: 22 },
+  desktopHalf: { flexGrow: 1, flexShrink: 1, flexBasis: 340 },
+  desktopStack: { gap: 18 },
+  desktopStatus: { padding: 26 },
+  desktopCard: { padding: 24, borderRadius: 22 },
+  desktopButton: { alignSelf: 'flex-start', paddingHorizontal: 24 },
 });

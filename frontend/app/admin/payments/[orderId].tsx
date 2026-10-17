@@ -6,6 +6,7 @@ import { AdminBooking, PaymentOversight } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { AdminShell, currency, LoadFailed, paymentTone, readable } from '@/src/admin/shell';
 import { Card, Tag } from '@/src/components/ui';
+import { useDesktop } from '@/src/desktop';
 import { fmtLong, modalityLabel } from '@/src/format';
 import { FadeUp } from '@/src/motion';
 import { goBack } from '@/src/navigation';
@@ -34,6 +35,7 @@ export default function AdminOrderScreen() {
   const { session } = useAuth();
   const [found, setFound] = useState<{ order: PaymentOversight; booking?: AdminBooking } | null>();
   const [error, setError] = useState('');
+  const desktop = useDesktop();
 
   const load = useCallback(async () => {
     if (!session) return;
@@ -60,6 +62,47 @@ export default function AdminOrderScreen() {
   const booking = found?.booking;
   const tone = paymentTone[order?.paymentStatus ?? ''] ?? paymentTone.not_started;
 
+  // The three cards stack on a phone and sit side by side on a desktop.
+  const cards = order ? (
+    <>
+      <FadeUp style={desktop && styles.desktopCell}>
+        <Card pad={18} style={[styles.card, desktop && styles.desktopCard]}>
+          <Text style={type.groupLabel}>Progress</Text>
+          <Row label="Payment"><Tag label={readable(order.paymentStatus)} bg={tone.bg} fg={tone.fg} /></Row>
+          <Row label="Order"><Tag label={readable(order.orderStatus)} /></Row>
+          <Row label="Session"><Tag label={booking ? readable(booking.status) : 'Not booked'} /></Row>
+        </Card>
+      </FadeUp>
+
+      <FadeUp delay={60} style={desktop && styles.desktopCell}>
+        <Card pad={18} style={[styles.card, desktop && styles.desktopCard]}>
+          <Text style={type.groupLabel}>Who and when</Text>
+          <Row label="Job Seeker" value={order.jobSeekerName} />
+          <Row label="Career Professional" value={order.counsellorName} />
+          <Row label="Service" value={order.serviceTitle} />
+          {booking ? (
+            <>
+              <Row label="Session time" value={`${inZone(booking.startsAt, booking.timezone)} (${booking.timezone})`} />
+              <Row label="Delivery" value={modalityLabel(booking.modality)} />
+            </>
+          ) : (
+            <Text style={type.small}>No session is booked on this order, so there is no time to show.</Text>
+          )}
+        </Card>
+      </FadeUp>
+
+      <FadeUp delay={120} style={desktop && styles.desktopCell}>
+        <Card pad={18} style={[styles.card, desktop && styles.desktopCard]}>
+          <Text style={type.groupLabel}>Money</Text>
+          <Row label="Service price" value={currency(order.amountMinor)} strong />
+          <Row label="Yoir commission" value={currency(order.platformFeeMinor)} />
+          <Row label="Career Professional amount" value={currency(order.counsellorPayoutMinor)} />
+          {order.refundedMinor > 0 ? <Row label="Refunded" value={currency(order.refundedMinor)} /> : null}
+        </Card>
+      </FadeUp>
+    </>
+  ) : null;
+
   return (
     <AdminShell
       title={order?.serviceTitle ?? 'Order'}
@@ -72,41 +115,7 @@ export default function AdminOrderScreen() {
 
       {order ? (
         <>
-          <FadeUp>
-            <Card pad={18} style={styles.card}>
-              <Text style={type.groupLabel}>Progress</Text>
-              <Row label="Payment"><Tag label={readable(order.paymentStatus)} bg={tone.bg} fg={tone.fg} /></Row>
-              <Row label="Order"><Tag label={readable(order.orderStatus)} /></Row>
-              <Row label="Session"><Tag label={booking ? readable(booking.status) : 'Not booked'} /></Row>
-            </Card>
-          </FadeUp>
-
-          <FadeUp delay={60}>
-            <Card pad={18} style={styles.card}>
-              <Text style={type.groupLabel}>Who and when</Text>
-              <Row label="Job Seeker" value={order.jobSeekerName} />
-              <Row label="Career Professional" value={order.counsellorName} />
-              <Row label="Service" value={order.serviceTitle} />
-              {booking ? (
-                <>
-                  <Row label="Session time" value={`${inZone(booking.startsAt, booking.timezone)} (${booking.timezone})`} />
-                  <Row label="Delivery" value={modalityLabel(booking.modality)} />
-                </>
-              ) : (
-                <Text style={type.small}>No session is booked on this order, so there is no time to show.</Text>
-              )}
-            </Card>
-          </FadeUp>
-
-          <FadeUp delay={120}>
-            <Card pad={18} style={styles.card}>
-              <Text style={type.groupLabel}>Money</Text>
-              <Row label="Service price" value={currency(order.amountMinor)} strong />
-              <Row label="Yoir commission" value={currency(order.platformFeeMinor)} />
-              <Row label="Career Professional amount" value={currency(order.counsellorPayoutMinor)} />
-              {order.refundedMinor > 0 ? <Row label="Refunded" value={currency(order.refundedMinor)} /> : null}
-            </Card>
-          </FadeUp>
+          {desktop ? <View style={styles.desktopRow}>{cards}</View> : cards}
 
           <Text selectable style={styles.reference}>Payment reference {order.paymentId}</Text>
         </>
@@ -130,5 +139,8 @@ const styles = StyleSheet.create({
   rowLabel: { fontFamily: fonts.sans, fontSize: 14, color: colors.muted },
   rowValue: { flex: 1, textAlign: 'right', fontFamily: fonts.semi, fontSize: 14, lineHeight: 20, color: colors.ink },
   rowStrong: { fontFamily: fonts.extra, fontSize: 17 },
+  desktopRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 18 },
+  desktopCell: { flex: 1, minWidth: 0 },
+  desktopCard: { borderWidth: 1, borderColor: colors.lineSoft, boxShadow: 'none' },
   reference: { fontFamily: fonts.sans, fontSize: 12, color: colors.sub, textAlign: 'center' },
 });

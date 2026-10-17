@@ -20,7 +20,7 @@ const STROKE = {
 const HAIRLINE = { ...STROKE, strokeWidth: 1.4 };
 
 export type GlyphName =
-  | 'search' | 'filter' | 'check' | 'close' | 'chevronRight' | 'arrowRight'
+  | 'search' | 'filter' | 'check' | 'close' | 'chevronRight' | 'chevronLeft' | 'chevronDown' | 'arrowRight'
   | 'star' | 'shieldCheck' | 'video' | 'pin' | 'calendar' | 'clock'
   | 'wallet' | 'receipt' | 'seeker' | 'mentor' | 'eye' | 'briefcase'
   | 'plus' | 'pencil' | 'trash' | 'logout' | 'sparkle' | 'lock' | 'refresh'
@@ -73,6 +73,8 @@ const paths: Record<GlyphName, ReactNode> = {
     </>
   ),
   chevronRight: <Polyline points="9.5,5 16.5,12 9.5,19" {...STROKE} strokeWidth={2} />,
+  chevronLeft: <Polyline points="14.5,5 7.5,12 14.5,19" {...STROKE} strokeWidth={2} />,
+  chevronDown: <Polyline points="5,9.5 12,16.5 19,9.5" {...STROKE} strokeWidth={2} />,
   arrowRight: (
     <>
       <Line x1={4} y1={12} x2={19} y2={12} {...STROKE} />

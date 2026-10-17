@@ -8,6 +8,7 @@ import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
 import { BackBar } from '@/src/components/booking';
 import { Button, Card, ErrorBanner, Press, Spinner } from '@/src/components/ui';
+import { BackPill, desktopCard, DesktopPage, PageHeader, useDesktop } from '@/src/desktop';
 import { goBack, homeFor } from '@/src/navigation';
 import { ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, type } from '@/src/theme';
@@ -21,6 +22,7 @@ const options: { value: ProfileVisibility; title: string; description: string }[
 /** US-27 — one shared privacy control for both member roles. */
 export default function PrivacySettingsScreen() {
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const { session } = useAuth();
   const { flash } = useChrome();
   const [saved, setSaved] = useState<ProfileVisibility | null>(null);
@@ -58,39 +60,70 @@ export default function PrivacySettingsScreen() {
     }
   };
 
+  const back = () => goBack(homeFor(session.user.role));
+  const choices = options.map((option) => {
+    const checked = selected === option.value;
+    return (
+      <Press
+        key={option.value}
+        accessibilityRole="radio"
+        accessibilityLabel={option.title}
+        accessibilityState={{ checked, selected: checked }}
+        onPress={() => setSelected(option.value)}
+        style={[styles.option, checked && styles.optionSelected]}
+      >
+        <View style={[styles.radio, checked && styles.radioSelected]}>{checked ? <View style={styles.radioDot} /> : null}</View>
+        <View style={styles.optionCopy}>
+          <Text style={styles.optionTitle}>{option.title}</Text>
+          <Text style={styles.optionDescription}>{option.description}</Text>
+        </View>
+      </Press>
+    );
+  });
+  const saveButton = (
+    <Button
+      label="Save privacy settings"
+      busy={saving}
+      disabled={!selected || selected === saved}
+      onPress={() => { void save(); }}
+      height={desktop ? 50 : undefined}
+      style={desktop ? styles.dSave : undefined}
+    />
+  );
+
+  // Desktop: the same choices in a 680px column under a back pill.
+  if (desktop) {
+    return (
+      <DesktopPage>
+        <View style={styles.dColumn}>
+          <BackPill label="Back" accessibilityLabel="Go back" onPress={back} />
+          <PageHeader
+            title="Who can see your profile?"
+            subtitle="Choose how your profile appears to other Yoir members. You can change this at any time."
+          />
+          {loading ? <View style={styles.loading}><Spinner size={28} color={colors.green} /></View> : (
+            <View style={[desktopCard, styles.options, styles.dOptions]}>{choices}</View>
+          )}
+          {error ? <ErrorBanner message={error} /> : null}
+          {!loading ? saveButton : null}
+        </View>
+      </DesktopPage>
+    );
+  }
+
   return (
     <ScreenIn style={styles.screen}>
-      <BackBar title="Profile privacy" onBack={() => goBack(homeFor(session.user.role))} />
+      <BackBar title="Profile privacy" onBack={back} />
       <ScrollView contentContainerStyle={[styles.body, { paddingBottom: 28 + insets.bottom }]}>
         <View style={styles.intro}>
           <Text style={type.display34}>Who can see your profile?</Text>
           <Text style={type.body}>Choose how your profile appears to other Yoir members. You can change this at any time.</Text>
         </View>
         {loading ? <View style={styles.loading}><Spinner size={28} color={colors.green} /></View> : (
-          <Card style={styles.options}>
-            {options.map((option) => {
-              const checked = selected === option.value;
-              return (
-                <Press
-                  key={option.value}
-                  accessibilityRole="radio"
-                  accessibilityLabel={option.title}
-                  accessibilityState={{ checked, selected: checked }}
-                  onPress={() => setSelected(option.value)}
-                  style={[styles.option, checked && styles.optionSelected]}
-                >
-                  <View style={[styles.radio, checked && styles.radioSelected]}>{checked ? <View style={styles.radioDot} /> : null}</View>
-                  <View style={styles.optionCopy}>
-                    <Text style={styles.optionTitle}>{option.title}</Text>
-                    <Text style={styles.optionDescription}>{option.description}</Text>
-                  </View>
-                </Press>
-              );
-            })}
-          </Card>
+          <Card style={styles.options}>{choices}</Card>
         )}
         {error ? <ErrorBanner message={error} /> : null}
-        {!loading ? <Button label="Save privacy settings" busy={saving} disabled={!selected || selected === saved} onPress={() => { void save(); }} /> : null}
+        {!loading ? saveButton : null}
       </ScrollView>
     </ScreenIn>
   );
@@ -110,4 +143,8 @@ const styles = StyleSheet.create({
   optionCopy: { flex: 1, gap: 4 },
   optionTitle: { fontFamily: fonts.bold, fontSize: 15, color: colors.ink },
   optionDescription: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 20, color: colors.muted },
+
+  dColumn: { width: '100%', maxWidth: 680, gap: 22 },
+  dOptions: { borderRadius: radius.xl },
+  dSave: { alignSelf: 'flex-start', paddingHorizontal: 26 },
 });

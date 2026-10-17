@@ -1,6 +1,6 @@
 import { LinearGradient } from 'expo-linear-gradient';
 import { Href, router, useLocalSearchParams } from 'expo-router';
-import { ReactNode, useEffect, useMemo, useState } from 'react';
+import { ReactElement, ReactNode, useEffect, useMemo, useState } from 'react';
 import { Animated, Easing, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Circle, Line, Path } from 'react-native-svg';
@@ -13,6 +13,7 @@ import { JobSeekerNav } from '@/src/components/JobSeekerNav';
 import { TopBar } from '@/src/components/TopBar';
 import { EmptySearchMark } from '@/src/components/Scenes';
 import { Avatar, Card, Chip, ErrorBanner, Press, Tag } from '@/src/components/ui';
+import { DesktopPage, PageHeader, useDesktop } from '@/src/desktop';
 import { useDiagnosis } from '@/src/diagnosis/view';
 import { initials, modalityLabel, money } from '@/src/format';
 import {
@@ -27,6 +28,7 @@ const SKELETON_MS = 900;
 
 export default function MarketplaceScreen() {
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const { session } = useAuth();
   // US-13: a Job Seeker's Yoir Direction follows them here. Arriving from the
   // direction itself (`match`) puts the services that fit it first straight away.
@@ -129,6 +131,165 @@ export default function MarketplaceScreen() {
     setFilters((current) => ({ ...current, [key]: value }));
   const clearFilters = () => { setFilters(defaultFilters); setQuery(''); };
 
+  // One set of filter controls: in the mobile panel behind the filter button, and
+  // always open in its own column on desktop, where the chips are the design's smaller size.
+  const FilterChip = desktop ? CompactChip : Chip;
+  const filterGroups = (
+    <>
+      <FilterGroup label="Delivery">
+        <FilterChip label="Any" selected={filters.modality === 'any'} onPress={() => update('modality', 'any')} />
+        <FilterChip label="Online" selected={filters.modality === 'online'} onPress={() => update('modality', 'online')} />
+        <FilterChip label="In person" selected={filters.modality === 'in_person'} onPress={() => update('modality', 'in_person')} />
+      </FilterGroup>
+
+      {states.length ? (
+        <FilterGroup label="Location">
+          <FilterChip label="Anywhere" selected={filters.state === 'any'} onPress={() => update('state', 'any')} />
+          {states.map((state) => (
+            <FilterChip key={state} label={state} selected={filters.state === state} onPress={() => update('state', state)} />
+          ))}
+        </FilterGroup>
+      ) : null}
+
+      <FilterGroup label="Price">
+        <FilterChip label="Any price" selected={filters.maxPriceMinor === null} onPress={() => update('maxPriceMinor', null)} />
+        {priceOptions.map((option) => (
+          <FilterChip
+            key={option.value}
+            label={option.label}
+            selected={filters.maxPriceMinor === option.value}
+            onPress={() => update('maxPriceMinor', option.value)}
+          />
+        ))}
+      </FilterGroup>
+
+      <FilterGroup label="Rating">
+        <FilterChip label="Any rating" selected={filters.minRating === null} onPress={() => update('minRating', null)} />
+        {ratingOptions.map((option) => (
+          <FilterChip
+            key={option.value}
+            label={option.label}
+            selected={filters.minRating === option.value}
+            onPress={() => update('minRating', option.value)}
+          />
+        ))}
+      </FilterGroup>
+
+      <FilterGroup label="Sort by">
+        {(Object.keys(sortLabels) as SortKey[]).map((key) => (
+          <FilterChip key={key} label={sortLabels[key]} selected={filters.sort === key} onPress={() => update('sort', key)} />
+        ))}
+      </FilterGroup>
+    </>
+  );
+
+  if (desktop) {
+    return (
+      <DesktopPage>
+        <PageHeader
+          eyebrow="Explore"
+          title={greeting}
+          right={(
+            <View style={styles.desktopSearch}>
+              <Glyph name="search" size={18} color={colors.sub} />
+              <TextInput
+                accessibilityLabel="Search services or Career Professionals"
+                value={query}
+                onChangeText={setQuery}
+                placeholder="Search services or people"
+                placeholderTextColor={colors.sub}
+                style={styles.searchInput}
+              />
+            </View>
+          )}
+        />
+
+        <VerifyEmailBanner what="book a session" />
+
+        <View style={styles.desktopRow}>
+          <View style={[styles.panel, styles.desktopFilters]}>
+            <View style={styles.desktopFiltersHead}>
+              <Text style={styles.desktopFiltersTitle}>{narrowed ? `Filters · ${narrowed} applied` : 'Filters'}</Text>
+              {narrowed || query.trim() ? (
+                <Press onPress={clearFilters} scaleTo={0.96} accessibilityLabel="Clear filters">
+                  <Text style={styles.desktopClear}>Clear</Text>
+                </Press>
+              ) : null}
+            </View>
+            {filterGroups}
+          </View>
+
+          <View style={styles.desktopResults}>
+            {direction ? (
+              <FadeUp delay={150} style={[styles.direction, styles.desktopDirection]}>
+                <View style={styles.desktopDirectionCopy}>
+                  <View style={styles.directionHead}>
+                    <Glyph name="sparkle" size={14} color={colors.amberInk} />
+                    <Text style={[type.eyebrow, styles.directionEyebrow]}>Your Yoir Direction</Text>
+                  </View>
+                  <Text style={styles.desktopDirectionArea}>{direction.area}</Text>
+                  {matchFirst && !loading && !error && !fitting ? (
+                    <Text style={styles.directionNote}>
+                      No service listed here fits this direction yet, so the list is in its usual order.
+                    </Text>
+                  ) : null}
+                </View>
+                <Chip
+                  label="Best matches first"
+                  role="checkbox"
+                  selected={matchFirst}
+                  onPress={() => setMatchFirst((on) => !on)}
+                />
+                <Press
+                  onPress={() => router.push({ pathname: '/job-seeker/diagnosis', params: { result: '1' } } as Href)}
+                  accessibilityLabel="View my Yoir Direction"
+                  style={styles.directionLink}
+                >
+                  <Text style={styles.directionLinkText}>View my direction</Text>
+                  <Glyph name="chevronRight" size={13} color={colors.green} />
+                </Press>
+              </FadeUp>
+            ) : null}
+            {direction && matchError ? <ErrorBanner message={matchError} /> : null}
+
+            <View style={styles.resultRow}>
+              <Text style={styles.resultCount}>{loading ? 'Loading services' : `${visible.length} of ${services.length} services`}</Text>
+              <Text style={styles.sortLabel}>{fitting ? 'Best for your direction' : sortLabels[filters.sort]}</Text>
+            </View>
+
+            {loading ? (
+              <CardGrid min={330}>
+                {[0, 150, 300, 450].map((delay) => <Shimmer key={delay} delay={delay} />)}
+              </CardGrid>
+            ) : error ? (
+              <View style={styles.retry}>
+                <ErrorBanner message={error} />
+                <Press onPress={reload} scaleTo={0.96} accessibilityLabel="Try again" style={styles.clearOutline}>
+                  <Text style={styles.clearOutlineText}>Try again</Text>
+                </Press>
+              </View>
+            ) : visible.length ? (
+              <CardGrid min={330}>
+                {listed.map(({ service, match: fits }, index) => (
+                  <ServiceRow key={service.id} service={service} index={index} fits={fits} desktop />
+                ))}
+              </CardGrid>
+            ) : (
+              <FadeUp duration={400} style={styles.empty}>
+                <View style={styles.desktopEmptyMark}><Glyph name="search" size={28} color={colors.green} /></View>
+                <Text style={styles.emptyTitle}>No services match your search.</Text>
+                <Text style={styles.emptyBody}>Try a different keyword, or widen the filters you have applied.</Text>
+                <Press onPress={clearFilters} scaleTo={0.96} accessibilityLabel="Clear filters" style={styles.clearSoft}>
+                  <Text style={styles.clearSoftText}>Clear filters</Text>
+                </Press>
+              </FadeUp>
+            )}
+          </View>
+        </View>
+      </DesktopPage>
+    );
+  }
+
   return (
     <ScreenIn style={styles.screen}>
       <TopBar />
@@ -176,50 +337,7 @@ export default function MarketplaceScreen() {
 
         {panelOpen ? (
           <FadeUp duration={350} style={styles.panel}>
-            <FilterGroup label="Delivery">
-              <Chip label="Any" selected={filters.modality === 'any'} onPress={() => update('modality', 'any')} />
-              <Chip label="Online" selected={filters.modality === 'online'} onPress={() => update('modality', 'online')} />
-              <Chip label="In person" selected={filters.modality === 'in_person'} onPress={() => update('modality', 'in_person')} />
-            </FilterGroup>
-
-            {states.length ? (
-              <FilterGroup label="Location">
-                <Chip label="Anywhere" selected={filters.state === 'any'} onPress={() => update('state', 'any')} />
-                {states.map((state) => (
-                  <Chip key={state} label={state} selected={filters.state === state} onPress={() => update('state', state)} />
-                ))}
-              </FilterGroup>
-            ) : null}
-
-            <FilterGroup label="Price">
-              <Chip label="Any price" selected={filters.maxPriceMinor === null} onPress={() => update('maxPriceMinor', null)} />
-              {priceOptions.map((option) => (
-                <Chip
-                  key={option.value}
-                  label={option.label}
-                  selected={filters.maxPriceMinor === option.value}
-                  onPress={() => update('maxPriceMinor', option.value)}
-                />
-              ))}
-            </FilterGroup>
-
-            <FilterGroup label="Rating">
-              <Chip label="Any rating" selected={filters.minRating === null} onPress={() => update('minRating', null)} />
-              {ratingOptions.map((option) => (
-                <Chip
-                  key={option.value}
-                  label={option.label}
-                  selected={filters.minRating === option.value}
-                  onPress={() => update('minRating', option.value)}
-                />
-              ))}
-            </FilterGroup>
-
-            <FilterGroup label="Sort by">
-              {(Object.keys(sortLabels) as SortKey[]).map((key) => (
-                <Chip key={key} label={sortLabels[key]} selected={filters.sort === key} onPress={() => update('sort', key)} />
-              ))}
-            </FilterGroup>
+            {filterGroups}
 
             <Press onPress={clearFilters} scaleTo={0.96} accessibilityLabel="Clear filters" style={styles.clearOutline}>
               <Text style={styles.clearOutlineText}>Clear filters</Text>
@@ -304,6 +422,22 @@ export default function MarketplaceScreen() {
   );
 }
 
+/** Desktop: the filter column's 34px chip, otherwise the same control as `Chip`. */
+function CompactChip({ label, selected, onPress }: { label: string; selected: boolean; onPress(): void }) {
+  return (
+    <Press
+      onPress={onPress}
+      scaleTo={0.94}
+      accessibilityRole="radio"
+      accessibilityLabel={label}
+      accessibilityState={{ selected, checked: selected }}
+      style={[styles.compactChip, { backgroundColor: selected ? colors.green : colors.white, borderColor: selected ? colors.green : colors.line }]}
+    >
+      <Text style={[styles.compactChipText, { color: selected ? colors.white : colors.muted }]}>{label}</Text>
+    </Press>
+  );
+}
+
 function FilterGroup({ label, children }: { label: string; children: ReactNode }) {
   return (
     <View style={styles.group}>
@@ -313,16 +447,39 @@ function FilterGroup({ label, children }: { label: string; children: ReactNode }
   );
 }
 
-function ServiceRow({ service, index, fits }: { service: Service; index: number; fits: boolean }) {
+/**
+ * Desktop: as many columns of at least `min` px as fit, the redesign's auto-fill grid.
+ * Rows share a height, and a short last row keeps its cards at column width.
+ */
+function CardGrid({ min, gap = 18, children }: { min: number; gap?: number; children: ReactElement[] }) {
+  const [width, setWidth] = useState(0);
+  const columns = Math.max(1, Math.floor((width + gap) / (min + gap)));
+  const rows: ReactElement[][] = [];
+  for (let i = 0; i < children.length; i += columns) rows.push(children.slice(i, i + columns));
+  return (
+    <View style={{ gap }} onLayout={(event) => setWidth(event.nativeEvent.layout.width)}>
+      {rows.map((row, r) => (
+        <View key={r} style={[styles.gridRow, { gap }]}>
+          {row.map((child, c) => <View key={child.key ?? c} style={styles.gridCell}>{child}</View>)}
+          {Array.from({ length: columns - row.length }, (_, k) => <View key={`gap-${k}`} style={styles.gridCell} />)}
+        </View>
+      ))}
+    </View>
+  );
+}
+
+function ServiceRow({ service, index, fits, desktop = false }: { service: Service; index: number; fits: boolean; desktop?: boolean }) {
   const { counsellor } = service;
   const verified = counsellor.verificationStatus === 'verified';
-  const warm = index % 2 === 1;
+  // The desktop grid reads as one set, so its cards share the green avatar.
+  const warm = index % 2 === 1 && !desktop;
 
   return (
-    <FadeUp delay={Math.min(index, 5) * 60}>
+    <FadeUp delay={Math.min(index, 5) * 60} style={desktop && styles.gridCell}>
       <Card
         accessibilityLabel={`${service.title} by ${counsellor.displayName}, ${money(service.priceMinor)}`}
         onPress={() => router.push({ pathname: '/services/[serviceId]', params: { serviceId: service.id } })}
+        style={desktop && styles.desktopCard}
       >
         {fits ? (
           <View style={styles.fits}>
@@ -358,10 +515,10 @@ function ServiceRow({ service, index, fits }: { service: Service; index: number;
           <Text style={styles.price}>{money(service.priceMinor)}</Text>
         </View>
 
-        <Text style={type.display24}>{service.title}</Text>
+        <Text style={[type.display24, desktop && styles.desktopCardTitle]}>{service.title}</Text>
         <Text numberOfLines={2} style={styles.cardBody}>{service.description}</Text>
 
-        <View style={styles.cardFoot}>
+        <View style={[styles.cardFoot, desktop && styles.desktopCardFoot]}>
           <View style={styles.tags}>
             {service.modalities.map((modality) => <Tag key={modality} label={modalityLabel(modality)} />)}
             {service.location ? (
@@ -507,4 +664,26 @@ const styles = StyleSheet.create({
   emptyBody: { fontFamily: fonts.sans, fontSize: 14, lineHeight: 21, color: colors.muted, textAlign: 'center' },
   clearSoft: { height: 44, paddingHorizontal: 20, borderRadius: radius.pill, backgroundColor: colors.greenTint, alignItems: 'center', justifyContent: 'center' },
   clearSoftText: { fontFamily: fonts.bold, fontSize: 14, color: colors.green },
+
+  desktopSearch: {
+    flexDirection: 'row', alignItems: 'center', gap: 10, width: 360, height: 50, paddingHorizontal: 18,
+    backgroundColor: colors.white, borderRadius: radius.pill, borderWidth: 1.5, borderColor: colors.line,
+  },
+  compactChip: { height: 34, paddingHorizontal: 12, borderRadius: radius.pill, borderWidth: 1.5, alignItems: 'center', justifyContent: 'center' },
+  compactChipText: { fontFamily: fonts.semi, fontSize: 12 },
+  desktopRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 28 },
+  desktopFilters: { width: 240, gap: 18, padding: 20, borderRadius: 22 },
+  desktopFiltersHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  desktopFiltersTitle: { fontFamily: fonts.bold, fontSize: 15, color: colors.ink },
+  desktopClear: { fontFamily: fonts.bold, fontSize: 13, color: colors.green },
+  desktopResults: { flex: 1, minWidth: 0, gap: 18 },
+  desktopDirection: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 18, paddingVertical: 18, paddingHorizontal: 22, borderRadius: 22 },
+  desktopDirectionCopy: { flex: 1, minWidth: 220, gap: 4 },
+  desktopDirectionArea: { fontFamily: fonts.serif, fontSize: 22, lineHeight: 27, color: colors.ink },
+  desktopEmptyMark: { width: 64, height: 64, borderRadius: 22, backgroundColor: colors.greenTint, alignItems: 'center', justifyContent: 'center' },
+  gridRow: { flexDirection: 'row' },
+  gridCell: { flex: 1, minWidth: 0 },
+  desktopCard: { flex: 1, gap: 12, borderWidth: 1, borderColor: colors.lineSoft, borderRadius: 22 },
+  desktopCardTitle: { fontSize: 22, lineHeight: 26 },
+  desktopCardFoot: { marginTop: 'auto' },
 });
