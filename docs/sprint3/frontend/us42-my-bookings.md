@@ -68,9 +68,12 @@ to. The issue scopes US-42 to the Career Professional; a Job Seeker sees the sam
 
 The service title on each booking is the one frozen on the order at purchase
 ([US-36 backend](../backend/us36-service-edit-and-removal.md)), so renaming a service does not change
-bookings already made.
+bookings already made. PR #244 also returns each in-person booking's purchased
+general area in `meetingArea`; the booking detail renders it separately from the
+exact meeting address. This API field does not imply that the list card displays
+all delivery details.
 
-## Acceptance criteria
+## Executed acceptance coverage
 
 | Criterion | Frontend behaviour | Evidence |
 |---|---|---|
@@ -95,9 +98,23 @@ bookings already made.
   [`backend/tests/test_payments.py`](../../../backend/tests/test_payments.py) (the 500-character limit).
 
 Run from `frontend/`: `npx jest __tests__/screens/counsellor-bookings.test.tsx __tests__/screens/timeslots.test.tsx __tests__/api/client.test.ts`.
-Local run on `dev` at `0df4068`, 17 October 2026, Node 22.14.0: 41 passed (12, 13 and 16).
+**Original dev-only execution:** `0df4068`, 17 October 2026, Node 22.14.0: 41 passed (12, 13 and 16).
 
-## Known gaps
+## QA branch evidence
+
+The preceding dev-only counts identify the original source-document execution.
+The `sprint3-qa` overlay adds executed API, component and browser coverage. Its
+[17 October report](../qa/test-results-final-20261017.md) records the tested
+`0df4068` product, and the [dev refresh report](../qa/test-results-dev-refresh-20261017.md)
+records reconciliation with `972caee`. That dev update adds documentation; product
+code is unchanged. Suite counts belong to their dated executions and are not added
+together. The [latest meeting-area report](../qa/test-results-meeting-area-20261017.md)
+records the subsequent `9cce973` baseline from PR #244, including the backend
+snapshot change and the confirmation-screen finding. Frontend regression results
+are retained from the 06:33 UTC execution; the new advisory has its own record.
+The [QA matrix](../qa/qa-matrix.md) links these results to the QA tasks.
+
+## Recorded behaviour and findings
 
 - **Error state:** a failed read still shows "Nothing booked yet" under the banner, so AT-US-42-4's
   "rather than an empty list" is only partly met. There is no Try again button; only pull to refresh.
@@ -106,4 +123,6 @@ Local run on `dev` at `0df4068`, 17 October 2026, Node 22.14.0: 41 passed (12, 1
 - **Brief:** cannot be added or changed once the order is placed.
 - Sprint 2 gaps still open: the fixed 24-hour wording on the cancel sheet, whole-dollar card prices,
   and the in-person note addressed to a Job Seeker but shown to both roles.
-- The issue asks for iOS and Android screenshots; the walkthrough is iOS only.
+- [Recorded native case D08](../qa/device-acceptance.md) passed on both Expo Go simulator
+  platforms on 16 October (`cdcc44e`), comparing upcoming/past/empty lists, delivery details and
+  timezone display with API readbacks. These are separate from component-preset executions.

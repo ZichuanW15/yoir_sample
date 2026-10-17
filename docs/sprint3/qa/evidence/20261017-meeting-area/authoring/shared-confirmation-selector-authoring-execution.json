@@ -1,0 +1,28 @@
+{
+  "platform": "shared",
+  "kind": "confirmation-defect",
+  "command": [
+    "./node_modules/.bin/jest",
+    "--config",
+    "jest.config.defects.js",
+    "--runInBand",
+    "--runTestsByPath",
+    "__tests__/defects/sprint3-confirmation-history.test.tsx",
+    "--json",
+    "--outputFile",
+    "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/authoring/shared-confirmation-defect.json"
+  ],
+  "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+  "startedAt": "2026-10-17T06:43:09.732863+00:00",
+  "finishedAt": "2026-10-17T06:43:11.369143+00:00",
+  "exitCode": 1,
+  "source": "__tests__/defects/sprint3-confirmation-history.test.tsx",
+  "sourceSha256": "c71f0250c915b6dbc8f2c75fbd569c5a2153afc7c0ab57f16ea2122a644e780f",
+  "results": {
+    "numTotalTests": 1,
+    "numPassedTests": 0,
+    "numFailedTests": 1,
+    "numPendingTests": 0,
+    "numRuntimeErrorTestSuites": 0
+  }
+}

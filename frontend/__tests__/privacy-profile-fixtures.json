@@ -1,0 +1,21 @@
+{
+  "partial": {
+    "id": "privacy-fixture-professional",
+    "displayName": "Privacy Fixture Professional",
+    "introduction": "Public career summary",
+    "defaultModality": "online",
+    "verificationStatus": "verified",
+    "overallRating": 4.8,
+    "reviewCount": 3,
+    "visibility": "partial"
+  },
+  "restricted": {
+    "id": "privacy-fixture-professional",
+    "displayName": "Privacy Fixture Professional",
+    "verificationStatus": "verified",
+    "overallRating": 4.8,
+    "reviewCount": 3,
+    "visibility": "restricted",
+    "restricted": true
+  }
+}

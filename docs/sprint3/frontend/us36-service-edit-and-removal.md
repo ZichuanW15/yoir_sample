@@ -9,7 +9,7 @@ screens were built in Sprint 2 and reached `dev` on 14 September 2026 in
 The shared form is documented in [US-34 (Sprint 2)](../../sprint2/frontend/us34-create-a-service.md) and
 [US-35 (Sprint 2)](../../sprint2/frontend/us35-describe-and-price-a-service.md). Sprint 3 made no
 front-end change for this story. This document checks the current screens against US-36's acceptance
-criteria, including the order title the back end now freezes at purchase
+criteria, including the order title and general meeting area the back end freezes at purchase
 ([US-36 back end](../backend/us36-service-edit-and-removal.md)). Sub-issue #199 was closed on
 7 October 2026.
 
@@ -67,17 +67,21 @@ same one used to publish. Both routes redirect anyone who is not a Career Profes
 
 ### What existing bookings show
 
-The back end freezes the service title on each order at purchase, with the price and fee split. The
-app does not hold a title of its own for a booking. It shows what the back end returns:
+The back end freezes the service title and general meeting area on each order at purchase,
+with the price and fee split. Booking readers return that purchased area after a listing moves;
+the exact street address remains a separate booking field. The app does not hold a title of
+its own for a booking. The following screens show what the back end returns:
 
 | Screen | Field shown | Source |
 |---|---|---|
 | My sessions, booking detail, reschedule, review | `booking.serviceTitle` | `GET /me/bookings`, `GET /bookings/{bookingId}` |
+| In-person booking detail | `booking.meetingArea` | `GET /bookings/{bookingId}`, populated from the order snapshot |
 | Receipt | `receipt.description` | `GET /bookings/{bookingId}/receipt` |
 | Platform Owner Payments, order detail, Bookings | `serviceTitle` | `GET /admin/payments`, `GET /admin/bookings` |
 
-So a rename or a price change after purchase does not alter any of these. The one exception is the
-booking confirmation screen, which reads the live service (see Known gaps).
+A later listing rename, price change or move therefore preserves those stored purchase values.
+The booking confirmation screen still uses the live service for its title and location
+(see Recorded behaviour and findings).
 
 ## API boundary
 
@@ -90,15 +94,15 @@ booking confirmation screen, which reads the live service (see Known gaps).
 The back end checks ownership. A request for another Career Professional's service returns `404`, so
 the app never learns whether that id exists.
 
-## Acceptance criteria
+## Executed acceptance coverage
 
 | Criterion | Frontend behaviour | Evidence |
 |---|---|---|
 | An edit shows the updated values only after the back end confirms it | Toast and return to the workspace wait for `updateService`; the workspace then reads the list again | `ServiceForm.test.tsx` "switching an in-person edit to online clears its meeting area in the submitted update"; `counsellor-edit-service.test.tsx` "does not show editable values until loading finishes, then pre-fills the matching owned service"; walkthrough 52 |
 | A confirmed removal takes the service off My services, and the back end no longer returns it as active | Confirm dialog, `DELETE`, then the list is read again and filtered on `active` | `counsellor-dashboard.test.tsx` "cancel sends no delete; mocked delete success refreshes the displayed list"; `ServiceForm.test.tsx` "deletion needs confirmation and returns only after mocked API success"; walkthrough 53; back end `test_deleting_a_service_withdraws_it_without_erasing_it` |
-| An existing order and its booking keep their recorded service information | Every booking, receipt and Platform Owner screen shows the title the back end returns from the order | Back end `test_renaming_a_service_does_not_rewrite_what_was_already_bought`. No front-end test asserts the frozen title |
+| An existing order and its booking keep their recorded service information | Booking detail reads the order-backed title and general area; receipts and Platform Owner views use stored titles. Confirmation retains a separate live-service defect | `sprint3-completion.spec.ts` checks purchase/edit/withdraw history; `test_sprint3_final_history_qa.py` verifies titles/receipts; `test_sprint3_service_history_qa.py` and `test_sprint3_meeting_area_migration_qa.py` check area history and migration; `sprint3-meeting-area.spec.ts` checks both parties' browser details after move/withdrawal; `sprint3-confirmation-history.test.tsx` retains the confirmation-area assertion |
 | A Career Professional who does not own the service is rejected and the service is unchanged | The edit screen only opens services in the caller's own list; the back end returns `404` | `counsellor-edit-service.test.tsx` "a missing service shows a recoverable error instead of an unrelated service"; back end `test_a_counsellor_cannot_edit_or_delete_someone_elses_service` |
-| A rejected or failed edit or removal shows the failure and leaves the listing unchanged | Error banner; form values or card kept; no toast | `ServiceForm.test.tsx` "failed deletion keeps the service editable and does not announce success"; `counsellor-dashboard.test.tsx` "deletion rejection keeps the original service visible". A rejected edit: not unit tested (the create path is, in "preserves form values and permits retry after a server rejection") |
+| A rejected or failed edit or removal shows the failure and leaves the listing unchanged | Error banner; form values or card kept; no toast | `ServiceForm.test.tsx` "failed deletion keeps the service editable and does not announce success"; `counsellor-dashboard.test.tsx` "deletion rejection keeps the original service visible". `service-booking-recovery.test.tsx` checks rejected PATCH, retained edits and acknowledgement-gated retry; `test_failed_service_change_preserves_listing_and_paid_history_then_same_request_retries` covers edit/withdraw rollback after flushed SQL writes |
 
 ## Tests
 
@@ -119,17 +123,51 @@ npx jest __tests__/counsellor/ServiceForm.test.tsx __tests__/screens/counsellor-
   __tests__/screens/counsellor-dashboard.test.tsx __tests__/api/counsellor-client.test.ts
 ```
 
-Local run on `dev` at `0df4068`, 17 October 2026, Node 22.14.0: 4 suites, 53 passed (the files also
+**Original dev-only execution:** `0df4068`, 17 October 2026, Node 22.14.0: 4 suites, 53 passed (the files also
 cover US-05, US-34, US-35, US-37 to US-39 and the rest of the Career Professional client).
 
-## Known gaps
+The refresh adds [the existing-service recovery case](../../../frontend/__tests__/screens/service-booking-recovery.test.tsx):
+a rejected edit retains title and price, retries the same PATCH payload, blocks a
+second in-flight write and announces success only after acknowledgement. Its
+focused execution passed; the refresh report records the wider preset executions.
+
+The separate [in-person browser regression](../../../frontend/e2e/sprint3-meeting-area.spec.ts)
+passed on `9cce973`: real API setup, purchase and stub payment, a move from Melbourne
+to Geelong, then withdrawal. Both buyer and counsellor browser details and API
+readbacks kept the purchased Melbourne area; the run retains screenshots. This
+one-case execution followed the earlier complete 38-case Chromium selection and
+is recorded separately in the meeting-area report.
+
+## QA branch evidence
+
+The preceding dev-only counts identify the original source-document execution.
+The `sprint3-qa` overlay adds executed API, component and browser coverage. Its
+[17 October report](../qa/test-results-final-20261017.md) records the tested
+`0df4068` product, and the [dev refresh report](../qa/test-results-dev-refresh-20261017.md)
+records reconciliation with `972caee`. That dev update adds documentation; product
+code is unchanged. Suite counts belong to their dated executions and are not added
+together. The [latest meeting-area report](../qa/test-results-meeting-area-20261017.md)
+records the subsequent `9cce973` baseline from PR #244, including the backend
+snapshot change and the confirmation-screen finding. Frontend regression results
+are retained from the 06:33 UTC execution; the new advisory has its own record.
+The [QA matrix](../qa/qa-matrix.md) links these results to the QA tasks.
+
+## Recorded behaviour and findings
 
 - **Confirmation screen title:** the booking confirmation reads the live service through
   `GET /services/{serviceId}`, not the order. A rename between paying and opening it shows the new
   name; a service deleted in that gap leaves the summary without a title. The booking and payment
   references still show.
-- **No front-end test of the frozen title**, and no browser or device run of edit or delete.
-- **A rejected edit** is covered only through the shared create path.
+- **Current frozen-title evidence:** the [browser purchase/edit/withdraw journey](../../../frontend/e2e/sprint3-completion.spec.ts)
+  passes on the 17 October product. [D07 native observations](../qa/device-acceptance.md) remain dated
+  to the older 16 October `cdcc44e` product, where both platforms reproduced title mutation.
+- **Backend meeting-area history:** PR #244 stores the general area on each order.
+  `test_sprint3_service_history_qa.py` now passes the former area XFAIL as ordinary
+  regression, with migration and history outcomes in the latest meeting-area report.
+- **Confirmation screen area:** `S3-CONFIRMATION-AREA` receives the booked
+  `Melbourne, VIC` through the real client, but the screen still renders the live
+  listing's `Geelong, VIC`. The assertion remains advisory in
+  [`sprint3-confirmation-history.test.tsx`](../../../frontend/__tests__/defects/sprint3-confirmation-history.test.tsx).
 - **Deleting a service with upcoming bookings** leaves those bookings in place, as the dialog says.
   What should happen to them is still open (out of scope on #31).
 - Withdrawn services cannot be restored from the app, although `GET /me/services` still returns them.

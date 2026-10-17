@@ -1,0 +1,199 @@
+{
+  "addedSourceCaseCount": 1,
+  "defectId": "S3-CONFIRMATION-AREA",
+  "qaIssue": 201,
+  "source": "frontend/__tests__/defects/sprint3-confirmation-history.test.tsx",
+  "sourceSha256": "d826b69a255c318b5aa6ea9b5814c4eca97d85c99436f921c1fb8a8de0457c3f",
+  "scope": "Real confirmation component/AuthProvider/API client against controlled HTTP responses; no product changes.",
+  "confirmedBehavior": "Booking response is resolved with Melbourne, VIC but the rendered delivery note shows live service Geelong, VIC.",
+  "platforms": {
+    "shared": {
+      "confirmation-defect": {
+        "platform": "shared",
+        "kind": "confirmation-defect",
+        "command": [
+          "./node_modules/.bin/jest",
+          "--config",
+          "jest.config.defects.js",
+          "--runInBand",
+          "--runTestsByPath",
+          "__tests__/defects/sprint3-confirmation-history.test.tsx",
+          "--json",
+          "--outputFile",
+          "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/authoring/shared-confirmation-defect.json"
+        ],
+        "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+        "startedAt": "2026-10-17T06:43:34.020738+00:00",
+        "finishedAt": "2026-10-17T06:43:35.598270+00:00",
+        "exitCode": 1,
+        "source": "__tests__/defects/sprint3-confirmation-history.test.tsx",
+        "sourceSha256": "d826b69a255c318b5aa6ea9b5814c4eca97d85c99436f921c1fb8a8de0457c3f",
+        "results": {
+          "numTotalTests": 1,
+          "numPassedTests": 0,
+          "numFailedTests": 1,
+          "numPendingTests": 0,
+          "numRuntimeErrorTestSuites": 0
+        }
+      },
+      "booking-detail-regression": {
+        "platform": "shared",
+        "kind": "booking-detail-regression",
+        "command": [
+          "./node_modules/.bin/jest",
+          "--config",
+          "jest.config.js",
+          "--runInBand",
+          "--runTestsByPath",
+          "__tests__/screens/booking-detail.test.tsx",
+          "--json",
+          "--outputFile",
+          "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/authoring/shared-booking-detail-regression.json",
+          "--testNamePattern",
+          "AT-US-43-2:"
+        ],
+        "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+        "startedAt": "2026-10-17T06:43:11.369638+00:00",
+        "finishedAt": "2026-10-17T06:43:13.033037+00:00",
+        "exitCode": 0,
+        "source": "__tests__/screens/booking-detail.test.tsx",
+        "sourceSha256": "41421b94ccc97246ffea9e152f309aa1eaa570503fbc166e18814a914675c20f",
+        "results": {
+          "numTotalTests": 9,
+          "numPassedTests": 1,
+          "numFailedTests": 0,
+          "numPendingTests": 8,
+          "numRuntimeErrorTestSuites": 0
+        }
+      }
+    },
+    "ios": {
+      "confirmation-defect": {
+        "platform": "ios",
+        "kind": "confirmation-defect",
+        "command": [
+          "./node_modules/.bin/jest",
+          "--config",
+          "jest.config.ios-defects.js",
+          "--runInBand",
+          "--runTestsByPath",
+          "__tests__/defects/sprint3-confirmation-history.test.tsx",
+          "--json",
+          "--outputFile",
+          "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/authoring/ios-confirmation-defect.json"
+        ],
+        "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+        "startedAt": "2026-10-17T06:43:34.021990+00:00",
+        "finishedAt": "2026-10-17T06:43:35.625408+00:00",
+        "exitCode": 1,
+        "source": "__tests__/defects/sprint3-confirmation-history.test.tsx",
+        "sourceSha256": "d826b69a255c318b5aa6ea9b5814c4eca97d85c99436f921c1fb8a8de0457c3f",
+        "results": {
+          "numTotalTests": 1,
+          "numPassedTests": 0,
+          "numFailedTests": 1,
+          "numPendingTests": 0,
+          "numRuntimeErrorTestSuites": 0
+        }
+      },
+      "booking-detail-regression": {
+        "platform": "ios",
+        "kind": "booking-detail-regression",
+        "command": [
+          "./node_modules/.bin/jest",
+          "--config",
+          "jest.config.ios.js",
+          "--runInBand",
+          "--runTestsByPath",
+          "__tests__/screens/booking-detail.test.tsx",
+          "--json",
+          "--outputFile",
+          "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/authoring/ios-booking-detail-regression.json",
+          "--testNamePattern",
+          "AT-US-43-2:"
+        ],
+        "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+        "startedAt": "2026-10-17T06:43:11.410226+00:00",
+        "finishedAt": "2026-10-17T06:43:13.016685+00:00",
+        "exitCode": 0,
+        "source": "__tests__/screens/booking-detail.test.tsx",
+        "sourceSha256": "41421b94ccc97246ffea9e152f309aa1eaa570503fbc166e18814a914675c20f",
+        "results": {
+          "numTotalTests": 9,
+          "numPassedTests": 1,
+          "numFailedTests": 0,
+          "numPendingTests": 8,
+          "numRuntimeErrorTestSuites": 0
+        }
+      }
+    },
+    "android": {
+      "confirmation-defect": {
+        "platform": "android",
+        "kind": "confirmation-defect",
+        "command": [
+          "./node_modules/.bin/jest",
+          "--config",
+          "jest.config.android-defects.js",
+          "--runInBand",
+          "--runTestsByPath",
+          "__tests__/defects/sprint3-confirmation-history.test.tsx",
+          "--json",
+          "--outputFile",
+          "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/authoring/android-confirmation-defect.json"
+        ],
+        "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+        "startedAt": "2026-10-17T06:43:34.020815+00:00",
+        "finishedAt": "2026-10-17T06:43:35.662901+00:00",
+        "exitCode": 1,
+        "source": "__tests__/defects/sprint3-confirmation-history.test.tsx",
+        "sourceSha256": "d826b69a255c318b5aa6ea9b5814c4eca97d85c99436f921c1fb8a8de0457c3f",
+        "results": {
+          "numTotalTests": 1,
+          "numPassedTests": 0,
+          "numFailedTests": 1,
+          "numPendingTests": 0,
+          "numRuntimeErrorTestSuites": 0
+        }
+      },
+      "booking-detail-regression": {
+        "platform": "android",
+        "kind": "booking-detail-regression",
+        "command": [
+          "./node_modules/.bin/jest",
+          "--config",
+          "jest.config.android.js",
+          "--runInBand",
+          "--runTestsByPath",
+          "__tests__/screens/booking-detail.test.tsx",
+          "--json",
+          "--outputFile",
+          "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/authoring/android-booking-detail-regression.json",
+          "--testNamePattern",
+          "AT-US-43-2:"
+        ],
+        "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+        "startedAt": "2026-10-17T06:43:11.410237+00:00",
+        "finishedAt": "2026-10-17T06:43:13.017691+00:00",
+        "exitCode": 0,
+        "source": "__tests__/screens/booking-detail.test.tsx",
+        "sourceSha256": "41421b94ccc97246ffea9e152f309aa1eaa570503fbc166e18814a914675c20f",
+        "results": {
+          "numTotalTests": 9,
+          "numPassedTests": 1,
+          "numFailedTests": 0,
+          "numPendingTests": 8,
+          "numRuntimeErrorTestSuites": 0
+        }
+      }
+    }
+  },
+  "positiveRegression": "Existing AT-US-43-2 in booking-detail.test.tsx covers booking-returned area and specific-address update; reused instead of duplicating a source case.",
+  "authoringCorrection": "First run matched both the Delivery row and delivery note with /^In person/. Narrowed selector to /^In person \u00b7/ and reran the new case on all three presets. Original authoring failures are retained as *-confirmation-selector-authoring.* and are not product-defect evidence.",
+  "lint": {
+    "command": "./node_modules/.bin/eslint __tests__/defects/sprint3-confirmation-history.test.tsx",
+    "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+    "exitCode": 0,
+    "log": "confirmation-history-eslint.log"
+  }
+}

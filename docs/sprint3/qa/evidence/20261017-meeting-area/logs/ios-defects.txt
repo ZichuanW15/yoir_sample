@@ -1,0 +1,744 @@
+
+> yoir-mobile@0.1.0 test:ios:defects
+> jest --ci --runInBand --config jest.config.ios-defects.js --json --outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/ios-defects/results.json
+
+FAIL ios-defects __tests__/defects/sprint3-refresh-acceptance.test.tsx
+  ● Sprint 3 refresh acceptance (advisory; ordinary assertions) › [S3-WORKSPACE-STALE-STATUS][QA-195/198] a failed profile refresh must not present the old verification as current
+
+    expect(received).toBeNull()
+
+    Received: {"_fiber": {"_debugHookTypes": null, "_debugInfo": null, "_debugNeedsRemount": false, "_debugOwner": [FiberNode], "_debugStack": [Error: react-stack-top-frame], "_debugTask": null, "actualDuration": 0, "actualStartTime": 1792219458044, "alternate": [FiberNode], "child": [FiberNode], "childLanes": 0, "deletions": null, "dependencies": null, "elementType": "Text", "flags": 0, "index": 0, "key": null, "lanes": 0, "memoizedProps": [Object], "memoizedState": null, "mode": 3, "pendingProps": [Object], "ref": null, "refCleanup": null, "return": [FiberNode], "selfBaseDuration": 0, "sibling": null, "stateNode": [Object], "subtreeFlags": 0, "tag": 5, "treeBaseDuration": 0, "type": "Text", "updateQueue": null}}
+
+      48 |     // The Profile screen already uses an explicit unavailable state on this path.
+      49 |     // Workspace must not continue to affirm an unconfirmed prior verification.
+    > 50 |     expect(screen.queryByText('Verified Career Professional')).toBeNull();
+         |                                                                ^
+      51 |     expect(screen.getByText('Status unavailable')).toBeOnTheScreen();
+      52 |   });
+      53 |
+
+      at Object.toBeNull (__tests__/defects/sprint3-refresh-acceptance.test.tsx:50:64)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● Sprint 3 refresh acceptance (advisory; ordinary assertions) › [S3-ADMIN-USERS-FOCUS][US-71] returning to the mounted Users directory rereads account status
+
+    expect(jest.fn()).toHaveBeenCalledTimes(expected)
+
+    Expected number of calls: 2
+    Received number of calls: 1
+
+      63 |     expect(onFocus).toHaveBeenCalledTimes(2);
+      64 |     expect(apiMock.login).toHaveBeenCalledTimes(1);
+    > 65 |     expect(apiMock.listAllCounsellors).toHaveBeenCalledTimes(2);
+         |                                        ^
+      66 |     expect(apiMock.listAllJobSeekers).toHaveBeenCalledTimes(2);
+      67 |     expect(await screen.findByText('refocused-professional@example.com')).toBeOnTheScreen();
+      68 |     expect(screen.queryByText(adminProfessional.email)).toBeNull();
+
+      at Object.toHaveBeenCalledTimes (__tests__/defects/sprint3-refresh-acceptance.test.tsx:65:40)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● Sprint 3 refresh acceptance (advisory; ordinary assertions) › [S3-ADMIN-USERS-STALE-REFRESH][US-71] a failed renewed-session read withholds the old directory until retry succeeds
+
+    expect(received).toBeNull()
+
+    Received: {"_fiber": {"_debugHookTypes": null, "_debugInfo": null, "_debugNeedsRemount": false, "_debugOwner": [FiberNode], "_debugStack": [Error: react-stack-top-frame], "_debugTask": null, "actualDuration": 0, "actualStartTime": 1792219459361, "alternate": [FiberNode], "child": [FiberNode], "childLanes": 0, "deletions": null, "dependencies": null, "elementType": "Text", "flags": 4, "index": 0, "key": null, "lanes": 0, "memoizedProps": [Object], "memoizedState": null, "mode": 3, "pendingProps": [Object], "ref": null, "refCleanup": null, "return": [FiberNode], "selfBaseDuration": 0, "sibling": null, "stateNode": [Object], "subtreeFlags": 262144, "tag": 5, "treeBaseDuration": 0, "type": "Text", "updateQueue": null}}
+
+      84 |     expect(await screen.findByText('Renewed directory read unavailable.')).toBeOnTheScreen();
+      85 |     expect(screen.getByRole('button', { name: 'Try again' })).toBeOnTheScreen();
+    > 86 |     expect(screen.queryByText(adminProfessional.email)).toBeNull();
+         |                                                         ^
+      87 |     expect(screen.queryByRole('button', { name: `${adminProfessional.name}, Career Professional. Open their verification` })).toBeNull();
+      88 |     expect(screen.queryByText('No Career Professionals yet.')).toBeNull();
+      89 |   });
+
+      at Object.toBeNull (__tests__/defects/sprint3-refresh-acceptance.test.tsx:86:57)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL ios-defects __tests__/defects/sprint3-confirmation-history.test.tsx
+  ● [S3-CONFIRMATION-AREA][QA-201] confirmation retains the booked meeting area after the listing moves
+
+    expect(element).toHaveTextContent()
+
+    Expected element to have text content:
+      In person · Melbourne, VIC
+    Received:
+      In person · Geelong, VIC. Your Career Professional confirms the exact meeting point before the session. Keep the booking reference — your Career Professional can see the booking now.
+
+      47 |   // Keep the correct acceptance assertion so a product fix makes this pass.
+      48 |   const deliveryNote = screen.getByText(/^In person ·/);
+    > 49 |   expect(deliveryNote).toHaveTextContent('In person · Melbourne, VIC');
+         |                        ^
+      50 |   expect(deliveryNote).not.toHaveTextContent('Geelong, VIC');
+      51 | });
+      52 |
+
+      at Object.toHaveTextContent (__tests__/defects/sprint3-confirmation-history.test.tsx:49:24)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL ios-defects __tests__/defects/public-acceptance.test.tsx
+  ● known booking confirmation acceptance gaps › [QA-127][DEF-CONFIRM-UNVERIFIED] a direct confirmation URL without a receipt cannot claim payment success
+
+    expect(received).toBeNull()
+
+    Received: {"_fiber": {"_debugHookTypes": null, "_debugInfo": null, "_debugNeedsRemount": false, "_debugOwner": [FiberNode], "_debugStack": [Error: react-stack-top-frame], "_debugTask": null, "actualDuration": 0, "actualStartTime": 1792219460622, "alternate": [FiberNode], "child": [FiberNode], "childLanes": 0, "deletions": null, "dependencies": null, "elementType": "Text", "flags": 4, "index": 0, "key": null, "lanes": 0, "memoizedProps": [Object], "memoizedState": null, "mode": 3, "pendingProps": [Object], "ref": null, "refCleanup": null, "return": [FiberNode], "selfBaseDuration": 0, "sibling": null, "stateNode": [Object], "subtreeFlags": 262144, "tag": 5, "treeBaseDuration": 0, "type": "Text", "updateQueue": null}}
+
+      12 |     await renderPublic(<ConfirmationScreen />);
+      13 |     await screen.findByText(serviceFixture.title);
+    > 14 |     expect(screen.queryByText('You’re booked')).toBeNull();
+         |                                                 ^
+      15 |     expect(screen.queryByText(/Payment successful/)).toBeNull();
+      16 |   });
+      17 |
+
+      at Object.toBeNull (__tests__/defects/public-acceptance.test.tsx:14:49)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● known booking confirmation acceptance gaps › [QA-127][DEF-CONFIRM-RECEIPT] confirmation uses the server-confirmed booking time and modality
+
+    expect(jest.fn()).toHaveBeenCalledWith(...expected)
+
+    Expected: ObjectContaining {"params": ObjectContaining {"endsAt": "2026-09-02T03:00:00Z", "modality": "in_person", "startsAt": "2026-09-02T02:00:00Z"}}
+    Received: {"params": {"amountMinor": "9500", "bookingId": "booking-1", "endsAt": "2026-09-01T01:00:00.000Z", "modality": "online", "paymentId": "stub-payment-1", "pending": "", "serviceId": "service-1", "startsAt": "2026-09-01T00:00:00.000Z"}, "pathname": "/bookings/confirmation"}
+
+    Number of calls: 1
+
+      25 |     fireEvent.press(screen.getByRole('button', { name: 'Pay $95' }));
+      26 |     await tick();
+    > 27 |     expect(navigation.replace).toHaveBeenCalledWith(expect.objectContaining({ params: expect.objectContaining({ startsAt: receipt.booking.startsAt, endsAt: receipt.booking.endsAt, modality: receipt.booking.modality }) }));
+         |                                ^
+      28 |   });
+      29 | });
+      30 |
+
+      at Object.toHaveBeenCalledWith (__tests__/defects/public-acceptance.test.tsx:27:32)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL ios-defects __tests__/defects/counsellor-acceptance.test.tsx
+  ● Counsellor known defects — correct acceptance expectations › QA #136 rejects a negative price instead of silently changing its sign
+
+    expect(jest.fn()).not.toHaveBeenCalled()
+
+    Expected number of calls: 0
+    Received number of calls: 1
+
+    1: "counsellor-1", {"currency": "AUD", "description": "A practical coaching session with individual interview feedback.", "durationMinutes": 60, "location": null, "modalities": ["online"], "priceMinor": 500, "title": "Interview coaching"}, "counsellor-access-token"
+
+      14 |     // rather than an async act warning after this intentionally failing assertion.
+      15 |     await waitFor(() => expect(screen.getByRole('button', { name: 'Publish service' })).toBeEnabled());
+    > 16 |     expect(apiMock.createService).not.toHaveBeenCalled();
+         |                                       ^
+      17 |     expect(screen.getByText('Enter a price greater than zero.')).toBeTruthy();
+      18 |   });
+      19 |   test('QA #145 retains a failed window creation error after refreshing the calendar', async () => {
+
+      at Object.toHaveBeenCalled (__tests__/defects/counsellor-acceptance.test.tsx:16:39)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● Counsellor known defects — correct acceptance expectations › QA #145 retains a failed window creation error after refreshing the calendar
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      30 |     // A boolean presence assertion keeps failure output focused on the missing
+      31 |     // expected feedback, rather than dumping the entire calendar render tree.
+    > 32 |     expect(screen.queryByText('We could not reach Yoir. Check your connection and try again.') !== null).toBe(true);
+         |                                                                                                          ^
+      33 |     expect(screen.queryByText('1 day added')).toBeNull();
+      34 |   });
+      35 | });
+
+      at Object.toBe (__tests__/defects/counsellor-acceptance.test.tsx:32:106)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL ios-defects __tests__/defects/sprint3-reschedule-acceptance.test.tsx
+  ● [S3-RESCHEDULE-SLOTS-READ][QA-225] a failed availability read reports the error without claiming no open times
+
+    expect(received).toBeNull()
+
+    Received: {"_fiber": {"_debugHookTypes": null, "_debugInfo": null, "_debugNeedsRemount": false, "_debugOwner": [FiberNode], "_debugStack": [Error: react-stack-top-frame], "_debugTask": null, "actualDuration": 0, "actualStartTime": 1792219461447, "alternate": null, "child": [FiberNode], "childLanes": 0, "deletions": null, "dependencies": null, "elementType": "Text", "flags": 0, "index": 0, "key": null, "lanes": 0, "memoizedProps": [Object], "memoizedState": null, "mode": 3, "pendingProps": [Object], "ref": null, "refCleanup": null, "return": [FiberNode], "selfBaseDuration": 0, "sibling": null, "stateNode": [Object], "subtreeFlags": 0, "tag": 5, "treeBaseDuration": 0, "type": "Text", "updateQueue": null}}
+
+      16 |   // Original expected behavior remains a deliberately failing advisory assertion.
+      17 |   // A refused GET cannot establish that the service has no available appointments.
+    > 18 |   expect(screen.queryByText('No open times right now. Try again later.')).toBeNull();
+         |                                                                           ^
+      19 |   expect(screen.getByText('Availability temporarily unavailable.')).toBeOnTheScreen();
+      20 | });
+      21 |
+
+      at Object.toBeNull (__tests__/defects/sprint3-reschedule-acceptance.test.tsx:18:75)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL ios-defects __tests__/defects/sprint3-private-matches.test.tsx
+  ● Console
+
+    console.error
+      TypeError: Cannot read properties of undefined (reading 'length')
+          at length (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/src/diagnosis/view.tsx:324:32)
+          at Array.map (<anonymous>)
+          at map (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/src/diagnosis/view.tsx:289:38)
+          at Object.react_stack_bottom_frame (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15670:20)
+          at renderWithHooks (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4863:22)
+          at updateFunctionComponent (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7018:19)
+          at beginWork (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:8499:18)
+          at runWithFiberInDEV (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+          at performUnitOfWork (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13224:22)
+          at workLoopSync (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13068:41)
+          at renderRootSync (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13049:11)
+          at performWorkOnRoot (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12253:39)
+          at performWorkOnRootViaSchedulerTask (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2908:7)
+          at flushActQueue (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react/cjs/react.development.js:590:34)
+          at recursivelyFlushAsyncActWork (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react/cjs/react.development.js:566:13)
+          at Immediate._onImmediate (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react/cjs/react.development.js:849:32)
+          at processImmediate (node:internal/timers:483:21) {
+        [stack]: "TypeError: Cannot read properties of undefined (reading 'length')\n" +
+          '    at length (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/src/diagnosis/view.tsx:324:32)\n' +
+          '    at Array.map (<anonymous>)\n' +
+          '    at map (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/src/diagnosis/view.tsx:289:38)\n' +
+          '    at Object.react_stack_bottom_frame (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15670:20)\n' +
+          '    at renderWithHooks (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4863:22)\n' +
+          '    at updateFunctionComponent (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7018:19)\n' +
+          '    at beginWork (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:8499:18)\n' +
+          '    at runWithFiberInDEV (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)\n' +
+          '    at performUnitOfWork (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13224:22)\n' +
+          '    at workLoopSync (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13068:41)\n' +
+          '    at renderRootSync (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13049:11)\n' +
+          '    at performWorkOnRoot (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12253:39)\n' +
+          '    at performWorkOnRootViaSchedulerTask (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2908:7)\n' +
+          '    at flushActQueue (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react/cjs/react.development.js:590:34)\n' +
+          '    at recursivelyFlushAsyncActWork (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react/cjs/react.development.js:566:13)\n' +
+          '    at Immediate._onImmediate (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react/cjs/react.development.js:849:32)\n' +
+          '    at processImmediate (node:internal/timers:483:21)',
+        [message]: "Cannot read properties of undefined (reading 'length')"
+      }
+
+      The above error occurred in the <BestMatches> component.
+
+      React will try to recreate this component tree from scratch using the error boundary you provided, CaptureRenderError.
+
+      at defaultOnCaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6439:17)
+      at logCaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6475:9)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at CaptureRenderError.update.callback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6508:11)
+      at callCallback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4625:16)
+      at commitCallbacks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4645:11)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at commitClassCallbacks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:9658:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10082:25)
+      at recursivelyTraverseLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10892:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10005:11)
+      at recursivelyTraverseLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10892:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10005:11)
+      at recursivelyTraverseLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10892:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10210:11)
+      at recursivelyTraverseLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10892:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10005:11)
+      at recursivelyTraverseLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10892:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10210:11)
+      at recursivelyTraverseLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10892:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10005:11)
+      at recursivelyTraverseLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10892:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10210:11)
+      at recursivelyTraverseLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10892:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10005:11)
+      at recursivelyTraverseLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10892:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10087:11)
+      at flushLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13774:15)
+      at commitRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13697:9)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12336:15)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2908:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at recursivelyFlushAsyncActWork (node_modules/react/cjs/react.development.js:566:13)
+      at Immediate._onImmediate (node_modules/react/cjs/react.development.js:849:32)
+
+    console.error
+      TypeError: Cannot read properties of undefined (reading 'length')
+          at length (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/src/diagnosis/view.tsx:324:32)
+          at Array.map (<anonymous>)
+          at map (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/src/diagnosis/view.tsx:289:38)
+          at Object.react_stack_bottom_frame (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15670:20)
+          at renderWithHooks (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4863:22)
+          at updateFunctionComponent (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7018:19)
+          at beginWork (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:8499:18)
+          at runWithFiberInDEV (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+          at performUnitOfWork (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13224:22)
+          at workLoopSync (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13068:41)
+          at renderRootSync (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13049:11)
+          at performWorkOnRoot (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12253:39)
+          at performWorkOnRootViaSchedulerTask (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2908:7)
+          at flushActQueue (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react/cjs/react.development.js:590:34)
+          at recursivelyFlushAsyncActWork (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react/cjs/react.development.js:566:13)
+          at Immediate._onImmediate (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react/cjs/react.development.js:849:32)
+          at processImmediate (node:internal/timers:483:21) {
+        [stack]: "TypeError: Cannot read properties of undefined (reading 'length')\n" +
+          '    at length (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/src/diagnosis/view.tsx:324:32)\n' +
+          '    at Array.map (<anonymous>)\n' +
+          '    at map (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/src/diagnosis/view.tsx:289:38)\n' +
+          '    at Object.react_stack_bottom_frame (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:15670:20)\n' +
+          '    at renderWithHooks (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4863:22)\n' +
+          '    at updateFunctionComponent (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:7018:19)\n' +
+          '    at beginWork (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:8499:18)\n' +
+          '    at runWithFiberInDEV (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)\n' +
+          '    at performUnitOfWork (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13224:22)\n' +
+          '    at workLoopSync (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13068:41)\n' +
+          '    at renderRootSync (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13049:11)\n' +
+          '    at performWorkOnRoot (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12253:39)\n' +
+          '    at performWorkOnRootViaSchedulerTask (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2908:7)\n' +
+          '    at flushActQueue (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react/cjs/react.development.js:590:34)\n' +
+          '    at recursivelyFlushAsyncActWork (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react/cjs/react.development.js:566:13)\n' +
+          '    at Immediate._onImmediate (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/react/cjs/react.development.js:849:32)\n' +
+          '    at processImmediate (node:internal/timers:483:21)',
+        [message]: "Cannot read properties of undefined (reading 'length')"
+      }
+
+      The above error occurred in the <BestMatches> component.
+
+      React will try to recreate this component tree from scratch using the error boundary you provided, CaptureRenderError.
+
+      at defaultOnCaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6439:17)
+      at logCaughtError (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6475:9)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at CaptureRenderError.update.callback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:6508:11)
+      at callCallback (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4625:16)
+      at commitCallbacks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:4645:11)
+      at runWithFiberInDEV (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2315:13)
+      at commitClassCallbacks (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:9658:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10082:25)
+      at recursivelyTraverseLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10892:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10005:11)
+      at recursivelyTraverseLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10892:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10005:11)
+      at recursivelyTraverseLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10892:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10210:11)
+      at recursivelyTraverseLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10892:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10005:11)
+      at recursivelyTraverseLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10892:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10210:11)
+      at recursivelyTraverseLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10892:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10005:11)
+      at recursivelyTraverseLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10892:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10210:11)
+      at recursivelyTraverseLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10892:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10005:11)
+      at recursivelyTraverseLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10892:11)
+      at commitLayoutEffectOnFiber (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:10087:11)
+      at flushLayoutEffects (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13774:15)
+      at commitRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:13697:9)
+      at performWorkOnRoot (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:12336:15)
+      at performWorkOnRootViaSchedulerTask (node_modules/react-test-renderer/cjs/react-test-renderer.development.js:2908:7)
+      at flushActQueue (node_modules/react/cjs/react.development.js:590:34)
+      at recursivelyFlushAsyncActWork (node_modules/react/cjs/react.development.js:566:13)
+      at Immediate._onImmediate (node_modules/react/cjs/react.development.js:849:32)
+
+  ● privacy-filtered diagnosis matches — QA-174/186 › [S3-PRIVACY-MATCH-CRASH] partial API profiles render without accessing omitted private arrays
+
+    expect(received).toBeNull()
+
+    Received: "Cannot read properties of undefined (reading 'length')"
+
+      38 |       })).not.toBeNull();
+      39 |     });
+    > 40 |     expect(screen.queryByTestId('match-render-error')?.props.children ?? null).toBeNull();
+         |                                                                                ^
+      41 |     expect(screen.getByRole('button', { name: `${profile.displayName}, Career Professional` })).toBeOnTheScreen();
+      42 |     expect(screen.queryByText('Private coaching expertise')).toBeNull();
+      43 |     expect(screen.queryByText('Private language')).toBeNull();
+
+      at toBeNull (__tests__/defects/sprint3-private-matches.test.tsx:40:80)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● privacy-filtered diagnosis matches — QA-174/186 › [S3-PRIVACY-MATCH-CRASH] restricted API profiles render without accessing omitted private arrays
+
+    expect(received).toBeNull()
+
+    Received: "Cannot read properties of undefined (reading 'length')"
+
+      38 |       })).not.toBeNull();
+      39 |     });
+    > 40 |     expect(screen.queryByTestId('match-render-error')?.props.children ?? null).toBeNull();
+         |                                                                                ^
+      41 |     expect(screen.getByRole('button', { name: `${profile.displayName}, Career Professional` })).toBeOnTheScreen();
+      42 |     expect(screen.queryByText('Private coaching expertise')).toBeNull();
+      43 |     expect(screen.queryByText('Private language')).toBeNull();
+
+      at toBeNull (__tests__/defects/sprint3-private-matches.test.tsx:40:80)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL ios-defects __tests__/defects/sprint3-admin-acceptance.test.tsx
+  ● Sprint 3 unresolved administration acceptance (advisory suite) › [S3-ADMIN-BOOKINGS-EMPTY][QA-210] a failed booking read must not claim no sessions have been booked
+
+    expect(received).toBeNull()
+
+    Received: {"_fiber": {"_debugHookTypes": null, "_debugInfo": null, "_debugNeedsRemount": false, "_debugOwner": [FiberNode], "_debugStack": [Error: react-stack-top-frame], "_debugTask": null, "actualDuration": 0, "actualStartTime": 1792219461695, "alternate": null, "child": [FiberNode], "childLanes": 0, "deletions": null, "dependencies": null, "elementType": "Text", "flags": 0, "index": 0, "key": null, "lanes": 0, "memoizedProps": [Object], "memoizedState": null, "mode": 3, "pendingProps": [Object], "ref": null, "refCleanup": null, "return": [FiberNode], "selfBaseDuration": 0, "sibling": null, "stateNode": [Object], "subtreeFlags": 0, "tag": 5, "treeBaseDuration": 0, "type": "Text", "updateQueue": null}}
+
+      15 |     // no successful response established whether the platform contains bookings.
+      16 |     // Related to US-48 administration oversight; this is its adjacent Bookings view.
+    > 17 |     expect(screen.queryByText('Nothing has been booked yet.')).toBeNull();
+         |                                                                ^
+      18 |   });
+      19 | });
+      20 |
+
+      at Object.toBeNull (__tests__/defects/sprint3-admin-acceptance.test.tsx:17:64)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL ios-defects __tests__/defects/sprint3-diagnosis-recovery.test.tsx
+  ● Sprint 3 server-backed diagnosis recovery acceptance › [S3-DIAGNOSIS-HOME-READ-RECOVERY][QA-162] a failed initial progress read offers an error and retry instead of an endless spinner
+
+    Unable to find an element with text: Saved progress unavailable.
+
+    [36m<View>[39m
+      [36m<View />[39m
+    [36m</View>[39m
+
+      22 |     expect(navigation.replace).not.toHaveBeenCalled();
+      23 |     expect(callsTo('GET', '/counsellors')).toHaveLength(0);
+    > 24 |     expect(await screen.findByText('Saved progress unavailable.')).toBeOnTheScreen();
+         |                         ^
+      25 |     expect(screen.getByRole('button', { name: 'Try again' })).toBeOnTheScreen();
+      26 |   });
+      27 |
+
+      at Object.findByText (__tests__/defects/sprint3-diagnosis-recovery.test.tsx:24:25)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● Sprint 3 server-backed diagnosis recovery acceptance › [S3-DIAGNOSIS-RETAKE-ERROR][QA-165/168] a failed retake submission keeps its failure visible after refreshing the confirmed revision
+
+    Unable to find an element with text: Retake was not saved.
+
+    [36m<View[39m
+      [33mstyle[39m=[32m{
+        {
+          "opacity": 0,
+        }
+      }[39m
+    [36m>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mYoir Diagnosis[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Skip for now"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mSkip for now[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"Step 5 of 6"[39m
+        [33maccessibilityRole[39m=[32m"progressbar"[39m
+      [36m>[39m
+        [36m<View />[39m
+        [36m<View />[39m
+        [36m<View />[39m
+        [36m<View />[39m
+        [36m<View />[39m
+        [36m<View />[39m
+      [36m</View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33mstyle[39m=[32m{
+              {
+                "opacity": 0,
+              }
+            }[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mStep [0m
+              [0m5[0m
+              [0m of [0m
+              [0m6[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mAre there any barriers affecting your next step?[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mChoose any.[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Limited time"[39m
+                [33maccessibilityRole[39m=[32m"checkbox"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mLimited time[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Other barrier"[39m
+                [33maccessibilityRole[39m=[32m"checkbox"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mOther barrier[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Back"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "busy": false,
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mBack[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"See my Yoir Direction"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "busy": false,
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mSee my Yoir Direction[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      37 |     expect(callsTo('PUT', '/diagnoses/diagnosis-1/steps/goal')).toHaveLength(0);
+      38 |     expect(await screen.findByText('Are there any barriers affecting your next step?')).toBeOnTheScreen();
+    > 39 |     expect(await screen.findByText('Retake was not saved.')).toBeOnTheScreen();
+         |                         ^
+      40 |     expect(screen.getByRole('button', { name: 'See my Yoir Direction' })).toBeEnabled();
+      41 |   });
+      42 | });
+
+      at Object.findByText (__tests__/defects/sprint3-diagnosis-recovery.test.tsx:39:25)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL ios-defects __tests__/defects/sprint3-privacy-acceptance.test.tsx
+  ● Sprint 3 privacy acceptance (advisory suite) › [S3-PRIVACY-ROLLBACK][US27-AC3][QA-183] a failed privacy update restores the last saved choice
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  5
+    + Received  + 11
+
+      Object {
+    -   "public": ObjectContaining {
+    -     "checked": true,
+    -     "selected": true,
+    -   },
+    -   "restricted": ObjectContaining {
+    +   "public": Object {
+    +     "busy": undefined,
+          "checked": false,
+    +     "disabled": false,
+    +     "expanded": undefined,
+          "selected": false,
+    +   },
+    +   "restricted": Object {
+    +     "busy": undefined,
+    +     "checked": true,
+    +     "disabled": false,
+    +     "expanded": undefined,
+    +     "selected": true,
+        },
+      }
+
+      41 |       public: screen.getByRole('radio', { name: 'Public' }).props.accessibilityState,
+      42 |       restricted: screen.getByRole('radio', { name: 'Restricted' }).props.accessibilityState,
+    > 43 |     }).toEqual({
+         |        ^
+      44 |       public: expect.objectContaining({ checked: true, selected: true }),
+      45 |       restricted: expect.objectContaining({ checked: false, selected: false }),
+      46 |     });
+
+      at Object.toEqual (__tests__/defects/sprint3-privacy-acceptance.test.tsx:43:8)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+FAIL ios-defects __tests__/defects/root-layout-acceptance.test.tsx
+  ● shared font-error recovery (mocked component risk, not browser/device white-screen proof) › DEF-STARTUP-FONT: a font error leaves a rendered application or recovery tree
+
+    expect(received).not.toBeNull()
+
+    Received: null
+
+      11 |     // asset must not suppress the entire shared tree. Real DOM visibility and
+      12 |     // device splash behaviour require separate browser/device validation.
+    > 13 |     expect(result.toJSON()).not.toBeNull();
+         |                                 ^
+      14 |   });
+      15 | });
+      16 |
+
+      at Object.toBeNull (__tests__/defects/root-layout-acceptance.test.tsx:13:33)
+
+  ● ios font-error splash recovery (mocked native boundary) › DEF-STARTUP-FONT: a font error releases the native splash for recovery
+
+    expect(jest.fn()).toHaveBeenCalled()
+
+    Expected number of calls: >= 1
+    Received number of calls:    0
+
+      22 |       fontsMock.mockReturnValue([false, new Error('Font asset could not be loaded')]);
+      23 |       result.rerender(<RootLayout />);
+    > 24 |       expect(SplashScreen.hideAsync).toHaveBeenCalled();
+         |                                      ^
+      25 |     });
+      26 |   });
+      27 | }
+
+      at Object.toHaveBeenCalled (__tests__/defects/root-layout-acceptance.test.tsx:24:38)
+
+FAIL ios-defects __tests__/defects/client-acceptance.test.ts
+  ● shared real-client boundary acceptance (mocked HTTP, not deployed endpoint evidence) › F06 / QA #109: null HTTP error body remains a structured response failure
+
+    expect(received).rejects.toBeInstanceOf(expected)
+
+    Expected constructor: ApiError
+    Received constructor: TypeError
+
+       7 |     fetchMock.mockResolvedValue(httpResponse(null, 502));
+       8 |     const { api, ApiError } = loadRealClient();
+    >  9 |     await expect(api.listServices()).rejects.toBeInstanceOf(ApiError);
+         |                                              ^
+      10 |   });
+      11 |
+      12 |   test('F07 / QA #109: malformed success payload cannot reach the service list as valid data', async () => {
+
+      at Object.toBeInstanceOf (node_modules/expect/build/index.js:218:22)
+      at Object.toBeInstanceOf (__tests__/defects/client-acceptance.test.ts:9:46)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+  ● shared real-client boundary acceptance (mocked HTTP, not deployed endpoint evidence) › F07 / QA #109: malformed success payload cannot reach the service list as valid data
+
+    expect(received).rejects.toThrow()
+
+    Received promise resolved instead of rejected
+    Resolved to value: {"services": "invalid"}
+
+      13 |     fetchMock.mockResolvedValue(httpResponse({ services: 'invalid' }, 200));
+      14 |     const { api } = loadRealClient();
+    > 15 |     await expect(api.listServices()).rejects.toThrow();
+         |           ^
+      16 |   });
+      17 |
+      18 | });
+
+      at expect (node_modules/expect/build/index.js:113:15)
+      at Object.expect (__tests__/defects/client-acceptance.test.ts:15:11)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+      at node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7
+      at Object.<anonymous> (node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)
+
+FAIL ios-defects __tests__/defects/format-planner-acceptance.test.ts
+  ● unresolved price and availability acceptance › F01 / QA #115 #124: displayed AUD prices preserve the charged cents
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: "$70.50"
+    Received: "$71"
+
+       6 | describe('unresolved price and availability acceptance', () => {
+       7 |   test('F01 / QA #115 #124: displayed AUD prices preserve the charged cents', () => {
+    >  8 |     expect(money(7050)).toBe('$70.50');
+         |                         ^
+       9 |   });
+      10 |
+      11 |   test('F05 / QA #145: weekday recurrence visits every local day once across DST end', () => {
+
+      at Object.toBe (__tests__/defects/format-planner-acceptance.test.ts:8:25)
+
+  ● unresolved price and availability acceptance › F05 / QA #145: weekday recurrence visits every local day once across DST end
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 1
+
+      Array [
+        "2026-04-04",
+        "2026-04-05",
+    +   "2026-04-05",
+        "2026-04-06",
+        "2026-04-07",
+        "2026-04-08",
+        "2026-04-09",
+    -   "2026-04-10",
+      ]
+
+      13 |     expect(Intl.DateTimeFormat().resolvedOptions().timeZone).toBe('Australia/Melbourne');
+      14 |     const days = weekdayDatesInRange([0, 1, 2, 3, 4, 5, 6], new Date(2026, 3, 4), 1);
+    > 15 |     expect(days.map(dateKey)).toEqual([
+         |                               ^
+      16 |       '2026-04-04', '2026-04-05', '2026-04-06', '2026-04-07', '2026-04-08', '2026-04-09', '2026-04-10',
+      17 |     ]);
+      18 |   });
+
+      at Object.toEqual (__tests__/defects/format-planner-acceptance.test.ts:15:31)
+
+PASS ios-defects __tests__/defects/counsellor-issue-acceptance.test.tsx
+PASS ios-defects __tests__/defects/public-issue-acceptance.test.tsx
+
+Test Suites: 12 failed, 2 passed, 14 total
+Tests:       21 failed, 4 passed, 25 total
+Snapshots:   0 total
+Time:        5.761 s, estimated 6 s
+Ran all test suites.
+Test results written to: ../artifacts/qa/sprint3-meeting-area-20261017/ios-defects/results.json

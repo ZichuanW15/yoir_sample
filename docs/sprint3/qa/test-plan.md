@@ -1,11 +1,16 @@
 # Sprint 3 QA procedures — executed scope
 
 **Review:** 17 October 2026, Australia/Melbourne. **Owner:** Wilson (`Zhouzhny`).
-**Product baseline:** `0df4068f846b1a8346621af1c7584734980e7178` (`dev`).
+**Current dev baseline:** `9cce9737ded87c13a7575d7236a051c5db7628f8`.
 
 The [QA matrix](qa-matrix.md) maps all 23 tasks to parent criteria and executable
-sources. The [final report](test-results-final-20261017.md) records actual commands,
-times, outcomes and coverage. These procedures reproduce the recorded executions.
+sources. The [latest meeting-area report](test-results-meeting-area-20261017.md)
+records new API, migration, browser and advisory commands, times and outcomes.
+The [06:33 UTC component refresh](test-results-dev-refresh-20261017.md) retains
+full regression and coverage results for the unchanged frontend source boundary.
+The [earlier full report](test-results-final-20261017.md) keeps its dated API,
+browser and live-client results for the previous product.
+These procedures reproduce the recorded executions.
 Failed assertions retain their recorded outcomes.
 
 ## 1. Scope and expected outcomes
@@ -17,7 +22,7 @@ Failed assertions retain their recorded outcomes.
 | Diagnosis result/retake | Load backend direction/criteria; reject incomplete/unauthorized result reads; retry a derived-result failure without saving the confirmed answer again; preserve the previous confirmed result when a retake is cancelled; completed retake updates the same record. |
 | Explore handoff | Allow the ordinary catalogue to load independently; wait for supported server criteria before the diagnosis-filtered request; verify query/filter mapping, no-match state, unsupported-signal explanation, search recovery and return to the unchanged diagnosis. |
 | Privacy/profile | Exercise both member roles and all visibility levels, owner/visitor/admin boundaries, invalid inputs, omitted private keys, no-store headers, hidden-field search exclusion, persisted transitions and flushed-write rollback/retry. |
-| Service/order history | Buy before/after a rename, change price/location, withdraw the listing, then check buyer/counsellor/admin views, receipts, mail rendering and commission statements. Titles and purchase prices must remain tied to each order; location history is tested separately. |
+| Service/order history | Buy before/after a rename, change price/location, withdraw the listing, then check buyer/counsellor/admin views, receipts, mail rendering and commission statements. Titles, purchase prices and general meeting areas must remain tied to each order. Exact booking addresses remain independently editable. Distinguish frozen empty areas from legacy null fallback, and retain the upgrade-time migration boundary. |
 | Remaining Sprint 3 stories | Maintain onboarding, verification, administration, booking/reschedule, reviews/aggregates, password reset and profile regression. Check pending, empty, failure/retry, role/account isolation and cross-view state. |
 | Concurrency/recovery | Run real PostgreSQL competing diagnosis saves, booking/reschedule and review writes. Check atomic rollback and retry; record strict XFAIL individually. |
 | Shared critical path | Repeat registration/login/logout, marketplace, reservation and implemented stub-payment journeys through actual HTTPX and TypeScript clients. |
@@ -25,7 +30,8 @@ Failed assertions retain their recorded outcomes.
 Tests and fixtures are updated for the latest implementation. Product code,
 dependencies and CI gates are not changed by QA. Deleted local diagnosis model
 and storage tests are replaced with API-bound assertions. Fixed privacy omission,
-diagnosis integration and frozen-title checks run as normal regressions.
+diagnosis integration, frozen-title and backend meeting-area checks run as normal
+regressions. The latest product change comes from upstream PR #244.
 
 ## 2. Environments and data
 
@@ -86,6 +92,16 @@ Focused diagnosis sources include `__tests__/api/diagnosis-client.test.ts`,
 Use `--runTestsByPath` to select a focused correction; do not present its count as
 another complete suite.
 
+The dev-document refresh also executes `screens/privacy-settings-boundaries.test.tsx`,
+`screens/onboarding-focus.test.tsx`, `screens/service-booking-recovery.test.tsx`,
+`screens/feedback-response-contract.test.tsx`, `screens/forgot.test.tsx` and
+`screens/reset.test.tsx`. The new cases exercise server acknowledgement, failure
+recovery, duplicate prevention and response-shaped rendering through the real
+client or explicitly controlled API seam. Their retained **17 October 06:33 UTC**
+full shared/iOS/Android results are 597/606/606 passed. Recorded outputs use
+`artifacts/qa/sprint3-dev-refresh-20261017/` and the exact command arguments in
+[executions.json](evidence/20261017-dev-refresh/executions.json).
+
 Existing numeric gates apply separately to API, marketplace, auth and formatting
 sources (90% statements, 80% branches, 90% functions, 90% lines). Whole configured
 app coverage is reported separately, with the exclusions in `jest.config.js`.
@@ -101,6 +117,19 @@ npm run test:android:defects -- --json --outputFile=artifacts/final-qa/android-d
 Validate each report with `node ../scripts/check_defect_report.cjs --format jest
 --report <report.json> --outcome failure` (or `success` if its actual command
 succeeded). Report-health success does not turn failed assertions into passes.
+
+The dev-document advisory execution includes `defects/sprint3-private-matches.test.tsx`
+and `defects/sprint3-reschedule-acceptance.test.tsx`. The first uses omitted-key
+privacy responses checked against the actual backend mapper. The second injects
+a slot-read 503 and rejects a false no-availability state. Both preserve intended
+correctness assertions and actual failure diagnostics.
+
+The meeting-area execution also includes
+`defects/sprint3-confirmation-history.test.tsx`. Its controlled transport sends
+Melbourne in the purchased booking and Geelong in the current listing. The test
+waits for the real client to receive the booking before asserting that the
+confirmation screen must show Melbourne. `S3-CONFIRMATION-AREA` records the actual
+remaining failure; a completed API response is distinguished from a loading state.
 
 ## 5. Backend API, database and migration tests
 
@@ -131,6 +160,29 @@ env -u DATABASE_URL -u YOIR_QA_ALLOW_DATABASE_RESET .venv/bin/python -m pytest -
   tests/test_sprint3_privacy_contract_qa.py
 ```
 
+Meeting-area sources are `tests/test_sprint3_service_history_qa.py`,
+`tests/test_sprint3_meeting_area_migration_qa.py`, and the upstream service/migration
+regressions in `tests/test_counsellor.py`, `tests/test_migrations.py` and
+`tests/test_diagnosis_migration.py`. They check purchase-time snapshots, both
+participants' reads, rendered mail, address/reschedule independence and migration
+`0012` data preservation, repeated upgrade and downgrade/re-upgrade. The QA
+migration fixture owns a private PostgreSQL schema when the suite uses PostgreSQL;
+its SQLite fallback owns a separate temporary file.
+
+For a focused repeat of the new QA sources, from `backend/` with the owned test
+database environment set:
+
+```bash
+.venv/bin/python -m pytest -q \
+  tests/test_sprint3_service_history_qa.py \
+  tests/test_sprint3_meeting_area_migration_qa.py
+```
+
+The [meeting-area evidence](evidence/20261017-meeting-area/README.md) records the
+actual full/focused commands and outcomes. Migration backfill uses the listing
+area at upgrade time; it does not reconstruct an earlier location that was never
+stored. An empty stored area is a snapshot; only null uses the legacy fallback.
+
 Record strict XFAIL and unexpected XPASS separately. A fixed
 strict-XFAIL scenario should become an ordinary regression after verification;
 never silently suppress XPASS or weaken the original expected behavior.
@@ -151,6 +203,23 @@ Playwright server lifecycle. `WEB_QA_PORT` can select an unused loopback port.
 Inspect per-case status, retries, runtime errors and attachments, not only the
 summary or process exit code. Validate the defect report with
 `check_defect_report.cjs --format playwright` and its actual command outcome.
+
+The latest execution ran the original full Chromium regression selection first
+(**38 passed**), followed by a separate focused new case (**1 passed**):
+
+```bash
+WEB_QA_OUTPUT_DIR="$PWD/test-results/meeting-area-focused" \
+  npm run test:web -- e2e/sprint3-meeting-area.spec.ts
+```
+
+`sprint3-meeting-area.spec.ts` creates a dedicated in-person service and window,
+places an order and pays through the stub API. After moving the listing from
+Melbourne to Geelong, it reads booking detail in separate buyer and counsellor
+browser sessions and through authenticated API reads. Both retain Melbourne;
+withdrawal leaves those details intact. The test attaches both viewers' screenshots
+and a readback record. Its focused pass is not presented as a fresh 39-case full run.
+The browser advisory execution recorded **1 passed / 7 failed**, with report health
+passing. Exact commands, dates and artifacts are in the meeting-area report.
 
 For live clients, start `uvicorn app.main:app` against the separately owned seeded
 PostgreSQL database with external providers disabled. Set `FRONTEND_DIST` to the

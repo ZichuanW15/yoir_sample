@@ -1,0 +1,33 @@
+{
+  "head": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+  "runs": [
+    {
+      "id": 39010860935,
+      "name": "Mermaid Diagrams",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/actions/runs/39010860935",
+      "head_sha": "9cce9737ded87c13a7575d7236a051c5db7628f8"
+    },
+    {
+      "id": 39010861023,
+      "name": "Deploy to FastAPI Cloud",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/actions/runs/39010861023",
+      "head_sha": "9cce9737ded87c13a7575d7236a051c5db7628f8"
+    },
+    {
+      "id": 39010860918,
+      "name": "Application CI",
+      "event": "push",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/actions/runs/39010860918",
+      "head_sha": "9cce9737ded87c13a7575d7236a051c5db7628f8"
+    }
+  ],
+  "scope": "Merged dev CI; these runs do not include the uncommitted QA overlay."
+}

@@ -1,0 +1,26 @@
+{
+  "matchesActualMapper": true,
+  "fixture": "frontend/__tests__/privacy-profile-fixtures.json",
+  "fixtureSha256": "a7d8fe4adc3ff6934150b7cb03cb1dcd918bcb8aaa93ad4c33d4e2a6d10402fb",
+  "responses": {
+    "partial": {
+      "id": "privacy-fixture-professional",
+      "displayName": "Privacy Fixture Professional",
+      "introduction": "Public career summary",
+      "defaultModality": "online",
+      "verificationStatus": "verified",
+      "overallRating": 4.8,
+      "reviewCount": 3,
+      "visibility": "partial"
+    },
+    "restricted": {
+      "id": "privacy-fixture-professional",
+      "displayName": "Privacy Fixture Professional",
+      "verificationStatus": "verified",
+      "overallRating": 4.8,
+      "reviewCount": 3,
+      "visibility": "restricted",
+      "restricted": true
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "counts": {
+    "pass": 2,
+    "fail": 0,
+    "error": 0,
+    "xfail": 0,
+    "skip": 0
+  },
+  "cases": [
+    {
+      "class": "tests.test_live_api",
+      "name": "test_live_register_login_marketplace_booking_and_payment",
+      "seconds": 0.145,
+      "status": "pass",
+      "message": null,
+      "detail": null
+    },
+    {
+      "class": "tests.test_live_api",
+      "name": "test_live_login_errors_and_current_session_logout",
+      "seconds": 0.156,
+      "status": "pass",
+      "message": null,
+      "detail": null
+    }
+  ]
+}

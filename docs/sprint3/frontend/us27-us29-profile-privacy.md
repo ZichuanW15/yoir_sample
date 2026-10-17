@@ -20,7 +20,7 @@ US-29's own screen is unchanged from Sprint 2 apart from a Profile privacy butto
 (commit `9e43997`, pushed directly to `dev` on 7 October) are recorded in the [US-29 Sprint 2 document](../../sprint2/frontend/us29-job-seeker-profile.md).
 
 Screenshots: [Sprint 3 walkthrough](../walkthrough/sprint-3-feature-walkthrough.md), screens 22–25.
-US-28 is not shown there.
+Public profile and privacy transitions are also captured in the [QA browser evidence](../qa/evidence/20261017-final/browser-final.json).
 
 ## Screens and flow
 
@@ -56,7 +56,7 @@ there is no history.
   request runs it shows busy.
 - **Saved:** the stored option becomes the one the back end returned, and a toast says "Privacy
   settings saved". Nothing claims success before the response.
-- **Failed save or load:** the back end's message as an error, with no toast. See Known gaps for what
+- **Failed save or load:** the back end's message as an error, with no toast. See Recorded behaviour and findings for what
   stays selected.
 
 ### Another person's view of a Career Professional (US-28)
@@ -98,22 +98,22 @@ isolated tests, the inline banner is used instead.
 | `api.getCounsellorProfile(id)` | `GET /counsellors/{counsellorId}` | Filtered by the back end. Sent without a token, so a guest and a signed-in viewer see the same thing. A missing `overallRating` becomes `null` (`767d99f`). |
 | `api.listServices()` | `GET /services` | The profile screen's own service list, not shown when restricted. |
 | `api.getOwnCounsellorProfile` | `GET /me/counsellor-profile` | Was `GET /counsellors/{id}` before this PR. The owner's complete profile. |
-| `api.listCounsellors(query)` | `GET /counsellors` | Best matches on the Job Seeker home and the direction step; filtered the same way. See Known gaps. |
+| `api.listCounsellors(query)` | `GET /counsellors` | Best matches on the Job Seeker home and the direction step; filtered the same way. See Recorded behaviour and findings. |
 
-## Acceptance criteria
+## Executed acceptance coverage
 
 | Criterion | Frontend behaviour | Evidence |
 |---|---|---|
-| US-27: choosing an option and Save shows it saved only after the back end confirms; pre-selected on reopening | Toast and stored value from the `PATCH` response; `GET` on every opening | `privacy-reviews.test.tsx` "loads all three choices and saves the selected visibility"; walkthrough 24–25. Reopening: not unit tested |
-| US-27: a stored Restricted is pre-selected, not a default | The `GET` value is selected | Back end `test_career_professional_can_save_and_read_privacy`. Screen: tested with Public only |
-| US-27: a rejected or failed update shows an English error, keeps the stored option, shows no success | Error and no toast; the failed choice stays selected | Partly met; see Known gaps. Not unit tested |
+| US-27: choosing an option and Save shows it saved only after the back end confirms; pre-selected on reopening | Toast and stored value from the `PATCH` response; `GET` on every opening | `privacy-settings-boundaries.test.tsx` checks acknowledgement, duplicate blocking and a fresh reopen read; `sprint3-completion.spec.ts` checks actual persistence and public refresh |
+| US-27: a stored Restricted is pre-selected, not a default | The `GET` value is selected | `privacy-settings-boundaries.test.tsx` checks stored Partial/Restricted for both member roles; back end `test_career_professional_can_save_and_read_privacy` |
+| US-27: a rejected or failed update shows an English error, keeps the stored option, shows no success | Error and no toast; the failed choice stays selected | `sprint3-privacy-acceptance.test.tsx` retains the failing rollback assertion; API transaction rollback passes in `test_sprint3_completion_qa.py` |
 | US-27: no session or an invalid value is rejected | No session redirects to log-in; the app can only send the three values | Back end `test_invalid_visibility_is_rejected_without_changing_the_saved_value` |
 | US-27: another user's setting cannot be changed | `/me` only, no account ID sent | Back end `test_visibility_route_cannot_target_another_account` |
-| US-28: Public shows every public field | Full profile | Walkthrough 05–06 |
-| US-28: Partially visible shows only the permitted fields, absent from the response | Renders only fields present | Back end `test_partial_profile_keeps_summary_but_hides_personal_details`. Screen: not unit tested |
+| US-28: Public shows every public field | Full profile | `professional-detail.test.tsx` asserts returned qualifications, location, rating and owner-specific services; walkthrough 05–06 |
+| US-28: Partially visible shows only the permitted fields, absent from the response | Renders only fields present | `professional-detail.test.tsx` checks a sparse partial response; `sprint3-completion.spec.ts` checks actual omitted fields and refreshed UI; back end `test_partial_profile_keeps_summary_but_hides_personal_details` |
 | US-28: Restricted shows a clear restricted state; no restricted fields returned | Restricted state; services not listed | `privacy-reviews.test.tsx` "renders an explicit restricted profile without leaking hidden fields"; back end `test_restricted_career_professional_profile_does_not_leak_details` |
 | US-28: the owner sees their full profile | Own profile reads `/me/counsellor-profile` | `counsellor-client.test.ts` "getOwnCounsellorProfile reads the token owner with Bearer authentication"; back end `test_owner_still_receives_the_complete_profile_when_restricted` |
-| US-28: a changed level shows on the next read with nothing carried over | Read on every opening; no copy kept in the app | Back end `test_visibility_change_removes_previously_public_fields_on_the_next_read`. Screen: not unit tested |
+| US-28: a changed level shows on the next read with nothing carried over | Read on every opening; no copy kept in the app | `sprint3-completion.spec.ts` checks an already-open visitor view after partial/restricted/public changes; back end `test_visibility_change_removes_previously_public_fields_on_the_next_read` |
 | US-29 | Unchanged apart from the Profile privacy button | [US-29 Sprint 2 document](../../sprint2/frontend/us29-job-seeker-profile.md); `job-seeker-profile.test.tsx` "opens profile privacy settings" |
 
 ## Tests
@@ -133,16 +133,42 @@ isolated tests, the inline banner is used instead.
 
 Run from `frontend/`: `npx jest __tests__/screens/privacy-reviews.test.tsx __tests__/screens/floating-error.test.tsx
 __tests__/screens/job-seeker-profile.test.tsx __tests__/api/client.test.ts __tests__/api/counsellor-client.test.ts`.
-Local run on `dev` at `0df4068`, 17 October 2026, Node 22.14.0: 5 suites, 54 passed.
+**Original dev-only execution:** `0df4068`, 17 October 2026, Node 22.14.0: 5 suites, 54 passed.
 
-## Known gaps
+The refresh adds ten [privacy-settings boundary cases](../../../frontend/__tests__/screens/privacy-settings-boundaries.test.tsx):
+stored Partial/Restricted for both member roles, loading, authoritative PATCH
+acknowledgement, duplicate prevention, reopen, initial-read failure, refused-save
+retry and guest redirection. Their focused execution passed.
+
+Two separate [private-match assertions](../../../frontend/__tests__/defects/sprint3-private-matches.test.tsx)
+use [payloads generated by the actual backend mapper](../../../frontend/__tests__/privacy-profile-fixtures.json)
+for Partial and Restricted profiles, preserving omitted private keys. Both
+reproduced `S3-PRIVACY-MATCH-CRASH`; the render-error boundary records an ordinary
+failed correctness assertion and keeps the runner/report healthy.
+
+## QA branch evidence
+
+The preceding dev-only counts identify the original source-document execution.
+The `sprint3-qa` overlay adds executed API, component and browser coverage. Its
+[17 October report](../qa/test-results-final-20261017.md) records the tested
+`0df4068` product, and the [dev refresh report](../qa/test-results-dev-refresh-20261017.md)
+records reconciliation with `972caee`. That dev update adds documentation; product
+code is unchanged. Suite counts belong to their dated executions and are not added
+together. The [latest meeting-area report](../qa/test-results-meeting-area-20261017.md)
+records the subsequent `9cce973` baseline from PR #244, including the backend
+snapshot change and the confirmation-screen finding. Frontend regression results
+are retained from the 06:33 UTC execution; the new advisory has its own record.
+The [QA matrix](../qa/qa-matrix.md) links these results to the QA tasks.
+
+## Recorded behaviour and findings
 
 - **Best matches and a private Career Professional:** `BestMatches` in
   [`src/diagnosis/view.tsx`](../../../frontend/src/diagnosis/view.tsx) reads `profile.expertise.length`
   and `profile.languages.length`. Since PR #237, `GET /counsellors` leaves both out for a partially
   visible or restricted Career Professional, while the app's `CounsellorProfile` type still declares
   them required. One such bookable Career Professional makes the list throw while rendering, on the
-  Job Seeker home and the direction step. No test covers it.
+  Job Seeker home and the direction step. Both visibility values reproduce
+  `S3-PRIVACY-MATCH-CRASH` in the executed advisory suite.
 - **Failed save:** the option that failed stays selected, not the stored one that US-27 asks for. Save
   stays enabled, so it can be tried again.
 - **Failed load:** the error shows with no Try again, and the options show with none selected. Choosing
@@ -152,5 +178,8 @@ Local run on `dev` at `0df4068`, 17 October 2026, Node 22.14.0: 5 suites, 54 pas
 - **A Job Seeker's setting has no effect yet:** Job Seekers are offered all three options, but no
   screen shows a Job Seeker's profile to anyone else. Bookings and the Platform Owner's screens name
   them whatever they chose.
-- **Untested paths:** partial rendering, a stored Restricted pre-selected, the failed save and load, and
-  the next-read check have no screen test.
+- **Executed privacy coverage:** [professional detail tests](../../../frontend/__tests__/screens/professional-detail.test.tsx)
+  exercise sparse partial responses, both restricted flags, pending/error states and successful retry.
+  [Browser transitions](../../../frontend/e2e/sprint3-completion.spec.ts) use actual API saves and a
+  separate public viewer. [The advisory rollback case](../../../frontend/__tests__/defects/sprint3-privacy-acceptance.test.tsx)
+  asserts the required stored-choice restoration and retains its actual failure.

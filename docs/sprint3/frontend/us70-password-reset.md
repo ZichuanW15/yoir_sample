@@ -5,14 +5,13 @@ under [US-70 #12](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala
 
 The forgot-password and set-new-password screens were built in Sprint 2 and are documented in
 [US-70 (Sprint 2)](../../sprint2/frontend/us70-email-verification-and-password-recovery.md), which
-described what they do and listed "Not covered" against every acceptance criterion. Sprint 3 does not
-change either screen. It adds the screen-level tests that were missing, two back-end tests, and a
+described their existing behaviour. Sprint 3 adds screen-level tests, two back-end tests, and a
 back-end change so that asking for a reset link takes about the same time whether or not the address
 has an account. It reached `dev` on 8 October 2026 in commit `4a67bcd`, pushed directly rather than
 through a pull request.
 
 Screenshots: [Sprint 3 walkthrough](../walkthrough/sprint-3-feature-walkthrough.md), screen 10.
-Completing a reset from the emailed link is not shown.
+Controlled mail composition and reset-token execution are recorded in the QA report.
 
 ## Screens and flow
 
@@ -68,7 +67,7 @@ the mail provider and an unknown one returned at once, so the response time coul
 account. The OpenAPI entries for both email-request bodies also gained `additionalProperties: false`,
 matching what the back end already enforced.
 
-## Acceptance criteria
+## Executed acceptance coverage
 
 | Criterion | Frontend behaviour | Evidence |
 |---|---|---|
@@ -84,7 +83,8 @@ matching what the back end already enforced.
   new: AT-US-70-1 and 2, the empty field, server and offline failures, the busy button, the prefilled
   email, closing, and "Back to sign in".
 - [`__tests__/screens/reset.test.tsx`](../../../frontend/__tests__/screens/reset.test.tsx), 6 tests,
-  new: AT-US-70-3 and 4, a mismatch, a missing token, in flight, and offline.
+  in the original dev suite: AT-US-70-3 and 4, a mismatch, a missing token, in flight, and offline.
+  The refresh adds a seventh case for a backend password-field error followed by a corrected retry.
 - Back end, [`tests/test_verification.py`](../../../backend/tests/test_verification.py), 2 new tests:
   `test_a_tampered_or_never_issued_token_is_refused` and
   `test_after_a_reset_the_old_password_no_longer_authenticates`.
@@ -92,15 +92,38 @@ matching what the back end already enforced.
   requests.
 
 Run from `frontend/`: `npx jest __tests__/screens/forgot.test.tsx __tests__/screens/reset.test.tsx`.
-Local run on `dev` at `0df4068`, 17 October 2026, Node 22.14.0: 15 passed (9 and 6).
+**Original dev-only execution:** `0df4068`, 17 October 2026, Node 22.14.0: 15 passed (9 and 6).
 
-## Known gaps
+The refresh strengthens the [forgot-password offline case](../../../frontend/__tests__/screens/forgot.test.tsx)
+to retry the same address and wait for the recovered acknowledgement before
+showing the generic confirmation. The [reset tests](../../../frontend/__tests__/screens/reset.test.tsx)
+now assert success-toast timing and add a case for the eight-character backend
+field error: correcting the value clears the error, retains the token, and
+navigates only after the successful response. These checks passed in the focused
+execution recorded by the refresh report.
+
+## QA branch evidence
+
+The preceding dev-only counts identify the original source-document execution.
+The `sprint3-qa` overlay adds executed API, component and browser coverage. Its
+[17 October report](../qa/test-results-final-20261017.md) records the tested
+`0df4068` product, and the [dev refresh report](../qa/test-results-dev-refresh-20261017.md)
+records reconciliation with `972caee`. That dev update adds documentation; product
+code is unchanged. Suite counts belong to their dated executions and are not added
+together. The [latest meeting-area report](../qa/test-results-meeting-area-20261017.md)
+records the subsequent `9cce973` baseline from PR #244, including the backend
+snapshot change and the confirmation-screen finding. Frontend regression results
+are retained from the 06:33 UTC execution; the new advisory has its own record.
+The [QA matrix](../qa/qa-matrix.md) links these results to the QA tasks.
+
+## Recorded behaviour and findings
 
 - **Timing:** only the email is deferred. For a registered address the token is still created and
   written before the response, so a smaller difference in response time remains. The back end's
-  in-process test client waits for background tasks, so no test measures the timing.
-- **Not asserted:** the success toast, and the back end's eight-character rule shown as a field error
-  under New password.
+  in-process test client waits for background tasks; the recorded tests establish equal response bodies
+  and token lifecycle behaviour.
 - Links still open the web build at `APP_WEB_URL`, not the installed app.
 - The "two hours" lifetime is still fixed in the copy.
-- No end-to-end or device run completes a reset from a delivered email.
+- **Evidence boundary:** automated tests exercise the real token/password lifecycle with controlled
+  mail rendering and delivery seams. Wilson's [supplementary password-reset confirmation](../qa/device-acceptance.md#supplementary-tester-confirmations)
+  is attributed separately from the captured automated executions.
