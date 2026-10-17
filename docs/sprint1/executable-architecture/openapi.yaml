@@ -1008,7 +1008,13 @@ paths:
         The Career Professionals a Job Seeker can book, best rated first: the people
         behind the services GET /services lists, chosen by the same rule. Each
         profile is filtered by its owner's current visibility setting; disallowed
-        fields are absent rather than returned empty.
+        fields are absent rather than returned empty. When query is supplied,
+        matching visible profile and service text is returned in relevance order.
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema: {type: string}
       responses:
         '200':
           description: Public professional profiles
@@ -1632,11 +1638,12 @@ components:
     DiagnosisQuestion:
       type: object
       additionalProperties: false
-      required: [id, step, title, multiple, options, otherAllowed]
+      required: [id, step, title, hint, multiple, options, otherAllowed]
       properties:
         id: {$ref: '#/components/schemas/DiagnosisStepId'}
         step: {type: integer, minimum: 1, maximum: 5}
         title: {type: string}
+        hint: {type: string}
         multiple: {type: boolean}
         options:
           type: array

@@ -1,13 +1,11 @@
 import { Href, Redirect, router } from 'expo-router';
-import { useMemo } from 'react';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useAuth } from '@/src/auth/AuthContext';
 import { Glyph } from '@/src/components/Glyph';
 import { JobSeekerNav } from '@/src/components/JobSeekerNav';
 import { TopBar } from '@/src/components/TopBar';
-import { Button, Press, Spinner } from '@/src/components/ui';
-import { directionFor, questions } from '@/src/diagnosis/model';
-import { BestMatches, finishedAnswers, useDiagnosis } from '@/src/diagnosis/view';
+import { Button, ErrorBanner, Press, Spinner } from '@/src/components/ui';
+import { BestMatches, useDiagnosis } from '@/src/diagnosis/view';
 import { FadeUp, ScreenIn } from '@/src/motion';
 import { homeFor } from '@/src/navigation';
 import { colors, fonts, radius, type } from '@/src/theme';
@@ -15,25 +13,28 @@ import { colors, fonts, radius, type } from '@/src/theme';
 /** The job seeker's home: the Career Professionals best matched to their Yoir Direction. */
 export default function JobSeekerHomeScreen() {
   const { session } = useAuth();
-  const { record } = useDiagnosis();
-  // The diagnosis is part of a signed-in job seeker's onboarding; a guest just browses.
-  const direction = useMemo(() => {
-    const answers = finishedAnswers(record);
-    return answers ? directionFor(answers) : null;
-  }, [record]);
+  const { questionnaire, record, direction, criteria, loading, error, refresh } = useDiagnosis();
   // Set while a diagnosis was left part-way: the question it picks up at.
-  const resumeAt = record?.answers ? record.step : undefined;
+  const resumeAt = record?.status === 'in_progress' ? Math.max(0, record.currentStep - 1) : undefined;
 
   if (session && session.user.role !== 'job_seeker') return <Redirect href={homeFor(session.user.role)} />;
-  if (session && record === undefined) {
+  if (session && loading) {
     return <View style={[styles.screen, styles.centred]}><Spinner size={28} color={colors.green} /></View>;
+  }
+  if (session && error) {
+    return (
+      <View style={[styles.screen, styles.centred, styles.error]}>
+        <ErrorBanner message={error} />
+        <Button label="Try again" tone="outline" onPress={() => { void refresh(); }} />
+      </View>
+    );
   }
   // Someone who has never been through the diagnosis starts there: it is the onboarding.
   if (session && record === null) return <Redirect href={'/job-seeker/diagnosis' as Href} />;
 
   const firstName = session?.user.name.split(' ')[0];
   const retake = () => router.push('/job-seeker/diagnosis' as Href);
-  const steps = questions.length + 1;
+  const steps = questionnaire?.totalSteps ?? 6;
 
   return (
     <ScreenIn style={styles.screen}>
@@ -93,7 +94,7 @@ export default function JobSeekerHomeScreen() {
 
         {direction ? null : <Text style={type.display24}>Top rated Career Professionals</Text>}
 
-        <BestMatches direction={direction} limit={5} />
+        <BestMatches criteria={criteria} limit={5} />
         <Button label="View all Career Professionals" tone="outline" onPress={() => router.replace('/marketplace')} />
       </ScrollView>
       <JobSeekerNav />
@@ -104,6 +105,7 @@ export default function JobSeekerHomeScreen() {
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.canvas },
   centred: { alignItems: 'center', justifyContent: 'center' },
+  error: { padding: 24, gap: 16 },
   body: { paddingHorizontal: 22, paddingTop: 12, paddingBottom: 24, gap: 16 },
   // The brand block: the logo's green, with its gold and cream.
   hero: { backgroundColor: colors.green, borderRadius: radius.hero, padding: 22, gap: 10, marginBottom: 6 },

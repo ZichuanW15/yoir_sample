@@ -16,8 +16,8 @@ direction generation and US-13 matching are outside this slice.
 
 ## Questionnaire boundary
 
-`yoir-six-step-v1` mirrors the question IDs, option IDs and labels already in
-[`frontend/src/diagnosis/model.ts`](../../../frontend/src/diagnosis/model.ts).
+`yoir-six-step-v1` defines the question IDs, option IDs and labels in
+[`backend/app/diagnosis.py`](../../../backend/app/diagnosis.py).
 The question-definition endpoint exposes that version so the client can render
 and submit the supported contract without guessing. It is not a claim that the
 client has approved the frontend's recommendation weights or all question-routing

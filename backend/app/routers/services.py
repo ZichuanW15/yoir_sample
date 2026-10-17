@@ -23,6 +23,30 @@ from app.schemas import (
 router = APIRouter(tags=["Marketplace"])
 
 
+def _public_counsellor_text(user: User) -> str:
+    """Only index profile fields the public serializer is allowed to reveal."""
+    visibility = user.profile_visibility or "public"
+    if visibility == "restricted":
+        return user.name
+    visible = [user.name, user.introduction or ""]
+    if visibility == "public":
+        visible.extend([
+            user.background or "", user.experience or "",
+            *(user.qualifications or []), *(user.expertise or []),
+            *(user.languages or []),
+        ])
+    return " ".join(visible)
+
+
+def _query_score(query: str, *parts: str) -> int:
+    """A positive, deterministic relevance score for the Marketplace query."""
+    term = query.strip().lower()
+    if not term:
+        return 1
+    text = " ".join(parts).lower()
+    return text.count(term)
+
+
 def service_to_out(service: Service, *, enforce_visibility: bool = True) -> ServiceOut:
     """Map a service without leaking a restricted professional's introduction.
 
@@ -93,9 +117,26 @@ def list_services(
     """US-44, US-45. Active public services only; optional text and modality filters."""
     services = list(db.scalars(select(Service).where(Service.active.is_(True))))
     services = [s for s in services if _bookable(s)]
-    if query:
-        term = query.strip().lower()
-        services = [s for s in services if term in f"{s.title} {s.counsellor.name}".lower()]
+    if query and query.strip():
+        scored = [
+            (
+                _query_score(
+                    query, service.title, service.description,
+                    service.counsellor.name,
+                ),
+                service,
+            )
+            for service in services
+        ]
+        services = [
+            service for score, service in sorted(
+                scored,
+                key=lambda item: (
+                    -item[0], -(item[1].average_rating or 0), item[1].title,
+                ),
+            )
+            if score > 0
+        ]
     if modality:
         services = [s for s in services if modality in (s.modalities or [])]
     return [service_to_out(s) for s in services]
@@ -153,6 +194,7 @@ def list_service_slots(
 )
 def list_counsellors(
     response: Response,
+    query: str | None = Query(default=None),
     db: Session = Depends(get_db),
 ) -> list[CounsellorProfileOut]:
     """US-44, US-13. The Career Professionals a Job Seeker can book, best rated first.
@@ -162,9 +204,38 @@ def list_counsellors(
     """
     from app.routers.counsellor import counsellor_profile_out
 
-    services = db.scalars(select(Service).where(Service.active.is_(True)))
-    owners = {s.counsellor.id: s.counsellor for s in services if _bookable(s)}
-    ranked = sorted(owners.values(), key=lambda user: (-(user.overall_rating or 0), user.name))
+    services = list(db.scalars(select(Service).where(Service.active.is_(True))))
+    services = [service for service in services if _bookable(service)]
+    owners = {service.counsellor.id: service.counsellor for service in services}
+    if query and query.strip():
+        services_by_owner: dict[str, list[Service]] = {}
+        for service in services:
+            services_by_owner.setdefault(service.counsellor_id, []).append(service)
+        scored = [
+            (
+                _query_score(
+                    query,
+                    _public_counsellor_text(user),
+                    *(
+                        f"{service.title} {service.description}"
+                        for service in services_by_owner.get(user.id, [])
+                    ),
+                ),
+                user,
+            )
+            for user in owners.values()
+        ]
+        ranked = [
+            user for score, user in sorted(
+                scored,
+                key=lambda item: (-item[0], -(item[1].overall_rating or 0), item[1].name),
+            )
+            if score > 0
+        ]
+    else:
+        ranked = sorted(
+            owners.values(), key=lambda user: (-(user.overall_rating or 0), user.name),
+        )
     response.headers["Cache-Control"] = "private, no-store"
     return [counsellor_profile_out(user, enforce_visibility=True) for user in ranked]
 
