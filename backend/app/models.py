@@ -157,6 +157,12 @@ class Service(Base):
 
     counsellor: Mapped[User] = relationship(back_populates="services")
 
+    def meeting_area(self) -> str:
+        """The listing's in-person area as one line, or empty when it names none."""
+        if self.location_city and self.location_state:
+            return f"{self.location_city}, {self.location_state}"
+        return ""
+
 
 class AvailabilityWindow(Base):
     """US-39/US-41 — a stretch of time the counsellor is available, for anything.
@@ -244,9 +250,21 @@ class Order(Base):
     # Null only on an order created before migration 0011 that it could not backfill.
     service_title: Mapped[str | None] = mapped_column(String, nullable=True)
 
+    # US-36 — where an in-person session meets ("City, STATE"), as the listing said when
+    # this order was placed. Moving the listing must not move a session already paid
+    # for. Empty when the service named no area; null only on an order created before
+    # migration 0012 that it could not backfill.
+    meeting_area: Mapped[str | None] = mapped_column(String, nullable=True)
+
     def title_for(self, service: "Service") -> str:
         """What was bought, by the name it had then; the live title only as a fallback."""
         return self.service_title or service.title
+
+    def area_for(self, service: "Service") -> str:
+        """Where it was booked to meet; the listing's current area only as a fallback."""
+        if self.meeting_area is not None:
+            return self.meeting_area
+        return service.meeting_area()
 
 
 class Booking(Base):

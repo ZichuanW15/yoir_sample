@@ -115,11 +115,8 @@ def booking_received(
     separately on the monthly statement.
     """
     settings = get_settings()
-    meeting_area = (
-        f"{service.location_city}, {service.location_state}"
-        if service.location_city and service.location_state
-        else ""
-    )
+    # US-36: the area frozen on the order, matching the booking it confirms.
+    meeting_area = order.area_for(service)
     # US-36: what was bought, by the name it had when the order was placed. Payment
     # can confirm after a rename, and the receipt already uses the frozen title.
     service_title = order.title_for(service)
@@ -154,11 +151,8 @@ def booking_confirmed(
 ) -> bool:
     """The job seeker's confirmation: when, where or how to join, and their receipt."""
     settings = get_settings()
-    meeting_area = (
-        f"{service.location_city}, {service.location_state}"
-        if service.location_city and service.location_state
-        else ""
-    )
+    # US-36: the area frozen on the order, matching the booking it confirms.
+    meeting_area = order.area_for(service)
     hours = settings.cancellation_full_refund_hours
     percent = settings.cancellation_late_refund_percent
     cancellation_note = (

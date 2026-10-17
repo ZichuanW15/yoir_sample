@@ -15,9 +15,9 @@ from app.models import Diagnosis
 
 EXISTING_TABLES = ("users", "services", "availability_windows", "orders", "bookings")
 #: The newest revision, which an upgrade runs to. The diagnosis revision, 0009, sits
-#: below it: US-53's reviews table (0010) and US-36's order service title (0011) were
-#: added after it.
-HEAD = "0011"
+#: below it: US-53's reviews table (0010) and US-36's order service title (0011) and
+#: meeting area (0012) were added after it.
+HEAD = "0012"
 BRIEF = "Please review my existing resume before the session."
 ADDRESS = "Room 2, 123 Example Street, Melbourne VIC"
 
@@ -121,7 +121,7 @@ def test_diagnosis_migrations_have_one_unambiguous_head_after_dev():
         assert len(revisions) == len({revision.revision for revision in revisions})
         for current, previous in (
             ("0006", "0005"), ("0007", "0006"), ("0008", "0007"), ("0010", "0009"),
-            ("0011", "0010"),
+            ("0011", "0010"), ("0012", "0011"),
         ):
             assert script.get_revision(current).down_revision == previous
 
@@ -185,11 +185,15 @@ def test_diagnosis_downgrade_preserves_dev_fields_and_all_other_rows(diagnosis_d
 
     assert _revision(engine) == "0008"
     assert "diagnoses" not in inspect(engine).get_table_names()
-    # 0011 (US-36) adds orders.service_title above the diagnosis revision, so going back
-    # to 0008 drops that column too, by design. Every other value must survive.
+    # 0011 and 0012 (US-36) add orders.service_title and orders.meeting_area above the
+    # diagnosis revision, so going back to 0008 drops those columns too, by design.
+    # Every other value must survive.
     expected = {name: rows for name, rows in before.items() if name != "diagnoses"}
     expected["orders"] = [
-        {key: value for key, value in row.items() if key != "service_title"}
+        {
+            key: value for key, value in row.items()
+            if key not in {"service_title", "meeting_area"}
+        }
         for row in expected["orders"]
     ]
     assert _snapshot(engine) == expected
