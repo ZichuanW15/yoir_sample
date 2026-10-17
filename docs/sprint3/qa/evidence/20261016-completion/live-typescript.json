@@ -1,0 +1,28 @@
+{
+  "startTime": 1792096831094,
+  "success": true,
+  "wasInterrupted": false,
+  "numPassedTests": 2,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTotalTests": 2,
+  "numPassedTestSuites": 1,
+  "numFailedTestSuites": 0,
+  "numRuntimeErrorTestSuites": 0,
+  "cases": [
+    {
+      "file": "frontend/__tests__/integration/live-client.test.ts",
+      "fullName": "TypeScript client to live backend registers, authenticates, discovers a slot, creates an order and completes stub payment",
+      "status": "passed",
+      "duration": 187,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/integration/live-client.test.ts",
+      "fullName": "TypeScript client to live backend counsellor eligibility, real service persistence and availability create/read/update/delete",
+      "status": "passed",
+      "duration": 204,
+      "failureMessages": []
+    }
+  ]
+}

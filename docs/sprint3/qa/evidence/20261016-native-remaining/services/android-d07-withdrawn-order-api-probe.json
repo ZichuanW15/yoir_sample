@@ -1,0 +1,19 @@
+{
+  "at": "2026-10-15T22:35:04.115763+00:00",
+  "scope": "Explicit API-only rejection probe for native-withdrawn service; not native new-order submission evidence. No payment attempted.",
+  "userId": "qa-nr-android-buyer",
+  "requestBody": {
+    "serviceId": "qa-nr-android-editable-service",
+    "startsAt": "2026-10-24T06:00:00Z",
+    "modality": "online",
+    "timezone": "Australia/Melbourne"
+  },
+  "result": {
+    "status": 404,
+    "data": {
+      "code": "NOT_FOUND",
+      "message": "Service not found.",
+      "requestId": "c908bfed-b919-4de4-87dc-9578a4784895"
+    }
+  }
+}

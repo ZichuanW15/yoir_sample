@@ -18,6 +18,7 @@ describe('set a new password — US-70', () => {
     fillMatching('a-brand-new-password');
     submit();
     await waitFor(() => expect(navigation.replace).toHaveBeenCalledWith('/auth/login'));
+    expect(screen.getByText('Your password has been changed')).toBeOnTheScreen();
     expect(JSON.parse(callsTo('POST', resetPath)[0][1]?.body as string)).toEqual({
       token: 'a-valid-reset-token', password: 'a-brand-new-password', passwordConfirmation: 'a-brand-new-password',
     });
@@ -60,6 +61,7 @@ describe('set a new password — US-70', () => {
     submit();
     const busyButton = screen.getByRole('button', { name: 'Saving' });
     expect(busyButton).toBeDisabled();
+    expect(screen.queryByText('Your password has been changed')).toBeNull();
     expect(navigation.replace).not.toHaveBeenCalled();
     fireEvent.press(busyButton);
     expect(callsTo('POST', resetPath)).toHaveLength(1);
@@ -75,5 +77,34 @@ describe('set a new password — US-70', () => {
     expect(await screen.findByText('We could not reach Yoir. Check your connection and try again.')).toBeOnTheScreen();
     expect(navigation.replace).not.toHaveBeenCalled();
     expect(screen.getByRole('button', { name: 'Save new password' })).toBeEnabled();
+  });
+
+  test('[QA-228] backend password field errors clear on a corrected retry without premature success', async () => {
+    reply('POST', resetPath, apiFailure('VALIDATION_ERROR', 'Check the highlighted fields.', 400,
+      { password: 'Password must be at least 8 characters.' }));
+    await renderPublic(<ResetPasswordScreen />);
+    fillMatching('short');
+    submit();
+    expect(await screen.findByText('Password must be at least 8 characters.')).toBeOnTheScreen();
+    expect(screen.getByText('Check the highlighted fields.')).toBeOnTheScreen();
+    expect(screen.queryByText('Your password has been changed')).toBeNull();
+    expect(navigation.replace).not.toHaveBeenCalled();
+
+    const retry = deferred<Response>();
+    reply('POST', resetPath, retry.promise);
+    fillMatching('a-corrected-password');
+    submit();
+    expect(screen.queryByText('Password must be at least 8 characters.')).toBeNull();
+    expect(screen.queryByText('Your password has been changed')).toBeNull();
+    expect(navigation.replace).not.toHaveBeenCalled();
+    expect(callsTo('POST', resetPath).map(([, init]) => JSON.parse(String(init?.body))))
+      .toEqual([
+        { token: 'a-valid-reset-token', password: 'short', passwordConfirmation: 'short' },
+        { token: 'a-valid-reset-token', password: 'a-corrected-password', passwordConfirmation: 'a-corrected-password' },
+      ]);
+    await act(async () => retry.resolve(jsonResponse(undefined, 204)));
+    expect(await screen.findByText('Your password has been changed')).toBeOnTheScreen();
+    expect(navigation.replace).toHaveBeenCalledTimes(1);
+    expect(navigation.replace).toHaveBeenCalledWith('/auth/login');
   });
 });

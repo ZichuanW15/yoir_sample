@@ -1,0 +1,52 @@
+{
+  "before": {
+    "id": "280400f8-a9b0-467f-bf31-439dc62f0527",
+    "questionnaireVersion": "yoir-six-step-v1",
+    "revision": 5,
+    "status": "answers_complete",
+    "currentStep": 6,
+    "totalSteps": 6,
+    "completedSteps": [
+      "now",
+      "goal",
+      "tried",
+      "stuck",
+      "barriers"
+    ],
+    "answers": {
+      "now": "job",
+      "goal": "resume",
+      "tried": [],
+      "stuck": "resume",
+      "barriers": [],
+      "other": {}
+    },
+    "createdAt": "2026-10-17T07:38:44.735719Z",
+    "updatedAt": "2026-10-17T07:38:47.704892Z"
+  },
+  "after": {
+    "id": "280400f8-a9b0-467f-bf31-439dc62f0527",
+    "questionnaireVersion": "yoir-six-step-v1",
+    "revision": 10,
+    "status": "answers_complete",
+    "currentStep": 6,
+    "totalSteps": 6,
+    "completedSteps": [
+      "now",
+      "goal",
+      "tried",
+      "stuck",
+      "barriers"
+    ],
+    "answers": {
+      "now": "job",
+      "goal": "resume",
+      "tried": [],
+      "stuck": "interview",
+      "barriers": [],
+      "other": {}
+    },
+    "createdAt": "2026-10-17T07:38:44.735719Z",
+    "updatedAt": "2026-10-17T07:38:54.374832Z"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "at": "2026-10-15T22:24:05.812946+00:00",
+  "userId": "qa-nr-android-owner",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/admin/payments/393a0365-f921-440f-a09b-43208ff00baf": {
+      "status": 200,
+      "data": {
+        "paymentId": "393a0365-f921-440f-a09b-43208ff00baf",
+        "orderId": "393a0365-f921-440f-a09b-43208ff00baf",
+        "bookingId": "b4eb3216-d29f-42f7-adff-61cc6c32cb2a",
+        "jobSeekerName": "QA Android Buyer",
+        "counsellorName": "QA Android Pro",
+        "serviceTitle": "QA Android Editable Session",
+        "amountMinor": 8450,
+        "platformFeeMinor": 1690,
+        "counsellorPayoutMinor": 6760,
+        "refundedMinor": 0,
+        "currency": "AUD",
+        "paymentStatus": "paid",
+        "orderStatus": "confirmed",
+        "createdAt": "2026-10-15T22:23:38.346542Z",
+        "jobSeekerId": "qa-nr-android-buyer",
+        "jobSeekerEmail": "a1@example.com",
+        "counsellorId": "qa-nr-android-pro",
+        "counsellorEmail": "ac@example.com",
+        "serviceId": "qa-nr-android-editable-service",
+        "startsAt": "2026-10-24T05:00:00Z",
+        "endsAt": "2026-10-24T06:00:00Z",
+        "timezone": "Australia/Melbourne",
+        "modality": "online",
+        "sessionGstMinor": 0,
+        "platformFeeGstMinor": 154,
+        "holdExpiresAt": null,
+        "bookingStatus": "confirmed",
+        "completedAt": null,
+        "paidOutAt": null,
+        "cancelledAt": null,
+        "cancelledByRole": null
+      }
+    }
+  }
+}

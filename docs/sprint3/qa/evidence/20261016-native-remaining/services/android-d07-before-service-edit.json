@@ -1,0 +1,76 @@
+{
+  "at": "2026-10-15T22:24:05.417014+00:00",
+  "userId": "qa-nr-android-buyer",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/bookings/b4eb3216-d29f-42f7-adff-61cc6c32cb2a": {
+      "status": 200,
+      "data": {
+        "id": "b4eb3216-d29f-42f7-adff-61cc6c32cb2a",
+        "orderId": "393a0365-f921-440f-a09b-43208ff00baf",
+        "serviceId": "qa-nr-android-editable-service",
+        "serviceTitle": "QA Android Editable Session",
+        "startsAt": "2026-10-24T05:00:00Z",
+        "endsAt": "2026-10-24T06:00:00Z",
+        "timezone": "Australia/Melbourne",
+        "modality": "online",
+        "status": "confirmed",
+        "paymentStatus": "paid",
+        "amountMinor": 8450,
+        "refundedMinor": 0,
+        "cancelledByRole": null,
+        "meetingUrl": "https://meet.jit.si/yoir-b4eb3216d29f42f7adff61cc6c32cb2a",
+        "counterpartyName": "QA Android Pro",
+        "counterpartyRole": "counsellor",
+        "meetingArea": "",
+        "meetingAddress": "",
+        "preSessionBrief": "",
+        "review": null
+      }
+    },
+    "/bookings/b4eb3216-d29f-42f7-adff-61cc6c32cb2a/receipt": {
+      "status": 200,
+      "data": {
+        "receiptNumber": "YOIR-B4EB3216",
+        "issuedAt": "2026-10-15T22:23:48.557233Z",
+        "isTaxInvoice": false,
+        "supplierName": "QA Android Pro",
+        "supplierAbn": null,
+        "buyerName": "QA Android Buyer",
+        "description": "QA Android Editable Session",
+        "sessionStartsAt": "2026-10-24T05:00:00Z",
+        "totalMinor": 8450,
+        "gstMinor": 0,
+        "currency": "AUD",
+        "text": "RECEIPT\nReceipt YOIR-B4EB3216\nIssued 2026-10-15\n\nSupplier: QA Android Pro\nTo: QA Android Buyer\n\nQA Android Editable Session\nSession: 2026-10-24T05:00:00+00:00\n\nTotal (AUD): $84.50\nNo GST has been charged on this supply."
+      }
+    },
+    "/services/qa-nr-android-editable-service": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-android-editable-service",
+        "counsellor": {
+          "id": "qa-nr-android-pro",
+          "displayName": "QA Android Pro",
+          "introduction": "Android QA introduction",
+          "verificationStatus": "verified",
+          "overallRating": 5.0,
+          "reviewCount": 1
+        },
+        "title": "QA Android Editable Session",
+        "description": "Isolated Android editable acceptance fixture.",
+        "priceMinor": 8450,
+        "durationMinutes": 60,
+        "currency": "AUD",
+        "modalities": [
+          "online"
+        ],
+        "location": null,
+        "active": true,
+        "averageRating": null,
+        "reviewCount": 0,
+        "reviews": []
+      }
+    }
+  }
+}

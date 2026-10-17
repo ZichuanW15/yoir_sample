@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-15T21:31:27.769131+00:00",
+  "scope": "Local evidence consistency, file integrity and Markdown target existence; no new product test run; external links and anchors not checked.",
+  "checks": {
+    "observations": 32,
+    "screenshots": 33,
+    "accessibilitySnapshots": 32,
+    "deviceProcedureRows": 13,
+    "platformPasses": 4,
+    "platformNotRun": 22,
+    "rawCopiesVerified": 100,
+    "jsonParsed": 20,
+    "localLinksChecked": 186,
+    "trackedDiffWhitespaceExit": 0,
+    "productSourceHashesMatched": 346,
+    "finalServerDiagnosis404": 4
+  },
+  "errors": [],
+  "success": true
+}

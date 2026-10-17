@@ -97,30 +97,30 @@ invents a value. A restricted profile shows "This profile is restricted" and no 
 | `api.getCounsellorProfile` | `GET /counsellors/{counsellorId}` | Profile rating. |
 
 The request matches the back end: the same path, and a body of `rating` and `comment` only, which is
-all `SubmitReviewRequest` accepts. The app does not use the review it gets back. Read from the code and
-the contract; the walkthrough has not been captured again since the back end merged.
+all `SubmitReviewRequest` accepts. The app does not use the review it gets back. The QA
+browser journey executes the real submission and verifies the subsequent public service/profile reads.
 
 Each review the back end returns is `{id, bookingId, serviceId, jobSeekerId, rating, comment,
-createdAt}`. The app's `Review` type expects `authorName` instead of `jobSeekerId` (see Known gaps).
+createdAt}`. The app's `Review` type expects `authorName` instead of `jobSeekerId` (see Recorded behaviour and findings).
 
-## Acceptance criteria
+## Executed acceptance coverage
 
 | Criterion | Frontend behaviour | Evidence |
 |---|---|---|
 | US-53: the buyer of a completed order opens it and gets a 1–5 star selector and a comment field | Write a review on the Past tab opens the review screen | `privacy-reviews.test.tsx` "offers the review action only from a completed, unreviewed session"; walkthrough 37–38 |
 | US-53: shown as submitted only after the back end stores it | Toast and navigation wait for `createReview` | `privacy-reviews.test.tsx` "submits a 1–5 star rating and written comment, then returns to the service" (body asserted, trimmed); back end `test_the_buyer_of_a_completed_booking_can_review_it` |
-| US-53: a missing or out-of-range rating is rejected and shown; nothing stored | The app stops it first; a back-end `400` would show its message | Back end `test_an_invalid_rating_or_missing_comment_is_rejected_and_stores_nothing`. App message: not unit tested |
-| US-53: an order not completed has no review action; a direct submission is rejected | No button; the screen says it is not ready; back end `409` | Back end `test_a_booking_that_is_not_yet_completed_cannot_be_reviewed`, `test_a_cancelled_booking_cannot_be_reviewed`. The not-ready screen: not unit tested |
+| US-53: a missing or out-of-range rating is rejected and shown; nothing stored | The app stops it first; a back-end `400` would show its message | Back end `test_an_invalid_rating_or_missing_comment_is_rejected_and_stores_nothing`. `review-boundaries.test.tsx` and `sprint3-workflows.spec.ts` assert the actual missing-rating/blank-comment messages before any stored review |
+| US-53: an order not completed has no review action; a direct submission is rejected | No button; the screen says it is not ready; back end `409` | Back end `test_a_booking_that_is_not_yet_completed_cannot_be_reviewed`, `test_a_cancelled_booking_cannot_be_reviewed`. `review-boundaries.test.tsx` asserts confirmed/cancelled/refunded and already-reviewed states; Chromium checks confirmed/cancelled and foreign buyers |
 | US-53: a non-buyer is refused | Other roles redirected; another Job Seeker cannot read the booking; back end `403` or `404` | Back end `test_only_the_buyer_may_review_their_own_booking` |
 | US-54: anyone sees the average, count and list as returned | Header tag and Reviews section, no login | `service-detail.test.tsx` "[US-54] shows backend-provided review rows and aggregate feedback"; walkthrough 04 |
-| US-54: a new review shows on the next load, consistent | Submitting opens the detail, which reads it again | Back end `test_service_detail_is_public_and_reflects_a_stored_review`. Screen: checked by reading the code |
+| US-54: a new review shows on the next load, consistent | Submitting opens the detail, which reads it again | Back end `test_service_detail_is_public_and_reflects_a_stored_review`. `sprint3-workflows.spec.ts` verifies the stored review, rendered comment/stars and profile rating after real submission |
 | US-54: no reviews gives a clear zero state and no invented rating | "New on Yoir", "No reviews yet", "No written reviews yet." | `service-detail.test.tsx` "[QA-115] unrated pending counsellors do not acquire invented ratings or verification" |
 | US-54: a rejected submission leaves the numbers unchanged | Nothing changes until the back end stores a review | Back end `test_a_rejected_submission_leaves_the_service_aggregate_unchanged` |
 | US-54: each entry shows the stars and comment as returned | "<rating>/5" and the comment unchanged | `service-detail.test.tsx` "[US-54] …" |
-| US-55: profile and listing show the same overall rating | Both print the back end's `overallRating` to one decimal | Walkthrough 02 and 05. Not unit tested on the profile or Explore card |
+| US-55: profile and listing show the same overall rating | Both print the back end's `overallRating` to one decimal | `professional-detail.test.tsx` and `marketplace.test.tsx` assert returned rating/count text; `sprint3-workflows.spec.ts` checks a newly stored rating in the public profile |
 | US-55: the rating follows the recorded formula after a new review | The app does not compute it | Back end `test_the_counsellors_overall_rating_spans_every_one_of_their_services` |
 | US-55: no reviews shows a no-rating state, not zero | "New" or "No reviews yet"; `null` kept as `null` | `service-detail.test.tsx` "[QA-115] …"; `client.test.ts` "Career Professionals are listed and read publicly, without authentication" (a missing `overallRating` becomes `null`) |
-| US-55: every screen matches the API on iOS and Android | | Not recorded |
+| US-55: recorded cross-view rating observations | Component presets exercise returned profile/listing values; D10 compares review/service/profile readbacks | Shared, iOS and Android component reports; 16 October D10 Expo Go observations on `cdcc44e` |
 
 ## Tests
 
@@ -131,8 +131,16 @@ createdAt}`. The app's `Review` type expects `authorName` instead of `jobSeekerI
   counsellors do not acquire invented ratings or verification".
 - [`__tests__/api/client.test.ts`](../../../frontend/__tests__/api/client.test.ts): "Career
   Professionals are listed and read publicly, without authentication".
-- No test covers the not-ready or already-reviewed states, the client-side messages, the profile tag or
-  the Explore card's overall rating.
+- [`__tests__/screens/review-boundaries.test.tsx`](../../../frontend/__tests__/screens/review-boundaries.test.tsx):
+  guest/wrong-role/eligibility guards, prior review, required fields, pending duplicate prevention,
+  403/409 refusals, retained-draft retry and unreadable booking.
+- [`__tests__/screens/professional-detail.test.tsx`](../../../frontend/__tests__/screens/professional-detail.test.tsx)
+  and [`marketplace.test.tsx`](../../../frontend/__tests__/screens/marketplace.test.tsx): returned
+  overall rating/count and null-rating presentation.
+- [`e2e/sprint3-workflows.spec.ts`](../../../frontend/e2e/sprint3-workflows.spec.ts): real review
+  validation, failed-draft retry, persistence, public service/profile aggregates and duplicate refusal.
+- [`e2e/sprint3-completion.spec.ts`](../../../frontend/e2e/sprint3-completion.spec.ts): real unrated
+  service/listing empty feedback states; explicit unrated-professional wording remains advisory.
 
 Run from `frontend/`:
 
@@ -141,19 +149,48 @@ npx jest __tests__/screens/privacy-reviews.test.tsx __tests__/screens/service-de
   __tests__/api/client.test.ts
 ```
 
-Local run on `dev` at `0df4068`, 17 October 2026, Node 22.14.0: 3 suites, 27 passed (the files also
+**Original dev-only execution:** `0df4068`, 17 October 2026, Node 22.14.0: 3 suites, 27 passed (the files also
 cover US-27, US-28, the rest of service detail and the rest of the public client).
 
-## Known gaps
+The refresh adds two [wire-response and cross-view cases](../../../frontend/__tests__/screens/feedback-response-contract.test.tsx).
+One renders an actual backend-shaped review with `jobSeekerId` and no
+`authorName`: stars/comment remain visible, the name reads “Yoir member”, and the
+private identifier is not displayed. The other feeds the same overall rating
+`4.25` / eight reviews to Explore, service detail and professional profile and
+checks `4.3` consistently, independently of the service's `2.5` / two reviews.
+Both focused cases passed through the real client with controlled HTTP replies.
+
+## QA branch evidence
+
+The preceding dev-only counts identify the original source-document execution.
+The `sprint3-qa` overlay adds executed API, component and browser coverage. Its
+[17 October report](../qa/test-results-final-20261017.md) records the tested
+`0df4068` product, and the [dev refresh report](../qa/test-results-dev-refresh-20261017.md)
+records reconciliation with `972caee`. That dev update adds documentation; product
+code is unchanged. Suite counts belong to their dated executions and are not added
+together. The [meeting-area report](../qa/test-results-meeting-area-20261017.md)
+retains the subsequent `9cce973` baseline from PR #244. The
+[latest confirmation report](../qa/test-results-confirmation-20261017.md) records
+`8713b38d63ccb969dcc69a44a02f888fd65caa9a`, including the desktop layout update
+and PR #246. Fresh full component runs passed 610 shared and 619 per native
+preset. Confirmation now consumes a successfully read purchase snapshot; its
+corrected regression and fallback boundaries have their own evidence. The older
+06:33 UTC frontend figures retain their original execution date and source set.
+The [QA matrix](../qa/qa-matrix.md) links these results to the QA tasks.
+
+## Recorded behaviour and findings
 
 - **Reviewer name:** the back end returns `jobSeekerId` and no name, but the app reads `authorName`, so
-  every review shows as "Yoir member". The two front-end tests mock an `authorName` the back end never
-  sends. Reviews stay anonymous in practice; if a name is wanted, the back end needs to send one that
-  respects the reviewer's visibility (US-27).
+  every review without that field shows as "Yoir member". The original fixtures include `authorName`;
+  the new wire-response case exercises the real backend shape and confirms anonymous fallback
+  without exposing `jobSeekerId`.
 - **Seed data:** seeded services and Career Professionals carry ratings and counts with no review rows,
   so a seeded service shows, for example, "4.8 · 28" over "No written reviews yet." (back-end gap).
-- **Not captured since the back end merged:** walkthrough 39 still shows *Not Found*.
+- **Historical walkthrough:** screen 39 records the 8 October *Not Found* response. The later QA browser journey records a successful real submission against the merged backend.
 - **Review entry** is on the My sessions card only, not on the booking detail screen.
 - **Comment limit:** the app stops at 2,000 characters; the back end allows 4,000.
 - A restricted Career Professional's profile hides the rating that Explore still shows.
-- No device run on iOS or Android compares the API's rating with each screen (US-55).
+- [Native D10](../qa/device-acceptance.md) passed on both Expo Go simulator platforms on
+  16 October (`cdcc44e`): review validation, refused submission/retry, duplicate control and
+  service/profile rating readbacks. The [automated advisory result](../qa/test-results-final-20261017.md)
+  separately retains the missing neutral wording for an unrated professional.

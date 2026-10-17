@@ -1,0 +1,613 @@
+{
+  "at": "2026-10-15T23:21:38.880121+00:00",
+  "status": "safe",
+  "scope": "Publication allowlist for service evidence. Readbacks contain synthetic fixture identities only. Image data URIs summarized by length/hash. Raw credentials, executable scripts, live controls, navigation HTML and raw logs excluded.",
+  "allowedFiles": [
+    {
+      "name": "android-buyer-current-baseline.json",
+      "bytes": 5884,
+      "sha256": "3d77e8606982aa1ef416c6fa0bc4b3e0848e67226b2b3fc330a9cc2fee19f58b"
+    },
+    {
+      "name": "android-buyer-isolation-readback.json",
+      "bytes": 1695,
+      "sha256": "31b6a73cb1d583e63e76a4f6cddd3e4edee8bb23239ffedffb89250511192b57"
+    },
+    {
+      "name": "android-d01-candidate-before-fault.json",
+      "bytes": 284,
+      "sha256": "1c676debda93438b80f9aff48cc358d8991101c5a89c9a510c229db2840f632e"
+    },
+    {
+      "name": "android-d01-failed-read-readback.json",
+      "bytes": 1016,
+      "sha256": "e66a6aa5dc9f0ba4e61c90c5091b891652141f70ddcf08add876f813b96b4c96"
+    },
+    {
+      "name": "android-d01-loading-audit.json",
+      "bytes": 658,
+      "sha256": "3bcf61cc5ccdc4fb394aadb1c58aa13a5c390edb58bac49c7a4acc4957dc3d0e"
+    },
+    {
+      "name": "android-d01-obsolete-fault-audit.json",
+      "bytes": 3875,
+      "sha256": "0df576500d3d7ee110b4c9fff01fc8c4516084a65c2c7915ee0a9f098574b33d"
+    },
+    {
+      "name": "android-d01-profile-readback.json",
+      "bytes": 802,
+      "sha256": "02707a826d774b9c38e31cf93ddae3a0ad8c2821c631ea28a30878b1d2ab5034"
+    },
+    {
+      "name": "android-d01-restart-loading-audit.json",
+      "bytes": 699,
+      "sha256": "e8c48a5003883c8da49b3fd794e94644264bc2a7f5ef9450c270baad8f0325ba"
+    },
+    {
+      "name": "android-d04-failed-write-readback.json",
+      "bytes": 325,
+      "sha256": "b80d3efbe7e9adcb2a787eb4ed53826254c64fa17f2f7f10c424df01a5d77342"
+    },
+    {
+      "name": "android-d04-partial-counterparty-readback.json",
+      "bytes": 757,
+      "sha256": "a7d09b8d36d03d680195b1c013282efc8dfa248f2b5dec783afeaae94607b0b9"
+    },
+    {
+      "name": "android-d04-public-restored-readback.json",
+      "bytes": 1049,
+      "sha256": "e331095ff34540fcd947e176dac5d60f2533c168488e2150c98ee26f526fbceb"
+    },
+    {
+      "name": "android-d04-restricted-counterparty-readback.json",
+      "bytes": 765,
+      "sha256": "db8530b2cffe5a3c33710cb1e70307c6347b3b608b515f79fd71eaf5d443deac"
+    },
+    {
+      "name": "android-d05-account-switch-audit.json",
+      "bytes": 2080,
+      "sha256": "325b56895edd7362037b5fc2713064b39c6b1a17c584f523dd341e6229270be0"
+    },
+    {
+      "name": "android-d05-avatar-readback.json",
+      "bytes": 637,
+      "sha256": "0e9207a24f3d1a58bea90bc7f7569fe8c188fb5d093069d224d3bc46604b3bcc"
+    },
+    {
+      "name": "android-d05-failed-save-readback.json",
+      "bytes": 443,
+      "sha256": "7012c6f4af22cd0fe494d670b68255d5fb62624081cf6b8b8bc0add0593156e0"
+    },
+    {
+      "name": "android-d05-other-profile-precheck.json",
+      "bytes": 738,
+      "sha256": "dff483e925589c85098bd123d6a5685307b1c73c707a5e8c4e5f1f844b8d3a73"
+    },
+    {
+      "name": "android-d05-profile-write-audit.json",
+      "bytes": 553,
+      "sha256": "e27a9c03613bf5674a7232e0199747d72e6bda4ce84cd6ea53accfddd86bfd93"
+    },
+    {
+      "name": "android-d05-success-readback.json",
+      "bytes": 452,
+      "sha256": "d8ff22777b525cac73e993ba29da174c1a78ccd67c289724f30eaa7b7488eff9"
+    },
+    {
+      "name": "android-d06-cancel-audit.json",
+      "bytes": 172,
+      "sha256": "8c82b6cda770326b0c9fe7e5be65524c5ded21341ee2a4f1575b34dd478dc124"
+    },
+    {
+      "name": "android-d06-cancel-readback.json",
+      "bytes": 834,
+      "sha256": "4cd94f822745e1f10707a97f74f7edc11c0c2d775b3b5bab4adb34b3258878cb"
+    },
+    {
+      "name": "android-d06-focus-rejection-fixture.json",
+      "bytes": 2143,
+      "sha256": "a19d50953195128e41684b69ce53f64ba9ad0e868448ef067e6720cb69bf70af"
+    },
+    {
+      "name": "android-d06-focus-restore-fixture.json",
+      "bytes": 3500,
+      "sha256": "33268860ec0cad2f84b5a9bd9b3ef3b2281a439292ae560ac8322b59d6015319"
+    },
+    {
+      "name": "android-d06-owner-focus-intermediate.json",
+      "bytes": 868,
+      "sha256": "4b5e829e1e3b028b731fd29b6055ae9d38b36462779838cd3dad5c470f4de741"
+    },
+    {
+      "name": "android-d06-owner-users-focus-audit.json",
+      "bytes": 2885,
+      "sha256": "875517cbec2bd494459d8cca568ab6e068e3627e5fa5ff1f6e279bfdd6f38d8c"
+    },
+    {
+      "name": "android-d06-owner-users-focus-final.json",
+      "bytes": 860,
+      "sha256": "0e77bb62ba1590981203d08dcc4d06185fa573fe467ae37e8d7d86949565a503"
+    },
+    {
+      "name": "android-d06-rejection-audit.json",
+      "bytes": 627,
+      "sha256": "c53b2630aec25a8f1e8dc6e71185c2a4e1a48160bf29ad058be32ab88e443f8e"
+    },
+    {
+      "name": "android-d06-rejection-readback.json",
+      "bytes": 866,
+      "sha256": "e033398b3a8fdf457a3dd2e977ce6c3f2d02509311414cffb308605ad77caf54"
+    },
+    {
+      "name": "android-d06-submission-readback.json",
+      "bytes": 721,
+      "sha256": "9a3c565a2f4f55d98144d06300dcb59b1dda29964b82b1671fb93cbe40d2041c"
+    },
+    {
+      "name": "android-d06-verified-readback.json",
+      "bytes": 2230,
+      "sha256": "d86e605d497144bb649791178336068ae19945a5373014d8cc1a7481168ff745"
+    },
+    {
+      "name": "android-d07-after-service-edit.json",
+      "bytes": 2765,
+      "sha256": "add8d96bb935781fc4d6971e6edd6eb954f49abbac40779e3115c67d9fa2e395"
+    },
+    {
+      "name": "android-d07-after-withdrawal.json",
+      "bytes": 2178,
+      "sha256": "aea485e13febf4c320f828417bc7397a8fa3a27dd4a801c02c72dd716bc1da34"
+    },
+    {
+      "name": "android-d07-before-service-edit.json",
+      "bytes": 2732,
+      "sha256": "31e0efdd0e9e625df3e234b13962c0fc2b47cb46bfc3ebb6a4207fc89f21215e"
+    },
+    {
+      "name": "android-d07-paid-before-edit.json",
+      "bytes": 1575,
+      "sha256": "a6940a2e8786243b2ea6db6d5e17d68519d37d45f44a40e028255679434d723a"
+    },
+    {
+      "name": "android-d07-payment-after-edit.json",
+      "bytes": 1583,
+      "sha256": "f054590b22f1d58aee065fd37886d2c89a9215ad671aeef44148be97cdc077f4"
+    },
+    {
+      "name": "android-d07-payment-after-withdrawal.json",
+      "bytes": 1583,
+      "sha256": "fe98c7a77ac71ec7a2161a60d311be23b0a417cd7e2282f0d110e19133b5c744"
+    },
+    {
+      "name": "android-d07-withdrawn-order-api-probe.json",
+      "bytes": 585,
+      "sha256": "fd104a3313c7c6c177e0d45914c68fc9ece6dd47a8fe58e6c915e155b7778adb"
+    },
+    {
+      "name": "android-d08-missing-cancelled-readback.json",
+      "bytes": 1134,
+      "sha256": "c85699c0c839ca8d4ce94df4a5eb959a58cef67be50d34d3d4ae26e27b9eac91"
+    },
+    {
+      "name": "android-d09-bookings-fault-audit.json",
+      "bytes": 931,
+      "sha256": "d79572e49bbb63244010ad01024bfdd0b9036cea8c7baba97b52679c809a8abf"
+    },
+    {
+      "name": "android-d09-final-order-readback.json",
+      "bytes": 4260,
+      "sha256": "b82267e79fab0a5d9ecd48540d14cf54533170dc35c9e3f177577cbcd8567be0"
+    },
+    {
+      "name": "android-d09-payments-focus-audit.json",
+      "bytes": 1591,
+      "sha256": "6b8e7699a854cd8dd698bb5c60b755c806aa2681deee06655c9b3c2e665abd3d"
+    },
+    {
+      "name": "android-d09-payments-recovery.json",
+      "bytes": 2913,
+      "sha256": "b618aee278cc6ffb6445dea5a8e31eabed1b372252778f74fa9fb614e3349df9"
+    },
+    {
+      "name": "android-d09-transition-readback.json",
+      "bytes": 1576,
+      "sha256": "74b5d829364acd284647ab62c37b61c26e1a65cd1c6ce1d6cf909502a9316dc1"
+    },
+    {
+      "name": "android-d10-failed-write-readback.json",
+      "bytes": 1927,
+      "sha256": "56aaccfa1a745390af01084e0322fa2849d3f6b631ce2c1463c124ff25f5579f"
+    },
+    {
+      "name": "android-d10-review-readback.json",
+      "bytes": 4290,
+      "sha256": "7a83abb026d2f1d523f289b0575491ac9f825ced1e1cbed54db4c91a6e404361"
+    },
+    {
+      "name": "android-d10-review-request-audit.json",
+      "bytes": 1158,
+      "sha256": "38893b0b08c6f812dac554f1898e0b8d9069d317dcc5ca6987ad1990daea52ab"
+    },
+    {
+      "name": "android-d11-collision-cancel.json",
+      "bytes": 1269,
+      "sha256": "5c056c1465ac3a0cd38f2997453e3ab578c9731482add63988dda92c4c732d11"
+    },
+    {
+      "name": "android-d11-collision-create.json",
+      "bytes": 2052,
+      "sha256": "9921fa70f3a46e6291f2278f7c8fe4e928a08a588df5b81d883d2578b410cf6b"
+    },
+    {
+      "name": "android-d11-conflict-readback.json",
+      "bytes": 1548,
+      "sha256": "5c4f4c45653516069a256dfd8805762153f4a3fb145f1caee22a42394d0200a9"
+    },
+    {
+      "name": "android-d11-counsellor-readback.json",
+      "bytes": 1503,
+      "sha256": "e0a226fb9710c90aeafcdf90381241da7eb885122b3313a6a3bb4131290d94d5"
+    },
+    {
+      "name": "android-d11-failure-order-readback.json",
+      "bytes": 1525,
+      "sha256": "a89c234558852c8fc40dee788c8f59a1b7fa58a8d4cd74ca3d39cfd2984c586e"
+    },
+    {
+      "name": "android-d11-failure-readback.json",
+      "bytes": 1115,
+      "sha256": "61c07063a6890f1fa1c5d5d7d39995dcd01186c6ce477a497400ae40b48851e9"
+    },
+    {
+      "name": "android-d11-native-nonparticipant-audit.json",
+      "bytes": 419,
+      "sha256": "c05adb53cd7df574bc791fd4d709e8c7d820c184c93ed66b899ce8ca929369bf"
+    },
+    {
+      "name": "android-d11-other-access-readback.json",
+      "bytes": 440,
+      "sha256": "8141a297e0d461670efc38642c03f616dd0a8d8f4df27b0454e7558b8f5e4a82"
+    },
+    {
+      "name": "android-d11-reschedule-request-audit.json",
+      "bytes": 951,
+      "sha256": "60de70fbeee7c29d93e90342ee2f7a611926ba27016bb9504ef047ade18e24b7"
+    },
+    {
+      "name": "android-d11-success-order-readback.json",
+      "bytes": 1525,
+      "sha256": "9f5d19291c316c769d04b405df915f58151289abc31988aefff6999137009ab7"
+    },
+    {
+      "name": "android-d11-success-readback.json",
+      "bytes": 1658,
+      "sha256": "f2e854201949e1127e1770c9e8081419922d0135e42fb8d6282ccbd3288b0be0"
+    },
+    {
+      "name": "android-d12-unknown-email-precheck.json",
+      "bytes": 291,
+      "sha256": "4c102b472545c8d9b70fb6615588f8b49386bdaeeed27f7bd527d799bbf0dd5a"
+    },
+    {
+      "name": "android-d13-payout-status-readback.json",
+      "bytes": 476,
+      "sha256": "9f059bcbc9bbe4a2deb7da1507d80c5e06432314c2295b91821d8168a660ce9a"
+    },
+    {
+      "name": "android-d13-resend-request-audit.json",
+      "bytes": 875,
+      "sha256": "de122af007e0d9e625d6bcf4f559091c2d342d65dd02943db063eef78575eada"
+    },
+    {
+      "name": "android-final-auth-audit.json",
+      "bytes": 1873,
+      "sha256": "dc32aa616e6f1ef2305c08a11ef95e82e64890951462b70b58c209c94467f872"
+    },
+    {
+      "name": "android-local-route-audit.json",
+      "bytes": 794,
+      "sha256": "a8b42c41c5b1e9e16552a9795133dd5d9c18a211469af9382cff440fb3cd1bd4"
+    },
+    {
+      "name": "baseline.json",
+      "bytes": 67174,
+      "sha256": "4b9f18c1a1e90ebc71abdd3f4fb175e83d6cd1a1bd79d8638d2e7ddd817c75cf"
+    },
+    {
+      "name": "cleanup-signals.json",
+      "bytes": 837,
+      "sha256": "9c1a3dca9f3b495ad8274eeb45a1ca2370349d7d7f93c8d40e6338516f2e1233"
+    },
+    {
+      "name": "cleanup.json",
+      "bytes": 1201,
+      "sha256": "7d52fbea1c979b27f0be1a393600f663a00ff6951b29c2fb99a6f1163fb49b2a"
+    },
+    {
+      "name": "environment.json",
+      "bytes": 42237,
+      "sha256": "fc0a5a01945f52c36da947358af6ba1c3c3ad2fdb6f01e087bfeb0d86908b211"
+    },
+    {
+      "name": "fault-control-events.jsonl",
+      "bytes": 12182,
+      "sha256": "47ae56b6290acb765287f203d6b9a9152c9238638cfe6a0e1b68febf4b91ad68"
+    },
+    {
+      "name": "fault-events.jsonl",
+      "bytes": 6179,
+      "sha256": "30f5a51717984e3c677bc44fa20f1cf883e2e2b2ebbc333d21d1795764c0290e"
+    },
+    {
+      "name": "fault-selfcheck.json",
+      "bytes": 507,
+      "sha256": "04639a50b8ea4f5372eca8de7ea18c3fa26284e6ac7ab8108dcc833c48168a1e"
+    },
+    {
+      "name": "final-readback.json",
+      "bytes": 76626,
+      "sha256": "23a68c92661d4a5ad0331a02e9dcf0a2601b77729eda1a28a0d6ddbf363f76d9"
+    },
+    {
+      "name": "final-reconciliation.json",
+      "bytes": 17275,
+      "sha256": "cc4b7899ca394ae317993319896384d7564793a766e4cb7f9b318e625d089f52"
+    },
+    {
+      "name": "fixtures.json",
+      "bytes": 12927,
+      "sha256": "5cc85c8c37ba538a034210927ca265b0dab0f6d2fc3b1faefcdd71a736416068"
+    },
+    {
+      "name": "ios-buyer-isolation-readback.json",
+      "bytes": 1671,
+      "sha256": "56f65b5e6994b547d2946f9056b063e8aa3b7d71d80c188cc746a4c16190d4f2"
+    },
+    {
+      "name": "ios-d01-failed-read-readback.json",
+      "bytes": 992,
+      "sha256": "bfbce7cdc0a337fbf8a5980c516db4fbe87f49f8e2de0d724260e830e17fd651"
+    },
+    {
+      "name": "ios-d01-loading-audit.json",
+      "bytes": 851,
+      "sha256": "c21d3518deefcc6b4cf90737f9ad267a00e134a69f5f18c0a8086f9d08f30b0d"
+    },
+    {
+      "name": "ios-d01-profile-readback.json",
+      "bytes": 837,
+      "sha256": "97a5ad7845c1575e45aff480ea33e0b6724932adc680cd1c23b1a24ad1d56aba"
+    },
+    {
+      "name": "ios-d04-partial-counterparty-readback.json",
+      "bytes": 737,
+      "sha256": "e58abd83df381a8ee3b9ac9a4553fb3f68a50669dbccf8a28eaec2d67d6861ae"
+    },
+    {
+      "name": "ios-d04-public-restored-readback.json",
+      "bytes": 1021,
+      "sha256": "966fdb1a69cef9b4c9ee32fc53229878ba2a61bf752731329e5e7d959e44425c"
+    },
+    {
+      "name": "ios-d04-visibility-after-fault.json",
+      "bytes": 1114,
+      "sha256": "2acd098dff394a9409fb92f1739d22c2663321dfd655abe43068c707ac58f8a0"
+    },
+    {
+      "name": "ios-d04-visibility-write-audit.json",
+      "bytes": 1279,
+      "sha256": "35c31f10be3106f3b45cc92916a86088682a4d2f882c1f838d844a224d2a93b2"
+    },
+    {
+      "name": "ios-d05-avatar-readback.json",
+      "bytes": 652,
+      "sha256": "fb839d18bfdcbe34b656fbd1d529b5ee90482e419369e7d6f8cfa7bc86b91767"
+    },
+    {
+      "name": "ios-d05-profile-readback.json",
+      "bytes": 469,
+      "sha256": "9de85744ff1501f76a985d883da0efaaa66f8dcbf77a38883f614bd727a700b2"
+    },
+    {
+      "name": "ios-d06-cancel-audit.json",
+      "bytes": 203,
+      "sha256": "28e24989459523f3c60366dcb579845b90dc113028d9f7f043b2dd4a5e35fe03"
+    },
+    {
+      "name": "ios-d06-focus-rejection-fixture.json",
+      "bytes": 2165,
+      "sha256": "b5215431ad28a8a593fab37ccdbe197abbca7fb405125ea0fadeb08b2506abf5"
+    },
+    {
+      "name": "ios-d06-focus-restore-fixture.json",
+      "bytes": 4606,
+      "sha256": "f85778e4f99b52edfee44c4a01af9402b0196835104b5ec8e91f71e87dde74b8"
+    },
+    {
+      "name": "ios-d06-owner-users-focus-audit.json",
+      "bytes": 1614,
+      "sha256": "c3dcd400b1a3e3888133648ea9e8263c749543160e7cdd19b0584afb95b336d7"
+    },
+    {
+      "name": "ios-d06-owner-users-focus-final.json",
+      "bytes": 853,
+      "sha256": "a89dfade5dbbe0dd95dcac632832ddc22ad1e4c80f88d1449bf3366ebd75c396"
+    },
+    {
+      "name": "ios-d06-rejection-readback.json",
+      "bytes": 790,
+      "sha256": "5d46c1d9587d4b68a392fdaf7b738873bff85c6a5576cb1d4724b963f635f21d"
+    },
+    {
+      "name": "ios-d06-submission-readback.json",
+      "bytes": 714,
+      "sha256": "ead27af641cc804684de1820cc9737194d220b6f43b934756421e9151f5c60e0"
+    },
+    {
+      "name": "ios-d06-verified-readback.json",
+      "bytes": 3343,
+      "sha256": "7bd2d0de5c50f421dd8019ee9b1e3b8f4f3bbae443afb963bea69aa481ae6d32"
+    },
+    {
+      "name": "ios-d07-after-service-edit.json",
+      "bytes": 1919,
+      "sha256": "9b15092a035e9d8f11e0dcca4e8ee69e17c3328cd93e431f8d60086b851614c1"
+    },
+    {
+      "name": "ios-d07-after-withdrawal.json",
+      "bytes": 1348,
+      "sha256": "33b3622d046fd871338963c5c0a45cc1fa74cdddeaa185be4402b3b9ae6407b2"
+    },
+    {
+      "name": "ios-d07-booking-before-edit.json",
+      "bytes": 1904,
+      "sha256": "839a4357669f3f66e4d292ec6130b0f6fc352c39626925c669d1ba420a2bb265"
+    },
+    {
+      "name": "ios-d07-paid-before-edit.json",
+      "bytes": 1547,
+      "sha256": "cde73b75942060d97473d758e8a0b1d095f311c0b27a27a3fb1cd8ddd89f3c2a"
+    },
+    {
+      "name": "ios-d07-payment-after-edit.json",
+      "bytes": 1545,
+      "sha256": "2acbc6bd1ea054ea285b5231f0c98f0ba2352b1e1a2ecade1284b275b1cc2d67"
+    },
+    {
+      "name": "ios-d07-payment-after-withdrawal.json",
+      "bytes": 1545,
+      "sha256": "5a17581000983c00654179b509a8a88a0cbc265925d6406968df85db894832e5"
+    },
+    {
+      "name": "ios-d09-bookings-fault-audit.json",
+      "bytes": 911,
+      "sha256": "cee79e3c0842e4a644d250333eef247a686ef51eed3b7ceee55ccfb402e5fe2b"
+    },
+    {
+      "name": "ios-d09-final-order-readback.json",
+      "bytes": 4199,
+      "sha256": "919ada3daa282dfa21848e9f5b047e729e5424568dd7321171c566a04f1e8f97"
+    },
+    {
+      "name": "ios-d09-payments-recovery.json",
+      "bytes": 533,
+      "sha256": "ea2f67773143f6da6501a08c267a63e6316c597d139506c12eef7ba1383fcad2"
+    },
+    {
+      "name": "ios-d09-transition-readback.json",
+      "bytes": 1532,
+      "sha256": "92e523aad1b89c9ccdf21e3fc47928718bfbe5e3666ee10c39bda079390aa1de"
+    },
+    {
+      "name": "ios-d10-review-readback.json",
+      "bytes": 4218,
+      "sha256": "e6504e24475a897f4c6c607f668674328658627185fd2eb80474acc0a8cad67a"
+    },
+    {
+      "name": "ios-d10-review-request-audit.json",
+      "bytes": 917,
+      "sha256": "7caea3982cd4399e10cb333560ee8c9ac236d5efa7899b2e8e24125d9ec4c70a"
+    },
+    {
+      "name": "ios-d11-collision-cancel.json",
+      "bytes": 1253,
+      "sha256": "a73f4030eb4239e7ef47e76d05760fcf1b3a9df5ac62666d5449aeea8e882592"
+    },
+    {
+      "name": "ios-d11-collision-create.json",
+      "bytes": 2028,
+      "sha256": "ee461c54b19ad688df7be219d4c1488cbab86678b061bfda6c4d9faa63583488"
+    },
+    {
+      "name": "ios-d11-conflict-readback.json",
+      "bytes": 2614,
+      "sha256": "405200a4ff226c9109f59bc20e0c60b501c01ee8a82d43709a45503c5975b38e"
+    },
+    {
+      "name": "ios-d11-counsellor-readback.json",
+      "bytes": 1467,
+      "sha256": "07a247675795b97dfe83b49473df43c06eb6e007b34948a02df07cbef854c25a"
+    },
+    {
+      "name": "ios-d11-failure-readback.json",
+      "bytes": 2614,
+      "sha256": "913988cd588abefd1a24bf4fded29091387443aef203b845ba7ba6df6046b69e"
+    },
+    {
+      "name": "ios-d11-success-readback.json",
+      "bytes": 3926,
+      "sha256": "8949c1fcdf6dc99863e07c0c36b9106a18266696723d7ca74321034e6cd51a96"
+    },
+    {
+      "name": "ios-d12-reset-request-audit.json",
+      "bytes": 1302,
+      "sha256": "7ce9947ac79ca418036e8fb3edc153cc4b0b0cf787b918b8f87a10c94d8241d6"
+    },
+    {
+      "name": "ios-d13-payout-status-readback.json",
+      "bytes": 472,
+      "sha256": "1a5cf1cb914a533a0ccff989f9aae00b2f5c0835b275b9e44929a2743340dc07"
+    },
+    {
+      "name": "ios-d13-resend-request-audit.json",
+      "bytes": 1364,
+      "sha256": "d830480f39add942a413e33d0947b125fc5689e65567f02b2793dcd199287004"
+    },
+    {
+      "name": "lifecycle-before-cleanup.json",
+      "bytes": 1265,
+      "sha256": "64b15cf520fa449b51e2f03f6854baab08c0b9b3c85f033e78bb47b97f1fd969"
+    },
+    {
+      "name": "navigation-service.json",
+      "bytes": 900,
+      "sha256": "2c50acfa741e96a4bc1c04f33c4844fa8a428c29c172ef2932a20e4e31ffd244"
+    },
+    {
+      "name": "photo-provisioning.json",
+      "bytes": 1649,
+      "sha256": "16b51b54116d3cb1ab6ea5dcd65b29fe794eba24145bae011b87d4c08ee95a15"
+    },
+    {
+      "name": "requests.jsonl",
+      "bytes": 149940,
+      "sha256": "9433f0a5f8b45bb44a3603c4fc42a2bb8d94d9bbfb8f35f6a168b6c844a8fc1e"
+    },
+    {
+      "name": "source-integrity-final.json",
+      "bytes": 327,
+      "sha256": "e2091936b0542046215523dd5e6bf4a581dbe6159a2640cec534a27f30260152"
+    },
+    {
+      "name": "source-integrity-interim.json",
+      "bytes": 216,
+      "sha256": "da8beb7425504015d281da88dd53aa3f68e37cd936e9cba40776da93934899a1"
+    }
+  ],
+  "optionalSyntheticImage": {
+    "name": "qa-native-avatar.png",
+    "sha256": "13863af0a3f3e49109b9582c4cc4e50df7a88007f81813f5940d336b2587ca56"
+  },
+  "excludedFiles": [
+    "api.log",
+    "fault-control.json",
+    "navigation.log",
+    "qa-native-avatar.png",
+    "private-credentials.json",
+    "run_api.py",
+    "control.py",
+    "collision.py",
+    "read_one.py",
+    "api-startup-failed.log",
+    "metro.log",
+    "snapshot.py",
+    "__pycache__/snapshot.cpython-312.pyc",
+    "__pycache__/run_api.cpython-312.pyc",
+    "__pycache__/read_one.cpython-312.pyc",
+    "__pycache__/control.cpython-312.pyc",
+    "links/index.html"
+  ],
+  "secretScanFindings": [],
+  "trueTransportOffline": "Not Run; running ASGI wrapper supported HTTP rejection/delay only. No server interruption was used as a test.",
+  "externalBoundary": "No real email provider, Stripe handoff/payment/refund/payout or valid email-token delivery/consumption evidence."
+}

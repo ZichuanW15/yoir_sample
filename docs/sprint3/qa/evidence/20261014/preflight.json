@@ -1,0 +1,20 @@
+{
+  "date": "2026-10-14",
+  "environment": {
+    "node": "v20.20.2",
+    "npm": "10.8.2",
+    "python": "Python 3.12.14",
+    "postgres": "postgres (PostgreSQL) 16.15 (Homebrew)"
+  },
+  "frontendDependencies": "npm ci --no-audit succeeded against unchanged package-lock.json",
+  "backendDependencies": "Existing Python environment audited against uv.lock: no version mismatches; only colorama (Windows) and greenlet (other CPU markers, not macOS arm64) absent. uv not available, so no fresh uv sync claimed.",
+  "webBuild": {
+    "command": "EXPO_PUBLIC_API_URL=/api/v1 EXPO_PUBLIC_USE_DEMO_API=false npm run build:web",
+    "exitCode": 0,
+    "completedFileTimestamp": "2026-10-14T06:23:07.308397+00:00",
+    "startTime": "not captured by recorder"
+  },
+  "typeGeneration": "Stale Sep18 .expo route types caused preflight typecheck errors; regenerated via CI=1 npx expo start --offline --port 43128, then stopped. Recorded final typecheck passed.",
+  "initialBrowserAuthoring": "Two failures: missing Web ARIA checked state (preserved separately as a product defect) and wrong Book this service selector (corrected). Next broad run had unverified-email fixture causing correct booking rejection; final focused run uses verified owned seed and passed. Earlier failures remain retained.",
+  "database": "Fresh temporary PostgreSQL cluster /private/tmp/yoir-sprint3-qa.M8gGCi/pgdata; loopback 55437, sprint3_qa_test. Browser server uses its own temporary SQLite; providers disabled."
+}

@@ -1,0 +1,14 @@
+{
+  "at": "2026-10-15T21:43:51.155329+00:00",
+  "userId": "qa-nr-android-candidate",
+  "reads": {
+    "/me/onboarding-state": {
+      "status": 200,
+      "data": {
+        "profileComplete": true,
+        "verificationSubmitted": false,
+        "complete": false
+      }
+    }
+  }
+}

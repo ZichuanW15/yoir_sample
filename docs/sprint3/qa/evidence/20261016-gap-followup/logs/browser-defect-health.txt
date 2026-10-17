@@ -1,0 +1,2 @@
+Defect report (playwright): 0 passed, 4 failed, 0 skipped; 0 flaky, 4 failed attempts.
+Advisory: completed defect assertions do not block CI; failed tests remain failed. Identifiable runtime/setup failures block this check; other failures still need review. This report check does not certify product acceptance or every fixture/setup failure.

@@ -1,0 +1,27 @@
+FAIL __tests__/defects/sprint3-reschedule-acceptance.test.tsx
+  ✕ [S3-RESCHEDULE-SLOTS-READ][QA-225] a failed availability read reports the error without claiming no open times (125 ms)
+
+  ● [S3-RESCHEDULE-SLOTS-READ][QA-225] a failed availability read reports the error without claiming no open times
+
+    expect(received).toBeNull()
+
+    Received: {"_fiber": {"_debugHookTypes": null, "_debugInfo": null, "_debugNeedsRemount": false, "_debugOwner": [FiberNode], "_debugStack": [Error: react-stack-top-frame], "_debugTask": null, "actualDuration": 0, "actualStartTime": 1792218720364, "alternate": null, "child": [FiberNode], "childLanes": 0, "deletions": null, "dependencies": null, "elementType": "Text", "flags": 0, "index": 0, "key": null, "lanes": 0, "memoizedProps": [Object], "memoizedState": null, "mode": 3, "pendingProps": [Object], "ref": null, "refCleanup": null, "return": [FiberNode], "selfBaseDuration": 0, "sibling": null, "stateNode": [Object], "subtreeFlags": 0, "tag": 5, "treeBaseDuration": 0, "type": "Text", "updateQueue": null}}
+
+      16 |   // Original expected behavior remains a deliberately failing advisory assertion.
+      17 |   // A refused GET cannot establish that the service has no available appointments.
+    > 18 |   expect(screen.queryByText('No open times right now. Try again later.')).toBeNull();
+         |                                                                           ^
+      19 |   expect(screen.getByText('Availability temporarily unavailable.')).toBeOnTheScreen();
+      20 | });
+      21 |
+
+      at Object.toBeNull (__tests__/defects/sprint3-reschedule-acceptance.test.tsx:18:75)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 1 total
+Snapshots:   0 total
+Time:        0.754 s
+Ran all test suites within paths "__tests__/defects/sprint3-reschedule-acceptance.test.tsx".
+Test results written to: ../artifacts/qa/sprint3-dev-refresh-20261017/authoring-booking/defects.json

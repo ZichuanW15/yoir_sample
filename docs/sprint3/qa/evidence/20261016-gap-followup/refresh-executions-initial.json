@@ -1,0 +1,38 @@
+[
+  {
+    "name": "shared",
+    "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+    "argv": [
+      "node",
+      "node_modules/jest/bin/jest.js",
+      "--ci",
+      "--runInBand",
+      "--runTestsByPath",
+      "__tests__/screens/focus-refresh.test.tsx",
+      "--json",
+      "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-next-20261016/refresh/shared.json"
+    ],
+    "exitCode": 1,
+    "startedAt": "2026-10-15T20:57:59.861144+00:00",
+    "finishedAt": "2026-10-15T20:58:02.524525+00:00"
+  },
+  {
+    "name": "shared-defects",
+    "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+    "argv": [
+      "node",
+      "node_modules/jest/bin/jest.js",
+      "--ci",
+      "--runInBand",
+      "--config",
+      "jest.config.defects.js",
+      "--runTestsByPath",
+      "__tests__/defects/sprint3-refresh-acceptance.test.tsx",
+      "--json",
+      "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-next-20261016/refresh/shared-defects.json"
+    ],
+    "exitCode": 1,
+    "startedAt": "2026-10-15T20:58:02.524600+00:00",
+    "finishedAt": "2026-10-15T20:58:05.166845+00:00"
+  }
+]

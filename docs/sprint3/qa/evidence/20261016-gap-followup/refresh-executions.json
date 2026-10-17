@@ -1,0 +1,205 @@
+{
+  "runtime": "v20.20.2",
+  "sourcesSha256": {
+    "frontend/__tests__/screens/focus-refresh.test.tsx": "d77572998a80673f8e9cb906a018b2e571f3a632640da2c96673ace114222013",
+    "frontend/__tests__/defects/sprint3-refresh-acceptance.test.tsx": "122e7bf680baab88b6aa4c6ea5133bf0b3ed14ff3a6ae82300756b6993217be9",
+    "frontend/__tests__/screens/counsellor-screen-utils.tsx": "3005e891ccc6fbf7d7ca10276f3ade7c55032a8b6957cd8caff78803ae09c717",
+    "frontend/app/counsellor/index.tsx": "2783fb0253bb5e0527d180ceff0a4553965378ca9fd8359f7e1cf749848e0303",
+    "frontend/app/admin/counsellors.tsx": "551887abadaad179d108adbace6b85aa61fbdd5d7dc29da92507ec651ed4a266",
+    "frontend/src/auth/AuthContext.tsx": "b7b3c37c67d9f8fcccbd47816293c611a10697365d9c27f3e9a45a8e6aa68e8d",
+    "frontend/src/api/authBridge.ts": "be78156bff860635562929f16b5e8d13145ffe5f32a9157b4db9fd0fbebe3d3a",
+    "frontend/package-lock.json": "c3b6f9355f8cb29624fe40c7565b12c77a1ab2c6619d59abe3203da1d48f4b78"
+  },
+  "commands": [
+    {
+      "name": "shared-final",
+      "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+      "argv": [
+        "node",
+        "node_modules/jest/bin/jest.js",
+        "--ci",
+        "--runInBand",
+        "--config",
+        "jest.config.js",
+        "--runTestsByPath",
+        "__tests__/screens/focus-refresh.test.tsx",
+        "--json",
+        "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-next-20261016/refresh/shared-final.json"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-10-15T20:58:30.693199+00:00",
+      "finishedAt": "2026-10-15T20:58:32.990095+00:00"
+    },
+    {
+      "name": "shared-defects-final",
+      "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+      "argv": [
+        "node",
+        "node_modules/jest/bin/jest.js",
+        "--ci",
+        "--runInBand",
+        "--config",
+        "jest.config.defects.js",
+        "--runTestsByPath",
+        "__tests__/defects/sprint3-refresh-acceptance.test.tsx",
+        "--json",
+        "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-next-20261016/refresh/shared-defects-final.json"
+      ],
+      "exitCode": 1,
+      "startedAt": "2026-10-15T20:58:33.006429+00:00",
+      "finishedAt": "2026-10-15T20:58:35.448927+00:00"
+    },
+    {
+      "name": "ios",
+      "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+      "argv": [
+        "node",
+        "node_modules/jest/bin/jest.js",
+        "--ci",
+        "--runInBand",
+        "--config",
+        "jest.config.ios.js",
+        "--runTestsByPath",
+        "__tests__/screens/focus-refresh.test.tsx",
+        "--json",
+        "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-next-20261016/refresh/ios.json"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-10-15T20:58:35.462248+00:00",
+      "finishedAt": "2026-10-15T20:58:37.957242+00:00"
+    },
+    {
+      "name": "ios-defects",
+      "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+      "argv": [
+        "node",
+        "node_modules/jest/bin/jest.js",
+        "--ci",
+        "--runInBand",
+        "--config",
+        "jest.config.ios-defects.js",
+        "--runTestsByPath",
+        "__tests__/defects/sprint3-refresh-acceptance.test.tsx",
+        "--json",
+        "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-next-20261016/refresh/ios-defects.json"
+      ],
+      "exitCode": 1,
+      "startedAt": "2026-10-15T20:58:37.973327+00:00",
+      "finishedAt": "2026-10-15T20:58:40.692479+00:00"
+    },
+    {
+      "name": "android",
+      "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+      "argv": [
+        "node",
+        "node_modules/jest/bin/jest.js",
+        "--ci",
+        "--runInBand",
+        "--config",
+        "jest.config.android.js",
+        "--runTestsByPath",
+        "__tests__/screens/focus-refresh.test.tsx",
+        "--json",
+        "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-next-20261016/refresh/android.json"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-10-15T20:58:40.705839+00:00",
+      "finishedAt": "2026-10-15T20:58:43.118318+00:00"
+    },
+    {
+      "name": "android-defects",
+      "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+      "argv": [
+        "node",
+        "node_modules/jest/bin/jest.js",
+        "--ci",
+        "--runInBand",
+        "--config",
+        "jest.config.android-defects.js",
+        "--runTestsByPath",
+        "__tests__/defects/sprint3-refresh-acceptance.test.tsx",
+        "--json",
+        "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-next-20261016/refresh/android-defects.json"
+      ],
+      "exitCode": 1,
+      "startedAt": "2026-10-15T20:58:43.134458+00:00",
+      "finishedAt": "2026-10-15T20:58:45.932248+00:00"
+    },
+    {
+      "name": "focused-eslint",
+      "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+      "argv": [
+        "node",
+        "node_modules/eslint/bin/eslint.js",
+        "__tests__/screens/focus-refresh.test.tsx",
+        "__tests__/defects/sprint3-refresh-acceptance.test.tsx"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-10-15T20:58:45.944257+00:00",
+      "finishedAt": "2026-10-15T20:58:46.989041+00:00"
+    },
+    {
+      "name": "typecheck",
+      "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+      "argv": [
+        "node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit"
+      ],
+      "exitCode": 2,
+      "startedAt": "2026-10-15T20:58:47.003168+00:00",
+      "finishedAt": "2026-10-15T20:58:49.597977+00:00"
+    },
+    {
+      "name": "shared-defects-final-health",
+      "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala",
+      "argv": [
+        "node",
+        "scripts/check_defect_report.cjs",
+        "--format",
+        "jest",
+        "--report",
+        "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-next-20261016/refresh/shared-defects-final.json",
+        "--outcome",
+        "failure"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-10-15T20:59:05.760207+00:00",
+      "finishedAt": "2026-10-15T20:59:05.786355+00:00"
+    },
+    {
+      "name": "ios-defects-health",
+      "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala",
+      "argv": [
+        "node",
+        "scripts/check_defect_report.cjs",
+        "--format",
+        "jest",
+        "--report",
+        "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-next-20261016/refresh/ios-defects.json",
+        "--outcome",
+        "failure"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-10-15T20:59:05.786451+00:00",
+      "finishedAt": "2026-10-15T20:59:05.811111+00:00"
+    },
+    {
+      "name": "android-defects-health",
+      "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala",
+      "argv": [
+        "node",
+        "scripts/check_defect_report.cjs",
+        "--format",
+        "jest",
+        "--report",
+        "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-next-20261016/refresh/android-defects.json",
+        "--outcome",
+        "failure"
+      ],
+      "exitCode": 0,
+      "startedAt": "2026-10-15T20:59:05.811207+00:00",
+      "finishedAt": "2026-10-15T20:59:05.835841+00:00"
+    }
+  ]
+}

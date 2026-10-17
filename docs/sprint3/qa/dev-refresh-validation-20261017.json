@@ -1,0 +1,184 @@
+{
+  "checkedAt": "2026-10-17T06:36:31.744854+00:00",
+  "devBaseline": "972caeed8b16603b11580206692909288a83a436",
+  "localMerge": "38cd806227453e820838081d6fbea907c6e5ef14",
+  "status": "local review; test/document changes uncommitted",
+  "qaTaskMappings": 23,
+  "newRegressionCases": [
+    {
+      "file": "frontend/__tests__/screens/service-booking-recovery.test.tsx",
+      "fullName": "US-36 / QA-201 existing-service update recovery a rejected PATCH retains the edit and retry waits for confirmation before leaving",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/service-booking-recovery.test.tsx",
+      "fullName": "US-43 / QA-207 meeting-address edits cancelling an address draft preserves the stored address and reopening starts from it",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/service-booking-recovery.test.tsx",
+      "fullName": "US-43 / QA-207 meeting-address edits clearing an address sends null and replaces the display only after the server confirms",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/service-booking-recovery.test.tsx",
+      "fullName": "US-43 / QA-207 meeting-address edits a refused address write keeps the saved display and draft, then retries the trimmed address",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/service-booking-recovery.test.tsx",
+      "fullName": "US-69 / QA-225 reschedule acknowledgement and retry an in-flight move sends one request and keeps the same booking until acknowledgement",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/service-booking-recovery.test.tsx",
+      "fullName": "US-69 / QA-225 reschedule acknowledgement and retry a server failure reloads the original booking and requires a new selection before retry",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/privacy-settings-boundaries.test.tsx",
+      "fullName": "QA-183 privacy settings confirmed-read and write boundaries [0] stored privacy is restored for the member role",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/privacy-settings-boundaries.test.tsx",
+      "fullName": "QA-183 privacy settings confirmed-read and write boundaries [1] stored privacy is restored for the member role",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/privacy-settings-boundaries.test.tsx",
+      "fullName": "QA-183 privacy settings confirmed-read and write boundaries [2] stored privacy is restored for the member role",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/privacy-settings-boundaries.test.tsx",
+      "fullName": "QA-183 privacy settings confirmed-read and write boundaries [3] stored privacy is restored for the member role",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/privacy-settings-boundaries.test.tsx",
+      "fullName": "QA-183 privacy settings confirmed-read and write boundaries no privacy choice or save action is fabricated while the stored setting loads",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/privacy-settings-boundaries.test.tsx",
+      "fullName": "QA-183 privacy settings confirmed-read and write boundaries the saved choice and success toast follow the PATCH response, and a pending save cannot be duplicated",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/privacy-settings-boundaries.test.tsx",
+      "fullName": "QA-183 privacy settings confirmed-read and write boundaries reopening reads the confirmed setting again instead of keeping a previous screen selection",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/privacy-settings-boundaries.test.tsx",
+      "fullName": "QA-183 privacy settings confirmed-read and write boundaries a failed initial read shows the error without claiming any level is saved",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/privacy-settings-boundaries.test.tsx",
+      "fullName": "QA-183 privacy settings confirmed-read and write boundaries a refused save can be retried and reports success only after the recovered response",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/privacy-settings-boundaries.test.tsx",
+      "fullName": "QA-183 privacy settings confirmed-read and write boundaries an anonymous visitor is redirected without requesting another account\u2019s settings",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/reset.test.tsx",
+      "fullName": "set a new password \u2014 US-70 [QA-228] backend password field errors clear on a corrected retry without premature success",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/feedback-response-contract.test.tsx",
+      "fullName": "US-54/55 / QA-216/219 public feedback response contract a backend-shaped anonymous review retains its stars/comment without inventing an author name",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/feedback-response-contract.test.tsx",
+      "fullName": "US-54/55 / QA-216/219 public feedback response contract catalogue, service detail and profile render the same returned overall rating independently of the service average",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/onboarding-focus.test.tsx",
+      "fullName": "[QA-180] returning from each setup step refreshes the same mounted onboarding screen and opens the workspace only after both are confirmed",
+      "status": "passed"
+    }
+  ],
+  "newAdvisoryCases": [
+    {
+      "file": "frontend/__tests__/defects/sprint3-reschedule-acceptance.test.tsx",
+      "fullName": "[S3-RESCHEDULE-SLOTS-READ][QA-225] a failed availability read reports the error without claiming no open times",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/sprint3-private-matches.test.tsx",
+      "fullName": "privacy-filtered diagnosis matches \u2014 QA-174/186 [S3-PRIVACY-MATCH-CRASH] partial API profiles render without accessing omitted private arrays",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/sprint3-private-matches.test.tsx",
+      "fullName": "privacy-filtered diagnosis matches \u2014 QA-174/186 [S3-PRIVACY-MATCH-CRASH] restricted API profiles render without accessing omitted private arrays",
+      "status": "failed"
+    }
+  ],
+  "sourceFilesVerified": 368,
+  "evidencePackages": [
+    {
+      "path": "docs/sprint3/qa/evidence/20261014/manifest.json",
+      "sha256": "b5cb0b7dd430ba41a2743038cfc770c187f07a95c7c19f70bc698c4747a88f4e",
+      "files": 48
+    },
+    {
+      "path": "docs/sprint3/qa/evidence/20261016/manifest.json",
+      "sha256": "66e2ecd77935a1596c61272834f5fa469e5597e9a3b5d3994c06fa8cab41978b",
+      "files": 104
+    },
+    {
+      "path": "docs/sprint3/qa/evidence/20261016-completion/manifest.json",
+      "sha256": "53ef8c7aee1729cd1968d712a0ca8b08b7ed7aff173a6384d61113f4ae002204",
+      "files": 69
+    },
+    {
+      "path": "docs/sprint3/qa/evidence/20261016-gap-followup/manifest.json",
+      "sha256": "789204ac30baeb33d5686a6a5e82d8d09470dfb295b190a1343dbd270232567a",
+      "files": 66
+    },
+    {
+      "path": "docs/sprint3/qa/evidence/20261016-native/manifest.json",
+      "sha256": "22b960f421f69ddb782e1646b85c5e16572401dd6d2954d2faa313005b95e95c",
+      "files": 103
+    },
+    {
+      "path": "docs/sprint3/qa/evidence/20261016-native-remaining/manifest.json",
+      "sha256": "53e81f448b93c2d62add48aa0f90ecbe7c11cd086f6ba74f8a36464e157a7bbb",
+      "files": 547
+    },
+    {
+      "path": "docs/sprint3/qa/evidence/20261017-dev-refresh/manifest.json",
+      "sha256": "7feef6cf8d492a93d063794ef81e1093d5f1d38f2c3b50cf9832d0309ed195c7",
+      "files": 33
+    },
+    {
+      "path": "docs/sprint3/qa/evidence/20261017-final/manifest.json",
+      "sha256": "3f23cfd83ed01d8dbb2fd311edc6b1cb723f52a0abc4e6b9ebd086f0b1d5ec09",
+      "files": 160
+    }
+  ],
+  "evidenceFilesVerified": 1130,
+  "retainedReportsVerified": 7,
+  "productDependencyWorkflowDifferencesFromDev": [],
+  "sourceStableDuringExecutions": true,
+  "advisoryReportHealth": "passed",
+  "gitDiffWhitespace": "passed",
+  "remoteMutations": false,
+  "repositoryMetadata": {
+    "source": "scripts/check_repository_metadata.py with tracked/nonignored publication Markdown inventory",
+    "openApiOperations": 76,
+    "localRefs": 80,
+    "markdownRelativeLinks": 1296,
+    "brokenLinks": [],
+    "workflowYamlAndSeedJson": "passed"
+  }
+}

@@ -1,0 +1,194 @@
+[
+  {
+    "at": "2026-10-15T21:11:51.314Z",
+    "label": "ios-01-login-step1",
+    "observation": "PASS: new iOS account signed in and reached empty diagnosis Step 1 of 6.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:12:08.630Z",
+    "label": "ios-02-required",
+    "observation": "PASS: Continue with no choice stays Step 1 and displays Choose an option to continue.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:12:33.117Z",
+    "label": "ios-03-partial-before-restart",
+    "observation": "PASS: custom Step 1 answer and Find a job Step 2 saved locally; UI reached Step 3 of 6 before process restart.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:12:42.817Z",
+    "label": "ios-04-back-retains-note",
+    "observation": "PASS: Back restores Something else checked and exact note ios persistence check.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:15:46.537Z",
+    "label": "ios-05-restart-restores-step",
+    "observation": "PASS: After simctl terminate and UI reopen of Expo Go/current Yoir history, QA Ios 1 remained authenticated and Home reports saved step 3 of 6.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:15:55.686Z",
+    "label": "android-02-expo-load-error",
+    "observation": "SETUP BLOCKER: after Expo process restart and selecting newest recent Yoir entry, Expo reports IOException: Failed to download remote update; business UI not reached.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:16:04.685Z",
+    "label": "ios-06-restart-retains-answers",
+    "observation": "PASS: After true process restart, Back shows Find a job checked on step 2, then Something else checked with exact note ios persistence check on step 1.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:16:08.888Z",
+    "label": "ios-07-skip-preserves-progress",
+    "observation": "PASS: Skip for now returns Home and keeps saved step 3 of 6 progress.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:16:56.569Z",
+    "label": "ios-08-second-account-empty",
+    "observation": "PASS: After logout and login as ios2-4274, diagnosis begins step 1 with every choice unchecked and no first-account note.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:18:17.833Z",
+    "label": "ios-09-first-account-restored",
+    "observation": "PASS: After switching to ios2 and back to ios1, first account still reports saved step 3 of 6.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:18:52.104Z",
+    "label": "ios-10-completed-direction",
+    "observation": "PASS: Completing diagnosis with Interview as main challenge and no barriers shows Step 6/6 Interview skills plus suggested actions. This is local rules output, not server-derived acceptance.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:19:03.103Z",
+    "label": "android-03-login-step1",
+    "observation": "PASS: Android account android1-4274 logged in via IDEA and opened empty diagnosis step 1. One earlier mistyped on-screen password correctly returned incorrect credentials; corrected input succeeded.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:19:08.612Z",
+    "label": "android-04-required",
+    "observation": "PASS: Continue with no choice stays on step 1 and shows Choose an option to continue.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:19:10.118Z",
+    "label": "ios-11-explore-empty-search",
+    "observation": "PASS: Explore retains Interview skills direction; search zzznativeresults shows 0 of 9 and explicit No services match your search with no fabricated service cards.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:19:48.868Z",
+    "label": "android-05-partial-step3",
+    "observation": "CHECKPOINT: Something else with note Android and Find a job entered through IDEA; reached step 3.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:19:56.103Z",
+    "label": "ios-12-retake-updates-result",
+    "observation": "PASS: Completed retake changing main challenge from Interview to Resume; result changed to Resume and applications.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:20:01.231Z",
+    "label": "android-06-back-retains-note",
+    "observation": "PASS: Back from step 3 retains Find a job on step 2 and Something else plus exact note Android on step 1.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:20:13.504Z",
+    "label": "android-07-skip-preserves-progress",
+    "observation": "PASS: Skip for now returns Home showing saved step 3 of 6.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:20:14.413Z",
+    "label": "ios-13-abandon-retake-keeps-result",
+    "observation": "PASS: Started another retake, changed first choice to upskill/study and continued to step 2, then Skip for now; Home retains completed Resume and applications result.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:20:57.293Z",
+    "label": "ios-14-completed-result-after-restart",
+    "observation": "PASS: After second actual process termination and UI relaunch, Home still displays Resume and applications completed result, including after abandoned retake.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:20:57.388Z",
+    "label": "android-08-restart-restores-step",
+    "observation": "PASS: After adb force-stop and relaunch through IDEA Expo Go icon/recent project, Home is authenticated and shows saved step 3 of 6.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:21:13.886Z",
+    "label": "ios-15-result-detail-after-restart",
+    "observation": "PASS: Reopening direction after completed-result restart displays full Resume and applications step 6 result and suggested actions.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:21:27.275Z",
+    "label": "android-09-restart-retains-answers",
+    "observation": "PASS: After process restart, Back shows Find a job on step 2 and Something else with exact note Android on step 1.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:23:47.805Z",
+    "label": "android-10-second-account-empty",
+    "observation": "PASS checkpoint: android2 login opens Step 1 with all choices unchecked and no android1 free-text note.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:24:50.330Z",
+    "label": "android-11-first-account-restored",
+    "observation": "PASS checkpoint: signing back into android1 restores saved Step 3 of 6 on Home after android2 had an empty diagnosis.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:25:02.622Z",
+    "label": "android-12-first-account-note-restored",
+    "observation": "PASS checkpoint: after switching android1 -> android2 -> android1, Back shows Something else and exact note Android; Step 2 still selected Find a job. D02 sequence completed.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:25:25.195Z",
+    "label": "android-13-completed-direction",
+    "observation": "PASS checkpoint: completing diagnosis with Interview challenge shows Interview skills and suggested next steps in Step 6.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:25:54.792Z",
+    "label": "android-14-explore-empty-search",
+    "observation": "PASS checkpoint: Explore retains Interview skills; searching Zzzz shows 0 of 9 services and No services match your search, no cards fabricated.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:26:30.725Z",
+    "label": "android-15-retake-updates-result",
+    "observation": "PASS checkpoint: completed retake changed challenge from Interview to Resume; Step 6 updates to Resume and applications with new suggested actions.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:26:49.338Z",
+    "label": "android-16-abandon-retake-keeps-result",
+    "observation": "PASS checkpoint: second retake changed Step 1 to Looking to upskill or study, advanced Step 2 then Skip; Home retains completed Resume and applications result.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:27:29.159Z",
+    "label": "android-17-completed-result-after-restart",
+    "observation": "PASS checkpoint: after actual Expo Go force-stop and relaunch through IDEA device UI, authenticated Home retains Resume and applications after abandoned retake.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:27:33.402Z",
+    "label": "android-18-result-detail-after-restart",
+    "observation": "PASS checkpoint: opening completed direction after process restart shows Step 6 Resume and applications and all three suggested next steps. Android D03 sequence completed.",
+    "screenshot": true
+  }
+]

@@ -1,0 +1,7 @@
+[WebServer] Mail is NOT configured (MAILGUN_API_KEY and MAILGUN_DOMAIN missing): every message will be logged and discarded, including email confirmation and booking confirmations.
+
+Running 1 test using 1 worker
+
+  ✓  1 [chromium-mobile-web] › e2e/sprint3-responsive.spec.ts:108:7 › US07/08 platform_owner desktop sidebar navigates its sections and logs out through the account menu (2.4s)
+
+  1 passed (4.8s)

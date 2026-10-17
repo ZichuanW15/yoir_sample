@@ -1,0 +1,104 @@
+{
+  "at": "2026-10-15T23:07:00.836277+00:00",
+  "scope": "Native Android owner Users focus reload and redecision audit. Independent single-submission GET readbacks excluded.",
+  "requests": [
+    {
+      "at": "2026-10-15T23:00:48.339086+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/job-seekers",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T23:00:48.340374+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/counsellors",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T23:00:58.550670+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/verifications",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T23:01:08.028247+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/verifications",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T23:01:31.725842+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/verifications",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T23:02:44.715758+00:00",
+      "method": "POST",
+      "path": "/api/v1/admin/verifications/qa-nr-android-candidate/decision",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T23:02:59.246045+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/counsellors",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T23:02:59.246360+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/job-seekers",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T23:03:13.593960+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/verifications",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T23:03:28.056547+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/verifications",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T23:03:43.432956+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/verifications",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T23:04:43.698656+00:00",
+      "method": "POST",
+      "path": "/api/v1/admin/verifications/qa-nr-android-candidate/decision",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T23:05:00.468956+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/counsellors",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T23:05:00.469393+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/job-seekers",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    }
+  ]
+}

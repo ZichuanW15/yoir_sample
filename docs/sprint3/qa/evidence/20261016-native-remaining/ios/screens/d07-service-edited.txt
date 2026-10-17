@@ -1,0 +1,100 @@
+Window: "iPhone 18 Pro", App: Device Hub.
+0 standard window iPhone 18 Pro – iOS 27.0, ID: com.apple.dt.DeviceKit.DeviceManagementWindow-AppWindow-1, Secondary Actions: Raise
+	1 split group
+		2 split group com.apple.dt.DeviceKit.DeviceManagementWindow-AppWindow-1, SidebarNavigationSplitView
+			3 scroll area
+				4 list Sidebar
+					5 row (selectable) Description: Available, Value: Expanded
+					6 row (selected) Description: iphone.gen3, Value: iPhone 18 Pro
+27.0
+Simulator
+			7 search text field (settable) Search
+				8 button Search
+			9 splitter (disabled, settable, float) 248
+			10 container
+				11 container
+					12 button Description: Account, QA iOS Pro, Secondary Actions: Cancel
+					13 text Description: YOUR WORKSPACE, Secondary Actions: Cancel
+					14 text Description: Good to see you, QA, Secondary Actions: Cancel
+					15 element Description: Verification, Secondary Actions: Cancel
+					16 button Description: Set up payouts, Secondary Actions: Cancel
+					17 element Description: Sessions you are delivering, Secondary Actions: Cancel
+					18 button Description: Professional profile, Secondary Actions: Cancel
+					19 text Description: MY SERVICES, Secondary Actions: Cancel
+					20 button Description: New, Secondary Actions: Cancel
+					21 text Description: 5 published, Secondary Actions: Cancel
+					22 text Description: QA iOS Edited Session, Secondary Actions: Cancel
+					23 text Description: $100, Secondary Actions: Cancel
+					24 text Description: Edited iOS native QA listing after an existing paid booking., Secondary Actions: Cancel
+					25 text Description: Online, Secondary Actions: Cancel
+					26 text Description: Next open Sat, 24 Oct · 10:00 am, Secondary Actions: Cancel
+					27 button Description: Edit QA iOS Edited Session, Secondary Actions: Cancel
+					28 button Description: Delete QA iOS Edited Session, Secondary Actions: Cancel
+					29 text Description: QA iOS In-person Session, Secondary Actions: Cancel
+					30 text Description: $84, Secondary Actions: Cancel
+					31 text Description: Isolated iOS delivery acceptance fixture., Secondary Actions: Cancel
+					32 text Description: In person, Secondary Actions: Cancel
+					33 text Description: Melbourne, VIC, Secondary Actions: Cancel
+					34 text Description: Next open Sat, 24 Oct · 10:00 am, Secondary Actions: Cancel
+					35 button Description: Edit QA iOS In-person Session, Secondary Actions: Cancel
+					36 button Description: Delete QA iOS In-person Session, Secondary Actions: Cancel
+					37 text Description: QA iOS Reschedule Session, Secondary Actions: Cancel
+					38 text Description: $84, Secondary Actions: Cancel
+					39 text Description: Isolated iOS move acceptance fixture., Secondary Actions: Cancel
+					40 text Description: Online, Secondary Actions: Cancel
+					41 text Description: Next open Sat, 24 Oct · 10:00 am, Secondary Actions: Cancel
+					42 button Description: Edit QA iOS Reschedule Session, Secondary Actions: Cancel
+					43 button Description: Delete QA iOS Reschedule Session, Secondary Actions: Cancel
+					44 text Description: QA iOS Review Session, Secondary Actions: Cancel
+					45 text Description: $84, Secondary Actions: Cancel
+					46 text Description: Isolated iOS review acceptance fixture., Secondary Actions: Cancel
+					47 text Description: Online, Secondary Actions: Cancel
+					48 text Description: Next open Sat, 24 Oct · 10:00 am, Secondary Actions: Cancel
+					49 button Description: Edit QA iOS Review Session, Secondary Actions: Cancel
+					50 button Description: Delete QA iOS Review Session, Secondary Actions: Cancel
+					51 text Description: QA iOS Unrated Session, Secondary Actions: Cancel
+					52 text Description: $84, Secondary Actions: Cancel
+					53 text Description: Isolated iOS unrated acceptance fixture., Secondary Actions: Cancel
+					54 text Description: Online, Secondary Actions: Cancel
+					55 text Description: Next open Sat, 24 Oct · 10:00 am, Secondary Actions: Cancel
+					56 button Description: Edit QA iOS Unrated Session, Secondary Actions: Cancel
+					57 button Description: Delete QA iOS Unrated Session, Secondary Actions: Cancel
+					58 button Description: Availability, Secondary Actions: Cancel
+					59 element (selected) Description: Workspace, Secondary Actions: Cancel
+					60 element Description: Bookings, Secondary Actions: Cancel
+					61 element Description: Profile, Secondary Actions: Cancel
+					62 text
+					63 image Description: Gear Shape, Filled, ID: gearshape.fill, Secondary Actions: Cancel
+				64 button Description: Home, ID: app.grid.3x3
+				65 button Description: Screenshot, ID: camera.viewfinder
+				66 button Description: Record, ID: record.circle
+				67 button Rotate Left
+	68 toolbar
+		69 menu button Add, Help: Add Device, ID: plus
+		70 toggle button Description: Filter, Help: Sort and Filter, Value: off
+		71 button Description: Hide Sidebar, Secondary Actions: Increment, Decrement, Delete, Cancel
+		72 toggle button Description: Capture Keyboard, Value: off
+		73 toggle button (disabled) Description: Resize mode, Help: Enter resize mode, Value: off
+		74 Zoom
+			75 radio button Description: Zoom Out, Value: 0, ID: minus.magnifyingglass
+			76 radio button Description: arrowtriangles.up.right.down.left.magnifyingglass, Help: Zoom to Fit, Value: 1
+			77 radio button Description: Zoom To Actual Size, Help: Physical Size, Value: 0, ID: 1.magnifyingglass
+			78 radio button Description: Zoom In, Value: 0, ID: plus.magnifyingglass
+		79 button Description: Open in New Window, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		80 menu button More, Help: More Actions, ID: ellipsis
+		81 radio button Description: Edit, Help: Settings, Value: 0, ID: slider.horizontal.3
+		82 radio button Description: text.document, Help: Reports, Value: 0
+		83 radio button Description: Info, Value: 0, ID: info
+	84 close button
+	85 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	86 minimize button
+	87 text iPhone 18 Pro iOS 27.0
+88 menu bar
+	89 Device Hub
+	90 File
+	91 Edit
+	92 View
+	93 Device
+	94 Controls
+	95 Window
+	96 Help

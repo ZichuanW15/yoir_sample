@@ -1,0 +1,121 @@
+{
+  "startTime": 1792097880575,
+  "success": false,
+  "wasInterrupted": false,
+  "numPassedTests": 14,
+  "numFailedTests": 1,
+  "numPendingTests": 0,
+  "numTotalTests": 15,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 1,
+  "numRuntimeErrorTestSuites": 0,
+  "cases": [
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed pending after returning",
+      "status": "passed",
+      "duration": 125,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed verified after returning",
+      "status": "passed",
+      "duration": 63,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed rejected after returning",
+      "status": "passed",
+      "duration": 62,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed pending after returning",
+      "status": "passed",
+      "duration": 61,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed verified after returning",
+      "status": "passed",
+      "duration": 60,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed rejected after returning",
+      "status": "passed",
+      "duration": 61,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh profile marks previously verified status unavailable on focus failure, then recovers",
+      "status": "passed",
+      "duration": 76,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh returning focus while a blur-triggered save is pending does not overwrite the draft",
+      "status": "passed",
+      "duration": 73,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-210 payment refresh failure clears formerly loaded rows and retry uses new data",
+      "status": "passed",
+      "duration": 109,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "Sprint 3 mounted workspace and Users refresh recovery workspace recovers all displayed data on the next focus after a successful read followed by failure",
+      "status": "failed",
+      "duration": 72,
+      "failureMessages": [
+        "Error: Unable to find an element with text: /1h free to book, through/\n\n\u001b[36m<View>\u001b[39m\n  \u001b[36m<View>\u001b[39m\n    \u001b[36m<Image\u001b[39m\n      \u001b[33maccessibilityLabel\u001b[39m=\u001b[32m\"Yoir\"\u001b[39m\n    \u001b[36m/>\u001b[39m\n    \u001b[36m<View\u001b[39m\n      \u001b[33maccessibilityLabel\u001b[39m=\u001b[32m\"Account, Maya Chen\"\u001b[39m\n      \u001b[33maccessibilityRole\u001b[39m=\u001b[32m\"button\"\u001b[39m\n      \u001b[33maccessibilityState\u001b[39m=\u001b[32m{\n        {\n          \"disabled\": false,\n        }\n      }\u001b[39m\n      \u001b[33maccessible\u001b[39m=\u001b[32m{true}\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<View>\u001b[39m\n        \u001b[36m<Text>\u001b[39m\n          \u001b[0mMC\u001b[0m\n        \u001b[36m</Text>\u001b[39m\n      \u001b[36m</View>\u001b[39m\n    \u001b[36m</View>\u001b[39m\n  \u001b[36m</View>\u001b[39m\n  \u001b[36m<RCTScrollView>\u001b[39m\n    \u001b[36m<View>\u001b[39m\n      \u001b[36m<View>\u001b[39m\n        \u001b[36m<Text>\u001b[39m\n          \u001b[0mYour workspace\u001b[0m\n        \u001b[36m</Text>\u001b[39m\n        \u001b[36m<Text>\u001b[39m\n          \u001b[0mGood to see you, \u001b[0m\n          \u001b[0mMaya\u001b[0m\n        \u001b[36m</Text>\u001b[39m\n      \u001b[36m</View>\u001b[39m\n      \u001b[36m<View>\u001b[39m\n        \u001b[36m<View\u001b[39m\n          \u001b[33maccessibilityLabel\u001b[39m=\u001b[32m\"Verification\"\u001b[39m\n          \u001b[33maccessibilityRole\u001b[39m=\u001b[32m\"button\"\u001b[39m\n          \u001b[33maccessibilityState\u001b[39m=\u001b[32m{\n            {\n              \"disabled\": false,\n            }\n          }\u001b[39m\n          \u001b[33maccessible\u001b[39m=\u001b[32m{true}\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<View>\u001b[39m\n            \u001b[36m<RNSVGSvgView>\u001b[39m\n              \u001b[36m<RNSVGGroup>\u001b[39m\n                \u001b[36m<RNSVGDefs>\u001b[39m\n                  \u001b[36m<RNSVGRadialGradient />\u001b[39m\n                \u001b[36m</RNSVGDefs>\u001b[39m\n                \u001b[36m<RNSVGCircle />\u001b[39m\n              \u001b[36m</RNSVGGroup>\u001b[39m\n            \u001b[36m</RNSVGSvgView>\u001b[39m\n          \u001b[36m</View>\u001b[39m\n          \u001b[36m<View>\u001b[39m\n            \u001b[36m<View />\u001b[39m\n          \u001b[36m</View>\u001b[39m\n          \u001b[36m<View>\u001b[39m\n            \u001b[36m<View>\u001b[39m\n              \u001b[36m<View />\u001b[39m\n              \u001b[36m<RNSVGSvgView>\u001b[39m\n                \u001b[36m<RNSVGGroup>\u001b[39m\n                  \u001b[36m<RNSVGPath />\u001b[39m\n                  \u001b[36m<RNSVGPath />\u001b[39m\n                \u001b[36m</RNSVGGroup>\u001b[39m\n              \u001b[36m</RNSVGSvgView>\u001b[39m\n            \u001b[36m</View>\u001b[39m\n          \u001b[36m</View>\u001b[39m\n          \u001b[36m<View>\u001b[39m\n            \u001b[36m<Text>\u001b[39m\n              \u001b[0mVerification\u001b[0m\n            \u001b[36m</Text>\u001b[39m\n            \u001b[36m<Text>\u001b[39m\n              \u001b[0mVerification pending\u001b[0m\n            \u001b[36m</Text>\u001b[39m\n            \u001b[36m<Text>\u001b[39m\n              \u001b[0mYour LinkedIn profile is with the Platform Owner for review.\u001b[0m\n            \u001b[36m</Text>\u001b[39m\n          \u001b[36m</View>\u001b[39m\n          \u001b[36m<RNSVGSvgView>\u001b[39m\n            \u001b[36m<RNSVGGroup>\u001b[39m\n              \u001b[36m<RNSVGPath />\u001b[39m\n            \u001b[36m</RNSVGGroup>\u001b[39m\n          \u001b[36m</RNSVGSvgView>\u001b[39m\n        \u001b[36m</View>\u001b[39m\n      \u001b[36m</View>\u001b[39m\n      \u001b[36m<View>\u001b[39m\n        \u001b[36m<View\u001b[39m\n          \u001b[33maccessibilityLabel\u001b[39m=\u001b[32m\"Sessions you are delivering\"\u001b[39m\n          \u001b[33maccessibilityRole\u001b[39m=\u001b[32m\"button\"\u001b[39m\n          \u001b[33maccessibilityState\u001b[39m=\u001b[32m{\n            {\n              \"disabled\": false,\n            }\n          }\u001b[39m\n          \u001b[33maccessible\u001b[39m=\u001b[32m{true}\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<View>\u001b[39m\n            \u001b[36m<RNSVGSvgView>\u001b[39m\n              \u001b[36m<RNSVGGroup>\u001b[39m\n                \u001b[36m<RNSVGRect />\u001b[39m\n                \u001b[36m<RNSVGLine />\u001b[39m\n                \u001b[36m<RNSVGLine />\u001b[39m\n                \u001b[36m<RNSVGLine />\u001b[39m\n                \u001b[36m<RNSVGCircle />\u001b[39m\n                \u001b[36m<RNSVGCircle />\u001b[39m\n              \u001b[36m</RNSVGGroup>\u001b[39m\n            \u001b[36m</RNSVGSvgView>\u001b[39m\n          \u001b[36m</View>\u001b[39m\n          \u001b[36m<View>\u001b[39m\n            \u001b[36m<Text>\u001b[39m\n              \u001b[0mMy sessions\u001b[0m\n            \u001b[36m</Text>\u001b[39m\n            \u001b[36m<Text>\u001b[39m\n              \u001b[0mEverything booked with you, and how to join it.\u001b[0m\n            \u001b[36m</Text>\u001b[39m\n          \u001b[36m</View>\u001b[39m\n          \u001b[36m<View>\u001b[39m\n            \u001b[36m<Text>\u001b[39m\n              \u001b[0mOpen\u001b[0m\n            \u001b[36m</Text>\u001b[39m\n          \u001b[36m</View>\u001b[39m\n        \u001b[36m</View>\u001b[39m\n      \u001b[36m</View>\u001b[39m\n      \u001b[36m<View>\u001b[39m\n        \u001b[36m<View\u001b[39m\n          \u001b[33maccessibilityLabel\u001b[39m=\u001b[32m\"Professional profile\"\u001b[39m\n          \u001b[33maccessibilityRole\u001b[39m=\u001b[32m\"button\"\u001b[39m\n          \u001b[33maccessibilityState\u001b[39m=\u001b[32m{\n            {\n              \"disabled\": false,\n            }\n          }\u001b[39m\n          \u001b[33maccessible\u001b[39m=\u001b[32m{true}\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<View>\u001b[39m\n            \u001b[36m<RNSVGSvgView>\u001b[39m\n              \u001b[36m<RNSVGGroup>\u001b[39m\n                \u001b[36m<RNSVGCircle />\u001b[39m\n                \u001b[36m<RNSVGCircle />\u001b[39m\n              \u001b[36m</RNSVGGroup>\u001b[39m\n            \u001b[36m</RNSVGSvgView>\u001b[39m\n            \u001b[36m<View>\u001b[39m\n              \u001b[36m<Text>\u001b[39m\n                \u001b[0m5\u001b[0m\n                \u001b[0m/\u001b[0m\n                \u001b[0m5\u001b[0m\n              \u001b[36m</Text>\u001b[39m\n            \u001b[36m</View>\u001b[39m\n          \u001b[36m</View>\u001b[39m\n          \u001b[36m<View>\u001b[39m\n            \u001b[36m<Text>\u001b[39m\n              \u001b[0mProfessional profile\u001b[0m\n            \u001b[36m</Text>\u001b[39m\n            \u001b[36m<Text>\u001b[39m\n              \u001b[0mAll sections complete. Looking sharp.\u001b[0m\n            \u001b[36m</Text>\u001b[39m\n          \u001b[36m</View>\u001b[39m\n          \u001b[36m<View>\u001b[39m\n            \u001b[36m<Text>\u001b[39m\n              \u001b[0mEdit\u001b[0m\n            \u001b[36m</Text>\u001b[39m\n          \u001b[36m</View>\u001b[39m\n        \u001b[36m</View>\u001b[39m\n      \u001b[36m</View>\u001b[39m\n      \u001b[36m<View>\u001b[39m\n        \u001b[36m<View\u001b[39m\n          \u001b[33maccessibilityLabel\u001b[39m=\u001b[32m\"Payouts and tax details\"\u001b[39m\n          \u001b[33maccessibilityRole\u001b[39m=\u001b[32m\"button\"\u001b[39m\n          \u001b[33maccessibilityState\u001b[39m=\u001b[32m{\n            {\n              \"disabled\": false,\n            }\n          }\u001b[39m\n          \u001b[33maccessible\u001b[39m=\u001b[32m{true}\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<View>\u001b[39m\n            \u001b[36m<RNSVGSvgView>\u001b[39m\n              \u001b[36m<RNSVGGroup>\u001b[39m\n                \u001b[36m<RNSVGPath />\u001b[39m\n                \u001b[36m<RNSVGPath />\u001b[39m\n              \u001b[36m</RNSVGGroup>\u001b[39m\n            \u001b[36m</RNSVGSvgView>\u001b[39m\n          \u001b[36m</View>\u001b[39m\n          \u001b[36m<View>\u001b[39m\n            \u001b[36m<Text>\u001b[39m\n              \u001b[0mPayouts\u001b[0m\n            \u001b[36m</Text>\u001b[39m\n            \u001b[36m<Text>\u001b[39m\n              \u001b[0mReady · not GST registered\u001b[0m\n            \u001b[36m</Text>\u001b[39m\n          \u001b[36m</View>\u001b[39m\n          \u001b[36m<View>\u001b[39m\n            \u001b[36m<Text>\u001b[39m\n              \u001b[0mManage\u001b[0m\n            \u001b[36m</Text>\u001b[39m\n          \u001b[36m</View>\u001b[39m\n        \u001b[36m</View>\u001b[39m\n      \u001b[36m</View>\u001b[39m\n      \u001b[36m<View>\u001b[39m\n        \u001b[36m<View>\u001b[39m\n          \u001b[36m<Text>\u001b[39m\n            \u001b[0mMy services\u001b[0m\n          \u001b[36m</Text>\u001b[39m\n          \u001b[36m<Text>\u001b[39m\n            \u001b[0m1 published\u001b[0m\n          \u001b[36m</Text>\u001b[39m\n        \u001b[36m</View>\u001b[39m\n        \u001b[36m<View\u001b[39m\n          \u001b[33maccessibilityLabel\u001b[39m=\u001b[32m\"New\"\u001b[39m\n          \u001b[33maccessibilityRole\u001b[39m=\u001b[32m\"button\"\u001b[39m\n          \u001b[33maccessibilityState\u001b[39m=\u001b[32m{\n            {\n              \"disabled\": false,\n            }\n          }\u001b[39m\n          \u001b[33maccessible\u001b[39m=\u001b[32m{true}\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<RNSVGSvgView>\u001b[39m\n            \u001b[36m<RNSVGGroup>\u001b[39m\n              \u001b[36m<RNSVGLine />\u001b[39m\n              \u001b[36m<RNSVGLine />\u001b[39m\n            \u001b[36m</RNSVGGroup>\u001b[39m\n          \u001b[36m</RNSVGSvgView>\u001b[39m\n          \u001b[36m<Text>\u001b[39m\n            \u001b[0mNew\u001b[0m\n          \u001b[36m</Text>\u001b[39m\n        \u001b[36m</View>\u001b[39m\n      \u001b[36m</View>\u001b[39m\n      \u001b[36m<View>\u001b[39m\n        \u001b[36m<View>\u001b[39m\n          \u001b[36m<View>\u001b[39m\n            \u001b[36m<View>\u001b[39m\n              \u001b[36m<RNSVGSvgView>\u001b[39m\n                \u001b[36m<RNSVGGroup>\u001b[39m\n                  \u001b[36m<RNSVGRect />\u001b[39m\n                  \u001b[36m<RNSVGPath />\u001b[39m\n                  \u001b[36m<RNSVGLine />\u001b[39m\n                \u001b[36m</RNSVGGroup>\u001b[39m\n              \u001b[36m</RNSVGSvgView>\u001b[39m\n            \u001b[36m</View>\u001b[39m\n            \u001b[36m<Text>\u001b[39m\n              \u001b[0mNewly published coaching\u001b[0m\n            \u001b[36m</Text>\u001b[39m\n            \u001b[36m<Text>\u001b[39m\n              \u001b[0m$95\u001b[0m\n            \u001b[36m</Text>\u001b[39m\n          \u001b[36m</View>\u001b[39m\n          \u001b[36m<Text>\u001b[39m\n            \u001b[0mPractical interview preparation and feedback.\u001b[0m\n          \u001b[36m</Text>\u001b[39m\n          \u001b[36m<View>\u001b[39m\n            \u001b[36m<View>\u001b[39m\n              \u001b[36m<Text>\u001b[39m\n                \u001b[0mOnline\u001b[0m\n              \u001b[36m</Text>\u001b[39m\n            \u001b[36m</View>\u001b[39m\n          \u001b[36m</View>\u001b[39m\n          \u001b[36m<View>\u001b[39m\n            \u001b[36m<View\u001b[39m\n              \u001b[33maccessibilityLabel\u001b[39m=\u001b[32m\"Edit Newly published coaching\"\u001b[39m\n              \u001b[33maccessibilityRole\u001b[39m=\u001b[32m\"button\"\u001b[39m\n              \u001b[33maccessibilityState\u001b[39m=\u001b[32m{\n                {\n                  \"disabled\": false,\n                }\n              }\u001b[39m\n              \u001b[33maccessible\u001b[39m=\u001b[32m{true}\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<RNSVGSvgView>\u001b[39m\n                \u001b[36m<RNSVGGroup>\u001b[39m\n                  \u001b[36m<RNSVGPath />\u001b[39m\n                  \u001b[36m<RNSVGLine />\u001b[39m\n                \u001b[36m</RNSVGGroup>\u001b[39m\n              \u001b[36m</RNSVGSvgView>\u001b[39m\n              \u001b[36m<Text>\u001b[39m\n                \u001b[0mEdit\u001b[0m\n              \u001b[36m</Text>\u001b[39m\n            \u001b[36m</View>\u001b[39m\n            \u001b[36m<View\u001b[39m\n              \u001b[33maccessibilityLabel\u001b[39m=\u001b[32m\"Delete Newly published coaching\"\u001b[39m\n              \u001b[33maccessibilityRole\u001b[39m=\u001b[32m\"button\"\u001b[39m\n              \u001b[33maccessibilityState\u001b[39m=\u001b[32m{\n                {\n                  \"disabled\": false,\n                }\n              }\u001b[39m\n              \u001b[33maccessible\u001b[39m=\u001b[32m{true}\u001b[39m\n            \u001b[36m>\u001b[39m\n              \u001b[36m<RNSVGSvgView>\u001b[39m\n                \u001b[36m<RNSVGGroup>\u001b[39m\n                  \u001b[36m<RNSVGPath />\u001b[39m\n                  \u001b[36m<RNSVGPath />\u001b[39m\n                  \u001b[36m<RNSVGLine />\u001b[39m\n                \u001b[36m</RNSVGGroup>\u001b[39m\n              \u001b[36m</RNSVGSvgView>\u001b[39m\n              \u001b[36m<Text>\u001b[39m\n                \u001b[0mDelete\u001b[0m\n              \u001b[36m</Text>\u001b[39m\n            \u001b[36m</View>\u001b[39m\n          \u001b[36m</View>\u001b[39m\n        \u001b[36m</View>\u001b[39m\n      \u001b[36m</View>\u001b[39m\n      \u001b[36m<View>\u001b[39m\n        \u001b[36m<View\u001b[39m\n          \u001b[33maccessibilityLabel\u001b[39m=\u001b[32m\"Availability\"\u001b[39m\n          \u001b[33maccessibilityRole\u001b[39m=\u001b[32m\"button\"\u001b[39m\n          \u001b[33maccessibilityState\u001b[39m=\u001b[32m{\n            {\n              \"disabled\": false,\n            }\n          }\u001b[39m\n          \u001b[33maccessible\u001b[39m=\u001b[32m{true}\u001b[39m\n        \u001b[36m>\u001b[39m\n          \u001b[36m<View>\u001b[39m\n            \u001b[36m<RNSVGSvgView>\u001b[39m\n              \u001b[36m<RNSVGGroup>\u001b[39m\n                \u001b[36m<RNSVGRect />\u001b[39m\n                \u001b[36m<RNSVGLine />\u001b[39m\n                \u001b[36m<RNSVGLine />\u001b[39m\n                \u001b[36m<RNSVGLine />\u001b[39m\n                \u001b[36m<RNSVGCircle />\u001b[39m\n                \u001b[36m<RNSVGCircle />\u001b[39m\n              \u001b[36m</RNSVGGroup>\u001b[39m\n            \u001b[36m</RNSVGSvgView>\u001b[39m\n          \u001b[36m</View>\u001b[39m\n          \u001b[36m<View>\u001b[39m\n            \u001b[36m<Text>\u001b[39m\n              \u001b[0mAvailability\u001b[0m\n            \u001b[36m</Text>\u001b[39m\n            \u001b[36m<Text>\u001b[39m\n              \u001b[0m1 hour free to book, through Tue, 1 Sept.\u001b[0m\n            \u001b[36m</Text>\u001b[39m\n          \u001b[36m</View>\u001b[39m\n          \u001b[36m<RNSVGSvgView>\u001b[39m\n            \u001b[36m<RNSVGGroup>\u001b[39m\n              \u001b[36m<RNSVGPath />\u001b[39m\n            \u001b[36m</RNSVGGroup>\u001b[39m\n          \u001b[36m</RNSVGSvgView>\u001b[39m\n        \u001b[36m</View>\u001b[39m\n      \u001b[36m</View>\u001b[39m\n    \u001b[36m</View>\u001b[39m\n  \u001b[36m</RCTScrollView>\u001b[39m\n  \u001b[36m<View>\u001b[39m\n    \u001b[36m<View\u001b[39m\n      \u001b[33maccessibilityRole\u001b[39m=\u001b[32m\"tablist\"\u001b[39m\n    \u001b[36m>\u001b[39m\n      \u001b[36m<View\u001b[39m\n        \u001b[33maccessibilityLabel\u001b[39m=\u001b[32m\"Workspace\"\u001b[39m\n        \u001b[33maccessibilityRole\u001b[39m=\u001b[32m\"tab\"\u001b[39m\n        \u001b[33maccessibilityState\u001b[39m=\u001b[32m{\n          {\n            \"disabled\": false,\n            \"selected\": false,\n          }\n        }\u001b[39m\n        \u001b[33maccessible\u001b[39m=\u001b[32m{true}\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<RNSVGSvgView>\u001b[39m\n          \u001b[36m<RNSVGGroup>\u001b[39m\n            \u001b[36m<RNSVGRect />\u001b[39m\n            \u001b[36m<RNSVGPath />\u001b[39m\n            \u001b[36m<RNSVGLine />\u001b[39m\n          \u001b[36m</RNSVGGroup>\u001b[39m\n        \u001b[36m</RNSVGSvgView>\u001b[39m\n        \u001b[36m<Text>\u001b[39m\n          \u001b[0mWorkspace\u001b[0m\n        \u001b[36m</Text>\u001b[39m\n      \u001b[36m</View>\u001b[39m\n      \u001b[36m<View\u001b[39m\n        \u001b[33maccessibilityLabel\u001b[39m=\u001b[32m\"Bookings\"\u001b[39m\n        \u001b[33maccessibilityRole\u001b[39m=\u001b[32m\"tab\"\u001b[39m\n        \u001b[33maccessibilityState\u001b[39m=\u001b[32m{\n          {\n            \"disabled\": false,\n            \"selected\": false,\n          }\n        }\u001b[39m\n        \u001b[33maccessible\u001b[39m=\u001b[32m{true}\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<RNSVGSvgView>\u001b[39m\n          \u001b[36m<RNSVGGroup>\u001b[39m\n            \u001b[36m<RNSVGRect />\u001b[39m\n            \u001b[36m<RNSVGLine />\u001b[39m\n            \u001b[36m<RNSVGLine />\u001b[39m\n            \u001b[36m<RNSVGLine />\u001b[39m\n            \u001b[36m<RNSVGCircle />\u001b[39m\n            \u001b[36m<RNSVGCircle />\u001b[39m\n          \u001b[36m</RNSVGGroup>\u001b[39m\n        \u001b[36m</RNSVGSvgView>\u001b[39m\n        \u001b[36m<Text>\u001b[39m\n          \u001b[0mBookings\u001b[0m\n        \u001b[36m</Text>\u001b[39m\n      \u001b[36m</View>\u001b[39m\n      \u001b[36m<View\u001b[39m\n        \u001b[33maccessibilityLabel\u001b[39m=\u001b[32m\"Profile\"\u001b[39m\n        \u001b[33maccessibilityRole\u001b[39m=\u001b[32m\"tab\"\u001b[39m\n        \u001b[33maccessibilityState\u001b[39m=\u001b[32m{\n          {\n            \"disabled\": false,\n            \"selected\": false,\n          }\n        }\u001b[39m\n        \u001b[33maccessible\u001b[39m=\u001b[32m{true}\u001b[39m\n      \u001b[36m>\u001b[39m\n        \u001b[36m<RNSVGSvgView>\u001b[39m\n          \u001b[36m<RNSVGGroup>\u001b[39m\n            \u001b[36m<RNSVGCircle />\u001b[39m\n            \u001b[36m<RNSVGPath />\u001b[39m\n          \u001b[36m</RNSVGGroup>\u001b[39m\n        \u001b[36m</RNSVGSvgView>\u001b[39m\n        \u001b[36m<Text>\u001b[39m\n          \u001b[0mProfile\u001b[0m\n        \u001b[36m</Text>\u001b[39m\n      \u001b[36m</View>\u001b[39m\n    \u001b[36m</View>\u001b[39m\n  \u001b[36m</View>\u001b[39m\n\u001b[36m</View>\u001b[39m\n    at Object.getByText (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/screens/focus-refresh.test.tsx:127:19)\n    at Generator.next (<anonymous>)\n    at asyncGeneratorStep (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)\n    at _next (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)"
+      ]
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "Sprint 3 mounted workspace and Users refresh recovery workspace uses the renewed token for every reload without remounting or logging in again",
+      "status": "passed",
+      "duration": 65,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "Sprint 3 mounted workspace and Users refresh recovery Users replaces the mounted counsellor directory after session renewal",
+      "status": "passed",
+      "duration": 61,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "Sprint 3 mounted workspace and Users refresh recovery Users replaces the mounted job_seeker directory after session renewal",
+      "status": "passed",
+      "duration": 59,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "Sprint 3 mounted workspace and Users refresh recovery Users retries both reads with the renewed token after the professionals refresh fails",
+      "status": "passed",
+      "duration": 121,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "Sprint 3 mounted workspace and Users refresh recovery Users retries both reads with the renewed token after the job seekers refresh fails",
+      "status": "passed",
+      "duration": 124,
+      "failureMessages": []
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-15T22:36:45.545743+00:00",
+  "scope": "Local static navigation fixture only. Serves the links subdirectory, never private credentials or service source. Does not automate product UI. Synthetic invalid tokens only.",
+  "urlOnHost": "http://127.0.0.1:43219/",
+  "androidEmulatorHostAliasUrl": "http://10.0.2.2:43219/",
+  "sessionId": 49100,
+  "health": {
+    "status": 200,
+    "bytes": 1452
+  },
+  "listener": "COMMAND     PID     USER   FD   TYPE             DEVICE SIZE/OFF NODE NAME\npython3.1 92152 zhouzhny    3u  IPv4 0xf78b1504eb638e89      0t0  TCP 127.0.0.1:43219 (LISTEN)\n",
+  "pageSha256": "bcfd9dcbc766e7b4ce6c8ec4c3001407f844b12b626952b271f64285bc34880f",
+  "command": "backend/.venv/bin/python -m http.server 43219 --bind 127.0.0.1 --directory artifacts/qa/sprint3-native-remaining-20261016/services/links",
+  "lastPageUpdateAt": "2026-10-15T23:07:07.722531+00:00"
+}

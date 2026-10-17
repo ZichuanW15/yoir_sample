@@ -1,0 +1,20 @@
+[
+  {
+    "suite": "frontend-defects",
+    "exitCode": 0,
+    "stdout": "Defect report (jest): 4 passed, 16 failed, 0 skipped; 0 flaky, 16 failed attempts.\nAdvisory: completed defect assertions do not block CI; failed tests remain failed. Identifiable runtime/setup failures block this check; other failures still need review. This report check does not certify product acceptance or every fixture/setup failure.\n",
+    "stderr": ""
+  },
+  {
+    "suite": "ios-defects",
+    "exitCode": 0,
+    "stdout": "Defect report (jest): 4 passed, 17 failed, 0 skipped; 0 flaky, 17 failed attempts.\nAdvisory: completed defect assertions do not block CI; failed tests remain failed. Identifiable runtime/setup failures block this check; other failures still need review. This report check does not certify product acceptance or every fixture/setup failure.\n",
+    "stderr": ""
+  },
+  {
+    "suite": "android-defects",
+    "exitCode": 0,
+    "stdout": "Defect report (jest): 4 passed, 17 failed, 0 skipped; 0 flaky, 17 failed attempts.\nAdvisory: completed defect assertions do not block CI; failed tests remain failed. Identifiable runtime/setup failures block this check; other failures still need review. This report check does not certify product acceptance or every fixture/setup failure.\n",
+    "stderr": ""
+  }
+]

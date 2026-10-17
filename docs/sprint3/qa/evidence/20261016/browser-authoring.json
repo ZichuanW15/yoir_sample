@@ -1,0 +1,181 @@
+{
+  "stats": {
+    "startTime": "2026-10-15T20:10:51.989Z",
+    "duration": 72169.787,
+    "expected": 4,
+    "skipped": 0,
+    "unexpected": 3,
+    "flaky": 0
+  },
+  "errors": [],
+  "cases": [
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 38,
+      "title": "US53/54/55 real review validates, retains a failed draft, persists once and updates public ratings @injected-network",
+      "project": "chromium-web",
+      "status": "unexpected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "timedOut",
+          "duration": 30128,
+          "startTime": "2026-10-15T20:10:53.147Z",
+          "retry": 0,
+          "errors": [
+            {
+              "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+            },
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-workflows.spec.ts",
+                "column": 75,
+                "line": 44
+              },
+              "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Write a review', exact: true })\u001b[22m\n\n\n  42 |   expect(before.review).toBeNull();\n  43 |   await page.goto(`/bookings/${bookingId}`);\n> 44 |   await page.getByRole('button', { name: 'Write a review', exact: true }).click();\n     |                                                                           ^\n  45 |   await expect(page).toHaveURL(new RegExp(`/bookings/${bookingId}/review$`));\n  46 |\n  47 |   await page.getByRole('button', { name: 'Submit review', exact: true }).click();\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-workflows.spec.ts:44:75"
+            }
+          ],
+          "attachments": [
+            "attachments/browser-authoring-001-screenshot.png",
+            "attachments/browser-authoring-002-sprint3-workflow-screen.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 97,
+      "title": "US53 real confirmed booking blocks a review in the page and API",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1449,
+          "startTime": "2026-10-15T20:11:23.757Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 97,
+      "title": "US53 real cancelled booking blocks a review in the page and API",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1545,
+          "startTime": "2026-10-15T20:11:25.304Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 112,
+      "title": "US53 another buyer cannot open or review a completed booking",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1353,
+          "startTime": "2026-10-15T20:11:26.856Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 125,
+      "title": "US32/33/58 admin confirmation, approval and reasoned reinvestigation persist through the real API",
+      "project": "chromium-web",
+      "status": "unexpected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "timedOut",
+          "duration": 30281,
+          "startTime": "2026-10-15T20:11:28.213Z",
+          "retry": 0,
+          "errors": [
+            {
+              "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+            },
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-workflows.spec.ts",
+                "column": 67,
+                "line": 134
+              },
+              "message": "Error: locator.click: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for getByRole('button', { name: 'Verify', exact: true })\u001b[22m\n\n\n  132 |     return response.json();\n  133 |   };\n> 134 |   expect((await read()).status).toBe('pending');\n      |                                                 ^\n  135 |   await page.getByRole('tab', { name: 'Verify', exact: true }).click();\n  136 |   await page.getByRole('button', { name: 'Review QA Verification Candidate', exact: true }).click();\n  137 |   await expect(page.getByText('Candidate background', { exact: true })).toBeVisible();\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-workflows.spec.ts:134:67"
+            }
+          ],
+          "attachments": [
+            "attachments/browser-authoring-003-screenshot.png",
+            "attachments/browser-authoring-004-sprint3-workflow-screen.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 167,
+      "title": "US48 admin payment detail retries a failed real read and preserves the recorded split @injected-network",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2486,
+          "startTime": "2026-10-15T20:11:58.861Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 208,
+      "title": "US40/41 alternate delivery and held time stay consistent across buyer and counsellor Web views",
+      "project": "chromium-web",
+      "status": "unexpected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 2477,
+          "startTime": "2026-10-15T20:12:01.435Z",
+          "retry": 0,
+          "errors": [
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-workflows.spec.ts",
+                "column": 17,
+                "line": 227
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoMatchObject\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m\n\n\u001b[32m- Expected  - 1\u001b[39m\n\u001b[31m+ Received  + 0\u001b[39m\n\n\u001b[2m  Object {\u001b[22m\n\u001b[32m-   \"modality\": \"online\",\u001b[39m\n\u001b[2m    \"serviceId\": \"qa-s3-availability-service\",\u001b[22m\n\u001b[2m    \"startsAt\": \"2026-10-23T00:00:00Z\",\u001b[22m\n\u001b[2m  }\u001b[22m\n\n  225 |   const reserved = await orderReply;\n  226 |   expect(reserved.status()).toBe(201);\n> 227 |   const order = await reserved.json();\n      |                 ^\n  228 |   expect(order).toMatchObject({ serviceId: id, modality: 'online', startsAt: starts[0].startsAt });\n  229 |   await expect(page).toHaveURL(/\\/bookings\\/checkout/);\n  230 |\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-workflows.spec.ts:227:17"
+            }
+          ],
+          "attachments": [
+            "attachments/browser-authoring-005-screenshot.png",
+            "attachments/browser-authoring-006-sprint3-workflow-screen.png"
+          ]
+        }
+      ]
+    }
+  ]
+}

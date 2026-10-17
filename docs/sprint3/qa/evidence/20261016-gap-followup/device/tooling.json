@@ -1,0 +1,59 @@
+{
+  "records": [
+    {
+      "command": [
+        "node",
+        "--version"
+      ],
+      "startedAtUtc": "2026-10-15T20:57:54.445341+00:00",
+      "finishedAtUtc": "2026-10-15T20:57:54.456417+00:00",
+      "exitCode": 0,
+      "stdout": "v20.20.2\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "npm",
+        "--version"
+      ],
+      "startedAtUtc": "2026-10-15T20:57:54.456423+00:00",
+      "finishedAtUtc": "2026-10-15T20:57:54.508574+00:00",
+      "exitCode": 0,
+      "stdout": "10.8.2\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "xcodebuild",
+        "-version"
+      ],
+      "startedAtUtc": "2026-10-15T20:57:54.508584+00:00",
+      "finishedAtUtc": "2026-10-15T20:57:54.578005+00:00",
+      "exitCode": 0,
+      "stdout": "Xcode 27.0\nBuild version 27A266a\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "rg",
+        "--files",
+        "--hidden",
+        "--no-ignore",
+        "artifacts",
+        "frontend/e2e",
+        ".expo",
+        "-g",
+        "*.apk",
+        "-g",
+        "*.ipa",
+        "-g",
+        "*.app/Info.plist"
+      ],
+      "startedAtUtc": "2026-10-15T20:57:54.578015+00:00",
+      "finishedAtUtc": "2026-10-15T20:57:54.593925+00:00",
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

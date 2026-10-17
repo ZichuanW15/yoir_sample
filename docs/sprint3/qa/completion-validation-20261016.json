@@ -1,0 +1,50 @@
+{
+  "verifiedAt": "2026-10-15T20:47:50.630650+00:00",
+  "checks": {
+    "manifest:20261014": 48,
+    "manifest:20261016": 104,
+    "manifest:20261016-completion": 69,
+    "qaSources": 34,
+    "sourceMatch:frontend-shared": 219,
+    "sourceMatch:frontend-ios": 219,
+    "sourceMatch:frontend-android": 219,
+    "sourceMatch:backend-postgres-complete": 125,
+    "sourceMatch:browser-regression": 219,
+    "sourceMatch:live-httpx": 124,
+    "sourceMatch:live-typescript": 219,
+    "frontend-shared": 562,
+    "frontend-ios": 571,
+    "frontend-android": 571,
+    "live-typescript": 2,
+    "backendPassed": 848,
+    "backendExistingXfail": 21,
+    "browserPassed": 32,
+    "newCases": {
+      "frontend": 83,
+      "backend": 37,
+      "browser": 7
+    },
+    "retainedDefectCasesUnchanged": 10,
+    "qa-matrix.md:mappedQATasks": 23,
+    "coverageDenominatorsUnchanged": true,
+    "productDependenciesAndCiUnchanged": true,
+    "metadataValidation": {
+      "exitCode": 0,
+      "output": "OpenAPI/traceability: 76 operations, 79 local refs, Pass\nMarkdown relative links: 969 checked, 0 broken\nWorkflow YAML and seed JSON: Pass\n",
+      "verifiedAt": "2026-10-15T20:48:30.419155+00:00"
+    },
+    "ownedTestServicesStopped": {
+      "ports": [
+        43149,
+        43159,
+        43160,
+        55449
+      ],
+      "method": "lsof listener check",
+      "listeningProcesses": 0,
+      "checkedAt": "2026-10-15T20:48:15.752862+00:00"
+    }
+  },
+  "scope": "Local evidence consistency, source hashes and documentation mappings; not another application execution.",
+  "publicationNote": "Documentation maintenance on 16 October 2026 removed retired document-reference and cross-version mapping checks from this summary. Other results and verification timestamps are unchanged. Original record: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/f7e0cb8df4e45e804df0c64857a0c69bf3542fed/docs/sprint3/qa/completion-validation-20261016.json. No application tests were rerun."
+}

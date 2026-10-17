@@ -1,0 +1,82 @@
+
+> yoir-mobile@0.1.0 test:ios
+> jest --ci --runInBand --config jest.config.ios.js --json --outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/ios-regression/results.json
+
+PASS ios-components __tests__/components/desktop.test.tsx
+PASS ios-components __tests__/screens/counsellor-profile.test.tsx (13.705 s)
+PASS ios-components __tests__/counsellor/ServiceForm.test.tsx
+PASS ios-components __tests__/screens/counsellor-payouts.test.tsx
+PASS ios-components __tests__/screens/admin-verifications.test.tsx
+PASS ios-components __tests__/screens/confirmation-history.test.tsx
+PASS ios-components __tests__/screens/counsellor-availability.test.tsx
+PASS ios-components __tests__/screens/focus-refresh.test.tsx
+PASS ios-components __tests__/screens/service-booking-recovery.test.tsx
+PASS ios-components __tests__/auth/AuthContext.test.tsx
+PASS ios-components __tests__/screens/counsellor-dashboard.test.tsx
+PASS ios-components __tests__/screens/admin-overview-users.test.tsx
+PASS ios-components __tests__/screens/admin-payments.test.tsx
+PASS ios-components __tests__/screens/booking-detail.test.tsx
+PASS ios-components __tests__/screens/diagnosis.test.tsx
+PASS ios-components __tests__/screens/register.test.tsx
+PASS ios-components __tests__/screens/counsellor-onboarding.test.tsx
+PASS ios-components __tests__/screens/counsellor-edit-service.test.tsx
+PASS ios-components __tests__/screens/counsellor-verification.test.tsx
+PASS ios-components __tests__/screens/timeslots.test.tsx
+PASS ios-components __tests__/screens/marketplace.test.tsx
+PASS ios-components __tests__/screens/privacy-settings-boundaries.test.tsx
+PASS ios-components __tests__/screens/marketplace-diagnosis.test.tsx
+PASS ios-components __tests__/screens/review-boundaries.test.tsx
+PASS ios-components __tests__/screens/checkout.test.tsx
+PASS ios-components __tests__/screens/login.test.tsx
+PASS ios-components __tests__/screens/counsellor-bookings.test.tsx
+PASS ios-components __tests__/screens/diagnosis-server-qa.test.tsx
+PASS ios-components __tests__/screens/job-seeker-profile.test.tsx
+PASS ios-components __tests__/screens/reset.test.tsx
+PASS ios-components __tests__/screens/privacy-reviews.test.tsx
+PASS ios-components __tests__/screens/feedback-response-contract.test.tsx
+PASS ios-components __tests__/screens/forgot.test.tsx
+PASS ios-components __tests__/screens/service-detail.test.tsx
+PASS ios-components __tests__/screens/job-seeker-home.test.tsx
+PASS ios-components __tests__/screens/reschedule.test.tsx
+PASS ios-components __tests__/screens/professional-detail.test.tsx
+PASS ios-components __tests__/screens/verify-email.test.tsx
+PASS ios-components __tests__/screens/receipt.test.tsx
+PASS ios-components __tests__/screens/confirmation.test.tsx
+PASS ios-components __tests__/screens/notifications-panel.test.tsx
+PASS ios-components __tests__/screens/navigation.test.tsx
+PASS ios-components __tests__/payments/config.test.tsx
+PASS ios-components __tests__/screens/onboarding-focus.test.tsx
+PASS ios-components __tests__/native/platform-controls.test.tsx
+PASS ios-components __tests__/screens/welcome.test.tsx
+PASS ios-components __tests__/auth/AuthContext.http.test.tsx
+PASS ios-components __tests__/screens/root-layout.test.tsx
+PASS ios-components __tests__/api/real-client-write-safety.test.ts
+PASS ios-components __tests__/diagnosis/useDiagnosis.test.tsx
+PASS ios-components __tests__/api/counsellor-client.test.ts
+PASS ios-components __tests__/screens/http-response-harness.test.tsx
+PASS ios-components __tests__/api/client.test.ts
+PASS ios-components __tests__/screens/floating-error.test.tsx
+PASS ios-components __tests__/payments/client.test.ts
+PASS ios-components __tests__/api/verification-admin-client.test.ts
+PASS ios-components __tests__/components/animatedSvg.test.tsx
+PASS ios-components __tests__/auth/refreshOn401.test.ts
+PASS ios-components __tests__/verification.test.ts
+PASS ios-components __tests__/api/real-client-resource-safety.test.ts
+PASS ios-components __tests__/api/real-client-response-harness.test.ts
+PASS ios-components __tests__/api/diagnosis-client.test.ts
+PASS ios-components __tests__/counsellor/availabilityPlanner.test.ts
+PASS ios-components __tests__/format.test.ts
+PASS ios-components __tests__/marketplace/filters.test.ts
+PASS ios-components __tests__/auth/sessionStore.web.test.ts
+PASS ios-components __tests__/payments/waitForPayouts.test.ts
+PASS ios-components __tests__/payments/waitForBooking.test.ts
+PASS ios-components __tests__/auth/authBridge.test.ts
+PASS ios-components __tests__/navigation.test.ts
+PASS ios-components __tests__/payments/payoutStage.test.ts
+
+Test Suites: 71 passed, 71 total
+Tests:       619 passed, 619 total
+Snapshots:   0 total
+Time:        36.157 s, estimated 37 s
+Ran all test suites.
+Test results written to: ../artifacts/qa/sprint3-confirmation-20261017/ios-regression/results.json

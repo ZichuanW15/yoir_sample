@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-15T22:44:15.244274+00:00",
+  "scope": "8-second native onboarding read delay followed by real application response; not HTTP error",
+  "delayHits": [
+    {
+      "at": "2026-10-15T22:41:11.517070+00:00",
+      "ruleId": "android-d01-onboarding-loading",
+      "method": "GET",
+      "path": "/api/v1/me/onboarding-state",
+      "userId": "qa-nr-android-pro",
+      "hit": 1,
+      "action": "delay",
+      "status": 200
+    }
+  ],
+  "responses": [
+    {
+      "at": "2026-10-15T22:41:19.523258+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/onboarding-state",
+      "userId": "qa-nr-android-pro",
+      "status": 200
+    }
+  ]
+}

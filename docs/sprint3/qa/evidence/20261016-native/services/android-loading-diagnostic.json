@@ -1,0 +1,20 @@
+{
+  "at": "2026-10-15T21:11:45.363138+00:00",
+  "pid": "7993",
+  "logWindow": "10-16 08:07:00.000 onwards",
+  "filteredErrors": [
+    "10-16 08:07:21.143 I/ReactNativeJNI( 7993): Error occurred, shutting down websocket connection: WebSocket exception Failed to connect to /127.0.0.1:8081",
+    "10-16 08:08:25.172 I/ReactNativeJNI( 7993): Error occurred, shutting down websocket connection: WebSocket exception Failed to connect to /127.0.0.1:8081",
+    "10-16 08:08:39.737 W/System.err( 7993): java.lang.NoSuchMethodException: host.exp.exponent.taskManager.ExpoHeadlessAppLoader.<init> []",
+    "10-16 08:10:19.013 E/dev.expo.updates( 7993): {\"timestamp\":1792098619013,\"message\":\"Failed to launch embedded or launchable update\",\"code\":\"UpdateFailedToLoad\",\"level\":\"error\"",
+    "10-16 08:10:19.058 E/o       ( 7993): java.lang.NoSuchFieldException: No field numActivities in class Landroid/app/ActivityManager$RecentTaskInfo; (declaration of 'android.app.ActivityManager$RecentTaskInfo' appears in /system/framework/framework.jar)",
+    "10-16 08:10:19.121 W/HWUI    ( 7993): Failed to choose config with EGL_SWAP_BEHAVIOR_PRESERVED, retrying without...",
+    "10-16 08:10:19.124 W/HWUI    ( 7993): Failed to initialize 101010-2 format, error = EGL_SUCCESS",
+    "10-16 08:10:25.174 I/ReactNativeJNI( 7993): Error occurred, shutting down websocket connection: WebSocket exception Failed to connect to /127.0.0.1:8081"
+  ],
+  "reverseHttpProbe": {
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+}

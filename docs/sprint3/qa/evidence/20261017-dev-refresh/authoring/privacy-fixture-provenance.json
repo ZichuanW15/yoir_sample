@@ -1,0 +1,36 @@
+{
+  "checkedAt": "2026-10-17T06:32:51.271110+00:00",
+  "devCommit": "972caeed8b16603b11580206692909288a83a436",
+  "generator": "backend/app/routers/counsellor.py:counsellor_profile_out",
+  "sourceSha256": "a7ee3688cbeeee8b16feab45afe8b74dec192941193a13633557eea2ea77d1d1",
+  "serialization": {
+    "by_alias": true,
+    "exclude_none": true,
+    "exclude_unset": true
+  },
+  "route": "GET /api/v1/counsellors",
+  "fixture": "frontend/__tests__/privacy-profile-fixtures.json",
+  "fixtureSha256": "a7d8fe4adc3ff6934150b7cb03cb1dcd918bcb8aaa93ad4c33d4e2a6d10402fb",
+  "matchesActualMapper": true,
+  "responses": {
+    "partial": {
+      "id": "privacy-fixture-professional",
+      "displayName": "Privacy Fixture Professional",
+      "introduction": "Public career summary",
+      "defaultModality": "online",
+      "verificationStatus": "verified",
+      "overallRating": 4.8,
+      "reviewCount": 3,
+      "visibility": "partial"
+    },
+    "restricted": {
+      "id": "privacy-fixture-professional",
+      "displayName": "Privacy Fixture Professional",
+      "verificationStatus": "verified",
+      "overallRating": 4.8,
+      "reviewCount": 3,
+      "visibility": "restricted",
+      "restricted": true
+    }
+  }
+}

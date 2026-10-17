@@ -1,0 +1,28 @@
+{
+  "recordedAt": "2026-10-15T20:42:59.950659+00:00",
+  "productCommit": "cdcc44e66d647a9c5993736b797312b495715a3f",
+  "branch": "sprint3-qa",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "python": "3.12.14",
+  "node": "v20.20.2",
+  "npm": "10.8.2",
+  "postgresql": "pg_ctl (PostgreSQL) 16.15 (Homebrew)",
+  "playwright": "Version 1.63.0",
+  "database": {
+    "host": "127.0.0.1",
+    "port": 55449,
+    "regression": "sprint3_completion_test",
+    "live": "sprint3_completion_live_test",
+    "owner": "qa",
+    "resetAllowed": "owned regression database only"
+  },
+  "liveApi": "http://127.0.0.1:43160/api/v1",
+  "webApi": "http://127.0.0.1:43159/api/v1",
+  "webDatabase": "separate temporary SQLite per Playwright run",
+  "externalProviders": "Stripe and Mailgun disabled; mocks or fixture stub, no real provider transactions",
+  "deviceAvailability": "Read-only checks found no booted iOS simulator and no attached Android device; no device tests executed",
+  "lockSha256": {
+    "frontend/package-lock.json": "c3b6f9355f8cb29624fe40c7565b12c77a1ab2c6619d59abe3203da1d48f4b78",
+    "backend/uv.lock": "4ef4367de46e45494b73ba80b752a32da95879309e27935ed39150cc5a4080f8"
+  }
+}

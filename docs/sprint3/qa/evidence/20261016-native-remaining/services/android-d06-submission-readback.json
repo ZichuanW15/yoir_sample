@@ -1,0 +1,23 @@
+{
+  "at": "2026-10-15T21:49:16.733435+00:00",
+  "userId": "qa-nr-android-owner",
+  "reads": {
+    "/admin/verifications/qa-nr-android-candidate": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-android-candidate",
+        "counsellorId": "qa-nr-android-candidate",
+        "counsellorName": "QA Android Candidate",
+        "email": "av@example.com",
+        "linkedInUrl": "https://linkedin.com/in/qa",
+        "introduction": "Android QA introduction",
+        "background": "Android QA background",
+        "experience": "Android QA experience",
+        "status": "pending",
+        "submittedAt": "2026-10-15T21:48:42.749136Z",
+        "decidedAt": null,
+        "decisionReason": null
+      }
+    }
+  }
+}

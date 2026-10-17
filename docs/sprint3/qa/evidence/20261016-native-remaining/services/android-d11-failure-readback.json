@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-15T22:25:31.210383+00:00",
+  "userId": "qa-nr-android-buyer",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/bookings/qa-nr-android-move-booking": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-android-move-booking",
+        "orderId": "qa-nr-android-move-order",
+        "serviceId": "qa-nr-android-move-service",
+        "serviceTitle": "QA Android Reschedule Session",
+        "startsAt": "2026-10-23T23:00:00Z",
+        "endsAt": "2026-10-24T00:00:00Z",
+        "timezone": "Australia/Melbourne",
+        "modality": "online",
+        "status": "confirmed",
+        "paymentStatus": "paid",
+        "amountMinor": 8450,
+        "refundedMinor": 0,
+        "cancelledByRole": null,
+        "meetingUrl": "https://example.com/",
+        "counterpartyName": "QA Android Pro",
+        "counterpartyRole": "counsellor",
+        "meetingArea": "",
+        "meetingAddress": "",
+        "preSessionBrief": "Android fixture brief: discuss career direction.",
+        "review": null
+      }
+    }
+  }
+}

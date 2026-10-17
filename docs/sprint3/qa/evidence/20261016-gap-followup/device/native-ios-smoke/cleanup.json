@@ -1,0 +1,58 @@
+{
+  "apiStop": "Owned exec session 5328 received Ctrl-C; exited 0",
+  "metroStop": "Owned exec session 3445 received Ctrl-C; exited 0",
+  "records": [
+    {
+      "command": [
+        "xcrun",
+        "simctl",
+        "list",
+        "devices",
+        "booted",
+        "--json"
+      ],
+      "capturedAtUtc": "2026-10-15T21:01:29.347195+00:00",
+      "exitCode": 0,
+      "stdout": "{\n  \"devices\" : {\n    \"com.apple.CoreSimulator.SimRuntime.iOS-27-0\" : [\n      {\n        \"dataPath\" : \"\\/Users\\/zhouzhny\\/Library\\/Developer\\/CoreSimulator\\/Devices\\/579524DE-E6EA-42AE-9AB7-12FD385A0D08\\/data\",\n        \"dataPathSize\" : 4325675008,\n        \"logPath\" : \"\\/Users\\/zhouzhny\\/Library\\/Logs\\/CoreSimulator\\/579524DE-E6EA-42AE-9AB7-12FD385A0D08\",\n        \"udid\" : \"579524DE-E6EA-42AE-9AB7-12FD385A0D08\",\n        \"lastUsedAt\" : \"2026-10-15T20:59:13Z\",\n        \"isAvailable\" : true,\n        \"logPathSize\" : 389120,\n        \"deviceTypeIdentifier\" : \"com.apple.CoreSimulator.SimDeviceType.iPhone-18-Pro\",\n        \"state\" : \"Booted\",\n        \"name\" : \"iPhone 18 Pro\"\n      }\n    ]\n  }\n}\n",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "xcrun",
+        "simctl",
+        "shutdown",
+        "579524DE-E6EA-42AE-9AB7-12FD385A0D08"
+      ],
+      "capturedAtUtc": "2026-10-15T21:01:32.764187+00:00",
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "xcrun",
+        "simctl",
+        "list",
+        "devices",
+        "--json"
+      ],
+      "capturedAtUtc": "2026-10-15T21:01:32.879988+00:00",
+      "exitCode": 0,
+      "stdout": "{\"devices\": [{\"name\": \"iPhone 18 Pro\", \"udid\": \"579524DE-E6EA-42AE-9AB7-12FD385A0D08\", \"state\": \"Shutdown\", \"isAvailable\": true, \"runtime\": \"com.apple.CoreSimulator.SimRuntime.iOS-27-0\"}]}",
+      "stderr": ""
+    },
+    {
+      "command": [
+        "lsof",
+        "-nP",
+        "-iTCP:43179",
+        "-iTCP:8089",
+        "-sTCP:LISTEN"
+      ],
+      "capturedAtUtc": "2026-10-15T21:01:32.919265+00:00",
+      "exitCode": 1,
+      "stdout": "",
+      "stderr": ""
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.12.14, pytest-8.4.2, pluggy-1.6.0
+rootdir: /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend
+configfile: pyproject.toml
+plugins: cov-6.2.1, anyio-4.15.1
+collected 741 items / 7 deselected / 734 selected
+
+tests/test_account_creation.py ..................                        [  2%]
+tests/test_admin.py ...........................................          [  8%]
+tests/test_admin_bootstrap.py ......                                     [  9%]
+tests/test_api.py .............................................x........ [ 16%]
+..........x.......x...x......                                            [ 20%]
+tests/test_auth_contract.py ..                                           [ 20%]
+tests/test_booking_detail.py .......                                     [ 21%]
+tests/test_contract.py ..xx..x.........xxx                               [ 24%]
+tests/test_counsellor.py .....................                           [ 27%]
+tests/test_counsellor_profile_details.py ..........                      [ 28%]
+tests/test_database_safety.py .........                                  [ 29%]
+tests/test_dev_launcher.py .....                                         [ 30%]
+tests/test_diagnosis.py ................................................ [ 36%]
+...........................                                              [ 40%]
+tests/test_diagnosis_contract.py ........                                [ 41%]
+tests/test_diagnosis_migration.py .....                                  [ 42%]
+tests/test_diagnosis_qa_journeys.py ...                                  [ 42%]
+tests/test_duplicate_email.py ..................................         [ 47%]
+tests/test_frontend_static.py ...............                            [ 49%]
+tests/test_job_seeker_profile.py ...                                     [ 49%]
+tests/test_login_sessions.py ...................................         [ 54%]
+tests/test_logout_sessions.py .......................................... [ 60%]
+...                                                                      [ 60%]
+tests/test_mail.py .............                                         [ 62%]
+tests/test_mail_messages.py .............                                [ 64%]
+tests/test_meetings.py ...............                                   [ 66%]
+tests/test_migrations.py .......                                         [ 67%]
+tests/test_my_bookings.py ..........                                     [ 68%]
+tests/test_onboarding.py ........                                        [ 69%]
+tests/test_payments.py ................................................. [ 76%]
+.......................                                                  [ 79%]
+tests/test_profile_visibility.py ...                                     [ 79%]
+tests/test_refresh_sessions.py .............                             [ 81%]
+tests/test_registration_contract.py ....                                 [ 82%]
+tests/test_reschedule.py ............                                    [ 83%]
+tests/test_seed_and_config.py .x..                                       [ 84%]
+tests/test_sprint2_acceptance_regressions.py .....x.x...xx.              [ 86%]
+tests/test_sprint2_counsellor_acceptance.py ............................ [ 90%]
+....................................................                     [ 97%]
+tests/test_verification.py ....................                          [100%]
+
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+tests/test_account_creation.py: 1 warning
+tests/test_diagnosis_migration.py: 17 warnings
+tests/test_migrations.py: 11 warnings
+  /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/lib/python3.12/site-packages/alembic/config.py:604: DeprecationWarning: No path_separator found in configuration; falling back to legacy splitting on spaces, commas, and colons for prepend_sys_path.  Consider adding path_separator=os to Alembic config.
+    util.warn_deprecated(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-20261014/backend-postgres/junit.xml -
+================================ tests coverage ================================
+______________ coverage: platform darwin, python 3.12.14-final-0 _______________
+
+Name                            Stmts   Miss Branch BrPart  Cover   Missing
+---------------------------------------------------------------------------
+app/availability.py                56      2     18      2    95%   108, 161
+app/config.py                      63      0      0      0   100%
+app/db.py                          28      0      4      0   100%
+app/dev.py                         66     28     20      0    60%   74-97, 101-130
+app/diagnosis.py                   82      0     10      0   100%
+app/errors.py                      47      0      4      0   100%
+app/frontend.py                    56      1     24      1    98%   94
+app/mail/messages.py               38      2      0      0    95%   85-86
+app/mail/sender.py                 39      4     10      1    86%   65-73
+app/mail/templates.py              17      0      0      0   100%
+app/main.py                        39      1      2      1    95%   44
+app/meetings.py                    14      0      4      0   100%
+app/migrations.py                  44      1     12      1    96%   67
+app/models.py                     160      0      0      0   100%
+app/payments/amounts.py            39      0      8      0   100%
+app/payments/gateway.py           156     30     26      7    80%   42, 53-61, 67, 101-103, 109-110, 121-124, 138->140, 140->142, 144-145, 175-176, 199-200, 221-222, 249->251, 253-254, 267-268, 300, 314-315, 396, 399
+app/payments/jobs.py               85     15     28      5    82%   39-42, 43->33, 83, 95-97, 105, 114, 116-118, 141-142
+app/payments/notifications.py      26      2      0      0    92%   49-50
+app/payments/receipts.py           86      0     12      1    99%   156->158
+app/payments/scheduler.py          34     18      4      1    45%   27-37, 41-42, 54-61
+app/payments/service.py           115      8     32     10    88%   75, 89, 93, 121->124, 134, 135->141, 145->exit, 156, 160-164, 223->234, 262->260
+app/routers/admin.py               91      1     12      1    98%   93
+app/routers/auth.py               176      5     46      4    95%   294, 378-381, 426->428, 514
+app/routers/bookings.py           204     20     74     15    87%   118, 147, 233, 242, 256, 259-260, 287, 392, 396, 420, 437, 485, 489, 500-502, 525, 557, 582
+app/routers/counsellor.py         231     13     44      6    93%   151-153, 197, 228, 452, 464->463, 539-540, 560, 579-580, 607, 625
+app/routers/diagnosis.py           93      5     20      3    91%   87-90, 99, 149
+app/routers/health.py               9      0      0      0   100%
+app/routers/job_seeker.py          21      0      0      0   100%
+app/routers/payments.py             8      0      0      0   100%
+app/routers/profile.py             15      0      0      0   100%
+app/routers/services.py            60      1     14      1    97%   156
+app/routers/webhooks.py           118     19     34     12    78%   70-73, 99, 108-109, 111, 113, 130, 139, 142, 145, 164, 169, 182-183, 230-231
+app/schemas.py                    438      1     20      1    99%   615
+app/security.py                   119      1     30      0    99%   262
+app/seed.py                        57      5     20      2    91%   80, 99-102
+---------------------------------------------------------------------------
+TOTAL                            2930    183    532     75    92%
+
+4 empty files skipped.
+Coverage JSON written to file ../artifacts/qa/sprint3-20261014/backend-postgres/coverage.json
+=========================== short test summary info ============================
+XFAIL tests/test_api.py::test_marketplace_rejects_invalid_modality - The OpenAPI modality enum is not enforced by the backend query parameter
+XFAIL tests/test_api.py::test_create_order_rejects_unknown_fields - OpenAPI sets additionalProperties:false but CreateOrderRequest ignores extras
+XFAIL tests/test_api.py::test_orders_have_a_database_invariant_against_overlapping_holds - Two live orders overlapping on one counsellor's calendar are prevented only by the application's row lock, not by a database exclusion constraint
+XFAIL tests/test_api.py::test_stub_payment_retry_returns_stable_payment_reference - First and repeated stub-payment responses derive different payment references
+XFAIL tests/test_contract.py::test_backend_current_paths_match_published_parameter_names - FastAPI publishes snake_case path parameters while the contract uses camelCase
+XFAIL tests/test_contract.py::test_every_implemented_protected_operation_publishes_401 - Implemented counsellor operations omit a published 401 response
+XFAIL tests/test_contract.py::test_runtime_internal_error_code_is_published - The implemented backend 500 handler emits unpublished INTERNAL_ERROR
+XFAIL tests/test_contract.py::test_counsellor_openapi_documents_the_actual_validation_status[post-/me/services-payload0] - S2-BE-RUNTIME-400: counsellor OpenAPI advertises 422 while real validation returns 400
+XFAIL tests/test_contract.py::test_counsellor_openapi_documents_the_actual_validation_status[post-/me/availability-windows-payload1] - S2-BE-RUNTIME-400: counsellor OpenAPI advertises 422 while real validation returns 400
+XFAIL tests/test_contract.py::test_counsellor_openapi_documents_the_actual_validation_status[patch-/me/availability-windows/{window_id}-payload2] - S2-BE-RUNTIME-400: counsellor OpenAPI advertises 422 while real validation returns 400
+XFAIL tests/test_seed_and_config.py::test_seed_is_safe_when_users_exist_but_services_are_empty - seed() only checks the services table and duplicates existing counsellor emails
+XFAIL tests/test_sprint2_acceptance_regressions.py::test_service_creation_rejects_unpublished_fields_instead_of_silently_dropping_them - S2-BE-SERVICE-EXTRAS: published additionalProperties=false is not enforced
+XFAIL tests/test_sprint2_acceptance_regressions.py::test_unexpected_failure_preserves_request_id_in_body_and_response_header - S2-BE-ERROR-REQUEST-ID: unexpected failures omit the correlation response header
+XFAIL tests/test_sprint2_acceptance_regressions.py::test_committed_booking_write_does_not_depend_on_a_second_database_read[create_order] - S2-BE-POST-COMMIT-READ: a successful booking write is reported as 500 when its subsequent response read fails
+XFAIL tests/test_sprint2_acceptance_regressions.py::test_committed_booking_write_does_not_depend_on_a_second_database_read[pay_order] - S2-BE-POST-COMMIT-READ: a successful booking write is reported as 500 when its subsequent response read fails
+========= 719 passed, 7 deselected, 15 xfailed, 31 warnings in 42.49s ==========

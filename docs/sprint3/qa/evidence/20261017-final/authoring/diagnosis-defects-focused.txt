@@ -1,0 +1,180 @@
+FAIL __tests__/defects/sprint3-diagnosis-recovery.test.tsx
+  Sprint 3 server-backed diagnosis recovery acceptance
+    ✕ [S3-DIAGNOSIS-HOME-READ-RECOVERY][QA-162] a failed initial progress read offers an error and retry instead of an endless spinner (42 ms)
+    ✕ [S3-DIAGNOSIS-RETAKE-ERROR][QA-165/168] a failed retake submission keeps its failure visible after refreshing the confirmed revision (58 ms)
+
+  ● Sprint 3 server-backed diagnosis recovery acceptance › [S3-DIAGNOSIS-HOME-READ-RECOVERY][QA-162] a failed initial progress read offers an error and retry instead of an endless spinner
+
+    Unable to find an element with text: Saved progress unavailable.
+
+    [36m<View>[39m
+      [36m<View />[39m
+    [36m</View>[39m
+
+      22 |     expect(navigation.replace).not.toHaveBeenCalled();
+      23 |     expect(callsTo('GET', '/counsellors')).toHaveLength(0);
+    > 24 |     expect(await screen.findByText('Saved progress unavailable.')).toBeOnTheScreen();
+         |                         ^
+      25 |     expect(screen.getByRole('button', { name: 'Try again' })).toBeOnTheScreen();
+      26 |   });
+      27 |
+
+      at Object.findByText (__tests__/defects/sprint3-diagnosis-recovery.test.tsx:24:25)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● Sprint 3 server-backed diagnosis recovery acceptance › [S3-DIAGNOSIS-RETAKE-ERROR][QA-165/168] a failed retake submission keeps its failure visible after refreshing the confirmed revision
+
+    Unable to find an element with text: Retake was not saved.
+
+    [36m<View[39m
+      [33mstyle[39m=[32m{
+        {
+          "opacity": 0,
+        }
+      }[39m
+    [36m>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mYoir Diagnosis[0m
+        [36m</Text>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Skip for now"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mSkip for now[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View[39m
+        [33maccessibilityLabel[39m=[32m"Step 5 of 6"[39m
+        [33maccessibilityRole[39m=[32m"progressbar"[39m
+      [36m>[39m
+        [36m<View />[39m
+        [36m<View />[39m
+        [36m<View />[39m
+        [36m<View />[39m
+        [36m<View />[39m
+        [36m<View />[39m
+      [36m</View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33mstyle[39m=[32m{
+              {
+                "opacity": 0,
+              }
+            }[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mStep [0m
+              [0m5[0m
+              [0m of [0m
+              [0m6[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mAre there any barriers affecting your next step?[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mChoose any.[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Limited time"[39m
+                [33maccessibilityRole[39m=[32m"checkbox"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mLimited time[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Other barrier"[39m
+                [33maccessibilityRole[39m=[32m"checkbox"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mOther barrier[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Back"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "busy": false,
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mBack[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"See my Yoir Direction"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "busy": false,
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mSee my Yoir Direction[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      37 |     expect(callsTo('PUT', '/diagnoses/diagnosis-1/steps/goal')).toHaveLength(0);
+      38 |     expect(await screen.findByText('Are there any barriers affecting your next step?')).toBeOnTheScreen();
+    > 39 |     expect(await screen.findByText('Retake was not saved.')).toBeOnTheScreen();
+         |                         ^
+      40 |     expect(screen.getByRole('button', { name: 'See my Yoir Direction' })).toBeEnabled();
+      41 |   });
+      42 | });
+
+      at Object.findByText (__tests__/defects/sprint3-diagnosis-recovery.test.tsx:39:25)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       2 failed, 2 total
+Snapshots:   0 total
+Time:        0.628 s, estimated 1 s
+Ran all test suites within paths "__tests__/defects/sprint3-diagnosis-recovery.test.tsx".
+Test results written to: artifacts/sprint3-final-20261017/diagnosis-recovery-defects.json

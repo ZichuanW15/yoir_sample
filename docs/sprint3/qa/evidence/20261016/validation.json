@@ -1,0 +1,21 @@
+{
+  "validatedAt": "2026-10-15T20:21:52.255369+00:00",
+  "head": "cdcc44e66d647a9c5993736b797312b495715a3f",
+  "artifactHashesChecked": 104,
+  "historicalOct14HashesChecked": 48,
+  "finalQaSourcesChecked": 23,
+  "productOrLockOrCiChanges": [],
+  "stagedFiles": [],
+  "uniqueAddedCases": {
+    "regression": 112,
+    "defect": 10
+  },
+  "qaIssues": {
+    "mapped": 23,
+    "open": 23,
+    "assignedToZhouzhny": 23
+  },
+  "resultConsistency": "passed",
+  "sourceConsistency": "Final affected test sources match final executions; admin overview suite requirement-label correction covered by three final 11-case targeted runs.",
+  "manifestBoundary": "Manifest hashes selected outputs and README. It excludes itself and this validation report to avoid self-referential hashes."
+}

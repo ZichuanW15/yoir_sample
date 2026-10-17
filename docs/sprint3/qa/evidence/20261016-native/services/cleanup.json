@@ -1,0 +1,44 @@
+{
+  "startedAt": "2026-10-15T21:28:06.531141+00:00",
+  "ownedServices": [
+    {
+      "name": "api",
+      "pid": 84361,
+      "expected": "frontend/e2e/serve.py",
+      "verifiedCommand": "backend/.venv/bin/python frontend/e2e/serve.py",
+      "signal": "SIGINT",
+      "processAbsent": true,
+      "sessionExitCode": 0
+    },
+    {
+      "name": "metro",
+      "pid": 84838,
+      "expected": "node_modules/expo/bin/cli start --go --localhost --port 8099",
+      "verifiedCommand": "/opt/homebrew/bin/node --dns-result-order=ipv4first node_modules/expo/bin/cli start --go --localhost --port 8099",
+      "signal": "SIGINT",
+      "processAbsent": true,
+      "sessionExitCode": 0
+    }
+  ],
+  "databaseFilesBeforeShutdown": [
+    "/private/var/folders/5h/35gmrt4n5zq84_8vh5md45nm0000gn/T/yoir-web-qa-yzdjijpr/web_test.db"
+  ],
+  "note": "Only exact PIDs created in this task were signalled; no adb or device commands used.",
+  "completedAt": "2026-10-15T21:28:17.793869+00:00",
+  "ports": {
+    "43189": {
+      "connectionRefused": true
+    },
+    "8099": {
+      "connectionRefused": true
+    }
+  },
+  "databaseCleanup": [
+    {
+      "path": "/private/var/folders/5h/35gmrt4n5zq84_8vh5md45nm0000gn/T/yoir-web-qa-yzdjijpr/web_test.db",
+      "fileAbsent": true,
+      "temporaryDirectoryAbsent": true
+    }
+  ],
+  "success": true
+}

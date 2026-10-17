@@ -1,0 +1,13 @@
+PASS __tests__/screens/job-seeker-home.test.tsx
+PASS __tests__/api/diagnosis-client.test.ts
+PASS __tests__/screens/diagnosis.test.tsx
+PASS __tests__/screens/marketplace-diagnosis.test.tsx
+PASS __tests__/screens/diagnosis-server-qa.test.tsx
+PASS __tests__/diagnosis/useDiagnosis.test.tsx
+
+Test Suites: 6 passed, 6 total
+Tests:       51 passed, 51 total
+Snapshots:   0 total
+Time:        1.932 s, estimated 2 s
+Ran all test suites within paths "__tests__/api/diagnosis-client.test.ts", "__tests__/screens/diagnosis.test.tsx", "__tests__/screens/diagnosis-server-qa.test.tsx", "__tests__/diagnosis/useDiagnosis.test.tsx", "__tests__/screens/job-seeker-home.test.tsx", "__tests__/screens/marketplace-diagnosis.test.tsx".
+Test results written to: artifacts/sprint3-final-20261017/diagnosis-and-marketplace-focused.json

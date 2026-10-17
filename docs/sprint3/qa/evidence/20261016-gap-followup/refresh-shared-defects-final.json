@@ -1,0 +1,41 @@
+{
+  "startTime": 1792097913525,
+  "success": false,
+  "wasInterrupted": false,
+  "numPassedTests": 0,
+  "numFailedTests": 3,
+  "numPendingTests": 0,
+  "numTotalTests": 3,
+  "numPassedTestSuites": 0,
+  "numFailedTestSuites": 1,
+  "numRuntimeErrorTestSuites": 0,
+  "cases": [
+    {
+      "file": "frontend/__tests__/defects/sprint3-refresh-acceptance.test.tsx",
+      "fullName": "Sprint 3 refresh acceptance (advisory; ordinary assertions) [S3-WORKSPACE-STALE-STATUS][QA-195/198] a failed profile refresh must not present the old verification as current",
+      "status": "failed",
+      "duration": 551,
+      "failureMessages": [
+        "Error: expect(received).toBeNull()\n\nReceived: {\"_fiber\": {\"_debugHookTypes\": null, \"_debugInfo\": null, \"_debugNeedsRemount\": false, \"_debugOwner\": [FiberNode], \"_debugStack\": [Error: react-stack-top-frame], \"_debugTask\": null, \"actualDuration\": 0, \"actualStartTime\": 1792097914038, \"alternate\": [FiberNode], \"child\": [FiberNode], \"childLanes\": 0, \"deletions\": null, \"dependencies\": null, \"elementType\": \"Text\", \"flags\": 0, \"index\": 0, \"key\": null, \"lanes\": 0, \"memoizedProps\": [Object], \"memoizedState\": null, \"mode\": 3, \"pendingProps\": [Object], \"ref\": null, \"refCleanup\": null, \"return\": [FiberNode], \"selfBaseDuration\": 0, \"sibling\": null, \"stateNode\": [Object], \"subtreeFlags\": 0, \"tag\": 5, \"treeBaseDuration\": 0, \"type\": \"Text\", \"updateQueue\": null}}\n    at Object.toBeNull (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/defects/sprint3-refresh-acceptance.test.tsx:50:64)\n    at Generator.next (<anonymous>)\n    at asyncGeneratorStep (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)\n    at _next (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)"
+      ]
+    },
+    {
+      "file": "frontend/__tests__/defects/sprint3-refresh-acceptance.test.tsx",
+      "fullName": "Sprint 3 refresh acceptance (advisory; ordinary assertions) [S3-ADMIN-USERS-FOCUS][US-71] returning to the mounted Users directory rereads account status",
+      "status": "failed",
+      "duration": 53,
+      "failureMessages": [
+        "Error: expect(jest.fn()).toHaveBeenCalledTimes(expected)\n\nExpected number of calls: 2\nReceived number of calls: 1\n    at Object.toHaveBeenCalledTimes (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/defects/sprint3-refresh-acceptance.test.tsx:65:40)\n    at Generator.next (<anonymous>)\n    at asyncGeneratorStep (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)\n    at _next (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)"
+      ]
+    },
+    {
+      "file": "frontend/__tests__/defects/sprint3-refresh-acceptance.test.tsx",
+      "fullName": "Sprint 3 refresh acceptance (advisory; ordinary assertions) [S3-ADMIN-USERS-STALE-REFRESH][US-71] a failed renewed-session read withholds the old directory until retry succeeds",
+      "status": "failed",
+      "duration": 704,
+      "failureMessages": [
+        "Error: expect(received).toBeNull()\n\nReceived: {\"_fiber\": {\"_debugHookTypes\": null, \"_debugInfo\": null, \"_debugNeedsRemount\": false, \"_debugOwner\": [FiberNode], \"_debugStack\": [Error: react-stack-top-frame], \"_debugTask\": null, \"actualDuration\": 0, \"actualStartTime\": 1792097914659, \"alternate\": [FiberNode], \"child\": [FiberNode], \"childLanes\": 0, \"deletions\": null, \"dependencies\": null, \"elementType\": \"Text\", \"flags\": 4, \"index\": 0, \"key\": null, \"lanes\": 0, \"memoizedProps\": [Object], \"memoizedState\": null, \"mode\": 3, \"pendingProps\": [Object], \"ref\": null, \"refCleanup\": null, \"return\": [FiberNode], \"selfBaseDuration\": 0, \"sibling\": null, \"stateNode\": [Object], \"subtreeFlags\": 262144, \"tag\": 5, \"treeBaseDuration\": 0, \"type\": \"Text\", \"updateQueue\": null}}\n    at Object.toBeNull (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/defects/sprint3-refresh-acceptance.test.tsx:86:57)\n    at Generator.next (<anonymous>)\n    at asyncGeneratorStep (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)\n    at _next (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)"
+      ]
+    }
+  ]
+}

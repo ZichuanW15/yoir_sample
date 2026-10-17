@@ -1,0 +1,487 @@
+[
+  {
+    "label": "android-defects",
+    "command": [
+      "npm",
+      "run",
+      "test:android:defects",
+      "--",
+      "--json",
+      "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/android-defects/results.json"
+    ],
+    "cwd": "frontend",
+    "qaHead": "38cd806227453e820838081d6fbea907c6e5ef14",
+    "productBaseline": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+    "startedAt": "2026-10-17T06:44:22.824305+00:00",
+    "environment": {
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 1,
+    "finishedAt": "2026-10-17T06:44:28.643814+00:00",
+    "changedDuringRun": [],
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [
+      "frontend/e2e/sprint3-meeting-area.spec.ts"
+    ],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "1d0167cdda940d52a05736914200c2179984a7695c48eea971273974bccf7721",
+    "log": "logs/android-defects.txt"
+  },
+  {
+    "label": "backend-compile",
+    "command": [
+      "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/bin/python",
+      "-m",
+      "compileall",
+      "-q",
+      "app",
+      "reset_db.py"
+    ],
+    "cwd": "backend",
+    "qaHead": "38cd806227453e820838081d6fbea907c6e5ef14",
+    "productBaseline": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+    "startedAt": "2026-10-17T06:44:05.845109+00:00",
+    "environment": {
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T06:44:05.896004+00:00",
+    "changedDuringRun": [],
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [
+      "frontend/e2e/sprint3-meeting-area.spec.ts"
+    ],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "8f03e736a2f0952770b601335f519863fa1d6984b23070908cde4e9e7940a0be",
+    "log": "logs/backend-compile.txt"
+  },
+  {
+    "label": "backend-postgres",
+    "command": [
+      "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests",
+      "-m",
+      "not live and not future_contract",
+      "-q",
+      "--junitxml=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/backend-postgres/results.xml",
+      "--cov=app",
+      "--cov-report=term-missing",
+      "--cov-report=json:/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/backend-postgres/coverage.json"
+    ],
+    "cwd": "backend",
+    "qaHead": "38cd806227453e820838081d6fbea907c6e5ef14",
+    "productBaseline": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+    "startedAt": "2026-10-17T06:44:05.935999+00:00",
+    "environment": {
+      "YOIR_QA_ALLOW_DATABASE_RESET": "true",
+      "COVERAGE_FILE": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/backend-postgres/.coverage",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T06:45:19.862657+00:00",
+    "changedDuringRun": [],
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [
+      "frontend/e2e/sprint3-meeting-area.spec.ts"
+    ],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "6e78f3d5e283a9287ffc11a90adfe2360418cb597c54c4c5a2bab2e20e27b39c",
+    "log": "logs/backend-postgres.txt"
+  },
+  {
+    "label": "backend-source-lint",
+    "command": [
+      "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/bin/python",
+      "-m",
+      "ruff",
+      "check",
+      "app",
+      "reset_db.py"
+    ],
+    "cwd": "backend",
+    "qaHead": "38cd806227453e820838081d6fbea907c6e5ef14",
+    "productBaseline": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+    "startedAt": "2026-10-17T06:44:05.759528+00:00",
+    "environment": {
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T06:44:05.805661+00:00",
+    "changedDuringRun": [],
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [
+      "frontend/e2e/sprint3-meeting-area.spec.ts"
+    ],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "1a4b33a612c51e66d29b3228218f7569a7775517300163c91f9e6d14bcab8d9c",
+    "log": "logs/backend-source-lint.txt"
+  },
+  {
+    "label": "backend-test-lint",
+    "command": [
+      "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/bin/python",
+      "-m",
+      "ruff",
+      "check",
+      "tests"
+    ],
+    "cwd": "backend",
+    "qaHead": "38cd806227453e820838081d6fbea907c6e5ef14",
+    "productBaseline": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+    "startedAt": "2026-10-17T06:44:05.651225+00:00",
+    "environment": {
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T06:44:05.719215+00:00",
+    "changedDuringRun": [],
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [
+      "frontend/e2e/sprint3-meeting-area.spec.ts"
+    ],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "000b67f91a92423b80917f086712d689dd0eebbbe6ca61d5955d220ff33e33e6",
+    "log": "logs/backend-test-lint.txt"
+  },
+  {
+    "label": "browser-area-focused",
+    "command": [
+      "npm",
+      "run",
+      "test:web",
+      "--",
+      "e2e/sprint3-meeting-area.spec.ts"
+    ],
+    "cwd": "frontend",
+    "qaHead": "38cd806227453e820838081d6fbea907c6e5ef14",
+    "productBaseline": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+    "startedAt": "2026-10-17T06:48:03.180812+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43128",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/browser-area-focused",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T06:48:09.126202+00:00",
+    "changedDuringRun": [],
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "7b6d2e114d51fb696efb6fe599da863e71c6b520dfcd76b9fd991de4e8d9adc1",
+    "log": "logs/browser-area-focused.txt"
+  },
+  {
+    "label": "browser-defects",
+    "command": [
+      "npm",
+      "run",
+      "test:web:defects"
+    ],
+    "cwd": "frontend",
+    "qaHead": "38cd806227453e820838081d6fbea907c6e5ef14",
+    "productBaseline": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+    "startedAt": "2026-10-17T06:46:47.515901+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43126",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/browser-defects",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 1,
+    "finishedAt": "2026-10-17T06:47:48.797671+00:00",
+    "changedDuringRun": [],
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [
+      "frontend/e2e/sprint3-meeting-area.spec.ts"
+    ],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "d7c3fb74757957110d11b65d94f053ec29caa4653cccdcc1f89969635f9ec2bc",
+    "log": "logs/browser-defects.txt"
+  },
+  {
+    "label": "browser-regression",
+    "command": [
+      "npm",
+      "run",
+      "test:web"
+    ],
+    "cwd": "frontend",
+    "qaHead": "38cd806227453e820838081d6fbea907c6e5ef14",
+    "productBaseline": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+    "startedAt": "2026-10-17T06:44:19.888201+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43126",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/browser-regression",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T06:46:47.477632+00:00",
+    "changedDuringRun": [],
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [
+      "frontend/e2e/sprint3-meeting-area.spec.ts"
+    ],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "444c1aa68207b3e30a2cdd290088bf246afd6deb29ba62b485249bb33be008f3",
+    "log": "logs/browser-regression.txt"
+  },
+  {
+    "label": "frontend-defects",
+    "command": [
+      "npm",
+      "run",
+      "test:defects",
+      "--",
+      "--json",
+      "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/frontend-defects/results.json"
+    ],
+    "cwd": "frontend",
+    "qaHead": "38cd806227453e820838081d6fbea907c6e5ef14",
+    "productBaseline": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+    "startedAt": "2026-10-17T06:44:05.651252+00:00",
+    "environment": {
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 1,
+    "finishedAt": "2026-10-17T06:44:15.274548+00:00",
+    "changedDuringRun": [],
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [
+      "frontend/e2e/sprint3-meeting-area.spec.ts"
+    ],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "10647fe727918fa911eaa01abcb9251bbef3db423eb28f3ea9be06ee8adb4da2",
+    "log": "logs/frontend-defects.txt"
+  },
+  {
+    "label": "frontend-lint",
+    "command": [
+      "npm",
+      "run",
+      "lint"
+    ],
+    "cwd": "frontend",
+    "qaHead": "38cd806227453e820838081d6fbea907c6e5ef14",
+    "productBaseline": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+    "startedAt": "2026-10-17T06:44:28.698117+00:00",
+    "environment": {
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T06:44:30.355396+00:00",
+    "changedDuringRun": [],
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [
+      "frontend/e2e/sprint3-meeting-area.spec.ts"
+    ],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "ff59b6b55ac9f4baa11e7f6f0dfce5a21385438247c85943aecfbfe1b4dd5096",
+    "log": "logs/frontend-lint.txt"
+  },
+  {
+    "label": "frontend-lint-final",
+    "command": [
+      "npm",
+      "run",
+      "lint"
+    ],
+    "cwd": "frontend",
+    "qaHead": "38cd806227453e820838081d6fbea907c6e5ef14",
+    "productBaseline": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+    "startedAt": "2026-10-17T06:48:03.180804+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43128",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/browser-area-focused",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T06:48:04.344919+00:00",
+    "changedDuringRun": [],
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "3f111a4825646fa71d352e4678a6d3a5c0577b96b3b384eeb333a85b112c8645",
+    "log": "logs/frontend-lint-final.txt"
+  },
+  {
+    "label": "frontend-typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "cwd": "frontend",
+    "qaHead": "38cd806227453e820838081d6fbea907c6e5ef14",
+    "productBaseline": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+    "startedAt": "2026-10-17T06:44:30.418516+00:00",
+    "environment": {
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T06:44:34.129246+00:00",
+    "changedDuringRun": [],
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [
+      "frontend/e2e/sprint3-meeting-area.spec.ts"
+    ],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "27793be056f7aa5a41e918aee7a38ee37a94f67b6fb31be247f2955fc7feee53",
+    "log": "logs/frontend-typecheck.txt"
+  },
+  {
+    "label": "frontend-typecheck-final",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "cwd": "frontend",
+    "qaHead": "38cd806227453e820838081d6fbea907c6e5ef14",
+    "productBaseline": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+    "startedAt": "2026-10-17T06:48:03.180822+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43128",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/browser-area-focused",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T06:48:06.010719+00:00",
+    "changedDuringRun": [],
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "e5ad0fa344db65e26844988b2c39a4e667eb40124bfb9f80201cd8f51e6859dd",
+    "log": "logs/frontend-typecheck-final.txt"
+  },
+  {
+    "label": "httpx-live",
+    "command": [
+      "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/bin/python",
+      "-m",
+      "pytest",
+      "tests/test_live_api.py",
+      "-q",
+      "--junitxml=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/httpx-live/results.xml"
+    ],
+    "cwd": "backend",
+    "qaHead": "38cd806227453e820838081d6fbea907c6e5ef14",
+    "productBaseline": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+    "startedAt": "2026-10-17T06:47:49.672091+00:00",
+    "environment": {
+      "LIVE_API_BASE_URL": "http://127.0.0.1:43127/api/v1",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T06:47:50.259792+00:00",
+    "changedDuringRun": [],
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [
+      "frontend/e2e/sprint3-meeting-area.spec.ts"
+    ],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "08afe32844736c5f59bc6f02f71ecb2d8c2708b462a0cb0754ac8a1a87973626",
+    "log": "logs/httpx-live.txt"
+  },
+  {
+    "label": "ios-defects",
+    "command": [
+      "npm",
+      "run",
+      "test:ios:defects",
+      "--",
+      "--json",
+      "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/ios-defects/results.json"
+    ],
+    "cwd": "frontend",
+    "qaHead": "38cd806227453e820838081d6fbea907c6e5ef14",
+    "productBaseline": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+    "startedAt": "2026-10-17T06:44:15.356289+00:00",
+    "environment": {
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 1,
+    "finishedAt": "2026-10-17T06:44:22.773378+00:00",
+    "changedDuringRun": [],
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [
+      "frontend/e2e/sprint3-meeting-area.spec.ts"
+    ],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "f1dab8f1db2c1c4cbfdf7887b859586dba777b4a762f6bb7344d568aee362c69",
+    "log": "logs/ios-defects.txt"
+  },
+  {
+    "label": "typescript-live",
+    "command": [
+      "npm",
+      "run",
+      "test:client:live",
+      "--",
+      "--json",
+      "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/typescript-live/results.json"
+    ],
+    "cwd": "frontend",
+    "qaHead": "38cd806227453e820838081d6fbea907c6e5ef14",
+    "productBaseline": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+    "startedAt": "2026-10-17T06:47:50.297204+00:00",
+    "environment": {
+      "LIVE_API_BASE_URL": "http://127.0.0.1:43127/api/v1",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T06:47:51.688170+00:00",
+    "changedDuringRun": [],
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [
+      "frontend/e2e/sprint3-meeting-area.spec.ts"
+    ],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "ab16e0e2d71490365adece4df438715aeaa95e19e166066edea4f1524833690b",
+    "log": "logs/typescript-live.txt"
+  },
+  {
+    "label": "web-build",
+    "command": [
+      "npm",
+      "run",
+      "build:web"
+    ],
+    "cwd": "frontend",
+    "qaHead": "38cd806227453e820838081d6fbea907c6e5ef14",
+    "productBaseline": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+    "startedAt": "2026-10-17T06:44:05.651251+00:00",
+    "environment": {
+      "EXPO_PUBLIC_API_URL": "/api/v1",
+      "EXPO_PUBLIC_USE_DEMO_API": "false",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T06:44:19.834405+00:00",
+    "changedDuringRun": [],
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [
+      "frontend/e2e/sprint3-meeting-area.spec.ts"
+    ],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "a96d40e668750206fe425fd3b8318f89b4a0c4ac154aa243bdab758cdfb7a3db",
+    "log": "logs/web-build.txt"
+  }
+]

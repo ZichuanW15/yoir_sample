@@ -1,0 +1,13 @@
+[WebServer] Mail is NOT configured (MAILGUN_API_KEY and MAILGUN_DOMAIN missing): every message will be logged and discarded, including email confirmation and booking confirmations.
+
+Running 7 tests using 1 worker
+
+  ✓  1 [chromium-web] › e2e/sprint3-completion.spec.ts:88:7 › US32/33/71 real pending decision refreshes profile, My Services and administrator users (3.3s)
+  ✓  2 [chromium-web] › e2e/sprint3-completion.spec.ts:88:7 › US32/33/71 real verified decision refreshes profile, My Services and administrator users (3.1s)
+  ✓  3 [chromium-web] › e2e/sprint3-completion.spec.ts:88:7 › US32/33/71 real rejected decision refreshes profile, My Services and administrator users (3.5s)
+  ✓  4 [chromium-web] › e2e/sprint3-completion.spec.ts:128:5 › US31/32 a real conflicting verification submission never falsely becomes Pending (2.5s)
+  ✓  5 [chromium-web] › e2e/sprint3-completion.spec.ts:157:5 › US27/28 an already-open public profile removes private fields after real privacy changes and refresh (2.5s)
+  ✓  6 [chromium-web] › e2e/sprint3-completion.spec.ts:214:5 › US54/55 an unrated real service stays New in listings and shows an empty review state (1.8s)
+  ✓  7 [chromium-web] › e2e/sprint3-completion.spec.ts:241:5 › US09/12/13 a no-results marketplace search preserves completed diagnosis and original answers (8.6s)
+
+  7 passed (27.0s)

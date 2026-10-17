@@ -1,0 +1,35 @@
+{
+  "stats": {
+    "startTime": "2026-10-17T06:48:03.577Z",
+    "duration": 5511.682,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "errors": [],
+  "cases": [
+    {
+      "file": "sprint3-meeting-area.spec.ts",
+      "line": 47,
+      "title": "US36/43 both parties retain the purchased in-person area after a listing move and withdrawal",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3061,
+          "startTime": "2026-10-17T06:48:05.742Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-area-focused-01-0.png",
+            "attachments/browser-area-focused-01-1.png",
+            "attachments/browser-area-focused-01-2.json"
+          ]
+        }
+      ]
+    }
+  ]
+}

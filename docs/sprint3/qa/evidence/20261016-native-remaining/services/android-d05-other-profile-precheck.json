@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-15T22:11:21.375757+00:00",
+  "userId": "qa-nr-android-other",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/me/job-seeker-profile": {
+      "status": 200,
+      "data": {
+        "name": "QA Android Other",
+        "email": "a2@example.com",
+        "photoUrl": null,
+        "headline": "",
+        "careerGoals": ""
+      }
+    },
+    "/me/bookings": {
+      "status": 200,
+      "data": []
+    },
+    "/bookings/qa-nr-android-move-booking": {
+      "status": 404,
+      "data": {
+        "code": "NOT_FOUND",
+        "message": "Booking not found.",
+        "requestId": "6634be5b-c916-4f6b-8da4-a979234cf161"
+      }
+    }
+  }
+}

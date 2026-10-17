@@ -1,0 +1,281 @@
+{
+  "packagedAt": "2026-10-17T06:35:37.716571+00:00",
+  "reviewDate": "2026-10-17 Australia/Melbourne",
+  "files": [
+    {
+      "path": "source-manifest.json",
+      "sha256": "dd51d4998c1edd5e020d89ca6a76d8bebd0e8864a3780e135021da4010ac8fec",
+      "bytes": 42780
+    },
+    {
+      "path": "logs/android-defects.txt",
+      "sha256": "9ba4bdee6e0c904c833f0529d76d8a11e87ee7f6dbbbdd077de269d12303cdc6",
+      "bytes": 48380,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/android-defects/console.txt",
+      "sourceSha256": "9352596beefcfe38d7467c483919f9188182dde16ae92284265ab73e7567d5ea",
+      "sourceBytes": 48404,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/android-regression.txt",
+      "sha256": "b268a73d7ddad7b6751b9f5a1d1a584d74ebbd9387d2e67a1b19480fe1e1ea2f",
+      "bytes": 5041,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/android-regression/console.txt",
+      "sourceSha256": "b268a73d7ddad7b6751b9f5a1d1a584d74ebbd9387d2e67a1b19480fe1e1ea2f",
+      "sourceBytes": 5041,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/frontend-defects.txt",
+      "sha256": "493f35e6400336c8f372aa3bf89e125486ea684cd1310331baa93ba2df8e5152",
+      "bytes": 47495,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/frontend-defects/console.txt",
+      "sourceSha256": "125e98a89a554724faed416ca70ebc0ef7348019954030056d8069ec3680e6b9",
+      "sourceBytes": 47519,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/frontend-lint.txt",
+      "sha256": "b0d139fb9ee6b501b6c9166c07126de5c63fe59e4d9170762e12a6b77792cb26",
+      "bytes": 38,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/frontend-lint/console.txt",
+      "sourceSha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd",
+      "sourceBytes": 39,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/frontend-regression.txt",
+      "sha256": "a352c0ecc38b6b6cfe8de7c4906ed34c8014fe8303cfb2ce99c5083aa766cfa0",
+      "bytes": 3803,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/frontend-regression/console.txt",
+      "sourceSha256": "a352c0ecc38b6b6cfe8de7c4906ed34c8014fe8303cfb2ce99c5083aa766cfa0",
+      "sourceBytes": 3803,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/frontend-typecheck.txt",
+      "sha256": "15c7a0e30c0924df227605778969f7eb32b19ab419c5f0096b1f7552103f70a9",
+      "bytes": 46,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/frontend-typecheck/console.txt",
+      "sourceSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+      "sourceBytes": 47,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/ios-defects.txt",
+      "sha256": "ebdb240a784ece6ad65cd1f8121e031b446e5fb5c83e37df2dcc05697c69e771",
+      "bytes": 48308,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/ios-defects/console.txt",
+      "sourceSha256": "39d46b17501e090f1dee35462b78a83ea50b5edf3350ec126ec904fa3a3b47f4",
+      "sourceBytes": 48332,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/ios-regression.txt",
+      "sha256": "30f66b6b91cf962ec994b2c7ceabbe6f5cfa544cd2bc882faad870fb402dfccb",
+      "bytes": 4749,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/ios-regression/console.txt",
+      "sourceSha256": "30f66b6b91cf962ec994b2c7ceabbe6f5cfa544cd2bc882faad870fb402dfccb",
+      "sourceBytes": 4749,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "executions.json",
+      "sha256": "cd4386607e0c30322b16a701aacaa76a1aa29f93633c6c3a3d7fc2460d27b53a",
+      "bytes": 6869
+    },
+    {
+      "path": "android-defects.json",
+      "sha256": "14b9e657473c6d990aedac58fc154b7fd4d243801d1a8bedb41084ca793fc506",
+      "bytes": 39047,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/android-defects/results.json",
+      "sourceSha256": "0948dd59dd96f7d518e92d84c6eb973841cd68427c0f48cd5963d3748029d7b2",
+      "sourceBytes": 84349,
+      "transformation": "Runner report reduced to counts, per-case identities, timings and failures; authentication fragments redacted if present."
+    },
+    {
+      "path": "android-regression.json",
+      "sha256": "5c6569e0b7ace2f0263c5ecc9213bd22af2555dc8fd1e87e1f6c993031f48869",
+      "bytes": 177211,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/android-regression/results.json",
+      "sourceSha256": "c5a08ff6ec01f170d49fe6a7b38b49785b1edf877b8b93628cb0c8e481863cb1",
+      "sourceBytes": 270335,
+      "transformation": "Runner report reduced to counts, per-case identities, timings and failures; authentication fragments redacted if present."
+    },
+    {
+      "path": "frontend-defects.json",
+      "sha256": "2e6125d994db366dbdcc867ce74a88302288959825ff08caa6c44e561fee32b0",
+      "bytes": 36910,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/frontend-defects/results.json",
+      "sourceSha256": "ba1a157a644e0c9365b99d31681095cd29ce5fb51febd130ef787f71a3206206",
+      "sourceBytes": 81265,
+      "transformation": "Runner report reduced to counts, per-case identities, timings and failures; authentication fragments redacted if present."
+    },
+    {
+      "path": "frontend-regression.json",
+      "sha256": "ee704ccd418527db4e867aa6cb871ccd76fcf3c734b4657d925c340979f413f1",
+      "bytes": 174557,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/frontend-regression/results.json",
+      "sourceSha256": "00523bf4f0207ed1232faa1d1567bf9c065e52713f2b6226ad03c6486f875380",
+      "sourceBytes": 979652,
+      "transformation": "Runner report reduced to counts, per-case identities, timings and failures; authentication fragments redacted if present."
+    },
+    {
+      "path": "ios-defects.json",
+      "sha256": "8c1692f19485edd808537ef8ccf6fa522d9a2cab4acc56c8c0040857acb1a290",
+      "bytes": 39043,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/ios-defects/results.json",
+      "sourceSha256": "7718c87f9b73c812b3b2c951b8b3bfc3ebe6be7b20270fb2f4bf5f725d8c093e",
+      "sourceBytes": 84337,
+      "transformation": "Runner report reduced to counts, per-case identities, timings and failures; authentication fragments redacted if present."
+    },
+    {
+      "path": "ios-regression.json",
+      "sha256": "15ae79daa2f1ad4fddbea2a406b2140160773f7e58f038b6875e42f29df507aa",
+      "bytes": 177198,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/ios-regression/results.json",
+      "sourceSha256": "2ac3d2fcf27497a7abf1dd8ef080d2aa285e7378d5b93c6f4eac50482f1155a5",
+      "sourceBytes": 270310,
+      "transformation": "Runner report reduced to counts, per-case identities, timings and failures; authentication fragments redacted if present."
+    },
+    {
+      "path": "frontend-coverage.json",
+      "sha256": "778d342ce3cd3698050fdc2d3425514f55247d941decf4e10c342cc34cbe1b40",
+      "bytes": 33356,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/frontend-regression/coverage/coverage-summary.json",
+      "sourceSha256": "588d6a010b5e74ce72194b8b290b133ab9b7c99ec72cae50708784f5da1db1d8",
+      "sourceBytes": 23919,
+      "transformation": "Absolute source paths made repository-relative."
+    },
+    {
+      "path": "retained-evidence.json",
+      "sha256": "6e2982938b4dc697a9e507b50d52582f73268488c437d8c21f1b3d6d10f26baf",
+      "bytes": 37050
+    },
+    {
+      "path": "environment.json",
+      "sha256": "f6398ac02eb20f45c7ea8197b432c891c5e893c8bac071d1ad13a6595810b5f0",
+      "bytes": 423
+    },
+    {
+      "path": "component-report-health.json",
+      "sha256": "b45e512e302817751f68a86cee401f518350f53c8f41dc0ae1510d2704da62d5",
+      "bytes": 2346,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/component-report-health.json",
+      "sourceSha256": "b45e512e302817751f68a86cee401f518350f53c8f41dc0ae1510d2704da62d5",
+      "sourceBytes": 2346
+    },
+    {
+      "path": "published-ci.json",
+      "sha256": "535fd3da0acbbeea95c38d21e674db40103166c6aa47f14cbdfd9690842c2ba0",
+      "bytes": 4197,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/published-ci.json",
+      "sourceSha256": "535fd3da0acbbeea95c38d21e674db40103166c6aa47f14cbdfd9690842c2ba0",
+      "sourceBytes": 4197
+    },
+    {
+      "path": "authoring/authoring-auth-advisory-initial.log",
+      "sha256": "a0f987d87783534e0ac478b7e65f17cbb771655b610c3d1f903db71f20094319",
+      "bytes": 22709,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/authoring-auth/advisory-initial.log",
+      "sourceSha256": "10589a9efbeb177ad70803165df1b5144a255df33af318e17b29604345672fcf",
+      "sourceBytes": 22725,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/authoring-auth-privacy-fixture-check.log",
+      "sha256": "e31982e57f7809c553d9b67fcf7dbf4a5d8c8b8626a938c4059ef8fba29065eb",
+      "bytes": 807,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/authoring-auth/privacy-fixture-check.log",
+      "sourceSha256": "e31982e57f7809c553d9b67fcf7dbf4a5d8c8b8626a938c4059ef8fba29065eb",
+      "sourceBytes": 807,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/authoring-auth-regression-initial.log",
+      "sha256": "be18d8dfa9046e7de999e931f64d507736193605573047ee6308ed6e4efc790f",
+      "bytes": 613,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/authoring-auth/regression-initial.log",
+      "sourceSha256": "be18d8dfa9046e7de999e931f64d507736193605573047ee6308ed6e4efc790f",
+      "sourceBytes": 613,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/authoring-booking-defects.log",
+      "sha256": "bdc52f99d64315f673a1417b42741c15574d2d88a574bbba78664acb363aabce",
+      "bytes": 2114,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/authoring-booking/defects.log",
+      "sourceSha256": "bdc52f99d64315f673a1417b42741c15574d2d88a574bbba78664acb363aabce",
+      "sourceBytes": 2114,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/authoring-booking-regression.log",
+      "sha256": "23f90dcf3ececd1027e74784a1258fb284e215d4e4f03e7b69b946f2cf5bbf28",
+      "bytes": 470,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/authoring-booking/regression.log",
+      "sourceSha256": "23f90dcf3ececd1027e74784a1258fb284e215d4e4f03e7b69b946f2cf5bbf28",
+      "sourceBytes": 470,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/authoring-auth-advisory-initial-execution.json",
+      "sha256": "54da484bdb31da438a29e905b678c927723e7e0bd7c39032ff5b2c7fbc47df80",
+      "bytes": 556,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/authoring-auth/advisory-initial-execution.json",
+      "sourceSha256": "54da484bdb31da438a29e905b678c927723e7e0bd7c39032ff5b2c7fbc47df80",
+      "sourceBytes": 556
+    },
+    {
+      "path": "authoring/authoring-auth-regression-initial-execution.json",
+      "sha256": "fd0dcc92f3076f79c3c9ce497e5f44336f34d403aee2a9f2007f1dcfe118ffd7",
+      "bytes": 648,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/authoring-auth/regression-initial-execution.json",
+      "sourceSha256": "fd0dcc92f3076f79c3c9ce497e5f44336f34d403aee2a9f2007f1dcfe118ffd7",
+      "sourceBytes": 648
+    },
+    {
+      "path": "authoring/authoring-booking-defects-execution.json",
+      "sha256": "a3b530b9cd253589237d1e8cab5c8cc6ed56b8c8c8cd25e12043b2eb2f315ea5",
+      "bytes": 563,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/authoring-booking/defects-execution.json",
+      "sourceSha256": "a3b530b9cd253589237d1e8cab5c8cc6ed56b8c8c8cd25e12043b2eb2f315ea5",
+      "sourceBytes": 563
+    },
+    {
+      "path": "authoring/authoring-booking-regression-execution.json",
+      "sha256": "2eaad93834b06ccbdd5e2d51f4fd74ffce6f24fc4d48da3c6d0cf3af143368e0",
+      "bytes": 576,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/authoring-booking/regression-execution.json",
+      "sourceSha256": "2eaad93834b06ccbdd5e2d51f4fd74ffce6f24fc4d48da3c6d0cf3af143368e0",
+      "sourceBytes": 576
+    },
+    {
+      "path": "authoring/check_privacy_fixture.py",
+      "sha256": "4d41160e92a1b7d45fe8f2b2d183a7a0e3d50710a099d0d4a349b6636143fc67",
+      "bytes": 1727,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/authoring-auth/check_privacy_fixture.py",
+      "sourceSha256": "4d41160e92a1b7d45fe8f2b2d183a7a0e3d50710a099d0d4a349b6636143fc67",
+      "sourceBytes": 1727,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/privacy-fixture-provenance.json",
+      "sha256": "f1529033efcf54db99e1822012902e23dacc0f354ebc8565d8b76bd9fc8ec8bc",
+      "bytes": 1216,
+      "source": "artifacts/qa/sprint3-dev-refresh-20261017/authoring-auth/privacy-fixture-provenance.json",
+      "sourceSha256": "f1529033efcf54db99e1822012902e23dacc0f354ebc8565d8b76bd9fc8ec8bc",
+      "sourceBytes": 1216,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "README.md",
+      "sha256": "28fa9092e1a4549ef5ea037326371829d780ad186582e685995c22eb7e0bca8f",
+      "bytes": 2250
+    }
+  ],
+  "omitted": [
+    "Regenerable HTML/LCOV files and full raw Jest reports remain in artifacts/qa/sprint3-dev-refresh-20261017. Per-case names, outcomes, timings, failure messages, totals and per-file coverage are included."
+  ],
+  "note": "Packaging normalizes whitespace and redacts test authentication fragments if present. All actual PASS/FAIL outcomes are retained."
+}

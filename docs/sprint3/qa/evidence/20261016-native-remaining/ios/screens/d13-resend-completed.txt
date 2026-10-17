@@ -1,0 +1,80 @@
+Window: "iPhone 18 Pro", App: Device Hub.
+0 standard window iPhone 18 Pro – iOS 27.0, ID: com.apple.dt.DeviceKit.DeviceManagementWindow-AppWindow-1, Secondary Actions: Raise
+	1 split group
+		2 split group com.apple.dt.DeviceKit.DeviceManagementWindow-AppWindow-1, SidebarNavigationSplitView
+			3 scroll area
+				4 list Sidebar
+					5 row (selectable) Description: Available, Value: Expanded
+					6 row (selected) Description: iphone.gen3, Value: iPhone 18 Pro
+27.0
+Simulator
+			7 search text field (settable) Search
+				8 button Search
+			9 splitter (disabled, settable, float) 248
+			10 container
+				11 container
+					12 button Description: Notifications, Secondary Actions: Cancel
+					13 element Description: Account, QA iOS Unverified, Secondary Actions: Cancel
+					14 text Description: EXPLORE, Secondary Actions: Cancel
+					15 text Description: Find your next step, QA, Secondary Actions: Cancel
+					16 text Description: Confirm your email to book a session, Secondary Actions: Cancel
+					17 text Description: We have sent a new link to iu@example.com. It lasts a day., Secondary Actions: Cancel
+					18 button Description: Show filters, Secondary Actions: Cancel
+					19 secure text field (settable) Description: Search services or Career Professionals, Value: Search services or people, Secondary Actions: Cancel
+					20 text Description: 18 of 18 services, Secondary Actions: Cancel
+					21 text Description: Recommended, Secondary Actions: Cancel
+					22 button Description: QA iOS Review Session by QA iOS Pro, $84, Secondary Actions: Cancel
+					23 button Description: Interview confidence coaching by Maya Chen, $95, Secondary Actions: Cancel
+					24 button Description: Behavioural interview deep-dive by Maya Chen, $120, Secondary Actions: Cancel
+					25 button Description: Resume and cover letter review by Jordan Lee, $70, Secondary Actions: Cancel
+					26 button Description: Career strategy session for skilled migrants by Priya Nair, $110, Secondary Actions: Cancel
+					27 button Description: Mock technical screening by Jordan Lee, $150, Secondary Actions: Cancel
+					28 button Description: 30-day job search plan by Priya Nair, $85, Secondary Actions: Cancel
+					29 button Description: QA completed review session by QA Review Professional, $84, Secondary Actions: Cancel
+					30 element Description: QA modality and remaining time by QA Availability Professional, $99, Secondary Actions: Cancel
+					31 button Description: QA iOS Reschedule Session by QA iOS Pro, $84, Secondary Actions: Cancel
+					32 button Description: QA iOS In-person Session by QA iOS Pro, $84, Secondary Actions: Cancel
+					33 button Description: QA iOS Unrated Session by QA iOS Pro, $84, Secondary Actions: Cancel
+					34 button Description: QA Android Review Session by QA Android Pro, $84, Secondary Actions: Cancel
+					35 button Description: QA Android Reschedule Session by QA Android Pro, $84, Secondary Actions: Cancel
+					36 button Description: QA Android In-person Session by QA Android Pro, $84, Secondary Actions: Cancel
+					37 button Description: QA Android Editable Session by QA Android Pro, $84, Secondary Actions: Cancel
+					38 button Description: QA Android Unrated Session by QA Android Pro, $84, Secondary Actions: Cancel
+					39 button Description: LinkedIn profile makeover by Tom Baker, $60, Secondary Actions: Cancel
+					40 button Description: Home, Secondary Actions: Cancel
+					41 button (selected) Description: Explore, Secondary Actions: Cancel
+					42 button Description: Bookings, Secondary Actions: Cancel
+					43 image Description: Gear Shape, Filled, ID: gearshape.fill, Secondary Actions: Cancel
+				44 button Description: Home, ID: app.grid.3x3
+				45 button Description: Screenshot, ID: camera.viewfinder
+				46 button Description: Record, ID: record.circle
+				47 button Rotate Left
+	48 toolbar
+		49 menu button Add, Help: Add Device, ID: plus
+		50 toggle button Description: Filter, Help: Sort and Filter, Value: off
+		51 button Description: Hide Sidebar, Secondary Actions: Increment, Decrement, Delete, Cancel
+		52 toggle button Description: Capture Keyboard, Value: off
+		53 toggle button (disabled) Description: Resize mode, Help: Enter resize mode, Value: off
+		54 Zoom
+			55 radio button Description: Zoom Out, Value: 0, ID: minus.magnifyingglass
+			56 radio button Description: arrowtriangles.up.right.down.left.magnifyingglass, Help: Zoom to Fit, Value: 1
+			57 radio button Description: Zoom To Actual Size, Help: Physical Size, Value: 0, ID: 1.magnifyingglass
+			58 radio button Description: Zoom In, Value: 0, ID: plus.magnifyingglass
+		59 button Description: Open in New Window, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		60 menu button More, Help: More Actions, ID: ellipsis
+		61 radio button Description: Edit, Help: Settings, Value: 0, ID: slider.horizontal.3
+		62 radio button Description: text.document, Help: Reports, Value: 0
+		63 radio button Description: Info, Value: 0, ID: info
+	64 close button
+	65 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	66 minimize button
+	67 text iPhone 18 Pro iOS 27.0
+68 menu bar
+	69 Device Hub
+	70 File
+	71 Edit
+	72 View
+	73 Device
+	74 Controls
+	75 Window
+	76 Help

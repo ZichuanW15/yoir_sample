@@ -1,0 +1,25 @@
+{
+  "events": [
+    {
+      "at": "2026-10-15T23:21:10.667911+00:00",
+      "name": "api",
+      "pid": 87011,
+      "signal": "SIGINT",
+      "verifiedCommand": "backend/.venv/bin/python artifacts/qa/sprint3-native-remaining-20261016/services/run_api.py"
+    },
+    {
+      "at": "2026-10-15T23:21:10.670492+00:00",
+      "name": "metro",
+      "pid": 87015,
+      "signal": "SIGINT",
+      "verifiedCommand": "/opt/homebrew/bin/node --dns-result-order=ipv4first node_modules/expo/bin/cli start --go --localhost --port 8099"
+    },
+    {
+      "at": "2026-10-15T23:21:10.672775+00:00",
+      "name": "navigation",
+      "pid": 92152,
+      "signal": "SIGINT",
+      "verifiedCommand": "backend/.venv/bin/python -m http.server 43219 --bind 127.0.0.1 --directory artifacts/qa/sprint3-native-remaining-20261016/services/links"
+    }
+  ]
+}

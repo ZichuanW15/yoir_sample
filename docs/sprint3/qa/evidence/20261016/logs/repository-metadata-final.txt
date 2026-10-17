@@ -1,0 +1,3 @@
+OpenAPI/traceability: 76 operations, 79 local refs, Pass
+Markdown relative links: 851 checked, 0 broken
+Workflow YAML and seed JSON: Pass

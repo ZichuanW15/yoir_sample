@@ -1,0 +1,985 @@
+[
+  {
+    "label": "android-defects",
+    "command": [
+      "npm",
+      "run",
+      "test:android:defects",
+      "--",
+      "--json",
+      "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/android-defects/results.json"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:38:39.821031+00:00",
+    "environment": {
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 1,
+    "finishedAt": "2026-10-17T07:38:45.676948+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/"
+      ],
+      "exclude": [
+        "frontend/e2e/",
+        "paths containing playwright"
+      ],
+      "note": "Frontend source/config/test snapshot; unrelated backend and browser files are not applicable."
+    },
+    "recordedSourceFileCount": 216,
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "5ed26aba0ccd8aad862431cc33edecef0255b0169142376f399b10e419f6dc16",
+    "log": "logs/android-defects.txt"
+  },
+  {
+    "label": "android-regression",
+    "command": [
+      "npm",
+      "run",
+      "test:android",
+      "--",
+      "--json",
+      "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/android-regression/results.json"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:37:45.938072+00:00",
+    "environment": {
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T07:38:26.967320+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/"
+      ],
+      "exclude": [
+        "frontend/e2e/",
+        "paths containing playwright"
+      ],
+      "note": "Frontend source/config/test snapshot; unrelated backend and browser files are not applicable."
+    },
+    "recordedSourceFileCount": 216,
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "da7bccc3d0ba12d54c42680754da9dcf5b25ee7de5e68dbda6a797a3e47ffadd",
+    "log": "logs/android-regression.txt"
+  },
+  {
+    "label": "browser-desktop-admin-followup",
+    "command": [
+      "node",
+      "node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "playwright.config.ts",
+      "--grep",
+      "US07/08 platform_owner desktop"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:47:03.693476+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43128",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-desktop-admin-followup",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T07:47:08.980584+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/",
+        "backend/",
+        "scripts/",
+        ".github/workflows/"
+      ],
+      "exclude": [
+        "artifacts",
+        "coverage",
+        "__pycache__"
+      ],
+      "note": "Repository input snapshot for isolated real-API browser runs; this is not a backend-suite execution claim."
+    },
+    "recordedSourceFileCount": 377,
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [],
+    "executionPhase": "admin-focused-followup",
+    "phaseNote": "One admin navigation/logout case rerun after accepting the valid post-logout login URL. This validates the corrected assertion only; it is not a fresh complete browser regression total.",
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "20ae072e202fd3fe869550f5e5623488ab5c891a663ef2866f56264e24eb779a",
+    "log": "logs/browser-desktop-admin-followup.txt"
+  },
+  {
+    "label": "browser-desktop-defects",
+    "command": [
+      "node",
+      "node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "playwright.config.ts",
+      "--grep",
+      "@defect"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:41:16.622203+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43128",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-desktop-defects",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 1,
+    "finishedAt": "2026-10-17T07:42:18.205820+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/",
+        "backend/",
+        "scripts/",
+        ".github/workflows/"
+      ],
+      "exclude": [
+        "artifacts",
+        "coverage",
+        "__pycache__"
+      ],
+      "note": "Repository input snapshot for isolated real-API browser runs; this is not a backend-suite execution claim."
+    },
+    "recordedSourceFileCount": 377,
+    "sourceDifferenceFromFinal": {
+      "frontend/e2e/sprint3-responsive.spec.ts": "e88f3a4978d6222827c0e7d56118b8e358da2ca5fa72929791b280f0e131d242",
+      "frontend/e2e/sprint3-workflows.spec.ts": "290bbe571d6d2d235589965658212ce135112655488d33d230af4c9b31573584"
+    },
+    "finalFilesAbsentAtStart": [],
+    "executionPhase": "initial-full",
+    "phaseNote": "Initial complete browser execution retained with its original outcomes. Responsive/navigation authoring corrections have separate subsequent executions.",
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "946dbd66f12f316f824dc60ee1dfd3edeae81925ad4797932b0ff29addf8a5f9",
+    "log": "logs/browser-desktop-defects.txt"
+  },
+  {
+    "label": "browser-desktop-defects-final",
+    "command": [
+      "node",
+      "node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "playwright.config.ts",
+      "--grep",
+      "@defect"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:45:30.712920+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43128",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-desktop-defects-final",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 1,
+    "finishedAt": "2026-10-17T07:46:45.418569+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/",
+        "backend/",
+        "scripts/",
+        ".github/workflows/"
+      ],
+      "exclude": [
+        "artifacts",
+        "coverage",
+        "__pycache__"
+      ],
+      "note": "Repository input snapshot for isolated real-API browser runs; this is not a backend-suite execution claim."
+    },
+    "recordedSourceFileCount": 377,
+    "sourceDifferenceFromFinal": {
+      "frontend/e2e/sprint3-responsive.spec.ts": "57d1627facf0bf99fbfbc9d7aca90717ec049500574175e41526ea4c1b5a91e1"
+    },
+    "finalFilesAbsentAtStart": [],
+    "executionPhase": "second-full",
+    "phaseNote": "Second complete browser execution, before the final admin logout URL assertion correction. Its original counts and failure remain unchanged. The later focused follow-up is not another full-suite run.",
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "65a55d86514eda14b6fe6f8fa7026c5b6fb8916f071ffedb32a10ee43de22033",
+    "log": "logs/browser-desktop-defects-final.txt"
+  },
+  {
+    "label": "browser-desktop-regression",
+    "command": [
+      "node",
+      "node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "playwright.config.ts",
+      "--grep-invert",
+      "@defect"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:37:43.525545+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43128",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-desktop-regression",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 1,
+    "finishedAt": "2026-10-17T07:41:16.583732+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/",
+        "backend/",
+        "scripts/",
+        ".github/workflows/"
+      ],
+      "exclude": [
+        "artifacts",
+        "coverage",
+        "__pycache__"
+      ],
+      "note": "Repository input snapshot for isolated real-API browser runs; this is not a backend-suite execution claim."
+    },
+    "recordedSourceFileCount": 377,
+    "sourceDifferenceFromFinal": {
+      "frontend/e2e/sprint3-responsive.spec.ts": "e88f3a4978d6222827c0e7d56118b8e358da2ca5fa72929791b280f0e131d242",
+      "frontend/e2e/sprint3-workflows.spec.ts": "290bbe571d6d2d235589965658212ce135112655488d33d230af4c9b31573584"
+    },
+    "finalFilesAbsentAtStart": [],
+    "executionPhase": "initial-full",
+    "phaseNote": "Initial complete browser execution retained with its original outcomes. Responsive/navigation authoring corrections have separate subsequent executions.",
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "630aeb09905883d292dab251ba2300f72c0d733a449823c4ef7be4433b2e93fe",
+    "log": "logs/browser-desktop-regression.txt"
+  },
+  {
+    "label": "browser-desktop-regression-final",
+    "command": [
+      "node",
+      "node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "playwright.config.ts",
+      "--grep-invert",
+      "@defect"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:42:38.641415+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43128",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-desktop-regression-final",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 1,
+    "finishedAt": "2026-10-17T07:45:30.673945+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/",
+        "backend/",
+        "scripts/",
+        ".github/workflows/"
+      ],
+      "exclude": [
+        "artifacts",
+        "coverage",
+        "__pycache__"
+      ],
+      "note": "Repository input snapshot for isolated real-API browser runs; this is not a backend-suite execution claim."
+    },
+    "recordedSourceFileCount": 377,
+    "sourceDifferenceFromFinal": {
+      "frontend/e2e/sprint3-responsive.spec.ts": "57d1627facf0bf99fbfbc9d7aca90717ec049500574175e41526ea4c1b5a91e1"
+    },
+    "finalFilesAbsentAtStart": [],
+    "executionPhase": "second-full",
+    "phaseNote": "Second complete browser execution, before the final admin logout URL assertion correction. Its original counts and failure remain unchanged. The later focused follow-up is not another full-suite run.",
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "4fcb96f52822564a8b18194b6c858c861c97a32f224056391fe1192f6b580bd0",
+    "log": "logs/browser-desktop-regression-final.txt"
+  },
+  {
+    "label": "browser-phone-admin-followup",
+    "command": [
+      "node",
+      "node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "playwright.mobile.config.ts",
+      "--grep",
+      "US07/08 platform_owner desktop"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:47:03.692930+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43129",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-phone-admin-followup",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T07:47:08.873431+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/",
+        "backend/",
+        "scripts/",
+        ".github/workflows/"
+      ],
+      "exclude": [
+        "artifacts",
+        "coverage",
+        "__pycache__"
+      ],
+      "note": "Repository input snapshot for isolated real-API browser runs; this is not a backend-suite execution claim."
+    },
+    "recordedSourceFileCount": 377,
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [],
+    "executionPhase": "admin-focused-followup",
+    "phaseNote": "One admin navigation/logout case rerun after accepting the valid post-logout login URL. This validates the corrected assertion only; it is not a fresh complete browser regression total.",
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "beb776a625e6ec3c9163e7708901d98448ef3febb27ccfa1dbce599307b3b738",
+    "log": "logs/browser-phone-admin-followup.txt"
+  },
+  {
+    "label": "browser-phone-defects",
+    "command": [
+      "node",
+      "node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "playwright.mobile.config.ts",
+      "--grep",
+      "@defect"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:40:45.839442+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43129",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 1,
+    "finishedAt": "2026-10-17T07:41:47.209605+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/",
+        "backend/",
+        "scripts/",
+        ".github/workflows/"
+      ],
+      "exclude": [
+        "artifacts",
+        "coverage",
+        "__pycache__"
+      ],
+      "note": "Repository input snapshot for isolated real-API browser runs; this is not a backend-suite execution claim."
+    },
+    "recordedSourceFileCount": 377,
+    "sourceDifferenceFromFinal": {
+      "frontend/e2e/sprint3-responsive.spec.ts": "e88f3a4978d6222827c0e7d56118b8e358da2ca5fa72929791b280f0e131d242",
+      "frontend/e2e/sprint3-workflows.spec.ts": "290bbe571d6d2d235589965658212ce135112655488d33d230af4c9b31573584"
+    },
+    "finalFilesAbsentAtStart": [],
+    "executionPhase": "initial-full",
+    "phaseNote": "Initial complete browser execution retained with its original outcomes. Responsive/navigation authoring corrections have separate subsequent executions.",
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "8ea47402e42e044b50749e1603d72de07574480a6ad8842317b166bd3a0ebdfa",
+    "log": "logs/browser-phone-defects.txt"
+  },
+  {
+    "label": "browser-phone-defects-final",
+    "command": [
+      "node",
+      "node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "playwright.mobile.config.ts",
+      "--grep",
+      "@defect"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:45:25.425455+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43129",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects-final",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 1,
+    "finishedAt": "2026-10-17T07:46:40.290520+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/",
+        "backend/",
+        "scripts/",
+        ".github/workflows/"
+      ],
+      "exclude": [
+        "artifacts",
+        "coverage",
+        "__pycache__"
+      ],
+      "note": "Repository input snapshot for isolated real-API browser runs; this is not a backend-suite execution claim."
+    },
+    "recordedSourceFileCount": 377,
+    "sourceDifferenceFromFinal": {
+      "frontend/e2e/sprint3-responsive.spec.ts": "57d1627facf0bf99fbfbc9d7aca90717ec049500574175e41526ea4c1b5a91e1"
+    },
+    "finalFilesAbsentAtStart": [],
+    "executionPhase": "second-full",
+    "phaseNote": "Second complete browser execution, before the final admin logout URL assertion correction. Its original counts and failure remain unchanged. The later focused follow-up is not another full-suite run.",
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "e170c24a01fbe18c20670dbb9d0e13de0e6afbf021e4112d59c413ada12e68a5",
+    "log": "logs/browser-phone-defects-final.txt"
+  },
+  {
+    "label": "browser-phone-regression",
+    "command": [
+      "node",
+      "node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "playwright.mobile.config.ts",
+      "--grep-invert",
+      "@defect"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:37:43.525341+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43129",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 1,
+    "finishedAt": "2026-10-17T07:40:45.798058+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/",
+        "backend/",
+        "scripts/",
+        ".github/workflows/"
+      ],
+      "exclude": [
+        "artifacts",
+        "coverage",
+        "__pycache__"
+      ],
+      "note": "Repository input snapshot for isolated real-API browser runs; this is not a backend-suite execution claim."
+    },
+    "recordedSourceFileCount": 377,
+    "sourceDifferenceFromFinal": {
+      "frontend/e2e/sprint3-responsive.spec.ts": "e88f3a4978d6222827c0e7d56118b8e358da2ca5fa72929791b280f0e131d242",
+      "frontend/e2e/sprint3-workflows.spec.ts": "290bbe571d6d2d235589965658212ce135112655488d33d230af4c9b31573584"
+    },
+    "finalFilesAbsentAtStart": [],
+    "executionPhase": "initial-full",
+    "phaseNote": "Initial complete browser execution retained with its original outcomes. Responsive/navigation authoring corrections have separate subsequent executions.",
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "c392a1b7895bb0ecc7fa93ce34598a8ca56e5993eee1ab024162a9bf4c62e654",
+    "log": "logs/browser-phone-regression.txt"
+  },
+  {
+    "label": "browser-phone-regression-final",
+    "command": [
+      "node",
+      "node_modules/@playwright/test/cli.js",
+      "test",
+      "--config",
+      "playwright.mobile.config.ts",
+      "--grep-invert",
+      "@defect"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:42:38.641386+00:00",
+    "environment": {
+      "WEB_QA_PORT": "43129",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 1,
+    "finishedAt": "2026-10-17T07:45:25.379319+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/",
+        "backend/",
+        "scripts/",
+        ".github/workflows/"
+      ],
+      "exclude": [
+        "artifacts",
+        "coverage",
+        "__pycache__"
+      ],
+      "note": "Repository input snapshot for isolated real-API browser runs; this is not a backend-suite execution claim."
+    },
+    "recordedSourceFileCount": 377,
+    "sourceDifferenceFromFinal": {
+      "frontend/e2e/sprint3-responsive.spec.ts": "57d1627facf0bf99fbfbc9d7aca90717ec049500574175e41526ea4c1b5a91e1"
+    },
+    "finalFilesAbsentAtStart": [],
+    "executionPhase": "second-full",
+    "phaseNote": "Second complete browser execution, before the final admin logout URL assertion correction. Its original counts and failure remain unchanged. The later focused follow-up is not another full-suite run.",
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "605d16ede6d8615dad9b2d5e2414af20368e5086ff2b4382dc15de9fddca2c34",
+    "log": "logs/browser-phone-regression-final.txt"
+  },
+  {
+    "label": "frontend-defects",
+    "command": [
+      "npm",
+      "run",
+      "test:defects",
+      "--",
+      "--json",
+      "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/frontend-defects/results.json"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:38:27.046173+00:00",
+    "environment": {
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 1,
+    "finishedAt": "2026-10-17T07:38:33.774042+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/"
+      ],
+      "exclude": [
+        "frontend/e2e/",
+        "paths containing playwright"
+      ],
+      "note": "Frontend source/config/test snapshot; unrelated backend and browser files are not applicable."
+    },
+    "recordedSourceFileCount": 216,
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "35779dd65ed22c605d15eb17b019efcaa9aeaada1aadeeaa17c5a914d815d7af",
+    "log": "logs/frontend-defects.txt"
+  },
+  {
+    "label": "frontend-lint",
+    "command": [
+      "npm",
+      "run",
+      "lint"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:38:45.720889+00:00",
+    "environment": {
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T07:38:50.978131+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/"
+      ],
+      "exclude": [
+        "frontend/e2e/",
+        "paths containing playwright"
+      ],
+      "note": "Frontend source/config/test snapshot; unrelated backend and browser files are not applicable."
+    },
+    "recordedSourceFileCount": 216,
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "427a6bed555ba685c47a9ca53eb447f3d8d7b6b08647edec13eb85ee6f89b65b",
+    "log": "logs/frontend-lint.txt"
+  },
+  {
+    "label": "frontend-regression",
+    "command": [
+      "npm",
+      "run",
+      "test:coverage",
+      "--",
+      "--json",
+      "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/frontend-regression/results.json",
+      "--coverageDirectory=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/frontend-regression/coverage"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:36:18.844702+00:00",
+    "environment": {
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T07:37:08.796988+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/"
+      ],
+      "exclude": [
+        "frontend/e2e/",
+        "paths containing playwright"
+      ],
+      "note": "Frontend source/config/test snapshot; unrelated backend and browser files are not applicable."
+    },
+    "recordedSourceFileCount": 216,
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "836900c8b2a0118cb8d379522fc308bbabe822555196869a158b3b972110034d",
+    "log": "logs/frontend-regression.txt"
+  },
+  {
+    "label": "frontend-typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:38:51.024676+00:00",
+    "environment": {
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T07:38:54.227674+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/"
+      ],
+      "exclude": [
+        "frontend/e2e/",
+        "paths containing playwright"
+      ],
+      "note": "Frontend source/config/test snapshot; unrelated backend and browser files are not applicable."
+    },
+    "recordedSourceFileCount": 216,
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "ab7bd8a293cb6c002ed94fbe9653ce614f64cd591c0dce5e1c5170cdc9e09329",
+    "log": "logs/frontend-typecheck.txt"
+  },
+  {
+    "label": "ios-defects",
+    "command": [
+      "npm",
+      "run",
+      "test:ios:defects",
+      "--",
+      "--json",
+      "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/ios-defects/results.json"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:38:33.830138+00:00",
+    "environment": {
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 1,
+    "finishedAt": "2026-10-17T07:38:39.780715+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/"
+      ],
+      "exclude": [
+        "frontend/e2e/",
+        "paths containing playwright"
+      ],
+      "note": "Frontend source/config/test snapshot; unrelated backend and browser files are not applicable."
+    },
+    "recordedSourceFileCount": 216,
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "bdaecb09cf8416d88ff458200e427e55a9915cc042ee0e2064a835534413c173",
+    "log": "logs/ios-defects.txt"
+  },
+  {
+    "label": "ios-regression",
+    "command": [
+      "npm",
+      "run",
+      "test:ios",
+      "--",
+      "--json",
+      "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/ios-regression/results.json"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:37:08.840023+00:00",
+    "environment": {
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T07:37:45.896910+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/"
+      ],
+      "exclude": [
+        "frontend/e2e/",
+        "paths containing playwright"
+      ],
+      "note": "Frontend source/config/test snapshot; unrelated backend and browser files are not applicable."
+    },
+    "recordedSourceFileCount": 216,
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "f0b3c8746757b5470574e0deb1a8a27abdc5e6071de0de4a97cb700c4591b7cb",
+    "log": "logs/ios-regression.txt"
+  },
+  {
+    "label": "quality-lint",
+    "command": [
+      "npm",
+      "run",
+      "lint"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:42:42.638067+00:00",
+    "environment": {},
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T07:42:43.887288+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/",
+        "backend/",
+        "scripts/",
+        ".github/workflows/"
+      ],
+      "exclude": [
+        "artifacts",
+        "coverage",
+        "__pycache__"
+      ],
+      "note": "Complete repository input snapshot for final quality checks; command and cwd identify the actual checked scope."
+    },
+    "recordedSourceFileCount": 377,
+    "sourceDifferenceFromFinal": {
+      "frontend/e2e/sprint3-responsive.spec.ts": "57d1627facf0bf99fbfbc9d7aca90717ec049500574175e41526ea4c1b5a91e1"
+    },
+    "finalFilesAbsentAtStart": [],
+    "executionPhase": "quality-before-admin-followup",
+    "phaseNote": "Quality checks before the final responsive admin logout URL assertion correction.",
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "38cc0ea567ecad6dbccef2aec2d19e0a0d59a5e3e32cf94672f7eddac7f8a058",
+    "log": "logs/quality-lint.txt"
+  },
+  {
+    "label": "quality-lint-final",
+    "command": [
+      "npm",
+      "run",
+      "lint"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:47:08.156863+00:00",
+    "environment": {},
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T07:47:09.728838+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/",
+        "backend/",
+        "scripts/",
+        ".github/workflows/"
+      ],
+      "exclude": [
+        "artifacts",
+        "coverage",
+        "__pycache__"
+      ],
+      "note": "Complete repository input snapshot for final quality checks; command and cwd identify the actual checked scope."
+    },
+    "recordedSourceFileCount": 377,
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [],
+    "executionPhase": "quality-after-admin-followup",
+    "phaseNote": "Quality checks for the final sources including the corrected admin logout URL assertion.",
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "f0dafe744e6e732ff9f14a9401e677d491b480d1f261b923e04decdb4404be06",
+    "log": "logs/quality-lint-final.txt"
+  },
+  {
+    "label": "quality-typecheck",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:42:42.638067+00:00",
+    "environment": {},
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T07:42:46.366848+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/",
+        "backend/",
+        "scripts/",
+        ".github/workflows/"
+      ],
+      "exclude": [
+        "artifacts",
+        "coverage",
+        "__pycache__"
+      ],
+      "note": "Complete repository input snapshot for final quality checks; command and cwd identify the actual checked scope."
+    },
+    "recordedSourceFileCount": 377,
+    "sourceDifferenceFromFinal": {
+      "frontend/e2e/sprint3-responsive.spec.ts": "57d1627facf0bf99fbfbc9d7aca90717ec049500574175e41526ea4c1b5a91e1"
+    },
+    "finalFilesAbsentAtStart": [],
+    "executionPhase": "quality-before-admin-followup",
+    "phaseNote": "Quality checks before the final responsive admin logout URL assertion correction.",
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "f705192247033c577d92baa4fe90242ff3f57fb31a74835a18095566ee6fe84a",
+    "log": "logs/quality-typecheck.txt"
+  },
+  {
+    "label": "quality-typecheck-final",
+    "command": [
+      "npm",
+      "run",
+      "typecheck"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:47:08.156954+00:00",
+    "environment": {},
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T07:47:11.213116+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/",
+        "backend/",
+        "scripts/",
+        ".github/workflows/"
+      ],
+      "exclude": [
+        "artifacts",
+        "coverage",
+        "__pycache__"
+      ],
+      "note": "Complete repository input snapshot for final quality checks; command and cwd identify the actual checked scope."
+    },
+    "recordedSourceFileCount": 377,
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [],
+    "executionPhase": "quality-after-admin-followup",
+    "phaseNote": "Quality checks for the final sources including the corrected admin logout URL assertion.",
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "827f6bd3fb37ac3e38530e12374bef85d911f8c3e25d5cac8c8eb660663f4689",
+    "log": "logs/quality-typecheck-final.txt"
+  },
+  {
+    "label": "web-build",
+    "command": [
+      "npm",
+      "run",
+      "build:web"
+    ],
+    "cwd": "frontend",
+    "qaHead": "424cf6537372d78aa35cf2b937a7696d4daaba81",
+    "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+    "startedAt": "2026-10-17T07:36:18.844699+00:00",
+    "environment": {
+      "EXPO_PUBLIC_API_URL": "/api/v1",
+      "EXPO_PUBLIC_USE_DEMO_API": "false",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "exitCode": 0,
+    "finishedAt": "2026-10-17T07:36:29.700978+00:00",
+    "changedDuringRun": [],
+    "recordedSourceScope": {
+      "include": [
+        "frontend/"
+      ],
+      "exclude": [
+        "frontend/__tests__/",
+        "frontend/e2e/",
+        "paths containing playwright"
+      ],
+      "note": "Build input snapshot; application tests and backend source are not build inputs."
+    },
+    "recordedSourceFileCount": 112,
+    "sourceDifferenceFromFinal": {},
+    "finalFilesAbsentAtStart": [],
+    "sourceReference": "source-manifest.json#finalSourceSha256",
+    "originalExecutionSha256": "7931e9c87987f1d0b7bcf91535fca76c2227d74d4c1e1c10a3d2188e00279989",
+    "log": "logs/web-build.txt"
+  }
+]

@@ -1,0 +1,49 @@
+{
+  "at": "2026-10-15T21:50:50.611641+00:00",
+  "fixture": "qa-native-avatar.png",
+  "purpose": "User-approved synthetic QA avatar only; no personal gallery files read.",
+  "results": [
+    {
+      "argv": [
+        "xcrun",
+        "simctl",
+        "addmedia",
+        "579524DE-E6EA-42AE-9AB7-12FD385A0D08",
+        "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-native-remaining-20261016/services/qa-native-avatar.png"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "argv": [
+        "/Users/zhouzhny/Library/Android/sdk/platform-tools/adb",
+        "-s",
+        "emulator-5554",
+        "push",
+        "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-native-remaining-20261016/services/qa-native-avatar.png",
+        "/sdcard/Pictures/qa-native-avatar.png"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-native-remaining-20261016/services/qa-native-avatar.png: 1 file pushed, 0 skipped. 1.9 MB/s (1361 bytes in 0.001s)\n"
+    },
+    {
+      "argv": [
+        "/Users/zhouzhny/Library/Android/sdk/platform-tools/adb",
+        "-s",
+        "emulator-5554",
+        "shell",
+        "am",
+        "broadcast",
+        "-a",
+        "android.intent.action.MEDIA_SCANNER_SCAN_FILE",
+        "-d",
+        "file:///sdcard/Pictures/qa-native-avatar.png"
+      ],
+      "exitCode": 0,
+      "stdout": "Broadcasting: Intent { act=android.intent.action.MEDIA_SCANNER_SCAN_FILE dat=file:///... flg=0x400000 }\nBroadcast completed: result=0\n",
+      "stderr": ""
+    }
+  ]
+}

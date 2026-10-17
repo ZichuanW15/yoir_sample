@@ -1,0 +1,18 @@
+{
+  "interceptedWrites": 0,
+  "injectedFailureReached": false,
+  "stored": {
+    "id": "d861906f-871b-4ecb-9599-b7a9a7acde79",
+    "questionnaireVersion": "yoir-six-step-v1",
+    "revision": 0,
+    "status": "in_progress",
+    "currentStep": 1,
+    "totalSteps": 6,
+    "completedSteps": [],
+    "answers": {
+      "other": {}
+    },
+    "createdAt": "2026-10-15T21:02:23.904693Z",
+    "updatedAt": "2026-10-15T21:02:23.904693Z"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "recordedAt": "2026-10-17T06:49:07.756742+00:00",
+  "python": "3.12.14",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "node": "v20.20.2",
+  "npm": "10.8.2",
+  "postgres": "psql (PostgreSQL) 16.15 (Homebrew)",
+  "timezone": "Australia/Melbourne",
+  "apiDatabase": "Dedicated loopback PostgreSQL, port55446, yoir_area_test; migration tests own separate schemas",
+  "liveDatabase": "Separate yoir_area_live_test; API on43127",
+  "browser": "Chromium, fresh Expo web export, temporary SQLite API on43126",
+  "providers": "Synthetic fixtures, stub payment and controlled email transport; no external provider contact in these runs"
+}

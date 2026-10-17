@@ -125,4 +125,42 @@ describe('diagnosis API client', () => {
       'http://localhost:8000/api/v1/counsellors?query=interview',
     );
   });
+
+  test.each([
+    [400, 'VALIDATION_ERROR', 'Answer is invalid.'],
+    [409, 'REVISION_CONFLICT', 'Progress changed on another device.'],
+    [503, 'UNAVAILABLE', 'Save unavailable.'],
+  ])('preserves save rejection %s without fabricating a confirmed revision', async (status, code, message) => {
+    fetchMock.mockResolvedValue(jsonResponse({ code, message, requestId: 'diagnosis-save' }, status));
+    await expect(api.saveDiagnosisStep(record.id, 'tried', {
+      questionnaireVersion: questionnaire.version, expectedRevision: 7,
+      value: ['applications', 'other'], other: 'Volunteering',
+    }, TOKEN)).rejects.toMatchObject({ status, body: { code, message } });
+    expect(fetchMock).toHaveBeenCalledTimes(1);
+    expect(JSON.parse(String(fetchMock.mock.calls[0][1]?.body))).toEqual({
+      questionnaireVersion: questionnaire.version, expectedRevision: 7,
+      value: ['applications', 'other'], other: 'Volunteering',
+    });
+    expect(fetchMock.mock.calls[0][1]?.headers).toMatchObject({ Authorization: `Bearer ${TOKEN}` });
+  });
+
+  test.each([403, 404])('preserves restricted or absent direction status %s', async (status) => {
+    fetchMock.mockResolvedValue(jsonResponse({ code: 'NOT_AVAILABLE', message: 'Direction unavailable.', requestId: 'direction' }, status));
+    await expect(api.getDiagnosisDirection(record.id, TOKEN)).rejects.toMatchObject({ status });
+    await expect(api.getDiagnosisMarketplaceCriteria(record.id, TOKEN)).rejects.toMatchObject({ status });
+    expect(fetchMock.mock.calls.every(([, init]) => (init?.headers as Record<string, string>).Authorization === `Bearer ${TOKEN}`)).toBe(true);
+  });
+
+  test('encodes matching query characters and omits empty filters', async () => {
+    fetchMock.mockResolvedValue(jsonResponse([]));
+    await api.listServices('  CV & interview / practice  ', 'online');
+    await api.listServices('  ', null);
+    await api.listCounsellors('  ');
+    expect(fetchMock.mock.calls.map(([url]) => String(url))).toEqual([
+      'http://localhost:8000/api/v1/services?query=CV%20%26%20interview%20%2F%20practice&modality=online',
+      'http://localhost:8000/api/v1/services',
+      'http://localhost:8000/api/v1/counsellors',
+    ]);
+  });
+
 });

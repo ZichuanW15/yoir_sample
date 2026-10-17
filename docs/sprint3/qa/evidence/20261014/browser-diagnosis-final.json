@@ -1,0 +1,74 @@
+{
+  "stats": {
+    "startTime": "2026-10-14T06:28:47.089Z",
+    "duration": 33139.839,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "errors": [],
+  "cases": [
+    {
+      "file": "sprint3-diagnosis.spec.ts",
+      "line": 53,
+      "title": "US09/10/11 local Web diagnosis validates, resumes after login and isolates accounts",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 11132,
+          "startTime": "2026-10-14T06:28:48.237Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "screens/browser-diagnosis-final-1-sprint3-web-screen.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-diagnosis.spec.ts",
+      "line": 85,
+      "title": "US12/13 local direction leads through a real professional and service to a stub booking",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 9807,
+          "startTime": "2026-10-14T06:28:59.450Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "browser-diagnosis-final-server-diagnosis-observation.json",
+            "screens/browser-diagnosis-final-2-sprint3-web-screen.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-diagnosis.spec.ts",
+      "line": 131,
+      "title": "US09/12 cancelled local retake preserves the old direction and completed retake replaces it",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 10715,
+          "startTime": "2026-10-14T06:29:09.263Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "screens/browser-diagnosis-final-3-sprint3-web-screen.png"
+          ]
+        }
+      ]
+    }
+  ]
+}

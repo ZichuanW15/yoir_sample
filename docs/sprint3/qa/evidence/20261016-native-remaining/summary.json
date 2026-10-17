@@ -1,0 +1,135 @@
+{
+  "status": "FINAL_LOCAL_RUN_ACCEPTANCE_INCOMPLETE",
+  "date": "2026-10-16",
+  "timezone": "Australia/Melbourne",
+  "baseline": "cdcc44e66d647a9c5993736b797312b495715a3f",
+  "scope": {
+    "caseIds": [
+      "D01",
+      "D04",
+      "D05",
+      "D06",
+      "D07",
+      "D08",
+      "D09",
+      "D10",
+      "D11",
+      "D12",
+      "D13"
+    ],
+    "platforms": [
+      "ios",
+      "android"
+    ],
+    "casePlatformCount": 22,
+    "environment": "Native Expo Go, owned local SQLite API, development-stub payment; Android operated through IntelliJ IDEA Running Devices; iOS through Xcode Device Hub"
+  },
+  "uiEvidenceFrozenAtUtc": "2026-10-15T23:20:00.929Z",
+  "caseStatusCounts": {
+    "FAIL": 8,
+    "PASS": 11,
+    "BLOCKED": 3
+  },
+  "platformCaseStatusCounts": {
+    "ios": {
+      "FAIL": 4,
+      "PASS": 6,
+      "BLOCKED": 1
+    },
+    "android": {
+      "FAIL": 4,
+      "PASS": 5,
+      "BLOCKED": 2
+    }
+  },
+  "substepStatusCounts": {
+    "PASS": 84,
+    "FAIL": 9,
+    "BLOCKED": 15,
+    "NOT RUN": 2
+  },
+  "substeps": 110,
+  "observationCounts": {
+    "root": 106,
+    "ios": 104,
+    "rootScope": "Mainly Android; includes initial iOS onboarding failure. Observation count is not case count."
+  },
+  "priorRun": {
+    "path": "../20261016-native",
+    "caseIds": [
+      "D02",
+      "D03"
+    ],
+    "passed": 4,
+    "countedInThisRun": false
+  },
+  "failedExpectations": [
+    {
+      "case": "D01",
+      "platforms": [
+        "ios",
+        "android"
+      ],
+      "finding": "An onboarding-state503 opens full workspace for incomplete candidate."
+    },
+    {
+      "case": "D07",
+      "platforms": [
+        "ios",
+        "android"
+      ],
+      "finding": "Editing service title changes historical paid booking/receipt/admin payment title; stored amounts and identities remain stable."
+    },
+    {
+      "case": "D09",
+      "platforms": [
+        "ios",
+        "android"
+      ],
+      "finding": "Owner Bookings503 displays Nothing has been booked yet; separate Payments error/retry works."
+    },
+    {
+      "case": "D13",
+      "platforms": [
+        "ios",
+        "android"
+      ],
+      "finding": "Resend allows two real202 requests while first request is still pending."
+    }
+  ],
+  "blockedWholeCases": [
+    {
+      "case": "D05",
+      "platform": "android",
+      "reason": "API36 scoped picker did not offer a separate permission-denial branch; five other substeps passed."
+    },
+    {
+      "case": "D12",
+      "platform": "ios",
+      "reason": "No real inbox/received link; new credential entry/submission requires manual user handoff. True offline substep not run."
+    },
+    {
+      "case": "D12",
+      "platform": "android",
+      "reason": "No real inbox/received link; new credential entry/submission requires manual user handoff. True offline substep not run."
+    }
+  ],
+  "externalLimits": [
+    "No real email delivery or received-link routing",
+    "No provider onboarding/return/cancellation",
+    "No notifications backend delivery/read state",
+    "No signed build, physical device, deployed environment or PostgreSQL acceptance",
+    "No password reset/token lifecycle/session-policy acceptance"
+  ],
+  "sourceIntegrity": {
+    "record": "services/source-integrity-final.json",
+    "filesMatched": 346,
+    "differences": 0
+  },
+  "finalReadback": "services/final-reconciliation.json",
+  "serviceCleanup": "services/cleanup.json",
+  "deviceMetadata": "device-final-facts.json",
+  "deviceNetworkCleanup": "device-network-cleanup.json",
+  "restartEvidenceLimit": "Native observations record restored screens after root/iOS lifecycle actions; a separate original lifecycle-command log was not retained. Device metadata is not historical restart evidence.",
+  "publication": "Local evidence package only; credentials and executable harness omitted."
+}

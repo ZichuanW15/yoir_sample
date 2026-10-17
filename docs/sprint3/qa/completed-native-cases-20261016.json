@@ -1,0 +1,394 @@
+{
+  "scope": "Completed whole-case PASS/FAIL verdicts selected from the dated Expo Go simulator/emulator execution records. Checkpoints are not counted as extra cases.",
+  "executionDate": "2026-10-16 Australia/Melbourne",
+  "productBaseline": "cdcc44e66d647a9c5993736b797312b495715a3f",
+  "sources": [
+    {
+      "path": "evidence/20261016-native/summary.json",
+      "sha256": "a3133831361fd8e422fc0bc8c04908ce4445bea25b4f243f04669ad8cf2ca7d2"
+    },
+    {
+      "path": "evidence/20261016-native-remaining/case-ledger.json",
+      "sha256": "ed4276ae1a17343f6d5ef408561388a2269e9abcca193e78915f437ba37813f9"
+    }
+  ],
+  "counts": {
+    "PASS": 15,
+    "FAIL": 8
+  },
+  "completedCasePlatformCount": 23,
+  "cases": [
+    {
+      "case": "D02",
+      "platform": "ios",
+      "status": "PASS",
+      "source": "evidence/20261016-native/summary.json",
+      "boundary": "Expo Go, same-device local diagnosis"
+    },
+    {
+      "case": "D03",
+      "platform": "ios",
+      "status": "PASS",
+      "source": "evidence/20261016-native/summary.json",
+      "boundary": "Expo Go, same-device local diagnosis"
+    },
+    {
+      "case": "D02",
+      "platform": "android",
+      "status": "PASS",
+      "source": "evidence/20261016-native/summary.json",
+      "boundary": "Expo Go, same-device local diagnosis"
+    },
+    {
+      "case": "D03",
+      "platform": "android",
+      "status": "PASS",
+      "source": "evidence/20261016-native/summary.json",
+      "boundary": "Expo Go, same-device local diagnosis"
+    },
+    {
+      "case": "D01",
+      "platform": "ios",
+      "status": "FAIL",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "ios-d01-entry",
+        "ios-d01-setup",
+        "ios-d01-restart",
+        "ios-d01-failed-read",
+        "d01-onboarding-read-failure",
+        "d01-onboarding-loading",
+        "d01-explicit-relogin-restored",
+        "d01-relogin-profile-values",
+        "d01-relogin-workspace-settled"
+      ]
+    },
+    {
+      "case": "D01",
+      "platform": "android",
+      "status": "FAIL",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "android-d01-entry",
+        "android-d01-validation",
+        "android-d01-setup",
+        "android-d01-04-restart-restored",
+        "android-d01-05-relogin-restored",
+        "android-d01-06-failed-read-opens-workspace",
+        "android-d01-07-loading-gate",
+        "android-d01-09-pending-onboarding",
+        "android-d01-10-loading-resolved"
+      ]
+    },
+    {
+      "case": "D04",
+      "platform": "ios",
+      "status": "PASS",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "d04-initial-public",
+        "d04-privacy-save-failed",
+        "d04-failed-setting-reopened",
+        "d04-partial-saved",
+        "d04-partial-other-account",
+        "d04-restricted-saved",
+        "d04-restricted-other-account",
+        "d04-public-restored",
+        "d04-restart-public-restored",
+        "d04-public-other-account-restored"
+      ]
+    },
+    {
+      "case": "D04",
+      "platform": "android",
+      "status": "PASS",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "android-d04-01-privacy-failure",
+        "android-d04-02-failure-not-saved",
+        "android-d04-03-partial-saved",
+        "android-d04-04-partial-other-view",
+        "android-d04-05-restricted-saved",
+        "android-d04-06-restricted-visitor",
+        "android-d04-07-restricted-other-account",
+        "android-d04-08-public-restored",
+        "android-d04-09-public-after-restart",
+        "android-d04-10-public-visitor-restored"
+      ]
+    },
+    {
+      "case": "D05",
+      "platform": "ios",
+      "status": "PASS",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "d05-profile-save-failed",
+        "d05-profile-save-recovered",
+        "d05-photo-permission-denied",
+        "d05-restart-profile-restored",
+        "d05-photo-denied-message",
+        "d05-limited-photo-access",
+        "d05-picker-cancel",
+        "d05-photo-saved",
+        "d05-other-account-isolation"
+      ]
+    },
+    {
+      "case": "D06",
+      "platform": "ios",
+      "status": "PASS",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "ios-d06-failed-submit",
+        "ios-d06-submit-retry",
+        "d06-submission-draft",
+        "d06-leave-pending",
+        "d06-reject-cancel",
+        "d06-empty-reason-validation",
+        "d06-decision-failed",
+        "d06-rejection-saved",
+        "d06-redecided-verified",
+        "d06-verified-confirmed",
+        "d06-users-after-decision",
+        "d06-candidate-verified-workspace",
+        "d06-candidate-verified-detail",
+        "d06-profile-focus-after-rejection",
+        "d06-workspace-focus-after-rejection",
+        "d06-candidate-rejected-reread",
+        "d06-workspace-rejected-settled",
+        "d06-profile-rejected-settled",
+        "d06-users-mounted-verified",
+        "d06-owner-rerejected-from-users",
+        "d06-mounted-users-refreshed-rejected",
+        "d06-final-native-verified"
+      ]
+    },
+    {
+      "case": "D06",
+      "platform": "android",
+      "status": "PASS",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "android-d06-01-empty-url",
+        "android-d06-02-submission-failure-retains",
+        "android-d06-03-retry-submitted",
+        "android-d06-04-owner-pending",
+        "android-d06-05-approve-confirmation",
+        "android-d06-06-leave-pending",
+        "android-d06-07-empty-reason",
+        "android-d06-08-decision-failure",
+        "android-d06-09-rejected",
+        "android-d06-10-verified",
+        "android-d06-11-candidate-verified-workspace",
+        "android-d06-12-candidate-profile",
+        "android-d06-13-profile-focus-refresh",
+        "android-d06-14-workspace-focus-refresh",
+        "android-d06-14-users-before-decision",
+        "android-d06-15-users-refocused-rejected",
+        "android-d06-16-users-refocused-approved"
+      ]
+    },
+    {
+      "case": "D07",
+      "platform": "ios",
+      "status": "FAIL",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "d07-stub-checkout",
+        "d07-booking-confirmed",
+        "d07-original-receipt",
+        "d07-service-edited",
+        "d07-historical-title-mutated",
+        "d07-receipt-after-edit",
+        "d07-service-withdrawn",
+        "d07-buyer-history-after-withdrawal",
+        "d07-withdrawn-service-unbookable",
+        "d07-receipt-after-withdrawal"
+      ]
+    },
+    {
+      "case": "D07",
+      "platform": "android",
+      "status": "FAIL",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "android-d07-01-service-before",
+        "android-d07-02-review-order",
+        "android-d07-03-stub-confirmation",
+        "android-d07-04-receipt-before",
+        "android-d07-05-edit-draft",
+        "android-d07-06-listing-edited",
+        "android-d07-07-withdrawn",
+        "android-d07-08-public-withdrawal",
+        "android-d07-09-history-after-withdrawal",
+        "android-d07-10-receipt-after-withdrawal",
+        "android-d07-11-withdrawn-direct-route"
+      ]
+    },
+    {
+      "case": "D08",
+      "platform": "ios",
+      "status": "PASS",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "d08-upcoming-bookings",
+        "d08-online-detail",
+        "d08-external-handoff",
+        "d08-return-from-browser",
+        "d08-inperson-detail",
+        "d08-missing-delivery-detail",
+        "d08-past-bookings",
+        "d08-other-account-empty-upcoming",
+        "d08-other-account-own-past"
+      ]
+    },
+    {
+      "case": "D08",
+      "platform": "android",
+      "status": "PASS",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "android-d08-01-upcoming",
+        "android-d08-02-browser-handoff",
+        "android-d08-03-browser-return",
+        "android-d08-04-inperson-detail",
+        "android-d08-05-missing-address",
+        "android-d08-06-past-cancelled",
+        "android-d08-07-other-coming-up",
+        "android-d08-08-other-past"
+      ]
+    },
+    {
+      "case": "D09",
+      "platform": "ios",
+      "status": "FAIL",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "d09-payment-detail",
+        "d09-payment-read-failed",
+        "d09-payment-read-recovered",
+        "d09-native-cancel-transition",
+        "d09-owner-cancelled-order-reread",
+        "d09-owner-bookings-success",
+        "d09-bookings-failed-false-empty",
+        "d09-bookings-fresh-recovery"
+      ]
+    },
+    {
+      "case": "D09",
+      "platform": "android",
+      "status": "FAIL",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "android-d09-01-payment-list",
+        "android-d09-02-payment-detail",
+        "android-d09-03-payment-reference",
+        "android-d09-04-list-failure",
+        "android-d09-05-list-recovery",
+        "android-d09-07-owner-completed-list",
+        "android-d09-08-payment-success-before-refocus",
+        "android-d09-09-payment-refocus-failed",
+        "android-d09-10-payment-refocus-recovered",
+        "android-d09-11-owner-cancelled-order",
+        "android-d09-12-cancelled-order-money"
+      ]
+    },
+    {
+      "case": "D10",
+      "platform": "ios",
+      "status": "PASS",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "d10-empty-review-validation",
+        "d10-review-failed-draft",
+        "d10-review-saved-public-service",
+        "d10-public-professional-rating",
+        "d10-unrated-service"
+      ]
+    },
+    {
+      "case": "D10",
+      "platform": "android",
+      "status": "PASS",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "android-d10-01-review-gating",
+        "android-d10-02-rating-required",
+        "android-d10-03-text-required",
+        "android-d10-04-failure-retains",
+        "android-d10-05-doubletap-pending",
+        "android-d10-06-service-rating",
+        "android-d10-07-public-profile",
+        "android-d10-08-unrated-service"
+      ]
+    },
+    {
+      "case": "D11",
+      "platform": "ios",
+      "status": "PASS",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "d11-new-time-selected",
+        "d11-move-failed-retains-original",
+        "d11-failed-final",
+        "d11-occupied-conflict",
+        "d11-original-after-conflict",
+        "d11-successful-move",
+        "d11-nonparticipant-denied",
+        "d11-professional-move-visible",
+        "d11-professional-move-detail"
+      ]
+    },
+    {
+      "case": "D11",
+      "platform": "android",
+      "status": "PASS",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "android-d11-01-original-detail",
+        "android-d11-02-valid-slot-list",
+        "android-d11-03-write-failure",
+        "android-d11-04-selected-before-race",
+        "android-d11-05-real-conflict",
+        "android-d11-06-moved-detail",
+        "android-d11-07-buyer-list",
+        "android-d11-08-counsellor-detail",
+        "android-d11-08-other-booking-denied",
+        "android-d11-09-owner-rescheduled-detail"
+      ]
+    },
+    {
+      "case": "D13",
+      "platform": "ios",
+      "status": "FAIL",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "d13-notifications-boundary",
+        "d13-payout-settings",
+        "d13-payout-action-blocked",
+        "d13-unverified-banner",
+        "d13-resend-doubletap-pending",
+        "d13-resend-settled",
+        "d13-resend-coordinate-pending",
+        "d13-resend-completed",
+        "d13-coordinate-doubletap"
+      ]
+    },
+    {
+      "case": "D13",
+      "platform": "android",
+      "status": "FAIL",
+      "source": "evidence/20261016-native-remaining/case-ledger.json",
+      "checkpointIds": [
+        "android-d13-01-payout-state",
+        "android-d13-02-stub-receipt",
+        "android-d13-04-invalid-verify-link",
+        "android-d13-05-tax-readonly",
+        "android-d13-07-unverified-banner",
+        "android-d13-08-resend-double-tap",
+        "android-d13-09-notifications-ui",
+        "android-d13-10-missing-verification-token"
+      ]
+    }
+  ]
+}

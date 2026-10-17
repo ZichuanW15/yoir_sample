@@ -5,6 +5,7 @@ deployment, or changes product sources. The seed is the application's fixture,
 not mocked API responses. Playwright terminates this owned server after the run.
 """
 import os
+from contextlib import asynccontextmanager
 from pathlib import Path
 import sys
 from tempfile import TemporaryDirectory
@@ -33,8 +34,22 @@ def main():
         )
         os.environ.pop("YOIR_QA_ALLOW_DATABASE_RESET", None)
         sys.path.insert(0, str(ROOT / "backend"))
+        from app.db import SessionLocal
+        from app.main import app
+        from sprint3_fixtures import seed_sprint3
         import uvicorn
-        uvicorn.run("app.main:app", host="127.0.0.1", port=port, log_level="warning")
+
+        application_lifespan = app.router.lifespan_context
+
+        @asynccontextmanager
+        async def browser_lifespan(application):
+            async with application_lifespan(application):
+                with SessionLocal() as db:
+                    seed_sprint3(db, Path(temporary) / "web_test.db")
+                yield
+
+        app.router.lifespan_context = browser_lifespan
+        uvicorn.run(app, host="127.0.0.1", port=port, log_level="warning")
 
 
 if __name__ == "__main__":

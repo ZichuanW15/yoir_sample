@@ -1,0 +1,30 @@
+{
+  "checkedAt": "2026-10-14T06:36:10.290409+00:00",
+  "retainedFileHashesChecked": 46,
+  "markdownLinksChecked": "all local Markdown targets under docs/sprint3/qa",
+  "productFilesMatchOriginDev": true,
+  "defectReportHealth": {
+    "shared": {
+      "passed": 3,
+      "failed": 10,
+      "exitCode": 0
+    },
+    "ios": {
+      "passed": 3,
+      "failed": 11,
+      "exitCode": 0
+    },
+    "android": {
+      "passed": 3,
+      "failed": 11,
+      "exitCode": 0
+    },
+    "web": {
+      "passed": 0,
+      "failed": 5,
+      "exitCode": 0
+    }
+  },
+  "temporaryPostgresStopped": true,
+  "errors": []
+}

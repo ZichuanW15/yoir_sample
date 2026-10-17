@@ -1,0 +1,45 @@
+[
+  {
+    "at": "2026-10-15T21:26:59.387670+00:00",
+    "command": [
+      "/Users/zhouzhny/Library/Android/sdk/platform-tools/adb",
+      "-s",
+      "emulator-5554",
+      "shell",
+      "am",
+      "force-stop",
+      "host.exp.exponent"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "at": "2026-10-15T21:26:59.400750+00:00",
+    "command": [
+      "/Users/zhouzhny/Library/Android/sdk/platform-tools/adb",
+      "-s",
+      "emulator-5554",
+      "reverse",
+      "tcp:43189",
+      "tcp:43189"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "at": "2026-10-15T21:26:59.415410+00:00",
+    "command": [
+      "/Users/zhouzhny/Library/Android/sdk/platform-tools/adb",
+      "-s",
+      "emulator-5554",
+      "reverse",
+      "tcp:8099",
+      "tcp:8099"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

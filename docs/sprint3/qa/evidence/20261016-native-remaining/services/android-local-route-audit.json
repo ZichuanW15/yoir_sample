@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-15T22:47:58.845345+00:00",
+  "scope": "Native routes opened by manual browser clicks on local navigation fixture. No email delivery evidence. Ledger excludes query parameters and synthetic token values.",
+  "requests": [
+    {
+      "at": "2026-10-15T22:45:31.164594+00:00",
+      "method": "GET",
+      "path": "/api/v1/counsellors/qa-nr-android-pro",
+      "userId": null,
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:45:57.355031+00:00",
+      "method": "GET",
+      "path": "/api/v1/services/qa-nr-android-editable-service",
+      "userId": null,
+      "status": 404
+    },
+    {
+      "at": "2026-10-15T22:47:31.742207+00:00",
+      "method": "POST",
+      "path": "/api/v1/auth/email-verifications",
+      "userId": null,
+      "status": 400
+    }
+  ]
+}

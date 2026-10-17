@@ -1,0 +1,91 @@
+{
+  "kind": "Targeted end-of-run Android reverse-port cleanup",
+  "completedAtUtc": "2026-10-15T23:21:38.812576+00:00",
+  "deviceSerial": "emulator-5554",
+  "scope": "Remove only matching tcp:43189\u2192tcp:43189 and tcp:8099\u2192tcp:8099 mappings for the owned QA API and Metro. No remove-all, UI input, screenshot, app stop/relaunch, device shutdown, or unrelated mapping change.",
+  "ownershipAssessment": {
+    "classification": "Evidence-based inference; original mapping-creation log is not retained",
+    "basis": [
+      {
+        "source": "artifacts/qa/sprint3-native-20261016/device-cleanup.json",
+        "fact": "Earlier run removed both matching ports, then reverse --list returned empty at 2026-10-15T21:28:10.629671Z."
+      },
+      {
+        "source": "services/environment.json",
+        "fact": "This run owns API 127.0.0.1:43189 and Metro 127.0.0.1:8099, initialized at 2026-10-15T21:35:09.553367Z."
+      },
+      {
+        "source": "services/requests.jsonl and native UI observations",
+        "fact": "This run used those dedicated endpoints for actual native requests."
+      },
+      {
+        "source": "Parent task direction at cleanup",
+        "fact": "Parent accepted this inferred ownership and authorized removal only when both device and host port match; no claim of an unavailable creation log or direct observation of a no-overwrite setup command."
+      }
+    ],
+    "limit": "Earlier empty-list evidence and exclusive matching endpoint use support ownership. They do not constitute a separately retained creation/no-overwrite command log."
+  },
+  "actions": [
+    {
+      "atUtc": "2026-10-15T23:21:38.775788+00:00",
+      "command": [
+        "/Users/zhouzhny/Library/Android/sdk/platform-tools/adb",
+        "-s",
+        "emulator-5554",
+        "reverse",
+        "--list"
+      ],
+      "exitCode": 0,
+      "stdout": "host-11 tcp:43189 tcp:43189\nhost-11 tcp:8099 tcp:8099\n\n",
+      "stderr": ""
+    },
+    {
+      "atUtc": "2026-10-15T23:21:38.789190+00:00",
+      "command": [
+        "/Users/zhouzhny/Library/Android/sdk/platform-tools/adb",
+        "-s",
+        "emulator-5554",
+        "reverse",
+        "--remove",
+        "tcp:43189"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "atUtc": "2026-10-15T23:21:38.800590+00:00",
+      "command": [
+        "/Users/zhouzhny/Library/Android/sdk/platform-tools/adb",
+        "-s",
+        "emulator-5554",
+        "reverse",
+        "--remove",
+        "tcp:8099"
+      ],
+      "exitCode": 0,
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "atUtc": "2026-10-15T23:21:38.812547+00:00",
+      "command": [
+        "/Users/zhouzhny/Library/Android/sdk/platform-tools/adb",
+        "-s",
+        "emulator-5554",
+        "reverse",
+        "--list"
+      ],
+      "exitCode": 0,
+      "stdout": "\n",
+      "stderr": ""
+    }
+  ],
+  "removed": [
+    "tcp:43189",
+    "tcp:8099"
+  ],
+  "skippedOrFailed": [],
+  "afterListEmpty": true,
+  "deviceAndApplicationLifecycle": "Left running; no lifecycle command issued. Only the two recorded network reverse mappings were removed."
+}

@@ -1,0 +1,16 @@
+{
+  "capturedAtUtc": "2026-10-15T21:01:45.279177+00:00",
+  "files": {
+    "inventory-host.json": "6d4cba1799809f47be13b35b81fbe2a293b39022ed7ab63d82fc8f7541d77335",
+    "inventory.json": "2da7c0357ffc415fc15080464b58b1fd4b1f6f0a100033cdd1c7e3bdb9af3c88",
+    "native-ios-smoke/api.log": "a354104f44a629e01887293fc58bbc0dc38ed156953b8f49cd408c5b08ece3a4",
+    "native-ios-smoke/cleanup.json": "5dcea0e7d609f1b5666add7d99e8ca17a46439be5be52c2d14843a9859a88e89",
+    "native-ios-smoke/device-hub-ui-blocker.txt": "9d7705e28036d8620e49502e9ba1fd01342f6ca273276b8b26792a66cc13da20",
+    "native-ios-smoke/metro.log": "e9ec7c800b3b4819761939eb1883ae382144504d2724a72c8ee3594b0e810ff8",
+    "native-ios-smoke/run.json": "9fbd2ce53a7273295b959e5850134dbfb2e358f8b39f97ee0d513afb6fdcf091",
+    "native-ios-smoke/status.json": "49fee308a7d287d801165414ced5c17a5e0989dae9840f862785d4e4da255781",
+    "package-readiness.json": "566d1044a9547f8b9a3d9e7426363f4d1735fa62e76d014e4ef1d42c430f69ac",
+    "summary.json": "0b4ca826ba6bb74e582da4a45e1aab10967222a5f6d91db4dee44a4257d139fd",
+    "tooling.json": "48595a6a5ebe3dbef86de899df35256e6bfca8cd721f2c2d485fa02d79e8d4c0"
+  }
+}

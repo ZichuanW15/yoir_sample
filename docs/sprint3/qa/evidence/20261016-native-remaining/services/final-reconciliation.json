@@ -1,0 +1,573 @@
+{
+  "at": "2026-10-15T23:20:37.268287+00:00",
+  "scope": "Independent real API reads after all native actions; fixture/payment/provider boundaries remain unchanged. Image data is summarized only.",
+  "accounts": [
+    {
+      "platform": "ios",
+      "key": "buyer",
+      "loginStatus": 200,
+      "readStatuses": {
+        "/me/job-seeker-profile": 200,
+        "/me/profile-visibility": 200,
+        "/me/bookings": 200
+      },
+      "visibility": "public",
+      "profile": {
+        "name": "QA iOS Buyer",
+        "email": "i1@example.com",
+        "photoUrl": {
+          "isDataUri": true,
+          "mimeType": "image/jpeg",
+          "length": 3323,
+          "sha256": "ac991e5a817e97ecddedf61509b75c570273bd2951680cb2b8981f5327523477"
+        },
+        "headline": "iOS QA Analyst",
+        "careerGoals": "iOS QA career goal"
+      },
+      "bookings": [
+        {
+          "id": "c788e80d-e087-47e8-9c01-977a62048e48",
+          "orderId": "fed307bf-623d-4e57-95bb-76eaff2df633",
+          "startsAt": "2026-10-24T04:00:00Z",
+          "endsAt": "2026-10-24T05:00:00Z",
+          "status": "confirmed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-ios-move-booking",
+          "orderId": "qa-nr-ios-move-order",
+          "startsAt": "2026-10-24T03:00:00Z",
+          "endsAt": "2026-10-24T04:00:00Z",
+          "status": "confirmed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-ios-missing-booking",
+          "orderId": "qa-nr-ios-missing-order",
+          "startsAt": "2026-10-24T02:00:00Z",
+          "endsAt": "2026-10-24T03:00:00Z",
+          "status": "cancelled",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-ios-inperson-booking",
+          "orderId": "qa-nr-ios-inperson-order",
+          "startsAt": "2026-10-24T01:00:00Z",
+          "endsAt": "2026-10-24T02:00:00Z",
+          "status": "confirmed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-ios-occupied-booking",
+          "orderId": "qa-nr-ios-occupied-order",
+          "startsAt": "2026-10-24T00:00:00Z",
+          "endsAt": "2026-10-24T01:00:00Z",
+          "status": "confirmed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-ios-cancelled-booking",
+          "orderId": "qa-nr-ios-cancelled-order",
+          "startsAt": "2026-10-12T22:34:11.498496Z",
+          "endsAt": "2026-10-12T23:34:11.498496Z",
+          "status": "cancelled",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-ios-completed-booking",
+          "orderId": "qa-nr-ios-completed-order",
+          "startsAt": "2026-10-12T21:34:11.498496Z",
+          "endsAt": "2026-10-12T22:34:11.498496Z",
+          "status": "completed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        }
+      ]
+    },
+    {
+      "platform": "ios",
+      "key": "other",
+      "loginStatus": 200,
+      "readStatuses": {
+        "/me/job-seeker-profile": 200,
+        "/me/profile-visibility": 200,
+        "/me/bookings": 200
+      },
+      "visibility": "public",
+      "profile": {
+        "name": "QA iOS Other",
+        "email": "i2@example.com",
+        "photoUrl": null,
+        "headline": "",
+        "careerGoals": ""
+      },
+      "bookings": [
+        {
+          "id": "798592bc-e20d-4f2f-a522-e29c40be1dd8",
+          "orderId": "e0a77a7d-a954-47de-b614-8c7918163f93",
+          "startsAt": "2026-10-24T03:00:00Z",
+          "endsAt": "2026-10-24T04:00:00Z",
+          "status": "cancelled",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        }
+      ]
+    },
+    {
+      "platform": "ios",
+      "key": "owner",
+      "loginStatus": 200,
+      "readStatuses": {
+        "/admin/verifications": 200,
+        "/admin/bookings": 200,
+        "/admin/payments": 200
+      }
+    },
+    {
+      "platform": "ios",
+      "key": "pro",
+      "loginStatus": 200,
+      "readStatuses": {
+        "/me/counsellor-profile": 200,
+        "/me/onboarding-state": 200,
+        "/me/profile-visibility": 200,
+        "/me/services": 200,
+        "/me/availability-windows": 200,
+        "/me/payout-status": 200,
+        "/me/bookings": 200
+      },
+      "visibility": "public",
+      "onboarding": {
+        "profileComplete": true,
+        "verificationSubmitted": true,
+        "complete": true
+      },
+      "bookings": [
+        {
+          "id": "c788e80d-e087-47e8-9c01-977a62048e48",
+          "orderId": "fed307bf-623d-4e57-95bb-76eaff2df633",
+          "startsAt": "2026-10-24T04:00:00Z",
+          "endsAt": "2026-10-24T05:00:00Z",
+          "status": "confirmed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-ios-move-booking",
+          "orderId": "qa-nr-ios-move-order",
+          "startsAt": "2026-10-24T03:00:00Z",
+          "endsAt": "2026-10-24T04:00:00Z",
+          "status": "confirmed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "798592bc-e20d-4f2f-a522-e29c40be1dd8",
+          "orderId": "e0a77a7d-a954-47de-b614-8c7918163f93",
+          "startsAt": "2026-10-24T03:00:00Z",
+          "endsAt": "2026-10-24T04:00:00Z",
+          "status": "cancelled",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-ios-missing-booking",
+          "orderId": "qa-nr-ios-missing-order",
+          "startsAt": "2026-10-24T02:00:00Z",
+          "endsAt": "2026-10-24T03:00:00Z",
+          "status": "cancelled",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-ios-inperson-booking",
+          "orderId": "qa-nr-ios-inperson-order",
+          "startsAt": "2026-10-24T01:00:00Z",
+          "endsAt": "2026-10-24T02:00:00Z",
+          "status": "confirmed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-ios-occupied-booking",
+          "orderId": "qa-nr-ios-occupied-order",
+          "startsAt": "2026-10-24T00:00:00Z",
+          "endsAt": "2026-10-24T01:00:00Z",
+          "status": "confirmed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-ios-cancelled-booking",
+          "orderId": "qa-nr-ios-cancelled-order",
+          "startsAt": "2026-10-12T22:34:11.498496Z",
+          "endsAt": "2026-10-12T23:34:11.498496Z",
+          "status": "cancelled",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-ios-completed-booking",
+          "orderId": "qa-nr-ios-completed-order",
+          "startsAt": "2026-10-12T21:34:11.498496Z",
+          "endsAt": "2026-10-12T22:34:11.498496Z",
+          "status": "completed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        }
+      ]
+    },
+    {
+      "platform": "ios",
+      "key": "candidate",
+      "loginStatus": 200,
+      "readStatuses": {
+        "/me/counsellor-profile": 200,
+        "/me/onboarding-state": 200,
+        "/me/profile-visibility": 200,
+        "/me/services": 200,
+        "/me/availability-windows": 200,
+        "/me/payout-status": 200,
+        "/me/bookings": 200
+      },
+      "visibility": "public",
+      "onboarding": {
+        "profileComplete": true,
+        "verificationSubmitted": true,
+        "complete": true
+      },
+      "bookings": []
+    },
+    {
+      "platform": "ios",
+      "key": "new",
+      "loginStatus": 200,
+      "readStatuses": {
+        "/me/counsellor-profile": 200,
+        "/me/onboarding-state": 200,
+        "/me/profile-visibility": 200,
+        "/me/services": 200,
+        "/me/availability-windows": 200,
+        "/me/payout-status": 200,
+        "/me/bookings": 200
+      },
+      "visibility": "public",
+      "onboarding": {
+        "profileComplete": true,
+        "verificationSubmitted": true,
+        "complete": true
+      },
+      "bookings": []
+    },
+    {
+      "platform": "ios",
+      "key": "unverified",
+      "loginStatus": 200,
+      "readStatuses": {
+        "/me/job-seeker-profile": 200,
+        "/me/profile-visibility": 200,
+        "/me/bookings": 200
+      },
+      "visibility": "public",
+      "profile": {
+        "name": "QA iOS Unverified",
+        "email": "iu@example.com",
+        "photoUrl": null,
+        "headline": "",
+        "careerGoals": ""
+      },
+      "bookings": []
+    },
+    {
+      "platform": "android",
+      "key": "buyer",
+      "loginStatus": 200,
+      "readStatuses": {
+        "/me/job-seeker-profile": 200,
+        "/me/profile-visibility": 200,
+        "/me/bookings": 200
+      },
+      "visibility": "public",
+      "profile": {
+        "name": "QA Android Buyer",
+        "email": "a1@example.com",
+        "photoUrl": {
+          "isDataUri": true,
+          "mimeType": "image/jpeg",
+          "length": 1987,
+          "sha256": "c49411540c8fd510ecd016edfb5a70cd21201cac3d488bc7a0207c750fb66416"
+        },
+        "headline": "Qa tester",
+        "careerGoals": ""
+      },
+      "bookings": [
+        {
+          "id": "b4eb3216-d29f-42f7-adff-61cc6c32cb2a",
+          "orderId": "393a0365-f921-440f-a09b-43208ff00baf",
+          "startsAt": "2026-10-24T05:00:00Z",
+          "endsAt": "2026-10-24T06:00:00Z",
+          "status": "confirmed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-android-move-booking",
+          "orderId": "qa-nr-android-move-order",
+          "startsAt": "2026-10-24T03:00:00Z",
+          "endsAt": "2026-10-24T04:00:00Z",
+          "status": "confirmed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-android-missing-booking",
+          "orderId": "qa-nr-android-missing-order",
+          "startsAt": "2026-10-24T02:00:00Z",
+          "endsAt": "2026-10-24T03:00:00Z",
+          "status": "cancelled",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-android-inperson-booking",
+          "orderId": "qa-nr-android-inperson-order",
+          "startsAt": "2026-10-24T01:00:00Z",
+          "endsAt": "2026-10-24T02:00:00Z",
+          "status": "confirmed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-android-occupied-booking",
+          "orderId": "qa-nr-android-occupied-order",
+          "startsAt": "2026-10-24T00:00:00Z",
+          "endsAt": "2026-10-24T01:00:00Z",
+          "status": "confirmed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-android-cancelled-booking",
+          "orderId": "qa-nr-android-cancelled-order",
+          "startsAt": "2026-10-12T22:34:11.498496Z",
+          "endsAt": "2026-10-12T23:34:11.498496Z",
+          "status": "cancelled",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-android-completed-booking",
+          "orderId": "qa-nr-android-completed-order",
+          "startsAt": "2026-10-12T21:34:11.498496Z",
+          "endsAt": "2026-10-12T22:34:11.498496Z",
+          "status": "completed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        }
+      ]
+    },
+    {
+      "platform": "android",
+      "key": "other",
+      "loginStatus": 200,
+      "readStatuses": {
+        "/me/job-seeker-profile": 200,
+        "/me/profile-visibility": 200,
+        "/me/bookings": 200
+      },
+      "visibility": "public",
+      "profile": {
+        "name": "QA Android Other",
+        "email": "a2@example.com",
+        "photoUrl": null,
+        "headline": "",
+        "careerGoals": ""
+      },
+      "bookings": [
+        {
+          "id": "6dce94cc-fd6a-4c62-aaca-4a12b79384f6",
+          "orderId": "b6542596-cabf-4b0d-ab07-8a51a0de82aa",
+          "startsAt": "2026-10-24T03:00:00Z",
+          "endsAt": "2026-10-24T04:00:00Z",
+          "status": "cancelled",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        }
+      ]
+    },
+    {
+      "platform": "android",
+      "key": "owner",
+      "loginStatus": 200,
+      "readStatuses": {
+        "/admin/verifications": 200,
+        "/admin/bookings": 200,
+        "/admin/payments": 200
+      }
+    },
+    {
+      "platform": "android",
+      "key": "pro",
+      "loginStatus": 200,
+      "readStatuses": {
+        "/me/counsellor-profile": 200,
+        "/me/onboarding-state": 200,
+        "/me/profile-visibility": 200,
+        "/me/services": 200,
+        "/me/availability-windows": 200,
+        "/me/payout-status": 200,
+        "/me/bookings": 200
+      },
+      "visibility": "public",
+      "onboarding": {
+        "profileComplete": true,
+        "verificationSubmitted": true,
+        "complete": true
+      },
+      "bookings": [
+        {
+          "id": "b4eb3216-d29f-42f7-adff-61cc6c32cb2a",
+          "orderId": "393a0365-f921-440f-a09b-43208ff00baf",
+          "startsAt": "2026-10-24T05:00:00Z",
+          "endsAt": "2026-10-24T06:00:00Z",
+          "status": "confirmed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-android-move-booking",
+          "orderId": "qa-nr-android-move-order",
+          "startsAt": "2026-10-24T03:00:00Z",
+          "endsAt": "2026-10-24T04:00:00Z",
+          "status": "confirmed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "6dce94cc-fd6a-4c62-aaca-4a12b79384f6",
+          "orderId": "b6542596-cabf-4b0d-ab07-8a51a0de82aa",
+          "startsAt": "2026-10-24T03:00:00Z",
+          "endsAt": "2026-10-24T04:00:00Z",
+          "status": "cancelled",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-android-missing-booking",
+          "orderId": "qa-nr-android-missing-order",
+          "startsAt": "2026-10-24T02:00:00Z",
+          "endsAt": "2026-10-24T03:00:00Z",
+          "status": "cancelled",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-android-inperson-booking",
+          "orderId": "qa-nr-android-inperson-order",
+          "startsAt": "2026-10-24T01:00:00Z",
+          "endsAt": "2026-10-24T02:00:00Z",
+          "status": "confirmed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-android-occupied-booking",
+          "orderId": "qa-nr-android-occupied-order",
+          "startsAt": "2026-10-24T00:00:00Z",
+          "endsAt": "2026-10-24T01:00:00Z",
+          "status": "confirmed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-android-cancelled-booking",
+          "orderId": "qa-nr-android-cancelled-order",
+          "startsAt": "2026-10-12T22:34:11.498496Z",
+          "endsAt": "2026-10-12T23:34:11.498496Z",
+          "status": "cancelled",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        },
+        {
+          "id": "qa-nr-android-completed-booking",
+          "orderId": "qa-nr-android-completed-order",
+          "startsAt": "2026-10-12T21:34:11.498496Z",
+          "endsAt": "2026-10-12T22:34:11.498496Z",
+          "status": "completed",
+          "paymentStatus": "paid",
+          "amountMinor": 8450
+        }
+      ]
+    },
+    {
+      "platform": "android",
+      "key": "candidate",
+      "loginStatus": 200,
+      "readStatuses": {
+        "/me/counsellor-profile": 200,
+        "/me/onboarding-state": 200,
+        "/me/profile-visibility": 200,
+        "/me/services": 200,
+        "/me/availability-windows": 200,
+        "/me/payout-status": 200,
+        "/me/bookings": 200
+      },
+      "visibility": "public",
+      "onboarding": {
+        "profileComplete": true,
+        "verificationSubmitted": true,
+        "complete": true
+      },
+      "bookings": []
+    },
+    {
+      "platform": "android",
+      "key": "new",
+      "loginStatus": 200,
+      "readStatuses": {
+        "/me/counsellor-profile": 200,
+        "/me/onboarding-state": 200,
+        "/me/profile-visibility": 200,
+        "/me/services": 200,
+        "/me/availability-windows": 200,
+        "/me/payout-status": 200,
+        "/me/bookings": 200
+      },
+      "visibility": "public",
+      "onboarding": {
+        "profileComplete": true,
+        "verificationSubmitted": true,
+        "complete": true
+      },
+      "bookings": []
+    },
+    {
+      "platform": "android",
+      "key": "unverified",
+      "loginStatus": 200,
+      "readStatuses": {
+        "/me/job-seeker-profile": 200,
+        "/me/profile-visibility": 200,
+        "/me/bookings": 200
+      },
+      "visibility": "public",
+      "profile": {
+        "name": "QA Android Unverified",
+        "email": "au@example.com",
+        "photoUrl": null,
+        "headline": "",
+        "careerGoals": ""
+      },
+      "bookings": []
+    }
+  ],
+  "allLogins200": true,
+  "allReads200": true,
+  "activeFaultRules": []
+}

@@ -15,7 +15,7 @@ jest.mock('expo-router', () => {
   const React = jest.requireActual('react');
   const { Text } = jest.requireActual('react-native');
   return {
-    router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: jest.fn(() => true) },
+    router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: jest.fn(() => true), setParams: jest.fn() },
     Redirect: ({ href }: { href: string }) => React.createElement(Text, { testID: 'redirect' }, href),
     useFocusEffect: (callback: () => void) => React.useEffect(callback, [callback]),
     useLocalSearchParams: jest.fn(() => ({ serviceId: 'service-1' })),

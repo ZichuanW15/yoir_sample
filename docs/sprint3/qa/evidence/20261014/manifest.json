@@ -1,0 +1,407 @@
+{
+  "packagedAt": "2026-10-14T06:35:36.711168+00:00",
+  "files": [
+    {
+      "path": "logs/backend-history-defect.txt",
+      "sha256": "3837b845689c9363ba595b27d9ddbd9fac52deae1e1d6b4508d47e54cb848a63",
+      "bytes": 2429,
+      "source": "artifacts/qa/sprint3-20261014/backend-history-defect/console.txt",
+      "sourceSha256": "3837b845689c9363ba595b27d9ddbd9fac52deae1e1d6b4508d47e54cb848a63"
+    },
+    {
+      "path": "logs/backend-postgres.txt",
+      "sha256": "395092da25cebd8a74c0a4d181fc283f3e357118b39617ce0bd0fad9c8101ccc",
+      "bytes": 11702,
+      "source": "artifacts/qa/sprint3-20261014/backend-postgres/console.txt",
+      "sourceSha256": "395092da25cebd8a74c0a4d181fc283f3e357118b39617ce0bd0fad9c8101ccc"
+    },
+    {
+      "path": "logs/backend-static.txt",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19,
+      "source": "artifacts/qa/sprint3-20261014/backend-static/console.txt",
+      "sourceSha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "logs/browser-defects.txt",
+      "sha256": "b9ce25217254429da1809890b7d4cc463b3105da5db016ab0e3604989aeedaad",
+      "bytes": 21359,
+      "source": "artifacts/qa/sprint3-20261014/browser-defects/console.txt",
+      "sourceSha256": "a5bc1f302691b48ca6af54ed2896aecede9a8c59ee45262459709c72f6f676c8",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "a5bc1f302691b48ca6af54ed2896aecede9a8c59ee45262459709c72f6f676c8",
+        "previousPackagedBytes": 21369,
+        "trailingWhitespaceLinesRemoved": 10,
+        "extraEofNewlinesRemoved": 0,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "logs/browser-diagnosis-final.txt",
+      "sha256": "24ff91f9bb5cfb25098f4640637b8787eb91d9f10cce06e09923e3806377fa96",
+      "bytes": 723,
+      "source": "artifacts/qa/sprint3-20261014/browser-diagnosis-final/console.txt",
+      "sourceSha256": "24ff91f9bb5cfb25098f4640637b8787eb91d9f10cce06e09923e3806377fa96"
+    },
+    {
+      "path": "logs/browser-regression.txt",
+      "sha256": "6d83c80650411130085b5ee235bc1a0363122d14fa914118488f3726cd514532",
+      "bytes": 6442,
+      "source": "artifacts/qa/sprint3-20261014/browser-regression/console.txt",
+      "sourceSha256": "6a76fef5eeffe99197e56ce9e61f0d21e2ed74262e1caa392b91ec72358e8b11",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "6a76fef5eeffe99197e56ce9e61f0d21e2ed74262e1caa392b91ec72358e8b11",
+        "previousPackagedBytes": 6444,
+        "trailingWhitespaceLinesRemoved": 2,
+        "extraEofNewlinesRemoved": 0,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "logs/browser-regression-final.txt",
+      "sha256": "2c39609bb476b168c15d7c3615002b1e0ddee66a1384e51dd8b0c0892e67d2fa",
+      "bytes": 2908,
+      "source": "artifacts/qa/sprint3-20261014/browser-regression-final/console.txt",
+      "sourceSha256": "2c39609bb476b168c15d7c3615002b1e0ddee66a1384e51dd8b0c0892e67d2fa"
+    },
+    {
+      "path": "logs/frontend-android.txt",
+      "sha256": "8317a98f60eda8d42db746fdcf447e659e3653f828aebded684ecc96b08443ec",
+      "bytes": 3814,
+      "source": "artifacts/qa/sprint3-20261014/frontend-android/console.txt",
+      "sourceSha256": "8317a98f60eda8d42db746fdcf447e659e3653f828aebded684ecc96b08443ec"
+    },
+    {
+      "path": "logs/frontend-android-defects.txt",
+      "sha256": "acc3a5b39e19332f69890bed82183d71ed95dbe132289fb66b394045874f5358",
+      "bytes": 12317,
+      "source": "artifacts/qa/sprint3-20261014/frontend-android-defects/console.txt",
+      "sourceSha256": "acc3a5b39e19332f69890bed82183d71ed95dbe132289fb66b394045874f5358"
+    },
+    {
+      "path": "logs/frontend-checks.txt",
+      "sha256": "b0d139fb9ee6b501b6c9166c07126de5c63fe59e4d9170762e12a6b77792cb26",
+      "bytes": 38,
+      "source": "artifacts/qa/sprint3-20261014/frontend-checks/console.txt",
+      "sourceSha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd",
+        "previousPackagedBytes": 39,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "logs/frontend-defects.txt",
+      "sha256": "2c48cc5562681e5c3e2bef43aacbdbdbd5378cf1ed22f86b028fe5f400a62267",
+      "bytes": 11510,
+      "source": "artifacts/qa/sprint3-20261014/frontend-defects/console.txt",
+      "sourceSha256": "2c48cc5562681e5c3e2bef43aacbdbdbd5378cf1ed22f86b028fe5f400a62267"
+    },
+    {
+      "path": "logs/frontend-final-static.txt",
+      "sha256": "e06e984716a8f5a8624a93d1f2bb7216b24493b8771cb79978d3e35574e1dac1",
+      "bytes": 85,
+      "source": "artifacts/qa/sprint3-20261014/frontend-final-static/console.txt",
+      "sourceSha256": "baaee2a6abd02f4e14419fb454ca8b82feee050d4fac906533fa58a0d0bd642d",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "baaee2a6abd02f4e14419fb454ca8b82feee050d4fac906533fa58a0d0bd642d",
+        "previousPackagedBytes": 86,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "logs/frontend-ios.txt",
+      "sha256": "45ba54c9f2ef55301744aa909c8ff3707c8a294b96b818e7d4dac9c3c1b92d6a",
+      "bytes": 3586,
+      "source": "artifacts/qa/sprint3-20261014/frontend-ios/console.txt",
+      "sourceSha256": "45ba54c9f2ef55301744aa909c8ff3707c8a294b96b818e7d4dac9c3c1b92d6a"
+    },
+    {
+      "path": "logs/frontend-ios-defects.txt",
+      "sha256": "3367f240f7caa72506709d25f290b951515c33deaa4d1fd4e48f89995bda2232",
+      "bytes": 12269,
+      "source": "artifacts/qa/sprint3-20261014/frontend-ios-defects/console.txt",
+      "sourceSha256": "3367f240f7caa72506709d25f290b951515c33deaa4d1fd4e48f89995bda2232"
+    },
+    {
+      "path": "logs/frontend-shared.txt",
+      "sha256": "f6df161d53058d2927f290febf6cf1fa49b687e5244a9f32950f8cea2a1fa701",
+      "bytes": 2814,
+      "source": "artifacts/qa/sprint3-20261014/frontend-shared/console.txt",
+      "sourceSha256": "f6df161d53058d2927f290febf6cf1fa49b687e5244a9f32950f8cea2a1fa701"
+    },
+    {
+      "path": "logs/frontend-typecheck.txt",
+      "sha256": "15c7a0e30c0924df227605778969f7eb32b19ab419c5f0096b1f7552103f70a9",
+      "bytes": 46,
+      "source": "artifacts/qa/sprint3-20261014/frontend-typecheck/console.txt",
+      "sourceSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+        "previousPackagedBytes": 47,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "logs/repository-tooling.txt",
+      "sha256": "407d26146c28869a5f5731313d0185bbba4e3bde31f6aab01f36053ffe3dddad",
+      "bytes": 6088,
+      "source": "artifacts/qa/sprint3-20261014/repository-tooling/console.txt",
+      "sourceSha256": "407d26146c28869a5f5731313d0185bbba4e3bde31f6aab01f36053ffe3dddad"
+    },
+    {
+      "path": "logs/repository-traceability.txt",
+      "sha256": "f59ee47fec1d7b1533be0b410c3b52a7e6f3328fbe7a9ff8515008fd7caa7888",
+      "bytes": 117,
+      "source": "artifacts/qa/sprint3-20261014/repository-traceability/console.txt",
+      "sourceSha256": "f59ee47fec1d7b1533be0b410c3b52a7e6f3328fbe7a9ff8515008fd7caa7888"
+    },
+    {
+      "path": "executions.json",
+      "sha256": "bbfbc817df138a1f982cd2e9147eb96b7dd7aad813c1738c44f524b73c593f18",
+      "bytes": 26986
+    },
+    {
+      "path": "source-manifest.json",
+      "sha256": "1be4ead39dd338b7f5fad04af8b1fd81194260c82737e333b03b175501e82bef",
+      "bytes": 37199
+    },
+    {
+      "path": "frontend-android.json",
+      "sha256": "5e3060ea6926605877fbe0606ba85553b5b761030ec17253ac5c352a36851378",
+      "bytes": 123226,
+      "source": "artifacts/qa/sprint3-20261014/frontend-android/results.json",
+      "sourceSha256": "cea25f17e52e17894edebd47fd0779b48c94ab3ad9fe4f495a2625bf23b82e13"
+    },
+    {
+      "path": "frontend-android-defects.json",
+      "sha256": "44f5fa67cacfffedc2c800abb26ff6d5c0344e4df71603ac6976b2fcbaaa52ee",
+      "bytes": 21759,
+      "source": "artifacts/qa/sprint3-20261014/frontend-android-defects/results.json",
+      "sourceSha256": "87d645b83dc5f239f0b86464e46aa50d6bc5127ea76c59020b563f9f8a7e3e70"
+    },
+    {
+      "path": "frontend-defects.json",
+      "sha256": "694deab020a9cbb215280219cd25afb3819502cfd03c34e81a767c1fe1eb5d20",
+      "bytes": 19622,
+      "source": "artifacts/qa/sprint3-20261014/frontend-defects/results.json",
+      "sourceSha256": "7bccb065b09b6db806544bd07ba791f4232aff2abb7db162c591bdc0b4a4bd7e"
+    },
+    {
+      "path": "frontend-ios.json",
+      "sha256": "487bdbeb22739b8b7efdaab3c41fe40c60e42f4d7a35e4f57191c08dc841e2a7",
+      "bytes": 123210,
+      "source": "artifacts/qa/sprint3-20261014/frontend-ios/results.json",
+      "sourceSha256": "ed2015b702b818e799277d6e36cfd26611fb4e55bcfdd690f54fc20dce272143"
+    },
+    {
+      "path": "frontend-ios-defects.json",
+      "sha256": "49ef8a49af447c6f016147a0af014ad9182340000a5427145136a487bd4724fc",
+      "bytes": 21755,
+      "source": "artifacts/qa/sprint3-20261014/frontend-ios-defects/results.json",
+      "sourceSha256": "e2c0afab219250f16e277cf168449cb3ba2eb77b25fe0d22a4b5d03b142d8550"
+    },
+    {
+      "path": "frontend-shared.json",
+      "sha256": "fa1d816a1347fbf7e85ec403486771425815d40e156a40455e0ac0ecb713a097",
+      "bytes": 120588,
+      "source": "artifacts/qa/sprint3-20261014/frontend-shared/results.json",
+      "sourceSha256": "106679289683f1a0b6502e481fb20ddf3cbdbb73805be3285577d36f20599fe2"
+    },
+    {
+      "path": "browser-defects-diagnosis-radio-state.json",
+      "sha256": "a158683bf0601f05e683a6f2f5386edde96ec97eb813b166e69e2fc895ae69f0",
+      "bytes": 130,
+      "source": "artifacts/qa/sprint3-20261014/browser-defects/report/results.json",
+      "sourceSha256": "1a4fe4e5955014d8a0c8cc2929d6bf76ea291963086ad8064c2ffd6a72a23b61"
+    },
+    {
+      "path": "screens/browser-defects-3-diagnosis-selected-option.png",
+      "sha256": "431ef2b38cd217e2f8006b44ca516e9c56571738e66e4381687e495b8ade7aa8",
+      "bytes": 48752,
+      "source": "artifacts/qa/sprint3-20261014/browser-defects/report/results.json",
+      "sourceSha256": "1a4fe4e5955014d8a0c8cc2929d6bf76ea291963086ad8064c2ffd6a72a23b61"
+    },
+    {
+      "path": "screens/browser-defects-3-screenshot.png",
+      "sha256": "7e3a536a169ef7f491ecc96e702549e06bdbb97215ac4aada79ce75863b9f0d0",
+      "bytes": 42195,
+      "source": "artifacts/qa/sprint3-20261014/browser-defects/report/results.json",
+      "sourceSha256": "1a4fe4e5955014d8a0c8cc2929d6bf76ea291963086ad8064c2ffd6a72a23b61"
+    },
+    {
+      "path": "browser-defects.json",
+      "sha256": "3f5894d4357de61be379a4f6f9fabcd5aad57c20ff2b83d24cc58de0cda45f0e",
+      "bytes": 17416,
+      "source": "artifacts/qa/sprint3-20261014/browser-defects/report/results.json",
+      "sourceSha256": "1a4fe4e5955014d8a0c8cc2929d6bf76ea291963086ad8064c2ffd6a72a23b61"
+    },
+    {
+      "path": "screens/browser-diagnosis-final-1-sprint3-web-screen.png",
+      "sha256": "c4736cbe2d57d5918904465ab07810521fc7ccf961f63b68392723aaad995147",
+      "bytes": 18491,
+      "source": "artifacts/qa/sprint3-20261014/browser-diagnosis-final/report/results.json",
+      "sourceSha256": "f606af6a82d0dcf07b1fddb12e8a80c28935508d3dd47dbf77fc13b6b782c45b"
+    },
+    {
+      "path": "browser-diagnosis-final-server-diagnosis-observation.json",
+      "sha256": "8083f44aa687362d377fb90f34bcf7ea7bb9c2a1299cca7dc949c139e9bc395a",
+      "bytes": 156,
+      "source": "artifacts/qa/sprint3-20261014/browser-diagnosis-final/report/results.json",
+      "sourceSha256": "f606af6a82d0dcf07b1fddb12e8a80c28935508d3dd47dbf77fc13b6b782c45b"
+    },
+    {
+      "path": "screens/browser-diagnosis-final-2-sprint3-web-screen.png",
+      "sha256": "2feac2dafdd87e60668db495989febc1f95358cedf877d0207338eea66469249",
+      "bytes": 15508,
+      "source": "artifacts/qa/sprint3-20261014/browser-diagnosis-final/report/results.json",
+      "sourceSha256": "f606af6a82d0dcf07b1fddb12e8a80c28935508d3dd47dbf77fc13b6b782c45b"
+    },
+    {
+      "path": "screens/browser-diagnosis-final-3-sprint3-web-screen.png",
+      "sha256": "c4d3e99bf0f38bc4a2f134e14168e2d0dab67d341f32959c66389d4165a140fe",
+      "bytes": 29604,
+      "source": "artifacts/qa/sprint3-20261014/browser-diagnosis-final/report/results.json",
+      "sourceSha256": "f606af6a82d0dcf07b1fddb12e8a80c28935508d3dd47dbf77fc13b6b782c45b"
+    },
+    {
+      "path": "browser-diagnosis-final.json",
+      "sha256": "b57cbab02f5b6042bcd031a316f18a6b7a3b0ed130a96bf581b706368e1c7621",
+      "bytes": 2036,
+      "source": "artifacts/qa/sprint3-20261014/browser-diagnosis-final/report/results.json",
+      "sourceSha256": "f606af6a82d0dcf07b1fddb12e8a80c28935508d3dd47dbf77fc13b6b782c45b"
+    },
+    {
+      "path": "browser-regression.json",
+      "sha256": "0f22f6498260ec711d9a56f4abd5fc6c9718c6ff26dd172a79392a60967621d8",
+      "bytes": 11010,
+      "source": "artifacts/qa/sprint3-20261014/browser-regression/report/results.json",
+      "sourceSha256": "1d57a803c74546667a29183aadca7316a9d4f76fef962a5bda00be9e552d3a31"
+    },
+    {
+      "path": "browser-regression-final-server-diagnosis-observation.json",
+      "sha256": "ec29cb866c708eef38d65c85a61d089bb4f0ddf0dad715d5ca354e77d016e640",
+      "bytes": 156,
+      "source": "artifacts/qa/sprint3-20261014/browser-regression-final/report/results.json",
+      "sourceSha256": "767894237ad18a0325f40d5934cf754ecdd18502b1bdf3fb04fde1a6c2f8c2e8"
+    },
+    {
+      "path": "browser-regression-final.json",
+      "sha256": "c841ed8cb0309701a1815b23d0a9674d3eaa9133a43e99785f67f458cd132b39",
+      "bytes": 9010,
+      "source": "artifacts/qa/sprint3-20261014/browser-regression-final/report/results.json",
+      "sourceSha256": "767894237ad18a0325f40d5934cf754ecdd18502b1bdf3fb04fde1a6c2f8c2e8"
+    },
+    {
+      "path": "backend-postgres.xml",
+      "sha256": "6b6324ec8e3cf3d479c8ca7117d040d0e0ee542dacdffcd2cb038dd42dccd23b",
+      "bytes": 104141,
+      "source": "artifacts/qa/sprint3-20261014/backend-postgres/junit.xml",
+      "sourceSha256": "6b6324ec8e3cf3d479c8ca7117d040d0e0ee542dacdffcd2cb038dd42dccd23b"
+    },
+    {
+      "path": "backend-history-defect.xml",
+      "sha256": "8a6d74be37cadc9d73a66daecc214b8fd371323a17388b91c6d56228b0e609aa",
+      "bytes": 618,
+      "source": "artifacts/qa/sprint3-20261014/backend-history-defect/junit.xml",
+      "sourceSha256": "8a6d74be37cadc9d73a66daecc214b8fd371323a17388b91c6d56228b0e609aa"
+    },
+    {
+      "path": "backend-coverage.json",
+      "sha256": "28881d00166c8dcfd10194abd4b8838294f4835e9dd2ca1993b0579669ba62e2",
+      "bytes": 32857,
+      "source": "artifacts/qa/sprint3-20261014/backend-postgres/coverage.json",
+      "sourceSha256": "aefb8668daadc614092143b0c3c022b0210dbce5c69eec92f47c79ce87956d66"
+    },
+    {
+      "path": "frontend-coverage.json",
+      "sha256": "02e930a43e1f05475fd24fb99982bb2444ac8e462237d4241ba566bae78ee4b1",
+      "bytes": 34491,
+      "source": "artifacts/qa/sprint3-20261014/frontend-shared/coverage/coverage-summary.json",
+      "sourceSha256": "e9ef28d630d47c6cd21152173627d4db710a9592cc81c91753e225f6e078cb67"
+    },
+    {
+      "path": "logs/web-build-preflight.txt",
+      "sha256": "30ca30b66cfc6fd9dc8753ad5d48735936e5cb29e47bb496256201af1e42eba1",
+      "bytes": 1637,
+      "source": "/private/tmp/yoir-sprint3-qa.M8gGCi/web-build.log",
+      "sourceSha256": "30ca30b66cfc6fd9dc8753ad5d48735936e5cb29e47bb496256201af1e42eba1"
+    },
+    {
+      "path": "logs/browser-authoring-initial.txt",
+      "sha256": "edb35a927c0de7541ae45cecd02093c35a798c8c1277d7b15d4ea88e4acadcd7",
+      "bytes": 6868,
+      "source": "/private/tmp/yoir-sprint3-qa.M8gGCi/browser-dev.log",
+      "sourceSha256": "f63057d5f412a01a8223da6873032b41c7911f790bb3bb4a6e17b6fe65f9de86",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "f63057d5f412a01a8223da6873032b41c7911f790bb3bb4a6e17b6fe65f9de86",
+        "previousPackagedBytes": 6872,
+        "trailingWhitespaceLinesRemoved": 4,
+        "extraEofNewlinesRemoved": 0,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "logs/backend-history-unmasked-sqlite.txt",
+      "sha256": "8b3384c315ece0362d152749d6a92befaa9fc05b7395528e201d8e52082b6658",
+      "bytes": 3608,
+      "source": "/private/tmp/s3-service-history-defect-20261014.log",
+      "sourceSha256": "8b3384c315ece0362d152749d6a92befaa9fc05b7395528e201d8e52082b6658"
+    },
+    {
+      "path": "preflight.json",
+      "sha256": "9f82524441887b1899b411b77a410896fe586a63b8e1f782f167266f379145e2",
+      "bytes": 1484
+    },
+    {
+      "path": "README.md",
+      "sha256": "86b63e5cf4b0926ebe2ac85e2a7526422f6f335c7b8d1ad4e7dd5b316393544e",
+      "bytes": 2554
+    },
+    {
+      "path": "validation.json",
+      "sha256": "fb0bc8dec0780415198e54fe0296abcc7623b69d5c4c98f0db1862788d066ec7",
+      "bytes": 609
+    }
+  ],
+  "omissions": [
+    "Regenerable HTML/LCOV reports and trace ZIP archives remain only in ignored artifacts/qa/sprint3-20261014, not this selected evidence package.",
+    "Jest/Playwright originals are reduced to all per-case outcomes, diagnostic messages and selected attachments; original SHA-256 values accompany each derivative.",
+    "No native-device screenshots/acceptance, deployed smoke, provider-payment/email delivery, new remote CI or live HTTPX/TypeScript-client runs are claimed."
+  ],
+  "notARerun": true,
+  "publicationWhitespaceNormalization": {
+    "performedAt": "2026-10-16T00:04:56.232172+00:00",
+    "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+    "originalManifestSha256": "e70007d7436010ea7b826cca8204169a780722f40e4553f6fc5e28078a512ef1",
+    "filesNormalized": 6,
+    "transformation": "Remove trailing horizontal whitespace and extra blank lines at EOF from published text evidence. Original source hashes and recorded outcomes are unchanged. No tests were rerun."
+  },
+  "documentationRevisions": [
+    {
+      "date": "2026-10-17",
+      "scope": "Describe completed executed cases only; source execution reports, logs and outcomes retain their original bytes.",
+      "files": [
+        {
+          "path": "README.md",
+          "previousSha256": "55c4ea1e7ceb124142862046f4b00fc0a3c9b9cbbc59e545694470bbeded5038",
+          "previousBytes": 2631,
+          "sha256": "86b63e5cf4b0926ebe2ac85e2a7526422f6f335c7b8d1ad4e7dd5b316393544e",
+          "bytes": 2554
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3948 @@
+{
+  "startTime": 1792096725322,
+  "success": true,
+  "wasInterrupted": false,
+  "numPassedTests": 562,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTotalTests": 562,
+  "numPassedTestSuites": 64,
+  "numFailedTestSuites": 0,
+  "numRuntimeErrorTestSuites": 0,
+  "cases": [
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Career Professional can open profile privacy settings",
+      "status": "passed",
+      "duration": 426,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) does not expose profile controls to an unauthorized role (null)",
+      "status": "passed",
+      "duration": 52,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) does not expose profile controls to an unauthorized role ({\"accessToken\":\"test-access-token\",\"expiresAt\":\"2026-08-28T07:00:00.000Z\",\"user\":{\"id\":\"user-1\",\"name\":\"Alex Morgan\",\"email\":\"alex@example.com\",\"role\":\"job_seeker\",\"emailVerified\":true}})",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) prefills implemented fields and verification status from the mocked API response",
+      "status": "passed",
+      "duration": 61,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) saves implemented profile fields by itself and reloads values from the mocked API response",
+      "status": "passed",
+      "duration": 958,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) pending verification permits editing and success waits for the mocked API promise",
+      "status": "passed",
+      "duration": 890,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) rejects invalid LinkedIn profile URL without saving or losing the entered value",
+      "status": "passed",
+      "duration": 879,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) rejects invalid LinkedIn profile URL without saving or losing the entered value",
+      "status": "passed",
+      "duration": 879,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) rejects invalid Introduction without saving or losing the entered value",
+      "status": "passed",
+      "duration": 880,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) rejects invalid Background without saving or losing the entered value",
+      "status": "passed",
+      "duration": 885,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) rejects invalid Experience without saving or losing the entered value",
+      "status": "passed",
+      "duration": 881,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) rejects invalid City or region without saving or losing the entered value",
+      "status": "passed",
+      "duration": 892,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) requires an area for in-person default and saves it once corrected",
+      "status": "passed",
+      "duration": 1733,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) leaving the screen inside the pause still saves the last change",
+      "status": "passed",
+      "duration": 61,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) a profile that could not be loaded is never saved over",
+      "status": "passed",
+      "duration": 1263,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) shows load failure without claiming a successful save",
+      "status": "passed",
+      "duration": 55,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) an API-boundary rejection retains edits and offers a retry",
+      "status": "passed",
+      "duration": 934,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) denied photo permission offers a URL alternative without opening the library",
+      "status": "passed",
+      "duration": 108,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) photo library failure provides recoverable feedback",
+      "status": "passed",
+      "duration": 105,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) cancelled photo selection leaves the existing photo unchanged",
+      "status": "passed",
+      "duration": 107,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-profile.test.tsx",
+      "fullName": "Professional profile UI — QA #130 (mocked API boundary; no backend persistence) pasted photo URL is saved, and removing it saves null",
+      "status": "passed",
+      "duration": 1710,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/useDiagnosis.test.tsx",
+      "fullName": "diagnosis ownership on one device — QA-162/165/168 switching accounts hides the first record until the second account finishes loading",
+      "status": "passed",
+      "duration": 54,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/useDiagnosis.test.tsx",
+      "fullName": "diagnosis ownership on one device — QA-162/165/168 a late read from the previous account cannot replace the current account record",
+      "status": "passed",
+      "duration": 51,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/useDiagnosis.test.tsx",
+      "fullName": "diagnosis ownership on one device — QA-162/165/168 signing out hides private answers immediately and never reads a guest record",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/useDiagnosis.test.tsx",
+      "fullName": "diagnosis ownership on one device — QA-162/165/168 unreadable stored JSON becomes a new diagnosis instead of a completed direction",
+      "status": "passed",
+      "duration": 52,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests requires a counsellor role before showing bank or tax controls (null)",
+      "status": "passed",
+      "duration": 54,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests requires a counsellor role before showing bank or tax controls ({\n  accessToken: 'test-access-token',\n  expiresAt: '2026-08-28T07:00:00.000Z',\n  user: [Object]\n})",
+      "status": "passed",
+      "duration": 52,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests before status arrives does not claim readiness and displays the non-Stripe disclosure",
+      "status": "passed",
+      "duration": 62,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests server-ready status shows update action, enabled flags and populated tax details",
+      "status": "passed",
+      "duration": 57,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests a pending connected account polls and only becomes ready from the server update",
+      "status": "passed",
+      "duration": 58,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests an exhausted readiness poll keeps incomplete setup actionable",
+      "status": "passed",
+      "duration": 54,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests unmount cancels the active readiness poll",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests a status-read failure is visible and never presented as ready",
+      "status": "passed",
+      "duration": 52,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests opens a fresh platform return link, blocks duplicate setup presses and re-reads status after returning",
+      "status": "passed",
+      "duration": 122,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests a failed onboarding request does not open the browser and can be retried with a new request",
+      "status": "passed",
+      "duration": 164,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests a browser-launch failure restores the setup action without assuming successful onboarding",
+      "status": "passed",
+      "duration": 111,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests a short ABN is rejected before saving and changing the input clears its error",
+      "status": "passed",
+      "duration": 62,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests GST registration requires an ABN and toggling it off allows null tax details",
+      "status": "passed",
+      "duration": 74,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests normalizes and caps an ABN, submits tax details and blocks duplicate saves until confirmation",
+      "status": "passed",
+      "duration": 70,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests server tax validation preserves input and shows field and general errors before a successful retry",
+      "status": "passed",
+      "duration": 170,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests a tax network failure restores the save button without success feedback",
+      "status": "passed",
+      "duration": 111,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests Back falls back to the counsellor workspace when there is no history",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/ServiceForm.test.tsx",
+      "fullName": "ServiceForm UI — QA #133 #136 #139 #142 (mocked API/HTTP boundary) creates a trimmed online service and announces success only after the API confirms",
+      "status": "passed",
+      "duration": 101,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/ServiceForm.test.tsx",
+      "fullName": "ServiceForm UI — QA #133 #136 #139 #142 (mocked API/HTTP boundary) rejects incomplete or invalid input {\"title\":\"abcd\"} without creating a listing",
+      "status": "passed",
+      "duration": 73,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/ServiceForm.test.tsx",
+      "fullName": "ServiceForm UI — QA #133 #136 #139 #142 (mocked API/HTTP boundary) rejects incomplete or invalid input {\"description\":\"too short\"} without creating a listing",
+      "status": "passed",
+      "duration": 73,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/ServiceForm.test.tsx",
+      "fullName": "ServiceForm UI — QA #133 #136 #139 #142 (mocked API/HTTP boundary) rejects incomplete or invalid input {\"price\":\"\"} without creating a listing",
+      "status": "passed",
+      "duration": 68,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/ServiceForm.test.tsx",
+      "fullName": "ServiceForm UI — QA #133 #136 #139 #142 (mocked API/HTTP boundary) rejects incomplete or invalid input {\"price\":\"0\"} without creating a listing",
+      "status": "passed",
+      "duration": 73,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/ServiceForm.test.tsx",
+      "fullName": "ServiceForm UI — QA #133 #136 #139 #142 (mocked API/HTTP boundary) rejects incomplete or invalid input {\"price\":\"not a price\"} without creating a listing",
+      "status": "passed",
+      "duration": 75,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/ServiceForm.test.tsx",
+      "fullName": "ServiceForm UI — QA #133 #136 #139 #142 (mocked API/HTTP boundary) rejects incomplete or invalid input {\"price\":\"1.2.3\"} without creating a listing",
+      "status": "passed",
+      "duration": 74,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/ServiceForm.test.tsx",
+      "fullName": "ServiceForm UI — QA #133 #136 #139 #142 (mocked API/HTTP boundary) rejects incomplete or invalid input {\"price\":\"100000.01\"} without creating a listing",
+      "status": "passed",
+      "duration": 74,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/ServiceForm.test.tsx",
+      "fullName": "ServiceForm UI — QA #133 #136 #139 #142 (mocked API/HTTP boundary) requires at least one modality after deselecting online",
+      "status": "passed",
+      "duration": 76,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/ServiceForm.test.tsx",
+      "fullName": "ServiceForm UI — QA #133 #136 #139 #142 (mocked API/HTTP boundary) requires state and city for in_person, then saves the selected meeting area",
+      "status": "passed",
+      "duration": 144,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/ServiceForm.test.tsx",
+      "fullName": "ServiceForm UI — QA #133 #136 #139 #142 (mocked API/HTTP boundary) requires state and city for both, then saves the selected meeting area",
+      "status": "passed",
+      "duration": 137,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/ServiceForm.test.tsx",
+      "fullName": "ServiceForm UI — QA #133 #136 #139 #142 (mocked API/HTTP boundary) switching an in-person edit to online clears its meeting area in the submitted update",
+      "status": "passed",
+      "duration": 120,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/ServiceForm.test.tsx",
+      "fullName": "ServiceForm UI — QA #133 #136 #139 #142 (mocked API/HTTP boundary) preserves form values and permits retry after a server rejection",
+      "status": "passed",
+      "duration": 183,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/ServiceForm.test.tsx",
+      "fullName": "ServiceForm UI — QA #133 #136 #139 #142 (mocked API/HTTP boundary) deletion needs confirmation and returns only after mocked API success",
+      "status": "passed",
+      "duration": 110,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/ServiceForm.test.tsx",
+      "fullName": "ServiceForm UI — QA #133 #136 #139 #142 (mocked API/HTTP boundary) failed deletion keeps the service editable and does not announce success",
+      "status": "passed",
+      "duration": 108,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "fullName": "US-32/33/58 admin verification (real components, mocked API) the queue asks for waiting applications and opens the selected submission",
+      "status": "passed",
+      "duration": 55,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "fullName": "US-32/33/58 admin verification (real components, mocked API) the Approved queue sends its filter and handles a successful empty result",
+      "status": "passed",
+      "duration": 109,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "fullName": "US-32/33/58 admin verification (real components, mocked API) the Rejected queue sends its filter and handles a successful empty result",
+      "status": "passed",
+      "duration": 107,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "fullName": "US-32/33/58 admin verification (real components, mocked API) the Everyone queue sends its filter and handles a successful empty result",
+      "status": "passed",
+      "duration": 114,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "fullName": "US-32/33/58 admin verification (real components, mocked API) queue failure shows a retry and does not claim nobody is waiting",
+      "status": "passed",
+      "duration": 108,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "fullName": "US-32/33/58 admin verification (real components, mocked API) detail exposes the supplied profile evidence and opens its exact LinkedIn URL",
+      "status": "passed",
+      "duration": 58,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "fullName": "US-32/33/58 admin verification (real components, mocked API) a missing profile link is stated explicitly and leaving pending makes no decision",
+      "status": "passed",
+      "duration": 54,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "fullName": "US-32/33/58 admin verification (real components, mocked API) approval requires confirmation and cancellation does not change the current status",
+      "status": "passed",
+      "duration": 58,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "fullName": "US-32/33/58 admin verification (real components, mocked API) confirmed approval stays pending and disables another decision until storage succeeds",
+      "status": "passed",
+      "duration": 75,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "fullName": "US-32/33/58 admin verification (real components, mocked API) rejection requires a non-blank explanation and stores the trimmed reason",
+      "status": "passed",
+      "duration": 139,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "fullName": "US-32/33/58 admin verification (real components, mocked API) failed rejection preserves reason and status and can be retried without a false success",
+      "status": "passed",
+      "duration": 179,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "fullName": "US-32/33/58 admin verification (real components, mocked API) additional investigation can approve a previously rejected application",
+      "status": "passed",
+      "duration": 107,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "fullName": "US-32/33/58 admin verification (real components, mocked API) a failed detail read can recover and is distinct from a missing submission",
+      "status": "passed",
+      "duration": 110,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-verifications.test.tsx",
+      "fullName": "US-32/33/58 admin verification (real components, mocked API) a missing submission offers no decision controls",
+      "status": "passed",
+      "duration": 54,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) the shell redirects a guest and withholds administration content",
+      "status": "passed",
+      "duration": 52,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) the shell redirects a job seeker and withholds administration content",
+      "status": "passed",
+      "duration": 52,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) the shell redirects a professional and withholds administration content",
+      "status": "passed",
+      "duration": 52,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) the owner sees all five sections and can open the account sheet to log out",
+      "status": "passed",
+      "duration": 62,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) overview renders stored money, unsplit gross, action counts and drill-down destinations",
+      "status": "passed",
+      "duration": 64,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) zero totals show genuine empty states without a made-up pending action or unsplit amount",
+      "status": "passed",
+      "duration": 55,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) failed statistics can be retried without displaying invented zero totals",
+      "status": "passed",
+      "duration": 110,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) the professional directory exposes a verified-but-unpayable account and links its verification",
+      "status": "passed",
+      "duration": 56,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) a Job Seeker directory deep link displays its read-only role, email state and booking count",
+      "status": "passed",
+      "duration": 55,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) a partial directory failure exposes no incomplete list and retries both role reads",
+      "status": "passed",
+      "duration": 106,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) the bookings overview shows the returned session identity, delivery and status",
+      "status": "passed",
+      "duration": 55,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "fullName": "job seeker home — QA-162/174 and entry navigation guests can browse and register without reading a private diagnosis",
+      "status": "passed",
+      "duration": 210,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "fullName": "job seeker home — QA-162/174 and entry navigation a non-seeker goes to the correct workspace",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "fullName": "job seeker home — QA-162/174 and entry navigation a non-seeker goes to the correct workspace",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "fullName": "job seeker home — QA-162/174 and entry navigation no question or match is fabricated while progress loads; a new user enters diagnosis",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "fullName": "job seeker home — QA-162/174 and entry navigation a skipped diagnosis offers a fresh start without claiming completed results",
+      "status": "passed",
+      "duration": 14,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "fullName": "job seeker home — QA-162/174 and entry navigation unfinished answers expose the actual resume step and continue action",
+      "status": "passed",
+      "duration": 14,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "fullName": "job seeker home — QA-162/174 and entry navigation completed answers offer result, retake, professional detail and Explore navigation",
+      "status": "passed",
+      "duration": 17,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "fullName": "job seeker home — QA-162/174 and entry navigation a failed catalogue keeps the local result and retry recovers real client data",
+      "status": "passed",
+      "duration": 17,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "fullName": "job seeker home — QA-162/174 and entry navigation an empty catalogue preserves the completed direction and retake action",
+      "status": "passed",
+      "duration": 12,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-availability.test.tsx",
+      "fullName": "Counsellor availability windows — QA #145 restricts the calendar to counsellors (null)",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-availability.test.tsx",
+      "fullName": "Counsellor availability windows — QA #145 restricts the calendar to counsellors ({\"accessToken\":\"test-access-token\",\"expiresAt\":\"2026-08-28T07:00:00.000Z\",\"user\":{\"id\":\"user-1\",\"name\":\"Alex Morgan\",\"email\":\"alex@example.com\",\"role\":\"job_seeker\",\"emailVerified\":true}})",
+      "status": "passed",
+      "duration": 52,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-availability.test.tsx",
+      "fullName": "Counsellor availability windows — QA #145 load failures explain why the calendar could not be read",
+      "status": "passed",
+      "duration": 57,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-availability.test.tsx",
+      "fullName": "Counsellor availability windows — QA #145 sends one service-independent window with delivery choices and timezone-qualified bounds",
+      "status": "passed",
+      "duration": 183,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-availability.test.tsx",
+      "fullName": "Counsellor availability windows — QA #145 requires days, a positive time range and at least one modality before saving",
+      "status": "passed",
+      "duration": 199,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-availability.test.tsx",
+      "fullName": "Counsellor availability windows — QA #145 repeating one weekday for two weeks creates two windows and reloads merged server state",
+      "status": "passed",
+      "duration": 146,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-availability.test.tsx",
+      "fullName": "Counsellor availability windows — QA #145 touching availability is sent for the server to merge instead of discarded as a slot conflict",
+      "status": "passed",
+      "duration": 134,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-availability.test.tsx",
+      "fullName": "Counsellor availability windows — QA #145 cancel preserves a window; confirmed deletion reloads the calendar",
+      "status": "passed",
+      "duration": 120,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-availability.test.tsx",
+      "fullName": "Counsellor availability windows — QA #145 a booked window remains visible when the server refuses deletion",
+      "status": "passed",
+      "duration": 114,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-availability.test.tsx",
+      "fullName": "Counsellor availability windows — QA #145 each window says what is left to book: nothing, part of it, or (unsaid) all of it",
+      "status": "passed",
+      "duration": 55,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/register.test.tsx",
+      "fullName": "registration screen [QA-87][characterization] rejects empty Full name with the current form-level banner",
+      "status": "passed",
+      "duration": 89,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/register.test.tsx",
+      "fullName": "registration screen [QA-87][characterization] rejects empty Email with the current form-level banner",
+      "status": "passed",
+      "duration": 51,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/register.test.tsx",
+      "fullName": "registration screen [QA-87][characterization] rejects empty Password with the current form-level banner",
+      "status": "passed",
+      "duration": 50,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/register.test.tsx",
+      "fullName": "registration screen [QA-87][characterization] rejects empty Confirm password with the current form-level banner",
+      "status": "passed",
+      "duration": 46,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/register.test.tsx",
+      "fullName": "registration screen [QA-94][characterization] rejects a password below the current eight-character rule",
+      "status": "passed",
+      "duration": 55,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/register.test.tsx",
+      "fullName": "registration screen [QA-87][characterization] rejects mismatched passwords with the current form-level banner",
+      "status": "passed",
+      "duration": 36,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/register.test.tsx",
+      "fullName": "registration screen [QA-87/91] registers job_seeker and retains the booking on the login continuation",
+      "status": "passed",
+      "duration": 34,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/register.test.tsx",
+      "fullName": "registration screen [QA-87/91] registers counsellor and retains the booking on the login continuation",
+      "status": "passed",
+      "duration": 34,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/register.test.tsx",
+      "fullName": "registration screen [QA-91] the user can change the role before submitting",
+      "status": "passed",
+      "duration": 31,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/register.test.tsx",
+      "fullName": "registration screen [QA-97/91] duplicate email for job_seeker retains every field and succeeds after correction",
+      "status": "passed",
+      "duration": 47,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/register.test.tsx",
+      "fullName": "registration screen [QA-97/91] duplicate email for counsellor retains every field and succeeds after correction",
+      "status": "passed",
+      "duration": 47,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/register.test.tsx",
+      "fullName": "registration screen [QA-94] a network failure preserves inputs without success, login or authentication",
+      "status": "passed",
+      "duration": 30,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/register.test.tsx",
+      "fullName": "registration screen [QA-94] backend 400 rejection remains anonymous and does not claim success",
+      "status": "passed",
+      "duration": 33,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/register.test.tsx",
+      "fullName": "registration screen [QA-94] backend 500 rejection remains anonymous and does not claim success",
+      "status": "passed",
+      "duration": 31,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/register.test.tsx",
+      "fullName": "registration screen [QA-87] double submit during registration sends a single request",
+      "status": "passed",
+      "duration": 30,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.test.tsx",
+      "fullName": "AuthProvider adopts a verification-link session and persists it without a password login",
+      "status": "passed",
+      "duration": 55,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.test.tsx",
+      "fullName": "AuthProvider client refresh persists the rotated session and a refused refresh clears it",
+      "status": "passed",
+      "duration": 54,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.test.tsx",
+      "fullName": "AuthProvider stores the session returned by login",
+      "status": "passed",
+      "duration": 104,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.test.tsx",
+      "fullName": "AuthProvider logout clears the in-memory session state",
+      "status": "passed",
+      "duration": 105,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.test.tsx",
+      "fullName": "AuthProvider logout without a session does not call the API boundary",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.test.tsx",
+      "fullName": "AuthProvider a failed login leaves the local session signed out",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.test.tsx",
+      "fullName": "AuthProvider surviving a reload an expired access token is restored while its refresh token is valid",
+      "status": "passed",
+      "duration": 52,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.test.tsx",
+      "fullName": "AuthProvider surviving a reload an invalid or expired refresh expiry undefined cannot restore an expired session",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.test.tsx",
+      "fullName": "AuthProvider surviving a reload an invalid or expired refresh expiry not-a-date cannot restore an expired session",
+      "status": "passed",
+      "duration": 52,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.test.tsx",
+      "fullName": "AuthProvider surviving a reload an invalid or expired refresh expiry 2020-01-01T00:00:00Z cannot restore an expired session",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.test.tsx",
+      "fullName": "AuthProvider surviving a reload a stored session is restored, so a browser refresh stays signed in",
+      "status": "passed",
+      "duration": 52,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.test.tsx",
+      "fullName": "AuthProvider surviving a reload an expired session is discarded rather than restored",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.test.tsx",
+      "fullName": "AuthProvider surviving a reload not json at all is ignored rather than crashing the launch",
+      "status": "passed",
+      "duration": 51,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.test.tsx",
+      "fullName": "AuthProvider surviving a reload a token with no expiry is ignored rather than crashing the launch",
+      "status": "passed",
+      "duration": 52,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.test.tsx",
+      "fullName": "AuthProvider surviving a reload an empty string is ignored rather than crashing the launch",
+      "status": "passed",
+      "duration": 52,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.test.tsx",
+      "fullName": "AuthProvider surviving a reload signing in writes the session down for next time",
+      "status": "passed",
+      "duration": 104,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.test.tsx",
+      "fullName": "AuthProvider surviving a reload logging out removes it, so a refresh does not bring it back",
+      "status": "passed",
+      "duration": 105,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.test.tsx",
+      "fullName": "AuthProvider surviving a reload a storage failure costs a sign-in, not the app",
+      "status": "passed",
+      "duration": 51,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-dashboard.test.tsx",
+      "fullName": "Counsellor dashboard UI — QA #133 (mocked API boundary) hides the workspace from anonymous or job-seeker users (null)",
+      "status": "passed",
+      "duration": 54,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-dashboard.test.tsx",
+      "fullName": "Counsellor dashboard UI — QA #133 (mocked API boundary) hides the workspace from anonymous or job-seeker users ({\"accessToken\":\"test-access-token\",\"expiresAt\":\"2026-08-28T07:00:00.000Z\",\"user\":{\"id\":\"user-1\",\"name\":\"Alex Morgan\",\"email\":\"alex@example.com\",\"role\":\"job_seeker\",\"emailVerified\":true}})",
+      "status": "passed",
+      "duration": 55,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-dashboard.test.tsx",
+      "fullName": "Counsellor dashboard UI — QA #133 (mocked API boundary) loads the signed-in counsellor services, profile completion and the time still open to book",
+      "status": "passed",
+      "duration": 68,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-dashboard.test.tsx",
+      "fullName": "Counsellor dashboard UI — QA #133 (mocked API boundary) a fully booked calendar is not shown as open, and a service with nothing open says so",
+      "status": "passed",
+      "duration": 57,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-dashboard.test.tsx",
+      "fullName": "Counsellor dashboard UI — QA #133 (mocked API boundary) an empty calendar asks for availability",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-dashboard.test.tsx",
+      "fullName": "Counsellor dashboard UI — QA #133 (mocked API boundary) shows the first-service entry and missing LinkedIn guidance for an empty pending profile",
+      "status": "passed",
+      "duration": 54,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-dashboard.test.tsx",
+      "fullName": "Counsellor dashboard UI — QA #133 (mocked API boundary) renders API load failure without fabricating a published service",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-dashboard.test.tsx",
+      "fullName": "Counsellor dashboard UI — QA #133 (mocked API boundary) cancel sends no delete; mocked delete success refreshes the displayed list",
+      "status": "passed",
+      "duration": 270,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-dashboard.test.tsx",
+      "fullName": "Counsellor dashboard UI — QA #133 (mocked API boundary) deletion rejection keeps the original service visible",
+      "status": "passed",
+      "duration": 109,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-dashboard.test.tsx",
+      "fullName": "Counsellor dashboard onboarding gate — US-05 (mocked API boundary) shows neither the workspace nor the onboarding gate until onboarding state is received",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-dashboard.test.tsx",
+      "fullName": "Counsellor dashboard onboarding gate — US-05 (mocked API boundary) an incomplete onboarding state sends a first-login counsellor to onboarding, not the workspace",
+      "status": "passed",
+      "duration": 51,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-dashboard.test.tsx",
+      "fullName": "Counsellor dashboard onboarding gate — US-05 (mocked API boundary) a failed onboarding check fails open: the already-familiar workspace still renders, with the failure surfaced",
+      "status": "passed",
+      "duration": 57,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed pending after returning",
+      "status": "passed",
+      "duration": 64,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed verified after returning",
+      "status": "passed",
+      "duration": 62,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed rejected after returning",
+      "status": "passed",
+      "duration": 62,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed pending after returning",
+      "status": "passed",
+      "duration": 65,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed verified after returning",
+      "status": "passed",
+      "duration": 65,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed rejected after returning",
+      "status": "passed",
+      "duration": 70,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh profile marks previously verified status unavailable on focus failure, then recovers",
+      "status": "passed",
+      "duration": 80,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh returning focus while a blur-triggered save is pending does not overwrite the draft",
+      "status": "passed",
+      "duration": 79,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-210 payment refresh failure clears formerly loaded rows and retry uses new data",
+      "status": "passed",
+      "duration": 110,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "fullName": "US-48 / QA-210 admin payments (real components, mocked API) waits for orders without claiming the payment list is empty",
+      "status": "passed",
+      "duration": 62,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "fullName": "US-48 / QA-210 admin payments (real components, mocked API) renders server-frozen cent amounts, refund and parties and opens the correct order",
+      "status": "passed",
+      "duration": 57,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "fullName": "US-48 / QA-210 admin payments (real components, mocked API) an empty successful response explains there are no orders",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "fullName": "US-48 / QA-210 admin payments (real components, mocked API) failed reads are recoverable without being mislabelled an empty payment list",
+      "status": "passed",
+      "duration": 109,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "fullName": "US-48 / QA-210 admin payments (real components, mocked API) the detail joins the matching booking, shows its timezone and preserves all cents",
+      "status": "passed",
+      "duration": 59,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "fullName": "US-48 / QA-210 admin payments (real components, mocked API) a paid order without a booking does not invent a session time",
+      "status": "passed",
+      "duration": 54,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "fullName": "US-48 / QA-210 admin payments (real components, mocked API) a missing order is distinguished from a read failure",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "fullName": "US-48 / QA-210 admin payments (real components, mocked API) a failed payments dependency blocks partial detail and retries both reads",
+      "status": "passed",
+      "duration": 110,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-payments.test.tsx",
+      "fullName": "US-48 / QA-210 admin payments (real components, mocked API) a failed bookings dependency blocks partial detail and retries both reads",
+      "status": "passed",
+      "duration": 110,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-edit-service.test.tsx",
+      "fullName": "Counsellor service route UI — QA #133 #136 (mocked API boundary) does not expose a service form to a Job Seeker",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-edit-service.test.tsx",
+      "fullName": "Counsellor service route UI — QA #133 #136 (mocked API boundary) does not expose a service form to a Job Seeker",
+      "status": "passed",
+      "duration": 54,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-edit-service.test.tsx",
+      "fullName": "Counsellor service route UI — QA #133 #136 (mocked API boundary) new route submits through the real form with the authenticated owner and token",
+      "status": "passed",
+      "duration": 130,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-edit-service.test.tsx",
+      "fullName": "Counsellor service route UI — QA #133 #136 (mocked API boundary) does not show editable values until loading finishes, then pre-fills the matching owned service",
+      "status": "passed",
+      "duration": 125,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-edit-service.test.tsx",
+      "fullName": "Counsellor service route UI — QA #133 #136 (mocked API boundary) a missing service shows a recoverable error instead of an unrelated service",
+      "status": "passed",
+      "duration": 59,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-edit-service.test.tsx",
+      "fullName": "Counsellor service route UI — QA #133 #136 (mocked API boundary) a failed load displays the server error and supports leaving the screen",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/marketplace.test.tsx",
+      "fullName": "Marketplace screen [QA-109] guests see loading then public services without authentication",
+      "status": "passed",
+      "duration": 174,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/marketplace.test.tsx",
+      "fullName": "Marketplace screen [QA-109] a failed catalogue request shows a retry that restores the list",
+      "status": "passed",
+      "duration": 56,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/marketplace.test.tsx",
+      "fullName": "Marketplace screen [QA-109] an empty catalogue has an explicit empty state",
+      "status": "passed",
+      "duration": 35,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/marketplace.test.tsx",
+      "fullName": "Marketplace screen [QA-112 implemented local UI] local search and clearing render correctly",
+      "status": "passed",
+      "duration": 177,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/marketplace.test.tsx",
+      "fullName": "Marketplace screen [QA-112 implemented local UI] local filter controls narrow cards",
+      "status": "passed",
+      "duration": 414,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/marketplace.test.tsx",
+      "fullName": "Marketplace screen [QA-112 implemented local UI] local price sort changes card order",
+      "status": "passed",
+      "duration": 162,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/marketplace.test.tsx",
+      "fullName": "Marketplace screen [QA-106] a signed-in user can open the real account sheet and log out",
+      "status": "passed",
+      "duration": 100,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "fullName": "diagnosis questions — local persistence boundary, QA-162/165/168 a guest is sent to job-seeker login without reading or writing a diagnosis",
+      "status": "passed",
+      "duration": 11,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "fullName": "diagnosis questions — local persistence boundary, QA-162/165/168 a counsellor account is routed to its own workspace",
+      "status": "passed",
+      "duration": 8,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "fullName": "diagnosis questions — local persistence boundary, QA-162/165/168 a platform owner account is routed to its own workspace",
+      "status": "passed",
+      "duration": 4,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "fullName": "diagnosis questions — local persistence boundary, QA-162/165/168 questions stay hidden while saved progress loads, then resume at that question",
+      "status": "passed",
+      "duration": 49,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "fullName": "diagnosis questions — local persistence boundary, QA-162/165/168 question 0 refuses an empty required answer without advancing or saving",
+      "status": "passed",
+      "duration": 93,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "fullName": "diagnosis questions — local persistence boundary, QA-162/165/168 question 1 refuses an empty required answer without advancing or saving",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "fullName": "diagnosis questions — local persistence boundary, QA-162/165/168 question 3 refuses an empty required answer without advancing or saving",
+      "status": "passed",
+      "duration": 95,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "fullName": "diagnosis questions — local persistence boundary, QA-162/165/168 editing an earlier answer preserves the furthest resume point across a remount",
+      "status": "passed",
+      "duration": 197,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "fullName": "diagnosis questions — local persistence boundary, QA-162/165/168 skipping before the first answer records a skip and opens home",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "fullName": "diagnosis questions — local persistence boundary, QA-162/165/168 skipping part-way saves the current choice and resumes with it selected",
+      "status": "passed",
+      "duration": 61,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "fullName": "diagnosis questions — local persistence boundary, QA-162/165/168 a full journey retains optional text and toggled choices, permits empty optional answers and opens Explore",
+      "status": "passed",
+      "duration": 192,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "fullName": "diagnosis questions — local persistence boundary, QA-162/165/168 abandoning a retake keeps the previous completed answers and direction",
+      "status": "passed",
+      "duration": 49,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "fullName": "diagnosis questions — local persistence boundary, QA-162/165/168 a completed retake replaces the previous direction only at the final question",
+      "status": "passed",
+      "duration": 152,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/diagnosis.test.tsx",
+      "fullName": "diagnosis questions — local persistence boundary, QA-162/165/168 [QA-171/174] failed professional loading can be retried without losing the completed direction",
+      "status": "passed",
+      "duration": 78,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-onboarding.test.tsx",
+      "fullName": "Counsellor onboarding gate UI — US-05 (mocked API boundary) hides onboarding from anonymous or job-seeker users (null)",
+      "status": "passed",
+      "duration": 58,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-onboarding.test.tsx",
+      "fullName": "Counsellor onboarding gate UI — US-05 (mocked API boundary) hides onboarding from anonymous or job-seeker users ({\"accessToken\":\"test-access-token\",\"expiresAt\":\"2026-08-28T07:00:00.000Z\",\"user\":{\"id\":\"user-1\",\"name\":\"Alex Morgan\",\"email\":\"alex@example.com\",\"role\":\"job_seeker\",\"emailVerified\":true}})",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-onboarding.test.tsx",
+      "fullName": "Counsellor onboarding gate UI — US-05 (mocked API boundary) shows neither step until the onboarding state is received, then both as remaining",
+      "status": "passed",
+      "duration": 66,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-onboarding.test.tsx",
+      "fullName": "Counsellor onboarding gate UI — US-05 (mocked API boundary) offers no route to service creation",
+      "status": "passed",
+      "duration": 55,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-onboarding.test.tsx",
+      "fullName": "Counsellor onboarding gate UI — US-05 (mocked API boundary) a step already done reads as done, and the other as not",
+      "status": "passed",
+      "duration": 57,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-onboarding.test.tsx",
+      "fullName": "Counsellor onboarding gate UI — US-05 (mocked API boundary) tapping a step opens its own existing screen",
+      "status": "passed",
+      "duration": 56,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-onboarding.test.tsx",
+      "fullName": "Counsellor onboarding gate UI — US-05 (mocked API boundary) both steps already complete routes straight to the workspace instead of showing the gate",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-onboarding.test.tsx",
+      "fullName": "Counsellor onboarding gate UI — US-05 (mocked API boundary) a failed check shows a recoverable error instead of fabricating step status",
+      "status": "passed",
+      "duration": 109,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/timeslots.test.tsx",
+      "fullName": "time-slot selection [QA-118] a guest deep link returns to login before reading slots",
+      "status": "passed",
+      "duration": 94,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/timeslots.test.tsx",
+      "fullName": "time-slot selection [QA-118] server-derived starts are selectable and payment requires a selection",
+      "status": "passed",
+      "duration": 87,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/timeslots.test.tsx",
+      "fullName": "time-slot selection [QA-118/121] selection reserves through the real client with identity and passes server order data",
+      "status": "passed",
+      "duration": 190,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/timeslots.test.tsx",
+      "fullName": "time-slot selection [US-42] an entered pre-session brief is trimmed and sent with the reservation",
+      "status": "passed",
+      "duration": 88,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/timeslots.test.tsx",
+      "fullName": "time-slot selection [US-42] the pre-session brief field only appears once a time is chosen",
+      "status": "passed",
+      "duration": 35,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/timeslots.test.tsx",
+      "fullName": "time-slot selection [QA-121] a reservation conflict refreshes availability, clears selection and keeps the reason",
+      "status": "passed",
+      "duration": 140,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/timeslots.test.tsx",
+      "fullName": "time-slot selection [QA-121] double press while the reservation is pending sends one order",
+      "status": "passed",
+      "duration": 149,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/timeslots.test.tsx",
+      "fullName": "time-slot selection [QA-118] connection failures are displayed without enabling an unselected booking",
+      "status": "passed",
+      "duration": 37,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/timeslots.test.tsx",
+      "fullName": "time-slot selection [QA-100/121] a server role rejection cannot advance to checkout",
+      "status": "passed",
+      "duration": 129,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/timeslots.test.tsx",
+      "fullName": "time-slot selection [QA-118][US40-AC4] an empty answer says nothing is open and points to other Career Professionals",
+      "status": "passed",
+      "duration": 32,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/timeslots.test.tsx",
+      "fullName": "time-slot selection [US40-AC4] nothing open online, but times in person, offers the switch",
+      "status": "passed",
+      "duration": 126,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/timeslots.test.tsx",
+      "fullName": "time-slot selection [US40-AC4] while times are loading nothing claims that none are open",
+      "status": "passed",
+      "duration": 49,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/timeslots.test.tsx",
+      "fullName": "time-slot selection [US40-AC4] a failed read is retried, never shown as nothing open",
+      "status": "passed",
+      "duration": 74,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-verification.test.tsx",
+      "fullName": "Verification screen — US-31, US-32 (mocked API boundary) an empty or non-LinkedIn URL is refused in the app and nothing is sent",
+      "status": "passed",
+      "duration": 116,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-verification.test.tsx",
+      "fullName": "Verification screen — US-31, US-32 (mocked API boundary) in review is shown only once the backend has stored the submission",
+      "status": "passed",
+      "duration": 110,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-verification.test.tsx",
+      "fullName": "Verification screen — US-31, US-32 (mocked API boundary) a failed submission shows the error and claims no new status",
+      "status": "passed",
+      "duration": 133,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-verification.test.tsx",
+      "fullName": "Verification screen — US-31, US-32 (mocked API boundary) a status that cannot be read shows the error and a retry, never a guessed status",
+      "status": "passed",
+      "duration": 61,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-verification.test.tsx",
+      "fullName": "Verification screen — US-31, US-32 (mocked API boundary) verified reads in the shared wording",
+      "status": "passed",
+      "duration": 64,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-verification.test.tsx",
+      "fullName": "Verification screen — US-31, US-32 (mocked API boundary) rejected reads in the shared wording",
+      "status": "passed",
+      "duration": 57,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "fullName": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a guest is returned to login without fetching a booking",
+      "status": "passed",
+      "duration": 20,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "fullName": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a counsellor cannot use the Job Seeker review form",
+      "status": "passed",
+      "duration": 14,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "fullName": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a platform owner cannot use the Job Seeker review form",
+      "status": "passed",
+      "duration": 5,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "fullName": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a confirmed booking cannot be submitted for review",
+      "status": "passed",
+      "duration": 23,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "fullName": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a cancelled booking cannot be submitted for review",
+      "status": "passed",
+      "duration": 67,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "fullName": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a refunded booking cannot be submitted for review",
+      "status": "passed",
+      "duration": 14,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "fullName": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a paid-out session remains reviewable after payout",
+      "status": "passed",
+      "duration": 131,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "fullName": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a previously stored review prevents a second review form",
+      "status": "passed",
+      "duration": 35,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "fullName": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a rating and non-blank written comment are both required before any request",
+      "status": "passed",
+      "duration": 102,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "fullName": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) while a review is storing the button blocks duplicate writes and success is not shown early",
+      "status": "passed",
+      "duration": 79,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "fullName": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a 409 write refusal is visible, retains entered feedback and never claims success",
+      "status": "passed",
+      "duration": 134,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "fullName": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a 403 write refusal is visible, retains entered feedback and never claims success",
+      "status": "passed",
+      "duration": 82,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "fullName": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) a temporary write failure is recoverable using the retained draft",
+      "status": "passed",
+      "duration": 128,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/review-boundaries.test.tsx",
+      "fullName": "US-53 / QA-213 review boundaries (real client and components, controlled HTTP) booking read failure offers no review form or guessed eligibility",
+      "status": "passed",
+      "duration": 11,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-bookings.test.tsx",
+      "fullName": "Career Professional bookings — US-42 AT-US-42-1: upcoming shows the service, Job Seeker, modality, time with timezone and the pre-session brief",
+      "status": "passed",
+      "duration": 106,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-bookings.test.tsx",
+      "fullName": "Career Professional bookings — US-42 US-43: tapping a booking opens its detail screen",
+      "status": "passed",
+      "duration": 40,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-bookings.test.tsx",
+      "fullName": "Career Professional bookings — US-42 AT-US-42-2: a booking whose slot time has passed appears under the Past tab, not Coming up",
+      "status": "passed",
+      "duration": 70,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-bookings.test.tsx",
+      "fullName": "Career Professional bookings — US-42 both tabs stay visible and selectable regardless of which one has data",
+      "status": "passed",
+      "duration": 41,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-bookings.test.tsx",
+      "fullName": "Career Professional bookings — US-42 a Past tab with nothing in it says so explicitly, instead of just disappearing",
+      "status": "passed",
+      "duration": 46,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-bookings.test.tsx",
+      "fullName": "Career Professional bookings — US-42 the pre-session brief is not shown once a booking is in the past",
+      "status": "passed",
+      "duration": 74,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-bookings.test.tsx",
+      "fullName": "Career Professional bookings — US-42 a booking with no pre-session brief shows none",
+      "status": "passed",
+      "duration": 47,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-bookings.test.tsx",
+      "fullName": "Career Professional bookings — US-42 a Job Seeker viewing their own upcoming booking also sees the brief they wrote (US-43)",
+      "status": "passed",
+      "duration": 42,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-bookings.test.tsx",
+      "fullName": "Career Professional bookings — US-42 AC3: no bookings at all shows an explicit empty state on each tab, without an error",
+      "status": "passed",
+      "duration": 22,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-bookings.test.tsx",
+      "fullName": "Career Professional bookings — US-42 AT-US-42-3: the app asks for bookings with only this Career Professional's own token",
+      "status": "passed",
+      "duration": 82,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-bookings.test.tsx",
+      "fullName": "Career Professional bookings — US-42 AT-US-42-4: the backend being unreachable shows an error state rather than an empty list",
+      "status": "passed",
+      "duration": 103,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-bookings.test.tsx",
+      "fullName": "Career Professional bookings — US-42 a backend error response also shows the error state rather than an empty list",
+      "status": "passed",
+      "duration": 23,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/booking-detail.test.tsx",
+      "fullName": "booking detail — US-43 AT-US-43-1: an online booking shows the service, Job Seeker, time with timezone, pre-session brief and the meeting link, which opens outside the app",
+      "status": "passed",
+      "duration": 115,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/booking-detail.test.tsx",
+      "fullName": "booking detail — US-43 AT-US-43-2: an in-person booking with no address yet shows a not-yet-provided state, and the counsellor can add one",
+      "status": "passed",
+      "duration": 81,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/booking-detail.test.tsx",
+      "fullName": "booking detail — US-43 an existing address can be edited",
+      "status": "passed",
+      "duration": 94,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/booking-detail.test.tsx",
+      "fullName": "booking detail — US-43 a Job Seeker sees the address once added, but has no edit controls",
+      "status": "passed",
+      "duration": 30,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/booking-detail.test.tsx",
+      "fullName": "booking detail — US-43 a Job Seeker with no address yet sees a Career-Professional-facing message instead",
+      "status": "passed",
+      "duration": 21,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/booking-detail.test.tsx",
+      "fullName": "booking detail — US-43 AT-US-43-3: a non-participant is rejected by the backend and sees no delivery information",
+      "status": "passed",
+      "duration": 57,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/booking-detail.test.tsx",
+      "fullName": "booking detail — US-43 AC4: a confirmed online booking with no link recorded shows a clear not-yet-provided state",
+      "status": "passed",
+      "duration": 21,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/booking-detail.test.tsx",
+      "fullName": "booking detail — US-43 a load failure shows an error with a working retry",
+      "status": "passed",
+      "duration": 19,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/booking-detail.test.tsx",
+      "fullName": "booking detail — US-43 back returns to My Bookings",
+      "status": "passed",
+      "duration": 50,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/login.test.tsx",
+      "fullName": "login screen [QA-103] missing credentials are rejected before the HTTP request",
+      "status": "passed",
+      "duration": 54,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/login.test.tsx",
+      "fullName": "login screen [QA-100] successful login authenticates the real provider and opens the job seeker home",
+      "status": "passed",
+      "duration": 37,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/login.test.tsx",
+      "fullName": "login screen [QA-100] a pending booking returns job_seeker to the appropriate route",
+      "status": "passed",
+      "duration": 81,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/login.test.tsx",
+      "fullName": "login screen [QA-100] a pending booking returns counsellor to the appropriate route",
+      "status": "passed",
+      "duration": 45,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/login.test.tsx",
+      "fullName": "login screen [QA-100] a counsellor login without a booking opens the workspace",
+      "status": "passed",
+      "duration": 36,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/login.test.tsx",
+      "fullName": "login screen [QA-103] invalid credentials show the generic safe message and allow retry",
+      "status": "passed",
+      "duration": 74,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/login.test.tsx",
+      "fullName": "login screen [QA-103] offline failure retains the entered email and offers another submit",
+      "status": "passed",
+      "duration": 37,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/login.test.tsx",
+      "fullName": "login screen [QA-100] submitting twice while authentication is pending sends one request",
+      "status": "passed",
+      "duration": 67,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/login.test.tsx",
+      "fullName": "login screen [QA-87] switching to registration preserves the booking and selected role",
+      "status": "passed",
+      "duration": 9,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/checkout.test.tsx",
+      "fullName": "checkout screen [QA-124] shows the selected order, session details and explicit test-mode payment",
+      "status": "passed",
+      "duration": 91,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/checkout.test.tsx",
+      "fullName": "checkout screen [QA-124/127] successful payment submits the held order token and replaces checkout with confirmation",
+      "status": "passed",
+      "duration": 95,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/checkout.test.tsx",
+      "fullName": "checkout screen [QA-124] duplicate pay presses while pending send only one payment request",
+      "status": "passed",
+      "duration": 103,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/checkout.test.tsx",
+      "fullName": "checkout screen [QA-124] a failed payment remains on checkout and retry uses the same order",
+      "status": "passed",
+      "duration": 188,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/checkout.test.tsx",
+      "fullName": "checkout screen [QA-124] a network failure shows recovery guidance without displaying success",
+      "status": "passed",
+      "duration": 136,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/checkout.test.tsx",
+      "fullName": "checkout screen [QA-124] an unauthenticated checkout cannot send a payment",
+      "status": "passed",
+      "duration": 22,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/checkout.test.tsx",
+      "fullName": "checkout screen [QA-127] in-person checkout shows the meeting area and supports returning to the previous screen",
+      "status": "passed",
+      "duration": 65,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/reschedule.test.tsx",
+      "fullName": "reschedule a booking — US-69 AT-US-69-1: the Job Seeker picks an open slot and the booking moves, keeping the same reference",
+      "status": "passed",
+      "duration": 71,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/reschedule.test.tsx",
+      "fullName": "reschedule a booking — US-69 the counsellor delivering the session can reschedule it too",
+      "status": "passed",
+      "duration": 57,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/reschedule.test.tsx",
+      "fullName": "reschedule a booking — US-69 AT-US-69-2: a slot taken out from under the request is rejected, the move is not shown as done, and the original is reloaded",
+      "status": "passed",
+      "duration": 45,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/reschedule.test.tsx",
+      "fullName": "reschedule a booking — US-69 AT-US-69-3: a cancelled booking cannot be rescheduled and no slot picker is offered",
+      "status": "passed",
+      "duration": 11,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/reschedule.test.tsx",
+      "fullName": "reschedule a booking — US-69 AT-US-69-3: a past booking cannot be rescheduled",
+      "status": "passed",
+      "duration": 8,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/reschedule.test.tsx",
+      "fullName": "reschedule a booking — US-69 AT-US-69-3: a non-participant is rejected by the backend and sees no picker",
+      "status": "passed",
+      "duration": 8,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/reschedule.test.tsx",
+      "fullName": "the Reschedule action on booking detail an upcoming confirmed booking offers Reschedule, which opens the picker for that booking",
+      "status": "passed",
+      "duration": 8,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/reschedule.test.tsx",
+      "fullName": "the Reschedule action on booking detail a cancelled booking offers no Reschedule action",
+      "status": "passed",
+      "duration": 6,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-profile.test.tsx",
+      "fullName": "job seeker profile — US-29 a signed-in Job Seeker opening their profile sees the values the backend returns",
+      "status": "passed",
+      "duration": 26,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-profile.test.tsx",
+      "fullName": "job seeker profile — US-29 a failed load shows an error and Try again reloads the same profile",
+      "status": "passed",
+      "duration": 13,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-profile.test.tsx",
+      "fullName": "job seeker profile — US-29 no session redirects to login as a job seeker",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-profile.test.tsx",
+      "fullName": "job seeker profile — US-29 a signed-in Career Professional is sent to their own home, not this profile",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-profile.test.tsx",
+      "fullName": "job seeker profile — US-29 requires a name and never calls the backend for an empty one",
+      "status": "passed",
+      "duration": 25,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-profile.test.tsx",
+      "fullName": "job seeker profile — US-29 shows success only once the backend confirms the save, not before",
+      "status": "passed",
+      "duration": 32,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-profile.test.tsx",
+      "fullName": "job seeker profile — US-29 a backend rejection keeps the typed values on screen and shows its message, with no success toast",
+      "status": "passed",
+      "duration": 46,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-profile.test.tsx",
+      "fullName": "job seeker profile — US-29 a profile that failed to load is never saved over",
+      "status": "passed",
+      "duration": 13,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-profile.test.tsx",
+      "fullName": "job seeker profile — US-29 adds a picked photo and saves it, then removing it saves null",
+      "status": "passed",
+      "duration": 84,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-profile.test.tsx",
+      "fullName": "job seeker profile — US-29 denied photo permission is reported without opening the picker",
+      "status": "passed",
+      "duration": 17,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-profile.test.tsx",
+      "fullName": "job seeker profile — US-29 opens profile privacy settings",
+      "status": "passed",
+      "duration": 9,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-profile.test.tsx",
+      "fullName": "job seeker profile — US-29 back returns to the job seeker home",
+      "status": "passed",
+      "duration": 8,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/service-detail.test.tsx",
+      "fullName": "service detail screen [QA-115] loads the selected public service, counsellor and delivery information",
+      "status": "passed",
+      "duration": 49,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/service-detail.test.tsx",
+      "fullName": "service detail screen [QA-115] not-found errors offer a retry and never expose a booking button",
+      "status": "passed",
+      "duration": 39,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/service-detail.test.tsx",
+      "fullName": "service detail screen [QA-100/115] guest booking continues through login with the service ID",
+      "status": "passed",
+      "duration": 33,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/service-detail.test.tsx",
+      "fullName": "service detail screen [QA-118] a signed-in job seeker continues to available times",
+      "status": "passed",
+      "duration": 25,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/service-detail.test.tsx",
+      "fullName": "service detail screen [QA-100] counsellors cannot continue into the buyer booking flow",
+      "status": "passed",
+      "duration": 34,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/service-detail.test.tsx",
+      "fullName": "service detail screen [QA-115] unrated pending counsellors do not acquire invented ratings or verification",
+      "status": "passed",
+      "duration": 18,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/service-detail.test.tsx",
+      "fullName": "service detail screen [US-54] shows backend-provided review rows and aggregate feedback",
+      "status": "passed",
+      "duration": 23,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "fullName": "public professional detail — QA-186/219 waits for profile and services before presenting identity or booking navigation",
+      "status": "passed",
+      "duration": 34,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "fullName": "public professional detail — QA-186/219 renders returned qualifications, location and rating, and only this professional’s services",
+      "status": "passed",
+      "duration": 17,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "fullName": "public professional detail — QA-186/219 requests the exact external LinkedIn URL without claiming an OS handoff",
+      "status": "passed",
+      "duration": 17,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "fullName": "public professional detail — QA-186/219 a failed profile read hides profile data until a successful retry",
+      "status": "passed",
+      "duration": 24,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "fullName": "public professional detail — QA-186/219 a failed services read hides profile data until a successful retry",
+      "status": "passed",
+      "duration": 22,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "fullName": "public professional detail — QA-186/219 a restricted response never reconstructs private content from services: {\"restricted\":true}",
+      "status": "passed",
+      "duration": 7,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "fullName": "public professional detail — QA-186/219 a restricted response never reconstructs private content from services: {\"visibility\":\"restricted\"}",
+      "status": "passed",
+      "duration": 7,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "fullName": "public professional detail — QA-186/219 a sparse partially visible response omits unavailable sections and external links",
+      "status": "passed",
+      "duration": 6,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "fullName": "public professional detail — QA-186/219 an unrated pending profile does not fabricate a score or verified badge",
+      "status": "passed",
+      "duration": 12,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/privacy-reviews.test.tsx",
+      "fullName": "profile privacy — US-27/28 loads all three choices and saves the selected visibility",
+      "status": "passed",
+      "duration": 32,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/privacy-reviews.test.tsx",
+      "fullName": "profile privacy — US-27/28 renders an explicit restricted profile without leaking hidden fields",
+      "status": "passed",
+      "duration": 8,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/privacy-reviews.test.tsx",
+      "fullName": "completed-booking reviews — US-53 offers the review action only from a completed, unreviewed session",
+      "status": "passed",
+      "duration": 24,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/privacy-reviews.test.tsx",
+      "fullName": "completed-booking reviews — US-53 submits a 1–5 star rating and written comment, then returns to the service",
+      "status": "passed",
+      "duration": 35,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/reset.test.tsx",
+      "fullName": "set a new password — US-70 AT-US-70-3: a valid token with matching passwords succeeds only once the backend confirms, then goes to login",
+      "status": "passed",
+      "duration": 30,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/reset.test.tsx",
+      "fullName": "set a new password — US-70 mismatched passwords are rejected before any request, and nothing navigates",
+      "status": "passed",
+      "duration": 17,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/reset.test.tsx",
+      "fullName": "set a new password — US-70 AT-US-70-4: an expired, used or altered token is rejected — the screen shows an error, not success",
+      "status": "passed",
+      "duration": 16,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/reset.test.tsx",
+      "fullName": "set a new password — US-70 a link with no token at all is refused before any request, not silently accepted",
+      "status": "passed",
+      "duration": 14,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/reset.test.tsx",
+      "fullName": "set a new password — US-70 AC6: while the request is in flight the screen is busy, not successful, and a second press sends one request",
+      "status": "passed",
+      "duration": 18,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/reset.test.tsx",
+      "fullName": "set a new password — US-70 AC6: a network failure shows an error and does not navigate to login",
+      "status": "passed",
+      "duration": 20,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary guest state makes no authenticated request and can close the panel",
+      "status": "passed",
+      "duration": 11,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary refreshes the signed-in account and shows an empty successful result without bulk-read action",
+      "status": "passed",
+      "duration": 7,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary pending responses do not fabricate notifications; resolved rows distinguish read/unread and relative age",
+      "status": "passed",
+      "duration": 13,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary opening a linked notification marks only that row read, closes and navigates to its route",
+      "status": "passed",
+      "duration": 11,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary a notification without a destination is marked read while the panel stays open",
+      "status": "passed",
+      "duration": 9,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary mark-all only submits unread IDs and removes the unread action after the local update",
+      "status": "passed",
+      "duration": 11,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary the intentionally missing endpoint HTTP 404 degrades to the empty panel",
+      "status": "passed",
+      "duration": 5,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary the intentionally missing endpoint HTTP 405 degrades to the empty panel",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary the intentionally missing endpoint HTTP 501 degrades to the empty panel",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary a read-mark failure does not prevent opening the intended booking",
+      "status": "passed",
+      "duration": 11,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary an unavailable notification service leaves the surrounding panel usable",
+      "status": "passed",
+      "duration": 5,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary opening the panel again refreshes cached rows from the current server response",
+      "status": "passed",
+      "duration": 14,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary logout hides cached private notifications immediately",
+      "status": "passed",
+      "duration": 7,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/forgot.test.tsx",
+      "fullName": "forgot password — US-70 AT-US-70-1: a registered email shows the generic confirmation after the backend accepts it",
+      "status": "passed",
+      "duration": 28,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/forgot.test.tsx",
+      "fullName": "forgot password — US-70 AT-US-70-2: an unregistered email produces the identical confirmation — the screen never branches on what the backend knows",
+      "status": "passed",
+      "duration": 13,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/forgot.test.tsx",
+      "fullName": "forgot password — US-70 an empty email is rejected before any request is sent",
+      "status": "passed",
+      "duration": 13,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/forgot.test.tsx",
+      "fullName": "forgot password — US-70 a server or network failure shows an error and does not claim a link was sent",
+      "status": "passed",
+      "duration": 19,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/forgot.test.tsx",
+      "fullName": "forgot password — US-70 offline failure is shown generically and the form stays usable",
+      "status": "passed",
+      "duration": 16,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/forgot.test.tsx",
+      "fullName": "forgot password — US-70 submitting shows a busy state and a second press while pending sends one request",
+      "status": "passed",
+      "duration": 11,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/forgot.test.tsx",
+      "fullName": "forgot password — US-70 the typed email carries over if Forgot password was reached with one prefilled",
+      "status": "passed",
+      "duration": 4,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/forgot.test.tsx",
+      "fullName": "forgot password — US-70 closing the screen goes back",
+      "status": "passed",
+      "duration": 4,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/forgot.test.tsx",
+      "fullName": "forgot password — US-70 after the confirmation, \"Back to sign in\" returns to login",
+      "status": "passed",
+      "duration": 15,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/confirmation.test.tsx",
+      "fullName": "confirmation route rendering characterization (not authoritative receipt acceptance) [characterization] renders route-provided confirmation references and stub disclosure",
+      "status": "passed",
+      "duration": 33,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/confirmation.test.tsx",
+      "fullName": "confirmation route rendering characterization (not authoritative receipt acceptance) [characterization] an in-person route includes the meeting area",
+      "status": "passed",
+      "duration": 20,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/confirmation.test.tsx",
+      "fullName": "confirmation route rendering characterization (not authoritative receipt acceptance) [characterization] unavailable service copy retains route references",
+      "status": "passed",
+      "duration": 11,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/confirmation.test.tsx",
+      "fullName": "confirmation route rendering characterization (not authoritative receipt acceptance) [QA-127] leaving confirmation clears an existing booking stack before browsing",
+      "status": "passed",
+      "duration": 20,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/verification.test.ts",
+      "fullName": "verification vocabulary — US-31, US-32 a LinkedIn address is accepted with or without its scheme, and nothing else is",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/verification.test.ts",
+      "fullName": "verification vocabulary — US-31, US-32 pending with nothing sent is told apart from pending in review, in the same words",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/config.test.tsx",
+      "fullName": "payment configuration is read from the backend once, not bundled into the app",
+      "status": "passed",
+      "duration": 56,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/config.test.tsx",
+      "fullName": "payment configuration a backend without the endpoint degrades to the stub rather than blocking booking",
+      "status": "passed",
+      "duration": 52,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/config.test.tsx",
+      "fullName": "payment configuration a component outside the provider still renders, with no payment settings",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/navigation.test.tsx",
+      "fullName": "entry navigation [QA-87/91] I am a Job Seeker opens its role welcome",
+      "status": "passed",
+      "duration": 37,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/navigation.test.tsx",
+      "fullName": "entry navigation [QA-87/91] I am a Career Professional opens its role welcome",
+      "status": "passed",
+      "duration": 18,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/navigation.test.tsx",
+      "fullName": "entry navigation [QA-109] guests can browse without creating a session",
+      "status": "passed",
+      "duration": 18,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/navigation.test.tsx",
+      "fullName": "entry navigation [QA-100] an existing job_seeker session opens its signed-in destination",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/navigation.test.tsx",
+      "fullName": "entry navigation [QA-100] an existing counsellor session opens its signed-in destination",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/navigation.test.tsx",
+      "fullName": "entry navigation [QA-100] an existing platform_owner session opens its signed-in destination",
+      "status": "passed",
+      "duration": 6,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt renders supplier, buyer, invoice and exact cents from the authenticated API response",
+      "status": "passed",
+      "duration": 24,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt does not fabricate a receipt while its API response is pending",
+      "status": "passed",
+      "duration": 8,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt a non-tax receipt hides ABN and explains that no GST was charged",
+      "status": "passed",
+      "duration": 12,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt a tax invoice without a supplier ABN omits an empty ABN row",
+      "status": "passed",
+      "duration": 9,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt HTTP 403 never renders another booking receipt",
+      "status": "passed",
+      "duration": 6,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt HTTP 404 never renders another booking receipt",
+      "status": "passed",
+      "duration": 5,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt a network error renders a recoverable explanation without payment facts",
+      "status": "passed",
+      "duration": 7,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt guest access does not request or expose receipt data",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt missing booking ID does not request an unrelated receipt",
+      "status": "passed",
+      "duration": 6,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt Back respects history availability = true",
+      "status": "passed",
+      "duration": 9,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt Back respects history availability = false",
+      "status": "passed",
+      "duration": 8,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "email verification link and recovery waits for server confirmation, adopts and persists the returned session exactly once",
+      "status": "passed",
+      "duration": 26,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "email verification link and recovery a missing token makes no verification request and offers sign-in navigation",
+      "status": "passed",
+      "duration": 9,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "email verification link and recovery a rejected token shows Expired token. without adopting a session",
+      "status": "passed",
+      "duration": 8,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "email verification link and recovery a rejected token shows This link has already been used. without adopting a session",
+      "status": "passed",
+      "duration": 6,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "email verification link and recovery network failure offers recovery without claiming verification succeeded",
+      "status": "passed",
+      "duration": 8,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "email verification link and recovery resend rejects whitespace without an HTTP request",
+      "status": "passed",
+      "duration": 10,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "email verification link and recovery resend trims the address, disables repeated presses and uses enumeration-safe success copy",
+      "status": "passed",
+      "duration": 19,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "email verification link and recovery the signed-in email is prefilled and a failed resend can be retried",
+      "status": "passed",
+      "duration": 18,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "unverified-email banner is absent for a guest",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "unverified-email banner is absent for a verified account",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "unverified-email banner describes the default booking prerequisite",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "unverified-email banner supports publishing copy and only shows sent state after the resend response",
+      "status": "passed",
+      "duration": 6,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/root-layout.test.tsx",
+      "fullName": "shared root layout startup (mocked component boundary, not browser/device acceptance) does not mount application screens while fonts are still loading",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/root-layout.test.tsx",
+      "fullName": "shared root layout startup (mocked component boundary, not browser/device acceptance) font readiness reveals the application with usable real authentication and chrome providers",
+      "status": "passed",
+      "duration": 12,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/root-layout.test.tsx",
+      "fullName": "shared root layout startup (mocked component boundary, not browser/device acceptance) a cached-font launch registers authentication and booking destinations",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/welcome.test.tsx",
+      "fullName": "public role welcome [QA-87/91] job seekers can choose registration, login or anonymous browsing",
+      "status": "passed",
+      "duration": 28,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/welcome.test.tsx",
+      "fullName": "public role welcome [QA-91] counsellor welcome preserves the role and requires an account",
+      "status": "passed",
+      "duration": 10,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/welcome.test.tsx",
+      "fullName": "public role welcome [QA-87] an unknown role uses the public job-seeker choices",
+      "status": "passed",
+      "duration": 11,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.http.test.tsx",
+      "fullName": "AuthProvider through the HTTP boundary reports a missing auth provider instead of allowing an undefined auth state",
+      "status": "passed",
+      "duration": 12,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.http.test.tsx",
+      "fullName": "AuthProvider through the HTTP boundary [QA-100] stores the returned session and resolves login to its authoritative role",
+      "status": "passed",
+      "duration": 10,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.http.test.tsx",
+      "fullName": "AuthProvider through the HTTP boundary [QA-100] preserves the role returned by a counsellor login",
+      "status": "passed",
+      "duration": 4,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.http.test.tsx",
+      "fullName": "AuthProvider through the HTTP boundary [QA-106] logout drops local identity immediately while server invalidation is pending",
+      "status": "passed",
+      "duration": 4,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.http.test.tsx",
+      "fullName": "AuthProvider through the HTTP boundary [QA-106] failed server invalidation does not restore the local identity",
+      "status": "passed",
+      "duration": 5,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.http.test.tsx",
+      "fullName": "AuthProvider through the HTTP boundary [QA-106] logout without a session sends no authenticated request",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.http.test.tsx",
+      "fullName": "AuthProvider through the HTTP boundary [QA-103] an invalid login rejects without authenticating the provider",
+      "status": "passed",
+      "duration": 6,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/AuthContext.http.test.tsx",
+      "fullName": "AuthProvider through the HTTP boundary [QA-103] a transport error rejects without authenticating the provider",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary live requests getOwnCounsellorProfile reads the token owner with Bearer authentication",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary live requests getOwnCounsellorProfile does not trust a caller-supplied counsellor identifier",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary live requests updateOwnCounsellorProfile PATCHes the published profile payload",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary live requests listOwnServices reads the counsellor-scoped service collection",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary live requests createService POSTs the service draft",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary live requests updateService PATCHes the URL-encoded service identifier",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary live requests deleteService DELETEs the URL-encoded service and resolves on 204",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary live requests listOwnAvailabilityWindows reads the calendar that belongs to the counsellor",
+      "status": "passed",
+      "duration": 6,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary live requests createAvailabilityWindow POSTs the window draft",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary live requests updateAvailabilityWindow PATCHes the URL-encoded window identifier",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary live requests deleteAvailabilityWindow DELETEs the URL-encoded window and resolves on 204",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary logout invalidates the server session and resolves to undefined",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary logout still resolves when the server rejects the sign-out call",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary logout still resolves when the network is unreachable",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary failures that are not a missing route a 403 preserves the server's failure",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary failures that are not a missing route a 500 preserves the server's failure",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary failures that are not a missing route a 403 on the profile route rejects rather than inventing a local profile",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary failures that are not a missing route a network error propagates instead of falling back",
+      "status": "passed",
+      "duration": 4,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary fieldErrors returns the field-level map published alongside an ApiError",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/counsellor-client.test.ts",
+      "fullName": "counsellor API boundary fieldErrors returns an empty map for an ApiError without field errors and for anything else",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/client.test.ts",
+      "fullName": "API client HTTP boundary login sends the documented method, URL, headers and body",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/client.test.ts",
+      "fullName": "API client HTTP boundary register serialises the complete registration request",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/client.test.ts",
+      "fullName": "API client HTTP boundary listServices trims and URL-encodes a query without adding authentication",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/client.test.ts",
+      "fullName": "API client HTTP boundary getService URL-encodes the service identifier",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/client.test.ts",
+      "fullName": "API client HTTP boundary listServiceSlots URL-encodes the service identifier",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/client.test.ts",
+      "fullName": "API client HTTP boundary createOrder sends the booking payload with Bearer authentication",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/client.test.ts",
+      "fullName": "API client HTTP boundary createOrder sends a given pre-session brief (US-42)",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/client.test.ts",
+      "fullName": "API client HTTP boundary completeStubPayment authenticates and URL-encodes the order identifier",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/client.test.ts",
+      "fullName": "API client HTTP boundary converts a structured non-2xx response into ApiError",
+      "status": "passed",
+      "duration": 4,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/client.test.ts",
+      "fullName": "API client HTTP boundary uses a deterministic fallback when an error response is not JSON",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/client.test.ts",
+      "fullName": "API client HTTP boundary preserves network errors for user-facing connection handling",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/client.test.ts",
+      "fullName": "API client HTTP boundary maps API, generic and unknown failures to safe user-facing messages",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/client.test.ts",
+      "fullName": "API client HTTP boundary Career Professionals are listed and read publicly, without authentication",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/client.test.ts",
+      "fullName": "API client HTTP boundary the job seeker profile is read and replaced with the bearer token",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/client.test.ts",
+      "fullName": "API client HTTP boundary notifications read as none until the backend serves them; other failures still surface",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/client.test.ts",
+      "fullName": "API client HTTP boundary a notification is marked read by its URL-encoded id",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis.test.ts",
+      "fullName": "the Yoir Direction the main challenge decides the area to work on",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis.test.ts",
+      "fullName": "the Yoir Direction \"Not sure\" falls back to the goal, then to the situation",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis.test.ts",
+      "fullName": "the Yoir Direction barriers add their own next steps, and what they tried changes the advice",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis.test.ts",
+      "fullName": "best matches put the Career Professionals who fit the direction first",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis.test.ts",
+      "fullName": "best matches a barrier brings in related people without outranking the main area",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis.test.ts",
+      "fullName": "best matches without a diagnosis, rank by rating and claim no match",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis.test.ts",
+      "fullName": "Explore, by direction services that fit the direction come first, and the rest keep the order they had",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis.test.ts",
+      "fullName": "Explore, by direction a service that only touches a barrier moves up but is not called a fit",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis.test.ts",
+      "fullName": "Explore, by direction with nothing that fits, the list is untouched and no fit is claimed",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/http-response-harness.test.tsx",
+      "fullName": "screen HTTP response harness JSON responses expose case-insensitive Content-Type and establish a session through the real client",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/http-response-harness.test.tsx",
+      "fullName": "screen HTTP response harness HTTP 204 has no JSON body and deletion succeeds without reading one",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/http-response-harness.test.tsx",
+      "fullName": "screen HTTP response harness HTTP 205 has no JSON body and deletion succeeds without reading one",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/availabilityPlanner.test.ts",
+      "fullName": "planning availability calendar helpers a month grid is padded to whole Monday-first weeks",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/availabilityPlanner.test.ts",
+      "fullName": "planning availability calendar helpers date keys round-trip through the local calendar day",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/availabilityPlanner.test.ts",
+      "fullName": "planning availability calendar helpers startOfDay and isSameMonth behave as the grid expects",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/availabilityPlanner.test.ts",
+      "fullName": "planning availability calendar helpers addMonths moves the month without drifting the year",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/availabilityPlanner.test.ts",
+      "fullName": "planning availability calendar helpers repeating weekdays yields one date per matching day in range",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/availabilityPlanner.test.ts",
+      "fullName": "planning availability calendar helpers no weeks means no dates",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/availabilityPlanner.test.ts",
+      "fullName": "planning availability calendar helpers leap-day calendar helpers preserve the original date",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/availabilityPlanner.test.ts",
+      "fullName": "planning availability building windows one window per chosen day, over the hours worked",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/availabilityPlanner.test.ts",
+      "fullName": "planning availability building windows a finish time at or before the start yields nothing",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/availabilityPlanner.test.ts",
+      "fullName": "planning availability building windows no dates yields nothing",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/availabilityPlanner.test.ts",
+      "fullName": "planning availability building windows drafts come back in start order",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/availabilityPlanner.test.ts",
+      "fullName": "planning availability building windows the same day twice produces one window, not two overlapping ones",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/availabilityPlanner.test.ts",
+      "fullName": "planning availability building windows uses the chosen local hours and modalities without mutating the source dates",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/availabilityPlanner.test.ts",
+      "fullName": "planning availability merging with the existing calendar a draft inside an existing window merges with it",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/availabilityPlanner.test.ts",
+      "fullName": "planning availability merging with the existing calendar a draft that only touches the edge still merges",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/availabilityPlanner.test.ts",
+      "fullName": "planning availability merging with the existing calendar a draft on another day does not",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/availabilityPlanner.test.ts",
+      "fullName": "planning availability merging with the existing calendar the window being edited is ignored",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/counsellor/availabilityPlanner.test.ts",
+      "fullName": "planning availability merging with the existing calendar a window containing bookings still participates in calendar merging",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/verification-admin-client.test.ts",
+      "fullName": "confirming an address and recovering an account verifying an address returns a session, because the link proves ownership",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/verification-admin-client.test.ts",
+      "fullName": "confirming an address and recovering an account the verify call carries no bearer token: the whole point is not being signed in",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/verification-admin-client.test.ts",
+      "fullName": "confirming an address and recovering an account requestEmailVerification posts only the address",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/verification-admin-client.test.ts",
+      "fullName": "confirming an address and recovering an account requestPasswordReset posts only the address",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/verification-admin-client.test.ts",
+      "fullName": "confirming an address and recovering an account resetting a password sends the link token with both copies of the new one",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/verification-admin-client.test.ts",
+      "fullName": "administration calls getPlatformStats reads /admin/stats with the caller's bearer token",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/verification-admin-client.test.ts",
+      "fullName": "administration calls listPaymentOversight reads /admin/payments with the caller's bearer token",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/verification-admin-client.test.ts",
+      "fullName": "administration calls listAllBookings reads /admin/bookings with the caller's bearer token",
+      "status": "passed",
+      "duration": 5,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/verification-admin-client.test.ts",
+      "fullName": "administration calls listAllCounsellors reads /admin/counsellors with the caller's bearer token",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/verification-admin-client.test.ts",
+      "fullName": "administration calls listAllJobSeekers reads /admin/job-seekers with the caller's bearer token",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/verification-admin-client.test.ts",
+      "fullName": "administration calls the verification queue filters by status in the query string",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/verification-admin-client.test.ts",
+      "fullName": "administration calls a decision carries its reason, which the counsellor is emailed",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/verification-admin-client.test.ts",
+      "fullName": "administration calls ids are escaped rather than pasted into the path",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/real-client-write-safety.test.ts",
+      "fullName": "shared real-client write safety (mocked HTTP, no backend/device claim) profile save: HTTP 403 never becomes a local save or success",
+      "status": "passed",
+      "duration": 7,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/real-client-write-safety.test.ts",
+      "fullName": "shared real-client write safety (mocked HTTP, no backend/device claim) service create: HTTP 403 never becomes a local save or success",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/real-client-write-safety.test.ts",
+      "fullName": "shared real-client write safety (mocked HTTP, no backend/device claim) service edit: HTTP 403 never becomes a local save or success",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/real-client-write-safety.test.ts",
+      "fullName": "shared real-client write safety (mocked HTTP, no backend/device claim) service delete: HTTP 403 never becomes a local save or success",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/real-client-write-safety.test.ts",
+      "fullName": "shared real-client write safety (mocked HTTP, no backend/device claim) window create: HTTP 403 never becomes a local save or success",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/real-client-write-safety.test.ts",
+      "fullName": "shared real-client write safety (mocked HTTP, no backend/device claim) window edit: HTTP 403 never becomes a local save or success",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/real-client-write-safety.test.ts",
+      "fullName": "shared real-client write safety (mocked HTTP, no backend/device claim) window delete: HTTP 403 never becomes a local save or success",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/real-client-write-safety.test.ts",
+      "fullName": "shared real-client write safety (mocked HTTP, no backend/device claim) service detail: a genuine HTTP 404 retains its server error",
+      "status": "passed",
+      "duration": 4,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/real-client-write-safety.test.ts",
+      "fullName": "shared real-client write safety (mocked HTTP, no backend/device claim) public service slots: a genuine HTTP 404 retains its server error",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/floating-error.test.tsx",
+      "fullName": "global floating errors moves a page-level error into the overlay and lets the user dismiss it",
+      "status": "passed",
+      "duration": 5,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/floating-error.test.tsx",
+      "fullName": "global floating errors shows only the newest error instead of stacking messages",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/components/animatedSvg.test.tsx",
+      "fullName": "animated SVG primitives collapsable never reaches the wrapped SVG component",
+      "status": "passed",
+      "duration": 11,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/components/animatedSvg.test.tsx",
+      "fullName": "animated SVG primitives an unwrapped component would have received it",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/real-client-response-harness.test.ts",
+      "fullName": "real-client HTTP response harness JSON login has a case-insensitive Content-Type header and returns the session",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/real-client-response-harness.test.ts",
+      "fullName": "real-client HTTP response harness HTTP 204 stays empty and successful deletion does not parse JSON",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/real-client-response-harness.test.ts",
+      "fullName": "real-client HTTP response harness HTTP 205 stays empty and successful deletion does not parse JSON",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/refreshOn401.test.ts",
+      "fullName": "renewing a lapsed access token a 401 is renewed and the original request retried",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/refreshOn401.test.ts",
+      "fullName": "renewing a lapsed access token concurrent 401s cause exactly one refresh",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/refreshOn401.test.ts",
+      "fullName": "renewing a lapsed access token a refused refresh drops the session rather than retrying forever",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/refreshOn401.test.ts",
+      "fullName": "renewing a lapsed access token with no refresh token there is nothing to renew",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/refreshOn401.test.ts",
+      "fullName": "renewing a lapsed access token an unauthenticated call is not renewed",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/refreshOn401.test.ts",
+      "fullName": "renewing a lapsed access token a failing login does not try to refresh its way in",
+      "status": "passed",
+      "duration": 4,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/client.test.ts",
+      "fullName": "payment operations on the HTTP boundary getBooking reads the authenticated booking with an escaped identifier",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/client.test.ts",
+      "fullName": "payment operations on the HTTP boundary getBookingReceipt reads the authenticated booking with an escaped identifier",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/client.test.ts",
+      "fullName": "payment operations on the HTTP boundary payment config is public, so it is requested without a bearer token",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/client.test.ts",
+      "fullName": "payment operations on the HTTP boundary creating a payment intent posts to the order and authenticates",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/client.test.ts",
+      "fullName": "payment operations on the HTTP boundary an order id is escaped rather than pasted into the path",
+      "status": "passed",
+      "duration": 4,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/client.test.ts",
+      "fullName": "payment operations on the HTTP boundary cancelling a booking sends the reason the person gave",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/client.test.ts",
+      "fullName": "payment operations on the HTTP boundary tax details are sent with PUT, the method the contract publishes",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/client.test.ts",
+      "fullName": "payment operations on the HTTP boundary onboarding always asks the server for a new link rather than reusing one",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/client.test.ts",
+      "fullName": "payment operations on the HTTP boundary a payment failure surfaces the API message rather than a generic one",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/sessionStore.web.test.ts",
+      "fullName": "session storage in a browser what is written is what comes back after a reload",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/sessionStore.web.test.ts",
+      "fullName": "session storage in a browser clearing removes it, so a refresh does not bring the session back",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/sessionStore.web.test.ts",
+      "fullName": "session storage in a browser nothing stored reads as no session rather than as an error",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/sessionStore.web.test.ts",
+      "fullName": "session storage in a browser a browser that refuses storage costs a sign-in, not a crash",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/real-client-resource-safety.test.ts",
+      "fullName": "real-client resource safety (mocked HTTP) F08 / QA #145: a real availability 404 is surfaced instead of inventing local data",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/real-client-resource-safety.test.ts",
+      "fullName": "real-client resource safety (mocked HTTP) DEF-PROFILE-PROVENANCE: a missing profile for a real UUID absent from local seeds cannot invent a verification status",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/real-client-resource-safety.test.ts",
+      "fullName": "real-client resource safety (mocked HTTP) DEF-PROFILE-PROVENANCE: a missing profile for a real ID matching a former local seed cannot invent a verification status",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/real-client-resource-safety.test.ts",
+      "fullName": "real-client resource safety (mocked HTTP) a rejected availability-window creation preserves the server error",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/api/real-client-resource-safety.test.ts",
+      "fullName": "real-client resource safety (mocked HTTP) DEF-RESOURCE-FALLBACK: a missing real window preserves the server deletion error",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/waitForPayouts.test.ts",
+      "fullName": "waiting for Stripe to enable payouts stops as soon as the counsellor can be paid",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/waitForPayouts.test.ts",
+      "fullName": "waiting for Stripe to enable payouts keeps asking while Stripe is still deciding",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/waitForPayouts.test.ts",
+      "fullName": "waiting for Stripe to enable payouts reports every answer, so charges-enabled shows before payouts are",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/waitForPayouts.test.ts",
+      "fullName": "waiting for Stripe to enable payouts a blip on one poll does not end the wait",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/waitForPayouts.test.ts",
+      "fullName": "waiting for Stripe to enable payouts gives up after the window rather than polling forever",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/waitForPayouts.test.ts",
+      "fullName": "waiting for Stripe to enable payouts waits between attempts on its own timer, with no options injected",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/waitForPayouts.test.ts",
+      "fullName": "waiting for Stripe to enable payouts stops immediately when the screen has gone away",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/payoutStage.test.ts",
+      "fullName": "how far through payout setup a counsellor is nothing started yet",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/payoutStage.test.ts",
+      "fullName": "how far through payout setup a counsellor is an account exists but Stripe is still verifying",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/payoutStage.test.ts",
+      "fullName": "how far through payout setup a counsellor is fully set up is not told to continue setting up",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/payoutStage.test.ts",
+      "fullName": "how far through payout setup a counsellor is before the status has loaded, nothing is claimed",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/payoutStage.test.ts",
+      "fullName": "how far through payout setup a counsellor is readiness follows the server, not the raw flag",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/marketplace/filters.test.ts",
+      "fullName": "marketplace filters returns every service in recommended order by default",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/marketplace/filters.test.ts",
+      "fullName": "marketplace filters narrows by delivery method",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/marketplace/filters.test.ts",
+      "fullName": "marketplace filters narrows by state",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/marketplace/filters.test.ts",
+      "fullName": "marketplace filters narrows by maximum price",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/marketplace/filters.test.ts",
+      "fullName": "marketplace filters narrows by minimum rating and excludes unrated services",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/marketplace/filters.test.ts",
+      "fullName": "marketplace filters sorts by price in both directions",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/marketplace/filters.test.ts",
+      "fullName": "marketplace filters sorts by rating with unrated services last",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/marketplace/filters.test.ts",
+      "fullName": "marketplace filters combines narrowing filters",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/marketplace/filters.test.ts",
+      "fullName": "marketplace filters counts only the narrowing filters, not the sort order",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/marketplace/filters.test.ts",
+      "fullName": "marketplace filters offers only the states the current results cover",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.web.test.ts",
+      "fullName": "browser diagnosis persistence — QA-162/165/168 two accounts keep separate answers, and a retake replaces only its owner’s record",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.web.test.ts",
+      "fullName": "browser diagnosis persistence — QA-162/165/168 blocked site data returns no saved diagnosis and does not throw while saving",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.web.test.ts",
+      "fullName": "browser diagnosis persistence — QA-162/165/168 a full storage quota leaves the previous saved value readable",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/format.test.ts",
+      "fullName": "display formatting writes a length of time in hours and minutes",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/format.test.ts",
+      "fullName": "display formatting formats whole-dollar AUD prices",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/format.test.ts",
+      "fullName": "display formatting names both delivery methods",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/format.test.ts",
+      "fullName": "display formatting renders dates and times in the redesign formats",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/format.test.ts",
+      "fullName": "display formatting builds avatar initials the way the prototype does",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/format.test.ts",
+      "fullName": "display formatting counts a reservation hold down to zero",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/format.test.ts",
+      "fullName": "display formatting compares days and finds the Monday that starts a week",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/format.test.ts",
+      "fullName": "display formatting uses the device timezone and falls back if Intl cannot resolve it",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/waitForBooking.test.ts",
+      "fullName": "waiting for the backend to confirm a paid booking returns the booking as soon as the webhook has been processed",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/waitForBooking.test.ts",
+      "fullName": "waiting for the backend to confirm a paid booking keeps asking while the webhook is still in flight",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/waitForBooking.test.ts",
+      "fullName": "waiting for the backend to confirm a paid booking a blip on one poll does not end the wait",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/waitForBooking.test.ts",
+      "fullName": "waiting for the backend to confirm a paid booking stops immediately once the backend has refunded a slot someone else took",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/waitForBooking.test.ts",
+      "fullName": "waiting for the backend to confirm a paid booking waits between attempts on its own timer, with no options injected",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/payments/waitForBooking.test.ts",
+      "fullName": "waiting for the backend to confirm a paid booking gives up after the configured attempts rather than hanging the screen",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/navigation.test.ts",
+      "fullName": "going back steps back when there is history behind the screen",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/navigation.test.ts",
+      "fullName": "going back goes to the parent when the screen was opened directly",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/navigation.test.ts",
+      "fullName": "going back a parametrised parent is passed through as given",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/navigation.test.ts",
+      "fullName": "going back replaces rather than pushes, so back does not stack up entries",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/navigation.test.ts",
+      "fullName": "where a role starts a Platform Owner opens on the dashboard, not the marketplace",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/navigation.test.ts",
+      "fullName": "where a role starts a counsellor opens on their workspace and a job seeker on their home",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/authBridge.test.ts",
+      "fullName": "the bridge between the HTTP client and the session before anything binds, there is no session and adopting one is harmless",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/authBridge.test.ts",
+      "fullName": "the bridge between the HTTP client and the session binding wires the getter and setter through",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/authBridge.test.ts",
+      "fullName": "the bridge between the HTTP client and the session one refresh is shared by everyone who asks while it is in flight",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/authBridge.test.ts",
+      "fullName": "the bridge between the HTTP client and the session a later refresh starts afresh once the first has settled",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/authBridge.test.ts",
+      "fullName": "the bridge between the HTTP client and the session a refresh that throws resolves to no session rather than escaping",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/auth/authBridge.test.ts",
+      "fullName": "the bridge between the HTTP client and the session the platform identifier is one the API accepts",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.native.test.ts",
+      "fullName": "uses the exact account-specific key and leaves serialized answers intact",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.native.test.ts",
+      "fullName": "an unreadable secure store returns no record without a fabricated saved answer",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.native.test.ts",
+      "fullName": "characterizes swallowed native write errors; resolution is not proof of persistence",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    }
+  ]
+}

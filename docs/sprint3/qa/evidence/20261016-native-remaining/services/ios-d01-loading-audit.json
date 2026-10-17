@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-15T22:11:00.886919+00:00",
+  "scope": "8-second test harness delay, followed by unchanged real onboarding-state response, to observe native loading guard",
+  "delayHits": [
+    {
+      "at": "2026-10-15T22:09:59.213750+00:00",
+      "ruleId": "ios-d01-onboarding-loading",
+      "method": "GET",
+      "path": "/api/v1/me/onboarding-state",
+      "userId": "qa-nr-ios-new",
+      "hit": 1,
+      "action": "delay",
+      "status": 200
+    }
+  ],
+  "responses": [
+    {
+      "at": "2026-10-15T22:10:07.218559+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/onboarding-state",
+      "userId": "qa-nr-ios-new",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:10:18.695589+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/onboarding-state",
+      "userId": "qa-nr-ios-new",
+      "status": 200
+    }
+  ]
+}

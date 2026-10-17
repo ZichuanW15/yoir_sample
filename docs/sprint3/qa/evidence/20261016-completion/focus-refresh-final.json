@@ -1,0 +1,77 @@
+{
+  "startTime": 1792096667351,
+  "success": true,
+  "wasInterrupted": false,
+  "numPassedTests": 9,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTotalTests": 9,
+  "numPassedTestSuites": 1,
+  "numFailedTestSuites": 0,
+  "numRuntimeErrorTestSuites": 0,
+  "cases": [
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed pending after returning",
+      "status": "passed",
+      "duration": 75,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed verified after returning",
+      "status": "passed",
+      "duration": 62,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh profile replaces a prior status with confirmed rejected after returning",
+      "status": "passed",
+      "duration": 60,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed pending after returning",
+      "status": "passed",
+      "duration": 61,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed verified after returning",
+      "status": "passed",
+      "duration": 60,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh workspace replaces a prior status with confirmed rejected after returning",
+      "status": "passed",
+      "duration": 61,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh profile marks previously verified status unavailable on focus failure, then recovers",
+      "status": "passed",
+      "duration": 74,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-195/198 same-mounted counsellor focus refresh returning focus does not overwrite an unsaved profile draft",
+      "status": "passed",
+      "duration": 62,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "fullName": "QA-210 payment refresh failure clears formerly loaded rows and retry uses new data",
+      "status": "passed",
+      "duration": 111,
+      "failureMessages": []
+    }
+  ]
+}

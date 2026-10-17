@@ -1,0 +1,15 @@
+Starting project at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend
+Metro is running in CI mode, reloads are disabled. Remove CI=true to enable watch mode.
+Starting Metro Bundler
+
+Waiting on http://localhost:8099
+
+Logs for your project will appear below.
+iOS Bundled 5747ms node_modules/expo-router/entry.js (1554 modules)
+Android Bundled 3695ms node_modules/expo-router/entry.js (1681 modules)
+iOS Bundled 65ms node_modules/expo-router/entry.js (1 module)
+iOS Bundled 57ms node_modules/expo-router/entry.js (1 module)
+Android Bundled 62ms node_modules/expo-router/entry.js (1 module)
+Android Bundled 78ms node_modules/expo-router/entry.js (1 module)
+iOS Bundled 63ms node_modules/expo-router/entry.js (1 module)
+Android Bundled 61ms node_modules/expo-router/entry.js (1 module)

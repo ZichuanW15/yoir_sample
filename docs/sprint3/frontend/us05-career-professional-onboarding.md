@@ -67,7 +67,7 @@ The avatar still opens the account sheet, so the Career Professional can log out
 The steps themselves use the existing US-30 and US-31 calls on their own screens. Saving there is what
 changes the answer here. The back end works out both flags; the app shows them as given.
 
-## Acceptance criteria
+## Executed acceptance coverage
 
 | Criterion | Frontend behaviour | Evidence |
 |---|---|---|
@@ -93,9 +93,33 @@ changes the answer here. The back end works out both flags; the app shows them a
 
 Run from `frontend/`:
 `npx jest __tests__/screens/counsellor-onboarding.test.tsx __tests__/screens/counsellor-dashboard.test.tsx`.
-Local run on `dev` at `0df4068`, 17 October 2026, Node 22.14.0: 20 passed (8 and 12).
+**Original dev-only execution:** `0df4068`, 17 October 2026, Node 22.14.0: 20 passed (8 and 12).
 
-## Known gaps
+The refresh adds [the same-mounted-screen focus case](../../../frontend/__tests__/screens/onboarding-focus.test.tsx).
+It returns from the verification step, checks the updated Done label while the
+profile remains incomplete, then returns after both flags are confirmed and
+checks the workspace redirect. The focused execution passed without remounting
+the onboarding screen or signing in again.
+
+## QA branch evidence
+
+The preceding dev-only counts identify the original source-document execution.
+The `sprint3-qa` overlay adds executed API, component and browser coverage. Its
+[17 October report](../qa/test-results-final-20261017.md) records the tested
+`0df4068` product, and the [dev refresh report](../qa/test-results-dev-refresh-20261017.md)
+records reconciliation with `972caee`. That dev update adds documentation; product
+code is unchanged. Suite counts belong to their dated executions and are not added
+together. The [meeting-area report](../qa/test-results-meeting-area-20261017.md)
+retains the subsequent `9cce973` baseline from PR #244. The
+[latest confirmation report](../qa/test-results-confirmation-20261017.md) records
+`8713b38d63ccb969dcc69a44a02f888fd65caa9a`, including the desktop layout update
+and PR #246. Fresh full component runs passed 610 shared and 619 per native
+preset. Confirmation now consumes a successfully read purchase snapshot; its
+corrected regression and fallback boundaries have their own evidence. The older
+06:33 UTC frontend figures retain their original execution date and source set.
+The [QA matrix](../qa/qa-matrix.md) links these results to the QA tasks.
+
+## Recorded behaviour and findings
 
 - **Only the workspace is gated.** `/counsellor/services/new` and the other Career Professional screens
   do not check onboarding, so a deep link reaches them. The back end still refuses publishing until
@@ -106,4 +130,10 @@ Local run on `dev` at `0df4068`, 17 October 2026, Node 22.14.0: 20 passed (8 and
 - **One save can finish both steps.** The profile form already requires a LinkedIn URL, and the back
   end counts any stored URL as submitted. Saving the profile therefore marks verification Done too,
   without the Verification screen being opened.
-- **Device evidence:** screen 42 is iOS only. The story asks for a recording on iOS and Android.
+- **Recorded native evidence:** [case D01](../qa/device-acceptance.md) exercised setup,
+  restart and delayed/failed reads on both Expo Go simulator platforms on 16 October
+  (`cdcc44e`). The failed-read case exposed the workspace and remains a recorded FAIL.
+- **Transaction evidence:** `test_failed_counsellor_profile_save_keeps_public_onboarding_and_review_details_then_retries`
+  in [the API completion tests](../../../backend/tests/test_sprint3_completion_qa.py)
+  verifies that a refused commit leaves onboarding and public profile readers unchanged,
+  then verifies a successful retry. Its PostgreSQL result is retained in the QA report.

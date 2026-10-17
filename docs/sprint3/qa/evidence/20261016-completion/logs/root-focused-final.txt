@@ -1,0 +1,14 @@
+
+> yoir-mobile@0.1.0 test:ci
+> jest --ci --runInBand --runTestsByPath __tests__/screens/job-seeker-home.test.tsx __tests__/screens/professional-detail.test.tsx __tests__/diagnosis/storage.native.test.ts --json --outputFile=../artifacts/qa/sprint3-completion-20261016/root-focused-final/results.json
+
+PASS __tests__/screens/job-seeker-home.test.tsx
+PASS __tests__/screens/professional-detail.test.tsx
+PASS __tests__/diagnosis/storage.native.test.ts
+
+Test Suites: 3 passed, 3 total
+Tests:       21 passed, 21 total
+Snapshots:   0 total
+Time:        1.714 s, estimated 2 s
+Ran all test suites within paths "__tests__/screens/job-seeker-home.test.tsx", "__tests__/screens/professional-detail.test.tsx", "__tests__/diagnosis/storage.native.test.ts".
+Test results written to: ../artifacts/qa/sprint3-completion-20261016/root-focused-final/results.json

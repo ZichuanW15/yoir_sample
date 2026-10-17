@@ -1,0 +1,41 @@
+{
+  "at": "2026-10-15T21:46:41.911363+00:00",
+  "userId": "qa-nr-android-candidate",
+  "reads": {
+    "/me/onboarding-state": {
+      "status": 200,
+      "data": {
+        "profileComplete": true,
+        "verificationSubmitted": false,
+        "complete": false
+      }
+    },
+    "/me/counsellor-profile": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-android-candidate",
+        "displayName": "QA Android Candidate",
+        "linkedinUrl": "",
+        "introduction": "Android QA introduction",
+        "background": "Android QA background",
+        "experience": "Android QA experience",
+        "qualifications": [
+          "QA qualification"
+        ],
+        "expertise": [
+          "Career planning"
+        ],
+        "languages": [
+          "English"
+        ],
+        "baseLocation": {
+          "state": "VIC",
+          "cityOrRegion": "Melbourne"
+        },
+        "defaultModality": "online",
+        "verificationStatus": "pending",
+        "reviewCount": 0
+      }
+    }
+  }
+}

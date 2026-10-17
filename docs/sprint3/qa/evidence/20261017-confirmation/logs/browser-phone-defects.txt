@@ -1,0 +1,388 @@
+[WebServer] Mail is NOT configured (MAILGUN_API_KEY and MAILGUN_DOMAIN missing): every message will be logged and discarded, including email confirmation and booking confirmations.
+
+Running 8 tests using 1 worker
+
+  ✘  1 [chromium-mobile-web] › e2e/integrity.spec.ts:96:5 › DEF-MONEY-CENTS: real persisted cents remain visible in the marketplace and service detail @defect (11.8s)
+  ✘  2 [chromium-mobile-web] › e2e/integrity.spec.ts:125:5 › DEF-PRICE-SIGN: negative browser input must not publish a positive-price service @defect (13.4s)
+  ✘  3 [chromium-mobile-web] › e2e/sprint3-accessibility.spec.ts:7:5 › DEF-DIAGNOSIS-WEB-CHECKED: a selected diagnosis radio exposes its checked state @defect (7.3s)
+  ✘  4 [chromium-mobile-web] › e2e/sprint3-integration-acceptance.spec.ts:168:5 › @defect [S3-PROFILE-UNRATED][QA-219] a real unrated professional has an explicit neutral rating state (5.3s)
+  ✘  5 [chromium-mobile-web] › e2e/sprint3-integration-acceptance.spec.ts:188:5 › @defect [S3-DIAGNOSIS-HOME-READ-RECOVERY][QA-162][QA-168] an unavailable saved diagnosis offers retry without replacing confirmed answers @injected-network (6.5s)
+  ✘  6 [chromium-mobile-web] › e2e/sprint3-workflows.spec.ts:193:5 › US48 an old existing order opens by ID beyond the first 200 list rows @defect (6.5s)
+  ✓  7 [chromium-mobile-web] › e2e/web.spec.ts:349:5 › [QA-118][US40-AC4] real empty availability has an explanatory state @defect (1.3s)
+  ✘  8 [chromium-mobile-web] › e2e/web.spec.ts:374:5 › US68 forged anonymous confirmation URL must not claim success @defect (5.2s)
+
+
+  1) [chromium-mobile-web] › e2e/integrity.spec.ts:96:5 › DEF-MONEY-CENTS: real persisted cents remain visible in the marketplace and service detail @defect
+
+    Error: expect(locator).toHaveAccessibleName(expected) failed
+
+    Locator: getByRole('button', { name: 'Exact cents 939153e5-047d-4d5d-aab7-6a02fb842ff4 by' })
+    Expected pattern: /\$70\.50/
+    Received string:  "Exact cents 939153e5-047d-4d5d-aab7-6a02fb842ff4 by Maya Chen, $71"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "soft toHaveAccessibleName" getByRole('button', { name: 'Exact cents 939153e5-047d-4d5d-aab7-6a02fb842ff4 by' }) with timeout 5000ms
+      - waiting for getByRole('button', { name: 'Exact cents 939153e5-047d-4d5d-aab7-6a02fb842ff4 by' })
+        14 × locator resolved to <button tabindex="0" role="button" type="button" class="css-g5y9jx r-1loqt21 r-1otgn73" aria-label="Exact cents 939153e5-047d-4d5d-aab7-6a02fb842ff4 by Maya Chen, $71">…</button>
+           - unexpected value "Exact cents 939153e5-047d-4d5d-aab7-6a02fb842ff4 by Maya Chen, $71"
+
+
+      116 |   // Keep both independent display failures in the evidence instead of stopping
+      117 |   // at the first screen. Do not import the production formatter as the oracle.
+    > 118 |   await expect.soft(card).toHaveAccessibleName(/\$70\.50/);
+          |                           ^
+      119 |   await card.click();
+      120 |   await expect(page).toHaveURL(new RegExp(`/services/${service.id}$`));
+      121 |   await expect(page.getByText('About this service', { exact: true })).toBeVisible();
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/integrity.spec.ts:118:27
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('$70.50', { exact: true }).visible().first()
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "soft toBeVisible" getByText('$70.50', { exact: true }).visible().first() with timeout 5000ms
+      - waiting for getByText('$70.50', { exact: true }).visible().first()
+
+
+      120 |   await expect(page).toHaveURL(new RegExp(`/services/${service.id}$`));
+      121 |   await expect(page.getByText('About this service', { exact: true })).toBeVisible();
+    > 122 |   await expect.soft(page.getByText('$70.50', { exact: true }).filter({ visible: true }).first()).toBeVisible();
+          |                                                                                                  ^
+      123 | });
+      124 |
+      125 | test('DEF-PRICE-SIGN: negative browser input must not publish a positive-price service @defect', async ({ page, request }) => {
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/integrity.spec.ts:122:98
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/integrity-DEF-MONEY-CENTS--853a2-e-and-service-detail-defect-chromium-mobile-web/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/integrity-DEF-MONEY-CENTS--853a2-e-and-service-detail-defect-chromium-mobile-web/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/integrity-DEF-MONEY-CENTS--853a2-e-and-service-detail-defect-chromium-mobile-web/trace.zip
+    Usage:
+
+        npx playwright show-trace ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/integrity-DEF-MONEY-CENTS--853a2-e-and-service-detail-defect-chromium-mobile-web/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium-mobile-web] › e2e/integrity.spec.ts:125:5 › DEF-PRICE-SIGN: negative browser input must not publish a positive-price service @defect
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('alert')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "soft toBeVisible" getByRole('alert') with timeout 5000ms
+      - waiting for getByRole('alert')
+
+
+      140 |   // Soft UI assertions keep persistence and transmitted-price evidence available
+      141 |   // when the current bug redirects to the dashboard after creating the service.
+    > 142 |   await expect.soft(page.getByRole('alert')).toBeVisible();
+          |                                              ^
+      143 |   await expect.soft(page).toHaveURL(/\/counsellor\/services\/new$/);
+      144 |   expect.soft(sentPrices.some(price => price > 0), 'The submitted minus sign must not become a positive price').toBe(false);
+      145 |   const saved = await ownServices(request, session.accessToken);
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/integrity.spec.ts:142:46
+
+    Error: expect(page).toHaveURL(expected) failed
+
+    Expected pattern: /\/counsellor\/services\/new$/
+    Received string:  "http://127.0.0.1:43129/counsellor"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "soft toHaveURL" with timeout 5000ms
+        14 × locator resolved to <html lang="en">…</html>
+           - unexpected value "http://127.0.0.1:43129/counsellor"
+
+
+      141 |   // when the current bug redirects to the dashboard after creating the service.
+      142 |   await expect.soft(page.getByRole('alert')).toBeVisible();
+    > 143 |   await expect.soft(page).toHaveURL(/\/counsellor\/services\/new$/);
+          |                           ^
+      144 |   expect.soft(sentPrices.some(price => price > 0), 'The submitted minus sign must not become a positive price').toBe(false);
+      145 |   const saved = await ownServices(request, session.accessToken);
+      146 |   expect(saved.filter(item => item.title === title), 'Invalid negative input must not persist a service').toEqual([]);
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/integrity.spec.ts:143:27
+
+    Error: The submitted minus sign must not become a positive price
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: false
+    Received: true
+
+      142 |   await expect.soft(page.getByRole('alert')).toBeVisible();
+      143 |   await expect.soft(page).toHaveURL(/\/counsellor\/services\/new$/);
+    > 144 |   expect.soft(sentPrices.some(price => price > 0), 'The submitted minus sign must not become a positive price').toBe(false);
+          |                                                                                                                 ^
+      145 |   const saved = await ownServices(request, session.accessToken);
+      146 |   expect(saved.filter(item => item.title === title), 'Invalid negative input must not persist a service').toEqual([]);
+      147 | });
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/integrity.spec.ts:144:113
+
+    Error: Invalid negative input must not persist a service
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 27
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "active": true,
+    +     "averageRating": null,
+    +     "counsellor": Object {
+    +       "displayName": "Maya Chen",
+    +       "id": "355974ed-1170-42f7-a86c-102a327c0da5",
+    +       "introduction": "Career Professional specialising in early-career transitions and interview preparation.",
+    +       "overallRating": 4.9,
+    +       "reviewCount": 46,
+    +       "verificationStatus": "verified",
+    +     },
+    +     "currency": "AUD",
+    +     "description": "A dedicated browser QA service for checking publication and price integrity.",
+    +     "durationMinutes": 60,
+    +     "id": "4b691f6c-cb9f-40d2-8563-af1f6af94128",
+    +     "location": null,
+    +     "meetingUrl": null,
+    +     "modalities": Array [
+    +       "online",
+    +     ],
+    +     "nextAvailableAt": "2026-10-18T09:00:00Z",
+    +     "priceMinor": 7050,
+    +     "reviewCount": 0,
+    +     "title": "Negative price 9ee4f0b2-bfcd-4d14-8d7e-495373ec94fa",
+    +   },
+    + ]
+
+      144 |   expect.soft(sentPrices.some(price => price > 0), 'The submitted minus sign must not become a positive price').toBe(false);
+      145 |   const saved = await ownServices(request, session.accessToken);
+    > 146 |   expect(saved.filter(item => item.title === title), 'Invalid negative input must not persist a service').toEqual([]);
+          |                                                                                                           ^
+      147 | });
+      148 |
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/integrity.spec.ts:146:107
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/integrity-DEF-PRICE-SIGN-n-6d5e5-sitive-price-service-defect-chromium-mobile-web/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/integrity-DEF-PRICE-SIGN-n-6d5e5-sitive-price-service-defect-chromium-mobile-web/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/integrity-DEF-PRICE-SIGN-n-6d5e5-sitive-price-service-defect-chromium-mobile-web/trace.zip
+    Usage:
+
+        npx playwright show-trace ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/integrity-DEF-PRICE-SIGN-n-6d5e5-sitive-price-service-defect-chromium-mobile-web/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium-mobile-web] › e2e/sprint3-accessibility.spec.ts:7:5 › DEF-DIAGNOSIS-WEB-CHECKED: a selected diagnosis radio exposes its checked state @defect
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  getByRole('radio', { name: 'Something else', exact: true })
+    Expected: "true"
+    Received: ""
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" getByRole('radio', { name: 'Something else', exact: true }) with timeout 5000ms
+      - waiting for getByRole('radio', { name: 'Something else', exact: true })
+        14 × locator resolved to <div role="radio" tabindex="0" aria-label="Something else" class="css-g5y9jx r-1loqt21 r-1otgn73 r-1awozwy r-cpet4d r-1rf8fdq r-1a8msfu r-1777fci r-gu64tb">…</div>
+           - unexpected value "null"
+
+
+      38 |     body: await page.screenshot({ fullPage: true }), contentType: 'image/png',
+      39 |   });
+    > 40 |   await expect(option).toHaveAttribute('aria-checked', 'true');
+         |                        ^
+      41 | });
+      42 |
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-accessibility.spec.ts:40:24
+
+    attachment #3: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/sprint3-accessibility-DEF--39f58-es-its-checked-state-defect-chromium-mobile-web/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/sprint3-accessibility-DEF--39f58-es-its-checked-state-defect-chromium-mobile-web/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/sprint3-accessibility-DEF--39f58-es-its-checked-state-defect-chromium-mobile-web/trace.zip
+    Usage:
+
+        npx playwright show-trace ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/sprint3-accessibility-DEF--39f58-es-its-checked-state-defect-chromium-mobile-web/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [chromium-mobile-web] › e2e/sprint3-integration-acceptance.spec.ts:168:5 › @defect [S3-PROFILE-UNRATED][QA-219] a real unrated professional has an explicit neutral rating state
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText(/^(No reviews yet|No ratings yet|Not yet rated|Unrated|New on Yoir)$/i)
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText(/^(No reviews yet|No ratings yet|Not yet rated|Unrated|New on Yoir)$/i) with timeout 5000ms
+      - waiting for getByText(/^(No reviews yet|No ratings yet|Not yet rated|Unrated|New on Yoir)$/i)
+
+
+      183 |     reviewCount: profile.reviewCount }), contentType: 'application/json' });
+      184 |   // Accept neutral equivalent wording; verification status is not a rating state.
+    > 185 |   await expect(page.getByText(/^(No reviews yet|No ratings yet|Not yet rated|Unrated|New on Yoir)$/i)).toBeVisible();
+          |                                                                                                        ^
+      186 | });
+      187 |
+      188 | test('@defect [S3-DIAGNOSIS-HOME-READ-RECOVERY][QA-162][QA-168] an unavailable saved diagnosis offers retry without replacing confirmed answers @injected-network', async ({ page, request }, info) => {
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-integration-acceptance.spec.ts:185:104
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/sprint3-integration-accept-b82cf-plicit-neutral-rating-state-chromium-mobile-web/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/sprint3-integration-accept-b82cf-plicit-neutral-rating-state-chromium-mobile-web/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/sprint3-integration-accept-b82cf-plicit-neutral-rating-state-chromium-mobile-web/trace.zip
+    Usage:
+
+        npx playwright show-trace ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/sprint3-integration-accept-b82cf-plicit-neutral-rating-state-chromium-mobile-web/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [chromium-mobile-web] › e2e/sprint3-integration-acceptance.spec.ts:188:5 › @defect [S3-DIAGNOSIS-HOME-READ-RECOVERY][QA-162][QA-168] an unavailable saved diagnosis offers retry without replacing confirmed answers @injected-network
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('alert')
+    Expected substring: "Saved diagnosis is temporarily unavailable"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" getByRole('alert') with timeout 5000ms
+      - waiting for getByRole('alert')
+
+
+      213 |     await page.getByRole('button', { name: 'Log in', exact: true }).click();
+      214 |     await expect.poll(() => refusedReads).toBeGreaterThan(0);
+    > 215 |     await expect(page.getByRole('alert')).toContainText('Saved diagnosis is temporarily unavailable');
+          |                                           ^
+      216 |     await expect(page.getByRole('button', { name: 'Continue', exact: true })).toHaveCount(0);
+      217 |     expect(starts).toBe(0);
+      218 |     expect(await readback(request, user)).toEqual(confirmed);
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-integration-acceptance.spec.ts:215:43
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/sprint3-integration-accept-16e6b-ed-answers-injected-network-chromium-mobile-web/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/sprint3-integration-accept-16e6b-ed-answers-injected-network-chromium-mobile-web/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/sprint3-integration-accept-16e6b-ed-answers-injected-network-chromium-mobile-web/trace.zip
+    Usage:
+
+        npx playwright show-trace ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/sprint3-integration-accept-16e6b-ed-answers-injected-network-chromium-mobile-web/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [chromium-mobile-web] › e2e/sprint3-workflows.spec.ts:193:5 › US48 an old existing order opens by ID beyond the first 200 list rows @defect
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('Payment reference qa-s3-archive-200', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('Payment reference qa-s3-archive-200', { exact: true }) with timeout 5000ms
+      - waiting for getByText('Payment reference qa-s3-archive-200', { exact: true })
+
+
+      206 |   // Acceptance assertion: the existing read-by-ID API must support this screen.
+      207 |   // Current UI searches only the default list, showing a false not-found result.
+    > 208 |   await expect(page.getByText(`Payment reference ${orderId}`, { exact: true })).toBeVisible();
+          |                                                                                 ^
+      209 | });
+      210 |
+      211 | test('US40/41 alternate delivery and held time stay consistent across buyer and counsellor Web views', async ({ page, request, browser }) => {
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-workflows.spec.ts:208:81
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/sprint3-workflows-US48-an--b0bbf--first-200-list-rows-defect-chromium-mobile-web/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/sprint3-workflows-US48-an--b0bbf--first-200-list-rows-defect-chromium-mobile-web/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/sprint3-workflows-US48-an--b0bbf--first-200-list-rows-defect-chromium-mobile-web/trace.zip
+    Usage:
+
+        npx playwright show-trace ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/sprint3-workflows-US48-an--b0bbf--first-200-list-rows-defect-chromium-mobile-web/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [chromium-mobile-web] › e2e/web.spec.ts:374:5 › US68 forged anonymous confirmation URL must not claim success @defect
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByText('You’re booked', { exact: true })
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByText('You’re booked', { exact: true }) with timeout 5000ms
+      - waiting for getByText('You’re booked', { exact: true })
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      378 |   // A real app screen must be present before checking the negative assertion.
+      379 |   await expect(page.getByRole('button', { name: 'Back to Explore' })).toBeVisible();
+    > 380 |   await expect(page.getByText("You’re booked", { exact: true })).toHaveCount(0);
+          |                                                                  ^
+      381 | });
+      382 |
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/web.spec.ts:380:66
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/web-US68-forged-anonymous--cb9aa-st-not-claim-success-defect-chromium-mobile-web/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/web-US68-forged-anonymous--cb9aa-st-not-claim-success-defect-chromium-mobile-web/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/web-US68-forged-anonymous--cb9aa-st-not-claim-success-defect-chromium-mobile-web/trace.zip
+    Usage:
+
+        npx playwright show-trace ../artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects/attachments/web-US68-forged-anonymous--cb9aa-st-not-claim-success-defect-chromium-mobile-web/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7 failed
+    [chromium-mobile-web] › e2e/integrity.spec.ts:96:5 › DEF-MONEY-CENTS: real persisted cents remain visible in the marketplace and service detail @defect
+    [chromium-mobile-web] › e2e/integrity.spec.ts:125:5 › DEF-PRICE-SIGN: negative browser input must not publish a positive-price service @defect
+    [chromium-mobile-web] › e2e/sprint3-accessibility.spec.ts:7:5 › DEF-DIAGNOSIS-WEB-CHECKED: a selected diagnosis radio exposes its checked state @defect
+    [chromium-mobile-web] › e2e/sprint3-integration-acceptance.spec.ts:168:5 › @defect [S3-PROFILE-UNRATED][QA-219] a real unrated professional has an explicit neutral rating state
+    [chromium-mobile-web] › e2e/sprint3-integration-acceptance.spec.ts:188:5 › @defect [S3-DIAGNOSIS-HOME-READ-RECOVERY][QA-162][QA-168] an unavailable saved diagnosis offers retry without replacing confirmed answers @injected-network
+    [chromium-mobile-web] › e2e/sprint3-workflows.spec.ts:193:5 › US48 an old existing order opens by ID beyond the first 200 list rows @defect
+    [chromium-mobile-web] › e2e/web.spec.ts:374:5 › US68 forged anonymous confirmation URL must not claim success @defect
+  1 passed (1.0m)

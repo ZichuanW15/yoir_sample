@@ -1,0 +1,49 @@
+{
+  "result": "Preflight ready; real native UI assertions not executed by this agent.",
+  "device": {
+    "udid": "579524DE-E6EA-42AE-9AB7-12FD385A0D08",
+    "name": "iPhone 18 Pro",
+    "stateAtRead": "Booted",
+    "runtime": "iOS 27.0",
+    "runtimeBuild": "24A434"
+  },
+  "hostApp": {
+    "path": "/Applications/Xcode.app/Contents/Applications/DeviceHub.app",
+    "bundleId": "com.apple.dt.Devices",
+    "version": "27.0",
+    "focusUrl": "devices://device/open?id=579524DE-E6EA-42AE-9AB7-12FD385A0D08"
+  },
+  "expoGo": {
+    "bundleId": "host.exp.Exponent",
+    "version": "57.0.9",
+    "schemes": [
+      "exp",
+      "exps"
+    ],
+    "projectExpo": "~57.0.20",
+    "projectReactNative": "0.86.3"
+  },
+  "availableDedicatedCli": [
+    "simctl boot/bootstatus",
+    "simctl openurl <udid> exp://127.0.0.1:<ownedMetroPort>",
+    "simctl launch/terminate <udid> host.exp.Exponent",
+    "simctl io screenshot/recordVideo"
+  ],
+  "uiInput": "No simctl click/type/tap command. All UI interaction and inspection must use root-owned CUA session; no alternate input injection recommended.",
+  "rootNextSteps": [
+    "Reuse or freshly bind CUA DeviceHub via com.apple.dt.Devices; inspect a fresh UI snapshot to avoid stale menu element references.",
+    "Use dedicated simulator lifecycle/app launching commands only as needed, with owned Metro and isolated test API.",
+    "Operate user journeys in CUA and capture visible checkpoints; no local storage/session state injection.",
+    "For restart persistence, terminate and reopen Expo Go only after a visible saved checkpoint; verify the same user and retained step from UI."
+  ],
+  "scope": "No boot/stop/install/UI command or service mutation was performed. Device was already Booted when read. No product changes.",
+  "evidence": {
+    "inventory": "inventory.json",
+    "deviceList": "simctl-devices.txt",
+    "runtimeList": "simctl-runtimes.txt",
+    "expoApp": "expo-appinfo.txt",
+    "expoDeviceHubSource": "expo-devicehub-source.txt",
+    "expoDeviceHubSourcePath": "frontend/node_modules/expo/node_modules/@expo/cli/build/src/start/platforms/ios/ensureSimulatorAppRunning.js",
+    "expoDeviceHubSourceSha256": "c025c285bcca3087ab13105c59daedc5d15653296916ec7d1aeb4bedc595da6f"
+  }
+}

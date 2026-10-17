@@ -1,0 +1,98 @@
+........................................................................ [  7%]
+.................................................x..................x... [ 15%]
+....x...x.................xx..x.........xxx............................. [ 23%]
+........................................................................ [ 31%]
+........................................................................ [ 39%]
+........................................................................ [ 47%]
+........................................................................ [ 54%]
+........................................................................ [ 62%]
+........................................................................ [ 70%]
+.........................................................x.......x.x...x [ 78%]
+x....................................................................... [ 86%]
+........................................................................ [ 94%]
+..............................xxxx....................                   [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+tests/test_account_creation.py: 1 warning
+tests/test_diagnosis_migration.py: 17 warnings
+tests/test_migrations.py: 13 warnings
+  /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/lib/python3.12/site-packages/alembic/config.py:604: DeprecationWarning: No path_separator found in configuration; falling back to legacy splitting on spaces, commas, and colons for prepend_sys_path.  Consider adding path_separator=os to Alembic config.
+    util.warn_deprecated(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-final-20261017/backend-postgres/results.xml -
+================================ tests coverage ================================
+______________ coverage: platform darwin, python 3.12.14-final-0 _______________
+
+Name                            Stmts   Miss Branch BrPart  Cover   Missing
+---------------------------------------------------------------------------
+app/availability.py                71      3     24      4    93%   108, 161, 187, 197->195
+app/config.py                      63      0      0      0   100%
+app/db.py                          28      0      4      0   100%
+app/dev.py                         66     28     20      0    60%   74-97, 101-130
+app/diagnosis.py                  142      1     20      1    99%   217
+app/errors.py                      47      0      4      0   100%
+app/frontend.py                    56      1     24      1    98%   94
+app/mail/messages.py               39      2      0      0    95%   85-86
+app/mail/sender.py                 39      4     10      1    86%   65-73
+app/mail/templates.py              17      0      0      0   100%
+app/main.py                        39      1      2      1    95%   44
+app/meetings.py                    14      0      4      0   100%
+app/migrations.py                  44      1     12      1    96%   67
+app/models.py                     174      0      0      0   100%
+app/payments/amounts.py            39      0      8      0   100%
+app/payments/gateway.py           156     30     26      7    80%   42, 53-61, 67, 101-103, 109-110, 121-124, 138->140, 140->142, 144-145, 175-176, 199-200, 221-222, 249->251, 253-254, 267-268, 300, 314-315, 396, 399
+app/payments/jobs.py               85     12     28      4    86%   39-42, 83, 105, 114, 116-118, 141-142
+app/payments/notifications.py      26      2      0      0    92%   49-50
+app/payments/receipts.py           86      0     12      1    99%   156->158
+app/payments/scheduler.py          34     18      4      1    45%   27-37, 41-42, 54-61
+app/payments/service.py           115      5     32     10    90%   75, 89, 93, 121->124, 134, 135->141, 145->exit, 156, 223->234, 262->260
+app/reviews.py                     21      2      4      2    84%   35, 48
+app/routers/admin.py              108      0     16      0   100%
+app/routers/auth.py               176      5     46      4    95%   294, 378-381, 426->428, 514
+app/routers/bookings.py           221     20     78     15    88%   129, 158, 246, 255, 269, 272-273, 300, 414, 418, 442, 459, 507, 511, 522-524, 600, 632, 657
+app/routers/counsellor.py         239      8     48      5    95%   496, 508->507, 583-584, 604, 623-624, 651, 669
+app/routers/diagnosis.py          112      5     22      3    93%   92-95, 104, 210
+app/routers/health.py               9      0      0      0   100%
+app/routers/job_seeker.py          28      0      0      0   100%
+app/routers/payments.py             8      0      0      0   100%
+app/routers/profile.py             23      0      0      0   100%
+app/routers/services.py            88      1     26      1    98%   45
+app/routers/webhooks.py           118      9     34      6    90%   99, 113, 142, 145, 169, 182-183, 230-231
+app/schemas.py                    481      1     22      1    99%   660
+app/security.py                   123      1     32      0    99%   279
+app/seed.py                        57      5     20      2    91%   80, 99-102
+---------------------------------------------------------------------------
+TOTAL                            3192    165    582     71    93%
+
+4 empty files skipped.
+Coverage XML written to file /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-final-20261017/backend-postgres/coverage.xml
+Coverage JSON written to file /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-final-20261017/backend-postgres/coverage.json
+=========================== short test summary info ============================
+XFAIL tests/test_api.py::test_marketplace_rejects_invalid_modality - The OpenAPI modality enum is not enforced by the backend query parameter
+XFAIL tests/test_api.py::test_create_order_rejects_unknown_fields - OpenAPI sets additionalProperties:false but CreateOrderRequest ignores extras
+XFAIL tests/test_api.py::test_orders_have_a_database_invariant_against_overlapping_holds - Two live orders overlapping on one counsellor's calendar are prevented only by the application's row lock, not by a database exclusion constraint
+XFAIL tests/test_api.py::test_stub_payment_retry_returns_stable_payment_reference - First and repeated stub-payment responses derive different payment references
+XFAIL tests/test_contract.py::test_backend_current_paths_match_published_parameter_names - FastAPI publishes snake_case path parameters while the contract uses camelCase
+XFAIL tests/test_contract.py::test_every_implemented_protected_operation_publishes_401 - Implemented counsellor operations omit a published 401 response
+XFAIL tests/test_contract.py::test_runtime_internal_error_code_is_published - The implemented backend 500 handler emits unpublished INTERNAL_ERROR
+XFAIL tests/test_contract.py::test_counsellor_openapi_documents_the_actual_validation_status[post-/me/services-payload0] - S2-BE-RUNTIME-400: counsellor OpenAPI advertises 422 while real validation returns 400
+XFAIL tests/test_contract.py::test_counsellor_openapi_documents_the_actual_validation_status[post-/me/availability-windows-payload1] - S2-BE-RUNTIME-400: counsellor OpenAPI advertises 422 while real validation returns 400
+XFAIL tests/test_contract.py::test_counsellor_openapi_documents_the_actual_validation_status[patch-/me/availability-windows/{window_id}-payload2] - S2-BE-RUNTIME-400: counsellor OpenAPI advertises 422 while real validation returns 400
+XFAIL tests/test_seed_and_config.py::test_seed_is_safe_when_users_exist_but_services_are_empty - seed() only checks the services table and duplicates existing counsellor emails
+XFAIL tests/test_sprint2_acceptance_regressions.py::test_service_creation_rejects_unpublished_fields_instead_of_silently_dropping_them - S2-BE-SERVICE-EXTRAS: published additionalProperties=false is not enforced
+XFAIL tests/test_sprint2_acceptance_regressions.py::test_unexpected_failure_preserves_request_id_in_body_and_response_header - S2-BE-ERROR-REQUEST-ID: unexpected failures omit the correlation response header
+XFAIL tests/test_sprint2_acceptance_regressions.py::test_committed_booking_write_does_not_depend_on_a_second_database_read[create_order] - S2-BE-POST-COMMIT-READ: a successful booking write is reported as 500 when its subsequent response read fails
+XFAIL tests/test_sprint2_acceptance_regressions.py::test_committed_booking_write_does_not_depend_on_a_second_database_read[pay_order] - S2-BE-POST-COMMIT-READ: a successful booking write is reported as 500 when its subsequent response read fails
+XFAIL tests/test_sprint3_review_concurrency_qa.py::test_simultaneous_duplicate_reviews_return_one_created_and_one_conflict - S3-BE-REVIEW-DUPLICATE-RACE: US-53 / QA #213; concurrent duplicate submission leaks an internal error instead of returning a conflict
+XFAIL tests/test_sprint3_review_concurrency_qa.py::test_simultaneous_distinct_reviews_keep_both_cached_aggregates_exact[same-service] - S3-BE-REVIEW-AGGREGATE-RACE: US-54/55 / QA #216/#219; concurrent successful review writes overwrite cached service/counsellor totals
+XFAIL tests/test_sprint3_review_concurrency_qa.py::test_simultaneous_distinct_reviews_keep_both_cached_aggregates_exact[two-services] - S3-BE-REVIEW-AGGREGATE-RACE: US-54/55 / QA #216/#219; concurrent successful review writes overwrite cached service/counsellor totals
+XFAIL tests/test_sprint3_service_history_qa.py::test_existing_booking_keeps_recorded_meeting_area_after_service_edit - S3-BE-SERVICE-HISTORY: US-36 AC3 / #201; meeting area is still read from the edited listing instead of retaining the booked value
+899 passed, 7 deselected, 19 xfailed, 33 warnings in 63.38s (0:01:03)

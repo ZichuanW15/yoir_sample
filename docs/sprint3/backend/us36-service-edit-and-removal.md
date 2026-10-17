@@ -91,8 +91,14 @@ shows the change only once the backend confirms it.
   newest revision, now `0012`, and its downgrade test no longer expects `orders.service_title` or
   `orders.meeting_area` to survive a downgrade below them.
 - QA's `test_existing_booking_keeps_recorded_meeting_area_after_service_edit`
-  (`tests/test_sprint3_service_history_qa.py`, PR #241) is marked strict XFAIL for this defect. With
-  this change it passes, so its marker must be removed when both are on `dev`.
+  (`tests/test_sprint3_service_history_qa.py`, originally in PR #241) is now an
+  ordinary regression assertion; its former strict-XFAIL marker is removed.
+  The same file extends checks to separate purchases, rendered emails, exact
+  addresses, rescheduling, empty snapshots and legacy fallback.
+- [`tests/test_sprint3_meeting_area_migration_qa.py`](../../../backend/tests/test_sprint3_meeting_area_migration_qa.py)
+  covers migration `0012` with complete, absent and partial areas; preservation of
+  existing rows, repeated startup upgrades, and downgrade/re-upgrade. The fixture
+  owns a private PostgreSQL schema or a separate temporary SQLite file.
 
 Run from `backend/`:
 
@@ -101,8 +107,29 @@ env -u DATABASE_URL pytest tests/test_counsellor.py tests/test_migrations.py -q 
   -k "update_service or clears_a_location or still_needs_a_meeting_area_when_edited or deleting_a_service or cannot_edit_or_delete or editing_a_service_needs or renaming_a_service or rename_before_payment or moving_an_in_person or backfilled_with_their"
 ```
 
-Local run on `dev` at `972caee` plus this change, 17 October 2026, Python 3.12.8, temporary SQLite
-database: 12 passed. Full backend suite: 802 passed, 8 skipped, 18 expected failures.
+**Original author validation:** `dev` at `972caee` plus this change, 17 October 2026,
+Python 3.12.8, temporary SQLite database: 12 passed. Full backend suite: 802 passed,
+8 skipped, 18 expected failures. These are the author's original execution totals.
+
+**Earlier QA execution baseline:** `9cce9737ded87c13a7575d7236a051c5db7628f8`. The
+[meeting-area QA report](../qa/test-results-meeting-area-20261017.md) records
+the subsequent isolated PostgreSQL, migration and browser results and their exact
+commands. The full PostgreSQL run passed **916 cases**, with **18 strict XFAILs**
+and 7 deselected cases; backend line/branch coverage was **94.84% / 85.45%**.
+The former meeting-area XFAIL passed as ordinary regression. The [QA matrix](../qa/qa-matrix.md)
+maps these results to #201 and #207. The current QA baseline is
+`8713b38d63ccb969dcc69a44a02f888fd65caa9a`. PR #246 makes confirmation consume the
+successfully read booking title/area too, with the initial listing fallback
+retained. The [confirmation report](../qa/test-results-confirmation-20261017.md)
+records that frontend verification and corrects the old assertion's short-string
+matcher without rewriting its historical Geelong observation.
+
+The separate [`sprint3-meeting-area.spec.ts`](../../../frontend/e2e/sprint3-meeting-area.spec.ts)
+browser execution passed after the complete 38-case Chromium selection. Real
+in-person purchase/stub payment, a move to Geelong and withdrawal leave Melbourne
+visible in both participants' booking details and authenticated API reads. The
+one-case result and screenshots are recorded separately from the preceding full
+selection. Fresh live HTTPX and TypeScript client checks each passed 2 cases.
 
 ## Known gaps
 

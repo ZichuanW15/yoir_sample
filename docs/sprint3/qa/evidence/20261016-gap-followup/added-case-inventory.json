@@ -1,0 +1,77 @@
+{
+  "regressionCountRelativeToDev": 245,
+  "regressionCountThisFollowup": 6,
+  "defectCountRelativeToDev": 17,
+  "defectCountThisFollowup": 7,
+  "addedRegressions": [
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "Sprint 3 mounted workspace and Users refresh recovery workspace recovers all displayed data on the next focus after a successful read followed by failure",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "Sprint 3 mounted workspace and Users refresh recovery workspace uses the renewed token for every reload without remounting or logging in again",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "Sprint 3 mounted workspace and Users refresh recovery Users replaces the mounted counsellor directory after session renewal",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "Sprint 3 mounted workspace and Users refresh recovery Users replaces the mounted job_seeker directory after session renewal",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "Sprint 3 mounted workspace and Users refresh recovery Users retries both reads with the renewed token after the professionals refresh fails",
+      "status": "passed"
+    },
+    {
+      "file": "frontend/__tests__/screens/focus-refresh.test.tsx",
+      "case": "Sprint 3 mounted workspace and Users refresh recovery Users retries both reads with the renewed token after the job seekers refresh fails",
+      "status": "passed"
+    }
+  ],
+  "addedDefectAssertions": [
+    {
+      "file": "frontend/__tests__/defects/sprint3-refresh-acceptance.test.tsx",
+      "case": "Sprint 3 refresh acceptance (advisory; ordinary assertions) [S3-WORKSPACE-STALE-STATUS][QA-195/198] a failed profile refresh must not present the old verification as current",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/sprint3-refresh-acceptance.test.tsx",
+      "case": "Sprint 3 refresh acceptance (advisory; ordinary assertions) [S3-ADMIN-USERS-FOCUS][US-71] returning to the mounted Users directory rereads account status",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/__tests__/defects/sprint3-refresh-acceptance.test.tsx",
+      "case": "Sprint 3 refresh acceptance (advisory; ordinary assertions) [S3-ADMIN-USERS-STALE-REFRESH][US-71] a failed renewed-session read withholds the old directory until retry succeeds",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/e2e/sprint3-integration-acceptance.spec.ts",
+      "case": "@defect [S3-DIAGNOSIS-SERVER-ACK][QA-165] Continue waits for the real saved-step acknowledgement",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/e2e/sprint3-integration-acceptance.spec.ts",
+      "case": "@defect [S3-DIAGNOSIS-SAVE-RECOVERY][QA-165] a refused server save retains the answer and retries without advancement",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/e2e/sprint3-integration-acceptance.spec.ts",
+      "case": "@defect [S3-DIAGNOSIS-SERVER-RESUME][QA-162][QA-168] a fresh browser resumes the same account server-confirmed answers",
+      "status": "failed"
+    },
+    {
+      "file": "frontend/e2e/sprint3-integration-acceptance.spec.ts",
+      "case": "@defect [S3-PROFILE-UNRATED][QA-219] a real unrated professional has an explicit neutral rating state",
+      "status": "failed"
+    }
+  ],
+  "previousInventory": "../20261016-completion/added-case-inventory.json",
+  "note": "Source cases once, excluding platform repeats. The two diagnosis-save assertions share the missing write-integration gap; failed recovery assertion does not prove 503/retry was exercised."
+}

@@ -1,0 +1,141 @@
+{
+  "startTime": 1792095351555,
+  "success": false,
+  "wasInterrupted": false,
+  "numPassedTests": 4,
+  "numFailedTests": 11,
+  "numPendingTests": 0,
+  "numTotalTests": 15,
+  "numPassedTestSuites": 2,
+  "numFailedTestSuites": 7,
+  "numRuntimeErrorTestSuites": 0,
+  "cases": [
+    {
+      "file": "frontend/__tests__/defects/sprint3-privacy-acceptance.test.tsx",
+      "fullName": "Sprint 3 privacy acceptance (advisory suite) [S3-PRIVACY-ROLLBACK][US27-AC3][QA-183] a failed privacy update restores the last saved choice",
+      "status": "failed",
+      "duration": 115,
+      "failureMessages": [
+        "Error: expect(received).toEqual(expected) // deep equality\n\n- Expected  -  5\n+ Received  + 11\n\n  Object {\n-   \"public\": ObjectContaining {\n-     \"checked\": true,\n-     \"selected\": true,\n-   },\n-   \"restricted\": ObjectContaining {\n+   \"public\": Object {\n+     \"busy\": undefined,\n      \"checked\": false,\n+     \"disabled\": false,\n+     \"expanded\": undefined,\n      \"selected\": false,\n+   },\n+   \"restricted\": Object {\n+     \"busy\": undefined,\n+     \"checked\": true,\n+     \"disabled\": false,\n+     \"expanded\": undefined,\n+     \"selected\": true,\n    },\n  }\n    at Object.toEqual (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/defects/sprint3-privacy-acceptance.test.tsx:43:8)\n    at Generator.next (<anonymous>)\n    at asyncGeneratorStep (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)\n    at _next (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)"
+      ]
+    },
+    {
+      "file": "frontend/__tests__/defects/public-acceptance.test.tsx",
+      "fullName": "known booking confirmation acceptance gaps [QA-127][DEF-CONFIRM-UNVERIFIED] a direct confirmation URL without a receipt cannot claim payment success",
+      "status": "failed",
+      "duration": 397,
+      "failureMessages": [
+        "Error: expect(received).toBeNull()\n\nReceived: {\"_fiber\": {\"_debugHookTypes\": null, \"_debugInfo\": null, \"_debugNeedsRemount\": false, \"_debugOwner\": [FiberNode], \"_debugStack\": [Error: react-stack-top-frame], \"_debugTask\": null, \"actualDuration\": 0, \"actualStartTime\": 1792095352461, \"alternate\": [FiberNode], \"child\": [FiberNode], \"childLanes\": 0, \"deletions\": null, \"dependencies\": null, \"elementType\": \"Text\", \"flags\": 4, \"index\": 0, \"key\": null, \"lanes\": 0, \"memoizedProps\": [Object], \"memoizedState\": null, \"mode\": 3, \"pendingProps\": [Object], \"ref\": null, \"refCleanup\": null, \"return\": [FiberNode], \"selfBaseDuration\": 0, \"sibling\": null, \"stateNode\": [Object], \"subtreeFlags\": 262144, \"tag\": 5, \"treeBaseDuration\": 0, \"type\": \"Text\", \"updateQueue\": null}}\n    at Object.toBeNull (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/defects/public-acceptance.test.tsx:14:49)\n    at Generator.next (<anonymous>)\n    at asyncGeneratorStep (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)\n    at _next (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)"
+      ]
+    },
+    {
+      "file": "frontend/__tests__/defects/public-acceptance.test.tsx",
+      "fullName": "known booking confirmation acceptance gaps [QA-127][DEF-CONFIRM-RECEIPT] confirmation uses the server-confirmed booking time and modality",
+      "status": "failed",
+      "duration": 42,
+      "failureMessages": [
+        "Error: expect(jest.fn()).toHaveBeenCalledWith(...expected)\n\nExpected: ObjectContaining {\"params\": ObjectContaining {\"endsAt\": \"2026-09-02T03:00:00Z\", \"modality\": \"in_person\", \"startsAt\": \"2026-09-02T02:00:00Z\"}}\nReceived: {\"params\": {\"amountMinor\": \"9500\", \"bookingId\": \"booking-1\", \"endsAt\": \"2026-09-01T01:00:00.000Z\", \"modality\": \"online\", \"paymentId\": \"stub-payment-1\", \"pending\": \"\", \"serviceId\": \"service-1\", \"startsAt\": \"2026-09-01T00:00:00.000Z\"}, \"pathname\": \"/bookings/confirmation\"}\n\nNumber of calls: 1\n    at Object.toHaveBeenCalledWith (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/defects/public-acceptance.test.tsx:27:32)\n    at Generator.next (<anonymous>)\n    at asyncGeneratorStep (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)\n    at _next (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)"
+      ]
+    },
+    {
+      "file": "frontend/__tests__/defects/counsellor-acceptance.test.tsx",
+      "fullName": "Counsellor known defects — correct acceptance expectations QA #136 rejects a negative price instead of silently changing its sign",
+      "status": "failed",
+      "duration": 133,
+      "failureMessages": [
+        "Error: expect(jest.fn()).not.toHaveBeenCalled()\n\nExpected number of calls: 0\nReceived number of calls: 1\n\n1: \"counsellor-1\", {\"currency\": \"AUD\", \"description\": \"A practical coaching session with individual interview feedback.\", \"durationMinutes\": 60, \"location\": null, \"modalities\": [\"online\"], \"priceMinor\": 500, \"title\": \"Interview coaching\"}, \"counsellor-access-token\"\n    at Object.toHaveBeenCalled (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/defects/counsellor-acceptance.test.tsx:16:39)\n    at Generator.next (<anonymous>)\n    at asyncGeneratorStep (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)\n    at _next (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)"
+      ]
+    },
+    {
+      "file": "frontend/__tests__/defects/counsellor-acceptance.test.tsx",
+      "fullName": "Counsellor known defects — correct acceptance expectations QA #145 retains a failed window creation error after refreshing the calendar",
+      "status": "failed",
+      "duration": 184,
+      "failureMessages": [
+        "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: true\nReceived: false\n    at Object.toBe (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/defects/counsellor-acceptance.test.tsx:32:106)\n    at Generator.next (<anonymous>)\n    at asyncGeneratorStep (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)\n    at _next (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)"
+      ]
+    },
+    {
+      "file": "frontend/__tests__/defects/sprint3-admin-acceptance.test.tsx",
+      "fullName": "Sprint 3 unresolved administration acceptance (advisory suite) [S3-ADMIN-BOOKINGS-EMPTY][QA-210] a failed booking read must not claim no sessions have been booked",
+      "status": "failed",
+      "duration": 162,
+      "failureMessages": [
+        "Error: expect(received).toBeNull()\n\nReceived: {\"_fiber\": {\"_debugHookTypes\": null, \"_debugInfo\": null, \"_debugNeedsRemount\": false, \"_debugOwner\": [FiberNode], \"_debugStack\": [Error: react-stack-top-frame], \"_debugTask\": null, \"actualDuration\": 0, \"actualStartTime\": 1792095353407, \"alternate\": null, \"child\": [FiberNode], \"childLanes\": 0, \"deletions\": null, \"dependencies\": null, \"elementType\": \"Text\", \"flags\": 0, \"index\": 0, \"key\": null, \"lanes\": 0, \"memoizedProps\": [Object], \"memoizedState\": null, \"mode\": 3, \"pendingProps\": [Object], \"ref\": null, \"refCleanup\": null, \"return\": [FiberNode], \"selfBaseDuration\": 0, \"sibling\": null, \"stateNode\": [Object], \"subtreeFlags\": 0, \"tag\": 5, \"treeBaseDuration\": 0, \"type\": \"Text\", \"updateQueue\": null}}\n    at Object.toBeNull (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/defects/sprint3-admin-acceptance.test.tsx:17:64)\n    at Generator.next (<anonymous>)\n    at asyncGeneratorStep (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)\n    at _next (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)"
+      ]
+    },
+    {
+      "file": "frontend/__tests__/defects/root-layout-acceptance.test.tsx",
+      "fullName": "shared font-error recovery (mocked component risk, not browser/device white-screen proof) DEF-STARTUP-FONT: a font error leaves a rendered application or recovery tree",
+      "status": "failed",
+      "duration": 1,
+      "failureMessages": [
+        "Error: expect(received).not.toBeNull()\n\nReceived: null\n    at Object.toBeNull (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/defects/root-layout-acceptance.test.tsx:13:33)\n    at Promise.then.completed (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusTest (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:316:40)\n    at _runTest (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:252:3)\n    at _runTestsForDescribeBlock (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-runner/build/runTest.js:444:34)"
+      ]
+    },
+    {
+      "file": "frontend/__tests__/defects/client-acceptance.test.ts",
+      "fullName": "shared real-client boundary acceptance (mocked HTTP, not deployed endpoint evidence) F06 / QA #109: null HTTP error body remains a structured response failure",
+      "status": "failed",
+      "duration": 6,
+      "failureMessages": [
+        "Error: expect(received).rejects.toBeInstanceOf(expected)\n\nExpected constructor: ApiError\nReceived constructor: TypeError\n\n    at Object.toBeInstanceOf (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/expect/build/index.js:218:22)\n    at Object.toBeInstanceOf (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/defects/client-acceptance.test.ts:9:46)\n    at Generator.next (<anonymous>)\n    at asyncGeneratorStep (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)\n    at _next (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7\n    at new Promise (<anonymous>)\n    at Object.<anonymous> (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)\n    at Promise.then.completed (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusTest (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:316:40)\n    at _runTest (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:252:3)\n    at _runTestsForDescribeBlock (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-runner/build/runTest.js:444:34)"
+      ]
+    },
+    {
+      "file": "frontend/__tests__/defects/client-acceptance.test.ts",
+      "fullName": "shared real-client boundary acceptance (mocked HTTP, not deployed endpoint evidence) F07 / QA #109: malformed success payload cannot reach the service list as valid data",
+      "status": "failed",
+      "duration": 2,
+      "failureMessages": [
+        "Error: expect(received).rejects.toThrow()\n\nReceived promise resolved instead of rejected\nResolved to value: {\"services\": \"invalid\"}\n    at expect (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/expect/build/index.js:113:15)\n    at Object.expect (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/defects/client-acceptance.test.ts:15:11)\n    at Generator.next (<anonymous>)\n    at asyncGeneratorStep (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)\n    at _next (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:22:7\n    at new Promise (<anonymous>)\n    at Object.<anonymous> (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/@babel/runtime/helpers/asyncToGenerator.js:14:12)\n    at Promise.then.completed (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusTest (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:316:40)\n    at _runTest (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:252:3)\n    at _runTestsForDescribeBlock (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-runner/build/runTest.js:444:34)"
+      ]
+    },
+    {
+      "file": "frontend/__tests__/defects/format-planner-acceptance.test.ts",
+      "fullName": "unresolved price and availability acceptance F01 / QA #115 #124: displayed AUD prices preserve the charged cents",
+      "status": "failed",
+      "duration": 1,
+      "failureMessages": [
+        "Error: expect(received).toBe(expected) // Object.is equality\n\nExpected: \"$70.50\"\nReceived: \"$71\"\n    at Object.toBe (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/defects/format-planner-acceptance.test.ts:8:25)\n    at Promise.then.completed (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusTest (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:316:40)\n    at _runTest (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:252:3)\n    at _runTestsForDescribeBlock (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-runner/build/runTest.js:444:34)"
+      ]
+    },
+    {
+      "file": "frontend/__tests__/defects/format-planner-acceptance.test.ts",
+      "fullName": "unresolved price and availability acceptance F05 / QA #145: weekday recurrence visits every local day once across DST end",
+      "status": "failed",
+      "duration": 1,
+      "failureMessages": [
+        "Error: expect(received).toEqual(expected) // deep equality\n\n- Expected  - 1\n+ Received  + 1\n\n  Array [\n    \"2026-04-04\",\n    \"2026-04-05\",\n+   \"2026-04-05\",\n    \"2026-04-06\",\n    \"2026-04-07\",\n    \"2026-04-08\",\n    \"2026-04-09\",\n-   \"2026-04-10\",\n  ]\n    at Object.toEqual (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/__tests__/defects/format-planner-acceptance.test.ts:15:31)\n    at Promise.then.completed (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/utils.js:298:28)\n    at new Promise (<anonymous>)\n    at callAsyncCircusFn (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/utils.js:231:10)\n    at _callCircusTest (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:316:40)\n    at _runTest (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:252:3)\n    at _runTestsForDescribeBlock (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:126:9)\n    at _runTestsForDescribeBlock (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:121:9)\n    at run (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/run.js:71:3)\n    at runAndTransformResultsToJestFormat (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapterInit.js:122:21)\n    at jestAdapter (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-circus/build/legacy-code-todo-rewrite/jestAdapter.js:79:19)\n    at runTestInternal (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-runner/build/runTest.js:367:16)\n    at runTest (/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/node_modules/jest-runner/build/runTest.js:444:34)"
+      ]
+    },
+    {
+      "file": "frontend/__tests__/defects/counsellor-issue-acceptance.test.tsx",
+      "fullName": "profile save correctness at the real HTTP boundary [QA-130][US30-AC1] current API unmatched-route 404 cannot announce a durable saved profile",
+      "status": "passed",
+      "duration": 66,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/defects/counsellor-issue-acceptance.test.tsx",
+      "fullName": "profile save correctness at the real HTTP boundary [QA-130][US30-AC1] framework/proxy detail-only 404 cannot announce a durable saved profile",
+      "status": "passed",
+      "duration": 56,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/defects/counsellor-issue-acceptance.test.tsx",
+      "fullName": "profile save correctness at the real HTTP boundary [QA-130][US30-AC1] business profile-resource 404 cannot announce a durable saved profile",
+      "status": "passed",
+      "duration": 55,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/defects/public-issue-acceptance.test.tsx",
+      "fullName": "implemented slot picker empty-response feedback [QA-118][US40-AC4] no open slots has an explicit empty state, not an unexplained blank picker",
+      "status": "passed",
+      "duration": 28,
+      "failureMessages": []
+    }
+  ]
+}

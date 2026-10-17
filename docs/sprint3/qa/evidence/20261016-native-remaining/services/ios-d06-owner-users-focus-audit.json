@@ -1,0 +1,55 @@
+{
+  "at": "2026-10-15T22:13:18.232230+00:00",
+  "scope": "Native owner Users mounted-focus and verification decisions after independent fixture restore. Payload reasons are captured by native UI, ledger does not record bodies.",
+  "requests": [
+    {
+      "at": "2026-10-15T22:12:20.429692+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/verifications",
+      "userId": "qa-nr-ios-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:12:40.143537+00:00",
+      "method": "POST",
+      "path": "/api/v1/admin/verifications/qa-nr-ios-candidate/decision",
+      "userId": "qa-nr-ios-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:12:44.575123+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/job-seekers",
+      "userId": "qa-nr-ios-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:12:44.576814+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/counsellors",
+      "userId": "qa-nr-ios-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:12:56.246584+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/verifications",
+      "userId": "qa-nr-ios-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:13:00.641281+00:00",
+      "method": "POST",
+      "path": "/api/v1/admin/verifications/qa-nr-ios-candidate/decision",
+      "userId": "qa-nr-ios-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:13:13.183334+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/verifications/qa-nr-ios-candidate",
+      "userId": "qa-nr-ios-owner",
+      "status": 200
+    }
+  ]
+}

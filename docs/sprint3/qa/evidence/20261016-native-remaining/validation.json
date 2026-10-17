@@ -1,0 +1,27 @@
+{
+  "at": "2026-10-15T23:24:00.841497+00:00",
+  "scope": "Local evidence copies, JSON syntax, ledger references and case counting. Not a new product test run; external URLs not checked.",
+  "checks": {
+    "cases": 22,
+    "substeps": 110,
+    "caseStatusCounts": {
+      "FAIL": 8,
+      "PASS": 11,
+      "BLOCKED": 3
+    },
+    "rawCopiesVerified": 542,
+    "rootObservations": 106,
+    "iosObservations": 104,
+    "jsonParsed": 123,
+    "jsonLinesParsed": 1132,
+    "ledgerReferencesChecked": 871,
+    "localMarkdownLinksChecked": 42,
+    "summaryCountsAgree": true,
+    "sourceHashesMatched": 346,
+    "finalAccountsRead": 14,
+    "passedCasesHaveOnlyPassedSubsteps": true,
+    "textSecretPatternScan": true
+  },
+  "errors": [],
+  "success": true
+}

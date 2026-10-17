@@ -1,0 +1,43 @@
+{
+  "at": "2026-10-15T22:25:32.750703+00:00",
+  "userId": "qa-nr-android-owner",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/admin/payments/qa-nr-android-move-order": {
+      "status": 200,
+      "data": {
+        "paymentId": "qa-nr-android-move-order",
+        "orderId": "qa-nr-android-move-order",
+        "bookingId": "qa-nr-android-move-booking",
+        "jobSeekerName": "QA Android Buyer",
+        "counsellorName": "QA Android Pro",
+        "serviceTitle": "QA Android Reschedule Session",
+        "amountMinor": 8450,
+        "platformFeeMinor": 845,
+        "counsellorPayoutMinor": 7605,
+        "refundedMinor": 0,
+        "currency": "AUD",
+        "paymentStatus": "paid",
+        "orderStatus": "confirmed",
+        "createdAt": "2026-10-15T21:34:11.498496Z",
+        "jobSeekerId": "qa-nr-android-buyer",
+        "jobSeekerEmail": "a1@example.com",
+        "counsellorId": "qa-nr-android-pro",
+        "counsellorEmail": "ac@example.com",
+        "serviceId": "qa-nr-android-move-service",
+        "startsAt": "2026-10-23T23:00:00Z",
+        "endsAt": "2026-10-24T00:00:00Z",
+        "timezone": "Australia/Melbourne",
+        "modality": "online",
+        "sessionGstMinor": 0,
+        "platformFeeGstMinor": 77,
+        "holdExpiresAt": null,
+        "bookingStatus": "confirmed",
+        "completedAt": null,
+        "paidOutAt": null,
+        "cancelledAt": null,
+        "cancelledByRole": null
+      }
+    }
+  }
+}

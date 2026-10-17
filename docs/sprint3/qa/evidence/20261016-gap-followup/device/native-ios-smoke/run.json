@@ -1,0 +1,33 @@
+{
+  "startedAtUtc": "2026-10-15T20:59:24.617652+00:00",
+  "productCommit": "cdcc44e66d647a9c5993736b797312b495715a3f",
+  "sourceHashes": {
+    "frontend/app/job-seeker/diagnosis.tsx": "945804cfdab5fa5974493bdca64b6b429776b9b21fe49486f3016fc84960fbc9",
+    "frontend/src/diagnosis/view.tsx": "1d821fda0f1d16d2299573035507f92e7cc78e8815f0392f94ed75b577590b09",
+    "frontend/src/diagnosis/storage.ts": "1fbc91ed15ffb557a079efa02cd7970849756707093d66c966d113807f1ff62d",
+    "frontend/src/auth/AuthContext.tsx": "b7b3c37c67d9f8fcccbd47816293c611a10697365d9c27f3e9a45a8e6aa68e8d",
+    "frontend/src/api/client.ts": "db6aae572469079b5c839309673c039843bf7cc0fa2315898af8858bdbef180f",
+    "frontend/e2e/serve.py": "f0f9485b173b3121abb6f25a3ebc32172056ac49b239f2c6f9ec36354b475ae8",
+    "frontend/e2e/sprint3_fixtures.py": "4d370a2b97c08b487e5de3efc2d92ab4e0903a507e6e30cf8d06c2942cff98f2"
+  },
+  "api": "http://127.0.0.1:43179/api/v1",
+  "metro": "exp://127.0.0.1:8089",
+  "database": "owned temporary SQLite created by frontend/e2e/serve.py",
+  "providers": "STRIPE_SECRET_KEY and MAILGUN_API_KEY explicitly empty in launcher",
+  "simulatorUdid": "579524DE-E6EA-42AE-9AB7-12FD385A0D08",
+  "simulatorName": "iPhone 18 Pro",
+  "runtime": "iOS 27.0 (24A434)",
+  "expoGo": "57.0.9",
+  "initialSimulatorState": "Shutdown",
+  "apiExecSession": 5328,
+  "metroExecSession": 3445,
+  "evidenceBoundary": "Actual native UI; no injected diagnosis or auth storage state",
+  "apiHealth": {
+    "status": 200,
+    "body": "{\"status\":\"ok\"}"
+  },
+  "metroStatus": {
+    "status": 200,
+    "body": "packager-status:running"
+  }
+}

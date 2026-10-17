@@ -1,0 +1,80 @@
+
+> yoir-mobile@0.1.0 test:android
+> jest --ci --runInBand --config jest.config.android.js --json --outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-dev-refresh-20261017/android-regression/results.json
+
+PASS android-components __tests__/screens/service-booking-recovery.test.tsx
+PASS android-components __tests__/screens/privacy-settings-boundaries.test.tsx
+PASS android-components __tests__/screens/feedback-response-contract.test.tsx
+PASS android-components __tests__/screens/onboarding-focus.test.tsx
+PASS android-components __tests__/screens/counsellor-profile.test.tsx (13.538 s)
+PASS android-components __tests__/screens/diagnosis.test.tsx
+PASS android-components __tests__/counsellor/ServiceForm.test.tsx
+PASS android-components __tests__/screens/counsellor-payouts.test.tsx
+PASS android-components __tests__/screens/counsellor-availability.test.tsx
+PASS android-components __tests__/screens/admin-verifications.test.tsx
+PASS android-components __tests__/screens/focus-refresh.test.tsx
+PASS android-components __tests__/screens/counsellor-dashboard.test.tsx
+PASS android-components __tests__/auth/AuthContext.test.tsx
+PASS android-components __tests__/screens/diagnosis-server-qa.test.tsx
+PASS android-components __tests__/screens/register.test.tsx
+PASS android-components __tests__/screens/admin-overview-users.test.tsx
+PASS android-components __tests__/screens/admin-payments.test.tsx
+PASS android-components __tests__/screens/marketplace.test.tsx
+PASS android-components __tests__/screens/checkout.test.tsx
+PASS android-components __tests__/screens/counsellor-onboarding.test.tsx
+PASS android-components __tests__/screens/counsellor-edit-service.test.tsx
+PASS android-components __tests__/screens/timeslots.test.tsx
+PASS android-components __tests__/screens/counsellor-verification.test.tsx
+PASS android-components __tests__/screens/counsellor-bookings.test.tsx
+PASS android-components __tests__/screens/marketplace-diagnosis.test.tsx
+PASS android-components __tests__/screens/review-boundaries.test.tsx
+PASS android-components __tests__/screens/service-detail.test.tsx
+PASS android-components __tests__/screens/login.test.tsx
+PASS android-components __tests__/screens/receipt.test.tsx
+PASS android-components __tests__/screens/job-seeker-profile.test.tsx
+PASS android-components __tests__/screens/job-seeker-home.test.tsx
+PASS android-components __tests__/screens/privacy-reviews.test.tsx
+PASS android-components __tests__/screens/professional-detail.test.tsx
+PASS android-components __tests__/screens/confirmation.test.tsx
+PASS android-components __tests__/screens/reschedule.test.tsx
+PASS android-components __tests__/screens/notifications-panel.test.tsx
+PASS android-components __tests__/screens/forgot.test.tsx
+PASS android-components __tests__/screens/booking-detail.test.tsx
+PASS android-components __tests__/screens/verify-email.test.tsx
+PASS android-components __tests__/screens/reset.test.tsx
+PASS android-components __tests__/screens/navigation.test.tsx
+PASS android-components __tests__/diagnosis/useDiagnosis.test.tsx
+PASS android-components __tests__/screens/welcome.test.tsx
+PASS android-components __tests__/auth/AuthContext.http.test.tsx
+PASS android-components __tests__/screens/root-layout.test.tsx
+PASS android-components __tests__/native/platform-controls.test.tsx
+PASS android-components __tests__/payments/config.test.tsx
+PASS android-components __tests__/api/counsellor-client.test.ts
+PASS android-components __tests__/screens/http-response-harness.test.tsx
+PASS android-components __tests__/api/client.test.ts
+PASS android-components __tests__/screens/floating-error.test.tsx
+PASS android-components __tests__/api/verification-admin-client.test.ts
+PASS android-components __tests__/api/real-client-write-safety.test.ts
+PASS android-components __tests__/payments/client.test.ts
+PASS android-components __tests__/verification.test.ts
+PASS android-components __tests__/api/diagnosis-client.test.ts
+PASS android-components __tests__/auth/refreshOn401.test.ts
+PASS android-components __tests__/components/animatedSvg.test.tsx
+PASS android-components __tests__/api/real-client-resource-safety.test.ts
+PASS android-components __tests__/api/real-client-response-harness.test.ts
+PASS android-components __tests__/counsellor/availabilityPlanner.test.ts
+PASS android-components __tests__/format.test.ts
+PASS android-components __tests__/payments/waitForPayouts.test.ts
+PASS android-components __tests__/payments/payoutStage.test.ts
+PASS android-components __tests__/payments/waitForBooking.test.ts
+PASS android-components __tests__/marketplace/filters.test.ts
+PASS android-components __tests__/auth/sessionStore.web.test.ts
+PASS android-components __tests__/navigation.test.ts
+PASS android-components __tests__/auth/authBridge.test.ts
+
+Test Suites: 69 passed, 69 total
+Tests:       606 passed, 606 total
+Snapshots:   0 total
+Time:        36.122 s, estimated 41 s
+Ran all test suites.
+Test results written to: ../artifacts/qa/sprint3-dev-refresh-20261017/android-regression/results.json

@@ -1,0 +1,1308 @@
+{
+  "stats": {
+    "startTime": "2026-10-17T07:42:38.911Z",
+    "duration": 166393.814,
+    "expected": 43,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  },
+  "errors": [],
+  "cases": [
+    {
+      "file": "integrity.spec.ts",
+      "line": 48,
+      "title": "DEF-PROFILE-PROVENANCE: live verified identity agrees with the persisted counsellor profile",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1368,
+          "startTime": "2026-10-17T07:42:40.121Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": []
+        }
+      ]
+    },
+    {
+      "file": "integrity.spec.ts",
+      "line": 59,
+      "title": "CURRENT-IMPLEMENTATION: newly registered counsellor receives publish 403 with no saved or falsely successful service",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2566,
+          "startTime": "2026-10-17T07:42:41.592Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-completion.spec.ts",
+      "line": 88,
+      "title": "US32/33/71 real pending decision refreshes profile, My Services and administrator users",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3576,
+          "startTime": "2026-10-17T07:42:44.173Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "sprint3-completion-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "31b55403b009c3a9fad7fe2a3dcc08a7801fc345bfa996d1064a99305f27508f",
+              "originalAttachmentBytes": 59317,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-completion.spec.ts",
+      "line": 88,
+      "title": "US32/33/71 real verified decision refreshes profile, My Services and administrator users",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3549,
+          "startTime": "2026-10-17T07:42:47.754Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "sprint3-completion-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "2cc64afe6128f2a210014402a26d09d3bca315748799936306ed0be71f2419e8",
+              "originalAttachmentBytes": 50658,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-completion.spec.ts",
+      "line": 88,
+      "title": "US32/33/71 real rejected decision refreshes profile, My Services and administrator users",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3413,
+          "startTime": "2026-10-17T07:42:51.308Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "sprint3-completion-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "dc16875d9dc70118fabc3ccabfe7470bccce11f0c96657e2678936397d70edc6",
+              "originalAttachmentBytes": 59442,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-completion.spec.ts",
+      "line": 128,
+      "title": "US31/32 a real conflicting verification submission never falsely becomes Pending",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2530,
+          "startTime": "2026-10-17T07:42:54.726Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "sprint3-completion-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "f133459e2cd656b23c2a59bb093a83047d80b20ee574857c5927d88817b3a1d9",
+              "originalAttachmentBytes": 19035,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-completion.spec.ts",
+      "line": 157,
+      "title": "US27/28 an already-open public profile removes private fields after real privacy changes and refresh",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2611,
+          "startTime": "2026-10-17T07:42:57.261Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "sprint3-completion-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "29d71adbf7f599b3365df632834440f0b680dee8bce4fc96d2207aa73179b8c2",
+              "originalAttachmentBytes": 54158,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-completion.spec.ts",
+      "line": 217,
+      "title": "US54/55 an unrated real service stays New in listings and shows an empty review state",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1867,
+          "startTime": "2026-10-17T07:42:59.878Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "sprint3-completion-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "1ad59e878ffc502584c9deff2df70e5fcde88d8b9fdc2b527551005b32e8f0ed",
+              "originalAttachmentBytes": 46019,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-completion.spec.ts",
+      "line": 244,
+      "title": "US09/12/13 a no-results marketplace search preserves completed diagnosis and original answers",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 8938,
+          "startTime": "2026-10-17T07:43:01.752Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "sprint3-completion-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "5b8d39ca3dde599a2ceb96d0886213bdf7281814f1c6f13a866d76622d35b024",
+              "originalAttachmentBytes": 51504,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-completion.spec.ts",
+      "line": 306,
+      "title": "US36/43/48 a real paid booking keeps its purchased title and price across service edit and withdrawal",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5872,
+          "startTime": "2026-10-17T07:43:10.699Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "frozen-booking-history",
+              "path": "attachments/browser-phone-regression-final-010-0-0.json"
+            }
+          ],
+          "omittedAttachments": [
+            {
+              "name": "sprint3-completion-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "eab1ac3a1e728943159d9f4663a733d6696b7a7d4d645d2144de09417aeec01f",
+              "originalAttachmentBytes": 44473,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-diagnosis.spec.ts",
+      "line": 67,
+      "title": "US09/10/11 server-backed Web diagnosis validates, resumes after login and isolates accounts",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 11117,
+          "startTime": "2026-10-17T07:43:16.581Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "sprint3-web-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "3393a1d38aed84f6e7f4dff3607f2dc4818dba03995259e8190bcdd3c7944048",
+              "originalAttachmentBytes": 16120,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-diagnosis.spec.ts",
+      "line": 111,
+      "title": "US12/13 server-derived direction leads through a real professional and service to a stub booking",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 9389,
+          "startTime": "2026-10-17T07:43:27.703Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "server-diagnosis-observation",
+              "path": "attachments/browser-phone-regression-final-012-0-0.json"
+            }
+          ],
+          "omittedAttachments": [
+            {
+              "name": "sprint3-web-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "dfd184df5fdfe8b8d06e0c4c2369a336063e4bcb8f9864b0450f0e49f8d515bc",
+              "originalAttachmentBytes": 12737,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-diagnosis.spec.ts",
+      "line": 165,
+      "title": "US09/12 cancelled retake preserves confirmed answers and completed retake updates the same record",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 12149,
+          "startTime": "2026-10-17T07:43:37.098Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "retake-confirmed-revisions",
+              "path": "attachments/browser-phone-regression-final-013-0-0.json"
+            }
+          ],
+          "omittedAttachments": [
+            {
+              "name": "sprint3-web-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "8b365208d72c482b6ff1b033c064b072bcfad808c76991aa532a60e4c106b038",
+              "originalAttachmentBytes": 39377,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-integration-acceptance.spec.ts",
+      "line": 73,
+      "title": "[S3-DIAGNOSIS-SERVER-ACK][QA-165] Continue waits for the real saved-step acknowledgement @injected-network",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2494,
+          "startTime": "2026-10-17T07:43:49.260Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "diagnosis-boundary-readback",
+              "path": "attachments/browser-phone-regression-final-014-0-0.json"
+            }
+          ],
+          "omittedAttachments": [
+            {
+              "name": "integration-acceptance-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "2d8afe3d0bd16bff790dedea461e3bd6b0816844512272844abed56ad8c36f30",
+              "originalAttachmentBytes": 11989,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-integration-acceptance.spec.ts",
+      "line": 110,
+      "title": "[S3-DIAGNOSIS-SAVE-RECOVERY][QA-165] a refused server save retains the answer and retries without advancement @injected-network",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2452,
+          "startTime": "2026-10-17T07:43:51.759Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "diagnosis-boundary-readback",
+              "path": "attachments/browser-phone-regression-final-015-0-0.json"
+            }
+          ],
+          "omittedAttachments": [
+            {
+              "name": "integration-acceptance-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "6b0d5e301c4cb1188e97e14462dfc85060fe49968c0c932c9b4b72304b20f353",
+              "originalAttachmentBytes": 12015,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-integration-acceptance.spec.ts",
+      "line": 143,
+      "title": "[S3-DIAGNOSIS-SERVER-RESUME][QA-162][QA-168] a fresh browser resumes the same account server-confirmed answers",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2490,
+          "startTime": "2026-10-17T07:43:54.215Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "diagnosis-boundary-readback",
+              "path": "attachments/browser-phone-regression-final-016-0-0.json"
+            }
+          ],
+          "omittedAttachments": [
+            {
+              "name": "fresh-browser-resume-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "bfb9cab2d716a64b5d39cb5b7d1a32cace138ee27aa41ca399eea75e9d9967f4",
+              "originalAttachmentBytes": 30555,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            },
+            {
+              "name": "integration-acceptance-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "9848385cb498b67c5cba9c6bbb025792b4cc57534b67fdd80546291e4af0337b",
+              "originalAttachmentBytes": 10483,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-integration-acceptance.spec.ts",
+      "line": 233,
+      "title": "[QA-165][QA-168] a real revision conflict reloads confirmed progress before an explicit retry",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3352,
+          "startTime": "2026-10-17T07:43:56.710Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "diagnosis-boundary-readback",
+              "path": "attachments/browser-phone-regression-final-017-0-0.json"
+            }
+          ],
+          "omittedAttachments": [
+            {
+              "name": "integration-acceptance-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "5fb6ca48342cdced580c5604b9d4560aba9ea942a8a25329771c7666c813eb19",
+              "originalAttachmentBytes": 12030,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-integration-acceptance.spec.ts",
+      "line": 264,
+      "title": "[QA-171] result retry recovers the real direction without submitting the completed answer twice @injected-network",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3339,
+          "startTime": "2026-10-17T07:44:00.066Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "diagnosis-boundary-readback",
+              "path": "attachments/browser-phone-regression-final-018-0-0.json"
+            }
+          ],
+          "omittedAttachments": [
+            {
+              "name": "integration-acceptance-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "ba4bfed47d84ba561a0d494661ae242cb68d786db7436f9d5e58c843cd666219",
+              "originalAttachmentBytes": 39650,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-meeting-area.spec.ts",
+      "line": 94,
+      "title": "US36/43 both parties and confirmation retain purchased title and in-person area after a listing edit and withdrawal",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3904,
+          "startTime": "2026-10-17T07:44:03.415Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "purchased-confirmation-edited-desktop",
+              "path": "attachments/browser-phone-regression-final-019-0-0.png"
+            },
+            {
+              "name": "purchased-confirmation-edited-phone",
+              "path": "attachments/browser-phone-regression-final-019-0-1.png"
+            },
+            {
+              "name": "purchased-area-buyer",
+              "path": "attachments/browser-phone-regression-final-019-0-2.png"
+            },
+            {
+              "name": "purchased-area-counsellor",
+              "path": "attachments/browser-phone-regression-final-019-0-3.png"
+            },
+            {
+              "name": "purchased-confirmation-withdrawn-desktop",
+              "path": "attachments/browser-phone-regression-final-019-0-4.png"
+            },
+            {
+              "name": "purchased-confirmation-withdrawn-phone",
+              "path": "attachments/browser-phone-regression-final-019-0-5.png"
+            },
+            {
+              "name": "purchased-area-readback",
+              "path": "attachments/browser-phone-regression-final-019-0-6.json"
+            }
+          ],
+          "omittedAttachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-responsive.spec.ts",
+      "line": 32,
+      "title": "US01/04 registration preserves its role and complete draft across the 1024px breakpoint",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1417,
+          "startTime": "2026-10-17T07:44:07.328Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "responsive-browser-screen",
+              "path": "attachments/browser-phone-regression-final-020-0-0.png"
+            }
+          ],
+          "omittedAttachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-responsive.spec.ts",
+      "line": 108,
+      "title": "US07/08 job_seeker desktop sidebar navigates its sections and logs out through the account menu",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1983,
+          "startTime": "2026-10-17T07:44:08.750Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "responsive-browser-screen",
+              "path": "attachments/browser-phone-regression-final-021-0-0.png"
+            }
+          ],
+          "omittedAttachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-responsive.spec.ts",
+      "line": 108,
+      "title": "US07/08 counsellor desktop sidebar navigates its sections and logs out through the account menu",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2029,
+          "startTime": "2026-10-17T07:44:10.736Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "responsive-browser-screen",
+              "path": "attachments/browser-phone-regression-final-022-0-0.png"
+            }
+          ],
+          "omittedAttachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-responsive.spec.ts",
+      "line": 108,
+      "title": "US07/08 platform_owner desktop sidebar navigates its sections and logs out through the account menu",
+      "project": "chromium-mobile-web",
+      "status": "unexpected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 6808,
+          "startTime": "2026-10-17T07:44:12.770Z",
+          "retry": 0,
+          "errors": [
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-responsive.spec.ts",
+                "column": 24,
+                "line": 128
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/\\/$/\u001b[39m\nReceived string:  \u001b[31m\"http://127.0.0.1:43129/auth/login\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    14 × locator resolved to <html lang=\"en\">…</html>\u001b[22m\n\u001b[2m       - unexpected value \"http://127.0.0.1:43129/auth/login\"\u001b[22m\n\n\n  126 |     await page.getByRole('button', { name: 'Log out', exact: true }).click();\n  127 |     expect((await revoked).status()).toBe(204);\n> 128 |     await expect(page).toHaveURL(/\\/$/);\n      |                        ^\n  129 |     await expect(page.getByRole('button', { name: `Account, ${session.user.name}`, exact: true }))\n  130 |       .toHaveCount(0);\n  131 |     const denied = await request.get('/api/v1/me/bookings', { headers: headers(session) });\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-responsive.spec.ts:128:24"
+            }
+          ],
+          "attachments": [
+            {
+              "name": "screenshot",
+              "path": "attachments/browser-phone-regression-final-023-0-0.png"
+            },
+            {
+              "name": "responsive-browser-screen",
+              "path": "attachments/browser-phone-regression-final-023-0-1.png"
+            }
+          ],
+          "omittedAttachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-responsive.spec.ts",
+      "line": 140,
+      "title": "US36 desktop delete confirmation preserves an unsaved draft on cancel and withdraws only on confirm",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3206,
+          "startTime": "2026-10-17T07:44:20.034Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "responsive-browser-screen",
+              "path": "attachments/browser-phone-regression-final-024-0-0.png"
+            }
+          ],
+          "omittedAttachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 38,
+      "title": "US53/54/55 real review validates, retains a failed draft, persists once and updates public ratings @injected-network",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3771,
+          "startTime": "2026-10-17T07:44:23.343Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "sprint3-workflow-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "ce60a969c4fbe3d707683e6d7408183e038ae9445de76b3a469d87ba24f9bf90",
+              "originalAttachmentBytes": 23458,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 98,
+      "title": "US53 real confirmed booking blocks a review in the page and API",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1452,
+          "startTime": "2026-10-17T07:44:27.119Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "sprint3-workflow-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "8cc5583704a9b02bdfe31388b5301ac0de849bfc655c6fcafa44a6bf6fcb8ec4",
+              "originalAttachmentBytes": 24154,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 98,
+      "title": "US53 real cancelled booking blocks a review in the page and API",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1396,
+          "startTime": "2026-10-17T07:44:28.576Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "sprint3-workflow-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "e75e64d53e4695b6d0dbb2e65031241e6f6b29c19baca15c622ca33e212f8afe",
+              "originalAttachmentBytes": 24916,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 113,
+      "title": "US53 another buyer cannot open or review a completed booking",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1364,
+          "startTime": "2026-10-17T07:44:29.976Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "sprint3-workflow-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "4fb6295119b5c1b8c6c4d553adebf3a1afa160a3f7f6957924fec8340b7c07c0",
+              "originalAttachmentBytes": 11264,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 126,
+      "title": "US32/33/58 admin confirmation, approval and reasoned reinvestigation persist through the real API",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 7026,
+          "startTime": "2026-10-17T07:44:31.344Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "sprint3-workflow-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "efcce18e87f7f17d83c1e43c5b8b8849adda03cbaf0c79f08f4a31202398287b",
+              "originalAttachmentBytes": 17051,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 175,
+      "title": "US48 admin payment detail retries a failed real read and preserves the recorded split @injected-network",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1845,
+          "startTime": "2026-10-17T07:44:38.373Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "sprint3-workflow-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "3dcabf7e2a000b7b9b139589bab0f9e3c600e05fa6e55dabc3a48bd68ca36fab",
+              "originalAttachmentBytes": 33916,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 216,
+      "title": "US40/41 alternate delivery and held time stay consistent across buyer and counsellor Web views",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4420,
+          "startTime": "2026-10-17T07:44:40.223Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "sprint3-workflow-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "ee119434454fe4fd0b07d1abca1fe67cc064a0243f6509ce70a7a3957e96c526",
+              "originalAttachmentBytes": 62177,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 37,
+      "title": "US44/45/46 public Web catalogue, search, detail and back",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2702,
+          "startTime": "2026-10-17T07:44:44.654Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "web-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "1063a53a9e73346b3f9b81cb6f9cab8980a1bfc88de779ecd7f11fdcce993264",
+              "originalAttachmentBytes": 58533,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 53,
+      "title": "US01/04 Web registration persists job_seeker",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2316,
+          "startTime": "2026-10-17T07:44:47.361Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "web-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "adf77d9f1ae5a59303e68f38b5b7dda0a57ec88af0144d26b22efa20d0f77ebb",
+              "originalAttachmentBytes": 4124,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 53,
+      "title": "US01/04 Web registration persists counsellor",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2249,
+          "startTime": "2026-10-17T07:44:49.682Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "web-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "aabc3f70d76dac99e351718f57b5800506cb2e126474116bfeca6b0145e80bb3",
+              "originalAttachmentBytes": 3980,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 70,
+      "title": "US03 duplicate registration remains on the form with input preserved",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1343,
+          "startTime": "2026-10-17T07:44:51.937Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "web-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "8d5b9d041a35672c581ca6c51c7fa930b1990ae84284abe408f8b18248032ed3",
+              "originalAttachmentBytes": 56178,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 85,
+      "title": "US07 invalid login stays anonymous and can retry",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3857,
+          "startTime": "2026-10-17T07:44:53.287Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "web-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "d15728a51416951c9e10983a36341c3a143c36b4f78ae04303d2279c3712cfa6",
+              "originalAttachmentBytes": 48932,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 106,
+      "title": "US06/08 Web login, logout and server-side revoked-token replay",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3278,
+          "startTime": "2026-10-17T07:44:57.149Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "web-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "9835b8bf8e74c8d38b3e03a141d925e7875817726fb0bd4f9e65aaf2643b5d63",
+              "originalAttachmentBytes": 10057,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 120,
+      "title": "US40/41/47/68 real browser booking to stub receipt (not provider acceptance)",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3973,
+          "startTime": "2026-10-17T07:45:00.433Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "web-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "190f9c0fa72fe3cb8830190a7a6622d4464b8eb41947fe07918658e0260efda8",
+              "originalAttachmentBytes": 10653,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 145,
+      "title": "US44 Web network failure exposes retry and recovers @injected-network",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2854,
+          "startTime": "2026-10-17T07:45:04.411Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "web-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "eb2a4bfc3ce09c726165263c1edcf0cf35cf47beb93ab5f5bb96f6768adc2499",
+              "originalAttachmentBytes": 78963,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 155,
+      "title": "US34/35/37/38 counsellor Web publishing validates area and persists both delivery modes",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4899,
+          "startTime": "2026-10-17T07:45:07.269Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "web-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "539276495340dfdad90e0b387f532fbc07efadc35025af2c86f42dddb9415cdf",
+              "originalAttachmentBytes": 74888,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 199,
+      "title": "US34 counsellor publishing preserves the draft after a transport failure and retries once @injected-network",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3298,
+          "startTime": "2026-10-17T07:45:12.172Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "web-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "26d89612b0b61b47bdff9aaf4c354e8710d2f6857e93a9f53b6c3e0431f82bf9",
+              "originalAttachmentBytes": 16961,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 234,
+      "title": "US39 real Web availability windows create, derive service starts and remove through the API",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4197,
+          "startTime": "2026-10-17T07:45:15.474Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "web-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "fd7cc5b0438dfef615e9a23958b311a370cd229060295c70c1768b0ea3bc8753",
+              "originalAttachmentBytes": 63426,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 295,
+      "title": "[QA-106][US08-AC3] logout prevents browser history and protected deep-link access",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3741,
+          "startTime": "2026-10-17T07:45:19.679Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "web-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "fe194fd2ceb5bc27a703b69948792ba5493d0fd0b10073fbc688e65e32da20b8",
+              "originalAttachmentBytes": 10896,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 332,
+      "title": "US45 implemented Web keyword search shows matching results and a recoverable empty state",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1623,
+          "startTime": "2026-10-17T07:45:23.424Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [],
+          "omittedAttachments": [
+            {
+              "name": "web-screen",
+              "source": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "sourceReport": "artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/results.json",
+              "originalAttachmentSha256": "c6fa2517a17fbbef3505cd46afc43964b0bd5403e01f5d5309bb05506c4bfacb",
+              "originalAttachmentBytes": 34621,
+              "reason": "Passed unchanged browser case: per-case outcome and original screenshot hash retained; duplicate image bytes omitted."
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "outputDir": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final/attachments",
+      "repeatEach": 1,
+      "retries": 0,
+      "metadata": {
+        "actualWorkers": 1
+      },
+      "id": "chromium-mobile-web",
+      "name": "chromium-mobile-web",
+      "testDir": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e",
+      "testIgnore": [
+        "**/planned/**"
+      ],
+      "testMatch": [
+        "*.spec.ts"
+      ],
+      "timeout": 30000
+    }
+  ]
+}
