@@ -1,0 +1,57 @@
+{
+  "stats": {
+    "startTime": "2026-10-17T07:47:04.022Z",
+    "duration": 4822.171,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "errors": [],
+  "cases": [
+    {
+      "file": "sprint3-responsive.spec.ts",
+      "line": 108,
+      "title": "US07/08 platform_owner desktop sidebar navigates its sections and logs out through the account menu",
+      "project": "chromium-mobile-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2359,
+          "startTime": "2026-10-17T07:47:06.233Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            {
+              "name": "responsive-browser-screen",
+              "path": "attachments/browser-phone-admin-followup-001-0-0.png"
+            }
+          ],
+          "omittedAttachments": []
+        }
+      ]
+    }
+  ],
+  "projects": [
+    {
+      "outputDir": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-phone-admin-followup/attachments",
+      "repeatEach": 1,
+      "retries": 0,
+      "metadata": {
+        "actualWorkers": 1
+      },
+      "id": "chromium-mobile-web",
+      "name": "chromium-mobile-web",
+      "testDir": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e",
+      "testIgnore": [
+        "**/planned/**"
+      ],
+      "testMatch": [
+        "*.spec.ts"
+      ],
+      "timeout": 30000
+    }
+  ]
+}

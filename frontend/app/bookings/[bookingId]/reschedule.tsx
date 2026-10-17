@@ -7,9 +7,10 @@ import { BookableStart, Booking } from '@/src/api/types';
 import { isUpcoming } from '@/app/bookings';
 import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
-import { BackBar, beat, RESERVE_MS } from '@/src/components/booking';
+import { BackBar, beat, desktopAside, DesktopSlotDays, RESERVE_MS } from '@/src/components/booking';
 import { Glyph } from '@/src/components/Glyph';
 import { Button, Card, ErrorBanner, Press, Spinner } from '@/src/components/ui';
+import { BackPill, DesktopPage, useDesktop } from '@/src/desktop';
 import { deviceTimezone, duration, fmtDay, fmtLong, timeRange } from '@/src/format';
 import { goBack } from '@/src/navigation';
 import { FadeUp, Pop, ScreenIn } from '@/src/motion';
@@ -32,6 +33,7 @@ function groupByDay(slots: BookableStart[]) {
 export default function RescheduleBookingScreen() {
   const { bookingId } = useLocalSearchParams<{ bookingId: string }>();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const { session, restoring } = useAuth();
   const { flash } = useChrome();
   const [booking, setBooking] = useState<Booking | null>(null);
@@ -104,6 +106,78 @@ export default function RescheduleBookingScreen() {
     }
   }
 
+  // Shared by the mobile and desktop layouts, which differ only in where these sit.
+  const notEligible = (
+    <Card style={s.notEligible}>
+      <Text style={type.display24}>This session can&apos;t be rescheduled</Text>
+      <Text style={type.body}>
+        Only an upcoming, confirmed session can be moved to a new time.
+      </Text>
+      <Button label="Back to booking" tone="outline" onPress={backToBooking} />
+    </Card>
+  );
+
+  const intro = booking ? (
+    <FadeUp style={s.intro}>
+      <Text style={type.display34}>Pick a new time</Text>
+      <Text style={type.body}>
+        Currently {fmtLong(booking.startsAt)}, {timeRange(booking.startsAt, booking.endsAt)}.
+        Choose another open time for {booking.serviceTitle}
+        {booking.counterpartyName ? ` with ${booking.counterpartyName}` : ''}.
+      </Text>
+    </FadeUp>
+  ) : null;
+
+  if (desktop) {
+    return (
+      <DesktopPage>
+        <BackPill
+          label="Booking details"
+          accessibilityLabel="Go back"
+          onPress={() => goBack({ pathname: '/bookings/[bookingId]', params: { bookingId } })}
+        />
+        {loading ? (
+          <View style={s.desktopLoading}><Spinner size={28} color={colors.green} /></View>
+        ) : !booking ? (
+          <ErrorBanner message={loadError || 'That booking is not available.'} />
+        ) : !eligible ? (
+          <View style={s.desktopNarrow}>{notEligible}</View>
+        ) : (
+          <View style={s.desktopColumns}>
+            <View style={s.desktopMain}>
+              {intro}
+              {submitError ? <Pop duration={300}><ErrorBanner message={submitError} /></Pop> : null}
+              {days.length === 0 ? <Text style={type.body}>No open times right now. Try again later.</Text> : null}
+              <DesktopSlotDays days={days} selected={selected} onSelect={setSelected} />
+              <View style={s.tzRow}>
+                <Glyph name="clock" size={14} color={colors.sub} />
+                <Text style={s.tzText}>Times are shown in your device timezone ({deviceTimezone()}).</Text>
+              </View>
+            </View>
+            <View style={desktopAside}>
+              <Text style={type.groupLabel}>Current time</Text>
+              <Text style={s.desktopCurrent}>{fmtDay(booking.startsAt)}, {timeRange(booking.startsAt, booking.endsAt)}</Text>
+              <View style={s.desktopRule} />
+              <Text style={type.groupLabel}>New time</Text>
+              <Text style={s.desktopChosen}>
+                {chosen ? `${fmtDay(chosen.startsAt)}, ${timeRange(chosen.startsAt, chosen.endsAt)}` : 'Pick a new time from the list'}
+              </Text>
+              <Button
+                label="Confirm new time"
+                height={54}
+                labelSize={15}
+                busy={busy}
+                disabled={!chosen}
+                onPress={() => { void confirmReschedule(); }}
+                style={chosen ? s.ctaReady : s.ctaWaiting}
+              />
+            </View>
+          </View>
+        )}
+      </DesktopPage>
+    );
+  }
+
   return (
     <ScreenIn style={s.screen}>
       <BackBar title="Reschedule" onBack={() => goBack({ pathname: '/bookings/[bookingId]', params: { bookingId } })} />
@@ -114,25 +188,12 @@ export default function RescheduleBookingScreen() {
         <View style={s.body}><ErrorBanner message={loadError || 'That booking is not available.'} /></View>
       ) : !eligible ? (
         <View style={s.body}>
-          <Card style={s.notEligible}>
-            <Text style={type.display24}>This session can&apos;t be rescheduled</Text>
-            <Text style={type.body}>
-              Only an upcoming, confirmed session can be moved to a new time.
-            </Text>
-            <Button label="Back to booking" tone="outline" onPress={backToBooking} />
-          </Card>
+          {notEligible}
         </View>
       ) : (
         <>
           <ScrollView contentContainerStyle={s.body} showsVerticalScrollIndicator={false}>
-            <FadeUp style={s.intro}>
-              <Text style={type.display34}>Pick a new time</Text>
-              <Text style={type.body}>
-                Currently {fmtLong(booking.startsAt)}, {timeRange(booking.startsAt, booking.endsAt)}.
-                Choose another open time for {booking.serviceTitle}
-                {booking.counterpartyName ? ` with ${booking.counterpartyName}` : ''}.
-              </Text>
-            </FadeUp>
+            {intro}
 
             {submitError ? <Pop duration={300}><ErrorBanner message={submitError} /></Pop> : null}
 
@@ -234,4 +295,12 @@ const s = StyleSheet.create({
   chosenWhen: { fontFamily: fonts.sans, fontSize: 14, color: colors.muted },
   ctaReady: { opacity: 1 },
   ctaWaiting: { opacity: 0.4 },
+
+  desktopLoading: { paddingVertical: 80, alignItems: 'center' },
+  desktopNarrow: { maxWidth: 560 },
+  desktopColumns: { flexDirection: 'row', alignItems: 'flex-start', gap: 28 },
+  desktopMain: { flex: 1, minWidth: 0, gap: 22 },
+  desktopCurrent: { fontFamily: fonts.sans, fontSize: 14, color: colors.muted, textDecorationLine: 'line-through' },
+  desktopChosen: { fontFamily: fonts.bold, fontSize: 15, color: colors.ink },
+  desktopRule: { height: 1, backgroundColor: colors.line },
 });

@@ -1,6 +1,6 @@
 import { router, usePathname } from 'expo-router';
-import { PropsWithChildren, useEffect } from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { PropsWithChildren, ReactNode, useEffect } from 'react';
+import { Image, Pressable, ScrollView, StyleSheet, Text, View, ViewStyle } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
@@ -8,6 +8,7 @@ import { initials } from '@/src/format';
 import { Avatar, Button, ErrorBanner, Press, Spinner } from '@/src/components/ui';
 import { BottomNav } from '@/src/components/BottomNav';
 import { Glyph, GlyphName } from '@/src/components/Glyph';
+import { BackPill, DesktopPage, hovered, PageHeader, useDesktop } from '@/src/desktop';
 import { ScreenIn } from '@/src/motion';
 import { colors, fonts, type } from '@/src/theme';
 
@@ -26,17 +27,20 @@ const tabs: { href: '/admin' | '/admin/verifications' | '/admin/counsellors' | '
  * the backend refuses each of these endpoints to anyone who is not a Platform
  * Owner, so hiding the tabs is about not showing people doors they cannot open.
  */
-export function AdminShell({ title, subtitle, busy, back, children }: PropsWithChildren<{
+export function AdminShell({ title, subtitle, busy, back, headerRight, children }: PropsWithChildren<{
   title: string;
   subtitle?: string;
   busy?: boolean;
   /** A detail screen names the list it came from; the label is that list's name. */
   back?: { label: string; onPress(): void };
+  /** Desktop only: a control beside the page title, such as a list's filters. */
+  headerRight?: ReactNode;
 }>) {
   const insets = useSafeAreaInsets();
   const pathname = usePathname();
   const { session, restoring } = useAuth();
   const { openSheet } = useChrome();
+  const desktop = useDesktop();
 
   useEffect(() => {
     if (restoring) return;
@@ -53,6 +57,18 @@ export function AdminShell({ title, subtitle, busy, back, children }: PropsWithC
   }
 
   const name = session.user.name;
+
+  // Desktop: the sidebar carries the sections and the account, so the page is its
+  // header and content in the shared 1280px column.
+  if (desktop) {
+    return (
+      <DesktopPage>
+        {back ? <BackPill label={back.label} accessibilityLabel={`Back to ${back.label}`} onPress={back.onPress} /> : null}
+        <PageHeader eyebrow={back ? undefined : 'Yoir administration'} title={title} subtitle={subtitle} right={headerRight} />
+        {busy ? <View style={styles.desktopBusy}><Spinner size={26} color={colors.green} /></View> : children}
+      </DesktopPage>
+    );
+  }
 
   return (
     <ScreenIn duration={420} style={styles.screen}>
@@ -119,6 +135,49 @@ export const paymentTone: Record<string, { bg: string; fg: string }> = {
   partially_refunded: { bg: colors.yellowTint, fg: colors.amberInk },
 };
 
+/** A column of a desktop table: a share of the width, or a fixed width for tags and marks. */
+export type Column = { label: string; flex?: number; width?: number };
+
+// Cells hug their content, so a status tag is as wide as its word, not its column.
+const cell = (column: Column): ViewStyle => ({
+  alignItems: 'flex-start', ...(column.width ? { width: column.width } : { flex: column.flex ?? 1, minWidth: 0 }),
+});
+
+/**
+ * Desktop: a list as one white card, a header row naming the columns over rows
+ * that line up with it. There is the width for it, so a row reads across.
+ */
+export function Table({ columns, children }: PropsWithChildren<{ columns: Column[] }>) {
+  return (
+    <View style={styles.table}>
+      <View style={[styles.tableRow, styles.tableHead]}>
+        {columns.map((column, index) => (
+          <View key={index} style={cell(column)}><Text style={type.groupLabel}>{column.label}</Text></View>
+        ))}
+      </View>
+      {children}
+    </View>
+  );
+}
+
+/** One row of a Table, one cell per column. A row that opens something is pressable. */
+export function TableRow({ columns, cells, onPress, accessibilityLabel }: {
+  columns: Column[]; cells: ReactNode[]; onPress?(): void; accessibilityLabel?: string;
+}) {
+  const content = cells.map((value, index) => <View key={index} style={cell(columns[index])}>{value}</View>);
+  if (!onPress) return <View style={[styles.tableRow, styles.tableBody]}>{content}</View>;
+  return (
+    <Pressable
+      onPress={onPress}
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel}
+      style={(state) => [styles.tableRow, styles.tableBody, hovered(state) && styles.tableHover]}
+    >
+      {content}
+    </Pressable>
+  );
+}
+
 /** A failed read: the reason and a way to ask again, never an empty list posing as the answer. */
 export function LoadFailed({ message, onRetry }: { message: string; onRetry(): void }) {
   return (
@@ -148,4 +207,10 @@ const styles = StyleSheet.create({
   backMark: { transform: [{ rotate: '180deg' }] },
   backText: { fontFamily: fonts.bold, fontSize: 13, color: colors.green },
   failed: { gap: 12 },
+  desktopBusy: { paddingVertical: 80, alignItems: 'center' },
+  table: { backgroundColor: colors.white, borderWidth: 1, borderColor: colors.lineSoft, borderRadius: 22, overflow: 'hidden' },
+  tableRow: { flexDirection: 'row', alignItems: 'center', gap: 16, paddingHorizontal: 20, borderBottomWidth: 1, borderBottomColor: colors.lineSoft },
+  tableHead: { paddingVertical: 12 },
+  tableBody: { paddingVertical: 14, backgroundColor: colors.white },
+  tableHover: { backgroundColor: colors.field },
 });

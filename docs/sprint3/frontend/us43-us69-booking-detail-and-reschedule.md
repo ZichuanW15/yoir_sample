@@ -143,6 +143,13 @@ readbacks retain the purchased `Melbourne, VIC`. Screenshots accompany that
 one-case execution. It follows the original 38-case Chromium selection and is
 reported separately, not as a combined full-suite run.
 
+The `8713b38` refresh expands that browser source with confirmation at desktop
+and phone widths after listing rename/move and withdrawal. It retains the
+buyer/counsellor detail assertions above and separately checks that confirmation
+consumes the purchased title/area after the booking read. The latest execution
+is recorded in the confirmation report; its deliberate viewport changes are
+distinct from a continuously phone-sized journey.
+
 ## QA branch evidence
 
 The preceding dev-only counts identify the original source-document execution.
@@ -151,10 +158,15 @@ The `sprint3-qa` overlay adds executed API, component and browser coverage. Its
 `0df4068` product, and the [dev refresh report](../qa/test-results-dev-refresh-20261017.md)
 records reconciliation with `972caee`. That dev update adds documentation; product
 code is unchanged. Suite counts belong to their dated executions and are not added
-together. The [latest meeting-area report](../qa/test-results-meeting-area-20261017.md)
-records the subsequent `9cce973` baseline from PR #244, including the backend
-snapshot change and the confirmation-screen finding. Frontend regression results
-are retained from the 06:33 UTC execution; the new advisory has its own record.
+together. The [meeting-area report](../qa/test-results-meeting-area-20261017.md)
+records the subsequent `9cce973` baseline from PR #244. The
+[latest confirmation report](../qa/test-results-confirmation-20261017.md) records
+`8713b38d63ccb969dcc69a44a02f888fd65caa9a`, including the desktop layout update
+and PR #246. Confirmation now consumes a successfully read booking snapshot;
+[`confirmation-history.test.tsx`](../../../frontend/__tests__/screens/confirmation-history.test.tsx)
+covers its title/area, initial-read fallback and returned online link. Those
+component scenarios are separate from the booking-detail browser history above.
+The older 06:33 UTC component results retain their original source boundary.
 The [QA matrix](../qa/qa-matrix.md) links these results to the QA tasks.
 
 ## Recorded behaviour and findings

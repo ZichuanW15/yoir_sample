@@ -10,6 +10,7 @@ import { Review, Service } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { Glyph } from '@/src/components/Glyph';
 import { Avatar, Button, ErrorBanner, IconButton, Press, Spinner } from '@/src/components/ui';
+import { BackPill, DesktopPage, desktopCard, Glow, useDesktop } from '@/src/desktop';
 import { initials, modalityLabel, money } from '@/src/format';
 import { FadeUp, Float, Pop, Pulse, ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, shadow, type } from '@/src/theme';
@@ -31,6 +32,7 @@ const bookingSteps = [
 export default function ServiceDetailScreen() {
   const { serviceId } = useLocalSearchParams<{ serviceId: string }>();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const { session } = useAuth();
 
   const [service, setService] = useState<Service | null>(null);
@@ -88,6 +90,139 @@ export default function ServiceDetailScreen() {
   const counsellorRating = counsellor && counsellor.overallRating !== null
     ? `${counsellor.overallRating.toFixed(1)} · ${counsellor.reviewCount} reviews`
     : 'No reviews yet';
+
+  // Desktop: the service reads down the left; who runs it, the booking button and
+  // the steps sit in a column beside it, so booking never needs a scroll.
+  if (desktop) {
+    return (
+      <DesktopPage>
+        <BackPill label="Back" onPress={() => goBack('/marketplace')} />
+        {loading ? (
+          <View style={styles.desktopLoading}><Spinner size={26} color={colors.green} /></View>
+        ) : !service ? (
+          <View style={styles.desktopFailed}>
+            <ErrorBanner message={loadError || 'That service is no longer available.'} />
+            <Press onPress={reload} scaleTo={0.96} accessibilityLabel="Try again" style={styles.retry}>
+              <Text style={styles.retryText}>Try again</Text>
+            </Press>
+          </View>
+        ) : (
+          <View style={styles.desktopRow}>
+            <View style={styles.desktopMain}>
+              <View style={[styles.hero, styles.desktopHero]}>
+                <Glow size={260} strength={0.3} style={styles.desktopHeroGlow} />
+                <View style={[styles.dot, styles.desktopHeroDot]} />
+                <Text style={styles.heroEyebrow}>Career service</Text>
+                <Text style={[styles.heroTitle, styles.desktopHeroTitle]}>{service.title}</Text>
+                <View style={styles.priceRow}>
+                  <Text style={[styles.heroPrice, styles.desktopHeroPrice]}>{money(service.priceMinor)}</Text>
+                  <Text style={styles.perSession}>per session</Text>
+                </View>
+                <View style={styles.heroTags}>
+                  {heroTags.map((tag) => (
+                    <View key={tag} style={styles.heroTag}><Text style={styles.heroTagText}>{tag}</Text></View>
+                  ))}
+                </View>
+              </View>
+
+              {serviceError ? <Pop duration={300}><ErrorBanner message={serviceError} /></Pop> : null}
+
+              <View style={styles.about}>
+                <Text style={styles.desktopHeading}>About this service</Text>
+                <Text style={styles.aboutBody}>{service.description}</Text>
+              </View>
+
+              <View style={styles.delivery}>
+                <Text style={styles.desktopHeading}>How it is delivered</Text>
+                <View style={styles.deliveryRow}>
+                  <View style={styles.deliveryMark}><Glyph name="video" size={16} color={colors.green} /></View>
+                  <Text style={styles.deliveryCopy}>{deliveryCopy}</Text>
+                </View>
+                {service.location ? (
+                  <View style={styles.locationRow}>
+                    <Text style={styles.locationLabel}>In-person area</Text>
+                    <Text style={styles.locationValue}>{`${service.location.cityOrRegion}, ${service.location.state}`}</Text>
+                  </View>
+                ) : null}
+              </View>
+
+              <View style={styles.reviews}>
+                <View style={styles.reviewsHead}>
+                  <Text style={styles.desktopHeading}>Reviews</Text>
+                  <Text style={styles.reviewsSummary}>
+                    {service.averageRating === null ? 'No reviews yet' : `${service.averageRating.toFixed(1)} · ${service.reviewCount}`}
+                  </Text>
+                </View>
+                {(service.reviews ?? []).length ? (
+                  <View style={styles.desktopReviews}>
+                    {(service.reviews ?? []).map((review) => (
+                      <View key={review.id} style={styles.desktopReview}><ReviewRow review={review} /></View>
+                    ))}
+                  </View>
+                ) : (
+                  <View style={styles.noReviews}>
+                    <Glyph name="star" size={22} color={colors.amber} />
+                    <Text style={styles.noReviewsText}>No written reviews yet.</Text>
+                  </View>
+                )}
+              </View>
+            </View>
+
+            <View style={styles.desktopAside}>
+              <View style={desktopCard}>
+                <View style={styles.counsellorRow}>
+                  <View style={styles.avatarRing}>
+                    <Avatar initials={initials(counsellor?.displayName ?? '')} size={52} bg={colors.greenTint} fg={colors.ink} />
+                  </View>
+                  <View style={styles.counsellorWho}>
+                    <Text style={styles.counsellorName}>{counsellor?.displayName}</Text>
+                    <View style={[styles.verifyPill, styles.desktopVerifyPill, { backgroundColor: verified ? colors.successBg : colors.yellowTint }]}>
+                      <Text style={[styles.verifyText, { color: verified ? colors.successInk : colors.amberDeep }]}>
+                        {verified ? 'Verified Career Professional' : 'Verification pending'}
+                      </Text>
+                    </View>
+                  </View>
+                </View>
+                {counsellor?.introduction ? <Text style={styles.counsellorIntro}>{counsellor.introduction}</Text> : null}
+                <View style={styles.counsellorRating}>
+                  <Star />
+                  <Text style={styles.counsellorRatingText}>{counsellorRating}</Text>
+                </View>
+                {counsellor ? (
+                  <Press
+                    onPress={() => router.push({ pathname: '/professionals/[counsellorId]', params: { counsellorId: counsellor.id } })}
+                    accessibilityLabel={`View ${counsellor.displayName}'s full profile`}
+                    style={styles.profileLink}
+                  >
+                    <Text style={styles.profileLinkText}>View full profile</Text>
+                    <Glyph name="chevronRight" size={16} color={colors.green} />
+                  </Press>
+                ) : null}
+              </View>
+
+              <Button
+                label="Book this service"
+                height={58}
+                onPress={bookService}
+                icon={<Glyph name="calendar" size={18} color={colors.white} />}
+                style={shadow.toast}
+              />
+
+              <View style={[styles.steps, styles.desktopSteps]}>
+                <Text style={[styles.stepsTitle, styles.desktopStepsTitle]}>Booking this service</Text>
+                {bookingSteps.map((copy, index) => (
+                  <View key={copy} style={styles.stepRow}>
+                    <View style={[styles.stepNumber, styles.desktopStepNumber]}><Text style={styles.stepNumberText}>{index + 1}</Text></View>
+                    <Text style={[styles.stepCopy, styles.desktopStepCopy]}>{copy}</Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          </View>
+        )}
+      </DesktopPage>
+    );
+  }
 
   return (
     <ScreenIn style={[styles.screen, { paddingTop: insets.top }]}>
@@ -352,4 +487,24 @@ const styles = StyleSheet.create({
   stepCopy: { flex: 1, paddingTop: 5, fontFamily: fonts.sans, fontSize: 14, lineHeight: 22, color: colors.amberDeep },
 
   footer: { paddingTop: 14, paddingHorizontal: 22 },
+
+  desktopLoading: { paddingVertical: 80, alignItems: 'center' },
+  // The 300px column leaves the pill a pixel short of one line at the mobile padding.
+  desktopVerifyPill: { paddingHorizontal: 8 },
+  desktopHeading: { fontFamily: fonts.serif, fontSize: 24, lineHeight: 29, color: colors.ink },
+  desktopFailed: { gap: 14, maxWidth: 560 },
+  desktopRow: { flexDirection: 'row', alignItems: 'flex-start', gap: 28 },
+  desktopMain: { flex: 1, minWidth: 0, gap: 22 },
+  desktopAside: { width: 300, gap: 18 },
+  desktopHero: { borderRadius: 28, paddingVertical: 36, paddingHorizontal: 40 },
+  desktopHeroGlow: { right: -60, top: -60 },
+  desktopHeroDot: { position: 'absolute', right: 34, top: 34 },
+  desktopHeroTitle: { fontSize: 40, lineHeight: 44, letterSpacing: -0.4, paddingRight: 40 },
+  desktopHeroPrice: { fontSize: 32 },
+  desktopReviews: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
+  desktopReview: { flexGrow: 1, flexBasis: 280 },
+  desktopSteps: { gap: 12, borderRadius: 22 },
+  desktopStepsTitle: { fontSize: 20, lineHeight: 24 },
+  desktopStepNumber: { width: 28, height: 28 },
+  desktopStepCopy: { paddingTop: 4, lineHeight: 21 },
 });

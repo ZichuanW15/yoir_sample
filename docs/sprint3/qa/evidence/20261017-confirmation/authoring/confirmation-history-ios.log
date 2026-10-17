@@ -1,0 +1,16 @@
+PASS ios-components __tests__/screens/confirmation-history.test.tsx
+  ✓ [QA-201][US-36] confirmation reads the purchased title and area instead of the edited listing (539 ms)
+  ✓ [QA-201][US-36] delayed booking response replaces the already-visible listing fallback (23 ms)
+  ✓ [QA-201][US-36] a later listing response cannot overwrite an already-loaded purchase (24 ms)
+  ✓ [QA-201][US-36] a loaded booking with empty area never borrows the current listing location (15 ms)
+  ✓ [QA-201][US-36] a loaded booking with omitted area never borrows the current listing location (15 ms)
+  ✓ [QA-201][US-36] an unavailable listing does not hide a successfully read purchased title or area (14 ms)
+  ✓ [QA-201][US-36] a failed booking read retains the supported listing fallback (15 ms)
+  ✓ [QA-201][US-36] an online purchase preserves its returned meeting link while using its frozen title (22 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       8 passed, 8 total
+Snapshots:   0 total
+Time:        4.1 s
+Ran all test suites within paths "__tests__/screens/confirmation-history.test.tsx".
+Test results written to: ../../confirmation-history-ios.json

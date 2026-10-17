@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { expect, test, type APIRequestContext, type Page } from '@playwright/test';
+import { expect, test, type APIRequestContext, type Page, type TestInfo } from '@playwright/test';
 
 // Verified identities come from sprint3_fixtures.py in the owned local server.
 // The service, availability, order, payment stub and later edit use real API
@@ -44,14 +44,63 @@ async function assertPurchasedArea(
     modality: 'in_person', serviceTitle: title, meetingArea: 'Melbourne, VIC', status: 'confirmed' });
 }
 
-test('US36/43 both parties retain the purchased in-person area after a listing move and withdrawal', async ({ page, request, browser }, info) => {
+type ConfirmationPurchase = {
+  booking: { id: string; orderId: string; serviceId: string; startsAt: string; endsAt: string };
+  paymentId: string; title: string; editedTitle: string; amountMinor: number;
+};
+
+async function assertPurchasedConfirmation(
+  page: Page, purchase: ConfirmationPurchase, stage: 'edited' | 'withdrawn', info: TestInfo,
+) {
+  const { booking, paymentId, title, editedTitle, amountMinor } = purchase;
+  const params = new URLSearchParams({ bookingId: booking.id, paymentId,
+    serviceId: booking.serviceId, modality: 'in_person', startsAt: booking.startsAt,
+    endsAt: booking.endsAt, amountMinor: String(amountMinor) });
+  for (const viewport of [
+    { name: 'desktop', width: 1440, height: 1000 },
+    { name: 'phone', width: 390, height: 844 },
+  ]) {
+    await page.setViewportSize({ width: viewport.width, height: viewport.height });
+    const readBooking = page.waitForResponse(response =>
+      new URL(response.url()).pathname === `/api/v1/bookings/${booking.id}`
+      && response.request().method() === 'GET');
+    const readListing = page.waitForResponse(response =>
+      new URL(response.url()).pathname === `/api/v1/services/${booking.serviceId}`
+      && response.request().method() === 'GET');
+    // Each viewport starts a fresh page and waits for both real API reads. The
+    // confirmation must consume the stored purchase, including after a 404 listing.
+    await page.goto(`/bookings/confirmation?${params}`);
+    const [loadedBooking, loadedListing] = await Promise.all([readBooking, readListing]);
+    expect(loadedBooking.status()).toBe(200);
+    expect(await loadedBooking.json()).toMatchObject({ id: booking.id, orderId: booking.orderId,
+      serviceId: booking.serviceId, serviceTitle: title, meetingArea: 'Melbourne, VIC',
+      modality: 'in_person', status: 'confirmed' });
+    expect(loadedListing.status()).toBe(stage === 'edited' ? 200 : 404);
+    if (stage === 'edited') {
+      expect(await loadedListing.json()).toMatchObject({ title: editedTitle,
+        location: { state: 'VIC', cityOrRegion: 'Geelong' } });
+    }
+    await expect(page.getByText(title, { exact: true })).toBeVisible();
+    await expect(page.getByText(booking.id, { exact: true })).toBeVisible();
+    await expect(page.getByText(/^In person · Melbourne, VIC\./)).toBeVisible();
+    await expect(page.getByText(editedTitle, { exact: true })).toHaveCount(0);
+    await expect(page.getByText(/Geelong, VIC/)).toHaveCount(0);
+    await info.attach(`purchased-confirmation-${stage}-${viewport.name}`, {
+      body: await page.screenshot({ fullPage: true }), contentType: 'image/png',
+    });
+  }
+}
+
+test('US36/43 both parties and confirmation retain purchased title and in-person area after a listing edit and withdrawal', async ({ page, request, browser }, info) => {
   const buyer = await login(page, 'buyer');
   const sellerContext = await browser.newContext({ baseURL: new URL(page.url()).origin,
     timezoneId: 'Australia/Melbourne', locale: 'en-AU' });
   try {
     const sellerPage = await sellerContext.newPage();
     const seller = await login(sellerPage, 'reviewer');
-    const title = `Purchased Melbourne session ${randomUUID().slice(0, 8)}`;
+    const unique = randomUUID().slice(0, 8);
+    const title = `Purchased Melbourne session ${unique}`;
+    const editedTitle = `Updated Geelong session ${unique}`;
     const draft = { title, description: 'An in-person booking with a purchased meeting-area snapshot.',
       priceMinor: 9500, currency: 'AUD', durationMinutes: 60, modalities: ['in_person'],
       location: { state: 'VIC', cityOrRegion: 'Melbourne' } };
@@ -78,20 +127,25 @@ test('US36/43 both parties retain the purchased in-person area after a listing m
     const order = await ordered.json();
     const paid = await request.post(`/api/v1/orders/${order.id}/payments/stub`, { headers: headers(buyer) });
     expect(paid.status()).toBe(200);
-    const { booking } = await paid.json();
+    const { booking, paymentId } = await paid.json();
+    expect(paymentId).toEqual(expect.any(String));
     expect(booking).toMatchObject({ orderId: order.id, serviceId: service.id,
-      modality: 'in_person', meetingArea: 'Melbourne, VIC', status: 'confirmed' });
+      serviceTitle: title, modality: 'in_person', meetingArea: 'Melbourne, VIC', status: 'confirmed' });
 
     const edited = await request.patch(`/api/v1/me/services/${service.id}`, {
-      headers: headers(seller), data: { ...draft, location: { state: 'VIC', cityOrRegion: 'Geelong' } },
+      headers: headers(seller), data: { ...draft, title: editedTitle,
+        location: { state: 'VIC', cityOrRegion: 'Geelong' } },
     });
     expect(edited.status()).toBe(200);
     const listing = await request.get(`/api/v1/services/${service.id}`);
     expect(listing.status()).toBe(200);
-    expect(await listing.json()).toMatchObject({ location: { state: 'VIC', cityOrRegion: 'Geelong' } });
+    expect(await listing.json()).toMatchObject({ title: editedTitle,
+      location: { state: 'VIC', cityOrRegion: 'Geelong' } });
     for (const [viewer, session] of [[page, buyer], [sellerPage, seller]] as const) {
       await assertPurchasedArea(viewer, request, session, booking.id, order.id, service.id, title);
     }
+    const purchase = { booking, paymentId, title, editedTitle, amountMinor: draft.priceMinor };
+    await assertPurchasedConfirmation(page, purchase, 'edited', info);
 
     const withdrawn = await request.delete(`/api/v1/me/services/${service.id}`, { headers: headers(seller) });
     expect(withdrawn.status()).toBe(204);
@@ -104,10 +158,14 @@ test('US36/43 both parties retain the purchased in-person area after a listing m
         body: await viewer.screenshot({ fullPage: true }), contentType: 'image/png',
       });
     }
+    await assertPurchasedConfirmation(page, purchase, 'withdrawn', info);
     await info.attach('purchased-area-readback', { body: JSON.stringify({ orderId: order.id,
       bookingId: booking.id, serviceId: service.id, purchasedArea: 'Melbourne, VIC',
+      purchasedTitle: title, editedListingTitle: editedTitle,
       editedListingArea: 'Geelong, VIC', serviceWithdrawn: true,
-      browserViewers: ['buyer', 'counsellor'] }), contentType: 'application/json' });
+      browserViewers: ['buyer', 'counsellor'],
+      confirmationViewports: [{ width: 1440, height: 1000 }, { width: 390, height: 844 }],
+      confirmationStages: ['edited', 'withdrawn'] }), contentType: 'application/json' });
   } finally {
     await sellerContext.close();
   }

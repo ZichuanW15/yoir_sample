@@ -7,6 +7,7 @@ import { useAuth } from '@/src/auth/AuthContext';
 import { AdminShell, LoadFailed } from '@/src/admin/shell';
 import { Glyph } from '@/src/components/Glyph';
 import { Card, Chip, Tag } from '@/src/components/ui';
+import { useDesktop } from '@/src/desktop';
 import { fmtDay, initials } from '@/src/format';
 import { FadeUp } from '@/src/motion';
 import { colors, fonts, type } from '@/src/theme';
@@ -29,6 +30,7 @@ export default function AdminUsersScreen() {
   const seekers = role === 'job_seeker';
   const [people, setPeople] = useState<{ professionals: AdminCounsellor[]; jobSeekers: AdminJobSeeker[] } | null>(null);
   const [error, setError] = useState('');
+  const desktop = useDesktop();
 
   const load = useCallback(async () => {
     if (!session) return;
@@ -51,30 +53,51 @@ export default function AdminUsersScreen() {
 
   const show = (next: 'counsellor' | 'job_seeker') => router.setParams({ role: next });
 
+  const roleChips = people ? (
+    <View style={styles.roles}>
+      <Chip
+        label={`Career Professionals · ${people.professionals.length}`}
+        selected={!seekers}
+        onPress={() => show('counsellor')}
+      />
+      <Chip
+        label={`Job Seekers · ${people.jobSeekers.length}`}
+        selected={seekers}
+        onPress={() => show('job_seeker')}
+      />
+    </View>
+  ) : null;
+
   return (
     <AdminShell
       title="Users"
       subtitle="Everyone with a Yoir account, newest first. Nothing here can be changed."
       busy={people === null && !error}
+      headerRight={roleChips}
     >
       {error ? <LoadFailed message={error} onRetry={() => { setError(''); void load(); }} /> : null}
 
+      {people && desktop ? (
+        // Desktop: Career Professionals as a grid of cards, Job Seekers as rows in one card.
+        seekers ? (
+          people.jobSeekers.length ? (
+            <FadeUp delay={60} style={styles.desktopList}>
+              {people.jobSeekers.map((row) => <JobSeekerRow key={row.id} row={row} />)}
+            </FadeUp>
+          ) : null
+        ) : (
+          <View style={styles.desktopGrid}>
+            {people.professionals.map((row, index) => <ProfessionalCard key={row.id} row={row} index={index} desktop />)}
+          </View>
+        )
+      ) : null}
+
       {people ? (
         <>
-          <View style={styles.roles}>
-            <Chip
-              label={`Career Professionals · ${people.professionals.length}`}
-              selected={!seekers}
-              onPress={() => show('counsellor')}
-            />
-            <Chip
-              label={`Job Seekers · ${people.jobSeekers.length}`}
-              selected={seekers}
-              onPress={() => show('job_seeker')}
-            />
-          </View>
+          {/* Desktop shows the role chips beside the title instead. */}
+          {desktop ? null : roleChips}
 
-          {seekers
+          {desktop ? null : seekers
             ? people.jobSeekers.map((row, index) => <JobSeekerCard key={row.id} row={row} index={index} />)
             : people.professionals.map((row, index) => <ProfessionalCard key={row.id} row={row} index={index} />)}
 
@@ -87,15 +110,15 @@ export default function AdminUsersScreen() {
   );
 }
 
-function ProfessionalCard({ row, index }: { row: AdminCounsellor; index: number }) {
+function ProfessionalCard({ row, index, desktop }: { row: AdminCounsellor; index: number; desktop?: boolean }) {
   // Verified but unpayable is the state worth spotting: everything they list
   // is unbookable, and nothing in the app tells them so.
   const blocked = row.verificationStatus === 'verified' && !row.payoutsEnabled;
   return (
-    <FadeUp delay={60 + Math.min(index, 8) * 30}>
+    <FadeUp delay={60 + Math.min(index, 8) * 30} style={desktop && styles.desktopCell}>
       <Card
-        pad={18}
-        style={styles.card}
+        pad={desktop ? 20 : 18}
+        style={[styles.card, desktop && styles.desktopFlat]}
         accessibilityLabel={`${row.name}, Career Professional. Open their verification`}
         onPress={() => router.push(`/admin/verifications/${encodeURIComponent(row.id)}` as Href)}
       >
@@ -151,6 +174,19 @@ function JobSeekerCard({ row, index }: { row: AdminJobSeeker; index: number }) {
   );
 }
 
+/** Desktop: a Job Seeker as one row, everything the mobile card says read across. */
+function JobSeekerRow({ row }: { row: AdminJobSeeker }) {
+  return (
+    <View style={styles.desktopRow}>
+      <View style={styles.desktopWho}><Who name={row.name} email={row.email} /></View>
+      <Tag label="Job Seeker" />
+      <Tag label={row.bookingCount === 1 ? '1 booking' : `${row.bookingCount} bookings`} bg={colors.greenTint} fg={colors.greenDeep} />
+      <Flag ok={row.emailVerified} label={row.emailVerified ? 'Email confirmed' : 'Email not confirmed'} />
+      <Text style={styles.meta}>Joined {fmtDay(row.joinedAt)}</Text>
+    </View>
+  );
+}
+
 function Who({ name, email, opens }: { name: string; email: string; opens?: boolean }) {
   return (
     <View style={styles.head}>
@@ -203,4 +239,14 @@ const styles = StyleSheet.create({
   figureValue: { fontFamily: fonts.extra, fontSize: 16, color: colors.ink },
   figureLabel: { fontFamily: fonts.sans, fontSize: 11, color: colors.sub },
   meta: { fontFamily: fonts.sans, fontSize: 12, color: colors.sub },
+  desktopGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 16 },
+  // Two to a row at desktop widths; a card never narrows below what its four figures need.
+  desktopCell: { flexGrow: 1, flexBasis: 420, maxWidth: '100%' },
+  desktopFlat: { borderWidth: 1, borderColor: colors.lineSoft, boxShadow: 'none' },
+  desktopList: { backgroundColor: colors.white, borderWidth: 1, borderColor: colors.lineSoft, borderRadius: 22, overflow: 'hidden' },
+  desktopRow: {
+    flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 14,
+    paddingHorizontal: 20, paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: colors.lineSoft,
+  },
+  desktopWho: { flexGrow: 1, flexBasis: 220, minWidth: 0 },
 });

@@ -4,6 +4,7 @@ import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, Vi
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { api, fieldErrors, userFacingError } from '@/src/api/client';
 import { useChrome } from '@/src/chrome';
+import { desktopAuthBody, useDesktop } from '@/src/desktop';
 import { Glyph } from '@/src/components/Glyph';
 import { Button, ErrorBanner, Field } from '@/src/components/ui';
 import { FadeUp, Pop, SheetUp } from '@/src/motion';
@@ -19,6 +20,7 @@ import { colors, fonts, type } from '@/src/theme';
 export default function ResetPasswordScreen() {
   const { token } = useLocalSearchParams<{ token?: string }>();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const { flash } = useChrome();
   const [password, setPassword] = useState('');
   const [confirmation, setConfirmation] = useState('');
@@ -51,14 +53,25 @@ export default function ResetPasswordScreen() {
     }
   }
 
+  // Desktop: the bar scrolls with the form, so the column is one centred group
+  // and the whole panel is what scrolls (see desktopAuthBody).
+  const bar = (
+    <View style={[styles.bar, desktop && styles.desktopBar]}>
+      <Image source={require('@/assets/images/yoir-wordmark.png')} style={styles.wordmark} resizeMode="contain" accessibilityLabel="Yoir" />
+    </View>
+  );
+
   return (
-    <SheetUp duration={500} style={[styles.screen, { paddingTop: insets.top }]}>
-      <View style={styles.bar}>
-        <Image source={require('@/assets/images/yoir-wordmark.png')} style={styles.wordmark} resizeMode="contain" accessibilityLabel="Yoir" />
-      </View>
+    <SheetUp duration={500} style={[styles.screen, { paddingTop: insets.top }, desktop && styles.desktopScreen]}>
+      {desktop ? null : bar}
 
       <KeyboardAvoidingView style={styles.fill} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
-        <ScrollView contentContainerStyle={[styles.body, { paddingBottom: 24 + insets.bottom }]} keyboardShouldPersistTaps="handled">
+        <ScrollView
+          showsVerticalScrollIndicator={!desktop}
+          contentContainerStyle={[styles.body, { paddingBottom: 24 + insets.bottom }, desktop && styles.desktopBody]}
+          keyboardShouldPersistTaps="handled"
+        >
+          {desktop ? bar : null}
           <FadeUp delay={100} style={styles.intro}>
             <Text style={type.display36}>Choose a new password</Text>
             <Text style={type.body}>At least eight characters. Pick something you do not use elsewhere.</Text>
@@ -117,4 +130,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row', gap: 10, padding: 16, borderRadius: 20, backgroundColor: colors.greenTint,
   },
   noticeText: { flex: 1, fontFamily: fonts.sans, fontSize: 13, lineHeight: 19, color: colors.greenDeep },
+  // Desktop: the screen fills the panel beside the brand panel and scrolls as a whole;
+  // its content is the centred 460px column, bar included.
+  desktopScreen: { flex: 1, backgroundColor: 'transparent' },
+  desktopBar: { paddingHorizontal: 0 },
+  desktopBody: desktopAuthBody,
 });

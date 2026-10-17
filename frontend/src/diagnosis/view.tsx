@@ -236,15 +236,21 @@ export function DirectionCard({ direction }: { direction: DiagnosisDirection }) 
 
 interface Professional { profile: CounsellorProfile; services: Service[] }
 
+/** Desktop: the gap between cards when they are laid out as a grid. */
+const GRID_GAP = 18;
+
 /** Career Professionals selected by the backend's diagnosis criteria. */
 export function BestMatches({
-  criteria, limit,
+  criteria, limit, grid,
 }: {
   criteria: DiagnosisMarketplaceCriteria | null;
   limit: number;
+  /** Desktop: lay the cards out in as many columns of at least this width as fit. */
+  grid?: number;
 }) {
   const [professionals, setProfessionals] = useState<Professional[] | null>(null);
   const [error, setError] = useState('');
+  const [gridWidth, setGridWidth] = useState(0);
   const query = criteria?.query ?? '';
   const modality = criteria?.modality ?? null;
 
@@ -284,8 +290,19 @@ export function BestMatches({
     );
   }
 
+  // The grid is measured rather than styled, so a short last row keeps its column
+  // width instead of stretching; it stays hidden for the one frame before that.
+  const columns = grid && gridWidth ? Math.max(1, Math.floor((gridWidth + GRID_GAP) / (grid + GRID_GAP))) : 1;
+  const cardWidth = grid && gridWidth ? (gridWidth - GRID_GAP * (columns - 1)) / columns : undefined;
+
   return (
-    <View style={styles.list}>
+    <View
+      // Keyed so it mounts fresh rather than reusing the spinner's View: the web only
+      // starts measuring a View that has onLayout when it mounts.
+      key="matches"
+      style={[styles.list, grid ? [styles.grid, { opacity: gridWidth ? 1 : 0 }] : null]}
+      onLayout={grid ? (event) => setGridWidth(event.nativeEvent.layout.width) : undefined}
+    >
       {professionals.slice(0, limit).map(({ profile, services }, index) => {
         const verified = profile.verificationStatus === 'verified';
         const from = services.length ? Math.min(...services.map((s) => s.priceMinor)) : null;
@@ -294,7 +311,7 @@ export function BestMatches({
             key={profile.id}
             accessibilityLabel={`${profile.displayName}, Career Professional`}
             onPress={() => router.push({ pathname: '/professionals/[counsellorId]', params: { counsellorId: profile.id } })}
-            style={styles.professional}
+            style={[styles.professional, grid ? [styles.gridCard, { width: cardWidth }] : null]}
           >
             {criteria ? (
               <View style={styles.tag}>
@@ -326,7 +343,7 @@ export function BestMatches({
                 {profile.expertise.slice(0, 3).map((item) => <Tag key={item} label={item} bg={colors.greenTint} fg={colors.green} />)}
               </View>
             ) : null}
-            <View style={styles.foot}>
+            <View style={[styles.foot, grid ? styles.gridFoot : null]}>
               <Text style={styles.footText} numberOfLines={1}>
                 {profile.languages.length ? `Speaks ${profile.languages.join(', ')}` : `${modalityLabel(profile.defaultModality)} sessions`}
               </Text>
@@ -365,4 +382,8 @@ const styles = StyleSheet.create({
   },
   footText: { flex: 1, fontFamily: fonts.medium, fontSize: 13, color: colors.muted },
   price: { fontFamily: fonts.extra, fontSize: 15, color: colors.green },
+  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: GRID_GAP },
+  gridCard: { borderWidth: 1, borderColor: colors.lineSoft, borderRadius: 22 },
+  // Cards in a row share its height; the foot sits on the bottom edge of each.
+  gridFoot: { marginTop: 'auto' },
 });

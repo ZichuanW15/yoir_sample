@@ -1,10 +1,11 @@
 import { Href, router } from 'expo-router';
 import { useEffect } from 'react';
-import { Animated, Easing, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Animated, Easing, Pressable, ScrollView, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { AppNotification } from '@/src/api/types';
 import { Glyph } from '@/src/components/Glyph';
 import { Press } from '@/src/components/ui';
+import { useDesktop } from '@/src/responsive';
 import { useAnimatedValue, USE_NATIVE_DRIVER } from '@/src/motion';
 import { ago, useNotifications } from '@/src/notifications';
 import { colors, fonts, radius, shadow } from '@/src/theme';
@@ -13,6 +14,8 @@ import { colors, fonts, radius, shadow } from '@/src/theme';
 export function NotificationsPanel({ onClose }: { onClose(): void }) {
   const insets = useSafeAreaInsets();
   const { items, unread, refresh, markRead } = useNotifications();
+  const desktop = useDesktop();
+  const { height } = useWindowDimensions();
   const t = useAnimatedValue(0);
 
   useEffect(() => {
@@ -35,6 +38,8 @@ export function NotificationsPanel({ onClose }: { onClose(): void }) {
         style={[
           styles.panel, shadow.card,
           { top: insets.top + 64, opacity: t, transform: [{ translateY: t.interpolate({ inputRange: [0, 1], outputRange: [-8, 0] }) }] },
+          // Desktop: it opens beside the sidebar's Notifications link instead of under a bell.
+          desktop && { top: 92, left: 268, right: undefined, width: 360, maxHeight: height * 0.7 },
         ]}
       >
         <View style={styles.head}>

@@ -1,13 +1,15 @@
 # Sprint 3 QA procedures — executed scope
 
 **Review:** 17 October 2026, Australia/Melbourne. **Owner:** Wilson (`Zhouzhny`).
-**Current dev baseline:** `9cce9737ded87c13a7575d7236a051c5db7628f8`.
+**Current dev baseline:** `8713b38d63ccb969dcc69a44a02f888fd65caa9a`.
 
 The [QA matrix](qa-matrix.md) maps all 23 tasks to parent criteria and executable
-sources. The [latest meeting-area report](test-results-meeting-area-20261017.md)
-records new API, migration, browser and advisory commands, times and outcomes.
+sources. The [latest confirmation report](test-results-confirmation-20261017.md)
+records this edition's commands, times and outcomes after the desktop layout
+update and PR #246. The [meeting-area report](test-results-meeting-area-20261017.md)
+retains its earlier API, migration, browser and advisory executions on `9cce973`.
 The [06:33 UTC component refresh](test-results-dev-refresh-20261017.md) retains
-full regression and coverage results for the unchanged frontend source boundary.
+its full regression and coverage results from before the desktop update.
 The [earlier full report](test-results-final-20261017.md) keeps its dated API,
 browser and live-client results for the previous product.
 These procedures reproduce the recorded executions.
@@ -26,12 +28,14 @@ Failed assertions retain their recorded outcomes.
 | Remaining Sprint 3 stories | Maintain onboarding, verification, administration, booking/reschedule, reviews/aggregates, password reset and profile regression. Check pending, empty, failure/retry, role/account isolation and cross-view state. |
 | Concurrency/recovery | Run real PostgreSQL competing diagnosis saves, booking/reschedule and review writes. Check atomic rollback and retry; record strict XFAIL individually. |
 | Shared critical path | Repeat registration/login/logout, marketplace, reservation and implemented stub-payment journeys through actual HTTPX and TypeScript clients. |
+| Responsive Web | Preserve registration role and draft across 1023/1024px; navigate each role's desktop sidebar; revoke the authenticated session through account-menu logout; cancel a service deletion without losing edits, then confirm withdrawal. Read confirmation's purchased title/area after listing edit/withdrawal at 1440px and 390px. |
 
 Tests and fixtures are updated for the latest implementation. Product code,
 dependencies and CI gates are not changed by QA. Deleted local diagnosis model
 and storage tests are replaced with API-bound assertions. Fixed privacy omission,
 diagnosis integration, frozen-title and backend meeting-area checks run as normal
-regressions. The latest product change comes from upstream PR #244.
+regressions. The latest product changes come from upstream `dev`, including
+PR #246's confirmation snapshot fix and the desktop layout update.
 
 ## 2. Environments and data
 
@@ -105,6 +109,11 @@ full shared/iOS/Android results are 597/606/606 passed. Recorded outputs use
 Existing numeric gates apply separately to API, marketplace, auth and formatting
 sources (90% statements, 80% branches, 90% functions, 90% lines). Whole configured
 app coverage is reported separately, with the exclusions in `jest.config.js`.
+On `8713b38`, fresh full executions passed 610 shared and 619 per native preset,
+including the eight confirmation cases below. The current configured frontend
+line/branch coverage is 87.77% / 69.06%; the core-source gates passed. Desktop
+product branches changed the measured source set, so the older coverage
+percentages are retained only with their dated report.
 
 Run each advisory command separately and retain its real nonzero exit status:
 
@@ -124,12 +133,31 @@ privacy responses checked against the actual backend mapper. The second injects
 a slot-read 503 and rejects a false no-availability state. Both preserve intended
 correctness assertions and actual failure diagnostics.
 
-The meeting-area execution also includes
-`defects/sprint3-confirmation-history.test.tsx`. Its controlled transport sends
-Melbourne in the purchased booking and Geelong in the current listing. The test
-waits for the real client to receive the booking before asserting that the
-confirmation screen must show Melbourne. `S3-CONFIRMATION-AREA` records the actual
-remaining failure; a completed API response is distinguished from a loading state.
+The confirmation refresh replaces the old single advisory source with
+`screens/confirmation-history.test.tsx`. Its eight ordinary component scenarios
+use the real screen, auth provider and API client with controlled HTTP responses:
+
+- Purchased title/area win over an edited listing after the booking read.
+- Delayed booking data replaces the initial listing fallback; a later listing
+  response cannot overwrite the already loaded purchase.
+- Empty and omitted purchased areas each remain empty rather than borrowing the
+  current listing area.
+- A listing 404 preserves successfully read booking details.
+- A settled initial booking 503 keeps the implemented listing fallback.
+- An online booking opens the exact returned meeting link and uses its frozen title.
+
+The location assertions use regexes inside the complete delivery note, including
+the negative Geelong check. The old short-string matcher incorrectly required
+full-note equality. Its corrected form fails on pre-fix `bad7a8b` with actual
+Geelong and passes against PR #246 with Melbourne; the historical logs are
+unchanged. Initial booking-read fallback is distinct from the confirmed snapshot
+state.
+
+Focused reproduction, from `frontend/`:
+
+```bash
+npm run test:ci -- --runTestsByPath __tests__/screens/confirmation-history.test.tsx
+```
 
 ## 5. Backend API, database and migration tests
 
@@ -197,6 +225,27 @@ WEB_QA_OUTPUT_DIR="$PWD/test-results/final-regression" npm run test:web
 WEB_QA_OUTPUT_DIR="$PWD/test-results/final-defects" npm run test:web:defects
 ```
 
+For the [phone configuration](../../../frontend/playwright.mobile.config.ts),
+run from `frontend/` with an unused loopback port and a fresh output directory
+for each execution:
+
+```bash
+WEB_QA_PORT=43129 WEB_QA_OUTPUT_DIR="$PWD/test-results/confirmation-phone-regression" \
+  npx playwright test --config playwright.mobile.config.ts --grep-invert '@defect'
+WEB_QA_PORT=43129 WEB_QA_OUTPUT_DIR="$PWD/test-results/confirmation-phone-defects" \
+  npx playwright test --config playwright.mobile.config.ts --grep '@defect'
+```
+
+The separately recorded administrator follow-ups can be reproduced with the
+same focused selector and distinct output directories:
+
+```bash
+WEB_QA_PORT=43128 WEB_QA_OUTPUT_DIR="$PWD/test-results/confirmation-desktop-admin-followup" \
+  npx playwright test --config playwright.config.ts --grep 'US07/08 platform_owner desktop'
+WEB_QA_PORT=43129 WEB_QA_OUTPUT_DIR="$PWD/test-results/confirmation-phone-admin-followup" \
+  npx playwright test --config playwright.mobile.config.ts --grep 'US07/08 platform_owner desktop'
+```
+
 The commands use different report directories so the defect run cannot overwrite
 the regression report. `serve.py` owns the temporary database and exits with the
 Playwright server lifecycle. `WEB_QA_PORT` can select an unused loopback port.
@@ -204,7 +253,41 @@ Inspect per-case status, retries, runtime errors and attachments, not only the
 summary or process exit code. Validate the defect report with
 `check_defect_report.cjs --format playwright` and its actual command outcome.
 
-The latest execution ran the original full Chromium regression selection first
+The confirmation refresh adds five cases in `e2e/sprint3-responsive.spec.ts`:
+registration draft/role retention across the breakpoint, three role-specific
+sidebar/logout journeys, and service-deletion cancel/confirm. These use real
+isolated API requests and authenticate through the UI. Logout additionally checks
+that the old token receives 401; deletion checks the persisted listing before
+and after confirmation.
+
+The same file contains `DEF-REGISTER-WEB-CHECKED` and
+`DEF-DESKTOP-NAV-CURRENT` advisory cases for the selected radio's checked state
+and the current navigation link. Keep their outcomes separate from registration
+payloads, successful navigation and logout. The original navigation assertion
+used `aria-selected`; a navigation link's current-page semantic is `aria-current`.
+The initial authoring output is retained and does not stand in for execution of
+the corrected advisory case.
+
+The expanded `e2e/sprint3-meeting-area.spec.ts` checks confirmation in addition to
+both participants' booking details. After buying in Melbourne, it renames/moves
+the listing to Geelong, then withdraws it. At 1440px and 390px, confirmation waits
+for the real booking and listing responses and displays the purchased title/area,
+including when the withdrawn listing returns 404. Screenshots identify each
+stage and viewport. The responsive and confirmation cases intentionally resize;
+they must not be reported as exclusively phone-sized even when launched by a
+phone-browser configuration.
+
+The latest full selections recorded 43 passed / 1 test-assertion failure per
+project. The remaining administrator logout case expected `/`, although the
+admin auth guard supports `/auth/login`. After correcting that expectation, the
+focused case passed separately in each project and verified session revocation,
+old-token rejection and guest access. The latest advisory selections recorded
+1 passed / 9 failed each. Keep these full, advisory and focused records distinct;
+they are not a new full 44-pass execution. Exact commands, phone
+configuration and source fingerprints are retained in the
+[confirmation execution records](evidence/20261017-confirmation/executions.json).
+
+The earlier meeting-area execution ran its full Chromium regression selection first
 (**38 passed**), followed by a separate focused new case (**1 passed**):
 
 ```bash

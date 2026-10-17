@@ -111,15 +111,18 @@ env -u DATABASE_URL pytest tests/test_counsellor.py tests/test_migrations.py -q 
 Python 3.12.8, temporary SQLite database: 12 passed. Full backend suite: 802 passed,
 8 skipped, 18 expected failures. These are the author's original execution totals.
 
-**QA baseline:** `9cce9737ded87c13a7575d7236a051c5db7628f8`. The
+**Earlier QA execution baseline:** `9cce9737ded87c13a7575d7236a051c5db7628f8`. The
 [meeting-area QA report](../qa/test-results-meeting-area-20261017.md) records
 the subsequent isolated PostgreSQL, migration and browser results and their exact
 commands. The full PostgreSQL run passed **916 cases**, with **18 strict XFAILs**
 and 7 deselected cases; backend line/branch coverage was **94.84% / 85.45%**.
-The former meeting-area XFAIL passed as ordinary regression. The [QA matrix](../qa/qa-matrix.md) maps them to #201 and #207. The
-confirmation-screen area assertion remains a separate frontend finding: its real
-client receives the purchased Melbourne area while the screen shows the live
-listing's Geelong area.
+The former meeting-area XFAIL passed as ordinary regression. The [QA matrix](../qa/qa-matrix.md)
+maps these results to #201 and #207. The current QA baseline is
+`8713b38d63ccb969dcc69a44a02f888fd65caa9a`. PR #246 makes confirmation consume the
+successfully read booking title/area too, with the initial listing fallback
+retained. The [confirmation report](../qa/test-results-confirmation-20261017.md)
+records that frontend verification and corrects the old assertion's short-string
+matcher without rewriting its historical Geelong observation.
 
 The separate [`sprint3-meeting-area.spec.ts`](../../../frontend/e2e/sprint3-meeting-area.spec.ts)
 browser execution passed after the complete 38-case Chromium selection. Real

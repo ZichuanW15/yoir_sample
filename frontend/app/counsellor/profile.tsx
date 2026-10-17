@@ -10,6 +10,7 @@ import { useChrome } from '@/src/chrome';
 import { CounsellorNav } from '@/src/components/CounsellorNav';
 import { Glyph, GlyphName } from '@/src/components/Glyph';
 import { TopBar } from '@/src/components/TopBar';
+import { DesktopPage, desktopCard, PageHeader, useDesktop } from '@/src/desktop';
 import { Avatar, Button, Chip, ErrorBanner, Field, Press, Spinner } from '@/src/components/ui';
 import { initials, modalityLabel, STATES } from '@/src/format';
 import { FadeUp, ScreenIn } from '@/src/motion';
@@ -116,6 +117,7 @@ export default function CounsellorProfileScreen() {
   const { session } = useAuth();
   const { flash } = useChrome();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
 
   const [draft, setDraft] = useState<Draft>(blank);
   const [photoUrlOpen, setPhotoUrlOpen] = useState(false);
@@ -220,6 +222,169 @@ export default function CounsellorProfileScreen() {
       flash('The photo library is unavailable — paste an image URL instead.');
     }
   };
+
+  // Desktop shows the same save status under the identity card instead of in a footer.
+  const savingBar = (
+    <View accessibilityLiveRegion="polite" style={[s.saving, s.desktopSaving, { backgroundColor: look.bg }]}>
+      {saving.kind === 'saving'
+        ? <Spinner size={16} color={colors.green} />
+        : <Glyph name={look.glyph} size={16} color={look.fg} />}
+      <View style={s.savingCopy}>
+        {look.title ? <Text style={[s.savingTitle, { color: look.fg }]}>{look.title}</Text> : null}
+        <Text style={[s.savingText, { color: look.fg }]}>
+          {'message' in saving
+            ? saving.message
+            : saving.kind === 'saving'
+              ? 'Saving…'
+              : saving.kind === 'saved'
+                ? 'Your profile is saved and visible on your listings.'
+                : 'Changes save automatically.'}
+        </Text>
+      </View>
+      {saving.kind === 'failed' ? (
+        <Press onPress={() => { void save(); }} accessibilityLabel="Try again" style={s.retry}>
+          <Text style={s.retryText}>Try again</Text>
+        </Press>
+      ) : null}
+    </View>
+  );
+
+  // Desktop: who you are and whether it is saved in a rail on the left, the
+  // profile's sections beside it, with paired fields side by side.
+  if (desktop) {
+    return (
+      <DesktopPage>
+        <PageHeader eyebrow="Public profile" title="Professional profile" />
+
+        {loadError ? (
+          <View style={[s.loadFailed, s.desktopLoadFailed]}>
+            <ErrorBanner message={loadError} />
+            <Button label="Try again" tone="outline" height={48} onPress={() => { void load(); }} />
+          </View>
+        ) : null}
+
+        <View style={s.desktopColumns}>
+          <View style={s.desktopRail}>
+            <View style={[desktopCard, s.desktopIdentity]}>
+              <View style={s.photoWrap}>
+                <View style={s.avatarRing}>
+                  {photoUri ? (
+                    <Image source={{ uri: photoUri }} style={s.avatarImage} accessible accessibilityLabel={`${session.user.name}, profile photo`} />
+                  ) : (
+                    <Avatar initials={initials(session.user.name)} size={96} bg={colors.greenTint} fg={colors.green} />
+                  )}
+                </View>
+                <Press onPress={() => { void pickPhoto(); }} scaleTo={0.9} accessibilityLabel="Edit profile photo" style={s.editHit}>
+                  <View style={s.editBadge}><Glyph name="pencil" size={16} color={colors.white} /></View>
+                </Press>
+              </View>
+              <Text style={s.name}>{session.user.name}</Text>
+              <Press onPress={() => router.push('/counsellor/verification')} accessibilityLabel="Verification">
+                <VerificationTag state={verification} />
+              </Press>
+              <View style={s.photoActions}>
+                {photoUri ? (
+                  <Press onPress={() => set('photo')('')} accessibilityLabel="Remove photo" style={s.linkBtn}>
+                    <Text style={s.linkText}>Remove photo</Text>
+                  </Press>
+                ) : null}
+                <Press
+                  onPress={() => setPhotoUrlOpen(!photoUrlOpen)}
+                  accessibilityLabel={photoUrlOpen ? 'Hide image URL' : 'Paste an image URL instead'}
+                  accessibilityState={{ expanded: photoUrlOpen }}
+                  style={s.linkBtn}
+                >
+                  <Text style={s.linkText}>{photoUrlOpen ? 'Hide image URL' : 'Paste an image URL instead'}</Text>
+                  <Glyph name={photoUrlOpen ? 'close' : 'plus'} size={13} color={colors.green} />
+                </Press>
+              </View>
+              {photoUrlOpen ? (
+                <FadeUp duration={320} style={s.urlField}>
+                  <Field
+                    label="Image URL"
+                    value={draft.photo}
+                    onChangeText={set('photo')}
+                    placeholder="https://…"
+                    autoCapitalize="none"
+                    autoCorrect={false}
+                    keyboardType="url"
+                  />
+                </FadeUp>
+              ) : null}
+              <Button
+                label="Profile privacy"
+                tone="outline"
+                height={46}
+                labelSize={14}
+                onPress={() => router.push('/settings/privacy' as Href)}
+                style={s.privacyButton}
+              />
+            </View>
+            {savingBar}
+          </View>
+
+          <View style={s.desktopMain}>
+            <View style={[s.card, s.desktopCard]}>
+              <Text style={s.cardTitle}>How you introduce yourself</Text>
+              <Field
+                label="LinkedIn profile URL"
+                value={draft.linkedin}
+                onChangeText={set('linkedin')}
+                placeholder="https://www.linkedin.com/in/your-name"
+                autoCapitalize="none"
+                autoCorrect={false}
+                keyboardType="url"
+              />
+              <View style={s.helper}>
+                <Glyph name="shieldCheck" size={15} color={colors.greenDeep} />
+                <Text style={s.helperText}>The Platform Owner opens this link to verify you before your listings go live.</Text>
+              </View>
+              <Field label="Introduction" value={draft.intro} onChangeText={set('intro')} placeholder="One or two sentences a Job Seeker reads first." multiline />
+              <View style={s.desktopPair}>
+                <Field style={s.desktopHalf} label="Background" value={draft.background} onChangeText={set('background')} placeholder="Where you have worked and what you did there." multiline />
+                <Field style={s.desktopHalf} label="Experience" value={draft.experience} onChangeText={set('experience')} placeholder="The kind of clients you work with and the results you help them get." multiline />
+              </View>
+            </View>
+
+            <View style={[s.card, s.desktopCard]}>
+              <Text style={s.cardTitle}>What Job Seekers check before booking</Text>
+              <View style={s.desktopPair}>
+                <Field style={s.desktopHalf} label="Qualifications" value={draft.qualifications} onChangeText={set('qualifications')} placeholder={'One per line, e.g.\nMaster of Career Development'} multiline />
+                <Field style={s.desktopHalf} label="Skills and expertise" value={draft.expertise} onChangeText={set('expertise')} placeholder="Separate with commas, e.g. Interview preparation, Resume writing" multiline />
+              </View>
+              <Field label="Languages you work in" value={draft.languages} onChangeText={set('languages')} placeholder="Separate with commas, e.g. English, Hindi" />
+            </View>
+
+            <View style={s.desktopPair}>
+              <View style={[s.card, s.desktopCard, s.desktopHalf]}>
+                <Text style={s.cardTitle}>Default delivery</Text>
+                <Text style={s.cardBody}>New services start with this delivery method. You can change it per service.</Text>
+                <View style={s.chipRow}>
+                  {(['online', 'in_person'] as Modality[]).map((option) => (
+                    <Chip key={option} label={modalityLabel(option)} selected={draft.modality === option} onPress={() => set('modality')(option)} />
+                  ))}
+                </View>
+              </View>
+              <View style={[s.card, s.desktopCard, s.desktopHalf]}>
+                <Text style={s.cardTitle}>Where you are based</Text>
+                <View style={s.chipWrap}>
+                  {STATES.map((option) => (
+                    <Chip
+                      key={option}
+                      label={option}
+                      selected={draft.state === option}
+                      onPress={() => set('state')(draft.state === option ? '' : option)}
+                    />
+                  ))}
+                </View>
+                <Field label="City or region" value={draft.city} onChangeText={set('city')} placeholder="Melbourne" />
+              </View>
+            </View>
+          </View>
+        </View>
+      </DesktopPage>
+    );
+  }
 
   return (
     <ScreenIn style={s.screen}>
@@ -414,4 +579,14 @@ const s = StyleSheet.create({
   savingText: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 18 },
   retry: { minHeight: 36, paddingHorizontal: 12, borderRadius: radius.pill, backgroundColor: colors.white, alignItems: 'center', justifyContent: 'center' },
   retryText: { fontFamily: fonts.bold, fontSize: 13, color: colors.dangerInk },
+
+  desktopLoadFailed: { maxWidth: 520 },
+  desktopColumns: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', gap: 24 },
+  desktopRail: { flexGrow: 1, flexShrink: 1, flexBasis: 280, gap: 14 },
+  desktopIdentity: { alignItems: 'center', padding: 24, gap: 12 },
+  desktopSaving: { minHeight: 52, paddingVertical: 12 },
+  desktopMain: { flexGrow: 999, flexShrink: 1, flexBasis: 0, minWidth: '60%', gap: 18 },
+  desktopCard: { padding: 24, borderRadius: 22 },
+  desktopPair: { flexDirection: 'row', flexWrap: 'wrap', gap: 14 },
+  desktopHalf: { flexGrow: 1, flexShrink: 1, flexBasis: 260 },
 });

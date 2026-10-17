@@ -6,10 +6,11 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { api, userFacingError } from '@/src/api/client';
 import { Modality, Service } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
-import { BackBar, beat, BookingSteps, mono, PAY_MS } from '@/src/components/booking';
+import { BackBar, beat, BookingSteps, desktopAside, mono, PAY_MS } from '@/src/components/booking';
 import { CountdownRing } from '@/src/components/Scenes';
 import { Glyph } from '@/src/components/Glyph';
 import { Button, ErrorBanner } from '@/src/components/ui';
+import { BackPill, DesktopPage, useDesktop } from '@/src/desktop';
 import { countdown, deviceTimezone, fmtLong, modalityLabel, money, timeRange } from '@/src/format';
 import { FadeUp, Pop, ScreenIn } from '@/src/motion';
 import { usePaymentConfig, usePaymentSheet } from '@/src/payments';
@@ -23,6 +24,7 @@ export default function CheckoutScreen() {
   }>();
   const { session } = useAuth();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const { config } = usePaymentConfig();
   const { present, supported } = usePaymentSheet();
   const [service, setService] = useState<Service | null>(null);
@@ -150,6 +152,143 @@ export default function CheckoutScreen() {
     router.replace({ pathname: '/services/[serviceId]/timeslots', params: { serviceId: params.serviceId } });
   }
 
+  // Shared by the mobile and desktop layouts, which differ only in where these sit.
+  const expiredAlert = expired ? (
+    <Pop duration={300}>
+      <View accessibilityRole="alert" style={s.expired}>
+        <Text style={s.expiredText}>
+          <Text style={s.expiredLead}>Reservation expired.</Text>
+          {' '}Your slot was released so someone else could book it. Choose another time to continue.
+        </Text>
+      </View>
+    </Pop>
+  ) : null;
+
+  const orderSummary = (
+    <FadeUp delay={160} style={s.summary}>
+      <Text style={s.summaryTitle}>{service?.title}</Text>
+      <Text style={type.small}>with {service?.counsellor.displayName}</Text>
+      <View style={s.rule} />
+      <Row label="Date" value={fmtLong(params.startsAt)} />
+      <Row label="Time" value={timeRange(params.startsAt, params.endsAt)} />
+      <Row label="Timezone" value={deviceTimezone()} />
+      <Row label="Delivery" value={modalityLabel(params.modality)} />
+      {showMeetingArea ? <Row label="Meeting area" value={meetingArea} /> : null}
+      <View style={s.rule} />
+      <View style={s.totalRow}>
+        <Text style={s.totalLabel}>Total</Text>
+        <Text style={s.totalValue}>{money(amountMinor)}</Text>
+      </View>
+    </FadeUp>
+  );
+
+  // Spec §12 — the cancellation policy is shown before the money moves,
+  // not afterwards on a receipt.
+  const cancellationPolicy = (
+    <FadeUp delay={200} style={s.policy}>
+      <View style={s.policyHeading}>
+        <Glyph name="shieldCheck" size={18} color={colors.green} />
+        <Text style={s.policyTitle}>Cancellation policy</Text>
+      </View>
+      <Text style={s.policyBody}>
+        Cancel at least {config?.cancellationFullRefundHours ?? 24} hours before the session for a
+        full refund of {money(amountMinor)}.{' '}
+        {(config?.cancellationLateRefundPercent ?? 0) > 0
+          ? `Cancel later and ${config?.cancellationLateRefundPercent}% is refunded.`
+          : 'Cancelling later than that is not refunded.'}
+        {' '}If your Career Professional cancels, you are always refunded in full.
+      </Text>
+    </FadeUp>
+  );
+
+  const paymentMethod = byCard ? (
+    <FadeUp delay={240} style={s.method}>
+      <View style={s.methodHeading}>
+        <Glyph name="lock" size={18} color={colors.green} />
+        <Text style={s.methodTitle}>Secure card payment</Text>
+      </View>
+      <Text style={s.methodBody}>
+        Card details are entered directly with Stripe and never reach Yoir&apos;s servers.
+        Your Career Professional is paid after the session takes place.
+      </Text>
+      {cardUnavailableHere ? (
+        <Text style={s.methodWarning}>
+          Card payments are not set up on this server yet. Your slot stays reserved
+          while the timer runs.
+        </Text>
+      ) : null}
+      <View style={s.methodRow}>
+        <Text style={s.methodKey}>Booking reference</Text>
+        <Text style={[s.methodValue, s.reference]}>{params.orderId}</Text>
+      </View>
+    </FadeUp>
+  ) : (
+    <FadeUp delay={240} style={s.stub}>
+      <View style={s.stubHeading}>
+        <Glyph name="lock" size={18} color={colors.amberInk} />
+        <Text style={s.stubTitle}>Test-mode payment</Text>
+      </View>
+      <Text style={s.stubBody}>
+        Yoir never collects or stores card details. This build uses the backend payment stub, so no real money moves.
+      </Text>
+      <View style={s.stubRow}>
+        <Text style={s.stubKey}>Method</Text>
+        <Text style={s.stubValue}>Yoir test payment</Text>
+      </View>
+      <View style={s.stubRow}>
+        <Text style={s.stubKey}>Order reference</Text>
+        <Text style={[s.stubValue, s.reference]}>{params.orderId}</Text>
+      </View>
+    </FadeUp>
+  );
+
+  const payButton = expired
+    ? <Button label="Choose another time" height={58} onPress={backToSlots} />
+    : (
+      <Button
+        label={`Pay ${money(amountMinor)}`}
+        height={58}
+        busy={busy}
+        disabled={cardUnavailableHere}
+        onPress={pay}
+        style={shadow.toast}
+      />
+    );
+
+  if (desktop) {
+    return (
+      <DesktopPage>
+        <View style={s.desktopTop}>
+          <BackPill
+            label="Choose a time"
+            accessibilityLabel="Go back"
+            onPress={() => goBack({ pathname: '/services/[serviceId]/timeslots', params: { serviceId: params.serviceId } })}
+          />
+          <BookingSteps step={1} />
+        </View>
+        <View style={s.desktopColumns}>
+          <View style={s.desktopMain}>
+            <View style={s.desktopIntro}>
+              <Text style={s.desktopTitle}>Almost there</Text>
+              <Text style={type.body}>Your slot is reserved while the timer runs.</Text>
+            </View>
+            {expiredAlert}
+            {payError ? <Pop duration={300}><ErrorBanner message={payError} /></Pop> : null}
+            {orderSummary}
+            {cancellationPolicy}
+            {paymentMethod}
+          </View>
+          <View style={[desktopAside, s.desktopAside]}>
+            <View style={s.desktopRing}>
+              <CountdownRing remaining={remaining} total={total} label={countdown(remaining)} />
+            </View>
+            <View style={s.desktopPay}>{payButton}</View>
+          </View>
+        </View>
+      </DesktopPage>
+    );
+  }
+
   return (
     <ScreenIn style={s.screen}>
       <BackBar title="Review and pay" onBack={() => goBack({ pathname: '/services/[serviceId]/timeslots', params: { serviceId: params.serviceId } })} />
@@ -165,107 +304,19 @@ export default function CheckoutScreen() {
           <CountdownRing remaining={remaining} total={total} label={countdown(remaining)} />
         </FadeUp>
 
-        {expired ? (
-          <Pop duration={300}>
-            <View accessibilityRole="alert" style={s.expired}>
-              <Text style={s.expiredText}>
-                <Text style={s.expiredLead}>Reservation expired.</Text>
-                {' '}Your slot was released so someone else could book it. Choose another time to continue.
-              </Text>
-            </View>
-          </Pop>
-        ) : null}
+        {expiredAlert}
 
         {payError ? <Pop duration={300}><ErrorBanner message={payError} /></Pop> : null}
 
-        <FadeUp delay={160} style={s.summary}>
-          <Text style={s.summaryTitle}>{service?.title}</Text>
-          <Text style={type.small}>with {service?.counsellor.displayName}</Text>
-          <View style={s.rule} />
-          <Row label="Date" value={fmtLong(params.startsAt)} />
-          <Row label="Time" value={timeRange(params.startsAt, params.endsAt)} />
-          <Row label="Timezone" value={deviceTimezone()} />
-          <Row label="Delivery" value={modalityLabel(params.modality)} />
-          {showMeetingArea ? <Row label="Meeting area" value={meetingArea} /> : null}
-          <View style={s.rule} />
-          <View style={s.totalRow}>
-            <Text style={s.totalLabel}>Total</Text>
-            <Text style={s.totalValue}>{money(amountMinor)}</Text>
-          </View>
-        </FadeUp>
+        {orderSummary}
 
-        {/* Spec §12 — the cancellation policy is shown before the money moves,
-            not afterwards on a receipt. */}
-        <FadeUp delay={200} style={s.policy}>
-          <View style={s.policyHeading}>
-            <Glyph name="shieldCheck" size={18} color={colors.green} />
-            <Text style={s.policyTitle}>Cancellation policy</Text>
-          </View>
-          <Text style={s.policyBody}>
-            Cancel at least {config?.cancellationFullRefundHours ?? 24} hours before the session for a
-            full refund of {money(amountMinor)}.{' '}
-            {(config?.cancellationLateRefundPercent ?? 0) > 0
-              ? `Cancel later and ${config?.cancellationLateRefundPercent}% is refunded.`
-              : 'Cancelling later than that is not refunded.'}
-            {' '}If your Career Professional cancels, you are always refunded in full.
-          </Text>
-        </FadeUp>
+        {cancellationPolicy}
 
-        {byCard ? (
-          <FadeUp delay={240} style={s.method}>
-            <View style={s.methodHeading}>
-              <Glyph name="lock" size={18} color={colors.green} />
-              <Text style={s.methodTitle}>Secure card payment</Text>
-            </View>
-            <Text style={s.methodBody}>
-              Card details are entered directly with Stripe and never reach Yoir&apos;s servers.
-              Your Career Professional is paid after the session takes place.
-            </Text>
-            {cardUnavailableHere ? (
-              <Text style={s.methodWarning}>
-                Card payments are not set up on this server yet. Your slot stays reserved
-                while the timer runs.
-              </Text>
-            ) : null}
-            <View style={s.methodRow}>
-              <Text style={s.methodKey}>Booking reference</Text>
-              <Text style={[s.methodValue, s.reference]}>{params.orderId}</Text>
-            </View>
-          </FadeUp>
-        ) : (
-          <FadeUp delay={240} style={s.stub}>
-            <View style={s.stubHeading}>
-              <Glyph name="lock" size={18} color={colors.amberInk} />
-              <Text style={s.stubTitle}>Test-mode payment</Text>
-            </View>
-            <Text style={s.stubBody}>
-              Yoir never collects or stores card details. This build uses the backend payment stub, so no real money moves.
-            </Text>
-            <View style={s.stubRow}>
-              <Text style={s.stubKey}>Method</Text>
-              <Text style={s.stubValue}>Yoir test payment</Text>
-            </View>
-            <View style={s.stubRow}>
-              <Text style={s.stubKey}>Order reference</Text>
-              <Text style={[s.stubValue, s.reference]}>{params.orderId}</Text>
-            </View>
-          </FadeUp>
-        )}
+        {paymentMethod}
       </ScrollView>
 
       <View style={[s.footer, { paddingBottom: insets.bottom + 22 }]}>
-        {expired
-          ? <Button label="Choose another time" height={58} onPress={backToSlots} />
-          : (
-            <Button
-              label={`Pay ${money(amountMinor)}`}
-              height={58}
-              busy={busy}
-              disabled={cardUnavailableHere}
-              onPress={pay}
-              style={shadow.toast}
-            />
-          )}
+        {payButton}
       </View>
     </ScreenIn>
   );
@@ -326,4 +377,14 @@ const s = StyleSheet.create({
   reference: { fontFamily: mono, fontWeight: '700' },
 
   footer: { paddingTop: 14, paddingHorizontal: 22, backgroundColor: colors.white },
+
+  desktopTop: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 20 },
+  desktopColumns: { flexDirection: 'row', alignItems: 'flex-start', gap: 28 },
+  desktopMain: { flex: 1, minWidth: 0, gap: 20 },
+  desktopIntro: { gap: 8 },
+  desktopTitle: { fontFamily: fonts.serif, fontSize: 34, lineHeight: 39, letterSpacing: -0.4, color: colors.ink },
+  desktopAside: { alignItems: 'center', gap: 22, paddingVertical: 30 },
+  // The shared ring is drawn at phone size; the desktop card shows it larger.
+  desktopRing: { transform: [{ scale: 1.45 }], marginVertical: 20 },
+  desktopPay: { alignSelf: 'stretch' },
 });

@@ -2,79 +2,128 @@
 
 **Reviewed and executed:** 17 October 2026 (Australia/Melbourne).
 
-**Current dev baseline:** `9cce9737ded87c13a7575d7236a051c5db7628f8`.
+**Current dev baseline:** `8713b38d63ccb969dcc69a44a02f888fd65caa9a`.
 
 **QA branch:** `sprint3-qa`. **Owner:** Wilson (`Zhouzhny`).
 
-This edition incorporates the upstream meeting-area snapshot change from
-[PR #244](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/244).
-It extends QA for purchased-location history, booking readers, rendered emails
-and migration `0012`, and records the confirmation screen's remaining live-location
-finding. The earlier dev-document refresh added 20 component regression cases and
-3 advisory cases. Product changes come from the merged `dev` baseline; QA changes
-are limited to tests, fixtures and evidence/documentation.
+This edition incorporates the desktop layout update and the confirmation snapshot
+fix from [PR #246](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/246).
+After a successful booking read, confirmation now uses the purchased title and
+general meeting area. Eight ordinary component scenarios replace the earlier
+single confirmation advisory assertion. Product changes come from merged `dev`;
+QA changes are limited to tests, fixtures and evidence/documentation.
 
 ## Read first
 
-1. [Latest meeting-area report](test-results-meeting-area-20261017.md): API, migration,
-   browser and advisory execution records for `9cce973`, plus dated retained components.
+1. [Latest confirmation report](test-results-confirmation-20261017.md): confirmation
+   snapshot and desktop-layout verification for `8713b38`, with dated retained evidence.
 2. [All 23 QA tasks](qa-matrix.md): parent criteria, executed sources and recorded
    findings, reconciled with the [latest issue snapshot](issue-snapshot-20261017.json).
 3. [Repeatable test plan](test-plan.md): commands, isolated databases, environments
    and expected outcomes.
-4. [Latest evidence](evidence/20261017-meeting-area/README.md): per-case outcomes,
+4. [Latest evidence](evidence/20261017-confirmation/README.md): per-case outcomes,
    logs, coverage, source hashes and packaging manifest.
 5. [Executed simulator procedures and results](device-acceptance.md): completed
    native cases and their dated observations.
-6. [Latest validation](meeting-area-validation-20261017.json): source/evidence
+6. [Latest validation](confirmation-validation-20261017.json): source/evidence
    hashes, report health, task mappings and repository checks for this edition.
-7. [Approved submission](submission-draft.md): confirmed commit text, scope and
-   validation summary.
+7. [Approved submission](submission-draft.md): commit text, scope and validation
+   summary approved for publication on 17 October 2026.
 
 ## Automated results and execution boundaries
 
-The [meeting-area report](test-results-meeting-area-20261017.md) records the new
-backend, migration, browser and advisory executions on `9cce973`. Results from
-different revisions and times remain separate.
+The [confirmation report](test-results-confirmation-20261017.md) records this
+edition's executions. The full shared component run passed **610 cases in 70
+suites**; full iOS and Android component runs passed **619 cases each**. The eight
+confirmation scenarios are already included in these totals. Frontend lint, type
+checking and the fresh Web export also passed. Results from different revisions
+and times remain separate.
 
-The new full PostgreSQL execution passed **916 cases**, with **18 strict XFAILs**
-and 7 deselected cases. Backend line/branch coverage is **94.84% / 85.45%**.
-The new full component advisory suites recorded **4 passed / 20 failed** on the
-shared preset and **4 passed / 21 failed** on each native preset. All three had
-zero pending cases and zero runtime-error suites; their report-health checks passed.
+Full component advisory executions recorded **4 passed / 19 failed** on the
+shared preset and **4 passed / 20 failed** on each native preset, with zero pending
+cases and zero runtime-error suites. These failed assertions retain their real
+outcomes under the existing advisory CI policy.
 
-The original full Chromium regression selection passed **38 cases**. The later
-new `sprint3-meeting-area.spec.ts` case passed in a separate focused execution,
-with buyer/counsellor screenshots and API readbacks. These are separate executions,
-not a 39-case full-suite run. Browser advisory recorded **1 passed / 7 failed**
-and passed its report-health check. New live HTTPX and TypeScript executions passed
-**2 cases each**. Final frontend lint and type checking also passed.
+The full desktop and phone-configured Chromium regression executions each
+recorded **43 passed / 1 failed**. The remaining failure was the test expecting
+`/` after administrator logout; `/auth/login` is a supported result of the admin
+auth guard. The original result is retained with its assertion-authoring
+correction. The corrected administrator case then passed in a **separate one-case
+follow-up in each project**, including token revocation and guest access checks.
+These are not reported as full 44-pass executions.
 
-The frontend regression source and tested frontend product are unchanged from the
-**17 October 06:33 UTC** dev-document refresh. Its retained full runs are:
+The latest browser advisory executions each recorded **1 passed / 9 failed**,
+including the two new responsive accessibility findings. All five
+[advisory report-health checks](evidence/20261017-confirmation/report-health.json)
+passed. Their success validates completed reports; it does not resolve the failed
+assertions.
 
-| Suite | Retained result |
-| --- | --- |
-| Shared frontend components | 597 passed |
-| iOS components | 606 passed |
-| Android components | 606 passed |
+Current configured frontend coverage is **87.77% lines / 69.06% branches**
+(**85.68% statements / 76.01% functions**). The desktop update changed 48 product
+files, adding desktop branches to the measured source set. Ordinary component
+presets do not exercise the rendered Web desktop layout; browser execution is
+recorded separately and does not contribute to these Jest percentages. The
+existing core-source 90% statements / 80% branches / 90% functions / 90% lines
+gates passed. The earlier 94.68% / 87.04% figures belong to the previous source
+set and are not current coverage.
 
-Retained frontend line/branch coverage is **94.68% / 87.04%**. Coverage gates, lint
-and type checking passed in that execution. The [dev refresh report](test-results-dev-refresh-20261017.md)
-and [source records](evidence/20261017-dev-refresh/source-manifest.json) preserve
-its commands, timing and hashes. These component results do not establish the
-outcome of the changed backend or the new confirmation advisory case.
+The [meeting-area report](test-results-meeting-area-20261017.md) retains the earlier
+`9cce973` PostgreSQL execution: **916 passed, 18 strict XFAILs**, 7 deselected,
+and **94.84% lines / 85.45% branches**. Its browser results were a 38-case full
+selection and a later separate one-case run. Its HTTPX and TypeScript runs passed
+2 cases each. Those outcomes retain their original execution dates and source
+boundaries; they are not fresh frontend verification of the desktop update.
 
-The earlier PostgreSQL result (**899 passed / 19 strict XFAIL**), Chromium result
-(**38 passed**) and HTTPX/TypeScript client results (**2 passed each**) remain
-records of the prior product execution in the [full review](test-results-final-20261017.md).
-Its backend coverage was **94.83% / 85.40%**. They are not relabelled as `9cce973`
-results. Failed assertions and strict XFAILs remain visible; passing required
-gates do not mean every product defect is repaired.
+The earlier **17 October 06:33 UTC** component results—597 shared and 606 per
+native preset—remain in the [dev refresh report](test-results-dev-refresh-20261017.md)
+and [source records](evidence/20261017-dev-refresh/source-manifest.json). Earlier
+advisory counts include the then-failing confirmation assertion. Its matcher
+correction and promotion are documented separately below. Failed assertions and
+strict XFAILs remain visible; passing required gates do not mean every product
+defect is repaired.
 
 ## What changed in this edition
 
-Relative to the previously published QA branch, the two refreshes add **35
+The new [`screens/confirmation-history.test.tsx`](../../../frontend/__tests__/screens/confirmation-history.test.tsx)
+uses the real screen, auth provider and API client with controlled HTTP responses.
+Its eight cases cover purchased title/area, both response orders, empty or omitted
+booked area, unavailable listings, a settled failed booking read, and the returned
+online meeting link. These are component scenarios, not device or real-provider
+acceptance.
+
+The new [`sprint3-responsive.spec.ts`](../../../frontend/e2e/sprint3-responsive.spec.ts)
+adds five browser scenarios: registration drafts across the 1024px breakpoint,
+sidebar navigation and account-menu logout for each of the three roles, and
+service-deletion cancellation/confirmation. The existing
+[`sprint3-meeting-area.spec.ts`](../../../frontend/e2e/sprint3-meeting-area.spec.ts)
+also checks confirmation's purchased title/area after a real listing edit and
+withdrawal, at desktop and phone widths. The responsive scenarios deliberately
+resize; a run launched with a phone viewport is not entirely phone-sized.
+
+The initial responsive authoring runs stopped four functional journeys at
+accessibility assertions. Those outputs are retained. Registration role selection
+is checked through the actual submitted role; sidebar navigation is checked
+through the reached route and session behavior. Separate advisory cases now
+exercise radio `aria-checked` and the active link's `aria-current`. The initial
+sidebar assertion incorrectly asked a navigation link for `aria-selected`;
+correcting that test expectation is distinct from evaluating the current-link
+semantics. This separation does not repair product accessibility.
+The subsequent full runs reached the administrator logout URL assertion described
+above; the real purchase-history confirmation journey passed in those runs.
+
+The old `S3-CONFIRMATION-AREA` string matcher incorrectly required the entire
+delivery note to equal its short location fragment. The corrected regex fails
+against pre-fix `bad7a8b` with actual Geelong and passes against PR #246 with
+Melbourne. The original Geelong observation remains valid; the historical failed
+result is preserved with this assertion-authoring correction explained separately.
+
+Confirmation still uses the current listing before its initial booking read
+finishes or if that read fails. The tests distinguish this implemented fallback
+from a successfully consumed purchase snapshot.
+
+### Earlier published refreshes
+
+The preceding two refreshes added **35
 regression cases**: 20 component, 14 backend and 1 browser, plus **4 advisory
 cases**. One existing strict-XFAIL case is also restored to ordinary regression;
 it is not counted as a new case. Upstream PR #244 contributes two backend tests
@@ -85,9 +134,9 @@ separately.
 - Added a real in-person browser journey: both parties retain Melbourne in booking
   detail after the listing moves to Geelong and after withdrawal. Screenshots and
   API readbacks accompany the separate one-case passing execution.
-- Added `S3-CONFIRMATION-AREA`: the real frontend client receives the booked
-  Melbourne area, but the confirmation screen still shows the live listing
-  location, Geelong. This remains an advisory failure for QA #201.
+- Added `S3-CONFIRMATION-AREA`, whose original run showed Geelong after the real
+  frontend client received Melbourne. PR #246 now consumes the booking snapshot;
+  the corrected scenario belongs to ordinary regression coverage for QA #201.
 - The preceding dev-document refresh added 20 component regression cases and
   strengthened existing reset/forgot assertions for confirmed state, retry,
   duplicate prevention and feedback data.
@@ -107,8 +156,8 @@ The [earlier full review](test-results-final-20261017.md) established these reta
 - Added API coverage for privacy-safe search, readiness/ranking and per-order
   history across edits, receipts, emails, commissions and withdrawal. Frozen-title
   correctness was separated from the then-open meeting-area history defect.
-  PR #244 now freezes the general area too; the confirmation-screen finding above
-  remains separate from backend persistence.
+  PR #244 freezes the general area too; PR #246 subsequently makes confirmation
+  consume the successfully read booking snapshot.
 - Recorded two newly reproduced diagnosis error-state defects: initial progress
   read failure leaves an endless home spinner; failed retake submission loses its
   error message after refresh. Assertions remain intact in advisory suites.
@@ -121,10 +170,11 @@ The [issue snapshot](issue-snapshot-20261017.json) records 23 closed QA tasks an
 23 open parent stories. Their previous closure records QA delivery, not full
 parent-story acceptance. This review did not change remote issue states.
 
-The retained component tests were run at 06:33 UTC on the recorded frontend
-product plus the hashed QA source overlay. [PR #241](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/241)
-contains the earlier published work; commit `15e4143` has 16 successful remote
-checks. This refresh remains local for review.
+The preceding QA package was published at `424cf6537372d78aa35cf2b937a7696d4daaba81`.
+This update incorporates `dev` at `8713b38`; its commit and push were approved on
+17 October 2026. Dated validation records describe the pre-publication preparation
+state. Git history identifies the resulting publication commit. Published CI
+belongs to its exact commit; local results do not establish a new remote CI outcome.
 
 The [first native run](test-results-native-20261016.md) and
 [remaining native run](test-results-native-remaining-20261016.md)
@@ -138,6 +188,9 @@ accessibility and other executed failures remain documented.
 
 ## Historical reports
 
+- [17 October meeting-area review](test-results-meeting-area-20261017.md) and
+  [its evidence](evidence/20261017-meeting-area/README.md) and
+  [its validation](meeting-area-validation-20261017.json)
 - [17 October dev-document refresh](test-results-dev-refresh-20261017.md) and
   [its evidence](evidence/20261017-dev-refresh/README.md) and
   [its validation](dev-refresh-validation-20261017.json)

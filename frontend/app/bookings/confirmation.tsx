@@ -3,13 +3,14 @@ import { useCallback, useEffect, useState } from 'react';
 import { Linking, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { api } from '@/src/api/client';
-import { Modality, Service } from '@/src/api/types';
+import { Booking, Modality, Service } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { usePaymentConfig } from '@/src/payments';
 import { BookingSteps, mono } from '@/src/components/booking';
 import { Glyph } from '@/src/components/Glyph';
 import { SuccessSeal } from '@/src/components/Scenes';
 import { Button, Press } from '@/src/components/ui';
+import { DesktopPage, useDesktop } from '@/src/desktop';
 import { fmtLong, modalityLabel, money, timeRange } from '@/src/format';
 import { FadeUp, ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, shadow, type } from '@/src/theme';
@@ -46,11 +47,12 @@ export default function ConfirmationScreen() {
     pending?: string;
   }>();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const { session } = useAuth();
   const { config } = usePaymentConfig();
   const [service, setService] = useState<Service | null>(null);
   const [receiptNumber, setReceiptNumber] = useState('');
-  const [meetingUrl, setMeetingUrl] = useState('');
+  const [booked, setBooked] = useState<Booking | null>(null);
   const pending = params.pending === '1';
   const byCard = config?.provider === 'stripe';
 
@@ -71,7 +73,8 @@ export default function ConfirmationScreen() {
   /**
    * The meeting room is decided by the backend when the booking is confirmed, so it
    * is read back rather than derived here — the link shown must be the one that was
-   * also emailed, not a second guess at what it should be.
+   * also emailed, not a second guess at what it should be. The same read gives the
+   * title and meeting area frozen on the order (US-36).
    */
   useEffect(() => {
     if (!session || !params.bookingId) return;
@@ -79,7 +82,7 @@ export default function ConfirmationScreen() {
     const run = async () => {
       try {
         const booking = await api.getBooking(params.bookingId, session.accessToken);
-        if (!cancelled) setMeetingUrl(booking.meetingUrl ?? '');
+        if (!cancelled) setBooked(booking);
       } catch {
         // The confirmation stands without it; the link is in the email either way.
       }
@@ -108,7 +111,13 @@ export default function ConfirmationScreen() {
     return () => { cancelled = true; };
   }, [params.bookingId, session]);
 
-  const meetingArea = service?.location ? `${service.location.cityOrRegion}, ${service.location.state}` : '';
+  // US-36: what was bought, as frozen on the order — the Career Professional may have
+  // renamed or moved the listing since. The listing is only a stand-in until the
+  // booking has been read, or when it cannot be (a card payment still confirming).
+  const liveArea = service?.location ? `${service.location.cityOrRegion}, ${service.location.state}` : '';
+  const title = booked?.serviceTitle ?? service?.title;
+  const meetingArea = booked ? booked.meetingArea ?? '' : liveArea;
+  const meetingUrl = booked?.meetingUrl ?? '';
 
   /** The purchase is finished: the flow is unwound rather than stacked on. */
   function backToMarketplace() {
@@ -116,80 +125,119 @@ export default function ConfirmationScreen() {
     router.push('/marketplace');
   }
 
+  // Shared by the mobile and desktop layouts, which differ only in where these sit.
+  const seal = (
+    <View style={s.seal}>
+      <SuccessSeal />
+      <FadeUp delay={500}>
+        <Text style={s.headline}>{pending ? 'Payment received' : 'You\u2019re booked'}</Text>
+      </FadeUp>
+      <FadeUp delay={600}>
+        <Text style={s.sealBody}>{sealMessage(byCard, pending)}</Text>
+      </FadeUp>
+    </View>
+  );
+
+  const bookingSummary = (
+    <FadeUp delay={700} style={s.summary}>
+      <Text style={s.summaryTitle}>{title}</Text>
+      <Text style={type.small}>with {service?.counsellor.displayName}</Text>
+      <View style={s.rule} />
+      <Row label="When" value={fmtLong(params.startsAt)} />
+      <Row label="Session" value={timeRange(params.startsAt, params.endsAt)} />
+      <Row label="Delivery" value={modalityLabel(params.modality)} />
+      <View style={s.row}>
+        <Text style={s.rowLabel}>Paid</Text>
+        <Text style={[s.rowValue, s.paid]}>{money(Number(params.amountMinor ?? 0))} · Paid</Text>
+      </View>
+    </FadeUp>
+  );
+
+  const references = (
+    <FadeUp delay={800} style={s.references}>
+      <Text style={type.groupLabel}>References</Text>
+      <View style={s.row}>
+        <Text style={s.rowLabel}>Booking</Text>
+        <Text style={[s.rowValue, s.reference]}>{params.bookingId || 'Confirming\u2026'}</Text>
+      </View>
+      <View style={s.row}>
+        <Text style={s.rowLabel}>Payment</Text>
+        <Text style={[s.rowValue, s.reference]}>{params.paymentId}</Text>
+      </View>
+      {receiptNumber ? (
+        <View style={s.row}>
+          <Text style={s.rowLabel}>Receipt</Text>
+          <Text style={[s.rowValue, s.reference]}>{receiptNumber}</Text>
+        </View>
+      ) : null}
+    </FadeUp>
+  );
+
+  const joining = meetingUrl ? (
+    <FadeUp delay={850} style={s.joining}>
+      <Text style={type.groupLabel}>Joining your session</Text>
+      <Text style={s.joiningNote}>
+        Use this link at the scheduled time. Nothing to install, and it is in your
+        email too.
+      </Text>
+      <Press
+        accessibilityLabel="Open the meeting room"
+        scaleTo={0.97}
+        style={s.join}
+        onPress={() => { void Linking.openURL(meetingUrl); }}
+      >
+        <Glyph name="video" size={18} color={colors.white} />
+        <Text style={s.joinLabel}>Open the meeting room</Text>
+      </Press>
+    </FadeUp>
+  ) : null;
+
+  const nextSteps = (
+    <FadeUp delay={900} style={s.note}>
+      <View style={s.noteIcon}><Glyph name="sparkle" size={20} color={colors.green} /></View>
+      <Text style={s.noteText}>
+        {deliveryNote(params.modality, meetingArea, Boolean(meetingUrl))}{' '}
+        {pending
+          ? 'Your confirmation will arrive by email shortly; you do not need to pay again.'
+          : 'Keep the booking reference \u2014 your Career Professional can see the booking now.'}
+      </Text>
+    </FadeUp>
+  );
+
+  if (desktop) {
+    return (
+      <DesktopPage style={s.desktopPage}>
+        <View style={s.desktopSteps}><BookingSteps step={2} /></View>
+        {seal}
+        <View style={s.desktopCards}>
+          <View style={s.desktopCard}>{bookingSummary}</View>
+          <View style={[s.desktopCard, s.desktopStack]}>
+            {references}
+            {joining}
+          </View>
+        </View>
+        {nextSteps}
+        <View style={s.desktopActions}>
+          <Button label="Back to Explore" height={54} labelSize={15} onPress={backToMarketplace} />
+        </View>
+      </DesktopPage>
+    );
+  }
+
   return (
     <ScreenIn style={s.screen}>
       <ScrollView contentContainerStyle={[s.body, { paddingTop: insets.top + 20 }]} showsVerticalScrollIndicator={false}>
         <FadeUp><BookingSteps step={2} /></FadeUp>
 
-        <View style={s.seal}>
-          <SuccessSeal />
-          <FadeUp delay={500}>
-            <Text style={s.headline}>{pending ? 'Payment received' : 'You\u2019re booked'}</Text>
-          </FadeUp>
-          <FadeUp delay={600}>
-            <Text style={s.sealBody}>{sealMessage(byCard, pending)}</Text>
-          </FadeUp>
-        </View>
+        {seal}
 
-        <FadeUp delay={700} style={s.summary}>
-          <Text style={s.summaryTitle}>{service?.title}</Text>
-          <Text style={type.small}>with {service?.counsellor.displayName}</Text>
-          <View style={s.rule} />
-          <Row label="When" value={fmtLong(params.startsAt)} />
-          <Row label="Session" value={timeRange(params.startsAt, params.endsAt)} />
-          <Row label="Delivery" value={modalityLabel(params.modality)} />
-          <View style={s.row}>
-            <Text style={s.rowLabel}>Paid</Text>
-            <Text style={[s.rowValue, s.paid]}>{money(Number(params.amountMinor ?? 0))} · Paid</Text>
-          </View>
-        </FadeUp>
+        {bookingSummary}
 
-        <FadeUp delay={800} style={s.references}>
-          <Text style={type.groupLabel}>References</Text>
-          <View style={s.row}>
-            <Text style={s.rowLabel}>Booking</Text>
-            <Text style={[s.rowValue, s.reference]}>{params.bookingId || 'Confirming\u2026'}</Text>
-          </View>
-          <View style={s.row}>
-            <Text style={s.rowLabel}>Payment</Text>
-            <Text style={[s.rowValue, s.reference]}>{params.paymentId}</Text>
-          </View>
-          {receiptNumber ? (
-            <View style={s.row}>
-              <Text style={s.rowLabel}>Receipt</Text>
-              <Text style={[s.rowValue, s.reference]}>{receiptNumber}</Text>
-            </View>
-          ) : null}
-        </FadeUp>
+        {references}
 
-        {meetingUrl ? (
-          <FadeUp delay={850} style={s.joining}>
-            <Text style={type.groupLabel}>Joining your session</Text>
-            <Text style={s.joiningNote}>
-              Use this link at the scheduled time. Nothing to install, and it is in your
-              email too.
-            </Text>
-            <Press
-              accessibilityLabel="Open the meeting room"
-              scaleTo={0.97}
-              style={s.join}
-              onPress={() => { void Linking.openURL(meetingUrl); }}
-            >
-              <Glyph name="video" size={18} color={colors.white} />
-              <Text style={s.joinLabel}>Open the meeting room</Text>
-            </Press>
-          </FadeUp>
-        ) : null}
+        {joining}
 
-        <FadeUp delay={900} style={s.note}>
-          <View style={s.noteIcon}><Glyph name="sparkle" size={20} color={colors.green} /></View>
-          <Text style={s.noteText}>
-            {deliveryNote(params.modality, meetingArea, Boolean(meetingUrl))}{' '}
-            {pending
-              ? 'Your confirmation will arrive by email shortly; you do not need to pay again.'
-              : 'Keep the booking reference \u2014 your Career Professional can see the booking now.'}
-          </Text>
-        </FadeUp>
+        {nextSteps}
       </ScrollView>
 
       <View style={[s.footer, { paddingBottom: insets.bottom + 22 }]}>
@@ -240,4 +288,11 @@ const s = StyleSheet.create({
   noteText: { flex: 1, fontFamily: fonts.sans, fontSize: 14, lineHeight: 22, color: colors.ink },
 
   footer: { paddingTop: 14, paddingHorizontal: 22, backgroundColor: colors.white },
+
+  desktopPage: { maxWidth: 816 },
+  desktopSteps: { alignSelf: 'center' },
+  desktopCards: { flexDirection: 'row', alignItems: 'stretch', gap: 18 },
+  desktopCard: { flex: 1, minWidth: 0 },
+  desktopStack: { gap: 18 },
+  desktopActions: { flexDirection: 'row', justifyContent: 'center' },
 });

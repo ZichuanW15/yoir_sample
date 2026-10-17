@@ -12,6 +12,7 @@ import { CounsellorNav } from '@/src/components/CounsellorNav';
 import { JobSeekerNav } from '@/src/components/JobSeekerNav';
 import { TopBar } from '@/src/components/TopBar';
 import { Button, Card, ErrorBanner, Press, Spinner, Tag } from '@/src/components/ui';
+import { DesktopPage, desktopCard, PageHeader, useDesktop } from '@/src/desktop';
 import { deviceTimezone, fmtLong, initials, modalityLabel, money, timeRange } from '@/src/format';
 import { goBack } from '@/src/navigation';
 import { FadeUp, ScreenIn } from '@/src/motion';
@@ -46,6 +47,7 @@ export const statusLabel: Record<string, string> = {
  */
 export default function MyBookingsScreen() {
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const { session, restoring } = useAuth();
   const { flash, confirm } = useChrome();
   const [bookings, setBookings] = useState<Booking[] | null>(null);
@@ -113,6 +115,96 @@ export default function MyBookingsScreen() {
     );
   }
 
+  // Shared by the mobile and desktop layouts, which differ only in where these sit.
+  const tabs = (
+    <View style={[styles.tabs, desktop && styles.desktopTrack]} accessibilityRole="tablist">
+      <Press
+        onPress={() => setTab('upcoming')}
+        accessibilityRole="tab"
+        accessibilityLabel="Coming up"
+        accessibilityState={{ selected: tab === 'upcoming' }}
+        style={[styles.tab, tab === 'upcoming' && styles.tabActive]}
+      >
+        <Text style={[styles.tabLabel, tab === 'upcoming' && styles.tabLabelActive]}>Coming up</Text>
+      </Press>
+      <Press
+        onPress={() => setTab('past')}
+        accessibilityRole="tab"
+        accessibilityLabel="Past"
+        accessibilityState={{ selected: tab === 'past' }}
+        style={[styles.tab, tab === 'past' && styles.tabActive]}
+      >
+        <Text style={[styles.tabLabel, tab === 'past' && styles.tabLabelActive]}>Past</Text>
+      </Press>
+    </View>
+  );
+
+  const sessions = tab === 'upcoming' ? (
+    upcoming.length > 0 ? (
+      <FadeUp delay={80} style={styles.section}>
+        {upcoming.map((booking) => (
+          <BookingCard
+            key={booking.id}
+            booking={booking}
+            busy={cancelling === booking.id}
+            onCancel={() => cancel(booking)}
+          />
+        ))}
+      </FadeUp>
+    ) : (
+      <FadeUp delay={80} style={styles.empty}>
+        <View style={styles.emptyBadge}>
+          <Glyph name="calendar" size={26} color={colors.green} />
+        </View>
+        <Text style={type.display24}>Nothing booked yet</Text>
+        <Text style={type.body}>
+          {session?.user.role === 'counsellor'
+            ? 'Sessions job seekers book with you will appear here.'
+            : 'Find a Career Professional and book a session; it will appear here.'}
+        </Text>
+        {session?.user.role === 'job_seeker' ? (
+          <Button label="Browse Career Professionals" height={52} onPress={() => router.push('/marketplace')} />
+        ) : null}
+      </FadeUp>
+    )
+  ) : past.length > 0 ? (
+    <FadeUp delay={80} style={styles.section}>
+      {past.map((booking) => (
+        <BookingCard
+          key={booking.id}
+          booking={booking}
+          past
+          canReview={session?.user.role === 'job_seeker' && ['completed', 'paid_out'].includes(booking.status) && !booking.review}
+        />
+      ))}
+    </FadeUp>
+  ) : (
+    <FadeUp delay={80} style={styles.empty}>
+      <View style={styles.emptyBadge}>
+        <Glyph name="calendar" size={26} color={colors.green} />
+      </View>
+      <Text style={type.display24}>No past sessions</Text>
+      <Text style={type.body}>Sessions you&apos;ve completed will appear here.</Text>
+    </FadeUp>
+  );
+
+  if (desktop) {
+    return (
+      <DesktopPage>
+        <PageHeader
+          eyebrow="Bookings"
+          title="My sessions"
+          subtitle={session?.user.role === 'counsellor'
+            ? 'Everything booked with you, and how to join it.'
+            : 'Everything you have booked, and how to join it.'}
+          right={<View style={styles.desktopTabs}>{tabs}</View>}
+        />
+        {error ? <ErrorBanner message={error} /> : null}
+        {sessions}
+      </DesktopPage>
+    );
+  }
+
   return (
     <ScreenIn duration={450} style={styles.screen}>
       {/* A tab for both a job seeker and a counsellor now — the same three-section
@@ -134,75 +226,9 @@ export default function MyBookingsScreen() {
         {session?.user.role === 'job_seeker' || session?.user.role === 'counsellor' ? <Text style={type.display34}>My sessions</Text> : null}
         {error ? <ErrorBanner message={error} /> : null}
 
-        <View style={styles.tabs} accessibilityRole="tablist">
-          <Press
-            onPress={() => setTab('upcoming')}
-            accessibilityRole="tab"
-            accessibilityLabel="Coming up"
-            accessibilityState={{ selected: tab === 'upcoming' }}
-            style={[styles.tab, tab === 'upcoming' && styles.tabActive]}
-          >
-            <Text style={[styles.tabLabel, tab === 'upcoming' && styles.tabLabelActive]}>Coming up</Text>
-          </Press>
-          <Press
-            onPress={() => setTab('past')}
-            accessibilityRole="tab"
-            accessibilityLabel="Past"
-            accessibilityState={{ selected: tab === 'past' }}
-            style={[styles.tab, tab === 'past' && styles.tabActive]}
-          >
-            <Text style={[styles.tabLabel, tab === 'past' && styles.tabLabelActive]}>Past</Text>
-          </Press>
-        </View>
+        {tabs}
 
-        {tab === 'upcoming' ? (
-          upcoming.length > 0 ? (
-            <FadeUp delay={80} style={styles.section}>
-              {upcoming.map((booking) => (
-                <BookingCard
-                  key={booking.id}
-                  booking={booking}
-                  busy={cancelling === booking.id}
-                  onCancel={() => cancel(booking)}
-                />
-              ))}
-            </FadeUp>
-          ) : (
-            <FadeUp delay={80} style={styles.empty}>
-              <View style={styles.emptyBadge}>
-                <Glyph name="calendar" size={26} color={colors.green} />
-              </View>
-              <Text style={type.display24}>Nothing booked yet</Text>
-              <Text style={type.body}>
-                {session?.user.role === 'counsellor'
-                  ? 'Sessions job seekers book with you will appear here.'
-                  : 'Find a Career Professional and book a session; it will appear here.'}
-              </Text>
-              {session?.user.role === 'job_seeker' ? (
-                <Button label="Browse Career Professionals" height={52} onPress={() => router.push('/marketplace')} />
-              ) : null}
-            </FadeUp>
-          )
-        ) : past.length > 0 ? (
-          <FadeUp delay={80} style={styles.section}>
-            {past.map((booking) => (
-              <BookingCard
-                key={booking.id}
-                booking={booking}
-                past
-                canReview={session?.user.role === 'job_seeker' && ['completed', 'paid_out'].includes(booking.status) && !booking.review}
-              />
-            ))}
-          </FadeUp>
-        ) : (
-          <FadeUp delay={80} style={styles.empty}>
-            <View style={styles.emptyBadge}>
-              <Glyph name="calendar" size={26} color={colors.green} />
-            </View>
-            <Text style={type.display24}>No past sessions</Text>
-            <Text style={type.body}>Sessions you&apos;ve completed will appear here.</Text>
-          </FadeUp>
-        )}
+        {sessions}
       </ScrollView>
       <JobSeekerNav />
       <CounsellorNav />
@@ -217,9 +243,81 @@ function BookingCard({ booking, past = false, busy = false, canReview = false, o
   canReview?: boolean;
   onCancel?(): void;
 }) {
+  const desktop = useDesktop();
   const tone = statusTone[booking.status] ?? statusTone.cancelled;
   const other = booking.counterpartyName || 'Yoir';
   const openDetail = () => router.push({ pathname: '/bookings/[bookingId]', params: { bookingId: booking.id } });
+  const openReceipt = () => router.push({ pathname: '/bookings/receipt', params: { bookingId: booking.id } });
+  const openReview = () => router.push(`/bookings/${booking.id}/review` as Href);
+
+  // Desktop: one wide row — who, when and status side by side — over a strip of actions.
+  if (desktop) {
+    return (
+      <View style={[desktopCard, styles.desktopCard]}>
+        <View style={styles.desktopRow}>
+          <Press onPress={openDetail} accessibilityLabel={`${booking.serviceTitle}, booking details`} style={styles.desktopWho}>
+            <View style={styles.avatar}><Text style={styles.avatarText}>{initials(other)}</Text></View>
+            <View style={styles.cardCopy}>
+              <Text style={styles.cardTitle}>{booking.serviceTitle}</Text>
+              <Text style={type.small}>
+                {booking.counterpartyRole === 'counsellor' ? 'With ' : 'For '}{other}
+              </Text>
+            </View>
+          </Press>
+          <View style={styles.desktopWhen}>
+            <View style={styles.when}>
+              <Glyph name="calendar" size={16} color={colors.muted} />
+              <Text style={styles.whenText}>
+                {fmtLong(booking.startsAt)} · {timeRange(booking.startsAt, booking.endsAt)} · {deviceTimezone()}
+              </Text>
+            </View>
+            <View style={styles.when}>
+              <Glyph name={booking.modality === 'online' ? 'video' : 'pin'} size={16} color={colors.muted} />
+              <Text style={styles.whenText}>
+                {modalityLabel(booking.modality)}
+                {booking.meetingArea ? ` · ${booking.meetingArea}` : ''}
+                {booking.amountMinor ? ` · ${money(booking.amountMinor)}` : ''}
+              </Text>
+            </View>
+          </View>
+          <Tag label={statusLabel[booking.status] ?? booking.status} bg={tone.bg} fg={tone.fg} />
+        </View>
+
+        {!past && booking.preSessionBrief ? (
+          <View style={styles.brief}>
+            <Text style={styles.briefLabel}>Before the session</Text>
+            <Text style={styles.briefText}>{booking.preSessionBrief}</Text>
+          </View>
+        ) : null}
+
+        {!past && booking.modality === 'in_person' ? (
+          <Text style={styles.note}>
+            Your Career Professional confirms the exact meeting point before the session.
+          </Text>
+        ) : null}
+
+        <View style={styles.desktopActions}>
+          {!past && booking.meetingUrl ? (
+            <Press
+              accessibilityLabel="Join the session"
+              scaleTo={0.97}
+              style={[styles.join, styles.desktopJoin]}
+              onPress={() => { void Linking.openURL(booking.meetingUrl as string); }}
+            >
+              <Glyph name="video" size={18} color={colors.white} />
+              <Text style={styles.desktopJoinLabel}>Join the session</Text>
+            </Press>
+          ) : null}
+          <Button label="View receipt" tone="soft" height={42} labelSize={14} onPress={openReceipt} />
+          {canReview ? <Button label="Write a review" tone="outline" height={42} labelSize={14} onPress={openReview} /> : null}
+          <View style={styles.desktopFill} />
+          {!past && onCancel ? (
+            <Button label={busy ? 'Cancelling' : 'Cancel'} tone="quiet" height={42} labelSize={14} busy={busy} onPress={onCancel} />
+          ) : null}
+        </View>
+      </View>
+    );
+  }
 
   return (
     <Card style={styles.card} pad={18}>
@@ -350,4 +448,18 @@ const styles = StyleSheet.create({
     width: 56, height: 56, borderRadius: 20, backgroundColor: colors.greenTint,
     alignItems: 'center', justifyContent: 'center',
   },
+
+  desktopTabs: { width: 260 },
+  desktopTrack: { backgroundColor: colors.line },
+  desktopCard: { paddingVertical: 18, paddingHorizontal: 22 },
+  desktopRow: { flexDirection: 'row', alignItems: 'center', gap: 18 },
+  desktopWho: { flex: 1, flexDirection: 'row', alignItems: 'center', gap: 12, minWidth: 0 },
+  desktopWhen: { flex: 1.4, gap: 6, minWidth: 0 },
+  desktopActions: {
+    flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 10,
+    paddingTop: 12, borderTopWidth: 1, borderTopColor: colors.lineSoft,
+  },
+  desktopJoin: { height: 42, paddingHorizontal: 18 },
+  desktopJoinLabel: { fontFamily: fonts.bold, fontSize: 14, color: colors.white },
+  desktopFill: { flex: 1 },
 });

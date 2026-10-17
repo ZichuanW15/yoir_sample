@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { api, userFacingError } from '@/src/api/client';
 import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
+import { desktopAuthBody, useDesktop } from '@/src/desktop';
 import { Glyph } from '@/src/components/Glyph';
 import { Button, ErrorBanner, Field, Spinner } from '@/src/components/ui';
 import { FadeUp, SheetUp } from '@/src/motion';
@@ -22,6 +23,7 @@ type Phase = 'working' | 'done' | 'failed';
 export default function VerifyEmailScreen() {
   const { token } = useLocalSearchParams<{ token?: string }>();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const { session, adopt } = useAuth();
   const { flash } = useChrome();
   const [phase, setPhase] = useState<Phase>(token ? 'working' : 'failed');
@@ -66,13 +68,24 @@ export default function VerifyEmailScreen() {
     }
   }
 
-  return (
-    <SheetUp duration={500} style={[styles.screen, { paddingTop: insets.top }]}>
-      <View style={styles.bar}>
-        <Image source={require('@/assets/images/yoir-wordmark.png')} style={styles.wordmark} resizeMode="contain" accessibilityLabel="Yoir" />
-      </View>
+  // Desktop: the bar scrolls with the form, so the column is one centred group
+  // and the whole panel is what scrolls (see desktopAuthBody).
+  const bar = (
+    <View style={[styles.bar, desktop && styles.desktopBar]}>
+      <Image source={require('@/assets/images/yoir-wordmark.png')} style={styles.wordmark} resizeMode="contain" accessibilityLabel="Yoir" />
+    </View>
+  );
 
-      <ScrollView contentContainerStyle={[styles.body, { paddingBottom: 24 + insets.bottom }]} keyboardShouldPersistTaps="handled">
+  return (
+    <SheetUp duration={500} style={[styles.screen, { paddingTop: insets.top }, desktop && styles.desktopScreen]}>
+      {desktop ? null : bar}
+
+      <ScrollView
+        showsVerticalScrollIndicator={!desktop}
+        contentContainerStyle={[styles.body, { paddingBottom: 24 + insets.bottom }, desktop && styles.desktopBody]}
+        keyboardShouldPersistTaps="handled"
+      >
+        {desktop ? bar : null}
         {phase === 'working' ? (
           <FadeUp delay={100} style={styles.centred}>
             <Spinner size={28} color={colors.green} />
@@ -146,4 +159,9 @@ const styles = StyleSheet.create({
     borderRadius: 20, backgroundColor: colors.greenTint,
   },
   sentText: { flex: 1, fontFamily: fonts.sans, fontSize: 13, lineHeight: 19, color: colors.greenDeep },
+  // Desktop: the screen fills the panel beside the brand panel and scrolls as a whole;
+  // its content is the centred 460px column, bar included.
+  desktopScreen: { flex: 1, backgroundColor: 'transparent' },
+  desktopBar: { paddingHorizontal: 0 },
+  desktopBody: desktopAuthBody,
 });

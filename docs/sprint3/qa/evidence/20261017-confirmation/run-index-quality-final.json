@@ -1,0 +1,26 @@
+[
+  {
+    "label": "quality-lint",
+    "startedAt": "2026-10-17T07:42:42.638067+00:00",
+    "finishedAt": "2026-10-17T07:42:43.887288+00:00",
+    "exitCode": 0
+  },
+  {
+    "label": "quality-typecheck",
+    "startedAt": "2026-10-17T07:42:42.638067+00:00",
+    "finishedAt": "2026-10-17T07:42:46.366848+00:00",
+    "exitCode": 0
+  },
+  {
+    "label": "quality-lint-final",
+    "startedAt": "2026-10-17T07:47:08.156863+00:00",
+    "finishedAt": "2026-10-17T07:47:09.728838+00:00",
+    "exitCode": 0
+  },
+  {
+    "label": "quality-typecheck-final",
+    "startedAt": "2026-10-17T07:47:08.156954+00:00",
+    "finishedAt": "2026-10-17T07:47:11.213116+00:00",
+    "exitCode": 0
+  }
+]

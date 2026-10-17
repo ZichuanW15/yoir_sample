@@ -7,6 +7,7 @@ import { PlatformStats } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
 import { AdminShell, LoadFailed } from '@/src/admin/shell';
 import { Card, Press } from '@/src/components/ui';
+import { Glow, useDesktop } from '@/src/desktop';
 import { Glyph, GlyphName } from '@/src/components/Glyph';
 import { FadeUp, Pop, Pulse, USE_NATIVE_DRIVER, useAnimatedValue } from '@/src/motion';
 import { colors, fonts, radius, type } from '@/src/theme';
@@ -33,6 +34,7 @@ export default function AdminOverviewScreen() {
   const [error, setError] = useState('');
   // Side by side once there is room; stacked on a phone.
   const wide = useWindowDimensions().width >= 860;
+  const desktop = useDesktop();
 
   const load = useCallback(async () => {
     if (!session) return;
@@ -56,6 +58,22 @@ export default function AdminOverviewScreen() {
     ? Math.max(stats.money.grossMinor - stats.money.counsellorPayoutMinor - stats.money.platformFeeMinor, 0)
     : 0;
 
+  const note = sessions ? `Across ${plural(sessions, 'session', 'sessions')} booked on the platform.` : 'No session has been booked yet.';
+
+  // What the platform does, left to right, with the live count at each step.
+  const flow = stats ? (
+    <View style={[styles.flow, wide && styles.flowWide, desktop && styles.desktopFlow]}>
+      <Step
+        glyph="seeker" label="Job Seekers" value={stats.jobSeekers}
+        href={{ pathname: '/admin/counsellors', params: { role: 'job_seeker' } }}
+      />
+      <Arrow delay={0} />
+      <Step glyph="mentor" label="Career Professionals" value={stats.counsellors} href="/admin/counsellors" />
+      <Arrow delay={350} />
+      <Step glyph="calendar" label="Sessions booked" value={sessions} href="/admin/bookings" />
+    </View>
+  ) : null;
+
   return (
     <AdminShell
       title="Overview"
@@ -66,41 +84,42 @@ export default function AdminOverviewScreen() {
 
       {stats ? (
         <>
-          <FadeUp delay={60} style={styles.hero}>
-            <Pulse style={styles.heroGlow} duration={5000}>
-              <Svg width={220} height={220}>
-                <Defs>
-                  <RadialGradient id="overviewGlow" cx="50%" cy="50%" r="50%">
-                    <Stop offset="0" stopColor={colors.yellow} stopOpacity={0.26} />
-                    <Stop offset="0.7" stopColor={colors.yellow} stopOpacity={0} />
-                  </RadialGradient>
-                </Defs>
-                <Circle cx={110} cy={110} r={110} fill="url(#overviewGlow)" />
-              </Svg>
-            </Pulse>
+          {desktop ? (
+            // Desktop: the figure on the left and the flow on the right, in one wide band.
+            <FadeUp delay={60} style={[styles.hero, styles.desktopHero]}>
+              <Glow size={360} strength={0.26} style={styles.desktopGlow} />
+              <View style={styles.desktopHeroCopy}>
+                <Text style={[type.eyebrow, styles.heroEyebrow]}>Taken through Yoir</Text>
+                <CountUp value={stats.money.grossMinor} format={currency} style={[styles.heroFigure, styles.desktopFigure]} />
+                <Text style={styles.heroNote}>{note}</Text>
+              </View>
+              {flow}
+            </FadeUp>
+          ) : (
+            <FadeUp delay={60} style={styles.hero}>
+              <Pulse style={styles.heroGlow} duration={5000}>
+                <Svg width={220} height={220}>
+                  <Defs>
+                    <RadialGradient id="overviewGlow" cx="50%" cy="50%" r="50%">
+                      <Stop offset="0" stopColor={colors.yellow} stopOpacity={0.26} />
+                      <Stop offset="0.7" stopColor={colors.yellow} stopOpacity={0} />
+                    </RadialGradient>
+                  </Defs>
+                  <Circle cx={110} cy={110} r={110} fill="url(#overviewGlow)" />
+                </Svg>
+              </Pulse>
 
-            <Text style={[type.eyebrow, styles.heroEyebrow]}>Taken through Yoir</Text>
-            <CountUp value={stats.money.grossMinor} format={currency} style={styles.heroFigure} />
-            <Text style={styles.heroNote}>
-              {sessions ? `Across ${plural(sessions, 'session', 'sessions')} booked on the platform.` : 'No session has been booked yet.'}
-            </Text>
+              <Text style={[type.eyebrow, styles.heroEyebrow]}>Taken through Yoir</Text>
+              <CountUp value={stats.money.grossMinor} format={currency} style={styles.heroFigure} />
+              <Text style={styles.heroNote}>{note}</Text>
 
-            {/* What the platform does, left to right, with the live count at each step. */}
-            <View style={[styles.flow, wide && styles.flowWide]}>
-              <Step
-                glyph="seeker" label="Job Seekers" value={stats.jobSeekers}
-                href={{ pathname: '/admin/counsellors', params: { role: 'job_seeker' } }}
-              />
-              <Arrow delay={0} />
-              <Step glyph="mentor" label="Career Professionals" value={stats.counsellors} href="/admin/counsellors" />
-              <Arrow delay={350} />
-              <Step glyph="calendar" label="Sessions booked" value={sessions} href="/admin/bookings" />
-            </View>
-          </FadeUp>
+              {flow}
+            </FadeUp>
+          )}
 
           <FadeUp delay={140} style={styles.section}>
             <Text style={type.groupLabel}>Needs you</Text>
-            <Card pad={6} style={styles.needs}>
+            <Card pad={6} style={[styles.needs, desktop && styles.desktopFlat]}>
               {stats.counsellorsPendingVerification > 0 ? (
                 <Need
                   glyph="shieldCheck"
@@ -136,7 +155,7 @@ export default function AdminOverviewScreen() {
               </View>
               <Card
                 pad={20}
-                style={styles.panel}
+                style={[styles.panel, desktop && styles.desktopFlat]}
                 accessibilityLabel="Sessions by status. Open bookings"
                 onPress={() => router.replace('/admin/bookings')}
               >
@@ -154,7 +173,7 @@ export default function AdminOverviewScreen() {
 
             <FadeUp delay={260} style={[styles.section, wide && styles.half]}>
               <Text style={type.groupLabel}>Money</Text>
-              <Card pad={20} style={styles.panel}>
+              <Card pad={20} style={[styles.panel, desktop && styles.desktopFlat]}>
                 <Text style={type.display20}>Where it went</Text>
                 <Split
                   parts={[
@@ -270,12 +289,13 @@ function Need({ glyph, label, text, note, href }: { glyph: GlyphName; label: str
 
 /** One number, with the mark that says what it counts. A nought is greyed so real figures stand out. */
 function Stat({ glyph, label, value, href }: { glyph: GlyphName; label: string; value: number; href?: Href }) {
+  const desktop = useDesktop();
   return (
     <Card
       pad={16}
       accessibilityLabel={href ? `${label}: ${value}` : undefined}
       onPress={href ? () => router.replace(href) : undefined}
-      style={styles.stat}
+      style={[styles.stat, desktop && styles.desktopFlat]}
     >
       <View style={styles.statTop}>
         <View style={styles.statMark}><Glyph name={glyph} size={18} color={colors.green} /></View>
@@ -411,4 +431,15 @@ const styles = StyleSheet.create({
   lineLabel: { flex: 1, fontFamily: fonts.sans, fontSize: 13, color: colors.sub },
   lineValue: { fontFamily: fonts.semi, fontSize: 13, color: colors.muted },
   footnote: { fontFamily: fonts.sans, fontSize: 11, lineHeight: 17, color: colors.sub },
+
+  desktopHero: {
+    flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between',
+    paddingVertical: 34, paddingHorizontal: 40, gap: 32,
+  },
+  desktopGlow: { right: -90, top: -110 },
+  desktopHeroCopy: { flexGrow: 1, flexBasis: 280, gap: 6 },
+  desktopFigure: { fontSize: 50, lineHeight: 55 },
+  // Room for three steps of 120 and the two arrows between them.
+  desktopFlow: { width: 460, marginTop: 0 },
+  desktopFlat: { borderWidth: 1, borderColor: colors.lineSoft, boxShadow: 'none' },
 });

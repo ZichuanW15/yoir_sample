@@ -108,10 +108,14 @@ The `sprint3-qa` overlay adds executed API, component and browser coverage. Its
 `0df4068` product, and the [dev refresh report](../qa/test-results-dev-refresh-20261017.md)
 records reconciliation with `972caee`. That dev update adds documentation; product
 code is unchanged. Suite counts belong to their dated executions and are not added
-together. The [latest meeting-area report](../qa/test-results-meeting-area-20261017.md)
-records the subsequent `9cce973` baseline from PR #244, including the backend
-snapshot change and the confirmation-screen finding. Frontend regression results
-are retained from the 06:33 UTC execution; the new advisory has its own record.
+together. The [meeting-area report](../qa/test-results-meeting-area-20261017.md)
+retains the subsequent `9cce973` baseline from PR #244. The
+[latest confirmation report](../qa/test-results-confirmation-20261017.md) records
+`8713b38d63ccb969dcc69a44a02f888fd65caa9a`, including the desktop layout update
+and PR #246. Fresh full component runs passed 610 shared and 619 per native
+preset. Confirmation now consumes a successfully read purchase snapshot; its
+corrected regression and fallback boundaries have their own evidence. The older
+06:33 UTC frontend figures retain their original execution date and source set.
 The [QA matrix](../qa/qa-matrix.md) links these results to the QA tasks.
 
 ## Recorded behaviour and findings

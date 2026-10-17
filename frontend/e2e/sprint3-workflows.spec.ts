@@ -132,7 +132,12 @@ test('US32/33/58 admin confirmation, approval and reasoned reinvestigation persi
     return response.json();
   };
   expect((await read()).status).toBe('pending');
-  await page.getByRole('tab', { name: 'Verify', exact: true }).click();
+  if ((page.viewportSize()?.width ?? 0) >= 1024) {
+    await page.getByRole('navigation').getByRole('link', { name: 'Verifications', exact: true }).click();
+  } else {
+    await page.getByRole('tab', { name: 'Verify', exact: true }).click();
+  }
+  await expect(page).toHaveURL(/\/admin\/verifications$/);
   await page.getByRole('button', { name: 'Review QA Verification Candidate', exact: true }).click();
   await expect(page.getByText('Candidate background', { exact: true })).toBeVisible();
 

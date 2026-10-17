@@ -1,0 +1,15 @@
+{
+  "pr": 246,
+  "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/246",
+  "reviewedHead": "04ff6d47cef270c2ceabbff878e255bc17cc1600",
+  "mergeCommit": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+  "merged": true,
+  "checks": "Application CI and Mermaid, push and pull_request, completed successfully before merge.",
+  "workflowRuns": [
+    39013661493,
+    39013661341,
+    39013544447,
+    39013544559
+  ],
+  "qaCommitOrPushPerformed": false
+}

@@ -1,0 +1,11 @@
+PASS __tests__/screens/checkout.test.tsx
+PASS __tests__/screens/root-layout.test.tsx
+PASS __tests__/screens/confirmation.test.tsx
+PASS __tests__/components/desktop.test.tsx
+
+Test Suites: 4 passed, 4 total
+Tests:       19 passed, 19 total
+Snapshots:   0 total
+Time:        6.955 s
+Ran all test suites within paths "__tests__/screens/confirmation.test.tsx", "__tests__/screens/checkout.test.tsx", "__tests__/screens/root-layout.test.tsx", "__tests__/components/desktop.test.tsx".
+Test results written to: ../../existing-regression-fixed-product.json

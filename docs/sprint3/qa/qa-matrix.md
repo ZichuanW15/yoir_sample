@@ -1,26 +1,44 @@
 # Sprint 3 QA traceability — executed scope
 
 Review date: **17 October 2026 (Australia/Melbourne)**. Product baseline:
-`9cce9737ded87c13a7575d7236a051c5db7628f8` (`dev`). **Owner: Wilson (`Zhouzhny`).**
+`8713b38d63ccb969dcc69a44a02f888fd65caa9a` (`dev`). **Owner: Wilson (`Zhouzhny`).**
 
 This matrix maps all **23 QA tasks** to the implemented behavior, parent criteria
-and executed test sources. Read the [latest meeting-area report](test-results-meeting-area-20261017.md),
+and executed test sources. Read the [latest confirmation report](test-results-confirmation-20261017.md),
 the [earlier component refresh](test-results-dev-refresh-20261017.md) and the
 [repeatable plan](test-plan.md).
 Passing and failing outcomes are recorded separately for each execution.
 
-Dev `9cce973` adds purchased meeting-area snapshots and migration `0012`. The latest
-report records backend, browser and advisory verification of that change. The
-**17 October 06:33 UTC** component runs remain retained evidence for the unchanged
-frontend regression sources: 597 shared passes and 606 passes per native preset.
-Those runs included the preceding refresh's 20 new regression cases and three
-advisory cases. The new full PostgreSQL run passed **916 cases with 18 strict
-XFAILs** and 7 deselected cases. The new full shared advisory run recorded
-**4 passed / 20 failed**, and each native advisory run recorded **4 passed / 21
-failed**. The confirmation-area finding remains a failed assertion. Chromium
-passed its original 38-case full selection; the new area-history case then passed
-separately. Browser advisory recorded 1 pass / 7 failures. Fresh HTTPX and
-TypeScript live clients passed 2 cases each.
+Dev `8713b38` includes the desktop layout update and PR #246, which makes
+confirmation use the purchased title/area after a successful booking read. The
+eight ordinary cases in `screens/confirmation-history.test.tsx` replace the old
+single advisory assertion and cover response ordering, empty/omitted areas,
+listing failure, initial booking-read failure and the online meeting link.
+
+The current full shared component run passed **610 cases in 70 suites**, and the
+full iOS and Android runs passed **619 cases each**. The eight confirmation cases
+are included in those totals. Advisory recorded 4 passes / 19 failures on shared
+and 4 passes / 20 failures on each native preset, with zero pending cases or
+runtime-error suites. Frontend line/branch coverage is **87.77% /
+69.06%** for the current configured source set, which now includes the desktop
+branches. Core-source coverage gates passed; ordinary component presets do not
+exercise the real Web desktop layout. Browser results are recorded separately.
+Full desktop and phone-configured Chromium regression runs each recorded
+43 passes and one test-assertion failure: the admin guard redirected logout to
+the supported `/auth/login` instead of the test's expected `/`. That execution
+record is retained, rather than relabelled as a complete 44-pass run.
+After correction, the administrator case passed in a separate one-case follow-up
+per project. Latest browser advisory executions each recorded 1 pass / 9 failures;
+all five component/browser report-health checks passed. The full and focused
+results remain separate executions.
+
+The [earlier meeting-area report](test-results-meeting-area-20261017.md) retains
+the `9cce973` PostgreSQL execution (**916 passed / 18 strict XFAILs**, 7 deselected)
+and migration `0012` evidence. The **17 October 06:33 UTC** component runs remain
+dated evidence for the frontend before the desktop update: 597 shared and 606
+per native preset. Their old coverage and advisory counts are not relabelled as
+this execution. The confirmation matcher correction and promotion retain their
+own evidence.
 
 The [17 October issue snapshot](issue-snapshot-20261017.json) records **23 closed
 QA tasks and 23 open parent stories**. QA closure records delivery of testing and
@@ -38,9 +56,12 @@ retained in that snapshot.
   history readers. Title assertions now run as normal regressions.
 - PR #244 freezes each order's general meeting area and uses it in booking readers
   and rendered emails. Migration `0012` backfills older orders from the listing at
-  upgrade time. The former area XFAIL is an ordinary regression;
-  `S3-CONFIRMATION-AREA` separately records the confirmation screen showing the
-  live listing area after receiving the booked area.
+  upgrade time. The former area XFAIL is an ordinary regression.
+- PR #246 makes confirmation consume the booking title/area snapshot. Corrected
+  regex matchers distinguish the location from the delivery note's longer text:
+  they fail with Geelong on `bad7a8b` and pass with Melbourne on the PR product.
+  The older string matcher was over-strict; its original Geelong observation is
+  still valid. Initial booking-read loading/failure retains the listing fallback.
 - Previous failure reports and the 16 October simulator observations remain
   dated evidence of the previous product. They are not relabelled as this run.
 
@@ -65,7 +86,7 @@ boundaries; browser tests use the real served Web/API except explicit fault inje
 | US-31 [#25](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/25) / [#192](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/192) | AC1–5: confirmed pending submission, URL validation, role/auth guards and failed-save recovery. | URL syntax, invalid/wrong-role requests, transactional submission recovery, rejected resubmission and a real Web stale-submission conflict. | `test_admin.py`, `test_sprint3_api_journeys_qa.py`, `test_sprint3_completion_qa.py`; `verification.test.ts`, `screens/counsellor-verification.test.tsx`; `sprint3-completion.spec.ts`. | URL/role validation, rollback/retry and the Web stale-submission conflict passed. Mail invocation is verified at the controlled test seam. |
 | US-32 [#26](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/26) / [#195](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/195) | AC1–5: status consistency, unknown/error state and own-role reads. | Pending/Verified/Rejected across profile, services, verification and admin views, plus same-mounted refresh/retry and adopted-token reads. | `test_admin.py`, `test_counsellor_profile_details.py`; `screens/counsellor-profile.test.tsx`, `screens/focus-refresh.test.tsx`; `sprint3-completion.spec.ts`. | Failed workspace refresh retains its old verification badge in an advisory failure. Successful status rereads passed separately. |
 | US-33 [#27](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/27) / [#198](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/198) | AC1–5: admin decisions propagate consistently across roles/views. | Approval/rejection/resubmission/publishing lifecycle; rollback leaves all readers unchanged; real Web state transitions and persisted rereads. | `test_sprint3_api_journeys_qa.py`, `test_sprint3_completion_qa.py`; `screens/admin-verifications.test.tsx`, `screens/focus-refresh.test.tsx`; `sprint3-workflows.spec.ts`, `sprint3-completion.spec.ts`. | Successful decision propagation and transaction rollback passed. Stale workspace/directory refresh remains a recorded advisory failure. |
-| US-36 [#31](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/31) / [#201](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/201) | AC1–5: owned edits/removal, validation, public updates and existing-order integrity. | Order titles, prices and general meeting areas freeze at purchase. Booking readers and rendered emails retain the purchased area across later edits; migration backfill, explicit empty snapshots and legacy null fallback are covered. Exact booking addresses remain independent. | `test_counsellor.py`, `test_sprint3_completion_qa.py`, `test_sprint3_final_history_qa.py`, `test_sprint3_service_history_qa.py`, `test_sprint3_meeting_area_migration_qa.py`; `screens/counsellor-edit-service.test.tsx`, `screens/service-booking-recovery.test.tsx`, `defects/sprint3-confirmation-history.test.tsx`; `sprint3-completion.spec.ts`, `sprint3-meeting-area.spec.ts`. | The former backend meetingArea XFAIL now passes as ordinary regression; current API/migration outcomes are in the meeting-area report. The separate real-browser area-history case passed for both parties after a listing move and withdrawal. S3-CONFIRMATION-AREA still shows Geelong after the real client receives the booked Melbourne area. Refused edit PATCH, retained draft and acknowledgement-gated retry passed in the retained component run. |
+| US-36 [#31](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/31) / [#201](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/201) | AC1–5: owned edits/removal, validation, public updates and existing-order integrity. | Order titles, prices and general meeting areas freeze at purchase. Booking readers and rendered emails retain the purchased area across later edits; migration backfill, explicit empty snapshots and legacy null fallback are covered. Exact booking addresses remain independent. | `test_counsellor.py`, `test_sprint3_completion_qa.py`, `test_sprint3_final_history_qa.py`, `test_sprint3_service_history_qa.py`, `test_sprint3_meeting_area_migration_qa.py`; `screens/counsellor-edit-service.test.tsx`, `screens/service-booking-recovery.test.tsx`, `screens/confirmation-history.test.tsx`; `sprint3-completion.spec.ts`, `sprint3-meeting-area.spec.ts`, `sprint3-responsive.spec.ts`. | The former backend meetingArea XFAIL now passes as ordinary regression; current API/migration outcomes are in the meeting-area report. The earlier real-browser area-history execution passed for both parties after a listing move and withdrawal. Its expanded source also checks confirmation at desktop/phone widths; the responsive deletion case verifies cancelled drafts and confirmed withdrawal. PR #246 now renders the successfully read purchased title/area. Eight ordinary confirmation scenarios cover both response orders, empty/omitted areas, listing failure, initial booking-read fallback and the returned online link. The earlier Geelong observation remains historical evidence; its over-strict string matcher is corrected to a regex. Refused edit PATCH, retained draft and acknowledgement-gated retry passed in the retained component run. |
 | US-42 [#37](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/37) / [#204](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/204) | AC1–5: upcoming/past bookings, role scope, state and empty/error views. | Buyer/counsellor own lists, status fixtures, exact money/title and changed service history; component load/retry/navigation. | `test_my_bookings.py`, `test_sprint3_completion_qa.py`, `test_sprint3_final_history_qa.py`; `screens/counsellor-bookings.test.tsx`; `sprint3-completion.spec.ts`. | Participant lists, exact money/title and navigation passed. Completed/paid-out states use the recorded controlled fixtures. |
 | US-43 [#38](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/38) / [#207](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/207) | AC1–4: online join link, in-person address, participant denial and clear missing-delivery-details state. | Cross-account denial, buyer/counsellor agreement, withdrawal-safe history, frozen title/general area and rescheduling consistency; exact address edits do not replace the purchased general area. | `test_booking_detail.py`, `test_sprint3_completion_qa.py`, `test_sprint3_final_history_qa.py`, `test_sprint3_service_history_qa.py`; `screens/booking-detail.test.tsx`, `screens/service-booking-recovery.test.tsx`; `sprint3-completion.spec.ts`, `sprint3-meeting-area.spec.ts`. | Participant detail guards and frozen-title readers passed. General-area history passed as ordinary API regression and in the separate browser case for both parties after a listing move and withdrawal. Address cancellation, confirmed null clearing and failed-save recovery passed in the retained component run. |
 | US-48 [#45](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/45) / [#210](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/210) | AC1–5: owner-only order oversight, accurate detail and failed/empty reads. | Admin order/booking readers, participant amounts and stored titles; list/detail and transport recovery; booking history after edits/removal. | `test_admin.py`, `test_sprint3_api_journeys_qa.py`, `test_sprint3_final_history_qa.py`; `screens/admin-payments.test.tsx`, `screens/admin-overview-users.test.tsx`; `sprint3-workflows.spec.ts`. | An old order beyond the UI first-200 list boundary and false empty Bookings after read failure remain advisory failures. |

@@ -8,9 +8,10 @@ import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
 import { Glyph, GlyphName } from '@/src/components/Glyph';
 import { Avatar, Button, ErrorBanner, Press, Spinner, Tag } from '@/src/components/ui';
+import { DesktopPage, PageHeader, useDesktop } from '@/src/desktop';
 import { initials } from '@/src/format';
 import { FadeUp, ScreenIn } from '@/src/motion';
-import { colors, fonts, radius, type } from '@/src/theme';
+import { colors, fonts, radius, shadow, type } from '@/src/theme';
 
 /**
  * US-05. Where a first-login Career Professional lands instead of the regular
@@ -26,6 +27,7 @@ export default function CounsellorOnboardingScreen() {
   const { session } = useAuth();
   const { openSheet } = useChrome();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const [state, setState] = useState<OnboardingState | null>(null);
   const [error, setError] = useState('');
 
@@ -51,6 +53,52 @@ export default function CounsellorOnboardingScreen() {
   if (state?.complete) return <Redirect href="/counsellor" />;
 
   const name = session.user.name;
+
+  // Desktop: the same two steps in a readable column beside the sidebar.
+  if (desktop) {
+    return (
+      <DesktopPage>
+        <View style={s.desktopColumn}>
+          <PageHeader
+            eyebrow="Before you publish"
+            title="Finish setting up your workspace"
+            subtitle="Complete your professional profile and submit your LinkedIn profile for verification. Both are required before you can publish a service."
+          />
+          {error ? <ErrorBanner message={error} /> : null}
+          {!state && !error ? <View style={s.loading}><Spinner size={26} color={colors.green} /></View> : null}
+          {state ? (
+            <View style={s.steps}>
+              <OnboardingStep
+                glyph="seeker"
+                title="Professional profile"
+                body={
+                  state.profileComplete
+                    ? 'Saved — your introduction, background and experience are on file.'
+                    : 'Tell buyers who you are: your introduction, background and experience.'
+                }
+                done={state.profileComplete}
+                onPress={() => router.push('/counsellor/profile')}
+              />
+              <OnboardingStep
+                glyph="shieldCheck"
+                title="Verification submission"
+                body={
+                  state.verificationSubmitted
+                    ? 'Sent — your LinkedIn profile is with the Platform Owner.'
+                    : 'Submit your LinkedIn profile so the Platform Owner can verify you.'
+                }
+                done={state.verificationSubmitted}
+                onPress={() => router.push('/counsellor/verification')}
+              />
+            </View>
+          ) : null}
+          {error ? (
+            <Button label="Try again" tone="outline" height={48} onPress={() => { setError(''); void load(); }} style={s.desktopRetry} />
+          ) : null}
+        </View>
+      </DesktopPage>
+    );
+  }
 
   return (
     <ScreenIn style={s.screen}>
@@ -115,8 +163,9 @@ export default function CounsellorOnboardingScreen() {
 function OnboardingStep({ glyph, title, body, done, onPress }: {
   glyph: GlyphName; title: string; body: string; done: boolean; onPress(): void;
 }) {
+  const desktop = useDesktop();
   return (
-    <Press onPress={onPress} scaleTo={0.98} accessibilityLabel={`${title}, ${done ? 'done' : 'not done'}`} style={s.step}>
+    <Press onPress={onPress} scaleTo={0.98} accessibilityLabel={`${title}, ${done ? 'done' : 'not done'}`} style={[s.step, desktop && s.desktopStep]}>
       <View style={[s.stepTile, done && s.stepTileDone]}>
         <Glyph name={glyph} size={20} color={done ? colors.green : colors.amberInk} />
       </View>
@@ -129,6 +178,7 @@ function OnboardingStep({ glyph, title, body, done, onPress }: {
         bg={done ? colors.greenTint : colors.yellowTint}
         fg={done ? colors.greenDeep : colors.amberInk}
       />
+      {desktop ? <Glyph name="chevronRight" size={16} color={colors.mark} /> : null}
     </Press>
   );
 }
@@ -151,4 +201,8 @@ const s = StyleSheet.create({
   stepCopy: { flex: 1, gap: 3 },
   stepTitle: { fontFamily: fonts.bold, fontSize: 15, color: colors.ink },
   stepBody: { fontFamily: fonts.sans, fontSize: 12, lineHeight: 18, color: colors.muted },
+
+  desktopColumn: { maxWidth: 760, gap: 22 },
+  desktopStep: { padding: 20, gap: 16, ...shadow.card },
+  desktopRetry: { alignSelf: 'flex-start', paddingHorizontal: 28 },
 });

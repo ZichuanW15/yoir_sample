@@ -1,0 +1,28 @@
+{
+  "status": 200,
+  "body": {
+    "id": "fa275854-4c00-495a-8c0c-3fc940575c75",
+    "questionnaireVersion": "yoir-six-step-v1",
+    "revision": 5,
+    "status": "answers_complete",
+    "currentStep": 6,
+    "totalSteps": 6,
+    "completedSteps": [
+      "now",
+      "goal",
+      "tried",
+      "stuck",
+      "barriers"
+    ],
+    "answers": {
+      "now": "job",
+      "goal": "resume",
+      "tried": [],
+      "stuck": "resume",
+      "barriers": [],
+      "other": {}
+    },
+    "createdAt": "2026-10-17T07:43:28.958935Z",
+    "updatedAt": "2026-10-17T07:43:31.943526Z"
+  }
+}

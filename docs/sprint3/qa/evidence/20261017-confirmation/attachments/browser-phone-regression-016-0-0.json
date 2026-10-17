@@ -1,0 +1,23 @@
+{
+  "stored": {
+    "id": "873114aa-7b81-4859-a124-ba99d527ffe4",
+    "questionnaireVersion": "yoir-six-step-v1",
+    "revision": 1,
+    "status": "in_progress",
+    "currentStep": 2,
+    "totalSteps": 6,
+    "completedSteps": [
+      "now"
+    ],
+    "answers": {
+      "now": "other",
+      "other": {
+        "now": "Confirmed in another session"
+      }
+    },
+    "createdAt": "2026-10-17T07:39:00.546361Z",
+    "updatedAt": "2026-10-17T07:39:00.549566Z"
+  },
+  "freshContext": true,
+  "displayedStep": "Step 2 of 6"
+}

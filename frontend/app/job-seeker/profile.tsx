@@ -9,11 +9,12 @@ import { useChrome } from '@/src/chrome';
 import { BackBar } from '@/src/components/booking';
 import { Glyph } from '@/src/components/Glyph';
 import { Avatar, Button, Card, ErrorBanner, Field, Press, Spinner } from '@/src/components/ui';
+import { BackPill, desktopCard, DesktopPage, PageHeader, useDesktop } from '@/src/desktop';
 import { initials } from '@/src/format';
 import { ScreenIn } from '@/src/motion';
 import { goBack, homeFor } from '@/src/navigation';
 import { setProfilePhoto } from '@/src/profilePhoto';
-import { colors, fonts, type } from '@/src/theme';
+import { colors, fonts, radius, type } from '@/src/theme';
 
 /** Matches the backend's limit on a stored photo. */
 const MAX_PHOTO_LENGTH = 2_000_000;
@@ -40,6 +41,7 @@ async function photoDataUri(asset: ImagePicker.ImagePickerAsset): Promise<string
 
 export default function JobSeekerProfileScreen() {
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const { session, adopt } = useAuth();
   const { flash } = useChrome();
   const [loaded, setLoaded] = useState(false);
@@ -125,9 +127,62 @@ export default function JobSeekerProfileScreen() {
     }
   };
 
+  const back = () => goBack('/job-seeker' as Href);
+
+  // Desktop: a 680px column under a back pill and page header, the save beside privacy.
+  if (desktop) {
+    return (
+      <DesktopPage>
+        <View style={styles.dColumn}>
+          <BackPill label="Back" accessibilityLabel="Go back" onPress={back} />
+          <PageHeader eyebrow="Account" title="Edit profile" />
+          {loadError ? (
+            <View style={styles.gap}>
+              <ErrorBanner message={loadError} />
+              <Button label="Try again" tone="outline" height={48} onPress={() => { void load(); }} style={styles.dStart} />
+            </View>
+          ) : !loaded ? (
+            <View style={styles.loading}><Spinner size={26} color={colors.green} /></View>
+          ) : (
+            <View style={[desktopCard, styles.dCard]}>
+              <View style={styles.dPhotoRow}>
+                <Press onPress={() => { void pickPhoto(); }} scaleTo={0.94} accessibilityLabel={photo ? 'Change profile photo' : 'Add profile photo'}>
+                  <Avatar initials={initials(name || session.user.name)} photo={photo} size={92} ring />
+                  <View style={[styles.photoBadge, styles.dPhotoBadge]}><Glyph name="pencil" size={14} color={colors.white} /></View>
+                </Press>
+                <View style={styles.photoCopy}>
+                  <Text style={type.display24}>{name || session.user.name}</Text>
+                  <Text style={type.small}>{session.user.email}</Text>
+                  <View style={styles.photoActions}>
+                    <Press onPress={() => { void pickPhoto(); }} accessibilityLabel={photo ? 'Change photo' : 'Add a photo'}>
+                      <Text style={styles.link}>{photo ? 'Change photo' : 'Add a photo'}</Text>
+                    </Press>
+                    {photo ? (
+                      <Press onPress={() => setPhoto(null)} accessibilityLabel="Remove photo">
+                        <Text style={styles.link}>Remove</Text>
+                      </Press>
+                    ) : null}
+                  </View>
+                </View>
+              </View>
+              <Field label="Name" value={name} onChangeText={setName} placeholder="Your name" autoComplete="name" />
+              <Field label="Current role or study" value={headline} onChangeText={setHeadline} placeholder="e.g. Final-year engineering student" maxLength={200} />
+              <Field label="Career goals" value={goals} onChangeText={setGoals} multiline placeholder="What would you like help with?" maxLength={2000} />
+              {error ? <ErrorBanner message={error} /> : null}
+              <View style={styles.dActions}>
+                <Button label="Profile privacy" tone="outline" height={48} labelSize={14} onPress={() => router.push('/settings/privacy' as Href)} />
+                <Button label="Save profile" busy={busy} height={50} labelSize={15} onPress={() => { void save(); }} />
+              </View>
+            </View>
+          )}
+        </View>
+      </DesktopPage>
+    );
+  }
+
   return (
     <ScreenIn style={styles.screen}>
-      <BackBar title="Edit profile" onBack={() => goBack('/job-seeker' as Href)} />
+      <BackBar title="Edit profile" onBack={back} />
       <ScrollView
         contentContainerStyle={[styles.body, { paddingBottom: 30 + insets.bottom }]}
         keyboardShouldPersistTaps="handled"
@@ -187,4 +242,11 @@ const styles = StyleSheet.create({
   photoCopy: { flex: 1, gap: 3 },
   photoActions: { flexDirection: 'row', gap: 16, marginTop: 6 },
   link: { fontFamily: fonts.bold, fontSize: 14, color: colors.green },
+
+  dColumn: { width: '100%', maxWidth: 680, gap: 22 },
+  dStart: { alignSelf: 'flex-start' },
+  dCard: { borderRadius: radius.xl, padding: 28, gap: 18 },
+  dPhotoRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 18 },
+  dPhotoBadge: { width: 30, height: 30, borderRadius: 15 },
+  dActions: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
 });

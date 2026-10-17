@@ -5,6 +5,7 @@ import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
 import { Glyph } from '@/src/components/Glyph';
 import { Avatar, Press } from '@/src/components/ui';
+import { useDesktop } from '@/src/responsive';
 import { initials } from '@/src/format';
 import { useNotifications } from '@/src/notifications';
 import { useProfilePhoto } from '@/src/profilePhoto';
@@ -21,6 +22,8 @@ export function TopBar() {
   const { openSheet, openNotifications } = useChrome();
   const photo = useProfilePhoto();
   const { unread } = useNotifications();
+  // Desktop carries the wordmark, account and notifications in the sidebar.
+  if (useDesktop()) return null;
 
   return (
     <View style={[styles.bar, { paddingTop: insets.top + 12 }]}>

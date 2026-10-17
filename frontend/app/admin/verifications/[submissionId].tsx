@@ -8,6 +8,7 @@ import { useChrome } from '@/src/chrome';
 import { AdminShell, LoadFailed } from '@/src/admin/shell';
 import { Glyph } from '@/src/components/Glyph';
 import { Button, Card, ErrorBanner, Field, Press } from '@/src/components/ui';
+import { useDesktop } from '@/src/desktop';
 import { fmtLong } from '@/src/format';
 import { FadeUp } from '@/src/motion';
 import { goBack } from '@/src/navigation';
@@ -32,6 +33,7 @@ export default function AdminVerificationScreen() {
   const [rejecting, setRejecting] = useState(false);
   const [reason, setReason] = useState('');
   const [busy, setBusy] = useState(false);
+  const desktop = useDesktop();
 
   const load = useCallback(async () => {
     if (!session) return;
@@ -81,6 +83,106 @@ export default function AdminVerificationScreen() {
 
   const decided = row ? row.status !== 'pending' : false;
 
+  // Built once and laid out by width: one column on a phone, the decision beside the
+  // submission on a desktop so it stays in view while the profile is read.
+  const statusCard = row ? (
+    <FadeUp>
+      <Card pad={18} style={[styles.card, desktop && styles.desktopFlat]}>
+        <View style={styles.statusRow}>
+          <VerificationTag state={row.status} short />
+          <Text style={styles.meta}>
+            Applied {fmtLong(row.submittedAt)}{row.decidedAt ? ` · decided ${fmtLong(row.decidedAt)}` : ''}
+          </Text>
+        </View>
+
+        {row.linkedInUrl ? (
+          <Press
+            accessibilityLabel="Open their LinkedIn profile"
+            style={styles.link}
+            onPress={() => { void Linking.openURL(row.linkedInUrl); }}
+          >
+            <Glyph name="briefcase" size={16} color={colors.green} />
+            <Text style={styles.linkText} numberOfLines={1}>{row.linkedInUrl}</Text>
+            <Glyph name="chevronRight" size={14} color={colors.green} />
+          </Press>
+        ) : (
+          <Text style={styles.missing}>No LinkedIn profile supplied, so there is nothing to check.</Text>
+        )}
+
+        {row.decisionReason ? (
+          <View style={styles.previous}>
+            <Text style={type.groupLabel}>Reason given</Text>
+            <Text style={type.small}>{row.decisionReason}</Text>
+          </View>
+        ) : null}
+      </Card>
+    </FadeUp>
+  ) : null;
+
+  const proseCard = row && (row.introduction || row.background || row.experience) ? (
+    <FadeUp delay={60}>
+      <Card pad={18} style={[styles.card, desktop && styles.desktopFlat]}>
+        <Prose label="Introduction" text={row.introduction} />
+        <Prose label="Background" text={row.background} />
+        <Prose label="Experience" text={row.experience} />
+      </Card>
+    </FadeUp>
+  ) : null;
+
+  const decisionCard = row ? (
+    <FadeUp delay={120}>
+      <Card pad={18} style={styles.card}>
+        <Text style={type.display24}>{decided ? 'Additional investigation' : 'Your decision'}</Text>
+        <Text style={type.small}>
+          {decided
+            ? 'Looked again? Record the new outcome. The Career Professional is told by email.'
+            : 'Open the LinkedIn profile first. The Career Professional is told by email either way.'}
+        </Text>
+
+        {error ? <ErrorBanner message={error} /> : null}
+
+        {rejecting ? (
+          <>
+            <Field
+              label="Why are you rejecting this?"
+              value={reason}
+              onChangeText={setReason}
+              placeholder="They will read this, so say what to change."
+              multiline
+            />
+            <Button label="Confirm rejection" busy={busy} onPress={() => { void decide('rejected'); }} style={styles.reject} />
+            <Button label="Cancel" tone="quiet" height={44} onPress={() => { setRejecting(false); setError(''); }} />
+          </>
+        ) : (
+          <>
+            {row.status === 'verified' ? null : (
+              <Button
+                label={decided ? 'Mark as verified' : 'Approve'}
+                busy={busy}
+                icon={<Glyph name="shieldCheck" size={18} color={colors.white} />}
+                onPress={() => { void decide('verified'); }}
+              />
+            )}
+            {row.status === 'rejected' ? null : (
+              <Button
+                label={decided ? 'Mark as rejected' : 'Reject'}
+                tone="outline"
+                disabled={busy}
+                onPress={() => { setRejecting(true); setError(''); }}
+              />
+            )}
+            <Button
+              label={decided ? 'Keep this outcome' : 'Leave pending'}
+              tone="quiet"
+              height={44}
+              onPress={back}
+            />
+          </>
+        )}
+      </Card>
+    </FadeUp>
+  ) : null;
+
   return (
     <AdminShell
       title={row?.counsellorName ?? 'Submission'}
@@ -91,103 +193,21 @@ export default function AdminVerificationScreen() {
       {loadError ? <LoadFailed message={loadError} onRetry={() => { setLoadError(''); void load(); }} /> : null}
       {row === null ? <Text style={type.body}>This submission could not be found.</Text> : null}
 
-      {row ? (
+      {row && desktop ? (
+        <View style={styles.desktopColumns}>
+          <View style={styles.desktopMain}>
+            {statusCard}
+            {proseCard}
+          </View>
+          <View style={styles.desktopAside}>{decisionCard}</View>
+        </View>
+      ) : (
         <>
-          <FadeUp>
-            <Card pad={18} style={styles.card}>
-              <View style={styles.statusRow}>
-                <VerificationTag state={row.status} short />
-                <Text style={styles.meta}>
-                  Applied {fmtLong(row.submittedAt)}{row.decidedAt ? ` · decided ${fmtLong(row.decidedAt)}` : ''}
-                </Text>
-              </View>
-
-              {row.linkedInUrl ? (
-                <Press
-                  accessibilityLabel="Open their LinkedIn profile"
-                  style={styles.link}
-                  onPress={() => { void Linking.openURL(row.linkedInUrl); }}
-                >
-                  <Glyph name="briefcase" size={16} color={colors.green} />
-                  <Text style={styles.linkText} numberOfLines={1}>{row.linkedInUrl}</Text>
-                  <Glyph name="chevronRight" size={14} color={colors.green} />
-                </Press>
-              ) : (
-                <Text style={styles.missing}>No LinkedIn profile supplied, so there is nothing to check.</Text>
-              )}
-
-              {row.decisionReason ? (
-                <View style={styles.previous}>
-                  <Text style={type.groupLabel}>Reason given</Text>
-                  <Text style={type.small}>{row.decisionReason}</Text>
-                </View>
-              ) : null}
-            </Card>
-          </FadeUp>
-
-          {row.introduction || row.background || row.experience ? (
-            <FadeUp delay={60}>
-              <Card pad={18} style={styles.card}>
-                <Prose label="Introduction" text={row.introduction} />
-                <Prose label="Background" text={row.background} />
-                <Prose label="Experience" text={row.experience} />
-              </Card>
-            </FadeUp>
-          ) : null}
-
-          <FadeUp delay={120}>
-            <Card pad={18} style={styles.card}>
-              <Text style={type.display24}>{decided ? 'Additional investigation' : 'Your decision'}</Text>
-              <Text style={type.small}>
-                {decided
-                  ? 'Looked again? Record the new outcome. The Career Professional is told by email.'
-                  : 'Open the LinkedIn profile first. The Career Professional is told by email either way.'}
-              </Text>
-
-              {error ? <ErrorBanner message={error} /> : null}
-
-              {rejecting ? (
-                <>
-                  <Field
-                    label="Why are you rejecting this?"
-                    value={reason}
-                    onChangeText={setReason}
-                    placeholder="They will read this, so say what to change."
-                    multiline
-                  />
-                  <Button label="Confirm rejection" busy={busy} onPress={() => { void decide('rejected'); }} style={styles.reject} />
-                  <Button label="Cancel" tone="quiet" height={44} onPress={() => { setRejecting(false); setError(''); }} />
-                </>
-              ) : (
-                <>
-                  {row.status === 'verified' ? null : (
-                    <Button
-                      label={decided ? 'Mark as verified' : 'Approve'}
-                      busy={busy}
-                      icon={<Glyph name="shieldCheck" size={18} color={colors.white} />}
-                      onPress={() => { void decide('verified'); }}
-                    />
-                  )}
-                  {row.status === 'rejected' ? null : (
-                    <Button
-                      label={decided ? 'Mark as rejected' : 'Reject'}
-                      tone="outline"
-                      disabled={busy}
-                      onPress={() => { setRejecting(true); setError(''); }}
-                    />
-                  )}
-                  <Button
-                    label={decided ? 'Keep this outcome' : 'Leave pending'}
-                    tone="quiet"
-                    height={44}
-                    onPress={back}
-                  />
-                </>
-              )}
-            </Card>
-          </FadeUp>
+          {statusCard}
+          {proseCard}
+          {decisionCard}
         </>
-      ) : null}
+      )}
     </AdminShell>
   );
 }
@@ -215,4 +235,8 @@ const styles = StyleSheet.create({
   previous: { padding: 12, borderRadius: radius.md, backgroundColor: colors.chip, gap: 4 },
   prose: { gap: 4 },
   reject: { backgroundColor: colors.danger },
+  desktopColumns: { flexDirection: 'row', alignItems: 'flex-start', gap: 22 },
+  desktopMain: { flex: 2, minWidth: 0, gap: 18 },
+  desktopAside: { flex: 1, minWidth: 320 },
+  desktopFlat: { borderWidth: 1, borderColor: colors.lineSoft, boxShadow: 'none' },
 });
