@@ -4,6 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { api, ApiError, userFacingError } from '@/src/api/client';
 import {
   CounsellorProfile,
+  DiagnosisAnswers,
   DiagnosisDirection,
   DiagnosisMarketplaceCriteria,
   DiagnosisQuestionnaire,
@@ -159,6 +160,51 @@ export function useDiagnosis() {
     }
   }, [loadResult, refresh, state.record, token]);
 
+  const saveRetake = useCallback(async (
+    answers: DiagnosisAnswers,
+  ): Promise<DiagnosisRecord> => {
+    const record = state.record;
+    const questionnaire = state.questionnaire;
+    if (!token || !record || !questionnaire) throw new Error('Diagnosis is not ready.');
+    setSaving(true);
+    setError('');
+    let next = record;
+    try {
+      // A completed diagnosis remains the confirmed result while the user moves
+      // through a retake. Only after the final screen do we submit the draft,
+      // in questionnaire order and against each newly confirmed revision.
+      for (const question of questionnaire.steps) {
+        const value = answers[question.id];
+        if (value === undefined) throw new Error('Complete every diagnosis step before saving.');
+        next = await api.saveDiagnosisStep(
+          next.id,
+          question.id,
+          {
+            questionnaireVersion: next.questionnaireVersion,
+            expectedRevision: next.revision,
+            value,
+            other: answers.other[question.id] ?? null,
+          },
+          token,
+        );
+      }
+      if (activeToken.current !== token) return next;
+      setState((current) => ({ ...current, record: next, direction: null, criteria: null }));
+      await loadResult(next, token);
+      return next;
+    } catch (cause) {
+      if (activeToken.current === token) {
+        setError(userFacingError(cause));
+        // A failed multi-request submission may have confirmed an earlier step.
+        // Reload its revision so a retry never writes against stale progress.
+        await refresh();
+      }
+      throw cause;
+    } finally {
+      if (activeToken.current === token) setSaving(false);
+    }
+  }, [loadResult, refresh, state.questionnaire, state.record, token]);
+
   return {
     ...(token && state.accountId === accountId ? state : emptyState),
     loading: token ? (state.accountId !== accountId || loading) : false,
@@ -167,6 +213,7 @@ export function useDiagnosis() {
     refresh,
     start,
     saveStep,
+    saveRetake,
   };
 }
 

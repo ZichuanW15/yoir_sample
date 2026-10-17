@@ -1,6 +1,6 @@
 from datetime import timedelta
 
-from fastapi import APIRouter, Depends, Query, status
+from fastapi import APIRouter, Depends, Query, Response, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
@@ -47,17 +47,25 @@ def _query_score(query: str, *parts: str) -> int:
     return text.count(term)
 
 
-def service_to_out(service: Service) -> ServiceOut:
-    """Shared ORM -> wire mapping; also used by the counsellor-owned service routes."""
+def service_to_out(service: Service, *, enforce_visibility: bool = True) -> ServiceOut:
+    """Map a service without leaking a restricted professional's introduction.
+
+    Public Marketplace routes use the safe default.  The counsellor-owned service
+    routes opt out through ``own_service_to_out`` because privacy controls what
+    other users can read, not what the owner can read about themselves.
+    """
     location = None
     if service.location_state and service.location_city:
         location = Location(state=service.location_state, city_or_region=service.location_city)
+    introduction = service.counsellor.introduction
+    if enforce_visibility and service.counsellor.profile_visibility == "restricted":
+        introduction = None
     return ServiceOut(
         id=service.id,
         counsellor=CounsellorSummary(
             id=service.counsellor.id,
             display_name=service.counsellor.name,
-            introduction=service.counsellor.introduction,
+            introduction=introduction,
             verification_status=service.counsellor.verification_status,
             overall_rating=service.counsellor.overall_rating,
             review_count=service.counsellor.review_count,
@@ -79,7 +87,7 @@ def own_service_to_out(service: Service, db: Session) -> OwnServiceOut:
     """The same service, plus what only its owner sees: the meeting room, and when a
     job seeker could next book it."""
     return OwnServiceOut(
-        **service_to_out(service).model_dump(),
+        **service_to_out(service, enforce_visibility=False).model_dump(),
         meeting_url=service.meeting_url,
         # A withdrawn service is offered to nobody, so it has no next time.
         next_available_at=next_bookable_start(db, service) if service.active else None,
@@ -180,8 +188,12 @@ def list_service_slots(
 @router.get(
     "/counsellors", response_model=list[CounsellorProfileOut],
     response_model_exclude_none=True,
+    response_model_exclude_unset=True,
+    operation_id="listCounsellors",
+    openapi_extra={"x-requirement-ids": ["US-13", "US-28", "US-44"]},
 )
 def list_counsellors(
+    response: Response,
     query: str | None = Query(default=None),
     db: Session = Depends(get_db),
 ) -> list[CounsellorProfileOut]:
@@ -224,15 +236,21 @@ def list_counsellors(
         ranked = sorted(
             owners.values(), key=lambda user: (-(user.overall_rating or 0), user.name),
         )
+    response.headers["Cache-Control"] = "private, no-store"
     return [counsellor_profile_out(user, enforce_visibility=True) for user in ranked]
 
 
 @router.get(
     "/counsellors/{counsellor_id}", response_model=CounsellorProfileOut,
     response_model_exclude_none=True,
+    response_model_exclude_unset=True,
+    operation_id="getCounsellorProfile",
+    openapi_extra={"x-requirement-ids": ["US-28", "US-30", "US-44", "US-46"]},
 )
 def get_counsellor_profile(
-    counsellor_id: str, db: Session = Depends(get_db),
+    counsellor_id: str,
+    response: Response,
+    db: Session = Depends(get_db),
 ) -> CounsellorProfileOut:
     """US-30. A counsellor's public professional profile."""
     # Imported here rather than at module scope: the counsellor router already
@@ -242,4 +260,5 @@ def get_counsellor_profile(
     user = db.get(User, counsellor_id)
     if user is None or user.role != "counsellor":
         raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Career Professional not found.")
+    response.headers["Cache-Control"] = "private, no-store"
     return counsellor_profile_out(user, enforce_visibility=True)

@@ -32,7 +32,7 @@ export default function DiagnosisScreen() {
   const { session } = useAuth();
   const {
     questionnaire, record, direction, criteria, loading, saving, error,
-    refresh, start, saveStep,
+    refresh, start, saveStep, saveRetake,
   } = useDiagnosis();
   // `result` opens a finished diagnosis on its direction, to be read again.
   const { result } = useLocalSearchParams<{ result?: string }>();
@@ -90,6 +90,11 @@ export default function DiagnosisScreen() {
     if (!answered) return setMissing(true);
     if (!question) return;
     try {
+      if (retaking) {
+        if (step === questions.length - 1) await saveRetake(answers);
+        go(step + 1);
+        return;
+      }
       const value = answers[question.id];
       await saveStep(question.id, value, answers.other[question.id] ?? null);
       go(step + 1);

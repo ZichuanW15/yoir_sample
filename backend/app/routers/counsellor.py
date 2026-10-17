@@ -191,23 +191,38 @@ def counsellor_profile_out(
             restricted=True,
         )
 
-    hide_details = enforce_visibility and visibility == "partial"
+    if enforce_visibility and visibility == "partial":
+        # US-28 requires hidden fields to be absent from the response, not merely
+        # replaced with empty strings for the app to interpret.  These are the
+        # agreed summary fields described by the Privacy screen; all personal and
+        # professional-detail fields are deliberately left unset.
+        return CounsellorProfileOut(
+            id=user.id,
+            display_name=user.name,
+            introduction=user.introduction or "",
+            default_modality=user.default_modality or "online",
+            verification_status=user.verification_status,
+            overall_rating=user.overall_rating,
+            review_count=user.review_count,
+            visibility="partial",
+        )
+
     location = None
-    if not hide_details and user.base_location_state and user.base_location_city:
+    if user.base_location_state and user.base_location_city:
         location = Location(
             state=user.base_location_state, city_or_region=user.base_location_city,
         )
     return CounsellorProfileOut(
         id=user.id,
         display_name=user.name,
-        photo_url=None if hide_details else user.photo_url,
-        linkedin_url="" if hide_details else (user.linkedin_url or ""),
+        photo_url=user.photo_url,
+        linkedin_url=user.linkedin_url or "",
         introduction=user.introduction or "",
-        background="" if hide_details else (user.background or ""),
-        experience="" if hide_details else (user.experience or ""),
-        qualifications=[] if hide_details else (user.qualifications or []),
-        expertise=[] if hide_details else (user.expertise or []),
-        languages=[] if hide_details else (user.languages or []),
+        background=user.background or "",
+        experience=user.experience or "",
+        qualifications=user.qualifications or [],
+        expertise=user.expertise or [],
+        languages=user.languages or [],
         base_location=location,
         default_modality=user.default_modality or "online",
         verification_status=user.verification_status,
@@ -220,20 +235,27 @@ def counsellor_profile_out(
 @router.get(
     "/counsellor-profile", response_model=CounsellorProfileOut,
     response_model_exclude_none=True,
+    operation_id="getOwnCounsellorProfile",
+    openapi_extra={"x-required-role": "counsellor", "x-requirement-ids": ["US-28", "US-30"]},
 )
 def get_own_counsellor_profile(
+    response: Response,
     user: User = Depends(require_counsellor),
 ) -> CounsellorProfileOut:
     """Return the owner's complete profile regardless of public visibility."""
+    response.headers["Cache-Control"] = "private, no-store"
     return counsellor_profile_out(user)
 
 
 @router.patch(
     "/counsellor-profile", response_model=CounsellorProfileOut,
     response_model_exclude_none=True,
+    operation_id="updateOwnCounsellorProfile",
+    openapi_extra={"x-required-role": "counsellor", "x-requirement-ids": ["US-30"]},
 )
 def update_own_counsellor_profile(
     payload: UpdateCounsellorProfileRequest,
+    response: Response,
     user: User = Depends(require_counsellor),
     db: Session = Depends(get_db),
 ) -> CounsellorProfileOut:
@@ -262,6 +284,7 @@ def update_own_counsellor_profile(
     user.default_modality = payload.default_modality
     db.commit()
     db.refresh(user)
+    response.headers["Cache-Control"] = "private, no-store"
     return counsellor_profile_out(user)
 
 
