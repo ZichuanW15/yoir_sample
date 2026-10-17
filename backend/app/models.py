@@ -238,6 +238,15 @@ class Order(Base):
         Boolean, default=False, nullable=False,
     )
     counsellor_abn_at_booking: Mapped[str | None] = mapped_column(String(11), nullable=True)
+    # US-36 — the service's title as it was when this order was placed, frozen like the
+    # amounts above. The receipt is a tax invoice for a GST-registered Career
+    # Professional, so renaming the listing afterwards must not rewrite what was bought.
+    # Null only on an order created before migration 0011 that it could not backfill.
+    service_title: Mapped[str | None] = mapped_column(String, nullable=True)
+
+    def title_for(self, service: "Service") -> str:
+        """What was bought, by the name it had then; the live title only as a fallback."""
+        return self.service_title or service.title
 
 
 class Booking(Base):

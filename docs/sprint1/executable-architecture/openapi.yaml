@@ -1003,10 +1003,18 @@ paths:
       tags: [Marketplace]
       operationId: listCounsellors
       security: []
-      x-requirement-ids: [US-44, US-13]
+      x-requirement-ids: [US-13, US-28, US-44]
       description: >-
         The Career Professionals a Job Seeker can book, best rated first: the people
-        behind the services GET /services lists, chosen by the same rule.
+        behind the services GET /services lists, chosen by the same rule. Each
+        profile is filtered by its owner's current visibility setting; disallowed
+        fields are absent rather than returned empty. When query is supplied,
+        matching visible profile and service text is returned in relevance order.
+      parameters:
+        - name: query
+          in: query
+          required: false
+          schema: {type: string}
       responses:
         '200':
           description: Public professional profiles
@@ -1014,13 +1022,13 @@ paths:
             application/json:
               schema:
                 type: array
-                items: {$ref: '#/components/schemas/CounsellorSummary'}
+                items: {$ref: '#/components/schemas/CounsellorProfile'}
   /counsellors/{counsellorId}:
     get:
       tags: [Marketplace]
       operationId: getCounsellorProfile
       security: []
-      x-requirement-ids: [US-30, US-44, US-46]
+      x-requirement-ids: [US-28, US-30, US-44, US-46]
       parameters:
         - {name: counsellorId, in: path, required: true, schema: {type: string}}
       responses:
@@ -1028,20 +1036,20 @@ paths:
           description: Public professional profile
           content:
             application/json:
-              schema: {$ref: '#/components/schemas/CounsellorSummary'}
+              schema: {$ref: '#/components/schemas/CounsellorProfile'}
         '404': {$ref: '#/components/responses/NotFound'}
   /me/counsellor-profile:
     get:
       tags: [Counsellor]
       operationId: getOwnCounsellorProfile
       x-required-role: counsellor
-      x-requirement-ids: [US-30]
+      x-requirement-ids: [US-28, US-30]
       responses:
         '200':
           description: The Career Professional's complete profile, irrespective of public visibility
           content:
             application/json:
-              schema: {$ref: '#/components/schemas/CounsellorSummary'}
+              schema: {$ref: '#/components/schemas/CounsellorProfile'}
         '401': {$ref: '#/components/responses/Unauthorised'}
         '403': {$ref: '#/components/responses/Forbidden'}
     patch:
@@ -1072,7 +1080,7 @@ paths:
     get:
       tags: [Profile]
       operationId: getProfileVisibility
-      x-required-role: authenticated_member
+      x-required-role: job_seeker_or_counsellor
       x-requirement-ids: [US-27]
       responses:
         '200':
@@ -1084,7 +1092,7 @@ paths:
     patch:
       tags: [Profile]
       operationId: updateProfileVisibility
-      x-required-role: authenticated_member
+      x-required-role: job_seeker_or_counsellor
       x-requirement-ids: [US-27, US-28]
       requestBody:
         required: true
@@ -1630,11 +1638,12 @@ components:
     DiagnosisQuestion:
       type: object
       additionalProperties: false
-      required: [id, step, title, multiple, options, otherAllowed]
+      required: [id, step, title, hint, multiple, options, otherAllowed]
       properties:
         id: {$ref: '#/components/schemas/DiagnosisStepId'}
         step: {type: integer, minimum: 1, maximum: 5}
         title: {type: string}
+        hint: {type: string}
         multiple: {type: boolean}
         options:
           type: array
@@ -1873,6 +1882,33 @@ components:
         verificationStatus: {type: string, enum: [pending, verified, rejected]}
         overallRating: {type: number, minimum: 1, maximum: 5, nullable: true}
         reviewCount: {type: integer, minimum: 0}
+    CounsellorProfile:
+      type: object
+      additionalProperties: false
+      required: [id, displayName, verificationStatus, reviewCount]
+      description: >-
+        A privacy-filtered Career Professional profile. Public responses omit every
+        field the owner's visibility level does not permit. A restricted response
+        therefore contains only the required summary identifiers plus visibility
+        and restricted=true; the owner's /me response contains the complete record.
+      properties:
+        id: {type: string}
+        displayName: {type: string}
+        photoUrl: {type: string, nullable: true}
+        linkedinUrl: {type: string}
+        introduction: {type: string}
+        background: {type: string}
+        experience: {type: string}
+        qualifications: {type: array, items: {type: string}}
+        expertise: {type: array, items: {type: string}}
+        languages: {type: array, items: {type: string}}
+        baseLocation: {$ref: '#/components/schemas/Location'}
+        defaultModality: {$ref: '#/components/schemas/Modality'}
+        verificationStatus: {type: string, enum: [pending, verified, rejected]}
+        overallRating: {type: number, minimum: 1, maximum: 5, nullable: true}
+        reviewCount: {type: integer, minimum: 0}
+        visibility: {$ref: '#/components/schemas/ProfileVisibility'}
+        restricted: {type: boolean}
     Location:
       type: object
       required: [state, cityOrRegion]

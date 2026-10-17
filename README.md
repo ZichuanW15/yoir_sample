@@ -85,6 +85,15 @@ assessment.
 | US-70 Email verification and password recovery | [us70](docs/sprint2/frontend/us70-email-verification-and-password-recovery.md) | |
 | Client feedback: navigation, notifications, terminology and branding | [frontend](docs/sprint2/frontend/client-feedback-navigation-notifications-and-branding.md) | |
 
+### Sprint 3 — [docs/sprint3/](docs/sprint3/)
+
+| Area | Documents |
+|---|---|
+| US-09–13 Yoir Diagnosis | [Integrated delivery record](docs/sprint3/us09-us13-yoir-diagnosis.md), [frontend detail](docs/sprint3/frontend/us09-us13-yoir-diagnosis.md), [backend US-09–11 detail](docs/sprint3/backend/us09-us11-diagnosis.md) |
+| Backend delivery | [US-05 onboarding](docs/sprint3/backend/us05-career-professional-onboarding-state.md), [US-27–29 profile privacy](docs/sprint3/backend/us27-us29-profile-privacy.md), [US-31–33 verification](docs/sprint3/backend/us31-us33-linkedin-verification.md), [US-36 service editing](docs/sprint3/backend/us36-service-edit-and-removal.md), [US-43/69 booking detail and rescheduling](docs/sprint3/backend/us43-us69-booking-detail-and-reschedule.md), [US-53–55 reviews](docs/sprint3/backend/us53-us55-reviews-and-ratings.md) |
+| Frontend delivery | [US-30 profile autosave](docs/sprint3/frontend/us30-professional-profile-autosave.md), [US-31–32 verification](docs/sprint3/frontend/us31-us32-linkedin-verification.md), [US-33/58 verification review](docs/sprint3/frontend/us33-us58-verification-review.md), [US-48/71 owner oversight](docs/sprint3/frontend/us48-us71-platform-owner-oversight.md) |
+| Evidence and process | [Feature walkthrough](docs/sprint3/walkthrough/sprint-3-feature-walkthrough.md), [Sprint 3 planning](docs/sprint3/process/sprint-3-planning.md), [AI usage log](docs/sprint3/process/ai-usage-log.md) |
+
 ### Deployment and payments
 
 - [Deploying the dev environment](docs/deployment/dev-environment.md) — FastAPI Cloud, Neon, and the Stripe and Mailgun sandboxes

@@ -84,6 +84,27 @@ def test_the_top_weighted_term_becomes_the_marketplace_query(client, job_seeker_
     assert {"qualification", "job search"} <= set(body["unsupportedSignals"])
 
 
+def test_main_area_first_keyword_wins_when_supporting_area_shares_a_keyword(
+    client, job_seeker_headers,
+):
+    # Job search contributes "plan" as a low-weight goal signal, while the
+    # explicit blocker makes Career direction the main area.  Dict insertion
+    # order must not let that shared supporting word become the applied query.
+    record = complete(
+        client,
+        job_seeker_headers,
+        now="job",
+        goal="find_job",
+        stuck="direction",
+    )
+
+    body = client.get(criteria_url(record), headers=job_seeker_headers).json()
+
+    assert body["area"] == "Career direction"
+    assert body["query"] == "career"
+    assert "plan" in body["unsupportedSignals"]
+
+
 def test_modality_is_never_claimed_because_no_answer_names_one(
     client, job_seeker_headers,
 ):
@@ -115,6 +136,49 @@ def test_the_query_actually_finds_a_service_named_for_the_same_term(
     found = client.get("/api/v1/services", params={"query": criteria["query"]})
     assert found.status_code == 200
     assert any(service["title"] == "Mock interview coaching" for service in found.json())
+
+
+def test_marketplace_query_matches_service_descriptions_and_professional_expertise(
+    client, job_seeker_headers, counsellor_headers, counsellor, db_session,
+):
+    created = client.post(
+        "/api/v1/me/services", headers=counsellor_headers,
+        json={
+            "title": "Career progress session",
+            "description": "Structured interview preparation and practice.",
+            "priceMinor": 8000,
+            "currency": "AUD",
+            "modalities": ["online"],
+        },
+    )
+    assert created.status_code == 201, created.text
+    counsellor.expertise = ["Interview coaching"]
+    db_session.commit()
+
+    services = client.get("/api/v1/services", params={"query": "interview"})
+    professionals = client.get("/api/v1/counsellors", params={"query": "interview"})
+
+    assert [service["id"] for service in services.json()] == [created.json()["id"]]
+    assert [professional["id"] for professional in professionals.json()] == [counsellor.id]
+
+
+def test_marketplace_query_returns_no_unrelated_services_or_professionals(
+    client, counsellor_headers,
+):
+    created = client.post(
+        "/api/v1/me/services", headers=counsellor_headers,
+        json={
+            "title": "Resume review",
+            "description": "Application feedback.",
+            "priceMinor": 8000,
+            "currency": "AUD",
+            "modalities": ["online"],
+        },
+    )
+    assert created.status_code == 201, created.text
+
+    assert client.get("/api/v1/services", params={"query": "licensing"}).json() == []
+    assert client.get("/api/v1/counsellors", params={"query": "licensing"}).json() == []
 
 
 @pytest.mark.parametrize("completed", range(5))

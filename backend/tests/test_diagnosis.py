@@ -96,6 +96,7 @@ def test_questionnaire_publishes_existing_five_question_contract(client, job_see
     for question in body["steps"]:
         key = question["id"]
         assert question["title"]
+        assert question["hint"]
         assert question["multiple"] is (key in {"tried", "barriers"})
         assert question["otherAllowed"] is (key != "stuck")
         assert {option["id"] for option in question["options"]} == OPTIONS[key]

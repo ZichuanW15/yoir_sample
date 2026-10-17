@@ -1,10 +1,9 @@
-"""Versioned validation and direction rules for the shipped diagnosis form.
+"""Versioned questionnaire validation and direction rules for Yoir Diagnosis.
 
-The five answer steps mirror frontend/src/diagnosis/model.ts. Step six is a result,
-not a sixth answer. The direction rules deliberately mirror that frontend model so
-the same saved answers cannot produce different advice on different clients. This
-is not the client's full topic bank or an AI matching engine; new branching or
-recommendation rules require an explicitly versioned update.
+Step six is a result, not a sixth answer. The backend is the sole source of truth
+for both the questionnaire and its direction rules, so saved answers cannot produce
+different advice on different clients. This is not an AI matching engine; new
+branching or recommendation rules require an explicitly versioned update.
 """
 from dataclasses import dataclass
 from datetime import datetime
@@ -43,6 +42,7 @@ class DiagnosisQuestion(CamelModel):
     id: StepId
     step: int
     title: str
+    hint: str
     multiple: bool
     options: list[DiagnosisOption]
     other_allowed: bool
@@ -61,17 +61,19 @@ class DiagnosisQuestionnaire(CamelModel):
     result_step: DiagnosisResultStep = Field(default_factory=DiagnosisResultStep)
 
 
-def _question(step_id: StepId, title: str, choices: list[tuple[str, str]],
+def _question(step_id: StepId, title: str, hint: str, choices: list[tuple[str, str]],
               *, multiple: bool = False) -> DiagnosisQuestion:
     return DiagnosisQuestion(
-        id=step_id, step=STEP_IDS.index(step_id) + 1, title=title, multiple=multiple,
+        id=step_id, step=STEP_IDS.index(step_id) + 1, title=title, hint=hint,
+        multiple=multiple,
         options=[DiagnosisOption(id=value, label=label) for value, label in choices],
         other_allowed=any(value == "other" for value, _ in choices),
     )
 
 
 QUESTIONNAIRE = DiagnosisQuestionnaire(steps=[
-    _question("now", "Where are you now?", [
+    _question("now", "Where are you now?",
+              "Choose the one that best describes your situation today.", [
         ("job", "Looking for a job"),
         ("change", "Thinking about changing careers"),
         ("study", "Looking to upskill or study"),
@@ -79,7 +81,8 @@ QUESTIONNAIRE = DiagnosisQuestionnaire(steps=[
         ("direction", "Not sure what career direction to take"),
         ("other", "Something else"),
     ]),
-    _question("goal", "What are you trying to achieve?", [
+    _question("goal", "What are you trying to achieve?",
+              "Pick your most immediate goal.", [
         ("find_job", "Find a job"),
         ("more_interviews", "Get more interviews"),
         ("resume", "Improve my resume/application"),
@@ -91,7 +94,8 @@ QUESTIONNAIRE = DiagnosisQuestionnaire(steps=[
         ("linkedin", "Improve my LinkedIn"),
         ("other", "Something else"),
     ]),
-    _question("tried", "What have you tried so far?", [
+    _question("tried", "What have you tried so far?",
+              "Choose any that apply, or none if you are just starting.", [
         ("applications", "Job applications"),
         ("resume", "Resume/application changes"),
         ("interview", "Interview preparation"),
@@ -101,7 +105,8 @@ QUESTIONNAIRE = DiagnosisQuestionnaire(steps=[
         ("recognition", "Skills/qualification recognition"),
         ("other", "Other"),
     ], multiple=True),
-    _question("stuck", "Where are you getting stuck?", [
+    _question("stuck", "Where are you getting stuck?",
+              "Pick the main challenge holding you back.", [
         ("direction", "Career direction"),
         ("search", "Job search"),
         ("resume", "Resume"),
@@ -115,7 +120,8 @@ QUESTIONNAIRE = DiagnosisQuestionnaire(steps=[
         ("study", "Course/study choice"),
         ("not_sure", "Not sure"),
     ]),
-    _question("barriers", "Are there any barriers affecting your next step?", [
+    _question("barriers", "Are there any barriers affecting your next step?",
+              "Choose any that apply.", [
         ("work_rights", "Work rights"),
         ("recognition", "Qualification recognition"),
         ("licensing", "Registration/licensing"),
@@ -386,11 +392,16 @@ def direction_for(
         for keyword in _AREAS[area_id].keywords:
             weights[keyword] = max(weights.get(keyword, 0), weight)
 
+    # Insert the main area's keywords first as well as giving them the strongest
+    # weight.  ``marketplace_criteria_for`` uses a stable sort to break equal
+    # weights, and updating a dict entry does not change its insertion position.
+    # Adding supporting areas first could therefore let a shared word such as
+    # "plan" precede the main area's first keyword (for example "career").
+    add(main, _MAIN_WEIGHT)
     add(_AREA_FOR_GOAL.get(answers["goal"]), 1)
     barriers = answers["barriers"]
     for barrier in barriers:
         add(_AREA_FOR_BARRIER.get(barrier), 1)
-    add(main, _MAIN_WEIGHT)
 
     already_tried = any(item in answers["tried"] for item in area.tried)
     summary = area.summary

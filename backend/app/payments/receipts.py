@@ -88,7 +88,7 @@ def build_receipt(
         supplier_name=counsellor.legal_name or counsellor.name,
         supplier_abn=order.counsellor_abn_at_booking,
         buyer_name=job_seeker.name,
-        description=service.title,
+        description=order.title_for(service),
         session_starts_at=booking.starts_at,
         total_minor=order.amount_minor,
         gst_minor=order.session_gst_minor,
@@ -191,7 +191,7 @@ def build_commission_statement(
             StatementLine(
                 booking_id=booking.id,
                 session_starts_at=booking.starts_at,
-                description=service.title,
+                description=order.title_for(service),
                 session_total_minor=order.amount_minor,
                 commission_minor=order.platform_fee_minor,
                 commission_gst_minor=order.platform_fee_gst_minor,

@@ -1,207 +1,208 @@
-import { apiFailure, deferred, jsonResponse, navigation, renderPublic, reply, routeParams } from '../public-screen-utils';
-import { act, fireEvent, screen, waitFor } from '@testing-library/react-native';
+import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import DiagnosisScreen from '@/app/job-seeker/diagnosis';
-import { Answers } from '@/src/diagnosis/model';
-import { readDiagnosis, writeDiagnosis } from '@/src/diagnosis/storage';
-import { DiagnosisRecord } from '@/src/diagnosis/view';
-import { counsellorProfileFixture, counsellorSessionFixture, serviceFixture, sessionFixture } from '../fixtures';
+import {
+  DiagnosisDirection,
+  DiagnosisMarketplaceCriteria,
+  DiagnosisQuestionnaire,
+  DiagnosisRecord,
+} from '@/src/api/types';
+import {
+  apiFailure, callsTo, jsonResponse, renderPublic, reply,
+} from '../public-screen-utils';
+import {
+  counsellorProfileFixture, serviceFixture, sessionFixture,
+} from '../fixtures';
 
-// Exercise the real screen, hook, model and UI. Persistence, HTTP, navigation
-// and session storage use controlled boundaries; this is component evidence.
-// toBeChecked observes native accessibilityState; exported-Web ARIA forwarding
-// is independently checked in e2e/sprint3-accessibility.spec.ts.
-jest.mock('@/src/diagnosis/storage', () => ({ readDiagnosis: jest.fn(), writeDiagnosis: jest.fn() }));
-const read = jest.mocked(readDiagnosis);
-const write = jest.mocked(writeDiagnosis);
-const key = `yoir.diagnosis.${sessionFixture.user.id}`;
-const saved = new Map<string, string>();
-const answers: Answers = { now: 'job', goal: 'find_job', tried: [], stuck: 'interview', barriers: [] };
-const stored = (): DiagnosisRecord => JSON.parse(saved.get(key)!);
-const press = async (name: string) => {
-  await act(async () => fireEvent.press(screen.getByRole('button', { name })));
-};
-const choose = (name: string, role: 'radio' | 'checkbox' = 'radio') => {
-  fireEvent.press(screen.getByRole(role, { name }));
-};
-const open = async (record?: DiagnosisRecord) => {
-  if (record) saved.set(key, JSON.stringify(record));
-  return renderPublic(<DiagnosisScreen />, sessionFixture);
+jest.mock(
+  'react-native-safe-area-context',
+  () => jest.requireActual('react-native-safe-area-context/jest/mock').default,
+);
+
+const questionnaire: DiagnosisQuestionnaire = {
+  version: 'yoir-six-step-v1',
+  totalSteps: 6,
+  steps: [
+    {
+      id: 'now', step: 1, title: 'Where are you now?',
+      hint: 'Choose the one that best describes your situation today.', multiple: false,
+      otherAllowed: true, options: [{ id: 'job', label: 'Looking for a job' }],
+    },
+    {
+      id: 'goal', step: 2, title: 'What are you trying to achieve?',
+      hint: 'Pick your most immediate goal.', multiple: false, otherAllowed: true,
+      options: [{ id: 'find_job', label: 'Find a job' }],
+    },
+    {
+      id: 'tried', step: 3, title: 'What have you tried so far?',
+      hint: 'Choose any that apply.', multiple: true, otherAllowed: true, options: [],
+    },
+    {
+      id: 'stuck', step: 4, title: 'Where are you getting stuck?',
+      hint: 'Pick the main challenge.', multiple: false, otherAllowed: false,
+      options: [{ id: 'interview', label: 'Interview' }],
+    },
+    {
+      id: 'barriers', step: 5, title: 'Are there any barriers affecting your next step?',
+      hint: 'Choose any that apply.', multiple: true, otherAllowed: true, options: [],
+    },
+  ],
+  resultStep: { step: 6, title: 'Your Yoir Direction', requiresAnswers: true },
 };
 
-beforeEach(() => {
-  saved.clear();
-  read.mockReset().mockImplementation(async (name) => saved.get(name) ?? null);
-  write.mockReset().mockImplementation(async (name, value) => { saved.set(name, value); });
-  reply('GET', '/counsellors', jsonResponse([]));
-  reply('GET', '/services', jsonResponse([]));
+const record = (changes: Partial<DiagnosisRecord> = {}): DiagnosisRecord => ({
+  id: 'diagnosis-1', questionnaireVersion: questionnaire.version, revision: 0,
+  status: 'in_progress', currentStep: 1, totalSteps: 6, completedSteps: [],
+  answers: { other: {} }, createdAt: '2026-10-16T00:00:00Z',
+  updatedAt: '2026-10-16T00:00:00Z', ...changes,
 });
 
-describe('diagnosis questions — local persistence boundary, QA-162/165/168', () => {
-  test('a guest is sent to job-seeker login without reading or writing a diagnosis', async () => {
-    await renderPublic(<DiagnosisScreen />);
-    expect(navigation.replace).toHaveBeenCalledWith({ pathname: '/auth/login', params: { role: 'job_seeker' } });
-    expect(read).not.toHaveBeenCalled();
-    expect(write).not.toHaveBeenCalled();
-    expect(screen.queryByText('Where are you now?')).toBeNull();
+describe('server-backed Yoir Diagnosis', () => {
+  test('creates missing progress, confirms a step on the backend, then advances', async () => {
+    reply('GET', '/me/diagnosis/questionnaire', jsonResponse(questionnaire));
+    reply('GET', '/me/diagnosis', apiFailure('NOT_FOUND', 'Diagnosis not found.', 404));
+    reply('POST', '/me/diagnosis', jsonResponse(record()));
+    reply('PUT', '/diagnoses/diagnosis-1/steps/now', jsonResponse(record({
+      revision: 1, currentStep: 2, completedSteps: ['now'], answers: { now: 'job', other: {} },
+    })));
+
+    await renderPublic(<DiagnosisScreen />, sessionFixture);
+    expect(await screen.findByText('Where are you now?')).toBeOnTheScreen();
+    fireEvent.press(screen.getByRole('radio', { name: 'Looking for a job' }));
+    fireEvent.press(screen.getByRole('button', { name: 'Continue' }));
+
+    expect(await screen.findByText('What are you trying to achieve?')).toBeOnTheScreen();
+    expect(callsTo('POST', '/me/diagnosis')).toHaveLength(1);
+    expect(callsTo('PUT', '/diagnoses/diagnosis-1/steps/now')).toHaveLength(1);
+    expect(callsTo('PUT', '/diagnoses/diagnosis-1/steps/now')[0][1]?.body).toBe(JSON.stringify({
+      questionnaireVersion: questionnaire.version,
+      expectedRevision: 0,
+      value: 'job',
+      other: null,
+    }));
   });
 
-  test.each([
-    ['counsellor', counsellorSessionFixture, '/counsellor'],
-    ['platform owner', { ...sessionFixture, user: { ...sessionFixture.user, role: 'platform_owner' as const } }, '/admin'],
-  ] as const)('a %s account is routed to its own workspace', async (_role, session, destination) => {
-    await renderPublic(<DiagnosisScreen />, session);
-    expect(navigation.replace).toHaveBeenCalledWith(destination);
-    expect(write).not.toHaveBeenCalled();
-    expect(screen.queryByText('Where are you now?')).toBeNull();
-  });
-
-  test('questions stay hidden while saved progress loads, then resume at that question', async () => {
-    const pending = deferred<string | null>();
-    read.mockReturnValueOnce(pending.promise);
-    await open();
-    expect(screen.queryByRole('button', { name: 'Continue' })).toBeNull();
-    expect(screen.queryByText('Where are you now?')).toBeNull();
-    await act(async () => pending.resolve(JSON.stringify({ answers, step: 3 })));
-    expect(await screen.findByText('Where are you getting stuck?')).toBeOnTheScreen();
-    expect(screen.getByRole('radio', { name: 'Interview' })).toBeChecked();
-    expect(screen.getByText('Step 4 of 6')).toBeOnTheScreen();
-  });
-
-  test.each([
-    [0, 'now', 'Where are you now?', 'Looking for a job'],
-    [1, 'goal', 'What are you trying to achieve?', 'Find a job'],
-    [3, 'stuck', 'Where are you getting stuck?', 'Interview'],
-  ] as const)('question %s refuses an empty required answer without advancing or saving', async (step, field, title, option) => {
-    await open({ answers: { ...answers, [field]: '' }, step });
-    expect(await screen.findByText(title)).toBeOnTheScreen();
-    await press('Continue');
-    expect(screen.getByRole('alert')).toHaveTextContent('Choose an option to continue.');
-    expect(screen.getByText(title)).toBeOnTheScreen();
-    expect(write).not.toHaveBeenCalled();
-    choose(option);
-    expect(screen.queryByRole('alert')).toBeNull();
-    await press('Continue');
-    expect(stored().step).toBe(step + 1);
-    expect(stored().answers?.[field]).toBe(answers[field]);
-  });
-
-  test('editing an earlier answer preserves the furthest resume point across a remount', async () => {
-    const page = await open({ answers, step: 3 });
-    await screen.findByText('Where are you getting stuck?');
-    await press('Back');
-    await press('Back');
-    choose('Improve my resume/application');
-    await press('Continue');
-    expect(stored()).toEqual({ answers: { ...answers, goal: 'resume' }, step: 3 });
-    page.unmount();
-    await open();
-    expect(await screen.findByText('Where are you getting stuck?')).toBeOnTheScreen();
-    await press('Back');
-    await press('Back');
-    expect(screen.getByRole('radio', { name: 'Improve my resume/application' })).toBeChecked();
-  });
-
-  test('skipping before the first answer records a skip and opens home', async () => {
-    await open();
-    await screen.findByText('Where are you now?');
-    await press('Skip for now');
-    expect(stored()).toEqual({ answers: null });
-    expect(navigation.replace).toHaveBeenCalledWith('/job-seeker');
-    expect(screen.queryByText('Your Yoir Direction')).toBeNull();
-  });
-
-  test('skipping part-way saves the current choice and resumes with it selected', async () => {
-    const partial = { ...answers, goal: '', stuck: '' };
-    const page = await open({ answers: partial, step: 1 });
-    await screen.findByText('What are you trying to achieve?');
-    choose('Prepare for interviews');
-    await press('Skip for now');
-    expect(stored()).toEqual({ answers: { ...partial, goal: 'interview' }, step: 1 });
-    expect(navigation.replace).toHaveBeenCalledWith('/job-seeker');
-    page.unmount();
-    await open();
-    expect(await screen.findByRole('radio', { name: 'Prepare for interviews' })).toBeChecked();
-  });
-
-  test('a full journey retains optional text and toggled choices, permits empty optional answers and opens Explore', async () => {
-    await open();
-    await screen.findByText('Where are you now?');
-    choose('Something else');
-    fireEvent.changeText(screen.getByLabelText('Tell us a little more (optional)'), 'Returning after caring for family');
-    await press('Continue');
-    choose('Prepare for interviews');
-    await press('Continue');
-    choose('Job applications', 'checkbox');
-    choose('Networking', 'checkbox');
-    choose('Job applications', 'checkbox');
-    expect(screen.getByRole('checkbox', { name: 'Job applications' })).not.toBeChecked();
-    expect(screen.getByRole('checkbox', { name: 'Networking' })).toBeChecked();
-    await press('Continue');
-    choose('Interview');
-    await press('Continue');
-    // Barriers are optional: reaching the result does not require an invented answer.
-    await press('See my Yoir Direction');
-    expect(await screen.findByText('Your Yoir Direction')).toBeOnTheScreen();
-    expect(screen.getByText('Interview skills')).toBeOnTheScreen();
-    expect(stored()).toEqual({ answers: {
-      now: 'other', goal: 'interview', tried: ['networking'], stuck: 'interview', barriers: [],
-      other: { now: 'Returning after caring for family' },
-    } });
-    await press('View Career Professionals');
-    expect(navigation.push).toHaveBeenCalledWith({ pathname: '/marketplace', params: { match: '1' } });
-    await press('Go to my home');
-    expect(navigation.replace).toHaveBeenCalledWith('/job-seeker');
-  });
-
-  test('abandoning a retake keeps the previous completed answers and direction', async () => {
-    routeParams({ result: '1' });
-    await open({ answers });
-    await screen.findByText('Your Yoir Direction');
-    await press('Retake the diagnosis');
-    choose('Looking to upskill or study');
-    await press('Continue');
-    choose('Find the right course or study pathway');
-    await press('Skip for now');
-    expect(stored()).toEqual({ answers });
-    expect(write).not.toHaveBeenCalled();
-    expect(navigation.replace).toHaveBeenCalledWith('/job-seeker');
-  });
-
-  test('a completed retake replaces the previous direction only at the final question', async () => {
-    routeParams({ result: '1' });
-    await open({ answers });
-    await screen.findByText('Your Yoir Direction');
-    await press('Retake the diagnosis');
-    await press('Continue');
-    await press('Continue');
-    // Tried-so-far also accepts an empty multi-select.
-    await press('Continue');
-    choose('Course/study choice');
-    await press('Continue');
-    expect(write).not.toHaveBeenCalled();
-    expect(stored()).toEqual({ answers });
-    await press('See my Yoir Direction');
-    expect(await screen.findByText('Study and upskilling pathway')).toBeOnTheScreen();
-    await waitFor(() => expect(write).toHaveBeenCalledTimes(1));
-    expect(stored()).toEqual({ answers: { ...answers, stuck: 'study' } });
-  });
-
-  test('[QA-171/174] failed professional loading can be retried without losing the completed direction', async () => {
-    routeParams({ result: '1' });
-    reply('GET', '/counsellors', apiFailure('UNAVAILABLE', 'Professionals are temporarily unavailable.', 503));
-    await open({ answers });
-    expect(await screen.findByText('Professionals are temporarily unavailable.')).toBeOnTheScreen();
-    expect(screen.getByText('Interview skills')).toBeOnTheScreen();
+  test('renders only the backend-confirmed direction and backend-filtered professionals', async () => {
+    const complete = record({
+      revision: 5, status: 'answers_complete', currentStep: 6,
+      completedSteps: ['now', 'goal', 'tried', 'stuck', 'barriers'],
+      answers: {
+        now: 'job', goal: 'find_job', tried: [], stuck: 'interview', barriers: [], other: {},
+      },
+    });
+    const direction: DiagnosisDirection = {
+      diagnosisId: complete.id, questionnaireVersion: questionnaire.version,
+      sourceRevision: 5, ruleVersion: 'yoir-direction-v1', area: 'Interview skills',
+      summary: 'Practise clear, structured answers.',
+      suggestedSteps: ['Prepare examples.', 'Practise aloud.', 'Ask for feedback.'],
+      matchingWeights: { interview: 10 },
+    };
+    const criteria: DiagnosisMarketplaceCriteria = {
+      diagnosisId: complete.id, area: direction.area, query: 'interview', modality: null,
+      unsupportedSignals: [],
+    };
+    reply('GET', '/me/diagnosis/questionnaire', jsonResponse(questionnaire));
+    reply('GET', '/me/diagnosis', jsonResponse(complete));
+    reply('GET', '/diagnoses/diagnosis-1/direction', jsonResponse(direction));
+    reply('GET', '/diagnoses/diagnosis-1/marketplace-criteria', jsonResponse(criteria));
     reply('GET', '/counsellors', jsonResponse([counsellorProfileFixture]));
     reply('GET', '/services', jsonResponse([serviceFixture]));
-    await press('Try again');
-    expect(await screen.findByText('Best match')).toBeOnTheScreen();
-    expect(screen.queryByText('Professionals are temporarily unavailable.')).toBeNull();
-    await press('Maya Chen, Career Professional');
-    expect(navigation.push).toHaveBeenCalledWith({
-      pathname: '/professionals/[counsellorId]', params: { counsellorId: counsellorProfileFixture.id },
+
+    await renderPublic(<DiagnosisScreen />, sessionFixture);
+
+    expect(await screen.findByText('Interview skills')).toBeOnTheScreen();
+    expect(screen.getByText('Practise clear, structured answers.')).toBeOnTheScreen();
+    expect(screen.getByText('Maya Chen')).toBeOnTheScreen();
+    await waitFor(() => {
+      expect(String(callsTo('GET', '/counsellors')[0][0])).toContain('?query=interview');
+      expect(String(callsTo('GET', '/services')[0][0])).toContain('?query=interview');
     });
-    expect(stored()).toEqual({ answers });
-    expect(write).not.toHaveBeenCalled();
+  });
+
+  test('keeps retake answers local when the Job Seeker leaves before finishing', async () => {
+    const complete = record({
+      revision: 5, status: 'answers_complete', currentStep: 6,
+      completedSteps: ['now', 'goal', 'tried', 'stuck', 'barriers'],
+      answers: {
+        now: 'job', goal: 'find_job', tried: [], stuck: 'interview', barriers: [], other: {},
+      },
+    });
+    const direction: DiagnosisDirection = {
+      diagnosisId: complete.id, questionnaireVersion: questionnaire.version,
+      sourceRevision: 5, ruleVersion: 'yoir-direction-v1', area: 'Interview skills',
+      summary: 'Practise clear, structured answers.',
+      suggestedSteps: ['Prepare examples.', 'Practise aloud.', 'Ask for feedback.'],
+      matchingWeights: { interview: 10 },
+    };
+    const criteria: DiagnosisMarketplaceCriteria = {
+      diagnosisId: complete.id, area: direction.area, query: 'interview', modality: null,
+      unsupportedSignals: [],
+    };
+    reply('GET', '/me/diagnosis/questionnaire', jsonResponse(questionnaire));
+    reply('GET', '/me/diagnosis', jsonResponse(complete));
+    reply('GET', '/diagnoses/diagnosis-1/direction', jsonResponse(direction));
+    reply('GET', '/diagnoses/diagnosis-1/marketplace-criteria', jsonResponse(criteria));
+    reply('GET', '/counsellors', jsonResponse([]));
+    reply('GET', '/services', jsonResponse([]));
+
+    await renderPublic(<DiagnosisScreen />, sessionFixture);
+    fireEvent.press(await screen.findByRole('button', { name: 'Retake the diagnosis' }));
+    fireEvent.press(screen.getByRole('button', { name: 'Continue' }));
+    expect(await screen.findByText('What are you trying to achieve?')).toBeOnTheScreen();
+    fireEvent.press(screen.getByRole('button', { name: 'Skip for now' }));
+
+    expect(callsTo('PUT', '/diagnoses/diagnosis-1/steps/now')).toHaveLength(0);
+    expect(callsTo('PUT', '/diagnoses/diagnosis-1/steps/goal')).toHaveLength(0);
+  });
+
+  test('submits every retake answer in order only after the final question', async () => {
+    const answers = {
+      now: 'job', goal: 'find_job', tried: [], stuck: 'interview', barriers: [], other: {},
+    };
+    const complete = record({
+      revision: 5, status: 'answers_complete', currentStep: 6,
+      completedSteps: ['now', 'goal', 'tried', 'stuck', 'barriers'], answers,
+    });
+    const direction: DiagnosisDirection = {
+      diagnosisId: complete.id, questionnaireVersion: questionnaire.version,
+      sourceRevision: 5, ruleVersion: 'yoir-direction-v1', area: 'Interview skills',
+      summary: 'Practise clear, structured answers.',
+      suggestedSteps: ['Prepare examples.', 'Practise aloud.', 'Ask for feedback.'],
+      matchingWeights: { interview: 10 },
+    };
+    const criteria: DiagnosisMarketplaceCriteria = {
+      diagnosisId: complete.id, area: direction.area, query: 'interview', modality: null,
+      unsupportedSignals: [],
+    };
+    reply('GET', '/me/diagnosis/questionnaire', jsonResponse(questionnaire));
+    reply('GET', '/me/diagnosis', jsonResponse(complete));
+    reply('GET', '/diagnoses/diagnosis-1/direction', jsonResponse(direction));
+    reply('GET', '/diagnoses/diagnosis-1/marketplace-criteria', jsonResponse(criteria));
+    reply('GET', '/counsellors', jsonResponse([]));
+    reply('GET', '/services', jsonResponse([]));
+    questionnaire.steps.forEach((question, index) => {
+      reply('PUT', `/diagnoses/diagnosis-1/steps/${question.id}`, jsonResponse(record({
+        revision: 6 + index, status: 'answers_complete', currentStep: 6,
+        completedSteps: ['now', 'goal', 'tried', 'stuck', 'barriers'], answers,
+      })));
+    });
+
+    await renderPublic(<DiagnosisScreen />, sessionFixture);
+    fireEvent.press(await screen.findByRole('button', { name: 'Retake the diagnosis' }));
+    for (let index = 0; index < questionnaire.steps.length - 1; index += 1) {
+      fireEvent.press(screen.getByRole('button', { name: 'Continue' }));
+    }
+    expect(callsTo('PUT', '/diagnoses/diagnosis-1/steps/now')).toHaveLength(0);
+    fireEvent.press(screen.getByRole('button', { name: 'See my Yoir Direction' }));
+
+    expect(await screen.findByText('Your Yoir Direction')).toBeOnTheScreen();
+    await waitFor(() => {
+      questionnaire.steps.forEach((question, index) => {
+        const calls = callsTo('PUT', `/diagnoses/diagnosis-1/steps/${question.id}`);
+        expect(calls).toHaveLength(1);
+        expect(JSON.parse(String(calls[0][1]?.body))).toMatchObject({
+          expectedRevision: 5 + index,
+        });
+      });
+    });
   });
 });

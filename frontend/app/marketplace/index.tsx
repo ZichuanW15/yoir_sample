@@ -13,8 +13,7 @@ import { JobSeekerNav } from '@/src/components/JobSeekerNav';
 import { TopBar } from '@/src/components/TopBar';
 import { EmptySearchMark } from '@/src/components/Scenes';
 import { Avatar, Card, Chip, ErrorBanner, Press, Tag } from '@/src/components/ui';
-import { directionFor, rankServices } from '@/src/diagnosis/model';
-import { finishedAnswers, useDiagnosis } from '@/src/diagnosis/view';
+import { useDiagnosis } from '@/src/diagnosis/view';
 import { initials, modalityLabel, money } from '@/src/format';
 import {
   activeFilterCount, applyServiceFilters, availableStates, defaultFilters, priceOptions,
@@ -32,11 +31,7 @@ export default function MarketplaceScreen() {
   // US-13: a Job Seeker's Yoir Direction follows them here. Arriving from the
   // direction itself (`match`) puts the services that fit it first straight away.
   const { match } = useLocalSearchParams<{ match?: string }>();
-  const { record } = useDiagnosis();
-  const direction = useMemo(() => {
-    const answers = finishedAnswers(record);
-    return answers ? directionFor(answers) : null;
-  }, [record]);
+  const { direction, criteria } = useDiagnosis();
   const [matchFirst, setMatchFirst] = useState(match === '1');
 
   const [services, setServices] = useState<Service[]>([]);
@@ -46,6 +41,8 @@ export default function MarketplaceScreen() {
   const [fetching, setFetching] = useState(true);
   const [holding, setHolding] = useState(true);
   const [error, setError] = useState('');
+  const [matchedServiceIds, setMatchedServiceIds] = useState<string[] | null>(null);
+  const [matchError, setMatchError] = useState('');
   const [attempt, setAttempt] = useState(0);
 
   useEffect(() => {
@@ -57,6 +54,31 @@ export default function MarketplaceScreen() {
       .finally(() => { if (live) setFetching(false); });
     return () => { live = false; clearTimeout(timer); };
   }, [attempt]);
+
+  useEffect(() => {
+    let live = true;
+    if (!criteria) {
+      return () => { live = false; };
+    }
+    if (!criteria.query) {
+      void Promise.resolve().then(() => {
+        if (live) {
+          setMatchedServiceIds([]);
+          setMatchError('');
+        }
+      });
+      return () => { live = false; };
+    }
+    void api.listServices(criteria.query, criteria.modality)
+      .then((matched) => {
+        if (live) {
+          setMatchedServiceIds(matched.map((service) => service.id));
+          setMatchError('');
+        }
+      })
+      .catch((value) => { if (live) setMatchError(userFacingError(value)); });
+    return () => { live = false; };
+  }, [criteria]);
 
   /** A retry re-arms the skeleton before asking for the catalogue again. */
   const reload = () => {
@@ -78,10 +100,21 @@ export default function MarketplaceScreen() {
 
   const states = useMemo(() => availableStates(searched), [searched]);
   const visible = useMemo(() => applyServiceFilters(searched, filters), [searched, filters]);
-  const listed = useMemo(
-    () => (direction && matchFirst ? rankServices(visible, direction) : visible.map((service) => ({ service, match: false }))),
-    [visible, direction, matchFirst],
-  );
+  const listed = useMemo(() => {
+    if (!direction || !matchFirst || !matchedServiceIds) {
+      return visible.map((service) => ({ service, match: false }));
+    }
+    const rank = new Map(matchedServiceIds.map((id, index) => [id, index]));
+    return visible
+      .map((service, index) => ({ service, index, rank: rank.get(service.id) }))
+      .sort((a, b) => {
+        if (a.rank !== undefined && b.rank !== undefined) return a.rank - b.rank;
+        if (a.rank !== undefined) return -1;
+        if (b.rank !== undefined) return 1;
+        return a.index - b.index;
+      })
+      .map(({ service, rank: matchedRank }) => ({ service, match: matchedRank !== undefined }));
+  }, [visible, direction, matchFirst, matchedServiceIds]);
   const fitting = listed.filter((entry) => entry.match).length;
   const narrowed = activeFilterCount(filters);
   const active = narrowed > 0 || panelOpen;
@@ -223,6 +256,7 @@ export default function MarketplaceScreen() {
                 No service listed here fits this direction yet, so the list is in its usual order.
               </Text>
             ) : null}
+            {matchError ? <ErrorBanner message={matchError} /> : null}
           </FadeUp>
         ) : null}
 

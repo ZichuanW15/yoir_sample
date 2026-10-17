@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, Response
 from sqlalchemy.orm import Session
 
 from app.db import get_db
@@ -19,14 +19,29 @@ def job_seeker_profile_out(user: User) -> JobSeekerProfileOut:
     )
 
 
-@router.get("/job-seeker-profile", response_model=JobSeekerProfileOut)
-def get_own_job_seeker_profile(user: User = Depends(require_job_seeker)) -> JobSeekerProfileOut:
+@router.get(
+    "/job-seeker-profile",
+    response_model=JobSeekerProfileOut,
+    operation_id="getOwnJobSeekerProfile",
+    openapi_extra={"x-required-role": "job_seeker", "x-requirement-ids": ["US-29"]},
+)
+def get_own_job_seeker_profile(
+    response: Response,
+    user: User = Depends(require_job_seeker),
+) -> JobSeekerProfileOut:
+    response.headers["Cache-Control"] = "private, no-store"
     return job_seeker_profile_out(user)
 
 
-@router.patch("/job-seeker-profile", response_model=JobSeekerProfileOut)
+@router.patch(
+    "/job-seeker-profile",
+    response_model=JobSeekerProfileOut,
+    operation_id="updateOwnJobSeekerProfile",
+    openapi_extra={"x-required-role": "job_seeker", "x-requirement-ids": ["US-29"]},
+)
 def update_own_job_seeker_profile(
     payload: UpdateJobSeekerProfileRequest,
+    response: Response,
     user: User = Depends(require_job_seeker),
     db: Session = Depends(get_db),
 ) -> JobSeekerProfileOut:
@@ -35,6 +50,12 @@ def update_own_job_seeker_profile(
     user.photo_url = payload.photo_url
     user.headline = payload.headline
     user.career_goals = payload.career_goals
-    db.commit()
-    db.refresh(user)
-    return job_seeker_profile_out(user)
+    result = job_seeker_profile_out(user)
+    try:
+        db.flush()
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    response.headers["Cache-Control"] = "private, no-store"
+    return result
