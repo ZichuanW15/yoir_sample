@@ -86,9 +86,8 @@ def _booking_out(
     other = None
     if viewer is not None:
         other = counsellor if viewer.id == booking.job_seeker_id else job_seeker
-    area = ""
-    if service.location_city and service.location_state:
-        area = f"{service.location_city}, {service.location_state}"
+    # US-36: where it was booked to meet, not wherever the listing says now.
+    area = order.area_for(service) if order is not None else service.meeting_area()
     return BookingOut(
         id=booking.id,
         order_id=booking.order_id,
@@ -214,6 +213,7 @@ def create_order(
         currency=service.currency,
         # US-36: frozen with the price, so a later rename never rewrites this order.
         service_title=service.title,
+        meeting_area=service.meeting_area(),
         timezone=payload.timezone,
         modality=payload.modality,
         pre_session_brief=(payload.pre_session_brief or "").strip() or None,

@@ -602,6 +602,76 @@ def test_a_rename_before_payment_does_not_change_the_confirmation_emails(
     assert sent["booking_received"]["subject"] == f"New booking: {bought_as}"
 
 
+def test_moving_an_in_person_service_does_not_move_a_session_already_booked(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    counsellor_headers: dict[str, str],
+    job_seeker_headers: dict[str, str],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """US-36 AC3: the meeting area is frozen when the order is placed, like the title.
+    Moving the listing before payment must not move the emails, and moving it after
+    must not move the booking either party reads."""
+    from app.mail import messages
+
+    sent: dict[str, dict[str, Any]] = {}
+    monkeypatch.setattr(
+        messages, "_deliver",
+        lambda template, /, *, to, subject, **context: sent.update(
+            {template: context},
+        ) or True,
+    )
+    service.modalities = ["in_person"]
+    service.location_state = "VIC"
+    service.location_city = "Melbourne"
+    start = datetime.now(UTC) + timedelta(days=3)
+    db_session.add(AvailabilityWindow(
+        counsellor_id=service.counsellor_id, starts_at=start, ends_at=start + timedelta(hours=3),
+        modalities=["in_person"],
+    ))
+    db_session.commit()
+    order = client.post(
+        "/api/v1/orders",
+        headers=job_seeker_headers,
+        json={
+            "serviceId": service.id, "startsAt": start.isoformat(),
+            "modality": "in_person", "timezone": "Australia/Melbourne",
+        },
+    )
+    assert order.status_code == 201, order.text
+
+    def move_to(city: str) -> None:
+        moved = client.patch(
+            f"/api/v1/me/services/{service.id}",
+            headers=counsellor_headers,
+            json=service_body(
+                modalities=["in_person"], location={"state": "VIC", "cityOrRegion": city},
+            ),
+        )
+        assert moved.status_code == 200, moved.text
+
+    move_to("Geelong")
+    paid = client.post(
+        f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers,
+    )
+    assert paid.status_code == 200, paid.text
+    booking_id = paid.json()["booking"]["id"]
+    assert sent["booking_confirmed"]["meeting_area"] == "Melbourne, VIC"
+    assert sent["booking_received"]["meeting_area"] == "Melbourne, VIC"
+
+    move_to("Ballarat")
+    for headers in (job_seeker_headers, counsellor_headers):
+        detail = client.get(f"/api/v1/bookings/{booking_id}", headers=headers).json()
+        mine = client.get("/api/v1/me/bookings", headers=headers).json()
+        assert detail["meetingArea"] == "Melbourne, VIC"
+        assert [row["meetingArea"] for row in mine] == ["Melbourne, VIC"]
+    # The listing itself shows where new bookings will meet.
+    assert client.get(f"/api/v1/services/{service.id}").json()["location"] == {
+        "state": "VIC", "cityOrRegion": "Ballarat",
+    }
+
+
 # --- US-39: availability can differ by how the session is delivered ----------
 
 
