@@ -1,0 +1,339 @@
+{
+  "stats": {
+    "startTime": "2026-10-14T06:33:34.888Z",
+    "duration": 77480.772,
+    "expected": 18,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "errors": [],
+  "cases": [
+    {
+      "file": "integrity.spec.ts",
+      "line": 48,
+      "title": "DEF-PROFILE-PROVENANCE: live verified identity agrees with the persisted counsellor profile",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1243,
+          "startTime": "2026-10-14T06:33:35.972Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "integrity.spec.ts",
+      "line": 59,
+      "title": "CURRENT-IMPLEMENTATION: newly registered counsellor receives publish 403 with no saved or falsely successful service",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2398,
+          "startTime": "2026-10-14T06:33:37.310Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-diagnosis.spec.ts",
+      "line": 53,
+      "title": "US09/10/11 local Web diagnosis validates, resumes after login and isolates accounts",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 10977,
+          "startTime": "2026-10-14T06:33:39.714Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-diagnosis.spec.ts",
+      "line": 85,
+      "title": "US12/13 local direction leads through a real professional and service to a stub booking",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 9852,
+          "startTime": "2026-10-14T06:33:50.697Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "browser-regression-final-server-diagnosis-observation.json"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-diagnosis.spec.ts",
+      "line": 131,
+      "title": "US09/12 cancelled local retake preserves the old direction and completed retake replaces it",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 10084,
+          "startTime": "2026-10-14T06:34:00.554Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 37,
+      "title": "US44/45/46 public Web catalogue, search, detail and back",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2655,
+          "startTime": "2026-10-14T06:34:10.651Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 53,
+      "title": "US01/04 Web registration persists job_seeker",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2336,
+          "startTime": "2026-10-14T06:34:13.313Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 53,
+      "title": "US01/04 Web registration persists counsellor",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2285,
+          "startTime": "2026-10-14T06:34:15.654Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 70,
+      "title": "US03 duplicate registration remains on the form with input preserved",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1312,
+          "startTime": "2026-10-14T06:34:17.944Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 85,
+      "title": "US07 invalid login stays anonymous and can retry",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3728,
+          "startTime": "2026-10-14T06:34:19.261Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 106,
+      "title": "US06/08 Web login, logout and server-side revoked-token replay",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4164,
+          "startTime": "2026-10-14T06:34:22.994Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 120,
+      "title": "US40/41/47/68 real browser booking to stub receipt (not provider acceptance)",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4024,
+          "startTime": "2026-10-14T06:34:27.162Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 145,
+      "title": "US44 Web network failure exposes retry and recovers @injected-network",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2872,
+          "startTime": "2026-10-14T06:34:31.191Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 155,
+      "title": "US34/35/37/38 counsellor Web publishing validates area and persists both delivery modes",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5018,
+          "startTime": "2026-10-14T06:34:34.068Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 199,
+      "title": "US34 counsellor publishing preserves the draft after a transport failure and retries once @injected-network",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3331,
+          "startTime": "2026-10-14T06:34:39.090Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 234,
+      "title": "US39 real Web availability windows create, derive service starts and remove through the API",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4289,
+          "startTime": "2026-10-14T06:34:42.426Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 295,
+      "title": "[QA-106][US08-AC3] logout prevents browser history and protected deep-link access",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3749,
+          "startTime": "2026-10-14T06:34:46.720Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 332,
+      "title": "US45 implemented Web keyword search shows matching results and a recoverable empty state",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1615,
+          "startTime": "2026-10-14T06:34:50.472Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    }
+  ]
+}

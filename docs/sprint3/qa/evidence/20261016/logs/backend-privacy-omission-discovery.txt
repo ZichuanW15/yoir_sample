@@ -1,0 +1,123 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_partial_profile_omits_private_fields_instead_of_returning_empty_placeholders[guest] _
+
+client = <starlette.testclient.TestClient object at 0x10a30ff20>
+db_session = <sqlalchemy.orm.session.Session object at 0x10a524b60>
+counsellor = <app.models.User object at 0x10a377680>
+counsellor_headers = {'Authorization': 'Bearer [REDACTED_LOCAL_TEST_TOKEN]'}
+job_seeker_headers = {'Authorization': 'Bearer [REDACTED_LOCAL_TEST_TOKEN]'}
+requester = 'guest'
+
+    @pytest.mark.parametrize("requester", ["guest", "other-seeker"])
+    @pytest.mark.xfail(
+        strict=True,
+        raises=KnownAcceptanceDefect,
+        reason=(
+            "S3-BE-PRIVACY-FIELD-OMISSION: US-28 AC2 / QA #186; partial profiles "
+            "return empty private fields instead of omitting them from the API response"
+        ),
+    )
+    def test_partial_profile_omits_private_fields_instead_of_returning_empty_placeholders(
+        client, db_session, counsellor, counsellor_headers, job_seeker_headers, requester,
+    ):
+        counsellor.background = "Private biography"
+        counsellor.experience = "Private work history"
+        counsellor.qualifications = ["Private qualification"]
+        db_session.commit()
+        saved = client.patch(
+            "/api/v1/me/profile-visibility", headers=counsellor_headers,
+            json={"visibility": "partial"},
+        )
+        assert saved.status_code == 200, saved.text
+        own = client.get("/api/v1/me/counsellor-profile", headers=counsellor_headers)
+        assert own.status_code == 200
+        private_fields = {"background", "experience", "qualifications"}
+        assert all(own.json()[field] for field in private_fields)
+
+        response = client.get(
+            f"/api/v1/counsellors/{counsellor.id}",
+            headers={} if requester == "guest" else job_seeker_headers,
+        )
+        assert response.status_code == 200, response.text
+        data = response.json()
+        assert data["visibility"] == "partial"
+        # Actual private-value leakage or a failure to save privacy remains blocking.
+        assert all(not data.get(field) for field in private_fields)
+        retained = sorted(private_fields.intersection(data))
+        if retained:
+>           raise KnownAcceptanceDefect(f"Hidden field keys remain in partial response: {retained}")
+E           qa_acceptance.KnownAcceptanceDefect: Hidden field keys remain in partial response: ['background', 'experience', 'qualifications']
+
+tests/test_sprint3_privacy_contract_qa.py:49: KnownAcceptanceDefect
+------------------------------ Captured log setup ------------------------------
+WARNING  app.mail.sender:sender.py:59 Mail is NOT configured (MAILGUN_API_KEY and MAILGUN_DOMAIN missing): every message will be logged and discarded, including email confirmation and booking confirmations.
+_ test_partial_profile_omits_private_fields_instead_of_returning_empty_placeholders[other-seeker] _
+
+client = <starlette.testclient.TestClient object at 0x10a30ff20>
+db_session = <sqlalchemy.orm.session.Session object at 0x10a716690>
+counsellor = <app.models.User object at 0x10a716030>
+counsellor_headers = {'Authorization': 'Bearer [REDACTED_LOCAL_TEST_TOKEN]'}
+job_seeker_headers = {'Authorization': 'Bearer [REDACTED_LOCAL_TEST_TOKEN]'}
+requester = 'other-seeker'
+
+    @pytest.mark.parametrize("requester", ["guest", "other-seeker"])
+    @pytest.mark.xfail(
+        strict=True,
+        raises=KnownAcceptanceDefect,
+        reason=(
+            "S3-BE-PRIVACY-FIELD-OMISSION: US-28 AC2 / QA #186; partial profiles "
+            "return empty private fields instead of omitting them from the API response"
+        ),
+    )
+    def test_partial_profile_omits_private_fields_instead_of_returning_empty_placeholders(
+        client, db_session, counsellor, counsellor_headers, job_seeker_headers, requester,
+    ):
+        counsellor.background = "Private biography"
+        counsellor.experience = "Private work history"
+        counsellor.qualifications = ["Private qualification"]
+        db_session.commit()
+        saved = client.patch(
+            "/api/v1/me/profile-visibility", headers=counsellor_headers,
+            json={"visibility": "partial"},
+        )
+        assert saved.status_code == 200, saved.text
+        own = client.get("/api/v1/me/counsellor-profile", headers=counsellor_headers)
+        assert own.status_code == 200
+        private_fields = {"background", "experience", "qualifications"}
+        assert all(own.json()[field] for field in private_fields)
+
+        response = client.get(
+            f"/api/v1/counsellors/{counsellor.id}",
+            headers={} if requester == "guest" else job_seeker_headers,
+        )
+        assert response.status_code == 200, response.text
+        data = response.json()
+        assert data["visibility"] == "partial"
+        # Actual private-value leakage or a failure to save privacy remains blocking.
+        assert all(not data.get(field) for field in private_fields)
+        retained = sorted(private_fields.intersection(data))
+        if retained:
+>           raise KnownAcceptanceDefect(f"Hidden field keys remain in partial response: {retained}")
+E           qa_acceptance.KnownAcceptanceDefect: Hidden field keys remain in partial response: ['background', 'experience', 'qualifications']
+
+tests/test_sprint3_privacy_contract_qa.py:49: KnownAcceptanceDefect
+=============================== warnings summary ===============================
+tests/test_sprint3_privacy_contract_qa.py::test_partial_profile_omits_private_fields_instead_of_returning_empty_placeholders[guest]
+  /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+tests/test_sprint3_privacy_contract_qa.py::test_partial_profile_omits_private_fields_instead_of_returning_empty_placeholders[guest]
+  /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+tests/test_sprint3_privacy_contract_qa.py::test_partial_profile_omits_private_fields_instead_of_returning_empty_placeholders[guest]
+  /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/lib/python3.12/site-packages/alembic/config.py:604: DeprecationWarning: No path_separator found in configuration; falling back to legacy splitting on spaces, commas, and colons for prepend_sys_path.  Consider adding path_separator=os to Alembic config.
+    util.warn_deprecated(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-20261016/backend-privacy-omission-discovery/junit.xml -
+=========================== short test summary info ============================
+FAILED tests/test_sprint3_privacy_contract_qa.py::test_partial_profile_omits_private_fields_instead_of_returning_empty_placeholders[guest]
+FAILED tests/test_sprint3_privacy_contract_qa.py::test_partial_profile_omits_private_fields_instead_of_returning_empty_placeholders[other-seeker]
+2 failed, 3 warnings in 0.30s

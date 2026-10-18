@@ -1,0 +1,66 @@
+[
+  {
+    "name": "frontend-defects",
+    "command": [
+      "node",
+      "scripts/check_defect_report.cjs",
+      "--format",
+      "jest",
+      "--report",
+      "artifacts/qa/sprint3-meeting-area-20261017/frontend-defects/results.json",
+      "--outcome",
+      "failure"
+    ],
+    "exitCode": 0,
+    "stdout": "Defect report (jest): 4 passed, 20 failed, 0 skipped; 0 flaky, 20 failed attempts.\nAdvisory: completed defect assertions do not block CI; failed tests remain failed. Identifiable runtime/setup failures block this check; other failures still need review. This report check does not certify product acceptance or every fixture/setup failure.\n",
+    "stderr": ""
+  },
+  {
+    "name": "ios-defects",
+    "command": [
+      "node",
+      "scripts/check_defect_report.cjs",
+      "--format",
+      "jest",
+      "--report",
+      "artifacts/qa/sprint3-meeting-area-20261017/ios-defects/results.json",
+      "--outcome",
+      "failure"
+    ],
+    "exitCode": 0,
+    "stdout": "Defect report (jest): 4 passed, 21 failed, 0 skipped; 0 flaky, 21 failed attempts.\nAdvisory: completed defect assertions do not block CI; failed tests remain failed. Identifiable runtime/setup failures block this check; other failures still need review. This report check does not certify product acceptance or every fixture/setup failure.\n",
+    "stderr": ""
+  },
+  {
+    "name": "android-defects",
+    "command": [
+      "node",
+      "scripts/check_defect_report.cjs",
+      "--format",
+      "jest",
+      "--report",
+      "artifacts/qa/sprint3-meeting-area-20261017/android-defects/results.json",
+      "--outcome",
+      "failure"
+    ],
+    "exitCode": 0,
+    "stdout": "Defect report (jest): 4 passed, 21 failed, 0 skipped; 0 flaky, 21 failed attempts.\nAdvisory: completed defect assertions do not block CI; failed tests remain failed. Identifiable runtime/setup failures block this check; other failures still need review. This report check does not certify product acceptance or every fixture/setup failure.\n",
+    "stderr": ""
+  },
+  {
+    "name": "browser-defects",
+    "command": [
+      "node",
+      "scripts/check_defect_report.cjs",
+      "--format",
+      "playwright",
+      "--report",
+      "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "--outcome",
+      "failure"
+    ],
+    "exitCode": 0,
+    "stdout": "Defect report (playwright): 1 passed, 7 failed, 0 skipped; 0 flaky, 7 failed attempts.\nAdvisory: completed defect assertions do not block CI; failed tests remain failed. Identifiable runtime/setup failures block this check; other failures still need review. This report check does not certify product acceptance or every fixture/setup failure.\n",
+    "stderr": ""
+  }
+]

@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Mentor Communication Log
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Mentor-Communication-Log
-  Wiki commit: 28ebead (2026-09-18)
+  Wiki commit: 8fa8c88 (2026-10-18)
   Exported:    2026-09-18
 -->
 
@@ -42,10 +42,10 @@
 | Resend the When2Meet link in the group and lock an internal team meeting time | Manu | This week | Closed |
 | Start the project background and task breakdown pages on the wiki | Manu |  | Closed |
 | Set up the project board: columns, sprint archive, priority, size, estimate, due date | Manu |  | Closed |
-| Write the frontend requirements analysis | Ariz, James | Mid Sprint 1 | Under Review |
-| Write the backend requirements analysis | Evelyn, Jashan | Mid Sprint 1 | Under Review |
-| Arrange and run the alignment meeting with the other team's PO to confirm baseline scope | Jared | Mid Sprint 1 | Under Review |
-| Confirm the shared product backlog with the other team | Jared, Manu | End of Sprint 1 | In Progress |
-| Confirm QA and test documentation ownership | Zhenyang | Next meeting | Open |
-| Decide whether to request an early client meeting with Samuel | Team | Early next week | Open |
-| Check whether the subject budget covers GitHub Actions token costs | Erfan |  | Open |
+| Write the frontend requirements analysis | Ariz, James | Mid Sprint 1 | Closed |
+| Write the backend requirements analysis | Evelyn, Jashan | Mid Sprint 1 | Closed |
+| Arrange and run the alignment meeting with the other team's PO to confirm baseline scope | Jared | Mid Sprint 1 | Closed |
+| Confirm the shared product backlog with the other team | Jared, Manu | End of Sprint 1 | Closed |
+| Confirm QA and test documentation ownership | Zhenyang | Next meeting | Closed |
+| Decide whether to request an early client meeting with Samuel | Team | Early next week | Closed |
+| Check whether the subject budget covers GitHub Actions token costs | Erfan |  | Closed |

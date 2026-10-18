@@ -16,7 +16,7 @@ const seedPassword = 'password123';
 // database. These tests use no deployment, synthetic successful response, profile
 // route implementation, or direct database mutation. Chromium evidence is not
 // evidence that the native iOS/Android applications have been exercised.
-async function login(page: Page, email = seedEmail, password = seedPassword): Promise<Session> {
+async function login(page: Page, email = seedEmail, password = seedPassword, landing = /\/counsellor$/): Promise<Session> {
   await page.goto('/auth/login');
   await page.getByLabel('Email', { exact: true }).fill(email);
   await page.getByLabel('Password', { exact: true }).fill(password);
@@ -25,7 +25,7 @@ async function login(page: Page, email = seedEmail, password = seedPassword): Pr
   await page.getByRole('button', { name: 'Log in', exact: true }).click();
   const response = await reply;
   expect(response.status()).toBe(200);
-  await expect(page).toHaveURL(/\/counsellor$/);
+  await expect(page).toHaveURL(landing);
   return response.json();
 }
 
@@ -38,7 +38,6 @@ async function ownServices(request: APIRequestContext, accessToken: string): Pro
 }
 
 async function serviceDraft(page: Page, title: string, price: string) {
-  await page.getByRole('button', { name: 'New', exact: true }).click();
   await page.getByLabel('Service title', { exact: true }).fill(title);
   await page.getByLabel('Description', { exact: true }).fill(
     'A dedicated browser QA service for checking publication and price integrity.',
@@ -67,9 +66,14 @@ test('CURRENT-IMPLEMENTATION: newly registered counsellor receives publish 403 w
     name: 'Pending browser counsellor', email, password, passwordConfirmation: password, role: 'counsellor',
   } });
   expect(registered.status()).toBe(201);
-  const session = await login(page, email, password);
+  // US-05 sends a first-login counsellor to onboarding, which offers no route to
+  // service creation; a deep link still reaches the form, so the API must refuse.
+  const session = await login(page, email, password, /\/counsellor\/onboarding$/);
   expect(session.user.role).toBe('counsellor');
   expect(await ownServices(request, session.accessToken)).toEqual([]);
+  await page.goto('/counsellor');
+  await expect(page).toHaveURL(/\/counsellor\/onboarding$/);
+  await page.goto('/counsellor/services/new');
   const title = `Rejected pending publication ${randomUUID()}`;
   await serviceDraft(page, title, '70.50');
   const reply = page.waitForResponse(response => response.url().endsWith('/me/services')
@@ -121,6 +125,7 @@ test('DEF-MONEY-CENTS: real persisted cents remain visible in the marketplace an
 test('DEF-PRICE-SIGN: negative browser input must not publish a positive-price service @defect', async ({ page, request }) => {
   const session = await login(page);
   const title = `Negative price ${randomUUID()}`;
+  await page.getByRole('button', { name: 'New', exact: true }).click();
   await serviceDraft(page, title, '-70.50');
   const sentPrices: number[] = [];
   page.on('request', outgoing => {

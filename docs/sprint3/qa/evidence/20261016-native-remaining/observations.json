@@ -1,0 +1,638 @@
+[
+  {
+    "at": "2026-10-15T21:35:43.015Z",
+    "label": "ios-d01-01-new-counsellor-gate",
+    "observation": "D01 checkpoint: new counsellor correctly routes to Finish setting up your workspace; both Professional profile and Verification submission not done.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:38:25.535Z",
+    "label": "android-d01-01-new-counsellor-gate",
+    "observation": "New counsellor login routes to workspace setup; profile and verification are both Not done.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:39:22.285Z",
+    "label": "android-d01-02-incomplete-profile-validation",
+    "observation": "LinkedIn-only draft is rejected with introduction minimum 20-character message; no completion claimed.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:42:02.772Z",
+    "label": "android-d01-03-completed-workspace",
+    "observation": "After entering all required fields and returning to Workspace, full workspace is shown; service readback confirms all three completion flags true with pending verification.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:44:03.590Z",
+    "label": "android-d01-04-restart-restored",
+    "observation": "After force-stop and reopening local project through IDEA, saved an counsellor session restored to full workspace, verification pending and profile 4/5.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:45:19.993Z",
+    "label": "android-d01-05-relogin-restored",
+    "observation": "Explicit UI logout and same-account login (an) restored full workspace with pending verification and saved profile 4/5.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:46:28.425Z",
+    "label": "android-d01-06-failed-read-opens-workspace",
+    "observation": "FAIL: av incomplete onboarding (verification not submitted) logged in; delayed onboarding-state GET 503 produced Temporary QA connection failure toast yet full workspace, New service and Bookings controls rendered. Loading interim was blank welcome transition, no dedicated loading checkpoint saved.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:47:16.743Z",
+    "label": "android-d06-01-empty-url",
+    "observation": "Empty verification submit displays Enter your LinkedIn profile URL inline, remains pending.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:48:42.535Z",
+    "label": "android-d06-02-submission-failure-retains",
+    "observation": "Submitted valid linkedin.com/in/qa with targeted POST 503. Connection failure displayed; URL draft retained and status remains unsubmitted pending.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:48:52.103Z",
+    "label": "android-d06-03-retry-submitted",
+    "observation": "Retry submitted successfully: Sent to Platform Owner for review, first step checked, normalized https://linkedin.com/in/qa and Update my submission button.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:52:05.350Z",
+    "label": "android-d06-04-owner-pending",
+    "observation": "Owner aa opens av candidate: pending; submitted LinkedIn URL and seeded introduction/background/experience present.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:52:12.022Z",
+    "label": "android-d06-05-approve-confirmation",
+    "observation": "Approve opens explicit confirmation for QA Android Candidate; choose Cancel next.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:52:35.748Z",
+    "label": "android-d06-06-leave-pending",
+    "observation": "After cancelling Approve and choosing Leave pending, returned to Waiting queue containing candidate; no decision committed.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:53:04.075Z",
+    "label": "android-d06-07-empty-reason",
+    "observation": "Confirm rejection with empty reason stays on form and shows Say why, so the Career Professional knows what to change.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:54:13.577Z",
+    "label": "android-d06-08-decision-failure",
+    "observation": "Controlled decision POST 503 shows Temporary QA connection failure and retains Qa retry reason with Confirm rejection available.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:54:45.270Z",
+    "label": "android-d06-09-rejected",
+    "observation": "Retry persists Rejected and exact Qa retry reason with decided date.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:55:24.917Z",
+    "label": "android-d06-10-verified",
+    "observation": "Confirmed approval after rejection now displays Verified with decided date; reason no longer present.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:57:31.356Z",
+    "label": "android-d09-01-payment-list",
+    "observation": "Owner Payments lists Android fixture buyer/pro and Paid status, total84.50 pro76.05 Yoir8.45, confirmed and cancelled orders.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:57:48.165Z",
+    "label": "android-d09-02-payment-detail",
+    "observation": "Native owner detail shows Paid / Confirmed / Completed separately; Android Buyer and Pro, Oct13 Australia/Melbourne online session, total84.50 commission8.45 professional76.05.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:57:55.313Z",
+    "label": "android-d09-03-payment-reference",
+    "observation": "Payment reference qa-nr-android-completed-order visible with expected fixture frozen split.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:58:01.441Z",
+    "label": "android-d09-04-list-failure",
+    "observation": "First owner Bookings load returned injected503; transient QA error toast displayed, then empty-state text Nothing has been booked yet rather than retained error/retry control.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T21:58:30.463Z",
+    "label": "android-d09-05-list-recovery",
+    "observation": "Switching Payments then Bookings performs new successful load and populates list. No in-page Retry control was present on failed initial load.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:02:19.822Z",
+    "label": "android-d06-11-candidate-verified-workspace",
+    "observation": "Fresh candidate login shows Verified Career Professional on workspace, after owner approval. Toast separately shows QA connection failure; fault audit required and not a clean focus-refresh claim.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:02:44.085Z",
+    "label": "android-d06-12-candidate-profile",
+    "observation": "Candidate native Profile shows Verified Career Professional and normalized LinkedIn URL after fresh login. Prior toast dismissed; request audit shows no active fault and200profile/onboarding.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:03:53.234Z",
+    "label": "android-d06-13-profile-focus-refresh",
+    "observation": "Previously mounted Profile updated from Verified to Verification rejected when returning from Bookings after separate owner API fixture decision, no logout/reload.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:05:27.320Z",
+    "label": "android-d06-14-workspace-focus-refresh",
+    "observation": "After a separate QA owner fixture rejected the candidate, returning to the mounted workspace shows Verification rejected. Profile previously refreshed too. The old connection-error toast persists although these refresh requests succeeded.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:05:48.986Z",
+    "label": "android-d13-01-payout-state",
+    "observation": "Native Payouts page shows Payouts not set up, Charges pending, Payouts pending and explicitly states this build is not connected to Stripe. External provider onboarding is blocked and not exercised. No real bank/identity information entered.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:09:04.736Z",
+    "label": "android-d05-01-failed-save-retains",
+    "observation": "After editing current role to Qa tester, the injected profile PATCH503 shows a connection failure and retains the editable input. No success displayed.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:09:39.181Z",
+    "label": "android-d05-02-save-retry",
+    "observation": "Retried Save profile after503; error cleared and editor still shows Qa tester. Success response and persistence are checked independently.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:09:52.923Z",
+    "label": "android-d05-03-scoped-photo-picker",
+    "observation": "Android opens the system picker directly. It states Expo Go only receives selected photos; only the synthetic QA image is present. No separate deny-permission dialog was offered on this configured device.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:10:20.594Z",
+    "label": "android-d05-04-photo-cancelled",
+    "observation": "Dismissed system photo picker without selecting. Original initials avatar and Qa tester remain; no image selected.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:11:22.567Z",
+    "label": "android-d05-05-selected-photo-saved",
+    "observation": "Selected only the authorized synthetic QA image in Android scoped picker, confirmed crop, and saved profile. Preview shows the image with Qa tester. Image storage metadata is independently checked; this does not prove an upload service.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:13:02.415Z",
+    "label": "android-d05-06-restart-retained",
+    "observation": "Force-stopped Expo Go, reopened Yoir through IDEA and returned to Edit profile. The authorized QA image and Qa tester are restored for a1.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:14:43.016Z",
+    "label": "android-d08-01-upcoming",
+    "observation": "My sessions Coming up shows confirmed seeded online booking, Melbourne timezone, brief, Join session and receipt actions.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:14:51.054Z",
+    "label": "android-d08-02-browser-handoff",
+    "observation": "Join session hands off to Android Chrome at synthetic example.com URL. No real meeting provider or call tested.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:15:18.019Z",
+    "label": "android-d08-03-browser-return",
+    "observation": "Android back gesture returns from Chrome to existing authenticated Coming up booking list.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:15:36.735Z",
+    "label": "android-d08-04-inperson-detail",
+    "observation": "In-person booking detail shows exact synthetic address QA Test Room, Melbourne, Melbourne timezone and preparatory brief.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:16:24.553Z",
+    "label": "android-d08-05-missing-address",
+    "observation": "Missing exact in-person address displays explicit not-added-yet fallback, general Melbourne area and brief.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:17:51.362Z",
+    "label": "android-d08-06-past-cancelled",
+    "observation": "Past tab shows native-cancelled October24 booking plus seeded cancelled/completed October13 bookings; cancelled cards have receipt and no review/join.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:18:03.832Z",
+    "label": "android-d10-01-review-gating",
+    "observation": "Completed seeded booking offers Write a review while adjacent cancelled booking does not. Completion is fixture state, not scheduler evidence.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:18:38.432Z",
+    "label": "android-d10-02-rating-required",
+    "observation": "Submitting empty review displays Choose a star rating from 1 to 5 and stays on form.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:18:52.117Z",
+    "label": "android-d10-03-text-required",
+    "observation": "Rating5 retained; empty text submission displays Write a short review before submitting.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:19:56.239Z",
+    "label": "android-d10-04-failure-retains",
+    "observation": "One injected503 returns visible error, preserves rating5 and Qa native review text on form.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:20:29.597Z",
+    "label": "android-d10-05-doubletap-pending",
+    "observation": "Double-tapped Submit review against a3second delayed real response to inspect pending behavior; final persistence independently audited.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:20:52.015Z",
+    "label": "android-d10-06-service-rating",
+    "observation": "Successful retry returns public service page displaying service5.0/1reviews and counsellor5.0/1reviews.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:21:09.230Z",
+    "label": "android-d10-07-public-profile",
+    "observation": "Public QA Android Pro profile displays5.0/1reviews and full qualifications/background, Public baseline for D04.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:21:44.479Z",
+    "label": "android-d10-08-unrated-service",
+    "observation": "Never-reviewed service shows New on Yoir, no service score; counsellor aggregate remains separately5.0/1.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:23:23.149Z",
+    "label": "android-d07-01-service-before",
+    "observation": "Editable service native baseline: QA Android Editable Session, display $85; API price 8450.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:23:48.151Z",
+    "label": "android-d07-02-review-order",
+    "observation": "Native test order selected 24 October 16:00–17:00 Australia/Melbourne, Online, original service. Payment environment is local stub only.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:24:01.656Z",
+    "label": "android-d07-03-stub-confirmation",
+    "observation": "Native confirmation explicitly says no real money charged, local payment stub. Editable service Oct24 16–17 confirmed.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:24:11.487Z",
+    "label": "android-d13-02-stub-receipt",
+    "observation": "Confirmation has booking b4eb3216-d29f-42f7-adff-61cc6c32cb2a, stub payment and receipt YOIR-B4EB3216. Email wording visible but no inbox delivery proved.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:24:41.119Z",
+    "label": "android-d11-01-original-detail",
+    "observation": "Native online booking detail: Confirmed Oct24 10–11 Melbourne, pre-session brief, Join session and Reschedule present.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:25:01.236Z",
+    "label": "android-d11-02-valid-slot-list",
+    "observation": "Native reschedule excludes current 10–11 and occupied 11–12/in-person12–13, starts at13 after cancellation; confirm disabled without selection.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:25:17.488Z",
+    "label": "android-d11-03-write-failure",
+    "observation": "503 displays retry error; existing10–11 remains shown; slots refreshed and selection cleared, no false success.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:25:43.105Z",
+    "label": "android-d11-04-selected-before-race",
+    "observation": "14–15 selected in native UI before separate participant competes for the interval.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:26:07.107Z",
+    "label": "android-d11-05-real-conflict",
+    "observation": "Real competing14–15 booking caused This time is no longer available; old10–11 remains; occupied interval removed from freshly loaded choices.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:26:58.260Z",
+    "label": "android-d11-06-moved-detail",
+    "observation": "Native successful reschedule returned detail at Oct24 14–15 Melbourne, confirmed and brief retained.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:27:34.972Z",
+    "label": "android-d11-07-buyer-list",
+    "observation": "Returning buyer list now has rescheduled14–15 and editable16–17 confirmed sessions; ordering refreshed.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:27:48.671Z",
+    "label": "android-d07-04-receipt-before",
+    "observation": "Independent receipt before edit: YOIR-B4EB3216, QA Android Editable Session, Oct24 16:00, correct buyer/pro and AUD84.50.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:31:56.309Z",
+    "label": "android-d11-08-counsellor-detail",
+    "observation": "Counsellor ac opened the moved booking from My sessions; confirmed 24 October 2–3pm Australia/Melbourne with original buyer, online mode and brief.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:33:25.198Z",
+    "label": "android-d07-05-edit-draft",
+    "observation": "Native counsellor edit: append changed to service title and change current listing price from AUD84.50 to AUD100; existing paid booking baseline captured before edit.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:34:11.766Z",
+    "label": "android-d07-06-listing-edited",
+    "observation": "Counsellor workspace shows edited listing title changed and price $100.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:34:29.006Z",
+    "label": "android-d07-07-withdrawn",
+    "observation": "Native Delete confirmation stated existing bookings unaffected; confirmed on isolated disposable Editable service. Workspace count reduced from5 to4 and edited service removed.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:35:22.325Z",
+    "label": "android-d04-01-privacy-failure",
+    "observation": "Partial selection retained after controlled503; explicit temporary connection failure, Save remains available.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:37:19.760Z",
+    "label": "android-d04-02-failure-not-saved",
+    "observation": "Reopened privacy after failed Partial save: persisted Public remains selected.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:37:27.479Z",
+    "label": "android-d04-03-partial-saved",
+    "observation": "Retry saved Partial; selected value with Save disabled.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:39:01.660Z",
+    "label": "android-d04-04-partial-other-view",
+    "observation": "Buyer sees name and introduction; personal experience, location, languages and specialisations from Public baseline are hidden.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:39:14.345Z",
+    "label": "android-d07-08-public-withdrawal",
+    "observation": "Public pro lists four remaining services; Editable Session is absent after withdrawal.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:39:44.224Z",
+    "label": "android-d07-09-history-after-withdrawal",
+    "observation": "Buyer retained confirmed 24 October 16–17 booking after service withdrawal; title has mutated to changed listing name.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:39:56.491Z",
+    "label": "android-d07-10-receipt-after-withdrawal",
+    "observation": "Receipt YOIR-B4EB3216 remains accessible, same date/time and AUD84.50/no GST, but service title changes retroactively.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:41:21.041Z",
+    "label": "android-d01-07-loading-gate",
+    "observation": "Resolved workspace after delayed onboarding read. Earlier CUA immediate screenshot was blank; this saved PNG is already resolved, not loading evidence.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:42:06.673Z",
+    "label": "android-d04-05-restricted-saved",
+    "observation": "Restricted selected and saved for synthetic QA professional.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:45:39.581Z",
+    "label": "android-d04-06-restricted-visitor",
+    "observation": "Logged-out visitor opens professional deep link: This profile is restricted; no profile details displayed.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:46:05.906Z",
+    "label": "android-d07-11-withdrawn-direct-route",
+    "observation": "Withdrawn service deep link shows Service not found and no booking control.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:46:41.429Z",
+    "label": "android-d12-01-reset-missing-token",
+    "observation": "Empty reset form submit with no token shows missing reset code; no new password entered.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:47:43.620Z",
+    "label": "android-d13-04-invalid-verify-link",
+    "observation": "Synthetic invalid verification token opens expired-link screen with resend and sign-in options; not actual email delivery.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:49:34.241Z",
+    "label": "android-d04-07-restricted-other-account",
+    "observation": "Signed-in a2 opens QA Android Pro: restricted screen; no profile details. Existing Booking not found toast from retained prior navigation is separate.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:49:59.976Z",
+    "label": "android-d08-07-other-coming-up",
+    "observation": "a2 Coming up is empty after switching from a1. Persistent old-route Booking not found toast is separate from empty own list.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:50:16.217Z",
+    "label": "android-d08-08-other-past",
+    "observation": "a2 Past contains only its cancelled competing booking at 14:00-15:00, no a1 bookings.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:50:42.196Z",
+    "label": "android-d05-07-other-profile-isolation",
+    "observation": "a2 edit profile shows own name/email, placeholder avatar, empty role/goals; no a1 Qa tester name or uploaded test avatar.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:52:26.704Z",
+    "label": "android-d11-08-other-booking-denied",
+    "observation": "a2 opens a1 move-booking link. Booking details shows Booking not found and Try again, no booking data or reschedule controls.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:53:57.112Z",
+    "label": "android-d04-08-public-restored",
+    "observation": "ac restored Public and native success confirmation appeared.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:54:54.091Z",
+    "label": "android-d01-09-pending-onboarding",
+    "observation": "After force-stop/reopen with one delayed onboarding read, native UI captured before workspace resolution; inspect this capture and request timestamps for pending state.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:55:21.724Z",
+    "label": "android-d01-10-loading-resolved",
+    "observation": "The delayed onboarding read completed and Workspace appeared with verified status and 5/5 profile.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:55:36.976Z",
+    "label": "android-d04-09-public-after-restart",
+    "observation": "Public remains selected after force-stop and fresh app restart.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:57:40.595Z",
+    "label": "android-d13-05-tax-readonly",
+    "observation": "Local Payouts shows not set up, Charges/Payouts pending; tax section states build not connected to Stripe/no real payouts. ABN empty placeholder; Not registered and no GST text. No setup, tax entry or save action.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T22:59:46.056Z",
+    "label": "android-d04-10-public-visitor-restored",
+    "observation": "After saving Public visibility, force-stopping and reopening Expo Go, then logging out, the anonymous professional page shows introduction, LinkedIn link, qualifications, skills, languages and background again.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:00:58.074Z",
+    "label": "android-d06-14-users-before-decision",
+    "observation": "Owner Users tab initially shows QA Android Candidate / av@example.com as Verified.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:03:13.073Z",
+    "label": "android-d06-15-users-refocused-rejected",
+    "observation": "After native owner rejects the synthetic candidate with Qa refresh, switching directly back to the already visited Users tab shows Rejected without reload or pull-to-refresh.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:05:17.064Z",
+    "label": "android-d06-16-users-refocused-approved",
+    "observation": "After native owner reapproves QA Android Candidate, direct return to mounted Users displays Verified again without manual refresh.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:06:54.763Z",
+    "label": "android-d09-07-owner-completed-list",
+    "observation": "Owner bookings list displays seeded Android completed review session, other platforms distinguishable; cards do not open a detail on title tap.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:07:29.757Z",
+    "label": "android-d09-08-payment-success-before-refocus",
+    "observation": "Native owner payments read succeeds: cancelled competing Android order and confirmed edited Android order have Paid and $84.50/$67.60/$16.90 splits.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:08:01.295Z",
+    "label": "android-d09-09-payment-refocus-failed",
+    "observation": "After successful Payments list, switching Users→Payments triggers injected503; native screen shows error toast and Try again, no false empty platform message and no stale cards.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:08:07.444Z",
+    "label": "android-d09-10-payment-refocus-recovered",
+    "observation": "Try again restores native owner payment cards with current cancelled/confirmed statuses and unchanged money splits.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:09:33.093Z",
+    "label": "android-d09-11-owner-cancelled-order",
+    "observation": "Native owner payment detail for qa-nr-android-missing-order shows Payment Paid, Order Cancelled, Session Cancelled, Android Buyer/Pro, Oct24 13:00 Melbourne, In person, $84.50 price/$8.45 commission/$76.05 pro amount after native buyer cancellation.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:09:46.630Z",
+    "label": "android-d09-12-cancelled-order-money",
+    "observation": "Native owner cancelled-order detail retains $84.50/$8.45/$76.05 and payment reference qa-nr-android-missing-order. No refund field is displayed on this screen; refund API value is separate evidence.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:10:18.764Z",
+    "label": "android-d11-09-owner-rescheduled-detail",
+    "observation": "Native owner payment detail shows Android Buyer/Pro rescheduled Oct24 14:00 Melbourne Online, Paid/Confirmed/Confirmed, $84.50/$8.45/$76.05, consistent with successful native reschedule and unchanged seeded order amount.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:14:17.777Z",
+    "label": "android-d13-07-unverified-banner",
+    "observation": "Unverified au account Explore displays confirm-email banner and Resend before requests. Local mock mail provider is absent; banner wording does not prove inbox delivery.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:14:30.351Z",
+    "label": "android-d13-08-resend-double-tap",
+    "observation": "Double-tapped Resend with first request deliberately delayed 3 seconds; final UI says new link sent and hides Resend. Request count must be correlated with service audit; no real email provider configured.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:14:43.499Z",
+    "label": "android-d13-09-notifications-ui",
+    "observation": "Notification bell opens empty UI with You are all caught up and future booking updates wording. This is UI-only; absent notification backend is not delivery acceptance.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:15:16.016Z",
+    "label": "android-d13-10-missing-verification-token",
+    "observation": "Opened /auth/verify without token through local Chrome deep-link navigation; native UI reports missing confirmation code and offers email/new-link form. Not a real received inbox link.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:15:54.601Z",
+    "label": "android-d12-02-empty-reset-email",
+    "observation": "Blank reset request is rejected with Enter the email you signed up with; form remains.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:16:55.980Z",
+    "label": "android-d12-03-invalid-reset-email",
+    "observation": "Malformed email bad rejected: The request could not be validated; input retained.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:17:58.680Z",
+    "label": "android-d12-04-reset-request-503",
+    "observation": "Single injected HTTP 503 reset request shows Temporary QA connection failure and retains au@example.com. This is a server-response failure, not an offline transport test.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:18:14.742Z",
+    "label": "android-d12-05-reset-known-success",
+    "observation": "Retry for registered au@example.com returns generic Check your inbox: If this email has a Yoir account. Local request success only; actual inbox receipt untested.",
+    "screenshot": true
+  },
+  {
+    "at": "2026-10-15T23:20:00.929Z",
+    "label": "android-d12-06-reset-unknown-success",
+    "observation": "Unregistered synthetic no@example.com returns same generic Check your inbox wording as registered au. Read-only DB precheck confirms absent account. No real mail sent or password changed.",
+    "screenshot": true
+  }
+]

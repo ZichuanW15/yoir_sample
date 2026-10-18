@@ -1,0 +1,36 @@
+{
+  "at": "2026-10-15T22:26:22.416724+00:00",
+  "scope": "Competing booking prerequisite through real API using development payment stub; not native checkout or provider evidence.",
+  "platform": "android",
+  "userId": "qa-nr-android-other",
+  "action": "cancel",
+  "cancel": {
+    "status": 200,
+    "data": {
+      "booking": {
+        "id": "6dce94cc-fd6a-4c62-aaca-4a12b79384f6",
+        "orderId": "b6542596-cabf-4b0d-ab07-8a51a0de82aa",
+        "serviceId": "qa-nr-android-move-service",
+        "serviceTitle": "QA Android Reschedule Session",
+        "startsAt": "2026-10-24T03:00:00Z",
+        "endsAt": "2026-10-24T04:00:00Z",
+        "timezone": "Australia/Melbourne",
+        "modality": "online",
+        "status": "cancelled",
+        "paymentStatus": "paid",
+        "amountMinor": 8450,
+        "refundedMinor": 0,
+        "cancelledByRole": "job_seeker",
+        "meetingUrl": "https://meet.jit.si/yoir-6dce94ccfd6a4c62aaca4a12b79384f6",
+        "counterpartyName": "",
+        "counterpartyRole": null,
+        "meetingArea": "",
+        "meetingAddress": "",
+        "preSessionBrief": "Temporary QA competing reservation for native reschedule conflict.",
+        "review": null
+      },
+      "refundedMinor": 0,
+      "currency": "AUD"
+    }
+  }
+}

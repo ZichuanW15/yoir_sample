@@ -1,0 +1,22 @@
+
+> yoir-mobile@0.1.0 test:ci
+> jest --ci --runInBand --runTestsByPath __tests__/screens/focus-refresh.test.tsx --json --outputFile=../artifacts/qa/sprint3-completion-20261016/focus-refresh-final/results.json
+
+PASS __tests__/screens/focus-refresh.test.tsx
+  ✓ QA-210 payment refresh failure clears formerly loaded rows and retry uses new data (111 ms)
+  QA-195/198 same-mounted counsellor focus refresh
+    ✓ profile replaces a prior status with confirmed pending after returning (75 ms)
+    ✓ profile replaces a prior status with confirmed verified after returning (62 ms)
+    ✓ profile replaces a prior status with confirmed rejected after returning (60 ms)
+    ✓ workspace replaces a prior status with confirmed pending after returning (61 ms)
+    ✓ workspace replaces a prior status with confirmed verified after returning (60 ms)
+    ✓ workspace replaces a prior status with confirmed rejected after returning (61 ms)
+    ✓ profile marks previously verified status unavailable on focus failure, then recovers (74 ms)
+    ✓ returning focus does not overwrite an unsaved profile draft (62 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       9 passed, 9 total
+Snapshots:   0 total
+Time:        1.149 s
+Ran all test suites within paths "__tests__/screens/focus-refresh.test.tsx".
+Test results written to: ../artifacts/qa/sprint3-completion-20261016/focus-refresh-final/results.json

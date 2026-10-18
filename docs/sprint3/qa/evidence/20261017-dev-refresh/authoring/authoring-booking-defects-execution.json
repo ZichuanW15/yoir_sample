@@ -1,0 +1,18 @@
+{
+  "command": [
+    "/opt/homebrew/opt/node@20/bin/node",
+    "node_modules/jest/bin/jest.js",
+    "--ci",
+    "--runInBand",
+    "--config",
+    "jest.config.defects.js",
+    "--runTestsByPath",
+    "__tests__/defects/sprint3-reschedule-acceptance.test.tsx",
+    "--json",
+    "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-dev-refresh-20261017/authoring-booking/defects.json"
+  ],
+  "cwd": "frontend",
+  "startedAt": "2026-10-17T06:31:59.086379+00:00",
+  "finishedAt": "2026-10-17T06:32:00.535608+00:00",
+  "exitCode": 1
+}

@@ -2,8 +2,8 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Sprint 2 Planning
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Planning
-  Wiki commit: d87dc66 (2026-09-19)
-  Exported:    2026-09-19
+  Wiki commit: d6cf91f (2026-10-08)
+  Exported:    2026-10-08
 -->
 
 # Sprint 2 Planning
@@ -132,4 +132,4 @@ These arrived in Sprint 2 alongside the committed scope. They are not claimed as
 - **Board:** all 20 stories and their sub-issues sit in the Sprint 2 column. Per-story acceptance evidence and open gaps are in the [Sprint 2 Review & Client Feedback](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Review-and-Client-Feedback), the [Sprint 2 Test Approach](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Test-Approach), and the per-story [frontend](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/tree/dev/docs/sprint2/frontend) and [backend](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/tree/dev/docs/sprint2/backend) documentation.
 - **Carried into Sprint 3:** estimate US-09–13 and build the diagnosis-to-booking slice first; import the client's question workbook; fix the overlapping-slot bug; confirm with the client whether payouts run through Stripe or manually.
 - **Board, 19 September:** US-09–13 moved to the Sprint 3 iteration; their front-end sub-issues are In Progress. The Sprint field's dates now match the schedule: Sprint 2 ends 20 September and Sprint 3 runs 21 September – 18 October.
-- **Still to record for Sprint 2:** the sprint retrospective.
+- **Sprint 2 retrospective:** held on 7 October 2026 and recorded in [Sprint 2 Retrospective](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Retrospective).

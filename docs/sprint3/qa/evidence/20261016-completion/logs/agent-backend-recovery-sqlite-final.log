@@ -1,0 +1,22 @@
+........................................................................ [ 87%]
+..........                                                               [100%]
+=============================== warnings summary ===============================
+.venv/lib/python3.12/site-packages/fastapi/testclient.py:1
+  /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/lib/python3.12/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+.venv/lib/python3.12/site-packages/starlette/testclient.py:53
+  /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/lib/python3.12/site-packages/starlette/testclient.py:53: DeprecationWarning: The anyio.abc.BlockingPortal alias is deprecated, use anyio.from_thread.BlockingPortal instead.
+    _PortalFactoryType = Callable[[], AbstractContextManager[anyio.abc.BlockingPortal]]
+
+tests/test_sprint3_recovery_boundaries_qa.py::test_signed_success_recovers_intent_metadata_when_its_id_was_not_persisted
+  /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/backend/.venv/lib/python3.12/site-packages/alembic/config.py:604: DeprecationWarning: No path_separator found in configuration; falling back to legacy splitting on spaces, commas, and colons for prepend_sys_path.  Consider adding path_separator=os to Alembic config.
+    util.warn_deprecated(
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-completion-20261016/agent-backend-recovery/junit-final.xml -
+================================ tests coverage ================================
+______________ coverage: platform darwin, python 3.12.14-final-0 _______________
+
+Coverage JSON written to file ../artifacts/qa/sprint3-completion-20261016/agent-backend-recovery/coverage.json
+82 passed, 3 warnings in 4.55s

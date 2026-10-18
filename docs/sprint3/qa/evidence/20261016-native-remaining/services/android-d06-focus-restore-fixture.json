@@ -1,0 +1,112 @@
+{
+  "at": "2026-10-15T22:05:41.990567+00:00",
+  "scope": "Explicit independent owner API fixture restore after native focus-refresh observation. Not a native owner action. No email provider configured.",
+  "actor": "qa-nr-android-owner",
+  "path": "/admin/verifications/qa-nr-android-candidate/decision",
+  "before": {
+    "status": 200,
+    "data": {
+      "id": "qa-nr-android-candidate",
+      "counsellorId": "qa-nr-android-candidate",
+      "counsellorName": "QA Android Candidate",
+      "email": "av@example.com",
+      "linkedInUrl": "https://linkedin.com/in/qa",
+      "introduction": "Android QA introduction",
+      "background": "Android QA background",
+      "experience": "Android QA experience",
+      "status": "rejected",
+      "submittedAt": "2026-10-15T21:48:42.749136Z",
+      "decidedAt": "2026-10-15T22:03:09.279932Z",
+      "decisionReason": "QA focus refresh"
+    }
+  },
+  "requestBody": {
+    "decision": "verified",
+    "reason": ""
+  },
+  "result": {
+    "status": 200,
+    "data": {
+      "id": "qa-nr-android-candidate",
+      "counsellorId": "qa-nr-android-candidate",
+      "counsellorName": "QA Android Candidate",
+      "email": "av@example.com",
+      "linkedInUrl": "https://linkedin.com/in/qa",
+      "introduction": "Android QA introduction",
+      "background": "Android QA background",
+      "experience": "Android QA experience",
+      "status": "verified",
+      "submittedAt": "2026-10-15T21:48:42.749136Z",
+      "decidedAt": "2026-10-15T22:05:41.986793Z",
+      "decisionReason": null
+    }
+  },
+  "after": {
+    "status": 200,
+    "data": {
+      "id": "qa-nr-android-candidate",
+      "counsellorId": "qa-nr-android-candidate",
+      "counsellorName": "QA Android Candidate",
+      "email": "av@example.com",
+      "linkedInUrl": "https://linkedin.com/in/qa",
+      "introduction": "Android QA introduction",
+      "background": "Android QA background",
+      "experience": "Android QA experience",
+      "status": "verified",
+      "submittedAt": "2026-10-15T21:48:42.749136Z",
+      "decidedAt": "2026-10-15T22:05:41.986793Z",
+      "decisionReason": null
+    }
+  },
+  "candidateReadsAfterRejectedFixture": [
+    {
+      "at": "2026-10-15T22:03:29.550789+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/counsellor-profile",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:03:53.679781+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/counsellor-profile",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:03:53.680237+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/payout-status",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:03:53.680449+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/onboarding-state",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:03:53.680746+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/services",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:03:53.681231+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/availability-windows",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:05:28.040221+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/payout-status",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    }
+  ]
+}

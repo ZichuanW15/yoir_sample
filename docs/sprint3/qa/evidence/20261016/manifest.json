@@ -1,0 +1,930 @@
+{
+  "packagedAt": "2026-10-15T20:21:52.207884+00:00",
+  "files": [
+    {
+      "path": "logs/backend-api-delta-validation.txt",
+      "sha256": "09012bf56fe68f88c6521005f63023f94fa8f2a9a18744c553a70d7ed3bc0afa",
+      "bytes": 2631,
+      "source": "artifacts/qa/sprint3-20261016/backend-api-delta-validation/console.txt",
+      "sourceSha256": "09012bf56fe68f88c6521005f63023f94fa8f2a9a18744c553a70d7ed3bc0afa"
+    },
+    {
+      "path": "logs/backend-compile.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source": "artifacts/qa/sprint3-20261016/backend-compile/console.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "logs/backend-postgres.txt",
+      "sha256": "fe383bb382722171b4caa64305b8b82a3f9830ff86b75d28101b2525c3d4728f",
+      "bytes": 13499,
+      "source": "artifacts/qa/sprint3-20261016/backend-postgres/console.txt",
+      "sourceSha256": "fe383bb382722171b4caa64305b8b82a3f9830ff86b75d28101b2525c3d4728f"
+    },
+    {
+      "path": "logs/backend-postgres-final.txt",
+      "sha256": "75d7d734c1de614c1652efb84030ff7422004b95a85c59b896d8bf4fb4917b96",
+      "bytes": 14164,
+      "source": "artifacts/qa/sprint3-20261016/backend-postgres-final/console.txt",
+      "sourceSha256": "75d7d734c1de614c1652efb84030ff7422004b95a85c59b896d8bf4fb4917b96"
+    },
+    {
+      "path": "logs/backend-privacy-final.txt",
+      "sha256": "2c5a8d3e304b8e574880a907efc516f020b8215429464184b6ef3bd84aa5fbb0",
+      "bytes": 1766,
+      "source": "artifacts/qa/sprint3-20261016/backend-privacy-final/console.txt",
+      "sourceSha256": "2c5a8d3e304b8e574880a907efc516f020b8215429464184b6ef3bd84aa5fbb0"
+    },
+    {
+      "path": "logs/backend-privacy-focused.txt",
+      "sha256": "f1e8ac760bb92c7551607eb5fe630669b99546261da30ec33cfc56c2a7733ca6",
+      "bytes": 10559,
+      "source": "artifacts/qa/sprint3-20261016/backend-privacy-focused/console.txt",
+      "sourceSha256": "8d74618c1638d7736e477bc5da8c168c9e3e53ac2a90dc6d6eff7791d06a0929",
+      "publicationRedaction": {
+        "kind": "truncated local test Authorization bearer fragments",
+        "occurrences": 6,
+        "originalPackagedSha256": "8d74618c1638d7736e477bc5da8c168c9e3e53ac2a90dc6d6eff7791d06a0929",
+        "originalPackagedBytes": 11693,
+        "outcomesChanged": false
+      },
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "aad5c51d46e535fc55b3bcd071ce76e350b55136a99ebb74095e96dd34bb2445",
+        "previousPackagedBytes": 10583,
+        "trailingWhitespaceLinesRemoved": 6,
+        "extraEofNewlinesRemoved": 0,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "logs/backend-privacy-omission-discovery.txt",
+      "sha256": "a39788c990d6b822f1ab88ba34d79abe267ff8dd1d845e6fbe968dbd1a7cec0c",
+      "bytes": 7570,
+      "source": "artifacts/qa/sprint3-20261016/backend-privacy-omission-discovery/console.txt",
+      "sourceSha256": "1f5f00163691be80247680ed0748a4efb4a9c3d3ea22dfdc67821b50b53627bb",
+      "publicationRedaction": {
+        "kind": "truncated local test Authorization bearer fragments",
+        "occurrences": 4,
+        "originalPackagedSha256": "1f5f00163691be80247680ed0748a4efb4a9c3d3ea22dfdc67821b50b53627bb",
+        "originalPackagedBytes": 8318,
+        "outcomesChanged": false
+      },
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "18ae5b2c2d7beb2e5b0bddde91dceaee786e1eb6d3372cc61a209017cfce0196",
+        "previousPackagedBytes": 7578,
+        "trailingWhitespaceLinesRemoved": 2,
+        "extraEofNewlinesRemoved": 0,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "logs/backend-quality-final.txt",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19,
+      "source": "artifacts/qa/sprint3-20261016/backend-quality-final/console.txt",
+      "sourceSha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "logs/backend-review-concurrency-cause.txt",
+      "sha256": "8650e7c686d76bc361dfb8ed3d7e0ed07b3abcc58e42ab75d9ef5df9f8382275",
+      "bytes": 17630,
+      "source": "artifacts/qa/sprint3-20261016/backend-review-concurrency-cause/console.txt",
+      "sourceSha256": "fc2c21362c8ba11af7f8db5ce01900f008644888c1fd8ffff56b2a4a9f91c4b0",
+      "publicationRedaction": {
+        "kind": "truncated local test Authorization bearer fragments",
+        "occurrences": 3,
+        "originalPackagedSha256": "fc2c21362c8ba11af7f8db5ce01900f008644888c1fd8ffff56b2a4a9f91c4b0",
+        "originalPackagedBytes": 18213,
+        "outcomesChanged": false
+      },
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "367060592d88dfc6d3544aa7ff002941aab3c63c59926862214ec49c9f0b8111",
+        "previousPackagedBytes": 17658,
+        "trailingWhitespaceLinesRemoved": 7,
+        "extraEofNewlinesRemoved": 0,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "logs/backend-review-concurrency-discovery.txt",
+      "sha256": "258ed87a44433c840c8af74f1f0ad7e446542f63a8b5088682d58d8942ad3b3b",
+      "bytes": 11617,
+      "source": "artifacts/qa/sprint3-20261016/backend-review-concurrency-discovery/console.txt",
+      "sourceSha256": "b5300babbd9ed96b69244eb3cd9a172e9836083faa3c83e80219b8072f299161",
+      "publicationRedaction": {
+        "kind": "truncated local test Authorization bearer fragments",
+        "occurrences": 3,
+        "originalPackagedSha256": "b5300babbd9ed96b69244eb3cd9a172e9836083faa3c83e80219b8072f299161",
+        "originalPackagedBytes": 12227,
+        "outcomesChanged": false
+      },
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "1d75d0c02720abc3806c964032c49d7e6dd180fce6999b2bb936fd94ff0278ac",
+        "previousPackagedBytes": 11672,
+        "trailingWhitespaceLinesRemoved": 10,
+        "extraEofNewlinesRemoved": 0,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "logs/backend-review-concurrency-final.txt",
+      "sha256": "c606f105de1a7cff88a96c31f1877886bc6e152b78088b9ecf6c1ad9ea58ba4c",
+      "bytes": 3402,
+      "source": "artifacts/qa/sprint3-20261016/backend-review-concurrency-final/console.txt",
+      "sourceSha256": "c606f105de1a7cff88a96c31f1877886bc6e152b78088b9ecf6c1ad9ea58ba4c"
+    },
+    {
+      "path": "logs/backend-ruff.txt",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19,
+      "source": "artifacts/qa/sprint3-20261016/backend-ruff/console.txt",
+      "sourceSha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "logs/board-tooling.txt",
+      "sha256": "0574891e0b974c7a6c3835dbefd4c8ad487911451cda80deef1df3bc69536063",
+      "bytes": 6671,
+      "source": "artifacts/qa/sprint3-20261016/board-tooling/console.txt",
+      "sourceSha256": "0574891e0b974c7a6c3835dbefd4c8ad487911451cda80deef1df3bc69536063"
+    },
+    {
+      "path": "logs/browser-defects.txt",
+      "sha256": "751dc715b872a9512aecc7ddb7426b83cfa3be200b26076914c7dbd62669a174",
+      "bytes": 21657,
+      "source": "artifacts/qa/sprint3-20261016/browser-defects/console.txt",
+      "sourceSha256": "765e3fce218951489674769c9306d191599016039fb832e774c369c8badc4cb1",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "765e3fce218951489674769c9306d191599016039fb832e774c369c8badc4cb1",
+        "previousPackagedBytes": 21667,
+        "trailingWhitespaceLinesRemoved": 10,
+        "extraEofNewlinesRemoved": 0,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "logs/browser-regression.txt",
+      "sha256": "c4723a3946430b409b0b5411564706ecaaa8837163be6e1c9f9d8f9983c28fea",
+      "bytes": 4040,
+      "source": "artifacts/qa/sprint3-20261016/browser-regression/console.txt",
+      "sourceSha256": "c4723a3946430b409b0b5411564706ecaaa8837163be6e1c9f9d8f9983c28fea"
+    },
+    {
+      "path": "logs/cleanup-postgres.txt",
+      "sha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d",
+      "bytes": 56,
+      "source": "artifacts/qa/sprint3-20261016/cleanup-postgres/console.txt",
+      "sourceSha256": "ca19178a35ab4153b75b494963b66ce8243e1b94c173107c87b44d09db23652d"
+    },
+    {
+      "path": "logs/defect-health-android.txt",
+      "sha256": "d0af6d2107db65c855d5464285ca28876853e485f701d3c430ccf0dc495922c9",
+      "bytes": 340,
+      "source": "artifacts/qa/sprint3-20261016/defect-health-android/console.txt",
+      "sourceSha256": "d0af6d2107db65c855d5464285ca28876853e485f701d3c430ccf0dc495922c9"
+    },
+    {
+      "path": "logs/defect-health-browser.txt",
+      "sha256": "6707e375c1228dff6879fda23329ccc50773e822fd56d849853f0c927dcb7cdf",
+      "bytes": 344,
+      "source": "artifacts/qa/sprint3-20261016/defect-health-browser/console.txt",
+      "sourceSha256": "6707e375c1228dff6879fda23329ccc50773e822fd56d849853f0c927dcb7cdf"
+    },
+    {
+      "path": "logs/defect-health-ios.txt",
+      "sha256": "d0af6d2107db65c855d5464285ca28876853e485f701d3c430ccf0dc495922c9",
+      "bytes": 340,
+      "source": "artifacts/qa/sprint3-20261016/defect-health-ios/console.txt",
+      "sourceSha256": "d0af6d2107db65c855d5464285ca28876853e485f701d3c430ccf0dc495922c9"
+    },
+    {
+      "path": "logs/defect-health-shared.txt",
+      "sha256": "a53dce11df39bafd88dc83aaabd642a9ba0cdb371c16e4fbf80ec12335ca6723",
+      "bytes": 340,
+      "source": "artifacts/qa/sprint3-20261016/defect-health-shared/console.txt",
+      "sourceSha256": "a53dce11df39bafd88dc83aaabd642a9ba0cdb371c16e4fbf80ec12335ca6723"
+    },
+    {
+      "path": "logs/defect-report-health.txt",
+      "sha256": "631934a1d2643281b1ad8e322746242f885400a3d5a17d2b377f8d3461f753b8",
+      "bytes": 1364,
+      "source": "artifacts/qa/sprint3-20261016/defect-report-health/console.txt",
+      "sourceSha256": "631934a1d2643281b1ad8e322746242f885400a3d5a17d2b377f8d3461f753b8"
+    },
+    {
+      "path": "logs/frontend-admin-title-final-android.txt",
+      "sha256": "1b32bc1477a550e28839d8a410a2f7b8fcc6acd1c40d49ce814dff698d623b57",
+      "bytes": 1751,
+      "source": "artifacts/qa/sprint3-20261016/frontend-admin-title-final-android/console.txt",
+      "sourceSha256": "1b32bc1477a550e28839d8a410a2f7b8fcc6acd1c40d49ce814dff698d623b57"
+    },
+    {
+      "path": "logs/frontend-admin-title-final-ios.txt",
+      "sha256": "e90db47fef49a652b4dbf7ffd4971680f3012595d78b08f342ff71f6c3b23ded",
+      "bytes": 1731,
+      "source": "artifacts/qa/sprint3-20261016/frontend-admin-title-final-ios/console.txt",
+      "sourceSha256": "e90db47fef49a652b4dbf7ffd4971680f3012595d78b08f342ff71f6c3b23ded"
+    },
+    {
+      "path": "logs/frontend-admin-title-final-shared.txt",
+      "sha256": "c5c1b8127ae86c99f88fd00c466e42408f23cb6b1702817a318d70f5336470a9",
+      "bytes": 1708,
+      "source": "artifacts/qa/sprint3-20261016/frontend-admin-title-final-shared/console.txt",
+      "sourceSha256": "c5c1b8127ae86c99f88fd00c466e42408f23cb6b1702817a318d70f5336470a9"
+    },
+    {
+      "path": "logs/frontend-android.txt",
+      "sha256": "22c636ea9b82159d1e03740c057e27a85827a475fb4d7a0cf335c2ded2470bd1",
+      "bytes": 4107,
+      "source": "artifacts/qa/sprint3-20261016/frontend-android/console.txt",
+      "sourceSha256": "22c636ea9b82159d1e03740c057e27a85827a475fb4d7a0cf335c2ded2470bd1"
+    },
+    {
+      "path": "logs/frontend-android-defects.txt",
+      "sha256": "a59dd7643dc0e7dbdc68163aef1bfa60b3d3a3541d040d613184fd2dc68b5124",
+      "bytes": 13082,
+      "source": "artifacts/qa/sprint3-20261016/frontend-android-defects/console.txt",
+      "sourceSha256": "a59dd7643dc0e7dbdc68163aef1bfa60b3d3a3541d040d613184fd2dc68b5124"
+    },
+    {
+      "path": "logs/frontend-android-defects-final.txt",
+      "sha256": "6997c929042d6330d728296518ca3273a988a7717f62001d9594e341f0bbde0a",
+      "bytes": 14663,
+      "source": "artifacts/qa/sprint3-20261016/frontend-android-defects-final/console.txt",
+      "sourceSha256": "6997c929042d6330d728296518ca3273a988a7717f62001d9594e341f0bbde0a"
+    },
+    {
+      "path": "logs/frontend-ios.txt",
+      "sha256": "ff0e7087cb8de057f202350fd2fbaeeaf842ec8a2e56d93d0b90e7488872561a",
+      "bytes": 3864,
+      "source": "artifacts/qa/sprint3-20261016/frontend-ios/console.txt",
+      "sourceSha256": "ff0e7087cb8de057f202350fd2fbaeeaf842ec8a2e56d93d0b90e7488872561a"
+    },
+    {
+      "path": "logs/frontend-ios-defects.txt",
+      "sha256": "aec15d2e1acb7be072b77e9157f0ccb8caa4055971db6f5180114e53927b8d88",
+      "bytes": 13030,
+      "source": "artifacts/qa/sprint3-20261016/frontend-ios-defects/console.txt",
+      "sourceSha256": "aec15d2e1acb7be072b77e9157f0ccb8caa4055971db6f5180114e53927b8d88"
+    },
+    {
+      "path": "logs/frontend-ios-defects-final.txt",
+      "sha256": "6ee9e0d5bfd2aab7e2f18aab6222c844401d820e13b454d96a28e2a548c7e85b",
+      "bytes": 14607,
+      "source": "artifacts/qa/sprint3-20261016/frontend-ios-defects-final/console.txt",
+      "sourceSha256": "6ee9e0d5bfd2aab7e2f18aab6222c844401d820e13b454d96a28e2a548c7e85b"
+    },
+    {
+      "path": "logs/frontend-lint.txt",
+      "sha256": "b0d139fb9ee6b501b6c9166c07126de5c63fe59e4d9170762e12a6b77792cb26",
+      "bytes": 38,
+      "source": "artifacts/qa/sprint3-20261016/frontend-lint/console.txt",
+      "sourceSha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd",
+        "previousPackagedBytes": 39,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "logs/frontend-quality-final.txt",
+      "sha256": "e06e984716a8f5a8624a93d1f2bb7216b24493b8771cb79978d3e35574e1dac1",
+      "bytes": 85,
+      "source": "artifacts/qa/sprint3-20261016/frontend-quality-final/console.txt",
+      "sourceSha256": "baaee2a6abd02f4e14419fb454ca8b82feee050d4fac906533fa58a0d0bd642d",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "baaee2a6abd02f4e14419fb454ca8b82feee050d4fac906533fa58a0d0bd642d",
+        "previousPackagedBytes": 86,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "logs/frontend-shared.txt",
+      "sha256": "5ed5f563739e283730774ecb63089aaab2536d112373f26175408c72f3f4c717",
+      "bytes": 3016,
+      "source": "artifacts/qa/sprint3-20261016/frontend-shared/console.txt",
+      "sourceSha256": "5ed5f563739e283730774ecb63089aaab2536d112373f26175408c72f3f4c717"
+    },
+    {
+      "path": "logs/frontend-shared-defects.txt",
+      "sha256": "cc1ff66c0b0b021c152d35ef2146a7a602964bf5fabb222751088123e2a08af4",
+      "bytes": 12273,
+      "source": "artifacts/qa/sprint3-20261016/frontend-shared-defects/console.txt",
+      "sourceSha256": "cc1ff66c0b0b021c152d35ef2146a7a602964bf5fabb222751088123e2a08af4"
+    },
+    {
+      "path": "logs/frontend-shared-defects-final.txt",
+      "sha256": "28a19c78028d329d13ff21a4ec488b2846cd1f2526425c7611c9648be0f2845f",
+      "bytes": 13838,
+      "source": "artifacts/qa/sprint3-20261016/frontend-shared-defects-final/console.txt",
+      "sourceSha256": "28a19c78028d329d13ff21a4ec488b2846cd1f2526425c7611c9648be0f2845f"
+    },
+    {
+      "path": "logs/frontend-typecheck.txt",
+      "sha256": "15c7a0e30c0924df227605778969f7eb32b19ab419c5f0096b1f7552103f70a9",
+      "bytes": 46,
+      "source": "artifacts/qa/sprint3-20261016/frontend-typecheck/console.txt",
+      "sourceSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+        "previousPackagedBytes": 47,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "logs/live-httpx.txt",
+      "sha256": "a91701aa19a4f6bc436d7d4e64956decc68f18599f98f0555e07a1e6a8f791f9",
+      "bytes": 222,
+      "source": "artifacts/qa/sprint3-20261016/live-httpx/console.txt",
+      "sourceSha256": "a91701aa19a4f6bc436d7d4e64956decc68f18599f98f0555e07a1e6a8f791f9"
+    },
+    {
+      "path": "logs/live-typescript.txt",
+      "sha256": "111c95541cbc2de4ee759814084800af9270d00ac84714c6bcd5eaefaf3bc21f",
+      "bytes": 818,
+      "source": "artifacts/qa/sprint3-20261016/live-typescript/console.txt",
+      "sourceSha256": "111c95541cbc2de4ee759814084800af9270d00ac84714c6bcd5eaefaf3bc21f"
+    },
+    {
+      "path": "logs/npm-audit.txt",
+      "sha256": "73261a457cfad7e4a3dc97a4d0def2673c5c9f47e8ff3f787dfe473248b1b88b",
+      "bytes": 39796,
+      "source": "artifacts/qa/sprint3-20261016/npm-audit/console.txt",
+      "sourceSha256": "73261a457cfad7e4a3dc97a4d0def2673c5c9f47e8ff3f787dfe473248b1b88b"
+    },
+    {
+      "path": "logs/repository-metadata.txt",
+      "sha256": "24321ecbd96eb1fd3bf9054fc984208411758f11fdc4d648629d667c10fb0c85",
+      "bytes": 175,
+      "source": "artifacts/qa/sprint3-20261016/repository-metadata/console.txt",
+      "sourceSha256": "24321ecbd96eb1fd3bf9054fc984208411758f11fdc4d648629d667c10fb0c85"
+    },
+    {
+      "path": "logs/repository-metadata-final.txt",
+      "sha256": "d80ca04041a2f70b783b717768640f22a7fa43363c9977bb2a2d220e1b71d227",
+      "bytes": 138,
+      "source": "artifacts/qa/sprint3-20261016/repository-metadata-final/console.txt",
+      "sourceSha256": "d80ca04041a2f70b783b717768640f22a7fa43363c9977bb2a2d220e1b71d227"
+    },
+    {
+      "path": "logs/sprint2-traceability.txt",
+      "sha256": "f59ee47fec1d7b1533be0b410c3b52a7e6f3328fbe7a9ff8515008fd7caa7888",
+      "bytes": 117,
+      "source": "artifacts/qa/sprint3-20261016/sprint2-traceability/console.txt",
+      "sourceSha256": "f59ee47fec1d7b1533be0b410c3b52a7e6f3328fbe7a9ff8515008fd7caa7888"
+    },
+    {
+      "path": "logs/tooling-node.txt",
+      "sha256": "5309cea56fca5bfdf530d7c4cec7a9ea4b375fdb133b6b0e6992a66a6e775c80",
+      "bytes": 14139,
+      "source": "artifacts/qa/sprint3-20261016/tooling-node/console.txt",
+      "sourceSha256": "5309cea56fca5bfdf530d7c4cec7a9ea4b375fdb133b6b0e6992a66a6e775c80"
+    },
+    {
+      "path": "logs/tooling-python.txt",
+      "sha256": "f6cc34c8d46c90f68688c0d3506e9f4e6bb7c4a884e21b79f8d6502efab64a63",
+      "bytes": 6088,
+      "source": "artifacts/qa/sprint3-20261016/tooling-python/console.txt",
+      "sourceSha256": "f6cc34c8d46c90f68688c0d3506e9f4e6bb7c4a884e21b79f8d6502efab64a63"
+    },
+    {
+      "path": "logs/web-build.txt",
+      "sha256": "ef1ca99e699b7389fbe4e5ff96c916f82d5ac7d296eb426f721453efa6c04b82",
+      "bytes": 1637,
+      "source": "artifacts/qa/sprint3-20261016/web-build/console.txt",
+      "sourceSha256": "ef1ca99e699b7389fbe4e5ff96c916f82d5ac7d296eb426f721453efa6c04b82"
+    },
+    {
+      "path": "executions.json",
+      "sha256": "58c9eb44a86ff4d2b5af7c6814bb6ef4c0ad7a48662c6c9bef08653d832ab631",
+      "bytes": 148263
+    },
+    {
+      "path": "source-manifest.json",
+      "sha256": "f3eea54357364671823be817eaa1d51a5f7bf5fc3d3edc466c965a953c545d78",
+      "bytes": 39698
+    },
+    {
+      "path": "frontend-admin-title-final-android.json",
+      "sha256": "47eb7f2f2934c3ce38ddc7f7314044c4ee6852c456073741aafb3afd2d797325",
+      "bytes": 3891,
+      "source": "artifacts/qa/sprint3-20261016/frontend-admin-title-final-android/results.json",
+      "sourceSha256": "a3798108ff8e782b3e4d2b27a21d5f57c90246c19a920c9c58ade975ef62f9a0"
+    },
+    {
+      "path": "frontend-admin-title-final-ios.json",
+      "sha256": "c71df26b84295566c4963c7fd4d62447638a46a7a91335ff6f347d3fd31cef59",
+      "bytes": 3891,
+      "source": "artifacts/qa/sprint3-20261016/frontend-admin-title-final-ios/results.json",
+      "sourceSha256": "3fe31cd52029caedaed6732d8154ece79888905ac72461e553267352de2f5ecf"
+    },
+    {
+      "path": "frontend-admin-title-final-shared.json",
+      "sha256": "ea4e2dd0a5dfde614e17c893bd5e72d3c9fcd4d429b9730bf2ea7d016b08e16e",
+      "bytes": 3891,
+      "source": "artifacts/qa/sprint3-20261016/frontend-admin-title-final-shared/results.json",
+      "sourceSha256": "2773efc58d6bacd927511b3875916a4de4cf5b93cf4b5a22aebfee302b8af2dd"
+    },
+    {
+      "path": "frontend-android.json",
+      "sha256": "6bf90d81a0d245ca229f3a1a7510b15d215de5b162244294ee7692fa35ae2687",
+      "bytes": 140823,
+      "source": "artifacts/qa/sprint3-20261016/frontend-android/results.json",
+      "sourceSha256": "9778aa1da97145488e5de84e1809ce2d46abd85da57c1f6f7dc456039791d726"
+    },
+    {
+      "path": "frontend-android-defects.json",
+      "sha256": "91e529e06385fc2a599f8b2d14dfc05010fee0df2cc48b93768ffec9e545e8a5",
+      "bytes": 22877,
+      "source": "artifacts/qa/sprint3-20261016/frontend-android-defects/results.json",
+      "sourceSha256": "fabd49653068bb7b1c7b08109340c13ae7d82f0c262e5bef409278f7713cc74b"
+    },
+    {
+      "path": "frontend-android-defects-final.json",
+      "sha256": "4bbfd1292e10e75636d32efe4767a32ce60b5f2b7b48c7471c5fb32b744826ca",
+      "bytes": 24295,
+      "source": "artifacts/qa/sprint3-20261016/frontend-android-defects-final/results.json",
+      "sourceSha256": "fc9e364a8ce8712fbed2b24020542a79196d5a270e608757f7a9e300993f77a4"
+    },
+    {
+      "path": "frontend-ios.json",
+      "sha256": "4b31af568b4eb2a555fcafc5b1a0fb10d0a48a4cf55186c2c558f4e9e117c713",
+      "bytes": 140809,
+      "source": "artifacts/qa/sprint3-20261016/frontend-ios/results.json",
+      "sourceSha256": "dd6f4c9b6b8b22d2546b990638df9b48d1d8ecab6bb972669e11390275ec37de"
+    },
+    {
+      "path": "frontend-ios-defects.json",
+      "sha256": "9c83ea3a9a10d039dcb45bdeae3bded8ef8a6a0bdbc1e625cba81bbf544a9bf0",
+      "bytes": 22873,
+      "source": "artifacts/qa/sprint3-20261016/frontend-ios-defects/results.json",
+      "sourceSha256": "048fd540bd8a60017961482252b68471367d536e6cc716a953ef7b21be8b8064"
+    },
+    {
+      "path": "frontend-ios-defects-final.json",
+      "sha256": "34c55eb6533ae2a929ba6dce983b1d7db357b32d72d796a1303ff743f976a1c1",
+      "bytes": 24291,
+      "source": "artifacts/qa/sprint3-20261016/frontend-ios-defects-final/results.json",
+      "sourceSha256": "4429928eb5db768c783c9a0319605e330e662b10c8a792470aad84fd87ac5482"
+    },
+    {
+      "path": "frontend-shared.json",
+      "sha256": "19762e91f89b697d4adb9dfb96644ce6e681ec74bb03aa59fc16737cad893ac9",
+      "bytes": 138171,
+      "source": "artifacts/qa/sprint3-20261016/frontend-shared/results.json",
+      "sourceSha256": "e00fe9743b76d337438a3f3d56c6435ff705f26b891b3ced26ada36b68d23c76"
+    },
+    {
+      "path": "frontend-shared-defects.json",
+      "sha256": "cc41624b2c5790352c563ff11d588d56037c0fb9c43188cbd65fc195c537b5ba",
+      "bytes": 20740,
+      "source": "artifacts/qa/sprint3-20261016/frontend-shared-defects/results.json",
+      "sourceSha256": "ca7e973b9dc7cafcd9514b222fd000258e8c15098aaa394dbb7a9eeb1c8c66d5"
+    },
+    {
+      "path": "frontend-shared-defects-final.json",
+      "sha256": "725552c56f3c59b4b779af45868a4ba2e03ccdd3acb4166deae81e31ed2e46bd",
+      "bytes": 22159,
+      "source": "artifacts/qa/sprint3-20261016/frontend-shared-defects-final/results.json",
+      "sourceSha256": "ec75bbcb42cc29109b1cf09e7493823144288de9d0e0a142cfcdd3b2f8a8398d"
+    },
+    {
+      "path": "attachments/browser-authoring-001-screenshot.png",
+      "sha256": "d71adc91935266f12a1ec0972adc47244866cb9e5ca24c2af19fc1faf2ddbdda",
+      "bytes": 38157,
+      "source": "artifacts/qa/sprint3-20261016/browser-authoring/results.json",
+      "sourceSha256": "785f9b621b8196b2fc5f5a570ece493469c737ced629570e678bc91e74b6e6ad"
+    },
+    {
+      "path": "attachments/browser-authoring-002-sprint3-workflow-screen.png",
+      "sha256": "d71adc91935266f12a1ec0972adc47244866cb9e5ca24c2af19fc1faf2ddbdda",
+      "bytes": 38157,
+      "source": "artifacts/qa/sprint3-20261016/browser-authoring/results.json",
+      "sourceSha256": "785f9b621b8196b2fc5f5a570ece493469c737ced629570e678bc91e74b6e6ad"
+    },
+    {
+      "path": "attachments/browser-authoring-003-screenshot.png",
+      "sha256": "d8d21e840be7ec9635e97fc93eb3b46a4d491a4875f26d7f619f6fd3971d3648",
+      "bytes": 78394,
+      "source": "artifacts/qa/sprint3-20261016/browser-authoring/results.json",
+      "sourceSha256": "785f9b621b8196b2fc5f5a570ece493469c737ced629570e678bc91e74b6e6ad"
+    },
+    {
+      "path": "attachments/browser-authoring-004-sprint3-workflow-screen.png",
+      "sha256": "888870fed627b2c2242cbffb568cd2f929de07156e796afd4617dfe6b6263385",
+      "bytes": 78208,
+      "source": "artifacts/qa/sprint3-20261016/browser-authoring/results.json",
+      "sourceSha256": "785f9b621b8196b2fc5f5a570ece493469c737ced629570e678bc91e74b6e6ad"
+    },
+    {
+      "path": "attachments/browser-authoring-005-screenshot.png",
+      "sha256": "e2f848f60294ac4f670b9ec1cd3f32c365d2545569cfd05583830554309937f5",
+      "bytes": 41680,
+      "source": "artifacts/qa/sprint3-20261016/browser-authoring/results.json",
+      "sourceSha256": "785f9b621b8196b2fc5f5a570ece493469c737ced629570e678bc91e74b6e6ad"
+    },
+    {
+      "path": "attachments/browser-authoring-006-sprint3-workflow-screen.png",
+      "sha256": "8e4648bf3287eda573a5426c5589d481f522e0574d36926455652204fab64b69",
+      "bytes": 44157,
+      "source": "artifacts/qa/sprint3-20261016/browser-authoring/results.json",
+      "sourceSha256": "785f9b621b8196b2fc5f5a570ece493469c737ced629570e678bc91e74b6e6ad"
+    },
+    {
+      "path": "browser-authoring.json",
+      "sha256": "1612ab021baafc3b392ba28b1fbe17cc52b84264ee12a1ed49d5cb43a8d50c08",
+      "bytes": 7647,
+      "source": "artifacts/qa/sprint3-20261016/browser-authoring/results.json",
+      "sourceSha256": "785f9b621b8196b2fc5f5a570ece493469c737ced629570e678bc91e74b6e6ad"
+    },
+    {
+      "path": "attachments/browser-authoring-final-001-old-order-api-proof.json",
+      "sha256": "043228fd7a1120085e63f12151246e5cb3b1d6f45abed2eaf535685e2a586e13",
+      "bytes": 946,
+      "source": "artifacts/qa/sprint3-20261016/browser-authoring-final/results.json",
+      "sourceSha256": "f66163f6d8aa5f086c519fd72288a30f754e7e59a2e042c80f7f567b8bb2ceee"
+    },
+    {
+      "path": "attachments/browser-authoring-final-002-screenshot.png",
+      "sha256": "9b22f43acc7e245c68c51555253ab06cb605011f60b08cd6c78d76781042970c",
+      "bytes": 25241,
+      "source": "artifacts/qa/sprint3-20261016/browser-authoring-final/results.json",
+      "sourceSha256": "f66163f6d8aa5f086c519fd72288a30f754e7e59a2e042c80f7f567b8bb2ceee"
+    },
+    {
+      "path": "attachments/browser-authoring-final-003-sprint3-workflow-screen.png",
+      "sha256": "9b22f43acc7e245c68c51555253ab06cb605011f60b08cd6c78d76781042970c",
+      "bytes": 25241,
+      "source": "artifacts/qa/sprint3-20261016/browser-authoring-final/results.json",
+      "sourceSha256": "f66163f6d8aa5f086c519fd72288a30f754e7e59a2e042c80f7f567b8bb2ceee"
+    },
+    {
+      "path": "browser-authoring-final.json",
+      "sha256": "d14d0706cf96e1aa126058170de3d8e4aaa35f69218949db0aa7f49cec53468a",
+      "bytes": 5937,
+      "source": "artifacts/qa/sprint3-20261016/browser-authoring-final/results.json",
+      "sourceSha256": "f66163f6d8aa5f086c519fd72288a30f754e7e59a2e042c80f7f567b8bb2ceee"
+    },
+    {
+      "path": "attachments/browser-defects-001-screenshot.png",
+      "sha256": "bca92d5e7197db37356cef1442b8d81e8e416d19ba70e1b2a62cea68ce2d3ad4",
+      "bytes": 77315,
+      "source": "artifacts/qa/sprint3-20261016/browser-defects/report/results.json",
+      "sourceSha256": "ebf22738a5c00417e606df35b3271241ee39a57e18c813cf821c31637e8b1d1d"
+    },
+    {
+      "path": "attachments/browser-defects-002-screenshot.png",
+      "sha256": "6515969dd3546f52d2795e4cb9ba58b0a95e409d8ec22b75f256f6c081d382c3",
+      "bytes": 69020,
+      "source": "artifacts/qa/sprint3-20261016/browser-defects/report/results.json",
+      "sourceSha256": "ebf22738a5c00417e606df35b3271241ee39a57e18c813cf821c31637e8b1d1d"
+    },
+    {
+      "path": "attachments/browser-defects-003-diagnosis-radio-state.json",
+      "sha256": "a158683bf0601f05e683a6f2f5386edde96ec97eb813b166e69e2fc895ae69f0",
+      "bytes": 130,
+      "source": "artifacts/qa/sprint3-20261016/browser-defects/report/results.json",
+      "sourceSha256": "ebf22738a5c00417e606df35b3271241ee39a57e18c813cf821c31637e8b1d1d"
+    },
+    {
+      "path": "attachments/browser-defects-004-diagnosis-selected-option.png",
+      "sha256": "431ef2b38cd217e2f8006b44ca516e9c56571738e66e4381687e495b8ade7aa8",
+      "bytes": 48752,
+      "source": "artifacts/qa/sprint3-20261016/browser-defects/report/results.json",
+      "sourceSha256": "ebf22738a5c00417e606df35b3271241ee39a57e18c813cf821c31637e8b1d1d"
+    },
+    {
+      "path": "attachments/browser-defects-005-screenshot.png",
+      "sha256": "7e3a536a169ef7f491ecc96e702549e06bdbb97215ac4aada79ce75863b9f0d0",
+      "bytes": 42195,
+      "source": "artifacts/qa/sprint3-20261016/browser-defects/report/results.json",
+      "sourceSha256": "ebf22738a5c00417e606df35b3271241ee39a57e18c813cf821c31637e8b1d1d"
+    },
+    {
+      "path": "attachments/browser-defects-006-old-order-api-proof.json",
+      "sha256": "5c79f6145c9b9f30517086505f23379a71e833c5e33e1e4ff3811a8ada1183ca",
+      "bytes": 946,
+      "source": "artifacts/qa/sprint3-20261016/browser-defects/report/results.json",
+      "sourceSha256": "ebf22738a5c00417e606df35b3271241ee39a57e18c813cf821c31637e8b1d1d"
+    },
+    {
+      "path": "attachments/browser-defects-007-screenshot.png",
+      "sha256": "9b22f43acc7e245c68c51555253ab06cb605011f60b08cd6c78d76781042970c",
+      "bytes": 25241,
+      "source": "artifacts/qa/sprint3-20261016/browser-defects/report/results.json",
+      "sourceSha256": "ebf22738a5c00417e606df35b3271241ee39a57e18c813cf821c31637e8b1d1d"
+    },
+    {
+      "path": "attachments/browser-defects-008-sprint3-workflow-screen.png",
+      "sha256": "9b22f43acc7e245c68c51555253ab06cb605011f60b08cd6c78d76781042970c",
+      "bytes": 25241,
+      "source": "artifacts/qa/sprint3-20261016/browser-defects/report/results.json",
+      "sourceSha256": "ebf22738a5c00417e606df35b3271241ee39a57e18c813cf821c31637e8b1d1d"
+    },
+    {
+      "path": "attachments/browser-defects-009-screenshot.png",
+      "sha256": "d8ab9c3a0593052d7b732e0285a19810200d3fa37a6c349d101a643c26fca0cf",
+      "bytes": 48435,
+      "source": "artifacts/qa/sprint3-20261016/browser-defects/report/results.json",
+      "sourceSha256": "ebf22738a5c00417e606df35b3271241ee39a57e18c813cf821c31637e8b1d1d"
+    },
+    {
+      "path": "attachments/browser-defects-010-web-screen.png",
+      "sha256": "d8ab9c3a0593052d7b732e0285a19810200d3fa37a6c349d101a643c26fca0cf",
+      "bytes": 48435,
+      "source": "artifacts/qa/sprint3-20261016/browser-defects/report/results.json",
+      "sourceSha256": "ebf22738a5c00417e606df35b3271241ee39a57e18c813cf821c31637e8b1d1d"
+    },
+    {
+      "path": "browser-defects.json",
+      "sha256": "7effc0b8fabf98aa16bd0fdd52abfeaecabc6325e5c533622749d0e4e9292d4c",
+      "bytes": 18571,
+      "source": "artifacts/qa/sprint3-20261016/browser-defects/report/results.json",
+      "sourceSha256": "ebf22738a5c00417e606df35b3271241ee39a57e18c813cf821c31637e8b1d1d"
+    },
+    {
+      "path": "attachments/browser-regression-001-sprint3-web-screen.png",
+      "sha256": "83868fe7bb826c15a753926c42124dd3fd4957a6df0825b334f90bace0daed2f",
+      "bytes": 24744,
+      "source": "artifacts/qa/sprint3-20261016/browser-regression/report/results.json",
+      "sourceSha256": "5d7629919ae541abfaafc5343e746111ecdd8d7c10dfd8a59985f858d0a8557c"
+    },
+    {
+      "path": "attachments/browser-regression-002-server-diagnosis-observation.json",
+      "sha256": "5922d2ef3a0d5f5bcb994f397d1a743c2cce01ee74816089eff7749b5e0b607e",
+      "bytes": 156,
+      "source": "artifacts/qa/sprint3-20261016/browser-regression/report/results.json",
+      "sourceSha256": "5d7629919ae541abfaafc5343e746111ecdd8d7c10dfd8a59985f858d0a8557c"
+    },
+    {
+      "path": "attachments/browser-regression-003-sprint3-web-screen.png",
+      "sha256": "ae17692f85689157a003038a7baab6da31881aa8f30ec68f22207754ed83be6a",
+      "bytes": 15668,
+      "source": "artifacts/qa/sprint3-20261016/browser-regression/report/results.json",
+      "sourceSha256": "5d7629919ae541abfaafc5343e746111ecdd8d7c10dfd8a59985f858d0a8557c"
+    },
+    {
+      "path": "attachments/browser-regression-004-sprint3-web-screen.png",
+      "sha256": "fed136578fa64c70cb41c342507812d9fa1e3484837bffae5f099c9c3ecd44fd",
+      "bytes": 27409,
+      "source": "artifacts/qa/sprint3-20261016/browser-regression/report/results.json",
+      "sourceSha256": "5d7629919ae541abfaafc5343e746111ecdd8d7c10dfd8a59985f858d0a8557c"
+    },
+    {
+      "path": "browser-regression.json",
+      "sha256": "2755fe87ea0ee36e1cd4151037cd18ae1f44144b49809aedad1c77665b4564db",
+      "bytes": 12793,
+      "source": "artifacts/qa/sprint3-20261016/browser-regression/report/results.json",
+      "sourceSha256": "5d7629919ae541abfaafc5343e746111ecdd8d7c10dfd8a59985f858d0a8557c"
+    },
+    {
+      "path": "backend-api-delta-validation.xml",
+      "sha256": "b4281c6e0d16854f9e5c590c99dcdbfa286d78d743db1ed16bc233fbcfcd50a7",
+      "bytes": 3383,
+      "source": "artifacts/qa/sprint3-20261016/backend-api-delta-validation/results.xml",
+      "sourceSha256": "b4281c6e0d16854f9e5c590c99dcdbfa286d78d743db1ed16bc233fbcfcd50a7"
+    },
+    {
+      "path": "backend-postgres.xml",
+      "sha256": "c86e6c5321ae7ed64e1e1d9d6f461488e8c72a9f19a80dbe352331ae4e654d0f",
+      "bytes": 118994,
+      "source": "artifacts/qa/sprint3-20261016/backend-postgres/junit.xml",
+      "sourceSha256": "c86e6c5321ae7ed64e1e1d9d6f461488e8c72a9f19a80dbe352331ae4e654d0f"
+    },
+    {
+      "path": "backend-postgres-final.xml",
+      "sha256": "290f0dbe29024a08a9e71f43821effe9a2212fd2ebf36fbc0c9d71a0e7c4807a",
+      "bytes": 119731,
+      "source": "artifacts/qa/sprint3-20261016/backend-postgres-final/junit.xml",
+      "sourceSha256": "290f0dbe29024a08a9e71f43821effe9a2212fd2ebf36fbc0c9d71a0e7c4807a"
+    },
+    {
+      "path": "backend-privacy-final.xml",
+      "sha256": "791ada6f70bf356f203974247e39d9f9a52e5987175317ff53f778b7d1e5c532",
+      "bytes": 3083,
+      "source": "artifacts/qa/sprint3-20261016/backend-privacy-final/junit.xml",
+      "sourceSha256": "791ada6f70bf356f203974247e39d9f9a52e5987175317ff53f778b7d1e5c532"
+    },
+    {
+      "path": "backend-privacy-focused.xml",
+      "sha256": "ccfa728525bac26e14d42d4d87302bc41872b7e3c327aecf98106d777647987d",
+      "bytes": 10924,
+      "source": "artifacts/qa/sprint3-20261016/backend-privacy-focused/junit.xml",
+      "sourceSha256": "c69bd89701d58b0a33e1cb4e725a0c102966771843a89a3b8dc24bbcce8cf844",
+      "publicationRedaction": {
+        "kind": "truncated local test Authorization bearer fragments",
+        "occurrences": 6,
+        "originalPackagedSha256": "c69bd89701d58b0a33e1cb4e725a0c102966771843a89a3b8dc24bbcce8cf844",
+        "originalPackagedBytes": 12058,
+        "outcomesChanged": false
+      },
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "0155554f5bce02414eafe3bb6db5d13225ba2776d133a4205a967dea86232beb",
+        "previousPackagedBytes": 10948,
+        "trailingWhitespaceLinesRemoved": 6,
+        "extraEofNewlinesRemoved": 0,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "backend-privacy-omission-discovery.xml",
+      "sha256": "5d647089e55b64f41905f5f2ac2ca9a0849852318787a811185e7a27a16c9c44",
+      "bytes": 5849,
+      "source": "artifacts/qa/sprint3-20261016/backend-privacy-omission-discovery/junit.xml",
+      "sourceSha256": "fbd8b2c6ff74e610970e467888e6af40aa0788b7c4c62ba838c7e07ccd2ca003",
+      "publicationRedaction": {
+        "kind": "truncated local test Authorization bearer fragments",
+        "occurrences": 4,
+        "originalPackagedSha256": "fbd8b2c6ff74e610970e467888e6af40aa0788b7c4c62ba838c7e07ccd2ca003",
+        "originalPackagedBytes": 6597,
+        "outcomesChanged": false
+      },
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "9c7babfd04d62b7c2d285820ee093f506d996e6922f85e72c40f641500e5bbd5",
+        "previousPackagedBytes": 5857,
+        "trailingWhitespaceLinesRemoved": 2,
+        "extraEofNewlinesRemoved": 0,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "backend-review-concurrency-cause.xml",
+      "sha256": "38fb4fbda4a83a530571ba84e51a61efa54581a7b16ae3a903930145989c3f0f",
+      "bytes": 1306,
+      "source": "artifacts/qa/sprint3-20261016/backend-review-concurrency-cause/results.xml",
+      "sourceSha256": "38fb4fbda4a83a530571ba84e51a61efa54581a7b16ae3a903930145989c3f0f"
+    },
+    {
+      "path": "backend-review-concurrency-discovery.xml",
+      "sha256": "547005d9a360f84962770b20d4640dbe8b99f0041c1856730671beef9b76e986",
+      "bytes": 10343,
+      "source": "artifacts/qa/sprint3-20261016/backend-review-concurrency-discovery/results.xml",
+      "sourceSha256": "c709163ffa712bbac7edf7c2532987fcbf4ffe1c8341a063c28462ab749dfafa",
+      "publicationRedaction": {
+        "kind": "truncated local test Authorization bearer fragments",
+        "occurrences": 3,
+        "originalPackagedSha256": "c709163ffa712bbac7edf7c2532987fcbf4ffe1c8341a063c28462ab749dfafa",
+        "originalPackagedBytes": 10953,
+        "outcomesChanged": false
+      },
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "c455213d73fe08222d38f050338949c63f4e215c54ff6f83b7b06b688245af4d",
+        "previousPackagedBytes": 10398,
+        "trailingWhitespaceLinesRemoved": 10,
+        "extraEofNewlinesRemoved": 0,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "backend-review-concurrency-final.xml",
+      "sha256": "3ce7735a568ed46926332c5872d9bc53d2b5ed55ca94ea567a063154876e3cf6",
+      "bytes": 1306,
+      "source": "artifacts/qa/sprint3-20261016/backend-review-concurrency-final/results.xml",
+      "sourceSha256": "3ce7735a568ed46926332c5872d9bc53d2b5ed55ca94ea567a063154876e3cf6"
+    },
+    {
+      "path": "live-httpx.xml",
+      "sha256": "f65e9ed393d9f2ebb53986e4139243538c193c85bb24bf5fa4f19d18aeb93cc1",
+      "bytes": 498,
+      "source": "artifacts/qa/sprint3-20261016/live-httpx/junit.xml",
+      "sourceSha256": "f65e9ed393d9f2ebb53986e4139243538c193c85bb24bf5fa4f19d18aeb93cc1"
+    },
+    {
+      "path": "environment.json",
+      "sha256": "e6405185e61155593cf76aa5706198b6c544cdc051f1b3d8cb4f4c7b9d15f56e",
+      "bytes": 298,
+      "source": "artifacts/qa/sprint3-20261016/environment.json",
+      "sourceSha256": "e6405185e61155593cf76aa5706198b6c544cdc051f1b3d8cb4f4c7b9d15f56e"
+    },
+    {
+      "path": "live-static-checks.json",
+      "sha256": "89b891f7c8d7d22cb3e4716c256ce54fb1815b1a30154a87b37ca513845144af",
+      "bytes": 455,
+      "source": "artifacts/qa/sprint3-20261016/live-static-checks.json",
+      "sourceSha256": "89b891f7c8d7d22cb3e4716c256ce54fb1815b1a30154a87b37ca513845144af"
+    },
+    {
+      "path": "live-before.json",
+      "sha256": "74abee6b7dedae827485cf818b8d4e28465a564a6df54578d4f50e018d41de56",
+      "bytes": 96,
+      "source": "artifacts/qa/sprint3-20261016/live-before.json",
+      "sourceSha256": "74abee6b7dedae827485cf818b8d4e28465a564a6df54578d4f50e018d41de56"
+    },
+    {
+      "path": "live-after.json",
+      "sha256": "34a3140a7db4ebdf631dfe79e82c08c9348f62af26dec0f97950571dc21c31f7",
+      "bytes": 388,
+      "source": "artifacts/qa/sprint3-20261016/live-after.json",
+      "sourceSha256": "34a3140a7db4ebdf631dfe79e82c08c9348f62af26dec0f97950571dc21c31f7"
+    },
+    {
+      "path": "backend-coverage.json",
+      "sha256": "9c92869bb8c1387bb6b73241d5400c6023cd9bf4c6a198bb6e314d24a29e28c6",
+      "bytes": 33773,
+      "source": "artifacts/qa/sprint3-20261016/backend-postgres-final/coverage.json",
+      "sourceSha256": "c7db300adeac28afa946e698b0ecb69504551c86a2687d9568510e5205f24af7"
+    },
+    {
+      "path": "frontend-coverage.json",
+      "sha256": "e44bc1c6a14ab87a1dcefac1e505448ea7365af1c3b860469c6db2d0f704bb90",
+      "bytes": 34626,
+      "source": "artifacts/qa/sprint3-20261016/frontend-shared/coverage/coverage-summary.json",
+      "sourceSha256": "fbe43a245af0696a13022c648f0c44a7ad9946b48c86b3d1071988ea6672e1dc"
+    },
+    {
+      "path": "added-case-inventory.json",
+      "sha256": "4cc78642d8fa5399da277a69e679ab7194c2f155393a0d5c0a4ace13f9fc6d90",
+      "bytes": 29172
+    },
+    {
+      "path": "README.md",
+      "sha256": "a89899ebc1c7256d30c0b0043be520a9b7a89ef0db5ce5c5a7dae7df80ac53ed",
+      "bytes": 4376,
+      "publicationNote": {
+        "originalPackagedSha256": "daed3ddceffc850ddbd1b7fa106bfbf44d012a3fe67eb712bf6ad64b4287ee81",
+        "change": "Added publication-redaction provenance note"
+      }
+    }
+  ],
+  "omissions": [
+    "Regenerable HTML/LCOV and browser trace ZIP archives remain in ignored artifacts/qa/sprint3-20261016/.",
+    "Jest and Playwright originals are reduced to all case outcomes, diagnostics and selected attachments; hashes identify originals.",
+    "No native-device, deployed-system, external payment/email or new remote CI evidence is claimed."
+  ],
+  "notARerun": true,
+  "publicationRedactions": {
+    "preparedAt": "2026-10-15T23:54:31.902309+00:00",
+    "files": [
+      {
+        "path": "logs/backend-privacy-focused.txt",
+        "occurrences": 6
+      },
+      {
+        "path": "logs/backend-privacy-omission-discovery.txt",
+        "occurrences": 4
+      },
+      {
+        "path": "logs/backend-review-concurrency-cause.txt",
+        "occurrences": 3
+      },
+      {
+        "path": "logs/backend-review-concurrency-discovery.txt",
+        "occurrences": 3
+      },
+      {
+        "path": "backend-privacy-focused.xml",
+        "occurrences": 6
+      },
+      {
+        "path": "backend-privacy-omission-discovery.xml",
+        "occurrences": 4
+      },
+      {
+        "path": "backend-review-concurrency-discovery.xml",
+        "occurrences": 3
+      }
+    ],
+    "totalOccurrences": 29,
+    "outcomesChanged": false,
+    "originalManifestSha256": "488258330e9f7598eecd08abd64dfd604f2d938cd316cefd25f596352cbbbfc7"
+  },
+  "publicationWhitespaceNormalization": {
+    "performedAt": "2026-10-16T00:04:56.232172+00:00",
+    "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+    "originalManifestSha256": "7e590c34437fe93dca9adecdd17895ba601f573824d45809c2b4bed94274c84a",
+    "filesNormalized": 11,
+    "transformation": "Remove trailing horizontal whitespace and extra blank lines at EOF from published text evidence. Original source hashes and recorded outcomes are unchanged. No tests were rerun."
+  },
+  "documentationRevisions": [
+    {
+      "date": "2026-10-17",
+      "scope": "Describe completed executed cases only; source execution reports, logs and outcomes retain their original bytes.",
+      "files": [
+        {
+          "path": "README.md",
+          "previousSha256": "2638c7643c16f8ed9b6a1f01570a947606f31a479fdd1749380917f3a054f896",
+          "previousBytes": 4440,
+          "sha256": "a89899ebc1c7256d30c0b0043be520a9b7a89ef0db5ce5c5a7dae7df80ac53ed",
+          "bytes": 4376
+        }
+      ]
+    }
+  ]
+}

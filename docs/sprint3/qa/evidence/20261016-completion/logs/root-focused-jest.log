@@ -1,0 +1,815 @@
+
+> yoir-mobile@0.1.0 test:ci
+> jest --ci --runInBand --runTestsByPath __tests__/screens/job-seeker-home.test.tsx __tests__/screens/professional-detail.test.tsx __tests__/diagnosis/storage.native.test.ts --json --outputFile=../artifacts/qa/sprint3-completion-20261016/root/focused-jest.json
+
+FAIL __tests__/screens/job-seeker-home.test.tsx
+  ● job seeker home — QA-162/174 and entry navigation › guests can browse and register without reading a private diagnosis
+
+    Unable to find an element with role: button, name: Bookings
+
+    [36m<View[39m
+      [33mstyle[39m=[32m{
+        {
+          "opacity": 0,
+        }
+      }[39m
+    [36m>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Yoir"[39m
+        [36m/>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Log in"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<Text>[39m
+            [0mLog in[0m
+          [36m</Text>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33mstyle[39m=[32m{
+              {
+                "opacity": 0,
+              }
+            }[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mWelcome to Yoir[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mFind the right Career Professional[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mCreate a free account to take the Yoir Diagnosis and get matched with the right people.[0m
+            [36m</Text>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Create an account"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mCreate an account[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mTop rated Career Professionals[0m
+          [36m</Text>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Maya Chen, Career Professional"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mMC[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mMaya Chen[0m
+                  [36m</Text>[39m
+                  [36m<View>[39m
+                    [36m<RNSVGSvgView>[39m
+                      [36m<RNSVGGroup>[39m
+                        [36m<RNSVGPath />[39m
+                        [36m<RNSVGPath />[39m
+                      [36m</RNSVGGroup>[39m
+                    [36m</RNSVGSvgView>[39m
+                    [36m<Text>[39m
+                      [0mVerified · ★ 4.9 (46)[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<Text>[39m
+                [0mCareer counsellor specialising in interview preparation.[0m
+              [36m</Text>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mInterview preparation[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mSpeaks English[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mFrom [0m
+                  [0m$95[0m
+                [36m</Text>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGPath />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"View all Career Professionals"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "busy": false,
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mView all Career Professionals[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityRole[39m=[32m"tablist"[39m
+        [36m>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Home"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGPath />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mHome[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Explore"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGLine />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mExplore[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Bookings"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGCircle />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mBookings[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      27 |     fireEvent.press(screen.getByRole('button', { name: 'Create an account' }));
+      28 |     expect(navigation.push).toHaveBeenCalledWith({ pathname: '/auth/register', params: { role: 'job_seeker' } });
+    > 29 |     fireEvent.press(screen.getByRole('button', { name: 'Bookings' }));
+         |                            ^
+      30 |     expect(navigation.push).toHaveBeenLastCalledWith({ pathname: '/auth/login', params: { role: 'job_seeker' } });
+      31 |   });
+      32 |
+
+      at Object.getByRole (__tests__/screens/job-seeker-home.test.tsx:29:28)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● job seeker home — QA-162/174 and entry navigation › unfinished answers expose the actual resume step and continue action
+
+    Unable to find an element with role: progressbar, name: Step 4 of 6
+
+    [36m<View[39m
+      [33mstyle[39m=[32m{
+        {
+          "opacity": 0,
+        }
+      }[39m
+    [36m>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Yoir"[39m
+        [36m/>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Notifications"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGPath />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Account, Alex Morgan"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mAM[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33mstyle[39m=[32m{
+              {
+                "opacity": 0,
+              }
+            }[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mWelcome back, Alex[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mPick up where you left off[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mYou are on step 4 of 6 of your Yoir Diagnosis. Your answers so far are saved.[0m
+            [36m</Text>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Step 4 of 6"[39m
+              [33maccessibilityRole[39m=[32m"progressbar"[39m
+            [36m>[39m
+              [36m<View />[39m
+              [36m<View />[39m
+              [36m<View />[39m
+              [36m<View />[39m
+              [36m<View />[39m
+              [36m<View />[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Continue the Yoir Diagnosis"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mContinue the Yoir Diagnosis[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<Text>[39m
+            [0mTop rated Career Professionals[0m
+          [36m</Text>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Maya Chen, Career Professional"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mMC[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mMaya Chen[0m
+                  [36m</Text>[39m
+                  [36m<View>[39m
+                    [36m<RNSVGSvgView>[39m
+                      [36m<RNSVGGroup>[39m
+                        [36m<RNSVGPath />[39m
+                        [36m<RNSVGPath />[39m
+                      [36m</RNSVGGroup>[39m
+                    [36m</RNSVGSvgView>[39m
+                    [36m<Text>[39m
+                      [0mVerified · ★ 4.9 (46)[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<Text>[39m
+                [0mCareer counsellor specialising in interview preparation.[0m
+              [36m</Text>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mInterview preparation[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mSpeaks English[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mFrom [0m
+                  [0m$95[0m
+                [36m</Text>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGPath />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"View all Career Professionals"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "busy": false,
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mView all Career Professionals[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityRole[39m=[32m"tablist"[39m
+        [36m>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Home"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGPath />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mHome[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Explore"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGLine />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mExplore[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Bookings"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGCircle />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mBookings[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      65 |     read.mockResolvedValue(JSON.stringify({ answers, step: 3 }));
+      66 |     await renderPublic(<Home />, sessionFixture);
+    > 67 |     expect(await screen.findByRole('progressbar', { name: 'Step 4 of 6' })).toBeOnTheScreen();
+         |                         ^
+      68 |     expect(screen.getByText('Pick up where you left off')).toBeOnTheScreen();
+      69 |     fireEvent.press(screen.getByRole('button', { name: 'Continue the Yoir Diagnosis' }));
+      70 |     expect(navigation.push).toHaveBeenCalledWith('/job-seeker/diagnosis');
+
+      at Object.findByRole (__tests__/screens/job-seeker-home.test.tsx:67:25)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● job seeker home — QA-162/174 and entry navigation › completed answers offer result, retake, professional detail and Explore navigation
+
+    Unable to find an element with role: button, name: Bookings
+
+    [36m<View[39m
+      [33mstyle[39m=[32m{
+        {
+          "opacity": 0,
+        }
+      }[39m
+    [36m>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Yoir"[39m
+        [36m/>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Notifications"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGPath />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Account, Alex Morgan"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mAM[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33mstyle[39m=[32m{
+              {
+                "opacity": 0,
+              }
+            }[39m
+          [36m>[39m
+            [36m<Text>[39m
+              [0mWelcome back, Alex[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mYour best matches[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mCareer Professionals matched to your Yoir Direction.[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"View my Yoir Direction: Interview skills"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGPath />[39m
+                    [36m<RNSVGPath />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+                [36m<Text>[39m
+                  [0mInterview skills[0m
+                [36m</Text>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGPath />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Retake diagnosis"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGPath />[39m
+                    [36m<RNSVGPath />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+                [36m<Text>[39m
+                  [0mRetake diagnosis[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Maya Chen, Career Professional"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGPath />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                  [36m<Text>[39m
+                    [0mBest match[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mMC[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mMaya Chen[0m
+                  [36m</Text>[39m
+                  [36m<View>[39m
+                    [36m<RNSVGSvgView>[39m
+                      [36m<RNSVGGroup>[39m
+                        [36m<RNSVGPath />[39m
+                        [36m<RNSVGPath />[39m
+                      [36m</RNSVGGroup>[39m
+                    [36m</RNSVGSvgView>[39m
+                    [36m<Text>[39m
+                      [0mVerified · ★ 4.9 (46)[0m
+                    [36m</Text>[39m
+                  [36m</View>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<Text>[39m
+                [0mCareer counsellor specialising in interview preparation.[0m
+              [36m</Text>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mInterview preparation[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mSpeaks English[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mFrom [0m
+                  [0m$95[0m
+                [36m</Text>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGPath />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"View all Career Professionals"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "busy": false,
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mView all Career Professionals[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityRole[39m=[32m"tablist"[39m
+        [36m>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Home"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGPath />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mHome[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Explore"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGLine />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mExplore[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Bookings"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGCircle />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mBookings[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      83 |     fireEvent.press(screen.getByRole('button', { name: 'View all Career Professionals' }));
+      84 |     expect(navigation.replace).toHaveBeenLastCalledWith('/marketplace');
+    > 85 |     fireEvent.press(screen.getByRole('button', { name: 'Bookings' }));
+         |                            ^
+      86 |     expect(navigation.replace).toHaveBeenLastCalledWith('/bookings');
+      87 |   });
+      88 |
+
+      at Object.getByRole (__tests__/screens/job-seeker-home.test.tsx:85:28)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+PASS __tests__/screens/professional-detail.test.tsx
+PASS __tests__/diagnosis/storage.native.test.ts
+
+Test Suites: 1 failed, 2 passed, 3 total
+Tests:       3 failed, 18 passed, 21 total
+Snapshots:   0 total
+Time:        1.334 s
+Ran all test suites within paths "__tests__/screens/job-seeker-home.test.tsx", "__tests__/screens/professional-detail.test.tsx", "__tests__/diagnosis/storage.native.test.ts".
+Test results written to: ../artifacts/qa/sprint3-completion-20261016/root/focused-jest.json

@@ -1,0 +1,146 @@
+{
+  "at": "2026-10-15T22:02:26.262863+00:00",
+  "currentRules": {
+    "rules": [
+      {
+        "id": "ios-d04-visibility-write",
+        "method": "PATCH",
+        "path": "/api/v1/me/profile-visibility",
+        "userId": "qa-nr-ios-pro",
+        "maxHits": 1,
+        "status": 503,
+        "delayMs": 0,
+        "action": "reject"
+      }
+    ]
+  },
+  "candidateFaults": [
+    {
+      "at": "2026-10-15T21:46:13.552479+00:00",
+      "ruleId": "android-d01-onboarding-read",
+      "method": "GET",
+      "path": "/api/v1/me/onboarding-state",
+      "userId": "qa-nr-android-candidate",
+      "hit": 1,
+      "action": "reject",
+      "status": 503
+    },
+    {
+      "at": "2026-10-15T21:48:12.725978+00:00",
+      "ruleId": "android-d06-submission-write",
+      "method": "POST",
+      "path": "/api/v1/me/verification-submissions",
+      "userId": "qa-nr-android-candidate",
+      "hit": 1,
+      "action": "reject",
+      "status": 503
+    }
+  ],
+  "candidateRecentRequests": [
+    {
+      "at": "2026-10-15T21:46:41.911221+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/counsellor-profile",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T21:48:42.751889+00:00",
+      "method": "POST",
+      "path": "/api/v1/me/verification-submissions",
+      "userId": "qa-nr-android-candidate",
+      "status": 201
+    },
+    {
+      "at": "2026-10-15T21:48:52.546192+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/services",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T21:48:52.546596+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/onboarding-state",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T21:48:52.547016+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/counsellor-profile",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T21:48:52.547213+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/payout-status",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T21:48:52.547534+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/availability-windows",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T21:50:44.945032+00:00",
+      "method": "DELETE",
+      "path": "/api/v1/auth/sessions/current",
+      "userId": "qa-nr-android-candidate",
+      "status": 204
+    },
+    {
+      "at": "2026-10-15T22:01:54.134214+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/onboarding-state",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:01:54.142358+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/services",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:01:54.144224+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/counsellor-profile",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:01:54.144365+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/availability-windows",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:01:54.145229+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/payout-status",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:02:20.808077+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/notifications",
+      "userId": "qa-nr-android-candidate",
+      "status": 404
+    },
+    {
+      "at": "2026-10-15T22:02:20.811278+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/counsellor-profile",
+      "userId": "qa-nr-android-candidate",
+      "status": 200
+    }
+  ]
+}

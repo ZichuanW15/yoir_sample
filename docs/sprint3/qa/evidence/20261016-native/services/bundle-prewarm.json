@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-15T21:10:08.132522+00:00",
+  "scope": "HTTP compilation only; not device acceptance",
+  "checks": [
+    {
+      "platform": "ios",
+      "status": 200,
+      "bytes": 7068403,
+      "sha256": "13cf307a96daded78cb70c6bc92c446b268ce8d19b7a7fbf5727f160f4c6a185",
+      "contentType": "application/javascript; charset=UTF-8",
+      "bundleUrl": "http://127.0.0.1:8099/node_modules/expo-router/entry.bundle?platform=ios&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable",
+      "seconds": 5.777
+    },
+    {
+      "platform": "android",
+      "status": 200,
+      "bytes": 7693189,
+      "sha256": "26387683ba5ab6cc857f37cb8586400b0f132e1a97ab0a31435635b347c52adf",
+      "contentType": "application/javascript; charset=UTF-8",
+      "bundleUrl": "http://127.0.0.1:8099/node_modules/expo-router/entry.bundle?platform=android&dev=true&hot=false&lazy=true&transform.engine=hermes&transform.bytecode=1&transform.routerRoot=app&unstable_transformProfile=hermes-stable",
+      "seconds": 3.714
+    }
+  ]
+}

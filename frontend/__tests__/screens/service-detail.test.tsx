@@ -56,7 +56,18 @@ describe('service detail screen', () => {
     reply('GET', '/services/service-1', jsonResponse({ ...serviceFixture, averageRating: null, reviewCount: 0, counsellor: { ...serviceFixture.counsellor, verificationStatus: 'pending', overallRating: null, reviewCount: 0 } }));
     await renderPublic(<ServiceDetailScreen />);
     expect(await screen.findByText('New on Yoir')).toBeOnTheScreen();
-    expect(screen.getByText('No reviews yet')).toBeOnTheScreen();
+    expect(screen.getAllByText('No reviews yet')).toHaveLength(2);
     expect(screen.getByText('Verification pending')).toBeOnTheScreen();
+  });
+
+  test('[US-54] shows backend-provided review rows and aggregate feedback', async () => {
+    reply('GET', '/services/service-1', jsonResponse({
+      ...serviceFixture,
+      reviews: [{ id: 'review-1', bookingId: 'booking-1', serviceId: 'service-1', authorName: 'Alex Morgan', rating: 5, comment: 'Clear and practical advice.', createdAt: '2026-08-21T00:00:00Z' }],
+    }));
+    await renderPublic(<ServiceDetailScreen />);
+    expect(await screen.findByText('Clear and practical advice.')).toBeOnTheScreen();
+    expect(screen.getByText('Alex Morgan')).toBeOnTheScreen();
+    expect(screen.getByText('5/5')).toBeOnTheScreen();
   });
 });

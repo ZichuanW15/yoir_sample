@@ -1,0 +1,58 @@
+{
+  "source": "backend/tests/test_sprint3_completion_qa.py",
+  "sha256": "7014f9df4e68feae231b3553e7ca4454fa21219a7ee6cea774fbe9bdabb8b2d4",
+  "new_cases": 27,
+  "engine": "SQLite temporary file owned by backend/tests/conftest.py",
+  "commands_workdir": "backend",
+  "commands": [
+    ".venv/bin/ruff check tests/test_sprint3_completion_qa.py",
+    ".venv/bin/python -m pytest tests/test_sprint3_completion_qa.py tests/test_admin.py tests/test_counsellor.py tests/test_sprint3_privacy_profile_qa.py tests/test_profile_visibility.py tests/test_counsellor_profile_details.py -q --junitxml=../artifacts/qa/sprint3-completion-20261016/agent-backend/junit-final.xml",
+    ".venv/bin/python -m pytest tests/test_sprint3_completion_qa.py -q --junitxml=../artifacts/qa/sprint3-completion-20261016/agent-backend/junit-final-focused.xml"
+  ],
+  "results": [
+    {
+      "file": "junit-final.xml",
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "134",
+      "time": "11.173",
+      "timestamp": "2026-10-16T07:36:39.810491+11:00",
+      "hostname": "ZhouzhnydeMacBook-Air.local"
+    },
+    {
+      "file": "junit-final-focused.xml",
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "0",
+      "tests": "27",
+      "time": "2.729",
+      "timestamp": "2026-10-16T07:36:58.911924+11:00",
+      "hostname": "ZhouzhnydeMacBook-Air.local"
+    }
+  ],
+  "note": "The 134-case adjacent run preceded a fixture cleanup and privacy checks accepting either omitted or empty redacted fields. The final 27-case run covers the exact recorded source hash. No existing defect expectations were edited.",
+  "issues": [
+    180,
+    183,
+    186,
+    192,
+    195,
+    198,
+    201,
+    204,
+    207,
+    210,
+    222,
+    231
+  ],
+  "limits": [
+    "No product code changed",
+    "Email delivery captured; real inbox not tested",
+    "Payment stub only; historical completed/paid_out states are database fixtures, not real transfers",
+    "No PostgreSQL or device execution by this agent; root performs wider execution",
+    "No new observed defects or skip/xfail markers in this suite"
+  ]
+}

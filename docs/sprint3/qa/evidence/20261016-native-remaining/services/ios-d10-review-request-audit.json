@@ -1,0 +1,29 @@
+{
+  "at": "2026-10-15T21:54:15.025665+00:00",
+  "scope": "Exact native review endpoint request audit plus independent public API review count; no direct database mutation",
+  "path": "/api/v1/bookings/qa-nr-ios-completed-booking/review",
+  "downstreamPosts": [
+    {
+      "at": "2026-10-15T21:52:43.528713+00:00",
+      "method": "POST",
+      "path": "/api/v1/bookings/qa-nr-ios-completed-booking/review",
+      "userId": "qa-nr-ios-buyer",
+      "status": 201
+    }
+  ],
+  "faultHits": [
+    {
+      "at": "2026-10-15T21:52:38.542282+00:00",
+      "ruleId": "ios-d10-review-write",
+      "method": "POST",
+      "path": "/api/v1/bookings/qa-nr-ios-completed-booking/review",
+      "userId": "qa-nr-ios-buyer",
+      "hit": 1,
+      "action": "reject",
+      "status": 503
+    }
+  ],
+  "storedReviewCount": 1,
+  "storedReviewId": "a86225d3-781a-47e9-9c64-d6f14a9e4836",
+  "source": "ios-d10-review-readback.json"
+}

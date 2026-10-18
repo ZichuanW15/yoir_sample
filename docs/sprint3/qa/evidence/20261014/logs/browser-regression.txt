@@ -1,0 +1,74 @@
+
+> yoir-mobile@0.1.0 test:web
+> playwright test --config playwright.config.ts --grep-invert '@defect'
+
+[WebServer] Mail is NOT configured (MAILGUN_API_KEY and MAILGUN_DOMAIN missing): every message will be logged and discarded, including email confirmation and booking confirmations.
+
+Running 18 tests using 1 worker
+
+  ✓   1 [chromium-web] › e2e/integrity.spec.ts:48:5 › DEF-PROFILE-PROVENANCE: live verified identity agrees with the persisted counsellor profile (1.4s)
+  ✓   2 [chromium-web] › e2e/integrity.spec.ts:59:5 › CURRENT-IMPLEMENTATION: newly registered counsellor receives publish 403 with no saved or falsely successful service (2.4s)
+  ✓   3 [chromium-web] › e2e/sprint3-diagnosis.spec.ts:53:5 › US09/10/11 local Web diagnosis validates, resumes after login and isolates accounts (11.0s)
+  ✘   4 [chromium-web] › e2e/sprint3-diagnosis.spec.ts:85:5 › US12/13 local direction leads through a real professional and service to a stub booking (30.3s)
+  ✓   5 [chromium-web] › e2e/sprint3-diagnosis.spec.ts:125:5 › US09/12 cancelled local retake preserves the old direction and completed retake replaces it (10.8s)
+  ✓   6 [chromium-web] › e2e/web.spec.ts:37:5 › US44/45/46 public Web catalogue, search, detail and back (2.8s)
+  ✓   7 [chromium-web] › e2e/web.spec.ts:53:7 › US01/04 Web registration persists job_seeker (2.3s)
+  ✓   8 [chromium-web] › e2e/web.spec.ts:53:7 › US01/04 Web registration persists counsellor (2.3s)
+  ✓   9 [chromium-web] › e2e/web.spec.ts:70:5 › US03 duplicate registration remains on the form with input preserved (1.3s)
+  ✓  10 [chromium-web] › e2e/web.spec.ts:85:5 › US07 invalid login stays anonymous and can retry (3.7s)
+  ✓  11 [chromium-web] › e2e/web.spec.ts:106:5 › US06/08 Web login, logout and server-side revoked-token replay (4.2s)
+  ✓  12 [chromium-web] › e2e/web.spec.ts:120:5 › US40/41/47/68 real browser booking to stub receipt (not provider acceptance) (4.0s)
+  ✓  13 [chromium-web] › e2e/web.spec.ts:145:5 › US44 Web network failure exposes retry and recovers @injected-network (2.9s)
+  ✓  14 [chromium-web] › e2e/web.spec.ts:155:5 › US34/35/37/38 counsellor Web publishing validates area and persists both delivery modes (5.0s)
+  ✓  15 [chromium-web] › e2e/web.spec.ts:199:5 › US34 counsellor publishing preserves the draft after a transport failure and retries once @injected-network (3.3s)
+  ✓  16 [chromium-web] › e2e/web.spec.ts:234:5 › US39 real Web availability windows create, derive service starts and remove through the API (4.2s)
+  ✓  17 [chromium-web] › e2e/web.spec.ts:295:5 › [QA-106][US08-AC3] logout prevents browser history and protected deep-link access (3.8s)
+  ✓  18 [chromium-web] › e2e/web.spec.ts:332:5 › US45 implemented Web keyword search shows matching results and a recoverable empty state (1.6s)
+
+
+  1) [chromium-web] › e2e/sprint3-diagnosis.spec.ts:85:5 › US12/13 local direction leads through a real professional and service to a stub booking
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForResponse: Test timeout of 30000ms exceeded.
+
+      102 |   await page.getByRole('radio').filter({ hasText: /min/ }).first().click();
+      103 |   await page.getByRole('button', { name: 'Continue to payment', exact: true }).click();
+    > 104 |   const paid = page.waitForResponse(r => r.url().endsWith('/payments/stub') && r.request().method() === 'POST');
+          |                     ^
+      105 |   await page.getByRole('button', { name: /^Pay \$/ }).click();
+      106 |   const response = await paid;
+      107 |   expect(response.status()).toBe(200);
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-diagnosis.spec.ts:104:21
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: /^Pay \$/ })
+
+
+      103 |   await page.getByRole('button', { name: 'Continue to payment', exact: true }).click();
+      104 |   const paid = page.waitForResponse(r => r.url().endsWith('/payments/stub') && r.request().method() === 'POST');
+    > 105 |   await page.getByRole('button', { name: /^Pay \$/ }).click();
+          |                                                       ^
+      106 |   const response = await paid;
+      107 |   expect(response.status()).toBe(200);
+      108 |   const receipt = await response.json();
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-diagnosis.spec.ts:105:55
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-20261014/browser-regression/report/attachments/sprint3-diagnosis-US12-13--115ca-d-service-to-a-stub-booking-chromium-web/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../artifacts/qa/sprint3-20261014/browser-regression/report/attachments/sprint3-diagnosis-US12-13--115ca-d-service-to-a-stub-booking-chromium-web/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-20261014/browser-regression/report/attachments/sprint3-diagnosis-US12-13--115ca-d-service-to-a-stub-booking-chromium-web/trace.zip
+    Usage:
+
+        npx playwright show-trace ../artifacts/qa/sprint3-20261014/browser-regression/report/attachments/sprint3-diagnosis-US12-13--115ca-d-service-to-a-stub-booking-chromium-web/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    [chromium-web] › e2e/sprint3-diagnosis.spec.ts:85:5 › US12/13 local direction leads through a real professional and service to a stub booking
+  17 passed (1.7m)

@@ -1,0 +1,1 @@
+QA traceability consistent: 20 issues; 3 closed / 17 open; no full-device sign-off. Product tests were not executed.

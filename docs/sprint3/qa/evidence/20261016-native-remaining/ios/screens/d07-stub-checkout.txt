@@ -1,0 +1,80 @@
+Window: "iPhone 18 Pro", App: Device Hub.
+0 standard window iPhone 18 Pro – iOS 27.0, ID: com.apple.dt.DeviceKit.DeviceManagementWindow-AppWindow-1, Secondary Actions: Raise
+	1 split group
+		2 split group com.apple.dt.DeviceKit.DeviceManagementWindow-AppWindow-1, SidebarNavigationSplitView
+			3 scroll area
+				4 list Sidebar
+					5 row (selectable) Description: Available, Value: Expanded
+					6 row (selected) Description: iphone.gen3, Value: iPhone 18 Pro
+27.0
+Simulator
+			7 search text field (settable) Search
+				8 button Search
+			9 splitter (disabled, settable, float) 248
+			10 container
+				11 container
+					12 button Description: Go back, Secondary Actions: Cancel
+					13 text Description: Review and pay, Secondary Actions: Cancel
+					14 text Description: 2, Secondary Actions: Cancel
+					15 text Description: 3, Secondary Actions: Cancel
+					16 text Description: Time, Secondary Actions: Cancel
+					17 text Description: Payment, Secondary Actions: Cancel
+					18 text Description: Confirmed, Secondary Actions: Cancel
+					19 text Description: Almost there, Secondary Actions: Cancel
+					20 text 14:44
+					21 text Description: Your slot is reserved while the timer runs., Secondary Actions: Cancel
+					22 text Description: QA iOS Editable Session, Secondary Actions: Cancel
+					23 text Description: with QA iOS Pro, Secondary Actions: Cancel
+					24 text Description: Date, Secondary Actions: Cancel
+					25 text Description: Saturday 24 October, Secondary Actions: Cancel
+					26 text Description: Time, Secondary Actions: Cancel
+					27 text Description: 3:00 pm – 4:00 pm, Secondary Actions: Cancel
+					28 text Description: Timezone, Secondary Actions: Cancel
+					29 text Description: Australia/Melbourne, Secondary Actions: Cancel
+					30 text Description: Delivery, Secondary Actions: Cancel
+					31 text Description: Online, Secondary Actions: Cancel
+					32 text Description: Total, Secondary Actions: Cancel
+					33 text Description: $84, Secondary Actions: Cancel
+					34 text Description: Cancellation policy, Secondary Actions: Cancel
+					35 text Secondary Actions: Cancel, Description: Cancel at least 24 hours before the session for a full refund of $84. Cancelling later than that is not refunded. If your Career Professional cancels, you are always refunded in full.
+					36 text Description: Test-mode payment, Secondary Actions: Cancel
+					37 text Secondary Actions: Cancel, Description: Yoir never collects or stores card details. This build uses the backend payment stub, so no real money moves.
+					38 text Description: Method, Secondary Actions: Cancel
+					39 text Description: Yoir test payment, Secondary Actions: Cancel
+					40 text Description: Order reference, Secondary Actions: Cancel
+					41 text Description: fed307bf-623d-4e57-95bb-76eaff2df633, Secondary Actions: Cancel
+					42 button Description: Pay $84, Secondary Actions: Cancel
+					43 image Description: Gear Shape, Filled, ID: gearshape.fill, Secondary Actions: Cancel
+				44 button Description: Home, ID: app.grid.3x3
+				45 button Description: Screenshot, ID: camera.viewfinder
+				46 button Description: Record, ID: record.circle
+				47 button Rotate Left
+	48 toolbar
+		49 menu button Add, Help: Add Device, ID: plus
+		50 toggle button Description: Filter, Help: Sort and Filter, Value: off
+		51 button Description: Hide Sidebar, Secondary Actions: Increment, Decrement, Delete, Cancel
+		52 toggle button Description: Capture Keyboard, Value: off
+		53 toggle button (disabled) Description: Resize mode, Help: Enter resize mode, Value: off
+		54 Zoom
+			55 radio button Description: Zoom Out, Value: 0, ID: minus.magnifyingglass
+			56 radio button Description: arrowtriangles.up.right.down.left.magnifyingglass, Help: Zoom to Fit, Value: 1
+			57 radio button Description: Zoom To Actual Size, Help: Physical Size, Value: 0, ID: 1.magnifyingglass
+			58 radio button Description: Zoom In, Value: 0, ID: plus.magnifyingglass
+		59 button Description: Open in New Window, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		60 menu button More, Help: More Actions, ID: ellipsis
+		61 radio button Description: Edit, Help: Settings, Value: 0, ID: slider.horizontal.3
+		62 radio button Description: text.document, Help: Reports, Value: 0
+		63 radio button Description: Info, Value: 0, ID: info
+	64 close button
+	65 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	66 minimize button
+	67 text iPhone 18 Pro iOS 27.0
+68 menu bar
+	69 Device Hub
+	70 File
+	71 Edit
+	72 View
+	73 Device
+	74 Controls
+	75 Window
+	76 Help

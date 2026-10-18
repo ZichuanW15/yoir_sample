@@ -1,0 +1,61 @@
+{
+  "at": "2026-10-15T22:03:09.282860+00:00",
+  "scope": "Explicit independent owner API fixture action for native focus-refresh observation. Not a native owner action. No email provider configured.",
+  "actor": "qa-nr-android-owner",
+  "path": "/admin/verifications/qa-nr-android-candidate/decision",
+  "before": {
+    "status": 200,
+    "data": {
+      "id": "qa-nr-android-candidate",
+      "counsellorId": "qa-nr-android-candidate",
+      "counsellorName": "QA Android Candidate",
+      "email": "av@example.com",
+      "linkedInUrl": "https://linkedin.com/in/qa",
+      "introduction": "Android QA introduction",
+      "background": "Android QA background",
+      "experience": "Android QA experience",
+      "status": "verified",
+      "submittedAt": "2026-10-15T21:48:42.749136Z",
+      "decidedAt": "2026-10-15T21:54:56.635133Z",
+      "decisionReason": null
+    }
+  },
+  "requestBody": {
+    "decision": "rejected",
+    "reason": "QA focus refresh"
+  },
+  "result": {
+    "status": 200,
+    "data": {
+      "id": "qa-nr-android-candidate",
+      "counsellorId": "qa-nr-android-candidate",
+      "counsellorName": "QA Android Candidate",
+      "email": "av@example.com",
+      "linkedInUrl": "https://linkedin.com/in/qa",
+      "introduction": "Android QA introduction",
+      "background": "Android QA background",
+      "experience": "Android QA experience",
+      "status": "rejected",
+      "submittedAt": "2026-10-15T21:48:42.749136Z",
+      "decidedAt": "2026-10-15T22:03:09.279932Z",
+      "decisionReason": "QA focus refresh"
+    }
+  },
+  "after": {
+    "status": 200,
+    "data": {
+      "id": "qa-nr-android-candidate",
+      "counsellorId": "qa-nr-android-candidate",
+      "counsellorName": "QA Android Candidate",
+      "email": "av@example.com",
+      "linkedInUrl": "https://linkedin.com/in/qa",
+      "introduction": "Android QA introduction",
+      "background": "Android QA background",
+      "experience": "Android QA experience",
+      "status": "rejected",
+      "submittedAt": "2026-10-15T21:48:42.749136Z",
+      "decidedAt": "2026-10-15T22:03:09.279932Z",
+      "decisionReason": "QA focus refresh"
+    }
+  }
+}

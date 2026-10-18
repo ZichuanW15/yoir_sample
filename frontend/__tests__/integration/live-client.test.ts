@@ -92,13 +92,14 @@ describe('TypeScript client to live backend', () => {
       expect(slots.length).toBeGreaterThan(0);
       const slot = slots[0];
       expect(new Date(slot.endsAt).getTime() - new Date(slot.startsAt).getTime()).toBe(service.durationMinutes * 60_000);
-      await expect(api.createOrder(service.id, slot.startsAt, service.modalities[0], 'Australia/Melbourne', unverified.accessToken)).rejects.toMatchObject({ status: 403 });
+      await expect(api.createOrder(service.id, slot.startsAt, service.modalities[0], 'Australia/Melbourne', null, unverified.accessToken)).rejects.toMatchObject({ status: 403 });
 
       const order = await api.createOrder(
         service.id,
         slot.startsAt,
         service.modalities[0],
         'Australia/Melbourne',
+        null,
         session.accessToken,
       );
       expect(order).toMatchObject({

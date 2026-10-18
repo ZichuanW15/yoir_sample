@@ -13,7 +13,8 @@ import {
   addMonths, buildWindowDrafts, dateKey, isSameMonth, monthGrid, parseDateKey, startOfDay,
   startOfMonth, weekdayDatesInRange,
 } from '@/src/counsellor/availabilityPlanner';
-import { fmtLong, fmtTime, HOURS, modalityLabel, timeRange } from '@/src/format';
+import { DesktopPage, PageHeader, useDesktop } from '@/src/desktop';
+import { fmtLong, fmtTime, HOURS, hoursAndMinutes, modalityLabel, timeRange } from '@/src/format';
 import { FadeUp, ScreenIn } from '@/src/motion';
 import { goBack } from '@/src/navigation';
 import { colors, fonts, radius, shadow, type } from '@/src/theme';
@@ -38,6 +39,7 @@ export default function AvailabilityScreen() {
   const { session } = useAuth();
   const { flash, confirm } = useChrome();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
 
   const [windows, setWindows] = useState<AvailabilityWindow[]>([]);
   const [month, setMonth] = useState(() => startOfMonth(new Date()));
@@ -151,6 +153,149 @@ export default function AvailabilityScreen() {
   }, [session, confirm, load]);
 
   if (!session || session.user.role !== 'counsellor') return <Redirect href="/" />;
+
+  // Desktop: the calendar beside the repeat and hours controls, and the calendar's
+  // contents as a grid below, as in the redesign.
+  if (desktop) {
+    const summary = drafts.length
+      ? `${drafts.length} ${drafts.length === 1 ? 'day' : 'days'}, ${fromHour}:00 to ${toHour}:00`
+      : 'Choose the days you are free.';
+    return (
+      <DesktopPage>
+        <PageHeader
+          eyebrow="Availability"
+          title="When do you work?"
+          subtitle="Mark the hours you are free. Every service you offer can be booked inside them, and a booking takes only as long as that service lasts."
+        />
+
+        {error ? <ErrorBanner message={error} /> : null}
+
+        <View style={s.desktopColumns}>
+          <View style={[s.card, s.desktopCard, s.desktopHalf]}>
+            <View style={s.monthBar}>
+              <Press onPress={() => setMonth(addMonths(month, -1))} accessibilityLabel="Previous month" style={s.monthNav}>
+                <Glyph name="chevronLeft" size={16} color={colors.ink} />
+              </Press>
+              <Text style={s.monthLabel}>{month.toLocaleDateString('en-AU', { month: 'long', year: 'numeric' })}</Text>
+              <Press onPress={() => setMonth(addMonths(month, 1))} accessibilityLabel="Next month" style={s.monthNav}>
+                <Glyph name="chevronRight" size={16} color={colors.ink} />
+              </Press>
+            </View>
+            <View style={s.weekHead}>
+              {DAY_NAMES.map((name) => <Text key={name} style={[s.weekHeadCell, s.desktopWeekHeadCell]}>{name}</Text>)}
+            </View>
+            <View style={s.grid}>
+              {cells.map((date, index) => {
+                if (!date) return <View key={`blank-${index}`} style={s.cell} />;
+                const past = startOfDay(date) < today;
+                const on = picked.has(dateKey(date));
+                return (
+                  <View key={dateKey(date)} style={[s.cell, s.desktopCellHolder]}>
+                    <Press
+                      disabled={past}
+                      onPress={() => toggleDate(date)}
+                      accessibilityLabel={fmtLong(date.toISOString())}
+                      accessibilityState={{ selected: on }}
+                      style={[s.desktopCell, on && s.cellOn, past && s.cellPast]}
+                    >
+                      <Text style={[s.cellText, on && s.cellTextOn, past && s.cellTextPast]}>
+                        {isSameMonth(date, month) ? date.getDate() : ''}
+                      </Text>
+                    </Press>
+                  </View>
+                );
+              })}
+            </View>
+          </View>
+
+          <View style={[s.desktopStack, s.desktopHalf]}>
+            <View style={[s.card, s.desktopCard]}>
+              <Text style={type.groupLabel}>Or repeat every</Text>
+              <View style={s.row}>
+                {DAY_NAMES.map((name, index) => (
+                  <Chip key={name} label={name} role="checkbox" selected={weekdays.has(index)} onPress={() => toggleWeekday(index)} />
+                ))}
+              </View>
+              {weekdays.size ? (
+                <>
+                  <Text style={s.hint}>for the next</Text>
+                  <View style={s.row}>
+                    {[2, 4, 8].filter((n) => n <= MAX_WEEKS).map((n) => (
+                      <Chip key={n} label={`${n} weeks`} selected={weeks === n} onPress={() => setWeeks(n)} />
+                    ))}
+                  </View>
+                </>
+              ) : null}
+            </View>
+
+            <View style={[s.card, s.desktopCard]}>
+              <Text style={type.groupLabel}>Hours</Text>
+              <Text style={s.hint}>From</Text>
+              <View style={s.row}>
+                {HOURS.map((hour) => (
+                  <Chip key={hour} label={String(hour)} selected={fromHour === hour} onPress={() => setFromHour(hour)} />
+                ))}
+              </View>
+              <Text style={s.hint}>Until</Text>
+              <View style={s.row}>
+                {HOURS.map((hour) => (
+                  <Chip key={hour} label={String(hour)} selected={toHour === hour} onPress={() => setToHour(hour)} />
+                ))}
+              </View>
+              <Text style={s.hint}>How can you meet in these hours?</Text>
+              <View style={s.row}>
+                {(['online', 'in_person'] as Modality[]).map((option) => (
+                  <Chip
+                    key={option}
+                    label={modalityLabel(option)}
+                    role="checkbox"
+                    selected={modalities.includes(option)}
+                    onPress={() => setModalities((current) => (
+                      current.includes(option) ? current.filter((m) => m !== option) : [...current, option]
+                    ))}
+                  />
+                ))}
+              </View>
+              <View style={s.desktopSubmitRow}>
+                <Text style={[s.summary, s.desktopSummary]}>{summary}</Text>
+                <Button label="Add availability" height={48} labelSize={14} busy={busy} onPress={save} style={shadow.toast} />
+              </View>
+            </View>
+          </View>
+        </View>
+
+        <Text style={[type.display24, s.desktopListTitle]}>
+          {windows.length ? `${windows.length} on your calendar` : 'Nothing on your calendar yet'}
+        </Text>
+
+        {/* Zero-height fillers keep the last row's windows the width of the rest. */}
+        <View style={s.desktopWindows}>
+          {windows.map((window) => (
+            <View key={window.id} style={[s.windowRow, s.desktopWindow]}>
+              <View style={s.windowCopy}>
+                <Text style={s.windowDay}>{fmtLong(window.startsAt)}</Text>
+                <Text style={s.windowTime}>
+                  {timeRange(window.startsAt, window.endsAt)}
+                  {' · '}{window.modalities.map(modalityLabel).join(' & ')}
+                  {window.hasBookings ? ' · has a booking' : ''}
+                  {openNote(window)}
+                </Text>
+              </View>
+              <Press
+                onPress={() => remove(window)}
+                scaleTo={0.94}
+                accessibilityLabel={`Remove ${fmtLong(window.startsAt)} ${fmtTime(window.startsAt)}`}
+                style={s.removeButton}
+              >
+                <Glyph name="trash" size={14} color={colors.dangerInk} />
+              </Press>
+            </View>
+          ))}
+          {windows.length ? [0, 1, 2].map((n) => <View key={`fill-${n}`} style={s.desktopFiller} />) : null}
+        </View>
+      </DesktopPage>
+    );
+  }
 
   return (
     <ScreenIn style={s.screen}>
@@ -285,6 +430,7 @@ export default function AvailabilityScreen() {
                   {timeRange(window.startsAt, window.endsAt)}
                   {' · '}{window.modalities.map(modalityLabel).join(' & ')}
                   {window.hasBookings ? ' · has a booking' : ''}
+                  {openNote(window)}
                 </Text>
               </View>
               <Press
@@ -301,6 +447,14 @@ export default function AvailabilityScreen() {
       </ScrollView>
     </ScreenIn>
   );
+}
+
+/** What is left of a window to book, when that is not simply all of it. */
+function openNote(window: AvailabilityWindow): string {
+  if (window.freeMinutes === undefined) return '';
+  if (window.freeMinutes === 0) return ' · fully booked';
+  const length = Math.round((Date.parse(window.endsAt) - Date.parse(window.startsAt)) / 60000);
+  return window.freeMinutes < length ? ` · ${hoursAndMinutes(window.freeMinutes)} free` : '';
 }
 
 const s = StyleSheet.create({
@@ -333,4 +487,18 @@ const s = StyleSheet.create({
   windowDay: { fontFamily: fonts.bold, fontSize: 14, color: colors.ink },
   windowTime: { fontFamily: fonts.sans, fontSize: 13, color: colors.muted },
   removeButton: { width: 34, height: 34, alignItems: 'center', justifyContent: 'center', borderRadius: radius.sm, backgroundColor: colors.dangerBg },
+
+  desktopColumns: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', gap: 22 },
+  desktopHalf: { flexGrow: 1, flexShrink: 1, flexBasis: 340 },
+  desktopStack: { gap: 22 },
+  desktopCard: { padding: 20, gap: 14, borderRadius: 22 },
+  desktopWeekHeadCell: { paddingBottom: 6 },
+  desktopCellHolder: { padding: 1 },
+  desktopCell: { flex: 1, alignSelf: 'stretch', alignItems: 'center', justifyContent: 'center', borderRadius: 12 },
+  desktopSubmitRow: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between', gap: 12, marginTop: 6 },
+  desktopSummary: { marginTop: 0 },
+  desktopListTitle: { marginTop: 6 },
+  desktopWindows: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  desktopWindow: { flexGrow: 1, flexShrink: 1, flexBasis: 300, backgroundColor: colors.white, borderWidth: 1, borderColor: colors.lineSoft, borderRadius: 18, paddingVertical: 14 },
+  desktopFiller: { flexGrow: 1, flexShrink: 1, flexBasis: 300, height: 0 },
 });

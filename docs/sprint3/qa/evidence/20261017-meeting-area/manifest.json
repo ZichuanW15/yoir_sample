@@ -1,0 +1,1192 @@
+{
+  "packagedAt": "2026-10-17T06:49:07.837440+00:00",
+  "files": [
+    {
+      "path": "source-manifest.json",
+      "sha256": "8668a135e25d3adcabffeffade23f7cf63a5feb94ffd20a2ed685f22104465aa",
+      "bytes": 43298
+    },
+    {
+      "path": "logs/android-defects.txt",
+      "sha256": "2c5e4f3ad3cda2a7377112204a4669b7c3ea3c85cda273efaaf3f91a98974168",
+      "bytes": 49535,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/android-defects/console.txt",
+      "sourceSha256": "93d6ff915a5e675b47f9236bb3e75b6722c955d315afd8b9ea2fcf0fa1a19259",
+      "sourceBytes": 49559,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/backend-compile.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/backend-compile/console.txt",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourceBytes": 0,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/backend-postgres.txt",
+      "sha256": "919bd04a5076972a0ff42a975ac9b8d560a681cb30d5190fc1386786cde2c7e7",
+      "bytes": 10154,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/backend-postgres/console.txt",
+      "sourceSha256": "919bd04a5076972a0ff42a975ac9b8d560a681cb30d5190fc1386786cde2c7e7",
+      "sourceBytes": 10154,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/backend-source-lint.txt",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/backend-source-lint/console.txt",
+      "sourceSha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "sourceBytes": 19,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/backend-test-lint.txt",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/backend-test-lint/console.txt",
+      "sourceSha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "sourceBytes": 19,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/browser-area-focused.txt",
+      "sha256": "84ccf1800ae07edad619f6180f8564bf1c881ab36b7c4e6d2b433d3c00eefcc2",
+      "bytes": 538,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-area-focused/console.txt",
+      "sourceSha256": "84ccf1800ae07edad619f6180f8564bf1c881ab36b7c4e6d2b433d3c00eefcc2",
+      "sourceBytes": 538,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/browser-defects.txt",
+      "sha256": "af3bb5e81fa75039b028d49f5c7eddc7d3e031af6b8a65384177c8ee3fac2956",
+      "bytes": 28791,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/console.txt",
+      "sourceSha256": "f02b5da6dd44ea30e37d0e2fc734eeb851dee1fcc4b84e06d1a19cdbbcd3f819",
+      "sourceBytes": 28805,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/browser-regression.txt",
+      "sha256": "67e30dfb3951b23b9e32088ad27d517acb2be081004c229786b9810411277c6c",
+      "bytes": 6405,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/console.txt",
+      "sourceSha256": "67e30dfb3951b23b9e32088ad27d517acb2be081004c229786b9810411277c6c",
+      "sourceBytes": 6405,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/frontend-defects.txt",
+      "sha256": "e1cd34f89de64090e724435f50d8fb5dd242cc2f9924ff92dfb16f8f8a0d7823",
+      "bytes": 48619,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/frontend-defects/console.txt",
+      "sourceSha256": "901cad953a4bcde5b01bf03fbd2d8605b47a5ef1728266fe65cd3cf942a64eb7",
+      "sourceBytes": 48643,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/frontend-lint.txt",
+      "sha256": "b0d139fb9ee6b501b6c9166c07126de5c63fe59e4d9170762e12a6b77792cb26",
+      "bytes": 38,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/frontend-lint/console.txt",
+      "sourceSha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd",
+      "sourceBytes": 39,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/frontend-lint-final.txt",
+      "sha256": "b0d139fb9ee6b501b6c9166c07126de5c63fe59e4d9170762e12a6b77792cb26",
+      "bytes": 38,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/frontend-lint-final/console.txt",
+      "sourceSha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd",
+      "sourceBytes": 39,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/frontend-typecheck.txt",
+      "sha256": "15c7a0e30c0924df227605778969f7eb32b19ab419c5f0096b1f7552103f70a9",
+      "bytes": 46,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/frontend-typecheck/console.txt",
+      "sourceSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+      "sourceBytes": 47,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/frontend-typecheck-final.txt",
+      "sha256": "15c7a0e30c0924df227605778969f7eb32b19ab419c5f0096b1f7552103f70a9",
+      "bytes": 46,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/frontend-typecheck-final/console.txt",
+      "sourceSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+      "sourceBytes": 47,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/httpx-live.txt",
+      "sha256": "897436b711bdd29b11c978d26996950320b25a37729b0e34969df9cac395e48c",
+      "bytes": 237,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/httpx-live/console.txt",
+      "sourceSha256": "897436b711bdd29b11c978d26996950320b25a37729b0e34969df9cac395e48c",
+      "sourceBytes": 237,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/ios-defects.txt",
+      "sha256": "5dfc0d3ad7610fda416b695719ad0159296aca5234d0311d5c92c806cf7ceef2",
+      "bytes": 49460,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/ios-defects/console.txt",
+      "sourceSha256": "1b8688a043481688c6e09522e436a7928943af61e097290af3d33e78be180f84",
+      "sourceBytes": 49484,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/typescript-live.txt",
+      "sha256": "073bf29a52ab157597d9a64fc58fedb09993c0ca75065c7a8909277957e628c3",
+      "bytes": 905,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/typescript-live/console.txt",
+      "sourceSha256": "073bf29a52ab157597d9a64fc58fedb09993c0ca75065c7a8909277957e628c3",
+      "sourceBytes": 905,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "logs/web-build.txt",
+      "sha256": "3003a52190ac93d42559cbe40a9f97c18801a8b0c3ae8fb547df138ad7694d2a",
+      "bytes": 1639,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/web-build/console.txt",
+      "sourceSha256": "3003a52190ac93d42559cbe40a9f97c18801a8b0c3ae8fb547df138ad7694d2a",
+      "sourceBytes": 1639,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "executions.json",
+      "sha256": "0c87bfae5a84b554cc21cb557a754c112c1f0a13aacad5899c5b80031c11a2bd",
+      "bytes": 16907
+    },
+    {
+      "path": "android-defects.json",
+      "sha256": "de754384bcfa56752828852823af15ea7d618221ad9fc2b8ae89144cd05ecf88",
+      "bytes": 40147,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/android-defects/results.json",
+      "sourceSha256": "b5ede661d53f6c51fa024ee290ff2a356368941f094fd3eba0a4b506fc9d51c6",
+      "sourceBytes": 87220,
+      "transformation": "Runner report reduced to counts, per-case identities, timings and failures; authentication fragments redacted if present."
+    },
+    {
+      "path": "frontend-defects.json",
+      "sha256": "2b43fc348184b04e924d78acaae6ec8052654986de935f592d8b66cd46682cd1",
+      "bytes": 38017,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/frontend-defects/results.json",
+      "sourceSha256": "2dbb30c93f6cb066d5dd3eb741c1695a24d006589bd501e656da87b2d4c21567",
+      "sourceBytes": 84143,
+      "transformation": "Runner report reduced to counts, per-case identities, timings and failures; authentication fragments redacted if present."
+    },
+    {
+      "path": "ios-defects.json",
+      "sha256": "faefb55e982448e41b556f7d4e310d9ad891200880b21c1d95b220c60faf2a48",
+      "bytes": 40145,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/ios-defects/results.json",
+      "sourceSha256": "2c9d99c342c59eb273ad393b4895541b761151c26834d7bf51e8bcdc4f93a387",
+      "sourceBytes": 87210,
+      "transformation": "Runner report reduced to counts, per-case identities, timings and failures; authentication fragments redacted if present."
+    },
+    {
+      "path": "typescript-live.json",
+      "sha256": "a80a3d247aed1ac4df64095b891d528df24fe8b2d5b762c82bd8d9d2c8706cd6",
+      "bytes": 884,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/typescript-live/results.json",
+      "sourceSha256": "2979e60726c2379c1737828f0166bb18d6d27c01482f1dd8a4255225e460780d",
+      "sourceBytes": 1660,
+      "transformation": "Runner report reduced to counts, per-case identities, timings and failures; authentication fragments redacted if present."
+    },
+    {
+      "path": "backend-postgres.json",
+      "sha256": "f525415501d14d6f628249cc7d616269543c4b7cbe6d83a246fbdbb17cb94229",
+      "bytes": 224187,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/backend-postgres/results.xml",
+      "sourceSha256": "45f9222485e85a01fb40d90dfc0efa838147b1a5991b8f21845f1a2ff1fcf782",
+      "sourceBytes": 135716,
+      "transformation": "JUnit converted to per-case status/timing/diagnostic records; authentication fragments redacted if present."
+    },
+    {
+      "path": "httpx-live.json",
+      "sha256": "8f8d0704e71446215f3c5fe78c43c80fbced41e19774719bda06fdc68a0dbaba",
+      "bytes": 542,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/httpx-live/results.xml",
+      "sourceSha256": "3568df1e97e0f2c92a325397b8107ca4bd9b80ccce59a848d17d4050e28db7e5",
+      "sourceBytes": 498,
+      "transformation": "JUnit converted to per-case status/timing/diagnostic records; authentication fragments redacted if present."
+    },
+    {
+      "path": "attachments/browser-area-focused-01-0.png",
+      "sha256": "8fd7c45d9168589d716da2a308a9261b170a681340ad3682a19838369e62bbfc",
+      "bytes": 29632,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-area-focused/results.json",
+      "sourceSha256": "7a0a95679ab5f9c62e97288732d73b8367ede0eda9dfb18b4f27bab2d20d276a",
+      "sourceBytes": 86228,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-area-focused-01-1.png",
+      "sha256": "0d92339d9b0a0416f1f3a7de0d7d75bac56547c03504810d9b074c0866c8edc8",
+      "bytes": 31305,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-area-focused/results.json",
+      "sourceSha256": "7a0a95679ab5f9c62e97288732d73b8367ede0eda9dfb18b4f27bab2d20d276a",
+      "sourceBytes": 86228,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-area-focused-01-2.json",
+      "sha256": "8035f85413d1a25e2164901f4153344912ec58a4ad5459ccaadbc9bf0bb009a0",
+      "bytes": 285,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-area-focused/results.json",
+      "sourceSha256": "7a0a95679ab5f9c62e97288732d73b8367ede0eda9dfb18b4f27bab2d20d276a",
+      "sourceBytes": 86228,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "browser-area-focused.json",
+      "sha256": "846bd6ce70076f8f88777b6950b486e0b37136f731639c63a20950ed52c732fc",
+      "bytes": 893,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-area-focused/results.json",
+      "sourceSha256": "7a0a95679ab5f9c62e97288732d73b8367ede0eda9dfb18b4f27bab2d20d276a",
+      "sourceBytes": 86228,
+      "transformation": "Browser report reduced to per-case outcomes and retained selected attachments; full HTML/trace bundles omitted."
+    },
+    {
+      "path": "attachments/browser-defects-01-0.png",
+      "sha256": "5d07177064247119800d7985de032f00ebf8989c2a3207ac7c4a8f0988f21a80",
+      "bytes": 76139,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "sourceSha256": "1b3d6943388189cc92384e5fc3a0ab64b9a575dc7ba52fd112f72bf14e4e72a0",
+      "sourceBytes": 332565,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-02-0.png",
+      "sha256": "6515969dd3546f52d2795e4cb9ba58b0a95e409d8ec22b75f256f6c081d382c3",
+      "bytes": 69020,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "sourceSha256": "1b3d6943388189cc92384e5fc3a0ab64b9a575dc7ba52fd112f72bf14e4e72a0",
+      "sourceBytes": 332565,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-03-0.json",
+      "sha256": "6e5c492f1ee1d93c22bf3c4e1fb823edc4282dd8a12ae8dbbeb91b4a643ad7a6",
+      "bytes": 131,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "sourceSha256": "1b3d6943388189cc92384e5fc3a0ab64b9a575dc7ba52fd112f72bf14e4e72a0",
+      "sourceBytes": 332565,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-defects-03-1.png",
+      "sha256": "431ef2b38cd217e2f8006b44ca516e9c56571738e66e4381687e495b8ade7aa8",
+      "bytes": 48752,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "sourceSha256": "1b3d6943388189cc92384e5fc3a0ab64b9a575dc7ba52fd112f72bf14e4e72a0",
+      "sourceBytes": 332565,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-03-2.png",
+      "sha256": "7e3a536a169ef7f491ecc96e702549e06bdbb97215ac4aada79ce75863b9f0d0",
+      "bytes": 42195,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "sourceSha256": "1b3d6943388189cc92384e5fc3a0ab64b9a575dc7ba52fd112f72bf14e4e72a0",
+      "sourceBytes": 332565,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-04-0.json",
+      "sha256": "36b97c9e87c1aa9e1c387b36e246f1b1bc108ddbbe4e22dbd086c8493638d002",
+      "bytes": 89,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "sourceSha256": "1b3d6943388189cc92384e5fc3a0ab64b9a575dc7ba52fd112f72bf14e4e72a0",
+      "sourceBytes": 332565,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-defects-04-1.png",
+      "sha256": "b391ce9a5533a70a0693f42ce5c64406d0215775cecbe7c2a20cc7091fc227cc",
+      "bytes": 59651,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "sourceSha256": "1b3d6943388189cc92384e5fc3a0ab64b9a575dc7ba52fd112f72bf14e4e72a0",
+      "sourceBytes": 332565,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-04-2.png",
+      "sha256": "b391ce9a5533a70a0693f42ce5c64406d0215775cecbe7c2a20cc7091fc227cc",
+      "bytes": 59651,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "sourceSha256": "1b3d6943388189cc92384e5fc3a0ab64b9a575dc7ba52fd112f72bf14e4e72a0",
+      "sourceBytes": 332565,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-05-0.json",
+      "sha256": "30c5977a9d6c4893bed18af871258011d3f908b5c1aca714bac835f6f8418eaa",
+      "bytes": 1061,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "sourceSha256": "1b3d6943388189cc92384e5fc3a0ab64b9a575dc7ba52fd112f72bf14e4e72a0",
+      "sourceBytes": 332565,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-defects-05-1.png",
+      "sha256": "f1316925746806de9dc18536fdf169e955517ad10a7c622ef0f683fc8c5b7084",
+      "bytes": 5155,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "sourceSha256": "1b3d6943388189cc92384e5fc3a0ab64b9a575dc7ba52fd112f72bf14e4e72a0",
+      "sourceBytes": 332565,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-05-2.png",
+      "sha256": "832f306dcab09488d20afbd9d0373995dcab43c7964561a01824368b0fc49495",
+      "bytes": 5142,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "sourceSha256": "1b3d6943388189cc92384e5fc3a0ab64b9a575dc7ba52fd112f72bf14e4e72a0",
+      "sourceBytes": 332565,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-06-0.json",
+      "sha256": "9894b725c1f3edd8f8903d3cabdd9f38fd9a7da335192c031fed3a613d19596a",
+      "bytes": 947,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "sourceSha256": "1b3d6943388189cc92384e5fc3a0ab64b9a575dc7ba52fd112f72bf14e4e72a0",
+      "sourceBytes": 332565,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-defects-06-1.png",
+      "sha256": "9b22f43acc7e245c68c51555253ab06cb605011f60b08cd6c78d76781042970c",
+      "bytes": 25241,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "sourceSha256": "1b3d6943388189cc92384e5fc3a0ab64b9a575dc7ba52fd112f72bf14e4e72a0",
+      "sourceBytes": 332565,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-06-2.png",
+      "sha256": "9b22f43acc7e245c68c51555253ab06cb605011f60b08cd6c78d76781042970c",
+      "bytes": 25241,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "sourceSha256": "1b3d6943388189cc92384e5fc3a0ab64b9a575dc7ba52fd112f72bf14e4e72a0",
+      "sourceBytes": 332565,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-07-0.png",
+      "sha256": "cce57513b15a6d54ae0c683b1df033dd7c2e6008a9123f4d796567064efed499",
+      "bytes": 15669,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "sourceSha256": "1b3d6943388189cc92384e5fc3a0ab64b9a575dc7ba52fd112f72bf14e4e72a0",
+      "sourceBytes": 332565,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-08-0.png",
+      "sha256": "99cdd1284ba5c725351ada9dc2d52947b6fdc8558bcfa9973d9a8331b5bf4960",
+      "bytes": 48440,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "sourceSha256": "1b3d6943388189cc92384e5fc3a0ab64b9a575dc7ba52fd112f72bf14e4e72a0",
+      "sourceBytes": 332565,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-defects-08-1.png",
+      "sha256": "99cdd1284ba5c725351ada9dc2d52947b6fdc8558bcfa9973d9a8331b5bf4960",
+      "bytes": 48440,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "sourceSha256": "1b3d6943388189cc92384e5fc3a0ab64b9a575dc7ba52fd112f72bf14e4e72a0",
+      "sourceBytes": 332565,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "browser-defects.json",
+      "sha256": "16ee58a72e7c81b4fefb38d91ab0ee9fa2876a474908522485ff67727e22928c",
+      "bytes": 23024,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-defects/results.json",
+      "sourceSha256": "1b3d6943388189cc92384e5fc3a0ab64b9a575dc7ba52fd112f72bf14e4e72a0",
+      "sourceBytes": 332565,
+      "transformation": "Browser report reduced to per-case outcomes and retained selected attachments; full HTML/trace bundles omitted."
+    },
+    {
+      "path": "attachments/browser-regression-03-0.png",
+      "sha256": "e16b74841142bc7a8c4ff7f566e50758914f538392ca4650f19722a19ff72d98",
+      "bytes": 57328,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-04-0.png",
+      "sha256": "8d04c523d4068cbb958a5506a64b5f36d50555580b03d62c0bcd987366731677",
+      "bytes": 57912,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-05-0.png",
+      "sha256": "55e12c61898e651779cdb2ad7d6a9f492778dd374c86af187460c67ebfd415c6",
+      "bytes": 56986,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-06-0.png",
+      "sha256": "409a04233c047cd17d95c3749bf51977629495b12149136c46624cb8d2b79b76",
+      "bytes": 8104,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-07-0.png",
+      "sha256": "fc97de9203e96d520369e283b5c905114495da38b0a34422a4239346375707cf",
+      "bytes": 59236,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-08-0.png",
+      "sha256": "33d8b22344805a2bcad7e934f085dc37a0b98e86ead50f6312a74b5b22052ee1",
+      "bytes": 18175,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-09-0.png",
+      "sha256": "bc080c3b72f71df199c1f290d0001abf6b28b9a216bd2730058d8b8725a8e05c",
+      "bytes": 50936,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-10-0.json",
+      "sha256": "77594c4fc0f7249124a6c0424a15994b8bfc232d2c2a15ef20619263510cedf1",
+      "bytes": 283,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-regression-10-1.png",
+      "sha256": "1f4a544364b32204250d02ef547cc91df55c25a603bf532e10e42302e59dbc5f",
+      "bytes": 49287,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-11-0.png",
+      "sha256": "c4736cbe2d57d5918904465ab07810521fc7ccf961f63b68392723aaad995147",
+      "bytes": 18491,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-12-0.json",
+      "sha256": "3d1c3361496f2a536403367181a1d53f18b4abf41723ee103f6872257d4903f9",
+      "bytes": 583,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-regression-12-1.png",
+      "sha256": "b059065de9211cfebb8e9e117eac44f8abba369b4ad0df7fda47a69764738247",
+      "bytes": 14959,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-13-0.json",
+      "sha256": "b24966fb3843b80bd0b711c1587aee6d55bf0fe8c8b1c3492cbcbb9657e853fe",
+      "bytes": 1136,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-regression-13-1.png",
+      "sha256": "3aa9d54369e195529e941f11fd94c165db5c23d050f9ba581790020feb3aad81",
+      "bytes": 21786,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-14-0.json",
+      "sha256": "2ff9df14c291bbc66300c6052e5580df4e3ed67bc59d6d16c11127ea53a1767f",
+      "bytes": 509,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-regression-14-1.png",
+      "sha256": "7a90686f330ab81749f04fa9232b452ed0dd9e404091cd71a2d9a0a53f6c240f",
+      "bytes": 21626,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-15-0.json",
+      "sha256": "f967857bcf4f931f2855686a5ee2cf18f85183454bae4a46a3120f6b664b4ed5",
+      "bytes": 530,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-regression-15-1.png",
+      "sha256": "29628be2e72a66324eae5e8051f919ab1ac5b21e4f7643f3c93eff11dfbdf76b",
+      "bytes": 13822,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-16-0.json",
+      "sha256": "7f31316ff1dd364627c4bdb9764a4840db85c5d1c5824516d07b774bd67808be",
+      "bytes": 524,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-regression-16-1.png",
+      "sha256": "229ffa2d77c0ec213125afbb3144ac02d5a7097dbb96b9a63c9beab169c61d09",
+      "bytes": 28193,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-16-2.png",
+      "sha256": "3878570f4a62a0d65f57cf1754e0269e56ec797f4e36e26b44c172eb6e800401",
+      "bytes": 4254,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-17-0.json",
+      "sha256": "600f40e2a195fa02a5684a215b6909a94df1529bee8cc6c2468ae59dcc5628a0",
+      "bytes": 971,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-regression-17-1.png",
+      "sha256": "29628be2e72a66324eae5e8051f919ab1ac5b21e4f7643f3c93eff11dfbdf76b",
+      "bytes": 13822,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-18-0.json",
+      "sha256": "6154ab5ece4e0c45988365b468b4b678d63196dcf5aecd596c5859260ea4292d",
+      "bytes": 595,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Selected original attachment; JSON whitespace/authentication normalization only."
+    },
+    {
+      "path": "attachments/browser-regression-18-1.png",
+      "sha256": "cce7ddec096c313e65f78053ace7a48c69292eeac5ebb9415910744da6f8f0eb",
+      "bytes": 42827,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-19-0.png",
+      "sha256": "c4d564d04bc3f1fada4c5b2c94d4c85a86f9209a628a8617e03087d371db93eb",
+      "bytes": 25428,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-20-0.png",
+      "sha256": "63fa2e1c1db7d3212f17c77bc6da07d297c23d59f6495c74e1fe29fbc963a834",
+      "bytes": 25661,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-21-0.png",
+      "sha256": "6b723783fdbfa198782e8e6694301add87abd66dd1fde69faf4769e71b2d93e9",
+      "bytes": 26431,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-22-0.png",
+      "sha256": "a0a8bc718774a8a9e2313900e488af4c105df22d35f9e8d5da711094c0677871",
+      "bytes": 16441,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-23-0.png",
+      "sha256": "d520f5dbf20edb4324cd2c72c4f35db724732451a534ab968cba294f8ce2d19b",
+      "bytes": 21293,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-24-0.png",
+      "sha256": "39007aefb84285334c922f244457a9441ee92e9d56ce6efc434375499ee672cb",
+      "bytes": 33127,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-25-0.png",
+      "sha256": "5055a5e3e96a6078d977709cfcebb6fb2697ba716d930caa4b9a65789716a086",
+      "bytes": 56033,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-26-0.png",
+      "sha256": "b10a671290d7d90a094ece1cd795f8f51e4007b7c059bf1a2a48a2afb8af8ef6",
+      "bytes": 64026,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-27-0.png",
+      "sha256": "42f812c66396feaa5e874d8ccd6578eea739955fd8e0a85ba9dffc4dc7370670",
+      "bytes": 5843,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-28-0.png",
+      "sha256": "375023b61bd5a1cabbac6c85daefa2aeeeda84a4c8bf1ca1a14a610acae738c5",
+      "bytes": 5704,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-29-0.png",
+      "sha256": "bffd33eb2babb8500fce5e9b3fc6f7b58f3327867113dc673fceda1f721af64c",
+      "bytes": 59093,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-30-0.png",
+      "sha256": "0ebae5a355790d2086b791c0702f7a2d48436ba5c83e29d751120cc68e528b4c",
+      "bytes": 56143,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-31-0.png",
+      "sha256": "b377ca115ff8b12cdf2ee3b0f0288815eac9190c5c2735caae69aaadeefd37df",
+      "bytes": 10980,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-32-0.png",
+      "sha256": "4bfa732e0bff1cec3319436a426eb114a2f275cb7df50d2eaa8bda13f8934630",
+      "bytes": 13851,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-33-0.png",
+      "sha256": "ca72f4966189e18e9c7a760e7a65d27fb7cc76d588360e2d10b2980509022214",
+      "bytes": 86551,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-34-0.png",
+      "sha256": "7d06c7e4090cec10dedf22e5e3e02f21dd86e69ddd122c7bbf5a437b3a5852cc",
+      "bytes": 74978,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-35-0.png",
+      "sha256": "ff1ee09e57a449f20b2a488a4b2cd237d09f21167a72a40555f9dc05eef01248",
+      "bytes": 23184,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-36-0.png",
+      "sha256": "3176c64d5399fe0ea0adf9fab141666336438f165b5cd93f9184493907163d2a",
+      "bytes": 71393,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-37-0.png",
+      "sha256": "c03b98ded9bef260f15f2f2c4f43283fd5702f3e080393c3cc6f2588445bc89f",
+      "bytes": 12207,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "attachments/browser-regression-38-0.png",
+      "sha256": "75fc35b3a422bbaac17ea98d51f616f8fb86ab77eb28fc71d12feb68a17db035",
+      "bytes": 37094,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Original screenshot attachment retained."
+    },
+    {
+      "path": "browser-regression.json",
+      "sha256": "070e0fa3cca0815292fff14efd777125ad8c270e4d3aaab6c9628372548cd33d",
+      "bytes": 22107,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/browser-regression/results.json",
+      "sourceSha256": "1cae48810af94899e08ea55901b7cf9a0154f5a71733f8c7c38197ab83d8b8df",
+      "sourceBytes": 1745888,
+      "transformation": "Browser report reduced to per-case outcomes and retained selected attachments; full HTML/trace bundles omitted."
+    },
+    {
+      "path": "backend-coverage.json",
+      "sha256": "29eb5daa82502d125f4f3211264f074c604fbd136d1e642dd7133783eae26e0f",
+      "bytes": 21966,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/backend-postgres/coverage.json",
+      "sourceSha256": "f6d618920562e29e55037118f33a967b21d74c8f972d117232f97c9a23616f76",
+      "sourceBytes": 335110,
+      "transformation": "Per-line detail omitted; per-file and total line/branch coverage preserved."
+    },
+    {
+      "path": "retained-component-evidence.json",
+      "sha256": "35a19d9f0f8da919f35f284929c7f21c6b9c3a55319e3348609ea92ce40c069b",
+      "bytes": 26881
+    },
+    {
+      "path": "authoring/android-booking-detail-regression-execution.json",
+      "sha256": "06ac2f8057fc0233332d6a474ba39e9a2799c254c60287e121a1424dc0afafc0",
+      "bytes": 970,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/android-booking-detail-regression-execution.json",
+      "sourceSha256": "06ac2f8057fc0233332d6a474ba39e9a2799c254c60287e121a1424dc0afafc0",
+      "sourceBytes": 970,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/android-booking-detail-regression.json",
+      "sha256": "497876b0163f70062086280b84d8ed5ea68fcf09d26f60c98d9a7a43ebfcdd81",
+      "bytes": 4391,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/android-booking-detail-regression.json",
+      "sourceSha256": "497876b0163f70062086280b84d8ed5ea68fcf09d26f60c98d9a7a43ebfcdd81",
+      "sourceBytes": 4391,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/android-booking-detail-regression.log",
+      "sha256": "c87da6263f36a9fb71f0c0ce388973726c46bc4fa2cab4d5291fe84b14a658dd",
+      "bytes": 1276,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/android-booking-detail-regression.log",
+      "sourceSha256": "c87da6263f36a9fb71f0c0ce388973726c46bc4fa2cab4d5291fe84b14a658dd",
+      "sourceBytes": 1276,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/android-confirmation-defect-execution.json",
+      "sha256": "3bd1f97ed99f44d60f35fe19a033bb8c2bb69b13e5a89acfa38136305ee05747",
+      "bytes": 950,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/android-confirmation-defect-execution.json",
+      "sourceSha256": "3bd1f97ed99f44d60f35fe19a033bb8c2bb69b13e5a89acfa38136305ee05747",
+      "sourceBytes": 950,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/android-confirmation-defect.json",
+      "sha256": "d0403c80767c02d5668f9c37a415bc335f5956244e2e76027f165fa977c35795",
+      "bytes": 3424,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/android-confirmation-defect.json",
+      "sourceSha256": "d0403c80767c02d5668f9c37a415bc335f5956244e2e76027f165fa977c35795",
+      "sourceBytes": 3424,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/android-confirmation-defect.log",
+      "sha256": "98982c8834af80dd89ab53ca109c7587956fc858fff9b7cc663e283e9d89c36f",
+      "bytes": 1594,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/android-confirmation-defect.log",
+      "sourceSha256": "98982c8834af80dd89ab53ca109c7587956fc858fff9b7cc663e283e9d89c36f",
+      "sourceBytes": 1594,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/android-confirmation-selector-authoring-execution.json",
+      "sha256": "3eb503eabc7c44ae3377446a23a17b37fe3bbc023792fe75e6a228524979dab4",
+      "bytes": 950,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/android-confirmation-selector-authoring-execution.json",
+      "sourceSha256": "3eb503eabc7c44ae3377446a23a17b37fe3bbc023792fe75e6a228524979dab4",
+      "sourceBytes": 950,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/android-confirmation-selector-authoring.json",
+      "sha256": "fc43a0081df2be6df94db953456e10a8b5cbf5eddd73413295573d01da7bfe33",
+      "bytes": 2604,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/android-confirmation-selector-authoring.json",
+      "sourceSha256": "fc43a0081df2be6df94db953456e10a8b5cbf5eddd73413295573d01da7bfe33",
+      "sourceBytes": 2604,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/android-confirmation-selector-authoring.log",
+      "sha256": "e7f037b27b602bd17e215407b858670ca36608c653fc82aa2cba23fb2f9474a0",
+      "bytes": 1383,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/android-confirmation-selector-authoring.log",
+      "sourceSha256": "e7f037b27b602bd17e215407b858670ca36608c653fc82aa2cba23fb2f9474a0",
+      "sourceBytes": 1383,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/confirmation-history-authoring-summary.json",
+      "sha256": "46eff88896341533aa9283eddb94f3ed1527f5febcdea77387561f01f81a8429",
+      "bytes": 8260,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/confirmation-history-authoring-summary.json",
+      "sourceSha256": "46eff88896341533aa9283eddb94f3ed1527f5febcdea77387561f01f81a8429",
+      "sourceBytes": 8260,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/confirmation-history-eslint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/confirmation-history-eslint.log",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "sourceBytes": 0,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/ios-booking-detail-regression-execution.json",
+      "sha256": "0cb5137a955105521bf5bd9b2236846570f86dc586440afb5d3d78282260b26c",
+      "bytes": 958,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/ios-booking-detail-regression-execution.json",
+      "sourceSha256": "0cb5137a955105521bf5bd9b2236846570f86dc586440afb5d3d78282260b26c",
+      "sourceBytes": 958,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/ios-booking-detail-regression.json",
+      "sha256": "429d58884533801d3f6623e7fa997966510ebe2b8b9433e955fffa6353baf36d",
+      "bytes": 4391,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/ios-booking-detail-regression.json",
+      "sourceSha256": "429d58884533801d3f6623e7fa997966510ebe2b8b9433e955fffa6353baf36d",
+      "sourceBytes": 4391,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/ios-booking-detail-regression.log",
+      "sha256": "a40c688d0a5252039b9dd1ccf5a32ca382298e751f2cefa7f9b7382fc1ea6d94",
+      "bytes": 1268,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/ios-booking-detail-regression.log",
+      "sourceSha256": "a40c688d0a5252039b9dd1ccf5a32ca382298e751f2cefa7f9b7382fc1ea6d94",
+      "sourceBytes": 1268,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/ios-confirmation-defect-execution.json",
+      "sha256": "e590131fe77e2da43a58c24447fd4ec008b625ce4d4f230057ccb870f4dad4d3",
+      "bytes": 938,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/ios-confirmation-defect-execution.json",
+      "sourceSha256": "e590131fe77e2da43a58c24447fd4ec008b625ce4d4f230057ccb870f4dad4d3",
+      "sourceBytes": 938,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/ios-confirmation-defect.json",
+      "sha256": "a9af27996faf118a2aafa9b308864223d0d1c33106cd4f8ca898f674c29f5fd6",
+      "bytes": 3424,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/ios-confirmation-defect.json",
+      "sourceSha256": "a9af27996faf118a2aafa9b308864223d0d1c33106cd4f8ca898f674c29f5fd6",
+      "sourceBytes": 3424,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/ios-confirmation-defect.log",
+      "sha256": "62b61780b73e7e0691b1412a44c19c2f840441a4bd2411b4176a5538819ab80f",
+      "bytes": 1586,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/ios-confirmation-defect.log",
+      "sourceSha256": "62b61780b73e7e0691b1412a44c19c2f840441a4bd2411b4176a5538819ab80f",
+      "sourceBytes": 1586,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/ios-confirmation-selector-authoring-execution.json",
+      "sha256": "435e8c7c0bfacb23009cefc0e493dbb0d83852118bfc156df2045d36941b1767",
+      "bytes": 938,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/ios-confirmation-selector-authoring-execution.json",
+      "sourceSha256": "435e8c7c0bfacb23009cefc0e493dbb0d83852118bfc156df2045d36941b1767",
+      "sourceBytes": 938,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/ios-confirmation-selector-authoring.json",
+      "sha256": "e0f5f7e71efbb19164926407df15ef270b7ef6b9d73896a556515417f7bc46b0",
+      "bytes": 2604,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/ios-confirmation-selector-authoring.json",
+      "sourceSha256": "e0f5f7e71efbb19164926407df15ef270b7ef6b9d73896a556515417f7bc46b0",
+      "sourceBytes": 2604,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/ios-confirmation-selector-authoring.log",
+      "sha256": "46390129e97157915b49a496e9ee098654aa91e7f27ade762bb19883f9b04f3e",
+      "bytes": 1376,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/ios-confirmation-selector-authoring.log",
+      "sourceSha256": "46390129e97157915b49a496e9ee098654aa91e7f27ade762bb19883f9b04f3e",
+      "sourceBytes": 1376,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/shared-booking-detail-regression-execution.json",
+      "sha256": "4128de6bbc34855a42733b81ee2c59c8786c6e0a0381c2a080bc4a2b2a0b71e6",
+      "bytes": 960,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/shared-booking-detail-regression-execution.json",
+      "sourceSha256": "4128de6bbc34855a42733b81ee2c59c8786c6e0a0381c2a080bc4a2b2a0b71e6",
+      "sourceBytes": 960,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/shared-booking-detail-regression.json",
+      "sha256": "3008d519a20aec8e284c23d0989b3307c243fea2f14f5c6d017340a89f56d80d",
+      "bytes": 4391,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/shared-booking-detail-regression.json",
+      "sourceSha256": "3008d519a20aec8e284c23d0989b3307c243fea2f14f5c6d017340a89f56d80d",
+      "sourceBytes": 4391,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/shared-booking-detail-regression.log",
+      "sha256": "ad40e457d40b6a0b6c0495d834ea645736e12498ec3e3ca35cb84487201b3570",
+      "bytes": 1256,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/shared-booking-detail-regression.log",
+      "sourceSha256": "ad40e457d40b6a0b6c0495d834ea645736e12498ec3e3ca35cb84487201b3570",
+      "sourceBytes": 1256,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/shared-confirmation-defect-execution.json",
+      "sha256": "9b734ef4bf0a55de41376374314ffee514eed469988502cfc61b3f5fc2963b86",
+      "bytes": 940,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/shared-confirmation-defect-execution.json",
+      "sourceSha256": "9b734ef4bf0a55de41376374314ffee514eed469988502cfc61b3f5fc2963b86",
+      "sourceBytes": 940,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/shared-confirmation-defect.json",
+      "sha256": "f97b6406edadb128041ab4173f97ebf0a3fe77298df32e66e941488df15daf93",
+      "bytes": 3424,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/shared-confirmation-defect.json",
+      "sourceSha256": "f97b6406edadb128041ab4173f97ebf0a3fe77298df32e66e941488df15daf93",
+      "sourceBytes": 3424,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/shared-confirmation-defect.log",
+      "sha256": "610936268e99209487ca3a380fde4a9a2c8d27d152416aa14614bf72c2d9398a",
+      "bytes": 1577,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/shared-confirmation-defect.log",
+      "sourceSha256": "610936268e99209487ca3a380fde4a9a2c8d27d152416aa14614bf72c2d9398a",
+      "sourceBytes": 1577,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/shared-confirmation-selector-authoring-execution.json",
+      "sha256": "07038d947c83a94a0ee09c5eb72b6817d63e38e18b90d38861d9f8f535e7908c",
+      "bytes": 940,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/shared-confirmation-selector-authoring-execution.json",
+      "sourceSha256": "07038d947c83a94a0ee09c5eb72b6817d63e38e18b90d38861d9f8f535e7908c",
+      "sourceBytes": 940,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/shared-confirmation-selector-authoring.json",
+      "sha256": "64848b3b0bb401d205ad2d36c12d1a5dbb44506c2cda80622d24edf7819c193d",
+      "bytes": 2604,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/shared-confirmation-selector-authoring.json",
+      "sourceSha256": "64848b3b0bb401d205ad2d36c12d1a5dbb44506c2cda80622d24edf7819c193d",
+      "sourceBytes": 2604,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/shared-confirmation-selector-authoring.log",
+      "sha256": "181af7e2fefc2d75a2b5aadae67d064a7714bc5cca06a5a210fe14c5fe56fd98",
+      "bytes": 1367,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/authoring/shared-confirmation-selector-authoring.log",
+      "sourceSha256": "181af7e2fefc2d75a2b5aadae67d064a7714bc5cca06a5a210fe14c5fe56fd98",
+      "sourceBytes": 1367,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/area-qa-sqlite.log",
+      "sha256": "5fda521ea51b14fb20e6484276f7a925da20723c4b2467865b92b1965d766e51",
+      "bytes": 1671,
+      "source": "/private/tmp/yoir-pr244-review-r9nvt724/review-output/area-qa-sqlite.log",
+      "sourceSha256": "5fda521ea51b14fb20e6484276f7a925da20723c4b2467865b92b1965d766e51",
+      "sourceBytes": 1671,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "authoring/area-qa-sqlite.xml",
+      "sha256": "9ba28f7783dc4835cfa3354bba29a01f19a4d8e8e879fb70c80a571a853a50c3",
+      "bytes": 2716,
+      "source": "/private/tmp/yoir-pr244-review-r9nvt724/review-output/area-qa-sqlite.xml",
+      "sourceSha256": "daaf9679d92fe3f0509b82a60f08067884646d2f3ccb53da5207e47e49f612ac",
+      "sourceBytes": 2715,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "run.py",
+      "sha256": "49ecf01e7f1711157ad89934a538a0fa8223c6f5870fe55459b1c04373d3ac74",
+      "bytes": 1707,
+      "source": "/private/tmp/yoir-sprint3-meeting-area-20261017/run.py",
+      "sourceSha256": "49ecf01e7f1711157ad89934a538a0fa8223c6f5870fe55459b1c04373d3ac74",
+      "sourceBytes": 1707,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "execute.py",
+      "sha256": "edf51b2741d9c0b68fd9d406c469ba10459c1bde2a22fa40cb5707607dc2247f",
+      "bytes": 5050,
+      "source": "/private/tmp/yoir-sprint3-meeting-area-20261017/execute.py",
+      "sourceSha256": "edf51b2741d9c0b68fd9d406c469ba10459c1bde2a22fa40cb5707607dc2247f",
+      "sourceBytes": 5050,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "focused.py",
+      "sha256": "c5d97562dd54d7c2ffa559d8551800b7d391c19f7396b21cebd80a4faa221d2f",
+      "bytes": 966,
+      "source": "/private/tmp/yoir-sprint3-meeting-area-20261017/focused.py",
+      "sourceSha256": "c5d97562dd54d7c2ffa559d8551800b7d391c19f7396b21cebd80a4faa221d2f",
+      "sourceBytes": 966,
+      "transformation": "Trailing whitespace/extra EOF blank lines normalized; JWT-like test-authentication fragments redacted if present; outcomes unchanged."
+    },
+    {
+      "path": "report-health.json",
+      "sha256": "4306ecb2c8ae21418651c8dcc230ba84184e00d4858efb18731cf89b2f005e09",
+      "bytes": 2731,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/report-health.json",
+      "sourceSha256": "4306ecb2c8ae21418651c8dcc230ba84184e00d4858efb18731cf89b2f005e09",
+      "sourceBytes": 2731
+    },
+    {
+      "path": "remote-ci.json",
+      "sha256": "4943d5eca4434244a2a022402bd4550f900d8a96eddcb020251b955e487e0085",
+      "bytes": 1136,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/remote-ci.json",
+      "sourceSha256": "4943d5eca4434244a2a022402bd4550f900d8a96eddcb020251b955e487e0085",
+      "sourceBytes": 1136
+    },
+    {
+      "path": "merge-record.json",
+      "sha256": "e7e571332cbdf00dd04de91274a95319f581587c2484cc8cbd6aef82cd654bfb",
+      "bytes": 405,
+      "source": "artifacts/qa/sprint3-meeting-area-20261017/merge-record.json",
+      "sourceSha256": "e7e571332cbdf00dd04de91274a95319f581587c2484cc8cbd6aef82cd654bfb",
+      "sourceBytes": 405
+    },
+    {
+      "path": "environment.json",
+      "sha256": "75f22a8f651947622df77b8b045c11c09bed7a0a2a02172fe8321e234ebf950d",
+      "bytes": 636
+    },
+    {
+      "path": "README.md",
+      "sha256": "3fcab6ae58c06ee726f8c702971bab7fa300116059c95338972e7881bb683138",
+      "bytes": 1584
+    }
+  ],
+  "omitted": [
+    "Regenerable browser HTML and trace archives, full raw Jest/Playwright reports, full HTML/LCOV/per-line coverage; original files remain in artifacts/qa/sprint3-meeting-area-20261017"
+  ],
+  "note": "Per-case results, diagnostics, selected browser screenshots, source hashes and logs retained. Publication whitespace/authentication normalization does not change outcomes or create another test run."
+}

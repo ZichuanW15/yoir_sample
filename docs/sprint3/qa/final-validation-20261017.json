@@ -1,0 +1,45 @@
+{
+  "checkedAt": "2026-10-17T05:15:21.239514+00:00",
+  "productBaseline": "0df4068f846b1a8346621af1c7584734980e7178",
+  "qaHeadBeforeFinalOverlay": "0ed3215edc2c8552ce623b494ebe4f59bd40da9e",
+  "scope": "Read-only validation of final source/evidence/documentation. No application test suite rerun by this validation.",
+  "evidenceFilesVerified": 160,
+  "evidenceManifestSha256": "3f23cfd83ed01d8dbb2fd311edc6b1cb723f52a0abc4e6b9ebd086f0b1d5ec09",
+  "sourceFilesVerified": 361,
+  "sourceManifestSha256": "f9707da6df634fe20846f3fdbba8147bf7e701f5d008162d2133492149614d26",
+  "jsonDocumentsParsed": 40,
+  "matrixQaTasks": 23,
+  "snapshot": {
+    "qaClosed": 23,
+    "parentsOpen": 23,
+    "remoteMutations": false
+  },
+  "productDependencyWorkflowDifferencesFromDev": [],
+  "componentAdvisoryReportHealth": [
+    {
+      "suite": "frontend-defects",
+      "exitCode": 0
+    },
+    {
+      "suite": "ios-defects",
+      "exitCode": 0
+    },
+    {
+      "suite": "android-defects",
+      "exitCode": 0
+    }
+  ],
+  "browserAdvisoryReportHealth": {
+    "exitCode": 0,
+    "evidence": "evidence/20261017-final/logs/browser-report-health.txt"
+  },
+  "textWhitespaceAndAuthenticationFragmentScan": "pass",
+  "removedChineseMatrixReferences": "pass",
+  "gitDiffWhitespace": "pass",
+  "repositoryMetadata": {
+    "exitCode": 0,
+    "stdout": "OpenAPI/traceability: 76 operations, 80 local refs, Pass\nMarkdown relative links: 1113 checked, 0 broken\nWorkflow YAML and seed JSON: Pass\n",
+    "stderr": "",
+    "scope": "Production checker using tracked and nonignored publication Markdown, excluding local ignored artifact copies."
+  }
+}

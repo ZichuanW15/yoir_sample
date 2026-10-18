@@ -1,0 +1,445 @@
+TAP version 13
+# Subtest: jest: arbitrary completed failures remain failed and are advisory
+ok 1 - jest: arbitrary completed failures remain failed and are advisory
+  ---
+  duration_ms: 1.4025
+  ...
+# Subtest: jest: fixed assertions may all pass without changing a baseline
+ok 2 - jest: fixed assertions may all pass without changing a baseline
+  ---
+  duration_ms: 0.073833
+  ...
+# Subtest: jest: failure outcome with an all-passing report is not ignored
+ok 3 - jest: failure outcome with an all-passing report is not ignored
+  ---
+  duration_ms: 0.148667
+  ...
+# Subtest: jest: success outcome cannot hide failed assertions
+ok 4 - jest: success outcome cannot hide failed assertions
+  ---
+  duration_ms: 0.057791
+  ...
+# Subtest: jest: omitted, skipped or cancelled outcome is rejected
+ok 5 - jest: omitted, skipped or cancelled outcome is rejected
+  ---
+  duration_ms: 0.136458
+  ...
+# Subtest: playwright: arbitrary completed failures remain failed and are advisory
+ok 6 - playwright: arbitrary completed failures remain failed and are advisory
+  ---
+  duration_ms: 0.247125
+  ...
+# Subtest: playwright: fixed assertions may all pass without changing a baseline
+ok 7 - playwright: fixed assertions may all pass without changing a baseline
+  ---
+  duration_ms: 0.045417
+  ...
+# Subtest: playwright: failure outcome with an all-passing report is not ignored
+ok 8 - playwright: failure outcome with an all-passing report is not ignored
+  ---
+  duration_ms: 0.084625
+  ...
+# Subtest: playwright: success outcome cannot hide failed assertions
+ok 9 - playwright: success outcome cannot hide failed assertions
+  ---
+  duration_ms: 0.092125
+  ...
+# Subtest: playwright: omitted, skipped or cancelled outcome is rejected
+ok 10 - playwright: omitted, skipped or cancelled outcome is rejected
+  ---
+  duration_ms: 0.135709
+  ...
+# Subtest: Jest rejects runtime error suite
+ok 11 - Jest rejects runtime error suite
+  ---
+  duration_ms: 0.0635
+  ...
+# Subtest: Jest rejects suite execution error
+ok 12 - Jest rejects suite execution error
+  ---
+  duration_ms: 0.0465
+  ...
+# Subtest: Jest rejects top-level execution error
+ok 13 - Jest rejects top-level execution error
+  ---
+  duration_ms: 0.079792
+  ...
+# Subtest: Jest rejects interrupted
+ok 14 - Jest rejects interrupted
+  ---
+  duration_ms: 0.0655
+  ...
+# Subtest: Jest rejects completion field missing
+ok 15 - Jest rejects completion field missing
+  ---
+  duration_ms: 0.033417
+  ...
+# Subtest: Jest rejects pending count
+ok 16 - Jest rejects pending count
+  ---
+  duration_ms: 0.082417
+  ...
+# Subtest: Jest rejects todo count
+ok 17 - Jest rejects todo count
+  ---
+  duration_ms: 0.036875
+  ...
+# Subtest: Jest rejects pending suite
+ok 18 - Jest rejects pending suite
+  ---
+  duration_ms: 0.103083
+  ...
+# Subtest: Jest rejects skipped assertion despite totals
+ok 19 - Jest rejects skipped assertion despite totals
+  ---
+  duration_ms: 0.043667
+  ...
+# Subtest: Jest rejects todo assertion despite totals
+ok 20 - Jest rejects todo assertion despite totals
+  ---
+  duration_ms: 0.0765
+  ...
+# Subtest: Jest rejects empty run
+ok 21 - Jest rejects empty run
+  ---
+  duration_ms: 0.031459
+  ...
+# Subtest: Jest rejects missing assertions
+ok 22 - Jest rejects missing assertions
+  ---
+  duration_ms: 0.030417
+  ...
+# Subtest: Jest rejects empty suite
+ok 23 - Jest rejects empty suite
+  ---
+  duration_ms: 0.0255
+  ...
+# Subtest: Jest rejects missing failure details
+ok 24 - Jest rejects missing failure details
+  ---
+  duration_ms: 0.101709
+  ...
+# Subtest: Jest rejects missing suite result
+ok 25 - Jest rejects missing suite result
+  ---
+  duration_ms: 0.028125
+  ...
+# Subtest: Jest rejects inconsistent total
+ok 26 - Jest rejects inconsistent total
+  ---
+  duration_ms: 0.030583
+  ...
+# Subtest: Jest rejects inconsistent passed count
+ok 27 - Jest rejects inconsistent passed count
+  ---
+  duration_ms: 0.029833
+  ...
+# Subtest: Jest rejects inconsistent suite count
+ok 28 - Jest rejects inconsistent suite count
+  ---
+  duration_ms: 0.030375
+  ...
+# Subtest: Jest rejects inconsistent suite status
+ok 29 - Jest rejects inconsistent suite status
+  ---
+  duration_ms: 0.250042
+  ...
+# Subtest: Jest rejects inconsistent success flag
+ok 30 - Jest rejects inconsistent success flag
+  ---
+  duration_ms: 0.030042
+  ...
+# Subtest: Jest rejects duplicate suite
+ok 31 - Jest rejects duplicate suite
+  ---
+  duration_ms: 0.051417
+  ...
+# Subtest: Jest rejects open handles
+ok 32 - Jest rejects open handles
+  ---
+  duration_ms: 0.031167
+  ...
+# Subtest: Jest rejects missing counter
+ok 33 - Jest rejects missing counter
+  ---
+  duration_ms: 0.10925
+  ...
+# Subtest: Jest rejects invalid duration
+ok 34 - Jest rejects invalid duration
+  ---
+  duration_ms: 0.11975
+  ...
+# Subtest: Playwright rejects global runner error
+ok 35 - Playwright rejects global runner error
+  ---
+  duration_ms: 0.052458
+  ...
+# Subtest: Playwright rejects missing runner error list
+ok 36 - Playwright rejects missing runner error list
+  ---
+  duration_ms: 0.032292
+  ...
+# Subtest: Playwright rejects test timeout
+ok 37 - Playwright rejects test timeout
+  ---
+  duration_ms: 0.052292
+  ...
+# Subtest: Playwright rejects interrupted test
+ok 38 - Playwright rejects interrupted test
+  ---
+  duration_ms: 0.034833
+  ...
+# Subtest: Playwright rejects skipped attempt
+ok 39 - Playwright rejects skipped attempt
+  ---
+  duration_ms: 0.031791
+  ...
+# Subtest: Playwright rejects skipped test
+ok 40 - Playwright rejects skipped test
+  ---
+  duration_ms: 0.03
+  ...
+# Subtest: Playwright rejects skipped counter
+ok 41 - Playwright rejects skipped counter
+  ---
+  duration_ms: 0.027291
+  ...
+# Subtest: Playwright rejects expected failure annotation
+ok 42 - Playwright rejects expected failure annotation
+  ---
+  duration_ms: 0.028666
+  ...
+# Subtest: Playwright rejects no suites
+ok 43 - Playwright rejects no suites
+  ---
+  duration_ms: 0.027792
+  ...
+# Subtest: Playwright rejects no attempts
+ok 44 - Playwright rejects no attempts
+  ---
+  duration_ms: 0.030458
+  ...
+# Subtest: Playwright rejects no test results
+ok 45 - Playwright rejects no test results
+  ---
+  duration_ms: 0.036875
+  ...
+# Subtest: Playwright rejects no failure details
+ok 46 - Playwright rejects no failure details
+  ---
+  duration_ms: 0.031042
+  ...
+# Subtest: Playwright rejects empty failure details
+ok 47 - Playwright rejects empty failure details
+  ---
+  duration_ms: 0.03125
+  ...
+# Subtest: Playwright rejects missing stats
+ok 48 - Playwright rejects missing stats
+  ---
+  duration_ms: 0.026167
+  ...
+# Subtest: Playwright rejects missing stats field
+ok 49 - Playwright rejects missing stats field
+  ---
+  duration_ms: 0.026375
+  ...
+# Subtest: Playwright rejects wrong total
+ok 50 - Playwright rejects wrong total
+  ---
+  duration_ms: 0.105041
+  ...
+# Subtest: Playwright rejects wrong test outcome
+ok 51 - Playwright rejects wrong test outcome
+  ---
+  duration_ms: 0.048
+  ...
+# Subtest: Playwright rejects wrong spec status
+ok 52 - Playwright rejects wrong spec status
+  ---
+  duration_ms: 0.036833
+  ...
+# Subtest: Playwright rejects truncated retries
+ok 53 - Playwright rejects truncated retries
+  ---
+  duration_ms: 0.039667
+  ...
+# Subtest: Playwright rejects duplicate test
+ok 54 - Playwright rejects duplicate test
+  ---
+  duration_ms: 0.044625
+  ...
+# Subtest: Playwright rejects invalid start timestamp
+ok 55 - Playwright rejects invalid start timestamp
+  ---
+  duration_ms: 0.030958
+  ...
+# Subtest: Playwright reports failed retries separately when the final attempt passes
+ok 56 - Playwright reports failed retries separately when the final attempt passes
+  ---
+  duration_ms: 0.057167
+  ...
+# Subtest: Playwright recursively validates nested suites
+ok 57 - Playwright recursively validates nested suites
+  ---
+  duration_ms: 0.148292
+  ...
+# Subtest: Playwright rejects an identifiable beforeEach failure
+ok 58 - Playwright rejects an identifiable beforeEach failure
+  ---
+  duration_ms: 0.062
+  ...
+# Subtest: unclassified per-test errors still need human review
+ok 59 - unclassified per-test errors still need human review
+  ---
+  duration_ms: 0.033125
+  ...
+# Subtest: jest rejects per-test execution failure: TypeError: Cannot read properties of undefined (reading 'user')
+ok 60 - jest rejects per-test execution failure: TypeError: Cannot read properties of undefined (reading 'user')
+  ---
+  duration_ms: 0.05575
+  ...
+# Subtest: jest rejects per-test execution failure: [31mReferenceError: AvailabilitySlot is not defined[39m
+ok 61 - jest rejects per-test execution failure: [31mReferenceError: AvailabilitySlot is not defined[39m
+  ---
+  duration_ms: 0.033208
+  ...
+# Subtest: jest rejects per-test execution failure: SyntaxError: Unexpected end of JSON input
+ok 62 - jest rejects per-test execution failure: SyntaxError: Unexpected end of JSON input
+  ---
+  duration_ms: 0.037167
+  ...
+# Subtest: jest rejects per-test execution failure: Error: Unconfigured HTTP request: POST /auth/sessions
+ok 63 - jest rejects per-test execution failure: Error: Unconfigured HTTP request: POST /auth/sessions
+  ---
+  duration_ms: 0.031542
+  ...
+# Subtest: jest rejects per-test execution failure: Error: Cannot find module @/src/api/demo
+ok 64 - jest rejects per-test execution failure: Error: Cannot find module @/src/api/demo
+  ---
+  duration_ms: 0.028792
+  ...
+# Subtest: jest rejects per-test execution failure: Error: beforeEach hook failed to create a session
+ok 65 - jest rejects per-test execution failure: Error: beforeEach hook failed to create a session
+  ---
+  duration_ms: 0.029208
+  ...
+# Subtest: jest rejects per-test execution failure: Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:43117/
+ok 66 - jest rejects per-test execution failure: Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:43117/
+  ---
+  duration_ms: 0.036916
+  ...
+# Subtest: jest rejects per-test execution failure: Error: browserType.launch: Executable does not exist
+ok 67 - jest rejects per-test execution failure: Error: browserType.launch: Executable does not exist
+  ---
+  duration_ms: 0.031333
+  ...
+# Subtest: jest still accepts an assertion that compares a TypeError
+ok 68 - jest still accepts an assertion that compares a TypeError
+  ---
+  duration_ms: 0.036084
+  ...
+# Subtest: jest an assertion does not mask an additional teardown exception
+ok 69 - jest an assertion does not mask an additional teardown exception
+  ---
+  duration_ms: 0.056292
+  ...
+# Subtest: playwright rejects per-test execution failure: TypeError: Cannot read properties of undefined (reading 'user')
+ok 70 - playwright rejects per-test execution failure: TypeError: Cannot read properties of undefined (reading 'user')
+  ---
+  duration_ms: 0.035666
+  ...
+# Subtest: playwright rejects per-test execution failure: [31mReferenceError: AvailabilitySlot is not defined[39m
+ok 71 - playwright rejects per-test execution failure: [31mReferenceError: AvailabilitySlot is not defined[39m
+  ---
+  duration_ms: 0.033916
+  ...
+# Subtest: playwright rejects per-test execution failure: SyntaxError: Unexpected end of JSON input
+ok 72 - playwright rejects per-test execution failure: SyntaxError: Unexpected end of JSON input
+  ---
+  duration_ms: 0.0345
+  ...
+# Subtest: playwright rejects per-test execution failure: Error: Unconfigured HTTP request: POST /auth/sessions
+ok 73 - playwright rejects per-test execution failure: Error: Unconfigured HTTP request: POST /auth/sessions
+  ---
+  duration_ms: 0.034292
+  ...
+# Subtest: playwright rejects per-test execution failure: Error: Cannot find module @/src/api/demo
+ok 74 - playwright rejects per-test execution failure: Error: Cannot find module @/src/api/demo
+  ---
+  duration_ms: 0.033833
+  ...
+# Subtest: playwright rejects per-test execution failure: Error: beforeEach hook failed to create a session
+ok 75 - playwright rejects per-test execution failure: Error: beforeEach hook failed to create a session
+  ---
+  duration_ms: 0.041125
+  ...
+# Subtest: playwright rejects per-test execution failure: Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:43117/
+ok 76 - playwright rejects per-test execution failure: Error: page.goto: net::ERR_CONNECTION_REFUSED at http://127.0.0.1:43117/
+  ---
+  duration_ms: 0.032875
+  ...
+# Subtest: playwright rejects per-test execution failure: Error: browserType.launch: Executable does not exist
+ok 77 - playwright rejects per-test execution failure: Error: browserType.launch: Executable does not exist
+  ---
+  duration_ms: 0.030208
+  ...
+# Subtest: playwright still accepts an assertion that compares a TypeError
+ok 78 - playwright still accepts an assertion that compares a TypeError
+  ---
+  duration_ms: 0.024042
+  ...
+# Subtest: playwright an assertion does not mask an additional teardown exception
+ok 79 - playwright an assertion does not mask an additional teardown exception
+  ---
+  duration_ms: 0.030583
+  ...
+# Subtest: CLI rejects unknown, incomplete and duplicate arguments
+ok 80 - CLI rejects unknown, incomplete and duplicate arguments
+  ---
+  duration_ms: 0.096416
+  ...
+# Subtest: CLI preserves raw failures and appends an honest advisory summary
+ok 81 - CLI preserves raw failures and appends an honest advisory summary
+  ---
+  duration_ms: 22.301167
+  ...
+# Subtest: CLI fails closed for a missing report
+ok 82 - CLI fails closed for a missing report
+  ---
+  duration_ms: 21.606583
+  ...
+# Subtest: CLI fails closed for a malformed report
+ok 83 - CLI fails closed for a malformed report
+  ---
+  duration_ms: 23.702667
+  ...
+# Subtest: CLI fails closed for a empty report
+ok 84 - CLI fails closed for a empty report
+  ---
+  duration_ms: 22.039666
+  ...
+# Subtest: CLI fails closed for a directory report
+ok 85 - CLI fails closed for a directory report
+  ---
+  duration_ms: 21.601125
+  ...
+# Subtest: CLI fails closed for a symlink report
+ok 86 - CLI fails closed for a symlink report
+  ---
+  duration_ms: 22.496125
+  ...
+# Subtest: CLI fails if the requested GitHub step summary cannot be recorded
+ok 87 - CLI fails if the requested GitHub step summary cannot be recorded
+  ---
+  duration_ms: 24.506125
+  ...
+1..87
+# tests 87
+# suites 0
+# pass 87
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 212.169541

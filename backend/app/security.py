@@ -141,7 +141,7 @@ def require_job_seeker(user: Annotated[User, Depends(get_current_user)]) -> User
         raise ApiError(
             status.HTTP_403_FORBIDDEN,
             FORBIDDEN,
-            "Only Job Seekers can book a service.",
+            "Only Job Seekers can access this resource.",
         )
     return user
 
@@ -164,6 +164,23 @@ def require_platform_owner(user: Annotated[User, Depends(get_current_user)]) -> 
             status.HTTP_403_FORBIDDEN,
             FORBIDDEN,
             "Only the Platform Owner can use the administration area.",
+        )
+    return user
+
+
+def require_profile_owner(user: Annotated[User, Depends(get_current_user)]) -> User:
+    """A member account that owns a user-facing profile.
+
+    Platform Owner accounts are provisioned for administration and do not have a
+    public profile.  Keeping that distinction in one guard prevents an admin from
+    acquiring a meaningless privacy setting merely because the route is under
+    ``/me``.
+    """
+    if user.role not in {"job_seeker", "counsellor"}:
+        raise ApiError(
+            status.HTTP_403_FORBIDDEN,
+            FORBIDDEN,
+            "Only Job Seekers and Career Professionals have profile visibility settings.",
         )
     return user
 

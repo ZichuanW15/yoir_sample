@@ -1,0 +1,116 @@
+{
+  "kind": "End-of-run device metadata; read-only collection",
+  "collectedAtUtc": "2026-10-15T23:14:51.875246+00:00",
+  "collectionStartedAtUtc": "2026-10-15T23:14:03Z",
+  "hostTimezone": "Australia/Melbourne",
+  "scope": "Current simulator/emulator identity, OS/runtime and installed Expo Go versions. This is not historical force-stop, restart, UI-state, signed-build, physical-device or release acceptance evidence.",
+  "readOnly": true,
+  "uiActionsPerformed": false,
+  "deviceOrServiceLifecycleChangesPerformed": false,
+  "ios": {
+    "udid": "579524DE-E6EA-42AE-9AB7-12FD385A0D08",
+    "name": "iPhone 18 Pro",
+    "deviceTypeIdentifier": "com.apple.CoreSimulator.SimDeviceType.iPhone-18-Pro",
+    "stateAtRead": "Booted",
+    "isAvailable": true,
+    "os": "iOS",
+    "osVersion": "27.0",
+    "runtimeIdentifier": "com.apple.CoreSimulator.SimRuntime.iOS-27-0",
+    "runtimeBuildVersion": "24A434",
+    "runtimeArchitectures": [
+      "arm64"
+    ],
+    "expoGo": {
+      "bundleIdentifier": "host.exp.Exponent",
+      "shortVersion": "57.0.9",
+      "bundleVersion": "57.0.9",
+      "minimumOSVersion": "16.4"
+    },
+    "sources": [
+      {
+        "command": "xcrun simctl list devices booted --json",
+        "exitCode": 0,
+        "fieldsUsed": [
+          "udid",
+          "name",
+          "deviceTypeIdentifier",
+          "state",
+          "isAvailable"
+        ]
+      },
+      {
+        "command": "xcrun simctl list runtimes --json",
+        "exitCode": 0,
+        "fieldsUsed": [
+          "identifier",
+          "name",
+          "version",
+          "buildversion",
+          "supportedArchitectures"
+        ]
+      },
+      {
+        "command": "xcrun simctl get_app_container 579524DE-E6EA-42AE-9AB7-12FD385A0D08 host.exp.Exponent app",
+        "exitCode": 0,
+        "resultBundle": "Expo-Go-57.0.9.tar.app"
+      },
+      {
+        "method": "Read returned bundle Info.plist with Python plistlib",
+        "fields": {
+          "CFBundleIdentifier": "host.exp.Exponent",
+          "CFBundleShortVersionString": "57.0.9",
+          "CFBundleVersion": "57.0.9",
+          "MinimumOSVersion": "16.4"
+        }
+      }
+    ]
+  },
+  "android": {
+    "serial": "emulator-5554",
+    "model": "sdk_gphone64_arm64",
+    "os": "Android",
+    "osVersion": "16",
+    "apiLevel": 36,
+    "expoGo": {
+      "packageName": "host.exp.exponent",
+      "versionName": "57.0.9",
+      "versionCode": 444,
+      "minSdk": 24,
+      "targetSdk": 36,
+      "installedAtRead": true,
+      "stoppedFlagAtRead": false
+    },
+    "sources": [
+      {
+        "command": "adb -s emulator-5554 shell getprop ro.build.version.release",
+        "exitCode": 0,
+        "output": "16"
+      },
+      {
+        "command": "adb -s emulator-5554 shell getprop ro.build.version.sdk",
+        "exitCode": 0,
+        "output": "36"
+      },
+      {
+        "command": "adb -s emulator-5554 shell getprop ro.product.model",
+        "exitCode": 0,
+        "output": "sdk_gphone64_arm64"
+      },
+      {
+        "command": "adb -s emulator-5554 shell dumpsys package host.exp.exponent",
+        "exitCode": 0,
+        "selectedOutput": [
+          "versionCode=444 minSdk=24 targetSdk=36",
+          "versionName=57.0.9",
+          "User 0: installed=true hidden=false suspended=false stopped=false notLaunched=false enabled=0"
+        ]
+      }
+    ],
+    "adbExecutable": "/Users/zhouzhny/Library/Android/sdk/platform-tools/adb"
+  },
+  "collectionNotes": [
+    "Initial sandboxed simctl metadata reads failed with Operation not permitted/CoreSimulator connection invalid. Read-only escalated metadata reads succeeded; the initial sandbox errors are not classified as device or product failures.",
+    "Only requested metadata is retained; no user data, authentication material, UI screenshots or device input was collected.",
+    "Android stopped=false and iOS Booted describe collection time only and cannot establish whether an earlier force-stop/restart occurred."
+  ]
+}

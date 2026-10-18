@@ -1,0 +1,13 @@
+{
+  "at": "2026-10-15T22:52:39.021979+00:00",
+  "scope": "Native deep-link read audit after account-switch baseline. Independent readback at22:51:10 is separately recorded and excluded below.",
+  "requests": [
+    {
+      "at": "2026-10-15T22:52:18.801709+00:00",
+      "method": "GET",
+      "path": "/api/v1/bookings/qa-nr-android-move-booking",
+      "userId": "qa-nr-android-other",
+      "status": 404
+    }
+  ]
+}

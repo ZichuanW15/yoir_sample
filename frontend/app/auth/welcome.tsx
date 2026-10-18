@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import Svg, { Polyline } from 'react-native-svg';
 import { WelcomeScene } from '@/src/components/Scenes';
 import { Button, IconButton } from '@/src/components/ui';
+import { desktopAuthBody, useDesktop } from '@/src/desktop';
 import { FadeUp, ScreenIn } from '@/src/motion';
 import { colors, fonts, radius, type } from '@/src/theme';
 
@@ -27,21 +28,33 @@ const copy: Record<PublicRole, { label: string; headline: string; body: string }
 export default function WelcomeScreen() {
   const { role } = useLocalSearchParams<{ role?: PublicRole }>();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const chosen: PublicRole = role === 'counsellor' ? 'counsellor' : 'job_seeker';
   const { label, headline, body } = copy[chosen];
 
-  return (
-    <ScreenIn style={[styles.screen, { paddingTop: insets.top }]}>
-      <View style={styles.bar}>
-        <IconButton tone="white" label="Back" onPress={() => goBack('/')}>
-          <Svg width={20} height={20} viewBox="0 0 24 24">
-            <Polyline points="14.5,5 7.5,12 14.5,19" fill="none" stroke={colors.green} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
-          </Svg>
-        </IconButton>
-      </View>
+  // Desktop: the bar scrolls with the form, so the column is one centred group
+  // and the whole panel is what scrolls (see desktopAuthBody).
+  const bar = (
+    <View style={[styles.bar, desktop && styles.desktopBar]}>
+      <IconButton tone="white" label="Back" onPress={() => goBack('/')}>
+        <Svg width={20} height={20} viewBox="0 0 24 24">
+          <Polyline points="14.5,5 7.5,12 14.5,19" fill="none" stroke={colors.green} strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" />
+        </Svg>
+      </IconButton>
+    </View>
+  );
 
-      <ScrollView contentContainerStyle={[styles.body, { paddingBottom: 24 + insets.bottom }]}>
-        <WelcomeScene />
+  return (
+    <ScreenIn style={[styles.screen, { paddingTop: insets.top }, desktop && styles.desktopScreen]}>
+      {desktop ? null : bar}
+
+      <ScrollView
+        showsVerticalScrollIndicator={!desktop}
+        contentContainerStyle={[styles.body, { paddingBottom: 24 + insets.bottom }, desktop && styles.desktopBody]}
+      >
+        {desktop ? bar : null}
+        {/* Desktop: the brand panel beside the column stands in for the illustration. */}
+        {desktop ? null : <WelcomeScene />}
 
         <FadeUp delay={150} duration={600} style={styles.intro}>
           <View style={styles.rolePill}>
@@ -84,4 +97,9 @@ const styles = StyleSheet.create({
   },
   rolePillText: { fontFamily: fonts.bold, fontSize: 12, letterSpacing: 0.6, textTransform: 'uppercase', color: colors.amberInk },
   actions: { gap: 12 },
+  // Desktop: the screen fills the panel beside the brand panel and scrolls as a whole;
+  // its content is the centred 460px column, bar included.
+  desktopScreen: { flex: 1, backgroundColor: 'transparent' },
+  desktopBar: { paddingHorizontal: 0 },
+  desktopBody: { ...desktopAuthBody, gap: 16 },
 });

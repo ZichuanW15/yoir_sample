@@ -1,0 +1,38 @@
+[
+  {
+    "label": "web-build",
+    "exitCode": 0
+  },
+  {
+    "label": "frontend-regression",
+    "exitCode": 0
+  },
+  {
+    "label": "ios-regression",
+    "exitCode": 0
+  },
+  {
+    "label": "android-regression",
+    "exitCode": 0
+  },
+  {
+    "label": "frontend-defects",
+    "exitCode": 1
+  },
+  {
+    "label": "ios-defects",
+    "exitCode": 1
+  },
+  {
+    "label": "android-defects",
+    "exitCode": 1
+  },
+  {
+    "label": "frontend-lint",
+    "exitCode": 0
+  },
+  {
+    "label": "frontend-typecheck",
+    "exitCode": 0
+  }
+]

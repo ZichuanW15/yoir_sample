@@ -1,0 +1,160 @@
+
+> yoir-mobile@0.1.0 test:web:defects
+> playwright test --config playwright.config.ts --grep @defect e2e/sprint3-integration-acceptance.spec.ts
+
+[WebServer] Mail is NOT configured (MAILGUN_API_KEY and MAILGUN_DOMAIN missing): every message will be logged and discarded, including email confirmation and booking confirmations.
+
+Running 4 tests using 1 worker
+
+  ✘  1 [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:73:5 › @defect [S3-DIAGNOSIS-SERVER-ACK][QA-165] Continue waits for the real saved-step acknowledgement (2.5s)
+  ✘  2 [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:109:5 › @defect [S3-DIAGNOSIS-SAVE-RECOVERY][QA-165] a refused server save retains the answer and retries without advancement (3.0s)
+  ✘  3 [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:142:5 › @defect [S3-DIAGNOSIS-SERVER-RESUME][QA-162][QA-168] a fresh browser resumes the same account server-confirmed answers (9.4s)
+  ✘  4 [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:167:5 › @defect [S3-PROFILE-UNRATED][QA-219] a real unrated professional has an explicit neutral rating state (13.7s)
+
+
+  1) [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:73:5 › @defect [S3-DIAGNOSIS-SERVER-ACK][QA-165] Continue waits for the real saved-step acknowledgement
+
+    Error: The UI advanced without attempting the required diagnosis API save.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 0
+
+      92 |     await expect.poll(async () => writes > 0
+      93 |       || await page.getByRole('progressbar', { name: 'Step 2 of 6' }).isVisible()).toBe(true);
+    > 94 |     expect(writes, 'The UI advanced without attempting the required diagnosis API save.').toBe(1);
+         |                                                                                           ^
+      95 |     await expect.poll(() => serverStatus).toBe(200);
+      96 |     await expect(page.getByRole('progressbar', { name: 'Step 1 of 6' })).toBeVisible();
+      97 |     release();
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-integration-acceptance.spec.ts:94:91
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-next-20261016/browser-integration-final/report/attachments/sprint3-integration-accept-b6491--saved-step-acknowledgement-chromium-web/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../artifacts/qa/sprint3-next-20261016/browser-integration-final/report/attachments/sprint3-integration-accept-b6491--saved-step-acknowledgement-chromium-web/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-next-20261016/browser-integration-final/report/attachments/sprint3-integration-accept-b6491--saved-step-acknowledgement-chromium-web/trace.zip
+    Usage:
+
+        npx playwright show-trace ../artifacts/qa/sprint3-next-20261016/browser-integration-final/report/attachments/sprint3-integration-accept-b6491--saved-step-acknowledgement-chromium-web/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:109:5 › @defect [S3-DIAGNOSIS-SAVE-RECOVERY][QA-165] a refused server save retains the answer and retries without advancement
+
+    Error: No diagnosis save was attempted; the injected failure and retry UI were not reached.
+
+    expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 0
+
+      122 |     await expect.poll(async () => interceptedWrites > 0
+      123 |       || await page.getByRole('progressbar', { name: 'Step 2 of 6' }).isVisible()).toBe(true);
+    > 124 |     expect(interceptedWrites, 'No diagnosis save was attempted; the injected failure and retry UI were not reached.').toBe(1);
+          |                                                                                                                       ^
+      125 |     await expect(page.getByRole('alert')).toContainText('Diagnosis was not saved');
+      126 |     await expect(page.getByRole('progressbar', { name: 'Step 1 of 6' })).toBeVisible();
+      127 |     await expect(page.getByLabel('Tell us a little more (optional)', { exact: true })).toHaveValue('Retain this answer while offline');
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-integration-acceptance.spec.ts:124:119
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-next-20261016/browser-integration-final/report/attachments/sprint3-integration-accept-245f1-retries-without-advancement-chromium-web/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../artifacts/qa/sprint3-next-20261016/browser-integration-final/report/attachments/sprint3-integration-accept-245f1-retries-without-advancement-chromium-web/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-next-20261016/browser-integration-final/report/attachments/sprint3-integration-accept-245f1-retries-without-advancement-chromium-web/trace.zip
+    Usage:
+
+        npx playwright show-trace ../artifacts/qa/sprint3-next-20261016/browser-integration-final/report/attachments/sprint3-integration-accept-245f1-retries-without-advancement-chromium-web/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:142:5 › @defect [S3-DIAGNOSIS-SERVER-RESUME][QA-162][QA-168] a fresh browser resumes the same account server-confirmed answers
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('progressbar', { name: 'Step 2 of 6' })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('progressbar', { name: 'Step 2 of 6' }) with timeout 5000ms
+      - waiting for getByRole('progressbar', { name: 'Step 2 of 6' })
+
+
+      157 |       displayedStep: await second.getByRole('progressbar').getAttribute('aria-label') });
+      158 |     await info.attach('fresh-browser-resume-screen', { body: await second.screenshot({ fullPage: true }), contentType: 'image/png' });
+    > 159 |     await expect(second.getByRole('progressbar', { name: 'Step 2 of 6' })).toBeVisible();
+          |                                                                            ^
+      160 |     await second.getByRole('button', { name: 'Back', exact: true }).click();
+      161 |     await expect(second.getByLabel('Tell us a little more (optional)', { exact: true })).toHaveValue('Confirmed in another session');
+      162 |   } finally {
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-integration-acceptance.spec.ts:159:76
+
+    attachment #4: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-next-20261016/browser-integration-final/report/attachments/sprint3-integration-accept-dd54e-nt-server-confirmed-answers-chromium-web/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #5: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-next-20261016/browser-integration-final/report/attachments/sprint3-integration-accept-dd54e-nt-server-confirmed-answers-chromium-web/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../artifacts/qa/sprint3-next-20261016/browser-integration-final/report/attachments/sprint3-integration-accept-dd54e-nt-server-confirmed-answers-chromium-web/error-context.md
+
+    attachment #7: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-next-20261016/browser-integration-final/report/attachments/sprint3-integration-accept-dd54e-nt-server-confirmed-answers-chromium-web/trace.zip
+    Usage:
+
+        npx playwright show-trace ../artifacts/qa/sprint3-next-20261016/browser-integration-final/report/attachments/sprint3-integration-accept-dd54e-nt-server-confirmed-answers-chromium-web/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:167:5 › @defect [S3-PROFILE-UNRATED][QA-219] a real unrated professional has an explicit neutral rating state
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText(/^(No reviews yet|No ratings yet|Not yet rated|Unrated|New on Yoir)$/i)
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText(/^(No reviews yet|No ratings yet|Not yet rated|Unrated|New on Yoir)$/i) with timeout 5000ms
+      - waiting for getByText(/^(No reviews yet|No ratings yet|Not yet rated|Unrated|New on Yoir)$/i)
+
+
+      182 |     reviewCount: profile.reviewCount }), contentType: 'application/json' });
+      183 |   // Accept neutral equivalent wording; verification status is not a rating state.
+    > 184 |   await expect(page.getByText(/^(No reviews yet|No ratings yet|Not yet rated|Unrated|New on Yoir)$/i)).toBeVisible();
+          |                                                                                                        ^
+      185 | });
+      186 |
+        at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-integration-acceptance.spec.ts:184:104
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-next-20261016/browser-integration-final/report/attachments/sprint3-integration-accept-b82cf-plicit-neutral-rating-state-chromium-web/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: ../artifacts/qa/sprint3-next-20261016/browser-integration-final/report/attachments/sprint3-integration-accept-b82cf-plicit-neutral-rating-state-chromium-web/error-context.md
+
+    attachment #5: trace (application/zip) ─────────────────────────────────────────────────────────
+    ../artifacts/qa/sprint3-next-20261016/browser-integration-final/report/attachments/sprint3-integration-accept-b82cf-plicit-neutral-rating-state-chromium-web/trace.zip
+    Usage:
+
+        npx playwright show-trace ../artifacts/qa/sprint3-next-20261016/browser-integration-final/report/attachments/sprint3-integration-accept-b82cf-plicit-neutral-rating-state-chromium-web/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4 failed
+    [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:73:5 › @defect [S3-DIAGNOSIS-SERVER-ACK][QA-165] Continue waits for the real saved-step acknowledgement
+    [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:109:5 › @defect [S3-DIAGNOSIS-SAVE-RECOVERY][QA-165] a refused server save retains the answer and retries without advancement
+    [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:142:5 › @defect [S3-DIAGNOSIS-SERVER-RESUME][QA-162][QA-168] a fresh browser resumes the same account server-confirmed answers
+    [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:167:5 › @defect [S3-PROFILE-UNRATED][QA-219] a real unrated professional has an explicit neutral rating state

@@ -1,0 +1,974 @@
+{
+  "checkedAt": "2026-10-15T20:09:15.900Z",
+  "repository": "swen90014-2026-sm2/SWEN90014-2026-CSD-Koala",
+  "productCommit": "cdcc44e66d647a9c5993736b797312b495715a3f",
+  "source": "GitHub REST issue listing; dated snapshot, not acceptance or issue updates",
+  "issues": [
+    {
+      "number": 8,
+      "title": "[US-05] Complete first-login counsellor onboarding",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/8",
+      "body": "**Requirement ID:** `US-05`\n**Priority:** Must-have · **Estimate:** 4 SP · **Status:** Baseline\n**Epic:** A – Authentication and Accounts · **Role:** Career Counsellor\n\n## User outcome\nComplete first-login counsellor onboarding\n\n## Acceptance summary\nA new counsellor is directed to professional-profile and verification setup before publishing services.\n\n## Purpose\nSupport US-05 by routing a Career Counsellor's first login into professional-profile and verification setup before services can be published, so that Erika and David are guided through the required setup steps instead of having to find them themselves.\n\n## Scope\n- Backend exposes the counsellor's onboarding state (profile saved, verification submitted) so the app can route after login.\n- On first successful login, the app routes a Career Counsellor to an onboarding flow presenting professional-profile setup (US-30) and LinkedIn verification submission (US-31) as required steps (Requirements.md US-05).\n- Service publishing is not offered until both steps are complete; the app shows an English explanation of what remains.\n- Once onboarding is complete, subsequent logins route to the regular counsellor area (US-06).\n\n**Out of scope**\n- The profile form itself (US-30), LinkedIn URL submission and validation (US-31), and verification status display (US-32).\n- Service creation and My Services, and backend rejection of service creation by a counsellor who has not completed onboarding — enforced in US-34 (eligibility), which depends on this story.\n- First-login diagnose triage for Job Seekers — US-09 to US-13, outside the active backlog.\n\n## Acceptance criteria\n- [ ] Given Erika has registered as a Career Counsellor and has never logged in, when she logs in successfully for the first time, then the app navigates to the counsellor onboarding flow showing professional-profile setup and verification submission as required steps, not to the regular counsellor area.\n- [ ] Given Erika has not completed both onboarding steps, when she views the onboarding flow after login, then it lists which of profile setup and verification submission remain, shows an English message that both must be completed before services can be published, and offers no route to service creation.\n- [ ] Given a counsellor account that has not completed onboarding, when the app requests that account's onboarding state from the backend, then the response reports profile setup and verification submission as incomplete.\n- [ ] Given David has saved his professional profile and submitted his LinkedIn URL, when he logs in again, then the app routes him to the regular counsellor area and no longer shows the onboarding gate.\n- [ ] Given the backend has not yet returned Erika's onboarding state, when the app is deciding where to route her after login, then it shows a loading state and displays neither the onboarding flow nor the counsellor area until the state is received.\n\n## Evidence\n_Fill in when the story closes: link the PR, the tests and the device recordings that prove the acceptance criteria._\n- [ ] PR: onboarding state, first-login routing, and publish gate merged into `dev`\n- [ ] Test: AT-US-05-1 (first login routes to onboarding), AT-US-05-2 (publish gated until profile saved and verification submitted), AT-US-05-3 (completed onboarding routes to counsellor area) passing\n- [ ] Integration test: onboarding-state endpoint reflects profile saved and URL submitted (BE)\n- [ ] Screen recording: first-login onboarding on iOS and Android\n- [ ] QA sign-off recorded on this issue\n\n## Dependencies\nBlocked by: US-04 (#7), US-06 (#9), US-30 (#24), US-31 (#25)\n\n## Sub-tasks\n_Suggested split for the sub-team; convert to sub-issues at sprint planning._\n- [ ] BE: Expose onboarding-state endpoint for counsellor accounts\n- [ ] FE: Route first login to onboarding; show remaining steps\n- [ ] QA: First-login, gate, and completed-onboarding tests both platforms\n\n## Assumptions and open decisions\n- Onboarding is complete when the profile is saved and a LinkedIn URL is submitted; whether service creation also requires verified (not pending) status is undecided (CLIENT-01; R-02 suggests allowing drafts while pending) and must be agreed with US-34's eligibility rule.\n- The LinkedIn approach is still open (25 Aug 2026 minutes); if account linking is chosen, the verification step in onboarding changes.\n\n## Definition of Ready / Done\nSee `backlog.md` §6 and §7.\n\n## Traceability\nBaseline: `backlog.md` · Wiki: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements\n",
+      "assignees": [],
+      "updatedAt": "2026-08-27T11:34:06Z"
+    },
+    {
+      "number": 12,
+      "title": "[US-70] Reset a forgotten password securely",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/12",
+      "body": "**Requirement ID:** `US-70`\n**Priority:** Must-have · **Estimate:** 5 SP · **Status:** Baseline\n**Epic:** A – Authentication and Accounts · **Role:** Any user\n\n## User outcome\nReset a forgotten password securely\n\n## Acceptance summary\nA registered user can request a secure reset link and set a new valid password without exposing account existence.\n\n## Purpose\nSupport US-70 by letting a registered user request a reset link and set a new valid password without the app or API revealing whether an email is registered, so that Sam and Erika can regain access to their accounts securely.\n\n## Scope\n- Forgot-password entry from the login screen with an email field and submit; always shows the same generic English confirmation.\n- Backend reset-request endpoint generates a reset token for a registered email and sends a reset link by email; the response is identical for unregistered emails (backlog US-70).\n- Set-new-password screen opened from the reset link: new password and confirmation, submitted with the token to the backend.\n- Backend validates the token, replaces the stored password hash, and rejects invalid or expired tokens (NFR-04).\n- App shows success and navigates to login only after backend confirmation (Requirements.md §4 NFR).\n\n**Out of scope**\n- Changing the password while logged in — not in the baseline.\n- Recovery by other channels (SMS, security questions) or changing the account email — not in the baseline.\n- In-app notification centre — US-60 and US-61, outside the active backlog.\n\n## Acceptance criteria\n- [ ] Given Sam is on the login screen, when he taps Forgot password and submits his registered email, then the backend creates a reset token and sends a reset link to that email, and the app shows a generic English confirmation that instructions were sent if an account exists.\n- [ ] Given an email that is not registered, when Sam submits it on the forgot-password screen, then the app shows the identical confirmation message and the backend response is indistinguishable from the registered case.\n- [ ] Given Sam opens a valid reset link, when he enters a new valid password with a matching confirmation and the backend confirms, then the stored password hash is replaced, the app shows success and navigates to login, and the old password no longer authenticates.\n- [ ] Given a reset token that is expired, already used, or altered, when Sam submits a new password with it, then the backend rejects the request, the password is unchanged, and the app shows an error rather than success.\n- [ ] Given the reset submission is in flight or fails with a network or server error, when Sam waits on the set-new-password screen, then the app shows a processing or error state and does not show success or navigate to login.\n\n## Evidence\n_Fill in when the story closes: link the PR, the tests and the device recordings that prove the acceptance criteria._\n- [ ] PR: reset request, token handling, and set-new-password screen merged into `dev`\n- [ ] Test: AT-US-70-1 (registered email: link sent, generic confirmation), AT-US-70-2 (unregistered email: identical response), AT-US-70-3 (valid token sets new password; old password fails), AT-US-70-4 (expired, used, or altered token rejected) passing\n- [ ] Integration test: token lifecycle and hash replacement (BE)\n- [ ] Screen recording: forgot-password through to successful login on iOS and Android\n- [ ] QA sign-off recorded on this issue\n\n## Dependencies\nBlocked by: US-02 (#5), US-06 (#9)\n\n## Sub-tasks\n_Suggested split for the sub-team; convert to sub-issues at sprint planning._\n- [ ] BE: Reset-request and reset-confirm endpoints with token lifecycle\n- [ ] BE: Outbound email delivery for the reset link\n- [ ] FE: Forgot-password and set-new-password screens with generic confirmation\n- [ ] QA: Token validity, expiry, and enumeration tests on both platforms\n\n## Assumptions and open decisions\n- A token lifetime and single-use handling are implied by 'secure reset link' and NFR-04, but no duration is specified; the team must agree it before the story is Ready.\n- The email delivery provider and how the emailed link opens the app's set-new-password screen (deep link versus a code entered in the app) are implementation decisions to record in the design notebook.\n- The password validity rule is the same undecided rule as US-01/US-02; whether other active sessions are invalidated after a reset is not stated in any source.\n\n## Definition of Ready / Done\nSee `backlog.md` §6 and §7.\n\n## Traceability\nBaseline: `backlog.md` · Wiki: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements\n",
+      "assignees": [],
+      "updatedAt": "2026-09-02T06:09:19Z"
+    },
+    {
+      "number": 22,
+      "title": "[US-27] Control profile visibility",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/22",
+      "body": "**Requirement ID:** `US-27`\n**Priority:** Must-have · **Estimate:** 4 SP · **Status:** Baseline\n**Epic:** C – Privacy and Counsellor Profile · **Role:** Any user\n\n## User outcome\nControl profile visibility\n\n## Acceptance summary\nA user can select public, partially visible, or restricted profile visibility.\n\n## Purpose\nSupport US-27 by letting a signed-in user choose public, partially visible or restricted profile visibility, so that Sam can seek advice without exposing more of his situation than he wants and David can keep his profile open to attract clients.\n\n## Scope\n- Privacy settings screen in the signed-in user's account area offering exactly three options: Public, Partially visible, Restricted, with a Save action.\n- JWT-protected backend endpoints to read and update the authenticated user's own visibility setting; value constrained server-side to the three options.\n- A stored per-account visibility state for both Job Seeker and Career Counsellor accounts, read back on every open of the screen.\n- Loading, saved and error feedback states with English copy (NFR-08); success shown only after the backend confirms.\n\n**Out of scope**\n- Filtering what other users see according to the setting - US-28.\n- Editing Job Seeker profile fields - US-29, outside the active backlog.\n- Forum avatar-to-profile navigation - US-23..US-26, outside the active backlog.\n\n## Acceptance criteria\n- [ ] Given a signed-in Job Seeker or Career Counsellor on the Privacy settings screen, when they tap Public, Partially visible or Restricted and tap Save, then the app shows the option as saved only after the backend confirms the update, and the same option is pre-selected after the app is closed and reopened.\n- [ ] Given a user whose stored visibility is Restricted, when they open the Privacy settings screen, then the app pre-selects Restricted as returned by the backend rather than a default option.\n- [ ] Given the backend rejects or fails the update, when the user taps Save, then the app shows an English error, keeps the previously stored option selected, and does not show a success state.\n- [ ] Given a request with no valid session token or with a value other than public, partially visible or restricted, when the update endpoint is called, then the backend rejects it and the stored setting is unchanged.\n- [ ] Given a signed-in user, when the update endpoint is called against a different user's account, then the backend rejects the request and that other user's setting is unchanged.\n\n## Evidence\n_Fill in when the story closes: link the PR, the tests and the device recordings that prove the acceptance criteria._\n- [ ] PR: FE + BE changes merged into dev with this issue linked\n- [ ] Tests: AT-US-27-1..AT-US-27-5 acceptance tests; BE unit tests for value validation, auth and ownership\n- [ ] Recording: Privacy settings save, reopen and failure path on iOS and Android\n- [ ] QA sign-off: comment listing the device/OS matrix used and results\n\n## Dependencies\nBlocked by: US-06 (#9)\n\n## Sub-tasks\n_Suggested split for the sub-team; convert to sub-issues at sprint planning._\n- [ ] FE: Privacy settings screen with three options and save feedback\n- [ ] BE: Get/update own visibility endpoints with value validation and auth\n- [ ] QA: AT-US-27 on iOS and Android incl. failure and unauthenticated paths\n\n## Assumptions and open decisions\n- The exact profile fields exposed at each level are not defined in backlog.md or Requirements.md; the PO must agree one mapping used by both teams before this story is Ready (DoR).\n- The default visibility for a newly registered account is not specified; to be decided with the PO before implementation.\n- Platform Owner accounts are assumed to have no viewable profile and therefore no visibility setting.\n- Australian Privacy Act handling and under-18 users (open decision, Project Background §7 item 8) are not addressed by this story.\n\n## Definition of Ready / Done\nSee `backlog.md` §6 and §7.\n\n## Traceability\nBaseline: `backlog.md` · Wiki: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements\n",
+      "assignees": [],
+      "updatedAt": "2026-08-27T11:34:29Z"
+    },
+    {
+      "number": 23,
+      "title": "[US-28] Have privacy settings enforced",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/23",
+      "body": "**Requirement ID:** `US-28`\n**Priority:** Must-have · **Estimate:** 2 SP · **Status:** Baseline\n**Epic:** C – Privacy and Counsellor Profile · **Role:** Any user\n\n## User outcome\nHave privacy settings enforced\n\n## Acceptance summary\nOther users receive only the profile fields allowed by the selected visibility setting.\n\n## Purpose\nSupport US-28 by having the backend return, and the app show, only the profile fields allowed by the owner's visibility setting, so that Sam and Emily can trust that what they chose to hide stays hidden from other users.\n\n## Scope\n- Backend filtering of every profile read response by the owner's stored visibility level and the requester's identity, applied to every requester other than the owner (Requirements.md §4: front end respects privacy settings; backend is responsible for final authorisation enforcement).\n- Profile view screen renders only the fields the backend returns and shows a clear restricted-profile state when the owner is Restricted.\n- Owner exception: a user reading their own profile receives the full record.\n- Applies to the counsellor professional profile (US-30). A Job Seeker's visibility setting (US-27) is enforced on any backend endpoint that returns Job Seeker account fields to another user.\n\n**Out of scope**\n- Choosing the visibility level - US-27.\n- Marketplace listing and service-detail content - US-44 / US-46; how a Restricted counsellor appears there is an open assumption below.\n- Forum-to-profile links - US-23..US-26, outside the active backlog.\n\n## Acceptance criteria\n- [ ] Given a profile owner has set Public, when another user opens that profile screen, then the backend returns and the app shows every field defined as public for that profile type.\n- [ ] Given a profile owner has set Partially visible, when another user opens that profile screen, then the backend response contains only the fields permitted at the partial level and the app shows nothing more, with omitted fields absent from the API response rather than hidden by the app.\n- [ ] Given a profile owner has set Restricted, when another user opens that profile screen, then the app shows a clear restricted-profile state and the backend returns none of the restricted fields.\n- [ ] Given a profile owner opens their own profile, when the screen loads, then the app shows their full profile regardless of the selected visibility.\n- [ ] Given a profile owner changes their visibility via US-27, when another user opens the profile after the backend has confirmed the change, then the fields shown match the new level with no fields carried over from the previous level.\n\n## Evidence\n_Fill in when the story closes: link the PR, the tests and the device recordings that prove the acceptance criteria._\n- [ ] PR: BE filtering + FE profile view merged into dev with this issue linked\n- [ ] Tests: AT-US-28-1..AT-US-28-5; anonymous, wrong-user and owner API tests for all three levels (Requirements.md §4: front end respects privacy settings; backend is responsible for final authorisation enforcement)\n- [ ] Screenshots: public, partial and restricted views of the same profile on iOS and Android\n- [ ] QA sign-off: comment listing the device/OS matrix used and results\n\n## Dependencies\nBlocked by: US-27 (#22), US-30 (#24)\n\n## Sub-tasks\n_Suggested split for the sub-team; convert to sub-issues at sprint planning._\n- [ ] BE: Filter profile responses by owner visibility level and requester\n- [ ] FE: Render permitted fields only; restricted-state view\n- [ ] QA: Cross-account API tests for all three levels; device check\n\n## Assumptions and open decisions\n- Uses the same field-per-level mapping agreed for US-27; it is not defined in the sources.\n- How a Restricted counsellor appears in the public Marketplace listing and detail (US-44/US-46) is undecided; PO to confirm which listing fields stay public.\n- The owner-sees-everything rule is inferred from the backlog wording 'other users receive only'; confirm with PO.\n- Whether an unauthenticated user can open a profile screen at all is not defined; only Marketplace listing/detail (US-44/US-46) is confirmed public. PO to confirm; if public, the same filtering applies to anonymous requests.\n- No baseline story defines a Job Seeker profile screen reachable by other users (US-23..US-26 and US-29 are excluded); PO to confirm whether one is needed for US-28 or whether Job Seeker privacy is enforced only at API level.\n\n## Definition of Ready / Done\nSee `backlog.md` §6 and §7.\n\n## Traceability\nBaseline: `backlog.md` · Wiki: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements\n",
+      "assignees": [],
+      "updatedAt": "2026-08-27T11:34:31Z"
+    },
+    {
+      "number": 25,
+      "title": "[US-31] Submit a LinkedIn profile for verification",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/25",
+      "body": "**Requirement ID:** `US-31`\n**Priority:** Must-have · **Estimate:** 4 SP · **Status:** Baseline\n**Epic:** D – Counsellor Verification · **Role:** Career Counsellor\n\n## User outcome\nSubmit a LinkedIn profile for verification\n\n## Acceptance summary\nA counsellor can submit a valid LinkedIn URL for Platform Owner review.\n\n## Purpose\nSupport US-31 by letting a Career Counsellor submit a validated LinkedIn profile URL for manual Platform Owner review, so that David and Erika can start verification from their phone and Emily can later rely on counsellors who have been reviewed.\n\n## Scope\n- Verification screen for the signed-in counsellor with a LinkedIn profile URL field and a Submit action, reachable from first-login onboarding (US-05) and the account area.\n- App-side and server-side URL validation with English feedback; the value must be a LinkedIn profile URL.\n- JWT-protected submission endpoint that stores the URL against the counsellor's account with status pending.\n- Role and ownership enforcement: only a Career Counsellor session can submit, and only for its own account.\n\n**Out of scope**\n- Platform Owner inspection and decision - US-58; status shown on profile and service-management views - US-32.\n- LinkedIn sign-in, account linking or automated API verification - deferred: CLIENT-01 pending and R-01 (API does not expose what verification needs).\n- Resubmission after rejection - open client question (25 Aug 2026, Q3); see assumptions.\n\n## Acceptance criteria\n- [ ] Given a signed-in Career Counsellor with no verification submission, when they enter a valid LinkedIn profile URL on the Verification screen and tap Submit, then the app shows the submission as Pending only after the backend confirms it has stored the URL with status pending.\n- [ ] Given the URL field is empty or contains a value that is not a LinkedIn profile URL, when the counsellor taps Submit, then the app shows URL validation feedback in English and no request is sent or stored.\n- [ ] Given an invalid URL bypasses the app and reaches the API, when the submission endpoint is called, then the backend rejects it with a validation error and no submission record is created.\n- [ ] Given a Job Seeker session or an unauthenticated request, when the submission endpoint is called, then the backend rejects it and no submission is created.\n- [ ] Given the backend fails during submission, when the counsellor taps Submit, then the app shows an error and does not show Pending until a later submission is confirmed by the backend.\n\n## Evidence\n_Fill in when the story closes: link the PR, the tests and the device recordings that prove the acceptance criteria._\n- [ ] PR: FE + BE changes merged into dev with this issue linked\n- [ ] Tests: AT-US-31-1..AT-US-31-5; BE unit tests for URL validation and role checks\n- [ ] Recording: valid submission and invalid-URL feedback on iOS and Android\n- [ ] QA sign-off: comment listing the device/OS matrix used and results\n\n## Dependencies\nBlocked by: US-04 (#7), US-06 (#9)\n\n## Sub-tasks\n_Suggested split for the sub-team; convert to sub-issues at sprint planning._\n- [ ] FE: Verification screen with URL field and validation feedback\n- [ ] BE: Submission endpoint storing URL as pending; role check\n- [ ] QA: Valid/invalid URL and wrong-role tests on both platforms\n\n## Assumptions and open decisions\n- CLIENT-01 is pending: the baseline is URL submission plus manual review; if the client chooses LinkedIn sign-in or account linking, this story's inputs and AC change.\n- Whether a rejected counsellor may edit and resubmit is an open client question (25 Aug 2026, Q3); R-02 proposes allowing it, but it is not built until confirmed.\n- R-02's 'URL must match the registered name' is treated as a reviewer check under US-58, not an automated check here.\n- 'Valid LinkedIn URL' means a syntactically valid LinkedIn profile URL; no live check against LinkedIn is performed.\n\n## Definition of Ready / Done\nSee `backlog.md` §6 and §7.\n\n## Traceability\nBaseline: `backlog.md` · Wiki: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements\n",
+      "assignees": [],
+      "updatedAt": "2026-08-27T11:34:35Z"
+    },
+    {
+      "number": 26,
+      "title": "[US-32] See the verification result",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/26",
+      "body": "**Requirement ID:** `US-32`\n**Priority:** Must-have · **Estimate:** 3 SP · **Status:** Baseline\n**Epic:** D – Counsellor Verification · **Role:** Career Counsellor\n\n## User outcome\nSee the verification result\n\n## Acceptance summary\nRelevant counsellor views consistently show pending, verified, or rejected status.\n\n## Purpose\nSupport US-32 by showing the backend-held verification status (pending, verified or rejected) consistently on the counsellor's profile and service-management screens, so that David and Erika always know where their verification stands without contacting the platform.\n\n## Scope\n- Verification status (Pending / Verified / Rejected) displayed on the counsellor's Professional Profile screen and My Services screen, fetched from the backend on each load.\n- JWT-protected read of the authenticated counsellor's own verification status.\n- One shared status component and English label set so wording is identical on every counsellor view.\n- Loading and error state when the status cannot be fetched; no status is guessed.\n\n**Out of scope**\n- Public verified badge on Marketplace counsellor information - US-46.\n- Recording the decision - US-58; outcome of an additional investigation - US-33.\n- Push or in-app notification of a status change - notification centre US-60 / US-61 is outside the active backlog.\n\n## Acceptance criteria\n- [ ] Given a counsellor whose submission is pending, when they open the Professional Profile screen and the My Services screen, then both show Pending using the status returned by the backend.\n- [ ] Given a Platform Owner has recorded Verified for the counsellor, when the counsellor next opens either screen, then both show Verified and neither shows a stale Pending state.\n- [ ] Given a Platform Owner has recorded Rejected, when the counsellor next opens either screen, then both show Rejected with identical status wording on every counsellor view.\n- [ ] Given the verification-status request fails, when a counsellor view loads, then the app shows an English error state and displays no status value until a later successful response from the backend.\n- [ ] Given a signed-in counsellor, when the verification-status endpoint is called, then the backend returns only that counsellor's own status and rejects the request from a Job Seeker session.\n\n## Evidence\n_Fill in when the story closes: link the PR, the tests and the device recordings that prove the acceptance criteria._\n- [ ] PR: FE status component + BE status read merged into dev with this issue linked\n- [ ] Tests: AT-US-32-1..AT-US-32-5; BE tests for ownership and role on the status read\n- [ ] Screenshots: Pending, Verified and Rejected on both screens, iOS and Android\n- [ ] QA sign-off: comment listing the device/OS matrix used and results\n\n## Dependencies\nBlocked by: US-31 (#25), US-58 (#28), US-34 (#29)\n\n## Sub-tasks\n_Suggested split for the sub-team; convert to sub-issues at sprint planning._\n- [ ] FE: Status component on Profile and My Services screens\n- [ ] BE: Own verification status read endpoint\n- [ ] QA: Verify all three statuses render identically across views\n\n## Assumptions and open decisions\n- The state before any submission is not one of the three statuses in the sources; the app is assumed to show a prompt to submit (US-31) - confirm with PO.\n- Whether the rejection reason recorded under R-02 is shown to the counsellor is undecided.\n- Status is refreshed on screen load; no notification is sent (US-60/US-61 excluded).\n\n## Definition of Ready / Done\nSee `backlog.md` §6 and §7.\n\n## Traceability\nBaseline: `backlog.md` · Wiki: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements\n",
+      "assignees": [],
+      "updatedAt": "2026-08-27T11:34:37Z"
+    },
+    {
+      "number": 27,
+      "title": "[US-33] Receive the outcome of an additional manual investigation",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/27",
+      "body": "**Requirement ID:** `US-33`\n**Priority:** Should-have · **Estimate:** 4 SP · **Status:** Baseline\n**Epic:** D – Counsellor Verification · **Role:** Career Counsellor\n\n## User outcome\nReceive the outcome of an additional manual investigation\n\n## Acceptance summary\nCompleting an additional review updates the counsellor verification outcome consistently.\n\n## Purpose\nSupport US-33 by letting a Platform Owner record the outcome of an additional manual investigation and propagating it to every counsellor view, so that David and Erika receive a single, current verification outcome after any re-review.\n\n## Scope\n- Platform Owner action on an already-reviewed or pending submission to record an additional-investigation outcome of pending, verified or rejected.\n- JWT-protected backend endpoint that updates the counsellor's verification status and returns the new value; Platform Owner role enforced server-side.\n- Counsellor views from US-32 (Professional Profile, My Services) show the updated status on next load.\n- Validation and error feedback on the Platform Owner screen; the new outcome is shown as recorded only after backend confirmation.\n\n**Out of scope**\n- The initial approve / reject / leave-pending decision - US-58.\n- Telling the counsellor the outcome changed - no notification centre (US-60 / US-61 outside the active backlog); the counsellor sees it on next open.\n- Account suspension or broader account management - US-56 / US-57 / US-59, outside the active backlog.\n\n## Acceptance criteria\n- [ ] Given a submission that already has a recorded outcome (pending, verified or rejected), when a Platform Owner records the result of an additional manual investigation, then the backend stores the new status and returns it as the counsellor's current verification status.\n- [ ] Given the additional-investigation outcome has been stored, when the counsellor next opens the Professional Profile screen and the My Services screen, then both show the updated status and no view shows the previous one.\n- [ ] Given the Platform Owner submits an outcome that is not pending, verified or rejected, when the endpoint is called, then the backend rejects it with a validation error and the counsellor's status is unchanged.\n- [ ] Given a Job Seeker or Career Counsellor session, when the additional-investigation endpoint is called, then the backend rejects the request and the status is unchanged.\n- [ ] Given the backend rejects or fails the update, when the Platform Owner confirms the outcome, then the app shows an error and continues to display the previously stored status as current.\n\n## Evidence\n_Fill in when the story closes: link the PR, the tests and the device recordings that prove the acceptance criteria._\n- [ ] PR: BE status-update endpoint + FE Platform Owner action merged into dev with this issue linked\n- [ ] Tests: AT-US-33-1..AT-US-33-5; BE state-transition and role tests\n- [ ] Recording: outcome change propagating to counsellor views on iOS and Android\n- [ ] QA sign-off: comment listing the device/OS matrix used and results\n\n## Dependencies\nBlocked by: US-58 (#28), US-32 (#26)\n\n## Sub-tasks\n_Suggested split for the sub-team; convert to sub-issues at sprint planning._\n- [ ] BE: Additional-review outcome endpoint updating status; Platform Owner only\n- [ ] FE: Platform Owner action to record re-investigation outcome\n- [ ] FE: Counsellor views refresh to updated status\n- [ ] QA: Status-change consistency tests across views and roles\n\n## Assumptions and open decisions\n- What triggers an additional investigation, its criteria and who gives final approval are undecided (25 Aug 2026 client question Q3).\n- The Platform Owner console shape is an open decision (Project Background §7 item 3); assumed to be role-specific screens in the app (Requirements §1).\n- The effect of a verified-to-rejected change on services the counsellor has already published is not defined in the sources and is outside this story.\n\n## Definition of Ready / Done\nSee `backlog.md` §6 and §7.\n\n## Traceability\nBaseline: `backlog.md` · Wiki: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements\n",
+      "assignees": [],
+      "updatedAt": "2026-08-27T11:34:39Z"
+    },
+    {
+      "number": 28,
+      "title": "[US-58] Review counsellor verification as a Platform Owner",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/28",
+      "body": "**Requirement ID:** `US-58`\n**Priority:** Must-have · **Estimate:** 4 SP · **Status:** Baseline\n**Epic:** D – Counsellor Verification · **Role:** Platform Owner\n\n## User outcome\nReview counsellor verification as a Platform Owner\n\n## Acceptance summary\nA Platform Owner can inspect a submission and approve, reject, or leave it pending.\n\n## Purpose\nSupport US-58 by giving the Platform Owner a verification queue where each LinkedIn submission can be inspected and approved, rejected or left pending, so that Emily, Jacob and Sam can rely on the verified status shown for counsellors like David and Erika.\n\n## Scope\n- Platform Owner Verification queue screen listing pending submissions with counsellor name and submitted LinkedIn URL; the URL opens the LinkedIn profile outside the app (R-02).\n- Submission detail screen with Approve, Reject (optional reason, R-02) and Leave pending actions, each confirmed before sending.\n- JWT-protected endpoints to list submissions, read one and record a decision; Platform Owner role enforced server-side.\n- Status transitions pending to verified and pending to rejected stored by the backend and shown in the app only after confirmation.\n\n**Out of scope**\n- Forum moderation, reported-content and account-management consoles - US-56 / US-57 / US-59, outside the active backlog.\n- Counsellor-facing status display - US-32; later re-investigation - US-33.\n- Automated LinkedIn identity or qualification checks - deferred: CLIENT-01 pending, R-01.\n\n## Acceptance criteria\n- [ ] Given a signed-in Platform Owner, when they open the Verification queue screen, then the app lists the pending submissions returned by the backend with each counsellor's name and submitted LinkedIn URL, and tapping the URL opens the LinkedIn profile outside the app.\n- [ ] Given a pending submission is open, when the Platform Owner taps Approve and confirms, then the app shows Verified only after the backend stores status verified, and the submission no longer appears in the pending list.\n- [ ] Given a pending submission is open, when the Platform Owner taps Reject and confirms, then the app shows Rejected only after the backend stores status rejected, together with any reason the Platform Owner entered.\n- [ ] Given a pending submission is open, when the Platform Owner navigates back without deciding or taps Leave pending, then the status stays pending and the submission remains in the queue.\n- [ ] Given a Job Seeker or Career Counsellor session, when the list or decision endpoints are called, then the backend rejects the request and no status changes.\n- [ ] Given the backend fails while recording a decision, when the Platform Owner confirms, then the app shows an error and the submission still shows Pending.\n\n## Evidence\n_Fill in when the story closes: link the PR, the tests and the device recordings that prove the acceptance criteria._\n- [ ] PR: FE queue/detail screens + BE review endpoints merged into dev with this issue linked\n- [ ] Tests: AT-US-58-1..AT-US-58-6; BE role and state-transition tests\n- [ ] Recording: approve, reject and leave-pending flows on iOS and Android\n- [ ] QA sign-off: comment listing the device/OS matrix used and results\n\n## Dependencies\nBlocked by: US-31 (#25), US-06 (#9)\n\n## Sub-tasks\n_Suggested split for the sub-team; convert to sub-issues at sprint planning._\n- [ ] FE: Verification queue and submission detail screens for Platform Owner\n- [ ] BE: List/read submissions and record decision; Platform Owner role\n- [ ] QA: Approve/reject/pending transitions and wrong-role rejection tests\n\n## Assumptions and open decisions\n- Platform Owner accounts are provisioned rather than self-registered; registration offers only the Job Seeker and Career Counsellor roles (US-01, US-04).\n- The admin console shape is an open client decision (Project Background §7 item 3); baseline assumes role-specific screens inside the mobile app (Requirements §1).\n- Approval criteria and the final approver are to be confirmed with the client (25 Aug 2026, Q3); the reviewer checks the LinkedIn profile manually, including that it matches the registered name (R-02).\n- The rejection reason is stored per R-02; whether it is shown to the counsellor is decided under US-32.\n- Whether approved and rejected submissions remain visible in the queue (e.g. via a status filter) is not defined in the sources; baseline shows pending only.\n- R-02 proposes rejection with a reason; whether a reason is mandatory and whether it is shown to the counsellor (US-32) are to be confirmed with the PO.\n\n## Definition of Ready / Done\nSee `backlog.md` §6 and §7.\n\n## Traceability\nBaseline: `backlog.md` · Wiki: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements\n",
+      "assignees": [],
+      "updatedAt": "2026-08-27T11:34:41Z"
+    },
+    {
+      "number": 31,
+      "title": "[US-36] Edit or remove future service offerings",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/31",
+      "body": "**Requirement ID:** `US-36`\n**Priority:** Must-have · **Estimate:** 3 SP · **Status:** Baseline\n**Epic:** E – Counsellor Service Management · **Role:** Career Counsellor\n\n## User outcome\nEdit or remove future service offerings\n\n## Acceptance summary\nA counsellor can change active listings without corrupting historical orders.\n\n## Purpose\nSupport US-36 by letting a counsellor edit or remove their own active listings while historical orders keep their recorded service information, so that David can update his catalogue weekly without breaking Emily's or Sam's existing bookings.\n\n## Scope\n- Edit action on My Services that opens the service form pre-filled and saves through a backend update endpoint\n- Remove action with confirmation that calls a backend remove endpoint; removed services are no longer returned as active services by the backend\n- Backend ownership check so only the owning counsellor can edit or remove a service\n- Existing orders and bookings keep their recorded service information after an edit or removal\n\n**Out of scope**\n- Effect on upcoming bookings of a removed service — cancellation policy is open (background §7 item 7)\n- Platform Owner removal or oversight of services (outside the active backlog, US-56/US-59)\n\n## Acceptance criteria\n- [ ] Given a counsellor on My Services, when they edit one of their services and submit valid changes, then the app shows the updated values only after the backend confirms the update.\n- [ ] Given a counsellor removes one of their services and confirms, when the backend confirms the removal, then the service disappears from My Services and is no longer returned as an active service by the backend service endpoints.\n- [ ] Given an order exists for a service, when the counsellor later edits or removes that service, then the order and its booking still return their recorded service information from the backend.\n- [ ] Given a Career Counsellor who does not own a service, when an update or remove request for it is sent with their token, then the backend rejects the request and the service is unchanged.\n- [ ] Given the backend rejects or fails an edit or remove request, when the app receives the error, then it shows the failure and the listing stays unchanged.\n\n## Evidence\n_Fill in when the story closes: link the PR, the tests and the device recordings that prove the acceptance criteria._\n- [ ] PR: edit and remove flows on My Services merged into dev\n- [ ] PR: update/remove endpoints with ownership check merged into dev\n- [ ] Tests: unit tests for ownership rules; AT-US-36-1 (edit), AT-US-36-2 (remove), AT-US-36-3 (historical order intact)\n- [ ] Recording: edit and remove on iOS and Android\n- [ ] QA sign-off against the acceptance criteria\n\n## Dependencies\nBlocked by: US-34 (#29), US-35 (#30)\n\n## Sub-tasks\n_Suggested split for the sub-team; convert to sub-issues at sprint planning._\n- [ ] FE: Edit and remove actions with confirmation and error states\n- [ ] BE: Update/remove endpoints preserving historical order data\n- [ ] QA: AT-US-36 including historical-order regression\n\n## Assumptions and open decisions\n- How removal is implemented (archive versus hard delete) is a design decision; the criteria only require that historical orders keep their information.\n- Removing a service that has upcoming bookings is untested until the cancellation policy is decided; QA removes a service with no upcoming bookings.\n- AT-US-36-3 (historical order intact) is run against a seeded order record at API level until order creation (US-41/US-47) is delivered, then re-run end-to-end.\n\n## Definition of Ready / Done\nSee `backlog.md` §6 and §7.\n\n## Traceability\nBaseline: `backlog.md` · Wiki: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements\n",
+      "assignees": [],
+      "updatedAt": "2026-08-27T11:34:46Z"
+    },
+    {
+      "number": 37,
+      "title": "[US-42] View upcoming and past counsellor bookings",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/37",
+      "body": "**Requirement ID:** `US-42`\n**Priority:** Must-have · **Estimate:** 4 SP · **Status:** Baseline\n**Epic:** F – Availability and Booking · **Role:** Career Counsellor\n\n## User outcome\nView upcoming and past counsellor bookings\n\n## Acceptance summary\nMy Bookings shows the service, Job Seeker, modality, time, and pre-session information.\n\n## Purpose\nSupport US-42 by giving a counsellor a My Bookings screen that lists upcoming and past bookings with service, Job Seeker, modality, time and pre-session brief, so that David and Erika can prepare for each session from one place instead of across channels.\n\n## Scope\n- My Bookings screen for the signed-in counsellor with upcoming and past sections\n- Each booking shows service, Job Seeker, modality, time with timezone and the pre-session brief\n- Backend bookings list endpoint returning only the requesting counsellor's bookings, split by whether the slot time has passed\n- Empty, loading and error states\n\n**Out of scope**\n- Booking detail with meeting link or address and conversation access (US-43)\n- A separate Job Seeker bookings list — not a story in the active backlog; the Job Seeker sees their booking via US-68 and the order (US-47)\n- Notifications about new bookings (notification centre outside the active backlog, US-60/US-61)\n\n## Acceptance criteria\n- [ ] Given a signed-in Career Counsellor with bookings, when they open My Bookings, then the upcoming section shows each future booking's service, Job Seeker, modality, time with timezone and pre-session brief as returned by the backend.\n- [ ] Given a booking whose slot time has passed, when the counsellor opens My Bookings, then it appears under past bookings and not under upcoming.\n- [ ] Given a counsellor with no bookings, when they open My Bookings, then the app shows an empty state without an error.\n- [ ] Given a Job Seeker token or another counsellor's token, when it requests this counsellor's bookings, then the backend rejects the request and never returns another counsellor's bookings.\n- [ ] Given the backend is unreachable, when My Bookings loads, then the app shows an error state rather than an empty list.\n\n## Evidence\n_Fill in when the story closes: link the PR, the tests and the device recordings that prove the acceptance criteria._\n- [ ] PR: My Bookings screen with upcoming and past sections merged into dev\n- [ ] PR: counsellor bookings list endpoint merged into dev\n- [ ] Tests: AT-US-42-1 (upcoming fields), AT-US-42-2 (past split), AT-US-42-3 (ownership), AT-US-42-4 (error state)\n- [ ] Screenshots: My Bookings on iOS and Android\n- [ ] QA sign-off against the acceptance criteria\n\n## Dependencies\nBlocked by: US-41 (#36)\n\n## Sub-tasks\n_Suggested split for the sub-team; convert to sub-issues at sprint planning._\n- [ ] FE: My Bookings screen with upcoming/past tabs and booking cards\n- [ ] BE: Bookings list endpoint scoped to the requesting counsellor\n- [ ] QA: AT-US-42 on both platforms\n\n## Assumptions and open decisions\n- Which booking states are listed (reserved but unpaid versus confirmed) depends on the payment mode (CLIENT-02); the sub-team confirms with the Product Owner before implementation.\n- Sort order within each section is a UX choice.\n\n## Definition of Ready / Done\nSee `backlog.md` §6 and §7.\n\n## Traceability\nBaseline: `backlog.md` · Wiki: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements\n",
+      "assignees": [],
+      "updatedAt": "2026-08-27T11:34:56Z"
+    },
+    {
+      "number": 38,
+      "title": "[US-43] Open a booking working details",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/38",
+      "body": "**Requirement ID:** `US-43`\n**Priority:** Must-have · **Estimate:** 3 SP · **Status:** Baseline\n**Epic:** F – Availability and Booking · **Role:** Career Counsellor\n\n## User outcome\nOpen a booking working details\n\n## Acceptance summary\nAn upcoming booking shows the participants, service, time, pre-session information, and online or in-person delivery details.\n\n## Purpose\nSupport US-43 by opening an upcoming booking into a detail screen with its participants, service, time, pre-session information, online meeting link or in-person meeting address, so that David and Erika can prepare for and run the session.\n\n## Scope\n- Booking detail screen opened from My Bookings (US-42)\n- Online booking shows the meeting link and opens it outside the app; in-person booking shows the meeting address\n- Backend booking detail endpoint restricted to the booking's participants\n\n**Out of scope**\n- In-app video calls (deferred, background §6.2; sessions link out to Zoom or Meet)\n- Order-linked messaging (US-49, US-50, US-62, US-63), which is deferred\n- Reschedule action (US-69)\n\n## Acceptance criteria\n- [ ] Given an upcoming online booking, when the counsellor opens it from My Bookings, then the detail shows the service, Job Seeker, time with timezone, pre-session brief and the online meeting link, and tapping the link opens it outside the app.\n- [ ] Given an upcoming in-person booking, when the counsellor opens it, then the detail shows the in-person meeting address instead of a link.\n- [ ] Given a user who is not a participant in the booking, when they request its detail from the backend, then the backend rejects the request and returns no delivery information.\n- [ ] Given the backend has no meeting link or address recorded for the booking, when the detail loads, then the app shows a clear not-yet-provided state instead of an empty field.\n\n## Evidence\n_Fill in when the story closes: link the PR, the tests and the device recordings that prove the acceptance criteria._\n- [ ] PR: booking detail screen merged into dev\n- [ ] PR: booking detail endpoint with participant check merged into dev\n- [ ] Tests: AT-US-43-1 (online link), AT-US-43-2 (in-person address), AT-US-43-3 (non-participant rejected)\n- [ ] Screenshots: online and in-person details on iOS and Android\n- [ ] QA sign-off against the acceptance criteria\n\n## Dependencies\nBlocked by: US-42 (#37)\n\n## Sub-tasks\n_Suggested split for the sub-team; convert to sub-issues at sprint planning._\n- [ ] FE: Booking detail screen with link/address\n- [ ] BE: Booking detail endpoint with participant authorisation\n- [ ] QA: AT-US-43 on both platforms\n\n## Assumptions and open decisions\n- The baseline does not say where the online meeting link or the specific in-person address is entered (per booking by the counsellor, or per service); the sub-team agrees this with the Product Owner first, noting the service meeting area (US-38) holds only state and city/region.\n- The Job Seeker sees the same delivery information through the confirmation and order views (US-68, US-47); the detail endpoint serves both participants.\n\n## Definition of Ready / Done\nSee `backlog.md` §6 and §7.\n\n## Traceability\nBaseline: `backlog.md` · Wiki: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements\n",
+      "assignees": [],
+      "updatedAt": "2026-09-02T05:38:06Z"
+    },
+    {
+      "number": 40,
+      "title": "[US-69] Reschedule an upcoming booking safely",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/40",
+      "body": "**Requirement ID:** `US-69`\n**Priority:** Should-have · **Estimate:** 5 SP · **Status:** Baseline\n**Epic:** F – Availability and Booking · **Role:** Job Seeker or Career Counsellor who is a participant in the order\n\n## User outcome\nReschedule an upcoming booking safely\n\n## Acceptance summary\nAn authorised participant can move an eligible confirmed booking to another open slot without duplicating the order or losing the original on failure.\n\n## Purpose\nSupport US-69 by letting an authorised order participant move an eligible confirmed booking to another open slot through one backend operation that keeps the original booking if anything fails, so that Jacob can shift a session around work and Erika can move a clash without either losing the booking or paying twice.\n\n## Scope\n- Reschedule action on an eligible upcoming confirmed booking, available to the Job Seeker and the counsellor of that order\n- Slot picker reusing the open-slot rules of US-40 for the same counsellor and service\n- Backend reschedule endpoint that releases the old slot and reserves the new one on the same order, creating no new order or booking\n- On any failure the original booking and slot remain unchanged and the app shows the failure\n- Updated time reflected in confirmation, My Bookings and booking details after the backend confirms\n\n**Out of scope**\n- Cancellation, refunds, reschedule deadlines and fees — policy is open (background §7 item 7)\n- Notifying the other participant (notification centre outside the active backlog, US-60/US-61)\n- Rescheduling past, cancelled or unpaid bookings\n\n## Acceptance criteria\n- [ ] Given a confirmed upcoming booking, when its Job Seeker or counsellor taps reschedule, then the app shows only that counsellor's currently open slots as selectable.\n- [ ] Given the participant selects an open slot and confirms, when the backend completes the reschedule, then the same order and booking reference show the new time, the old slot is open again, the new slot is unavailable, and no second order or booking exists.\n- [ ] Given the chosen slot was reserved by someone else first, when the backend processes the reschedule, then it rejects the request, the booking keeps its original slot, and the app shows the failure without presenting the move as done.\n- [ ] Given the backend fails part-way through the operation, when the booking is re-read, then exactly one booking exists and it still holds its original slot, the new slot is not reserved by it, and no second order or booking exists.\n- [ ] Given a user who is not a participant, or a booking that is past, cancelled or not confirmed, when a reschedule request is sent, then the backend rejects it and the booking is unchanged.\n\n## Evidence\n_Fill in when the story closes: link the PR, the tests and the device recordings that prove the acceptance criteria._\n- [ ] PR: reschedule flow in the app merged into dev\n- [ ] PR: transactional reschedule endpoint with authorisation and eligibility checks merged into dev\n- [ ] Tests: integration failure-injection and conflict tests; AT-US-69-1 (successful move), AT-US-69-2 (conflict keeps original), AT-US-69-3 (non-participant or ineligible rejected)\n- [ ] Recording: reschedule on iOS and Android\n- [ ] QA sign-off against the acceptance criteria\n\n## Dependencies\nBlocked by: US-68 (#39), US-40 (#35), US-43 (#38)\n\n## Sub-tasks\n_Suggested split for the sub-team; convert to sub-issues at sprint planning._\n- [ ] FE: Reschedule action and slot picker with success/failure states\n- [ ] BE: Transactional reschedule endpoint releasing old slot, reserving new\n- [ ] BE: Failure-injection and conflict tests for reschedule\n- [ ] QA: AT-US-69 on both platforms\n\n## Assumptions and open decisions\n- Reschedule policy (how close to the session, how many times, any fee or refund interaction) is undecided (background §7 item 7); 'eligible' currently means confirmed and upcoming only.\n- Payment is not re-taken on reschedule because the order is unchanged, whatever payment mode is decided under CLIENT-02.\n- The baseline describes a single authorised participant performing the move; any acceptance step by the other participant would be a scope change.\n\n## Definition of Ready / Done\nSee `backlog.md` §6 and §7.\n\n## Traceability\nBaseline: `backlog.md` · Wiki: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements\n",
+      "assignees": [],
+      "updatedAt": "2026-08-27T11:35:00Z"
+    },
+    {
+      "number": 45,
+      "title": "[US-48] Inspect transaction progress as a Platform Owner",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/45",
+      "body": "**Requirement ID:** `US-48`\n**Priority:** Must-have · **Estimate:** 4 SP · **Status:** Baseline\n**Epic:** H – Payment and Orders · **Role:** Platform Owner\n\n## User outcome\nInspect transaction progress as a Platform Owner\n\n## Acceptance summary\nA Platform Owner can see booking/order progress, payment status, relevant participants, service price, Yoir commission, and Career Professional amount in the test environment.\n\n## Purpose\nSupport US-48 by giving the Platform Owner a read-only oversight view of each booking/order, its test-payment status, participants, service price, Yoir commission, Career Professional amount and progress.\n\n## Scope\n- Platform Owner orders oversight list screen showing payment status, service price, Yoir commission, Career Professional amount and progress state per order.\n- Order oversight detail screen showing transaction/payment status, the Job Seeker, the Career Professional, the service, the slot, service price, Yoir commission, Career Professional amount and the order progress state.\n- Backend oversight endpoints restricted to the Platform Owner role by backend role checks.\n- Loading and backend-error states on the oversight screens.\n\n**Out of scope**\n- Changing order or payment state, live payouts, refunds and dispute handling are deferred.\n- Account management, forum moderation, service oversight console and notifications - outside the baseline (US-56, US-57, US-59..61).\n\n## Acceptance criteria\n- [ ] Given a signed-in Platform Owner, when they open the orders oversight screen, then the app lists orders from the backend showing each order payment status, service price, Yoir commission, Career Professional amount and progress state.\n- [ ] Given the orders list, when the Platform Owner taps an order, then the detail screen shows the transaction/payment status, the Job Seeker and Career Professional involved, the service and slot, the service price, Yoir commission, Career Professional amount, and the order current progress state as recorded by the backend.\n- [ ] Given an order's transaction or progress state has changed in the backend (for example after a US-47 state transition), when the Platform Owner reopens the order, then the displayed state matches the backend record.\n- [ ] Given a signed-in Job Seeker or Career Counsellor, when their session calls the oversight endpoint, then the backend responds with a forbidden error and the app exposes no oversight navigation for those roles.\n- [ ] Given the oversight request fails, when the Platform Owner is on an oversight screen, then the app shows a backend-error message and does not present stale data as current.\n\n## Evidence\n_Fill in when the story closes: link the PR, the tests and the device recordings that prove the acceptance criteria._\n- [ ] PR: Platform Owner order oversight screens and endpoints merged into dev\n- [ ] Tests: BE unit tests for role restriction; integration test for state accuracy after US-47 transitions; acceptance AT-US-48-1..AT-US-48-5\n- [ ] Screenshots: iOS and Android captures of the orders list, order detail and forbidden/error states\n- [ ] QA sign-off: role restriction verified for all three roles on both platforms\n\n## Dependencies\nBlocked by: US-06 (#9), US-47 (#44)\n\n## Sub-tasks\n_Suggested split for the sub-team; convert to sub-issues at sprint planning._\n- [ ] FE: Platform Owner orders list and order oversight detail screens\n- [ ] BE: Owner-only order oversight endpoints with payment and progress state\n- [ ] QA: Role-restriction and state-accuracy acceptance tests, both platforms\n\n## Assumptions and open decisions\n- Platform Owner accounts are provisioned outside self-registration (US-01/US-04 cover only Job Seeker and Counsellor) and are routed by role via US-06.\n- The client confirmed basic user and booking/order oversight. US-48 remains limited to order/payment oversight; the minimum user list is handled by US-71 and counsellor verification by US-58.\n- Order progress states are those defined by the US-47 order/booking state machine; no additional states are assumed.\n\n## Definition of Ready / Done\nSee `backlog.md` §6 and §7.\n\n## Traceability\nBaseline: `backlog.md` · Wiki: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements\n",
+      "assignees": [],
+      "updatedAt": "2026-09-02T05:38:47Z"
+    },
+    {
+      "number": 52,
+      "title": "[US-53] Review a completed purchased service",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/52",
+      "body": "**Requirement ID:** `US-53`\n**Priority:** Must-have · **Estimate:** 4 SP · **Status:** Baseline\n**Epic:** J – Reviews and Ratings · **Role:** Job Seeker\n\n## User outcome\nReview a completed purchased service\n\n## Acceptance summary\nAn eligible buyer can submit a one-to-five-star rating and written comment from a completed order.\n\n## Purpose\nSupport US-53 by letting the buyer of a completed order submit a one-to-five-star rating and written comment for that service, so that Emily and Sam can record their experience and later Job Seekers such as Jacob can rely on feedback that comes only from verified buyers.\n\n## Scope\n- App: review action on the Job Seeker's completed order and a review screen with a one-to-five star selector and a written comment field\n- Backend: submit-review endpoint that validates the rating is an integer from 1 to 5, requires a valid JWT, and enforces that the caller is the buyer of an order in completed state\n- Backend: stored review linked to the order, service, counsellor, and author so US-54 and US-55 can aggregate it\n- App: review shown as submitted only after backend confirmation; validation and backend errors displayed\n\n**Out of scope**\n- Updating the service average, count, and review list: US-54; counsellor overall rating: US-55\n- Editing or deleting a review, counsellor replies to reviews, and review reporting or moderation: no baseline story (moderation console US-56/US-57 is outside the active backlog)\n- Determining when an order becomes completed: order lifecycle under US-47 and the undecided cancellation policy (Background §7 decision 7)\n\n## Acceptance criteria\n- [ ] Given a logged-in Job Seeker is the buyer of an order in completed state, when they open that order and tap the review action, then the app shows a review screen for that service with a one-to-five star selector and a written comment field.\n- [ ] Given the buyer selects a rating from 1 to 5 and enters a comment, when they submit, then the app shows the review as submitted only after the backend confirms it was stored against that order and its service.\n- [ ] Given the rating is missing or outside 1 to 5, when the buyer submits, then the backend rejects the request with a validation error, the app displays it, and no review is stored.\n- [ ] Given an order that is not in completed state (for example confirmed but not yet delivered, or cancelled), when the buyer views it, then no review action is offered and a direct API submission for that order is rejected by the backend.\n- [ ] Given a user who is not the buyer of the order (another Job Seeker, the counsellor, or a Platform Owner), when they submit a review for that order via the API, then the backend rejects it with an authorisation error.\n\n## Evidence\n_Fill in when the story closes: link the PR, the tests and the device recordings that prove the acceptance criteria._\n- [ ] PR: into dev - review endpoint with eligibility checks and review screen\n- [ ] Tests: unit (rating validation); integration AT-US-53-1 eligible buyer submits, AT-US-53-2 non-completed order rejected, AT-US-53-3 non-buyer rejected\n- [ ] Recording: iOS and Android - completed order to submitted review\n- [ ] QA sign-off: both platforms on the agreed device/OS matrix\n\n## Dependencies\nBlocked by: US-06 (#9), US-47 (#44)\n\n## Sub-tasks\n_Suggested split for the sub-team; convert to sub-issues at sprint planning._\n- [ ] BE: Review endpoint with buyer, completed-order, and 1-5 validation\n- [ ] FE: Review screen from completed order, backend-confirmed submitted state\n- [ ] QA: Eligible buyer, ineligible order state, non-buyer cases, both platforms\n\n## Assumptions and open decisions\n- One review per completed order is assumed so US-54 counts stay consistent; the baseline does not state this explicitly\n- The written comment is treated as required alongside the rating; its maximum length is not specified and must be recorded in the API contract\n- The transition that marks an order completed is not defined in the baseline (Background §7 decision 7); tests set it through the backend until decided\n\n## Definition of Ready / Done\nSee `backlog.md` §6 and §7.\n\n## Traceability\nBaseline: `backlog.md` · Wiki: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements\n",
+      "assignees": [],
+      "updatedAt": "2026-08-27T11:35:20Z"
+    },
+    {
+      "number": 53,
+      "title": "[US-54] See updated service-level feedback",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/53",
+      "body": "**Requirement ID:** `US-54`\n**Priority:** Must-have · **Estimate:** 3 SP · **Status:** Baseline\n**Epic:** J – Reviews and Ratings · **Role:** Any user\n\n## User outcome\nSee updated service-level feedback\n\n## Acceptance summary\nA submitted review updates the service average, count, and review list consistently.\n\n## Purpose\nSupport US-54 by updating a service's average rating, review count, and review list on the backend whenever a review is stored and showing those values on the service detail screen, so that Emily can validate a service against real buyer reviews before purchasing and David can monitor feedback on each of his listings.\n\n## Scope\n- Backend: service detail response includes the average rating, review count, and review list (star rating and comment) recalculated from stored reviews after each confirmed submission\n- App: service detail screen (US-46) renders average, count, and list from the backend and refreshes after returning from review submission\n- App: clear no-reviews state with a zero count when a service has no reviews\n- Consistency: aggregate values are derived on the backend from stored reviews, never computed in the app\n\n**Out of scope**\n- Counsellor-level overall rating on profiles and listings: US-55\n- Marketplace filtering and sorting by rating: US-45\n- Review pagination, sorting options, counsellor replies, and flagging: no baseline story (moderation console US-56/US-57 is outside the active backlog)\n\n## Acceptance criteria\n- [ ] Given a service has stored reviews, when any user, including a visitor who is not logged in, opens the service detail screen, then it shows the average rating, review count, and review list exactly as returned by the backend.\n- [ ] Given the backend confirms a new review for the service (US-53), when the service detail screen is next loaded or refreshed, then the average rating, count, and list include that review and are mutually consistent, with the count equal to the number of stored reviews and the average derived from their ratings.\n- [ ] Given a service has no reviews, when its detail screen loads, then a clear no-reviews state with a zero count is shown and no rating value is fabricated.\n- [ ] Given a review submission was rejected by the backend, when the service detail is viewed afterwards, then the average, count, and list are unchanged.\n- [ ] Given the review list is displayed, when a viewer reads an entry, then it shows the star rating and written comment exactly as returned by the backend.\n\n## Evidence\n_Fill in when the story closes: link the PR, the tests and the device recordings that prove the acceptance criteria._\n- [ ] PR: into dev - service aggregate and review list in the detail API and screen\n- [ ] Tests: unit (aggregate computation); integration AT-US-54-1 new review updates average, count, and list, AT-US-54-2 zero-review state, AT-US-54-3 public read without login\n- [ ] Screenshots: iOS and Android - service detail before and after a review\n- [ ] QA sign-off: both platforms on the agreed device/OS matrix\n\n## Dependencies\nBlocked by: US-53 (#52), US-46 (#43)\n\n## Sub-tasks\n_Suggested split for the sub-team; convert to sub-issues at sprint planning._\n- [ ] BE: Service average, count, and review list in detail API\n- [ ] FE: Render aggregate and review list; refresh after review submit\n- [ ] QA: Before/after review consistency and empty state, both platforms\n\n## Assumptions and open decisions\n- Service average is the arithmetic mean of that service's 1-5 star ratings; display precision and rounding are not specified and must be agreed with US-55 (Background §7 decision 6)\n- Review list order and pagination are not specified in the baseline\n- Reviewer attribution in the list respects US-27/US-28 privacy settings\n\n## Definition of Ready / Done\nSee `backlog.md` §6 and §7.\n\n## Traceability\nBaseline: `backlog.md` · Wiki: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements\n",
+      "assignees": [],
+      "updatedAt": "2026-08-27T11:35:22Z"
+    },
+    {
+      "number": 54,
+      "title": "[US-55] Judge a counsellor overall service quality",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/54",
+      "body": "**Requirement ID:** `US-55`\n**Priority:** Must-have · **Estimate:** 4 SP · **Status:** Baseline\n**Epic:** J – Reviews and Ratings · **Role:** Any user\n\n## User outcome\nJudge a counsellor overall service quality\n\n## Acceptance summary\nCounsellor profiles and Marketplace listings show a consistently calculated overall rating.\n\n## Purpose\nSupport US-55 by computing one overall counsellor rating on the backend from all of a counsellor's service reviews and showing it consistently on counsellor profiles and Marketplace listings, so that Jacob can compare counsellors at a glance and David can see how his overall service quality is perceived.\n\n## Scope\n- Backend: overall counsellor rating computed from the reviews across all of that counsellor's services using the recorded formula, recalculated when a review is stored\n- Backend: the rating exposed on counsellor profile and Marketplace listing responses\n- App: the rating rendered on the counsellor profile screen and Marketplace listing cards, always from the backend value\n- App: clear no-rating state when the counsellor has no reviews\n\n**Out of scope**\n- Definition of the aggregation formula: open decision (Background §7 decision 6) to be recorded before implementation\n- Service-level average, count, and review list: US-54; rating filter and sort in the Marketplace: US-45\n- Counsellor earnings or analytics dashboard: deferred (Background §6.2, payout model unconfirmed)\n\n## Acceptance criteria\n- [ ] Given a counsellor has stored reviews on one or more of their services, when any user views the counsellor's profile screen or a Marketplace listing for that counsellor, then both show the same overall rating value returned by the backend.\n- [ ] Given the backend confirms a new review on any of the counsellor's services, when the profile or listing is next loaded, then the overall rating equals the value the backend computes from all of that counsellor's service reviews using the recorded formula.\n- [ ] Given a counsellor has no reviews on any service, when their profile or listing is viewed, then a clear no-rating state is shown rather than a zero or fabricated rating.\n- [ ] Given the backend returns an overall rating for a counsellor, when QA compares the API response with the counsellor profile screen and the Marketplace listing on iOS and Android, then every screen displays exactly the value in the API response.\n\n## Evidence\n_Fill in when the story closes: link the PR, the tests and the device recordings that prove the acceptance criteria._\n- [ ] PR: into dev - counsellor overall rating computation and display on profile and listings\n- [ ] Tests: unit (formula against fixture reviews); integration AT-US-55-1 profile and listing show the same value, AT-US-55-2 value updates after a new review, AT-US-55-3 no-rating state\n- [ ] Screenshots: iOS and Android - counsellor profile and Marketplace listing showing the rating\n- [ ] QA sign-off: both platforms on the agreed device/OS matrix\n\n## Dependencies\nBlocked by: US-53 (#52), US-44 (#41), US-30 (#24)\n\n## Sub-tasks\n_Suggested split for the sub-team; convert to sub-issues at sprint planning._\n- [ ] BE: Overall counsellor rating from all service reviews, exposed on APIs\n- [ ] FE: Show rating on profile and listing cards\n- [ ] QA: Cross-screen consistency and update-after-review checks, both platforms\n\n## Assumptions and open decisions\n- The aggregation formula (plain mean of all service reviews versus weighting by service, and rounding) is undecided (Background §7 decision 6); the acceptance criteria test consistency with the backend value under whichever formula is recorded\n- Whether a restricted profile visibility setting (US-27/US-28) hides the counsellor rating is not specified in the baseline\n- Display precision of the rating is not specified\n- Whether the counsellor rating also appears in the counsellor section of service detail (US-46) is not specified.\n\n## Definition of Ready / Done\nSee `backlog.md` §6 and §7.\n\n## Traceability\nBaseline: `backlog.md` · Wiki: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements\n",
+      "assignees": [],
+      "updatedAt": "2026-08-27T11:35:23Z"
+    },
+    {
+      "number": 76,
+      "title": "[US-13] Continue from diagnosis to the Marketplace",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/76",
+      "body": "**Requirement ID:** `US-13`\n**Priority:** Must-have · **Estimate:** TBD · **Status:** Baseline\n**Epic:** B – Yoir Diagnosis and Direction · **Role:** Job Seeker\n\n## User outcome\nContinue from diagnosis to the Marketplace\n\n## Acceptance summary\nA Job Seeker can continue from the triage result into relevant Career Professional or service discovery without repeating the diagnosis.\n\n## Scope\n- Provide a Marketplace action from the confirmed triage result.\n- Carry supported matching/filter criteria into Marketplace discovery.\n- Preserve the diagnosis result when navigating to and from the Marketplace.\n- Fall back safely when no matching criteria or listings are available.\n\n## Acceptance criteria\n- [ ] Given a confirmed triage result, when the Job Seeker continues to the Marketplace, then relevant supported matching/filter criteria are applied or clearly suggested.\n- [ ] Given the Job Seeker returns from the Marketplace, when the result screen reopens, then the confirmed diagnosis result remains available without repeating triage.\n- [ ] Given no listings match, when Marketplace discovery returns empty, then the app shows an empty-results state and retains the diagnosis result.\n- [ ] Given a criterion is unsupported by the Marketplace API, when navigation occurs, then the app does not claim that criterion was applied.\n\n## Dependencies\nBlocked by: US-12, US-44 (#41), US-45 (#42)\n\n## Assumptions and open decisions\n- The exact estimate must be agreed by both teams before sprint commitment.\n\n## Traceability\n[Product Backlog Wiki](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Product-Backlog) · Client clarification email recorded by the Product Owner\n",
+      "assignees": [],
+      "updatedAt": "2026-09-02T05:37:37Z"
+    },
+    {
+      "number": 77,
+      "title": "[US-71] View platform users as a Platform Owner",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/77",
+      "body": "**Requirement ID:** `US-71`\n**Priority:** Must-have · **Estimate:** TBD · **Status:** Baseline\n**Epic:** K – Platform Owner User Oversight · **Role:** Platform Owner\n\n## User outcome\nView platform users as a Platform Owner\n\n## Acceptance summary\nA Platform Owner can view Job Seekers and Career Professionals with their role and relevant account/verification status; counsellor approval and rejection remain governed by US-58.\n\n## Scope\n- Provide a read-only Platform Owner user list covering Job Seekers and Career Professionals.\n- Show each user's role and relevant account status; show verification status for Career Professionals.\n- Restrict the list and supporting endpoints to the Platform Owner role.\n- Link Career Professional verification review to US-58 without adding broad account-management actions.\n\n## Acceptance criteria\n- [ ] Given a signed-in Platform Owner, when they open user oversight, then the app lists Job Seekers and Career Professionals returned by the backend with role and relevant status.\n- [ ] Given a Career Professional row, when it is displayed, then its current pending, verified, or rejected status is shown consistently with US-32 and US-58.\n- [ ] Given a Job Seeker or Career Professional session, when it requests the oversight list, then the backend rejects the request and the app exposes no oversight navigation.\n- [ ] Given the oversight request fails, when the screen loads, then the app shows an error and does not present stale data as current.\n\n## Dependencies\nBlocked by: US-06 (#9); verification status depends on US-32 (#26) and US-58 (#28)\n\n## Assumptions and open decisions\n- The exact estimate must be agreed by both teams before sprint commitment.\n- Account suspension, deletion, content moderation, global notifications, and other broad administration remain deferred.\n\n## Traceability\n[Product Backlog Wiki](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Product-Backlog) · Client clarification email recorded by the Product Owner\n",
+      "assignees": [],
+      "updatedAt": "2026-09-02T05:37:38Z"
+    },
+    {
+      "number": 78,
+      "title": "[US-10] Complete the six-step Yoir triage",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/78",
+      "body": "**Requirement ID:** `US-10`\n**Priority:** Must-have · **Estimate:** TBD · **Status:** Baseline\n**Epic:** B – Yoir Diagnosis and Direction · **Role:** Job Seeker\n\n## User outcome\nComplete the six-step Yoir triage\n\n## Acceptance summary\nThe app presents the six-step triage flow inherited from the Semester 1 high-fidelity prototype and records valid responses.\n\n## Scope\n- Present all six triage steps in the agreed order.\n- Capture the responses required by each step.\n- Persist backend-confirmed responses against the authenticated Job Seeker.\n- Provide clear step and overall-progress information.\n\n## Acceptance criteria\n- [ ] Given a logged-in Job Seeker starts triage, when they proceed through the flow, then all six agreed steps are presented in order.\n- [ ] Given valid responses, when a step is submitted, then the backend stores them against that Job Seeker and the app advances only after confirmation.\n- [ ] Given the user returns to a completed step, when it opens, then the saved responses are shown.\n- [ ] Given the backend rejects or fails a submission, when the response returns, then the app shows an error and does not claim the step was saved.\n\n## Dependencies\nBlocked by: US-09\n\n## Assumptions and open decisions\n- The exact estimate must be agreed by both teams before sprint commitment.\n- The question wording and answer options follow the Semester 1 high-fidelity prototype unless the Product Owner records a change.\n\n## Traceability\n[Product Backlog Wiki](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Product-Backlog) · Client clarification email recorded by the Product Owner\n",
+      "assignees": [],
+      "updatedAt": "2026-09-02T05:37:38Z"
+    },
+    {
+      "number": 79,
+      "title": "[US-12] Receive relevant direction or matching",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/79",
+      "body": "**Requirement ID:** `US-12`\n**Priority:** Must-have · **Estimate:** TBD · **Status:** Baseline\n**Epic:** B – Yoir Diagnosis and Direction · **Role:** Job Seeker\n\n## User outcome\nReceive relevant direction or matching\n\n## Acceptance summary\nCompleting triage produces a clear result that explains where support may be needed and directs the Job Seeker towards relevant professional/service options.\n\n## Scope\n- Derive or retrieve a result from the completed six-step triage.\n- Explain the relevant support direction in plain language.\n- Associate the result with criteria usable by Marketplace discovery.\n- Avoid presenting an incomplete or failed result as confirmed.\n\n## Acceptance criteria\n- [ ] Given all six triage steps are valid and complete, when the result is requested, then the backend returns a direction/matching result tied to the Job Seeker's responses.\n- [ ] Given a confirmed result, when the result screen opens, then it clearly explains the relevant support direction and suggested next step.\n- [ ] Given triage is incomplete, when a result is requested, then the backend rejects the request and the app identifies the missing progress.\n- [ ] Given result generation fails, when the app receives the error, then it shows an error and does not display a fabricated match.\n\n## Dependencies\nBlocked by: US-10, US-11\n\n## Assumptions and open decisions\n- The exact matching rules and estimate must be agreed before this story is Ready.\n- Advanced AI diagnosis is deferred; the MVP may use deterministic, testable matching rules.\n\n## Traceability\n[Product Backlog Wiki](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Product-Backlog) · Client clarification email recorded by the Product Owner\n",
+      "assignees": [],
+      "updatedAt": "2026-09-02T05:37:38Z"
+    },
+    {
+      "number": 80,
+      "title": "[US-11] Progress through triage safely",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/80",
+      "body": "**Requirement ID:** `US-11`\n**Priority:** Must-have · **Estimate:** TBD · **Status:** Baseline\n**Epic:** B – Yoir Diagnosis and Direction · **Role:** Job Seeker\n\n## User outcome\nProgress through triage safely\n\n## Acceptance summary\nRequired answers are validated, progress is preserved, and the Job Seeker can move through the flow without losing completed responses.\n\n## Scope\n- Validate required answers before advancing.\n- Preserve backend-confirmed progress when the app closes or navigation changes.\n- Support backward navigation without discarding saved answers.\n- Prevent one Job Seeker from reading or changing another user's triage.\n\n## Acceptance criteria\n- [ ] Given a required response is missing or invalid, when the Job Seeker attempts to continue, then the app shows clear validation and does not advance.\n- [ ] Given completed steps, when the app is closed and reopened, then backend-confirmed progress and answers remain available.\n- [ ] Given the Job Seeker moves back to an earlier step, when it opens, then saved answers remain populated and may be updated.\n- [ ] Given an unauthorised request, when it attempts to read or update another user's triage, then the backend rejects it.\n\n## Dependencies\nBlocked by: US-10\n\n## Assumptions and open decisions\n- The exact estimate must be agreed by both teams before sprint commitment.\n\n## Traceability\n[Product Backlog Wiki](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Product-Backlog) · Client clarification email recorded by the Product Owner\n",
+      "assignees": [],
+      "updatedAt": "2026-09-02T05:37:38Z"
+    },
+    {
+      "number": 81,
+      "title": "[US-09] Enter the Yoir diagnosis journey",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/81",
+      "body": "**Requirement ID:** `US-09`\n**Priority:** Must-have · **Estimate:** TBD · **Status:** Baseline\n**Epic:** B – Yoir Diagnosis and Direction · **Role:** Job Seeker\n\n## User outcome\nEnter the Yoir diagnosis journey\n\n## Acceptance summary\nA logged-in Job Seeker can start or resume the diagnosis/triage from the main journey.\n\n## Purpose\nMake the Yoir diagnosis an explicit part of the client-confirmed MVP journey before Marketplace discovery.\n\n## Scope\n- Provide a clear diagnosis/triage entry after login.\n- Allow a Job Seeker to start a new diagnosis or resume saved progress.\n- Restrict the Job Seeker diagnosis record to the authenticated account.\n- Show loading and backend-error states without losing confirmed progress.\n\n## Acceptance criteria\n- [ ] Given a logged-in Job Seeker, when they enter the main journey, then a clear action starts or resumes Yoir diagnosis/triage.\n- [ ] Given saved incomplete triage progress, when the same Job Seeker returns, then the app resumes from the persisted state.\n- [ ] Given an unauthenticated user, when diagnosis is requested, then the app requires login and the backend returns no private diagnosis data.\n- [ ] Given a different user's session, when it requests the diagnosis record, then the backend rejects the request.\n\n## Dependencies\nBlocked by: US-06 (#9)\n\n## Assumptions and open decisions\n- The exact estimate must be agreed by both teams before sprint commitment.\n- The six-step question content and presentation follow the Semester 1 high-fidelity prototype unless the Product Owner records a change.\n\n## Traceability\n[Product Backlog Wiki](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Product-Backlog) · Client clarification email recorded by the Product Owner\n",
+      "assignees": [],
+      "updatedAt": "2026-09-02T05:37:39Z"
+    },
+    {
+      "number": 82,
+      "title": "[US-29] Maintain a Job Seeker profile",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/82",
+      "body": "**Requirement ID:** `US-29`\n**Priority:** Must-have · **Estimate:** TBD · **Status:** Baseline\n**Epic:** C – Privacy and User Profiles · **Role:** Job Seeker\n\n## User outcome\nMaintain a Job Seeker profile\n\n## Acceptance summary\nA Job Seeker can create, view, and update the agreed core profile information used in their account and service journey.\n\n## Scope\n- Provide a Job Seeker profile screen for viewing and editing agreed core fields.\n- Read and update the authenticated Job Seeker's own profile through the backend.\n- Enforce role and ownership rules server-side.\n- Respect the profile visibility rules in US-27 and US-28.\n\n## Acceptance criteria\n- [ ] Given a signed-in Job Seeker, when they open their profile, then the app shows the current profile values returned by the backend.\n- [ ] Given valid changes, when the Job Seeker saves, then the app shows success only after the backend stores the update.\n- [ ] Given invalid data or a backend failure, when save is attempted, then the app shows the relevant error, preserves entered values, and does not claim success.\n- [ ] Given another user's or another role's session, when it attempts to update the profile, then the backend rejects the request.\n\n## Dependencies\nBlocked by: US-01 (#4), US-02 (#5), US-06 (#9)\n\n## Assumptions and open decisions\n- The exact core fields and estimate must be agreed by both teams before this story is Ready.\n\n## Traceability\n[Product Backlog Wiki](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Product-Backlog) · Client clarification email recorded by the Product Owner\n",
+      "assignees": [],
+      "updatedAt": "2026-09-02T05:37:39Z"
+    },
+    {
+      "number": 160,
+      "title": "[US-09] Front-end: Start or resume the diagnosis from Home after login, with loading and error states",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/160",
+      "body": null,
+      "assignees": [
+        "Manukrish2504"
+      ],
+      "updatedAt": "2026-10-05T10:34:10Z"
+    },
+    {
+      "number": 161,
+      "title": "[US-09] Back-end: Diagnosis record per Job Seeker, readable only by its owner",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/161",
+      "body": null,
+      "assignees": [
+        "Jared040514"
+      ],
+      "updatedAt": "2026-10-14T01:11:02Z"
+    },
+    {
+      "number": 162,
+      "title": "[US-09] QA: Entry, resume and cross-account access test evidence",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/162",
+      "body": "QA task for [US-09](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/81), documenting partial evidence for entering the diagnosis journey, returning to saved answers and protecting account-specific records. This item remains open; the frontend slice does not establish full story acceptance.\n\n## What was built\n\nReviewed the diagnosis entry and per-user local storage implementation against the parent acceptance criteria. The frontend hand-off records browser observations on 18 September and identifies the remaining backend dependencies.\n\n## How it behaves\n\nA new signed-in Job Seeker reaches diagnosis from Home. Returning users have Take/Retake actions, and guests opening diagnosis are redirected to login. Completed or skipped records use a storage key containing the user ID. An unfinished diagnosis is not saved, and no diagnosis API exists.\n\n## Acceptance criteria covered\n\n- **AC1 — partial:** entry and Take/Retake behaviour are documented; persisted resume is not established.\n- **AC2 — not met:** incomplete progress is not restored.\n- **AC3 — partial:** the browser review records the login redirect; private backend records do not yet exist.\n- **AC4 — pending:** backend rejection of another account's diagnosis request requires #161.\n\n## Evidence\n\n[Frontend hand-off and manual observations](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/33027e0224fe9650f1ccdf524b660d59964bdc34/docs/sprint2/frontend/us09-us13-yoir-diagnosis.md); [diagnosis screen](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/33027e0224fe9650f1ccdf524b660d59964bdc34/frontend/app/job-seeker/diagnosis.tsx); [storage hook](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/33027e0224fe9650f1ccdf524b660d59964bdc34/frontend/src/diagnosis/view.tsx).\n\n[PR #156 CI](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/actions/runs/35324344464) passed the diagnosis rule/ranking unit suite, which does not test entry or ownership. The overall run failed, including two browser login journeys with outdated route expectations; those journeys are not passing entry evidence.\n\n## Not in this task\n\nImplementing backend persistence or authorization, claiming native-device validation, or closing US-09. Loading, error recovery, resume and cross-account rejection require dedicated execution evidence once #160 and #161 provide the complete behaviour.",
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-09-19T07:56:30Z"
+    },
+    {
+      "number": 163,
+      "title": "[US-10] Front-end: Save each step to the backend and advance only once it is confirmed",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/163",
+      "body": null,
+      "assignees": [
+        "Manukrish2504"
+      ],
+      "updatedAt": "2026-10-05T10:48:13Z"
+    },
+    {
+      "number": 164,
+      "title": "[US-10] Back-end: Store and validate each step's responses against the Job Seeker",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/164",
+      "body": null,
+      "assignees": [
+        "Jared040514"
+      ],
+      "updatedAt": "2026-10-14T01:11:14Z"
+    },
+    {
+      "number": 165,
+      "title": "[US-10] QA: Six-step order, saved answers and failed-save test evidence",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/165",
+      "body": "QA task for [US-10](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/78), documenting partial evidence for the six-step diagnosis flow, retained answers and save outcomes. The current record covers the frontend slice and does not certify backend-confirmed progression.\n\n## What was built\n\nReviewed the implemented question flow against the parent criteria and the 18 September frontend hand-off. That hand-off records manual browser checks for screen order, progress indicators, Back and Retake.\n\n## How it behaves\n\nThe flow presents five question screens followed by the sixth-step Yoir Direction. Back retains answers within the active flow, and Retake starts from previously completed answers. Answers are written to local device/browser storage when the final question is completed. There is no per-step diagnosis API, and local storage errors are swallowed.\n\n## Acceptance criteria covered\n\n- **AC1 — frontend evidence:** the documented browser check covers five questions followed by the result in order.\n- **AC2 — not met:** advancing through each question does not wait for backend persistence.\n- **AC3 — partial:** Back/Retake retain local answers; retrieval of backend-confirmed answers is unavailable.\n- **AC4 — pending:** rejected backend submissions and visible failed-save feedback have not been demonstrated.\n\n## Evidence\n\n[Frontend hand-off and manual observations](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/33027e0224fe9650f1ccdf524b660d59964bdc34/docs/sprint2/frontend/us09-us13-yoir-diagnosis.md); [question progression and save call](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/33027e0224fe9650f1ccdf524b660d59964bdc34/frontend/app/job-seeker/diagnosis.tsx); [local storage hook](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/33027e0224fe9650f1ccdf524b660d59964bdc34/frontend/src/diagnosis/view.tsx).\n\n[PR #156 CI](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/actions/runs/35324344464) passed the six diagnosis rule/ranking unit tests. They do not verify screen order or saving, and the overall workflow failed; the unit result is not full-flow acceptance.\n\n## Not in this task\n\nImplementing #163/#164, treating local writes as server persistence, or claiming fresh device execution. Per-step save confirmation, saved-answer reload and failed-save recovery need dedicated tests after the backend contract is available.",
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-09-19T07:56:09Z"
+    },
+    {
+      "number": 166,
+      "title": "[US-11] Front-end: Required-answer validation, back navigation and resume after reopening the app",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/166",
+      "body": null,
+      "assignees": [
+        "Manukrish2504"
+      ],
+      "updatedAt": "2026-10-05T10:34:14Z"
+    },
+    {
+      "number": 167,
+      "title": "[US-11] Back-end: Reject invalid answers and any access to another user's triage",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/167",
+      "body": null,
+      "assignees": [
+        "Jared040514"
+      ],
+      "updatedAt": "2026-10-14T01:11:33Z"
+    },
+    {
+      "number": 168,
+      "title": "[US-11] QA: Validation, reopen-and-resume and unauthorised-access test evidence",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/168",
+      "body": "QA task for [US-11](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/80), documenting partial evidence for required-answer validation, backward navigation, reopening and access control. The current frontend checks do not establish durable, authorized triage progress.\n\n## What was built\n\nReviewed the validation and navigation implementation against the parent criteria. The frontend hand-off records manual checks that single-choice questions require an answer and Back retains the current answers.\n\n## How it behaves\n\nContinue is disabled on unanswered single-choice steps; multi-choice steps may be empty. No inline validation message is displayed. Back preserves answers while the screen is active. Only a completed or skipped diagnosis is stored locally under the user ID, so unfinished progress is lost when the flow is discarded. No server-side diagnosis validation or ownership endpoint exists.\n\n## Acceptance criteria covered\n\n- **AC1 — partial:** the documented check covers blocked advancement, but clear validation feedback and invalid server payloads are not established.\n- **AC2 — not met:** incomplete progress does not survive reopening.\n- **AC3 — partial:** Back retains answers in the active flow; backend persistence remains unavailable.\n- **AC4 — pending:** unauthorized reads and updates require #167.\n\n## Evidence\n\n[Frontend hand-off and manual observations](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/33027e0224fe9650f1ccdf524b660d59964bdc34/docs/sprint2/frontend/us09-us13-yoir-diagnosis.md); [validation and Back controls](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/33027e0224fe9650f1ccdf524b660d59964bdc34/frontend/app/job-seeker/diagnosis.tsx); [per-user storage hook](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/33027e0224fe9650f1ccdf524b660d59964bdc34/frontend/src/diagnosis/view.tsx).\n\n[PR #156 CI](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/actions/runs/35324344464) passed the diagnosis rule/ranking suite. Those six tests do not cover validation, reopening or authorization, and the overall workflow failed. No native-device acceptance result is claimed.\n\n## Not in this task\n\nImplementing #166/#167 or redefining local storage as backend protection. Reopen-and-resume, malformed answers, cross-account reads/updates and recovery without losing confirmed progress require dedicated execution evidence.",
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-09-19T07:55:47Z"
+    },
+    {
+      "number": 169,
+      "title": "[US-12] Front-end: Show the Yoir Direction returned by the backend, with an error state and no fabricated match",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/169",
+      "body": null,
+      "assignees": [
+        "Manukrish2504"
+      ],
+      "updatedAt": "2026-10-05T10:48:25Z"
+    },
+    {
+      "number": 170,
+      "title": "[US-12] Back-end: Deterministic direction and matching rules; reject a result for incomplete triage",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/170",
+      "body": null,
+      "assignees": [
+        "Jared040514"
+      ],
+      "updatedAt": "2026-10-14T01:14:02Z"
+    },
+    {
+      "number": 171,
+      "title": "[US-12] QA: Direction rules, incomplete-triage rejection and failure-state test evidence",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/171",
+      "body": "QA task for [US-12](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/79), recording partial evidence for direction rules, explanatory results and failure handling. The verified unit boundary is the frontend rule model; backend result acceptance remains pending.\n\n## What was built\n\nAdded three direction-rule unit tests covering the main challenge, fallback from goal to situation, and advice changed by previous attempts and barriers. These tests are part of the six-test diagnosis suite, which passed in PR #156 CI. The frontend hand-off separately records manual observation of the result card.\n\n## How it behaves\n\nThe app derives a direction from local answers and displays the main support area, a summary and suggested next steps. Professional loading has an error message and Try again action. There is no diagnosis-result API, so the displayed direction is not backend-confirmed.\n\n## Acceptance criteria covered\n\n- **AC1 — partial:** unit tests verify client-side rules; a backend result tied to persisted responses is unavailable.\n- **AC2 — frontend evidence:** the documented browser review covers the explanation and next steps.\n- **AC3 — pending:** incomplete-triage rejection has not been tested on a server.\n- **AC4 — partial implementation only:** professional-loading error/retry exists, but it is not unit tested and does not prove result-generation failure handling.\n\n## Evidence\n\n[Direction tests](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/33027e0224fe9650f1ccdf524b660d59964bdc34/frontend/__tests__/diagnosis.test.ts); [frontend hand-off](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/33027e0224fe9650f1ccdf524b660d59964bdc34/docs/sprint2/frontend/us09-us13-yoir-diagnosis.md); [result and loading states](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/33027e0224fe9650f1ccdf524b660d59964bdc34/frontend/src/diagnosis/view.tsx); [PR #156 CI](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/actions/runs/35324344464).\n\nThe diagnosis suite passed, while the overall workflow failed. This distinction prevents a unit success being presented as complete acceptance.\n\n## Not in this task\n\nImplementing #169/#170, approving matching policy, or claiming native-device validation. Server rules, incomplete-request rejection and non-fabricated results after generation failures need their own tests.",
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-09-19T07:55:19Z"
+    },
+    {
+      "number": 172,
+      "title": "[US-13] Front-end: Continue to Explore with the direction's criteria applied or suggested, keeping the result",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/172",
+      "body": null,
+      "assignees": [
+        "Manukrish2504"
+      ],
+      "updatedAt": "2026-10-05T10:34:18Z"
+    },
+    {
+      "number": 173,
+      "title": "[US-13] Back-end: Filter services and Career Professionals by the direction's criteria",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/173",
+      "body": null,
+      "assignees": [
+        "Evelyn-0yi"
+      ],
+      "updatedAt": "2026-10-15T09:40:50Z"
+    },
+    {
+      "number": 174,
+      "title": "[US-13] QA: Diagnosis-to-Explore criteria, return and empty-results test evidence",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/174",
+      "body": "QA task for [US-13](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/76), recording partial evidence for diagnosis-based discovery, returning to the result and safe fallback. Current matching evidence does not establish transfer of diagnosis filters into Explore.\n\n## What was built\n\nAdded three ranking unit tests covering direction-based ordering, barrier contributions without outranking the main area, and rating-only ordering without claiming a match when no diagnosis exists. The six-test diagnosis suite passed in PR #156 CI. The frontend hand-off separately records manual navigation and return observations.\n\n## How it behaves\n\nHome and the result screen rank Career Professionals using the local direction. View Career Professionals opens Explore without diagnosis criteria. A completed diagnosis is stored locally and can be shown again. The matches component displays an empty message when no professionals are available.\n\n## Acceptance criteria covered\n\n- **AC1 — partial:** suggestions and ranking have unit evidence; Explore receives no diagnosis filters.\n- **AC2 — partial:** the manual review records a retained local result, not backend-confirmed restoration.\n- **AC3 — not verified:** an empty state exists, but preservation of the diagnosis through empty discovery has no dedicated test.\n- **AC4 — frontend evidence:** the manual review records that Explore makes no unsupported-filter claim.\n\n## Evidence\n\n[Ranking tests](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/33027e0224fe9650f1ccdf524b660d59964bdc34/frontend/__tests__/diagnosis.test.ts); [frontend hand-off and observations](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/33027e0224fe9650f1ccdf524b660d59964bdc34/docs/sprint2/frontend/us09-us13-yoir-diagnosis.md); [Explore navigation](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/33027e0224fe9650f1ccdf524b660d59964bdc34/frontend/app/job-seeker/diagnosis.tsx); [matching component](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/33027e0224fe9650f1ccdf524b660d59964bdc34/frontend/src/diagnosis/view.tsx); [PR #156 CI](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/actions/runs/35324344464).\n\nThe diagnosis suite passed, but the overall workflow failed; this is not complete discovery acceptance.\n\n## Not in this task\n\nImplementing #172/#173, treating client ranking as backend filtering, or claiming native-device validation. Supported-criteria transfer, empty-results preservation and backend matching need dedicated integration evidence.",
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-09-19T07:55:06Z"
+    },
+    {
+      "number": 178,
+      "title": "[US-05] Front-end: First-login onboarding flow showing the remaining steps",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/178",
+      "body": null,
+      "assignees": [
+        "Arzmuf"
+      ],
+      "updatedAt": "2026-10-07T00:35:09Z"
+    },
+    {
+      "number": 179,
+      "title": "[US-05] Back-end: Onboarding-state endpoint for Career Professional accounts",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/179",
+      "body": null,
+      "assignees": [
+        "Evelyn-0yi"
+      ],
+      "updatedAt": "2026-10-15T09:45:55Z"
+    },
+    {
+      "number": 180,
+      "title": "[US-05] QA: First-login routing, onboarding gate and completed-onboarding test evidence",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/180",
+      "body": null,
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-10-14T06:22:06Z"
+    },
+    {
+      "number": 181,
+      "title": "[US-27] Front-end: Privacy settings screen with three visibility options and save feedback",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/181",
+      "body": null,
+      "assignees": [
+        "ZichuanW15"
+      ],
+      "updatedAt": "2026-10-07T00:32:52Z"
+    },
+    {
+      "number": 182,
+      "title": "[US-27] Back-end: Read and update own visibility setting with value validation",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/182",
+      "body": null,
+      "assignees": [
+        "Jared040514"
+      ],
+      "updatedAt": "2026-10-14T01:30:40Z"
+    },
+    {
+      "number": 183,
+      "title": "[US-27] QA: Visibility save, failed-update and unauthenticated-access test evidence",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/183",
+      "body": null,
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-10-14T06:21:57Z"
+    },
+    {
+      "number": 184,
+      "title": "[US-28] Front-end: Profile view rendering permitted fields only, with a restricted-profile state",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/184",
+      "body": null,
+      "assignees": [
+        "ZichuanW15"
+      ],
+      "updatedAt": "2026-10-07T00:32:53Z"
+    },
+    {
+      "number": 185,
+      "title": "[US-28] Back-end: Filter profile responses by the owner's visibility level and the requester",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/185",
+      "body": null,
+      "assignees": [
+        "Jared040514"
+      ],
+      "updatedAt": "2026-10-14T01:31:19Z"
+    },
+    {
+      "number": 186,
+      "title": "[US-28] QA: Cross-account visibility test evidence for all three levels",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/186",
+      "body": null,
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-10-14T06:21:47Z"
+    },
+    {
+      "number": 187,
+      "title": "[US-29] Front-end: Job Seeker profile view and edit screen",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/187",
+      "body": null,
+      "assignees": [
+        "Arzmuf"
+      ],
+      "updatedAt": "2026-10-07T05:05:40Z"
+    },
+    {
+      "number": 188,
+      "title": "[US-29] Back-end: Read and update own Job Seeker profile with role and ownership checks",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/188",
+      "body": null,
+      "assignees": [
+        "Jared040514"
+      ],
+      "updatedAt": "2026-10-14T01:33:34Z"
+    },
+    {
+      "number": 189,
+      "title": "[US-29] QA: Job Seeker profile test evidence",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/189",
+      "body": null,
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-10-14T06:21:38Z"
+    },
+    {
+      "number": 190,
+      "title": "[US-31] Front-end: Verification screen with LinkedIn URL field and validation feedback",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/190",
+      "body": null,
+      "assignees": [
+        "Manukrish2504"
+      ],
+      "updatedAt": "2026-10-05T10:34:20Z"
+    },
+    {
+      "number": 191,
+      "title": "[US-31] Back-end: Submission endpoint storing the LinkedIn URL as pending, with role check",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/191",
+      "body": null,
+      "assignees": [
+        "Evelyn-0yi"
+      ],
+      "updatedAt": "2026-10-05T10:33:28Z"
+    },
+    {
+      "number": 192,
+      "title": "[US-31] QA: Valid and invalid URL and wrong-role submission test evidence",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/192",
+      "body": null,
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-10-14T06:21:29Z"
+    },
+    {
+      "number": 193,
+      "title": "[US-32] Front-end: Verification status component on Professional Profile and My Services",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/193",
+      "body": null,
+      "assignees": [
+        "Manukrish2504"
+      ],
+      "updatedAt": "2026-10-05T10:34:24Z"
+    },
+    {
+      "number": 194,
+      "title": "[US-32] Back-end: Own verification status read endpoint",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/194",
+      "body": null,
+      "assignees": [
+        "Evelyn-0yi"
+      ],
+      "updatedAt": "2026-10-05T10:33:36Z"
+    },
+    {
+      "number": 195,
+      "title": "[US-32] QA: Verification status display test evidence across views",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/195",
+      "body": null,
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-10-14T06:21:17Z"
+    },
+    {
+      "number": 196,
+      "title": "[US-33] Front-end: Platform Owner action to record an additional-investigation outcome",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/196",
+      "body": null,
+      "assignees": [
+        "Manukrish2504"
+      ],
+      "updatedAt": "2026-10-05T10:48:36Z"
+    },
+    {
+      "number": 197,
+      "title": "[US-33] Back-end: Additional-investigation outcome endpoint restricted to the Platform Owner",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/197",
+      "body": null,
+      "assignees": [
+        "Evelyn-0yi"
+      ],
+      "updatedAt": "2026-10-05T10:33:43Z"
+    },
+    {
+      "number": 198,
+      "title": "[US-33] QA: Status-change consistency test evidence across views and roles",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/198",
+      "body": null,
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-10-14T06:21:12Z"
+    },
+    {
+      "number": 199,
+      "title": "[US-36] Front-end: Edit and remove service actions with confirmation and error states",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/199",
+      "body": null,
+      "assignees": [
+        "ZichuanW15"
+      ],
+      "updatedAt": "2026-10-07T08:20:36Z"
+    },
+    {
+      "number": 200,
+      "title": "[US-36] Back-end: Service update and remove endpoints preserving historical order data",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/200",
+      "body": null,
+      "assignees": [
+        "Evelyn-0yi"
+      ],
+      "updatedAt": "2026-10-05T10:34:03Z"
+    },
+    {
+      "number": 201,
+      "title": "[US-36] QA: Service edit and removal test evidence including existing orders",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/201",
+      "body": null,
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-10-14T06:21:05Z"
+    },
+    {
+      "number": 202,
+      "title": "[US-42] Front-end: My Bookings screen with upcoming and past sections",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/202",
+      "body": null,
+      "assignees": [
+        "Arzmuf"
+      ],
+      "updatedAt": "2026-10-07T06:39:45Z"
+    },
+    {
+      "number": 203,
+      "title": "[US-42] Back-end: Bookings list endpoint scoped to the requesting Career Professional",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/203",
+      "body": null,
+      "assignees": [
+        "jashan-arora"
+      ],
+      "updatedAt": "2026-10-07T05:36:51Z"
+    },
+    {
+      "number": 204,
+      "title": "[US-42] QA: Upcoming and past bookings test evidence",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/204",
+      "body": null,
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-10-14T06:21:00Z"
+    },
+    {
+      "number": 205,
+      "title": "[US-43] Front-end: Booking detail screen with meeting link or address",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/205",
+      "body": null,
+      "assignees": [
+        "Arzmuf"
+      ],
+      "updatedAt": "2026-10-08T02:44:42Z"
+    },
+    {
+      "number": 206,
+      "title": "[US-43] Back-end: Booking detail endpoint with participant authorisation",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/206",
+      "body": null,
+      "assignees": [
+        "Evelyn-0yi"
+      ],
+      "updatedAt": "2026-10-08T07:17:12Z"
+    },
+    {
+      "number": 207,
+      "title": "[US-43] QA: Booking detail test evidence",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/207",
+      "body": null,
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-10-14T06:20:42Z"
+    },
+    {
+      "number": 208,
+      "title": "[US-48] Front-end: Platform Owner orders list and order oversight detail screens",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/208",
+      "body": null,
+      "assignees": [
+        "Manukrish2504"
+      ],
+      "updatedAt": "2026-10-05T10:34:27Z"
+    },
+    {
+      "number": 209,
+      "title": "[US-48] Back-end: Owner-only order oversight endpoints with payment and progress state",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/209",
+      "body": null,
+      "assignees": [
+        "jashan-arora"
+      ],
+      "updatedAt": "2026-10-07T05:37:57Z"
+    },
+    {
+      "number": 210,
+      "title": "[US-48] QA: Order oversight role-restriction and state-accuracy test evidence",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/210",
+      "body": null,
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-10-14T06:20:36Z"
+    },
+    {
+      "number": 211,
+      "title": "[US-53] Front-end: Review screen from a completed order with star rating and comment",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/211",
+      "body": null,
+      "assignees": [
+        "ZichuanW15"
+      ],
+      "updatedAt": "2026-10-07T00:32:56Z"
+    },
+    {
+      "number": 212,
+      "title": "[US-53] Back-end: Review endpoint with buyer, completed-order and rating validation",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/212",
+      "body": null,
+      "assignees": [
+        "jashan-arora"
+      ],
+      "updatedAt": "2026-10-07T05:36:08Z"
+    },
+    {
+      "number": 213,
+      "title": "[US-53] QA: Review submission test evidence for eligible, ineligible and non-buyer cases",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/213",
+      "body": null,
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-10-14T06:20:29Z"
+    },
+    {
+      "number": 214,
+      "title": "[US-54] Front-end: Average rating, review count and review list on service detail",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/214",
+      "body": null,
+      "assignees": [
+        "ZichuanW15"
+      ],
+      "updatedAt": "2026-10-07T08:20:44Z"
+    },
+    {
+      "number": 215,
+      "title": "[US-54] Back-end: Service average, review count and review list in the detail response",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/215",
+      "body": null,
+      "assignees": [
+        "Evelyn-0yi"
+      ],
+      "updatedAt": "2026-10-08T07:16:59Z"
+    },
+    {
+      "number": 216,
+      "title": "[US-54] QA: Service feedback consistency and no-reviews test evidence",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/216",
+      "body": null,
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-10-14T06:20:22Z"
+    },
+    {
+      "number": 217,
+      "title": "[US-55] Front-end: Overall rating on the Career Professional profile and listing cards",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/217",
+      "body": null,
+      "assignees": [
+        "ZichuanW15"
+      ],
+      "updatedAt": "2026-10-07T08:20:41Z"
+    },
+    {
+      "number": 218,
+      "title": "[US-55] Back-end: Overall Career Professional rating computed from all service reviews",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/218",
+      "body": null,
+      "assignees": [
+        "Evelyn-0yi"
+      ],
+      "updatedAt": "2026-10-08T07:16:53Z"
+    },
+    {
+      "number": 219,
+      "title": "[US-55] QA: Overall rating cross-screen consistency test evidence",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/219",
+      "body": null,
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-10-14T06:20:14Z"
+    },
+    {
+      "number": 220,
+      "title": "[US-58] Front-end: Verification queue and submission detail screens for the Platform Owner",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/220",
+      "body": null,
+      "assignees": [
+        "Manukrish2504"
+      ],
+      "updatedAt": "2026-10-05T10:34:31Z"
+    },
+    {
+      "number": 221,
+      "title": "[US-58] Back-end: List and read submissions and record a decision, Platform Owner only",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/221",
+      "body": null,
+      "assignees": [
+        "jashan-arora"
+      ],
+      "updatedAt": "2026-10-07T05:36:35Z"
+    },
+    {
+      "number": 222,
+      "title": "[US-58] QA: Approve, reject and leave-pending transitions and wrong-role test evidence",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/222",
+      "body": null,
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-10-14T06:20:08Z"
+    },
+    {
+      "number": 223,
+      "title": "[US-69] Front-end: Reschedule action and slot picker with success and failure states",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/223",
+      "body": null,
+      "assignees": [
+        "Arzmuf"
+      ],
+      "updatedAt": "2026-10-08T04:49:56Z"
+    },
+    {
+      "number": 224,
+      "title": "[US-69] Back-end: Transactional reschedule endpoint releasing the old slot and reserving the new",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/224",
+      "body": null,
+      "assignees": [
+        "Evelyn-0yi"
+      ],
+      "updatedAt": "2026-10-08T07:16:42Z"
+    },
+    {
+      "number": 225,
+      "title": "[US-69] QA: Reschedule, slot-conflict and failure test evidence",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/225",
+      "body": null,
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-10-14T06:20:01Z"
+    },
+    {
+      "number": 226,
+      "title": "[US-70] Front-end: Forgot-password and set-new-password screens with generic confirmation",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/226",
+      "body": null,
+      "assignees": [
+        "Arzmuf"
+      ],
+      "updatedAt": "2026-10-08T06:53:41Z"
+    },
+    {
+      "number": 227,
+      "title": "[US-70] Back-end: Reset-request and reset-confirm endpoints with token lifecycle and reset email",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/227",
+      "body": null,
+      "assignees": [
+        "jashan-arora"
+      ],
+      "updatedAt": "2026-10-07T05:37:10Z"
+    },
+    {
+      "number": 228,
+      "title": "[US-70] QA: Reset token validity, expiry and email-enumeration test evidence",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/228",
+      "body": null,
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-10-14T06:19:54Z"
+    },
+    {
+      "number": 229,
+      "title": "[US-71] Front-end: Read-only Platform Owner user list with role and status",
+      "state": "closed",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/229",
+      "body": null,
+      "assignees": [
+        "Manukrish2504"
+      ],
+      "updatedAt": "2026-10-05T10:34:34Z"
+    },
+    {
+      "number": 230,
+      "title": "[US-71] Back-end: User oversight list endpoint restricted to the Platform Owner",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/230",
+      "body": null,
+      "assignees": [
+        "jashan-arora"
+      ],
+      "updatedAt": "2026-10-07T05:36:32Z"
+    },
+    {
+      "number": 231,
+      "title": "[US-71] QA: User oversight list and role-restriction test evidence",
+      "state": "open",
+      "url": "https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/231",
+      "body": null,
+      "assignees": [
+        "Zhouzhny"
+      ],
+      "updatedAt": "2026-10-14T06:19:47Z"
+    }
+  ]
+}

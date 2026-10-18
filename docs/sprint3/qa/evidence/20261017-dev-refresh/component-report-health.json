@@ -1,0 +1,53 @@
+[
+  {
+    "suite": "frontend-defects",
+    "checkedAt": "2026-10-17T06:34:01.940710+00:00",
+    "command": [
+      "node",
+      "scripts/check_defect_report.cjs",
+      "--format",
+      "jest",
+      "--report",
+      "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-dev-refresh-20261017/frontend-defects/results.json",
+      "--outcome",
+      "failure"
+    ],
+    "exitCode": 0,
+    "stdout": "Defect report (jest): 4 passed, 19 failed, 0 skipped; 0 flaky, 19 failed attempts.\nAdvisory: completed defect assertions do not block CI; failed tests remain failed. Identifiable runtime/setup failures block this check; other failures still need review. This report check does not certify product acceptance or every fixture/setup failure.\n",
+    "stderr": ""
+  },
+  {
+    "suite": "ios-defects",
+    "checkedAt": "2026-10-17T06:34:01.963323+00:00",
+    "command": [
+      "node",
+      "scripts/check_defect_report.cjs",
+      "--format",
+      "jest",
+      "--report",
+      "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-dev-refresh-20261017/ios-defects/results.json",
+      "--outcome",
+      "failure"
+    ],
+    "exitCode": 0,
+    "stdout": "Defect report (jest): 4 passed, 20 failed, 0 skipped; 0 flaky, 20 failed attempts.\nAdvisory: completed defect assertions do not block CI; failed tests remain failed. Identifiable runtime/setup failures block this check; other failures still need review. This report check does not certify product acceptance or every fixture/setup failure.\n",
+    "stderr": ""
+  },
+  {
+    "suite": "android-defects",
+    "checkedAt": "2026-10-17T06:34:01.987211+00:00",
+    "command": [
+      "node",
+      "scripts/check_defect_report.cjs",
+      "--format",
+      "jest",
+      "--report",
+      "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-dev-refresh-20261017/android-defects/results.json",
+      "--outcome",
+      "failure"
+    ],
+    "exitCode": 0,
+    "stdout": "Defect report (jest): 4 passed, 20 failed, 0 skipped; 0 flaky, 20 failed attempts.\nAdvisory: completed defect assertions do not block CI; failed tests remain failed. Identifiable runtime/setup failures block this check; other failures still need review. This report check does not certify product acceptance or every fixture/setup failure.\n",
+    "stderr": ""
+  }
+]

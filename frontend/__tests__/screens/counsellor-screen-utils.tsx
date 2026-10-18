@@ -7,6 +7,7 @@ import { act, fireEvent, render, screen, waitFor } from '@testing-library/react-
 import { api } from '@/src/api/client';
 import { AuthProvider, useAuth } from '@/src/auth/AuthContext';
 import { ChromeProvider } from '@/src/chrome';
+import { FloatingErrorProvider } from '@/src/floatingError';
 import { Session } from '@/src/api/types';
 import { counsellorProfileFixture, counsellorSessionFixture, serviceFixture } from '../fixtures';
 
@@ -14,7 +15,7 @@ jest.mock('expo-router', () => {
   const React = jest.requireActual('react');
   const { Text } = jest.requireActual('react-native');
   return {
-    router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: jest.fn(() => true) },
+    router: { push: jest.fn(), replace: jest.fn(), back: jest.fn(), canGoBack: jest.fn(() => true), setParams: jest.fn() },
     Redirect: ({ href }: { href: string }) => React.createElement(Text, { testID: 'redirect' }, href),
     useFocusEffect: (callback: () => void) => React.useEffect(callback, [callback]),
     useLocalSearchParams: jest.fn(() => ({ serviceId: 'service-1' })),
@@ -63,7 +64,13 @@ export async function renderCounsellor(element: React.ReactElement, session: Ses
     useEffect(() => { ready = true; }, []);
     return <>{children}</>;
   }
-  const result = render(<AuthProvider><ChromeProvider><LoginBoundary session={activeSession}><ReadyBoundary>{element}</ReadyBoundary></LoginBoundary></ChromeProvider></AuthProvider>);
+  const result = render(
+    <AuthProvider>
+      <FloatingErrorProvider>
+        <ChromeProvider><LoginBoundary session={activeSession}><ReadyBoundary>{element}</ReadyBoundary></LoginBoundary></ChromeProvider>
+      </FloatingErrorProvider>
+    </AuthProvider>,
+  );
   // Setup, not an assertion: a cold CI runner's first screen mount can outlast waitFor's 1 s default.
   await waitFor(() => expect(ready).toBe(true), { timeout: 4000 });
   return result;
@@ -80,6 +87,10 @@ export function setupCounsellorMocks() {
   apiMock.deleteService.mockResolvedValue(undefined);
   apiMock.updateOwnCounsellorProfile.mockResolvedValue(counsellorProfileFixture);
   apiMock.deleteAvailabilityWindow.mockResolvedValue(undefined);
+  // Every counsellor screen that reaches /counsellor checks onboarding first
+  // (US-05); counsellorProfileFixture above is already a complete profile, so the
+  // default here matches it — a test that wants the gate exercised overrides this.
+  apiMock.getOnboardingState.mockResolvedValue({ profileComplete: true, verificationSubmitted: true, complete: true });
   // TopBar's bell is job-seeker-only, but the hook behind it (useNotifications)
   // fetches for any signed-in role — same as the real client falling back to []
   // on a route that isn't deployed yet, so a counsellor screen that renders TopBar

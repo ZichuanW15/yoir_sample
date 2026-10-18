@@ -5,6 +5,7 @@ import { Image, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, Vi
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { api, userFacingError } from '@/src/api/client';
 import { Glyph } from '@/src/components/Glyph';
+import { desktopAuthBody, useDesktop } from '@/src/desktop';
 import { RegisterScene } from '@/src/components/Scenes';
 import { Button, ErrorBanner, Field, IconButton, Press } from '@/src/components/ui';
 import { FadeUp, Pop, SheetUp } from '@/src/motion';
@@ -20,6 +21,7 @@ const roleOptions: { value: PublicRole; title: string; description: string }[] =
 export default function RegisterScreen() {
   const { serviceId, role: initialRole } = useLocalSearchParams<{ serviceId?: string; role?: PublicRole }>();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const [role, setRole] = useState<PublicRole>(initialRole === 'counsellor' ? 'counsellor' : 'job_seeker');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -62,22 +64,31 @@ export default function RegisterScreen() {
     }
   }
 
+  // Desktop: the bar scrolls with the form, so the column is one centred group
+  // and the whole panel is what scrolls (see desktopAuthBody).
+  const bar = (
+    <View style={[styles.bar, desktop && styles.desktopBar]}>
+      <IconButton label="Close" onPress={() => goBack('/auth/welcome')}>
+        <Glyph name="close" size={18} color={colors.green} />
+      </IconButton>
+      <Image source={require('@/assets/images/yoir-wordmark.png')} style={styles.wordmark} resizeMode="contain" accessibilityLabel="Yoir" />
+      <View style={styles.spacer} />
+    </View>
+  );
+
   return (
-    <SheetUp duration={500} style={[styles.screen, { paddingTop: insets.top }]}>
-      <View style={styles.bar}>
-        <IconButton label="Close" onPress={() => goBack('/auth/welcome')}>
-          <Glyph name="close" size={18} color={colors.green} />
-        </IconButton>
-        <Image source={require('@/assets/images/yoir-wordmark.png')} style={styles.wordmark} resizeMode="contain" accessibilityLabel="Yoir" />
-        <View style={styles.spacer} />
-      </View>
+    <SheetUp duration={500} style={[styles.screen, { paddingTop: insets.top }, desktop && styles.desktopScreen]}>
+      {desktop ? null : bar}
 
       <KeyboardAvoidingView style={styles.fill} behavior={Platform.OS === 'ios' ? 'padding' : undefined}>
         <ScrollView
-          contentContainerStyle={[styles.body, { paddingBottom: 24 + insets.bottom }]}
+          showsVerticalScrollIndicator={!desktop}
+          contentContainerStyle={[styles.body, { paddingBottom: 24 + insets.bottom }, desktop && styles.desktopBody]}
           keyboardShouldPersistTaps="handled"
         >
-          <RegisterScene />
+          {desktop ? bar : null}
+          {/* Desktop: the brand panel beside the form stands in for the illustration. */}
+          {desktop ? null : <RegisterScene />}
 
           <FadeUp delay={100} style={styles.intro}>
             <Text style={type.display34}>Create your account</Text>
@@ -142,15 +153,26 @@ export default function RegisterScreen() {
                   autoCapitalize="none"
                   autoComplete="email"
                 />
-                <Field
-                  label="Password"
-                  value={password}
-                  onChangeText={setPassword}
-                  placeholder="At least 8 characters"
-                  secureTextEntry
-                  autoComplete="new-password"
-                />
-                <Field label="Confirm password" value={confirmation} onChangeText={setConfirmation} secureTextEntry autoComplete="new-password" />
+                {/* The two passwords share a row on desktop; on a phone they stack as before. */}
+                <View style={desktop ? styles.desktopPair : styles.form}>
+                  <Field
+                    label="Password"
+                    value={password}
+                    onChangeText={setPassword}
+                    placeholder="At least 8 characters"
+                    secureTextEntry
+                    autoComplete="new-password"
+                    style={desktop ? styles.desktopHalf : undefined}
+                  />
+                  <Field
+                    label="Confirm password"
+                    value={confirmation}
+                    onChangeText={setConfirmation}
+                    secureTextEntry
+                    autoComplete="new-password"
+                    style={desktop ? styles.desktopHalf : undefined}
+                  />
+                </View>
               </FadeUp>
 
               <Button label="Create account" busy={busy} height={56} onPress={submit} />
@@ -193,4 +215,11 @@ const styles = StyleSheet.create({
   switchRow: { flexDirection: 'row', alignItems: 'center', justifyContent: 'center' },
   switchText: { fontFamily: fonts.sans, fontSize: 14, color: colors.muted },
   switchLink: { fontFamily: fonts.bold, fontSize: 14, color: colors.green },
+  // Desktop: the screen fills the panel beside the brand panel and scrolls as a whole;
+  // its content is the centred 460px column, bar included.
+  desktopScreen: { flex: 1, backgroundColor: 'transparent' },
+  desktopBar: { paddingHorizontal: 0 },
+  desktopBody: desktopAuthBody,
+  desktopPair: { flexDirection: 'row', gap: 14 },
+  desktopHalf: { flex: 1 },
 });

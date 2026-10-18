@@ -9,7 +9,7 @@ from app.availability import is_free
 from app.config import get_settings
 from app.db import get_db
 from app.errors import FORBIDDEN, NOT_FOUND, VALIDATION_ERROR, ApiError
-from app.models import AvailabilityWindow, Booking, Order, Service, User
+from app.models import AvailabilityWindow, Booking, Order, Review, Service, User
 from app.payments import gateway, receipts
 from app.payments.service import (
     apply_amounts,
@@ -17,6 +17,12 @@ from app.payments.service import (
     cancel_booking,
     confirm_paid_order,
     stored_amounts,
+)
+from app.reviews import (
+    REVIEWABLE_STATUSES,
+    recompute_counsellor_rating,
+    recompute_service_rating,
+    review_out,
 )
 from app.schemas import (
     BookingAmountsOut,
@@ -28,7 +34,11 @@ from app.schemas import (
     OrderStatusOut,
     PaymentIntentOut,
     ReceiptOut,
+    RescheduleBookingRequest,
+    ReviewOut,
     StubPaymentConfirmation,
+    SubmitReviewRequest,
+    UpdateMeetingAddressRequest,
 )
 from app.security import get_current_user, require_job_seeker, require_verified_email_job_seeker
 
@@ -65,6 +75,7 @@ def _booking_out(
     viewer: User | None = None,
     job_seeker: User | None = None,
     counsellor: User | None = None,
+    review: Review | None = None,
 ) -> BookingOut:
     """The booking as one of its two parties sees it.
 
@@ -75,14 +86,13 @@ def _booking_out(
     other = None
     if viewer is not None:
         other = counsellor if viewer.id == booking.job_seeker_id else job_seeker
-    area = ""
-    if service.location_city and service.location_state:
-        area = f"{service.location_city}, {service.location_state}"
+    # US-36: where it was booked to meet, not wherever the listing says now.
+    area = order.area_for(service) if order is not None else service.meeting_area()
     return BookingOut(
         id=booking.id,
         order_id=booking.order_id,
         service_id=booking.service_id,
-        service_title=service.title,
+        service_title=order.title_for(service) if order is not None else service.title,
         starts_at=booking.starts_at,
         ends_at=booking.ends_at,
         timezone=booking.timezone,
@@ -96,6 +106,10 @@ def _booking_out(
         counterparty_name=other.name if other is not None else "",
         counterparty_role=other.role if other is not None else None,
         meeting_area=area if booking.modality == "in_person" else "",
+        meeting_address=booking.meeting_address or "",
+        pre_session_brief=(order.pre_session_brief or "") if order is not None else "",
+        # US-53: present once written, so the app stops offering a second review.
+        review=review_out(review) if review is not None else None,
     )
 
 
@@ -197,8 +211,12 @@ def create_order(
         ends_at=ends_at,
         amount_minor=service.price_minor,
         currency=service.currency,
+        # US-36: frozen with the price, so a later rename never rewrites this order.
+        service_title=service.title,
+        meeting_area=service.meeting_area(),
         timezone=payload.timezone,
         modality=payload.modality,
+        pre_session_brief=(payload.pre_session_brief or "").strip() or None,
         status="awaiting_payment",
         payment_status="not_started",
     )
@@ -311,10 +329,18 @@ def list_bookings(
         )
         .order_by(Booking.starts_at.desc())
     ).all()
+    # One query for every listed booking's review, not one per booking.
+    reviews = {
+        review.booking_id: review
+        for review in db.scalars(
+            select(Review).where(Review.booking_id.in_([row[0].id for row in rows]))
+        )
+    } if rows else {}
     return [
         _booking_out(
             booking, service, order,
             viewer=user, job_seeker=seeker_row, counsellor=counsellor_row,
+            review=reviews.get(booking.id),
         )
         for booking, order, service, seeker_row, counsellor_row in rows
     ]
@@ -327,6 +353,134 @@ def get_booking(
     db: Session = Depends(get_db),
 ) -> BookingOut:
     booking, order, service = _visible_booking(db, booking_id, user)
+    return _booking_out(
+        booking, service, order,
+        viewer=user,
+        job_seeker=db.get(User, booking.job_seeker_id),
+        counsellor=db.get(User, booking.counsellor_id),
+        review=db.scalar(select(Review).where(Review.booking_id == booking.id)),
+    )
+
+
+@router.patch("/bookings/{booking_id}/meeting-address", response_model=BookingOut)
+def set_booking_meeting_address(
+    booking_id: str,
+    payload: UpdateMeetingAddressRequest,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> BookingOut:
+    """US-43 — only the counsellor delivering the session sets where it happens.
+
+    The service's own location (US-38) is only ever a state and city/region; this is
+    the specific point for one confirmed booking, added once it is known.
+    """
+    booking, order, service = _visible_booking(db, booking_id, user)
+    if user.id != booking.counsellor_id:
+        raise ApiError(
+            status.HTTP_403_FORBIDDEN,
+            FORBIDDEN,
+            "Only the Career Professional delivering this session can set where it meets.",
+        )
+    booking.meeting_address = (payload.meeting_address or "").strip() or None
+    db.commit()
+    return _booking_out(
+        booking, service, order,
+        viewer=user,
+        job_seeker=db.get(User, booking.job_seeker_id),
+        counsellor=db.get(User, booking.counsellor_id),
+    )
+
+
+@router.post("/bookings/{booking_id}/reschedule", response_model=BookingOut)
+def reschedule_booking(
+    booking_id: str,
+    payload: RescheduleBookingRequest,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+) -> BookingOut:
+    """US-69 — move a confirmed upcoming booking to another open slot.
+
+    One transaction updates the same order and booking rows in place; nothing new
+    is created and no payment is retaken, because the order itself is unchanged.
+    The new time is re-validated inside the lock that writes it, so a slot taken
+    out from under this request is rejected rather than double-booked, and any
+    failure before the commit leaves the original booking exactly as it was.
+    """
+    _visible_booking(db, booking_id, user)
+    # Locked for the whole call, the same idiom cancel uses, so a reschedule racing
+    # a cancel (or another reschedule of the same booking) cannot interleave with it.
+    booking = db.scalar(select(Booking).where(Booking.id == booking_id).with_for_update())
+    if booking is None:
+        raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Booking not found.")
+    order = db.get(Order, booking.order_id)
+    service = db.get(Service, booking.service_id)
+    if order is None or service is None:
+        raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Booking not found.")
+
+    if booking.status != "confirmed":
+        raise ApiError(
+            status.HTTP_409_CONFLICT,
+            "INVALID_STATE_TRANSITION",
+            "This booking cannot be rescheduled.",
+        )
+    if booking.starts_at <= datetime.now(UTC):
+        raise ApiError(
+            status.HTTP_409_CONFLICT,
+            "INVALID_STATE_TRANSITION",
+            "A past session cannot be rescheduled.",
+        )
+
+    starts_at = payload.starts_at if payload.starts_at.tzinfo else payload.starts_at.replace(
+        tzinfo=UTC
+    )
+    ends_at = starts_at + timedelta(minutes=service.duration_minutes)
+    if starts_at <= datetime.now(UTC):
+        raise ApiError(
+            status.HTTP_400_BAD_REQUEST, VALIDATION_ERROR, "That time has already passed.",
+        )
+    if payload.modality not in (service.modalities or []):
+        raise ApiError(
+            status.HTTP_400_BAD_REQUEST,
+            VALIDATION_ERROR,
+            "Choose a supported service modality.",
+        )
+
+    # Serialise against every other booking attempt on this counsellor's calendar —
+    # the same lock create_order takes, since their row stands in for their calendar.
+    db.scalar(select(User).where(User.id == booking.counsellor_id).with_for_update())
+    window = db.scalar(
+        select(AvailabilityWindow).where(
+            AvailabilityWindow.counsellor_id == booking.counsellor_id,
+            AvailabilityWindow.starts_at <= starts_at,
+            AvailabilityWindow.ends_at >= ends_at,
+        )
+    )
+    if window is not None and payload.modality not in (window.modalities or []):
+        window = None
+    # Excluding this booking's own current span: it is moving, not doubling, so its
+    # old slot must not be read as a clash with its new one.
+    if window is None or not is_free(
+        db, booking.counsellor_id, starts_at, ends_at,
+        exclude_booking_id=booking.id, modality=payload.modality,
+    ):
+        raise ApiError(
+            status.HTTP_409_CONFLICT,
+            "SLOT_UNAVAILABLE",
+            "This time is no longer available.",
+        )
+
+    booking.starts_at = starts_at
+    booking.ends_at = ends_at
+    booking.window_id = window.id
+    booking.timezone = payload.timezone
+    booking.modality = payload.modality
+    order.starts_at = starts_at
+    order.ends_at = ends_at
+    order.window_id = window.id
+    order.timezone = payload.timezone
+    order.modality = payload.modality
+    db.commit()
+    db.refresh(booking)
     return _booking_out(
         booking, service, order,
         viewer=user,
@@ -377,6 +531,59 @@ def cancel_booking_endpoint(
         refunded_minor=refunded,
         currency=order.currency,
     )
+
+
+@router.post(
+    "/bookings/{booking_id}/review", status_code=status.HTTP_201_CREATED,
+    response_model=ReviewOut, operation_id="createReview",
+)
+def create_review(
+    booking_id: str,
+    payload: SubmitReviewRequest,
+    user: User = Depends(require_job_seeker),
+    db: Session = Depends(get_db),
+) -> ReviewOut:
+    """US-53. One review per completed booking, from its buyer only.
+
+    `_visible_booking` restricts to a party of the booking, and only a Job
+    Seeker reaches this far (require_job_seeker), so the only caller who can
+    pass both is the buyer — a counsellor is refused before either check runs,
+    and a different Job Seeker gets the same not-found a stranger would.
+
+    Both aggregates are recomputed in the same transaction as the insert: a
+    reader must never see a stored review before the service or counsellor
+    rating has caught up to it.
+    """
+    booking, order, service = _visible_booking(db, booking_id, user)
+    if booking.status not in REVIEWABLE_STATUSES:
+        raise ApiError(
+            status.HTTP_409_CONFLICT,
+            "INVALID_STATE_TRANSITION",
+            "Only a completed session can be reviewed.",
+        )
+    if db.scalar(select(Review).where(Review.booking_id == booking.id)) is not None:
+        raise ApiError(
+            status.HTTP_409_CONFLICT,
+            "INVALID_STATE_TRANSITION",
+            "This booking has already been reviewed.",
+        )
+
+    review = Review(
+        booking_id=booking.id,
+        order_id=booking.order_id,
+        service_id=booking.service_id,
+        counsellor_id=booking.counsellor_id,
+        job_seeker_id=user.id,
+        rating=payload.rating,
+        comment=payload.comment,
+    )
+    db.add(review)
+    db.flush()
+    recompute_service_rating(db, booking.service_id)
+    recompute_counsellor_rating(db, booking.counsellor_id)
+    db.commit()
+    db.refresh(review)
+    return review_out(review)
 
 
 @router.get("/bookings/{booking_id}/receipt", response_model=ReceiptOut)

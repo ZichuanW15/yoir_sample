@@ -1,0 +1,64 @@
+{
+  "capturedAtUtc": "2026-10-15T21:01:11.472451+00:00",
+  "localDate": "2026-10-16",
+  "timezone": "Australia/Melbourne",
+  "preflightStatus": "Completed; native assertions not executed",
+  "ios": {
+    "runtimeInstalled": true,
+    "runtime": "iOS 27.0 24A434",
+    "xcode": "27.0 27A266a",
+    "availableSimulatorCount": 11,
+    "initialBootedCount": 0,
+    "candidate": "iPhone 18 Pro",
+    "candidateUdid": "579524DE-E6EA-42AE-9AB7-12FD385A0D08",
+    "expoGoInstalled": "57.0.9",
+    "oldYoirQaIphonePresent": false,
+    "uiApp": "/Applications/Xcode.app/Contents/Applications/DeviceHub.app",
+    "uiBundle": "com.apple.dt.Devices"
+  },
+  "android": {
+    "avdPresent": "Yoir_QA_Android",
+    "systemImageInstalled": "android-36/google_apis/arm64-v8a",
+    "hardware": "pixel_8",
+    "adbVersion": "37.0.1-15733141",
+    "adbPath": "/Users/zhouzhny/Library/Android/sdk/platform-tools/adb",
+    "attachedDeviceCount": 0,
+    "expoGoInstalled": "Not verified because emulator remained shut down"
+  },
+  "tooling": {
+    "node": "20.20.2",
+    "npm": "10.8.2",
+    "installedExpo": "57.0.20",
+    "installedReactNative": "0.86.3",
+    "backendVenvPresent": true,
+    "maestro": "Not installed on PATH or ~/.maestro/bin",
+    "appium": "Not on PATH",
+    "idb": "Not on PATH",
+    "automationDrafts": "Two historical Maestro YAML files exist, not executed; old selectors/contracts require validation",
+    "nativeBuildDirectoriesPresent": false,
+    "standalonePackageSearch": "No APK/IPA found in bounded repository artifacts/frontend-e2e/.expo scan"
+  },
+  "externalBoundaries": {
+    "paymentsAndMail": "No external provider tested; owned QA launcher disables Stripe secret and Mailgun API key",
+    "deployments": "Not contacted",
+    "controlledInbox": "Not configured or tested by this preflight",
+    "standaloneAcceptance": "Not run"
+  },
+  "recommendedNextSmoke": {
+    "priority": "D02 native SecureStore persistence and account isolation, then D03 result preservation",
+    "setup": "Use installed Expo Go on iPhone18Pro, exclusively owned serve.py API, explicit Metro API URL; obtain working Device Hub UI access. No download required.",
+    "steps": [
+      "Create unique disposable seeker accounts via isolated API, avoiding old SecureStore keys from historical seed IDs.",
+      "Through actual native UI log in as seeker A, answer two diagnosis screens, note chosen values and next step.",
+      "Force-stop only Expo Go, reopen the same bundle, sign in again if needed; assert saved question and values through UI.",
+      "Log out, sign in seeker B; verify no seeker A answer/result appears. Return to A and verify resume.",
+      "Capture device UI plus runtime/app/source fingerprints; local diagnosis storage is not server or cross-device evidence."
+    ]
+  },
+  "caveats": [
+    "An installed simulator runtime is not a booted device.",
+    "No attached Android device does not mean the AVD or image is absent.",
+    "The initial sandbox simctl errors were permission restrictions; host inventory succeeded.",
+    "Actual iOS boot was attempted later and restored during cleanup; D02/D03 had no UI assertions."
+  ]
+}

@@ -1,0 +1,56 @@
+
+> yoir-mobile@0.1.0 build:web
+> expo export --platform web --clear --output-dir dist/web
+
+Starting Metro Bundler
+
+warning: Bundler cache is empty, rebuilding (this may take a minute)
+Static rendering is enabled. Learn more: https://docs.expo.dev/router/web/static-rendering/
+Web Bundled 9406ms node_modules/expo-router/entry.js (926 modules)
+λ Bundled 9421ms node_modules/expo/node_modules/@expo/cli/node_modules/@expo/router-server/node/render.js (969 modules)
+
+› web bundles (1):
+_expo/static/js/web/entry-132c278c7ce67e4812757847b75e1e8d.js (1.7MB)
+
+› Static routes (39):
+/ (index) (32KB)
+/_sitemap (29KB)
+/+not-found (29KB)
+/auth/login (32KB)
+/auth/reset (32KB)
+/admin (32KB)
+/auth/forgot (32KB)
+/auth/verify (32KB)
+/auth/welcome (32KB)
+/auth/register (32KB)
+/admin/bookings (32KB)
+/admin/payments (32KB)
+/bookings (32KB)
+/bookings/receipt (32KB)
+/counsellor (32KB)
+/job-seeker (32KB)
+/settings/privacy (32KB)
+/admin/counsellors (32KB)
+/bookings/checkout (32KB)
+/marketplace (32KB)
+/counsellor/payouts (32KB)
+/counsellor/profile (32KB)
+/job-seeker/profile (32KB)
+/admin/verifications (32KB)
+/bookings/[bookingId] (32KB)
+/job-seeker/diagnosis (32KB)
+/services/[serviceId] (32KB)
+/bookings/confirmation (32KB)
+/counsellor/onboarding (32KB)
+/counsellor/availability (32KB)
+/counsellor/verification (32KB)
+/counsellor/services/new (32KB)
+/admin/payments/[orderId] (32KB)
+/bookings/[bookingId]/review (32KB)
+/professionals/[counsellorId] (32KB)
+/services/[serviceId]/timeslots (32KB)
+/bookings/[bookingId]/reschedule (32KB)
+/admin/verifications/[submissionId] (32KB)
+/counsellor/services/[serviceId]/edit (32KB)
+
+Exported: dist/web

@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Mentor Communication Log
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Mentor-Communication-Log
-  Wiki commit: 28ebead (2026-09-18)
+  Wiki commit: 8fa8c88 (2026-10-18)
   Exported:    2026-09-18
 -->
 
@@ -40,13 +40,13 @@
 
 | Action | Owner | Due | Status |
 | --- | --- | --- | --- |
-| Release the Sprint 1 marks | Erfan | Early next week, after the workshop | Open |
-| Discuss the reuse plan and provide examples at the workshop | Erfan | 11 Sep 2026 | Open |
-| Sit down with the teams to review Sprint 1 progress and discuss improvements | Erfan |  | Open |
-| Message James about the frontend function issues after the meeting | Evelyn | After the meeting | Open |
-| Work on the documentation for the Sprint 2 delivery | Evelyn |  | Open |
-| Complete the remaining frontend tests | Wilson |  | Open |
-| Run the full backend and integration tests once the backend features are ready | Wilson |  | Open |
-| Work on the account registration and payment user stories, including SMTP setup for the email confirmation | Jashan |  | Open |
-| Add edit and delete functions for existing courses | James |  | Open |
-| Attend the workshop for further discussion on project progress and the reuse plan | All | 11 Sep 2026 | Open |
+| Release the Sprint 1 marks | Erfan | Early next week, after the workshop | Closed |
+| Discuss the reuse plan and provide examples at the workshop | Erfan | 11 Sep 2026 | Closed |
+| Sit down with the teams to review Sprint 1 progress and discuss improvements | Erfan |  | Closed |
+| Message James about the frontend function issues after the meeting | Evelyn | After the meeting | Closed |
+| Work on the documentation for the Sprint 2 delivery | Evelyn |  | Closed |
+| Complete the remaining frontend tests | Wilson |  | Closed |
+| Run the full backend and integration tests once the backend features are ready | Wilson |  | Closed |
+| Work on the account registration and payment user stories, including SMTP setup for the email confirmation | Jashan |  | Closed |
+| Add edit and delete functions for existing courses | James |  | Closed |
+| Attend the workshop for further discussion on project progress and the reuse plan | All | 11 Sep 2026 | Closed |

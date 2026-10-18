@@ -1,12 +1,50 @@
 # Database Design Summary — YOIR
 
-Condensed view of the database layer (13 tables) plus the reasoning behind it.
+Condensed view of the database layer plus the reasoning behind it.
 
-This revision closes the gaps found reviewing the first draft against the
-baselined backlog. See [Changes in this revision](#changes-in-this-revision)
-at the end for what moved and why.
+**Updated 8 October 2026.** The design further down was written in Sprint 1 (13
+tables). The build on `dev` has nine tables (Alembic revisions `0001`–`0008`) and
+differs from the design in places, most importantly in how double-booking is
+prevented. [Schema as built](#schema-as-built) lists the tables in code and gives
+the status of every designed table. The concurrency rules and the booking data
+flow describe the built mechanism; the other sections keep the Sprint 1 design
+for tables that are planned or deferred. See
+[Changes on 8 October 2026](#changes-on-8-october-2026) for what moved and why.
 
-## Schema
+**Updated 18 October 2026, end of Sprint 3.** The build on `dev` now has eleven tables (Alembic revisions `0001`–`0012`). Sprint 3 added `diagnoses` (`0009`, US-09–US-13) and `reviews` (`0010`, US-53–US-55), and froze the service title (`0011`) and the in-person meeting area (`0012`) on `orders` so a purchase keeps what was bought (US-36). Reschedule (US-69) is built on the existing tables. The tables and statuses below are current at 18 October.
+
+## Schema as built
+
+| Table | Purpose | Key fields |
+|---|---|---|
+| `users` | Every account in one wide table distinguished by `role`, with the Career Professional's profile, verification and Stripe Connect fields | email (unique), password_hash, role, email_verified_at, sessions_invalidated_at, profile_visibility, photo_url, qualifications / expertise / languages (JSON), base_location_state/city, default_modality, verification_status, overall_rating, review_count, stripe_account_id, payouts_enabled, abn, gst_registered |
+| `services` | Services a Career Professional sells | counsellor_id, title, description, price_minor, currency, duration_minutes, modalities (JSON), location_state/city, meeting_url, active, average_rating, review_count |
+| `availability_windows` | Spans of a Career Professional's time open for booking | counsellor_id, starts_at, ends_at, modalities |
+| `orders` | A checkout: the held time and the amount split, frozen at booking | job_seeker_id, service_id, window_id, starts_at, ends_at, status, payment_status, hold_expires_at, payment_intent_id (unique), amount_minor, platform_fee_minor, counsellor_payout_minor, pre_session_brief, service_title, meeting_area |
+| `diagnoses` | One Yoir Diagnosis per Job Seeker | job_seeker_id (unique), questionnaire_version, answers (JSON), revision, created_at, updated_at |
+| `reviews` | A buyer's rating and comment for a completed session | booking_id (unique), order_id, service_id, counsellor_id, job_seeker_id, rating, comment, created_at |
+| `bookings` | A confirmed session, created from a paid order | order_id (unique), service_id, window_id, job_seeker_id, counsellor_id, starts_at, ends_at, status, meeting_url, meeting_address, transfer_id (unique), refunded_minor, flagged_for_review |
+| `processed_webhook_events` | Stripe webhook events already handled | event_id (primary key), event_type, processed_at |
+| `refresh_tokens` | Refresh tokens, rotated on every use | token_digest (primary key), family_id, user_id, expires_at, used_at, revoked_at |
+| `single_use_tokens` | Email-verification and password-reset links | token_digest (primary key), user_id, purpose, expires_at, used_at |
+| `revoked_tokens` | Access tokens revoked at logout | token_digest (primary key), expires_at, revoked_at |
+
+| Sprint 1 design | Status on 18 October 2026 |
+|---|---|
+| `users` | Built, with profile, verification and Stripe Connect fields added |
+| `services` | Built. Prices are in minor units; a `modalities` list replaces `modality` |
+| `availability_slots` | Replaced by `availability_windows`; bookable times are derived |
+| `orders` | Built, split into `orders` (the checkout) and `bookings` (the confirmed session) |
+| `payment_events` | Replaced by `processed_webhook_events`; the PaymentIntent id lives on `orders` |
+| `password_reset_tokens` | Built as `single_use_tokens`, which also holds email-verification links |
+| `refresh_tokens` | Built; `revoked_tokens` added for access tokens revoked at logout |
+| `reviews` | Built in Sprint 3 (`0010_reviews`, US-53–US-55). One review per booking (`UNIQUE (booking_id)`) rather than per order. The service and Career Professional ratings are recomputed in application code (`backend/app/reviews.py`) on each review, not by a database trigger |
+| `messages` | Deferred (Requirements RR-08) |
+| `disputes` | Deferred (RR-08). A Stripe chargeback flags the booking for Platform Owner review instead (`bookings.flagged_for_review`) |
+| `forum_posts`, `forum_replies`, `forum_likes` | Deferred (RR-08) |
+| Diagnosis answers (not in the Sprint 1 design) | Built as `diagnoses` (`0009_diagnosis_progress`, PR #233): one record per Job Seeker with versioned answers and a revision number that rejects a stale save. The direction and Explore criteria (US-12, US-13) are computed from it and not stored |
+
+## Schema as designed in Sprint 1
 
 ```mermaid
 erDiagram
@@ -56,42 +94,52 @@ erDiagram
 These are the constraints the application must not be allowed to bypass. They
 are stated first because three baselined requirements depend on them.
 
-**Double-booking prevention — `US-41`, `NFR-06`**
+**Double-booking prevention — `US-41`, `NFR-06`** (as built)
 
-`availability_slots.status` is display state: it decides what the app shows as
-selectable. It is *not* the guarantee. Two concurrent checkouts can both read
-`status = 'open'` before either writes. The guarantee is at the database:
-
-```sql
--- One live order per slot. A cancelled or refunded order frees the slot again.
-CREATE UNIQUE INDEX uniq_active_slot_order ON orders (slot_id)
-  WHERE status NOT IN ('cancelled', 'refunded');
-```
-
-and the booking transaction takes a row lock before it checks availability:
+Availability is stored as `availability_windows`, and the bookable times inside
+a window are derived (`app/availability.py`), so there is no slot row to lock or
+index. A time is taken while a live booking covers it, or while an unpaid order
+covers it and its `hold_expires_at` is still in the future. The booking
+transaction serialises on the Career Professional instead:
 
 ```sql
 BEGIN;
-SELECT * FROM availability_slots WHERE id = :slot_id FOR UPDATE;
--- re-check status is 'open' or an expired 'held'
-INSERT INTO orders (...);
-UPDATE availability_slots SET status = 'held', held_until = now() + interval '15 minutes' WHERE id = :slot_id;
+SELECT * FROM users WHERE id = :counsellor_id FOR UPDATE;
+-- a window must cover [starts_at, ends_at) and allow the chosen modality;
+-- no live booking, and no awaiting_payment order with an unexpired hold,
+-- may overlap [starts_at, ends_at)
+INSERT INTO orders (..., status, hold_expires_at)
+  VALUES (..., 'awaiting_payment', now() + interval '15 minutes');
 COMMIT;
 ```
 
-The loser of a race fails on the unique index, not on a stale status read.
-`held_until` lets an abandoned checkout release the slot without manual
-cleanup — a `held` slot whose `held_until` has passed is treated as open.
+Every booking attempt on one calendar runs one at a time, so the loser of a race
+sees the winner's order and gets `409 SLOT_UNAVAILABLE`.
+`test_postgresql_concurrent_order_requests_reserve_slot_once` proves this against
+PostgreSQL. A lapsed hold frees its time without any clean-up, because an expired
+`hold_expires_at` no longer counts; a periodic job then cancels the order and its
+PaymentIntent.
+
+**Known gap.** The guarantee depends on the application taking the lock; the
+database has no constraint against two overlapping live orders. The Sprint 1
+partial unique index on `orders.slot_id` no longer fits, because a window is a
+span rather than a row. The planned fix is an `EXCLUDE` constraint over the
+booked time range (`tstzrange(starts_at, ends_at)` with `btree_gist`). Until it
+exists, the strict expected-failure test
+`test_orders_have_a_database_invariant_against_overlapping_holds` keeps the gap
+visible.
 
 **Payment idempotency — `R-05`**
 
-`payment_events.provider_event_id` is `UNIQUE`. Every webhook is inserted
-before it is acted on; a duplicate insert means the event was already
+`processed_webhook_events.event_id` is the primary key. Every webhook is
+inserted before it is acted on; a duplicate insert means the event was already
 processed and the handler returns without re-applying it. Stripe retries
 webhooks, so without this a retry double-applies the payment.
 
-An order reaches `paid` **only** from a webhook, never from the client's
-success callback.
+An order reaches `confirmed` **only** from a signed webhook (or, in a deployment
+without Stripe keys, the labelled stub endpoint), never from the client's
+success callback. If the hold lapsed and another booking took the time, the
+order becomes `refunded_slot_taken` and the payment is refunded.
 
 **One review per order — `US-53`**
 
@@ -105,9 +153,9 @@ delete of that row.
 
 **No raw card data — `NFR-04`**
 
-No table holds a card number, CVV or expiry. `orders` stores only provider
-references (`payment_transaction_id`), and `payment_events.payload` stores the
-provider's event body, which itself contains no full card number.
+No table holds a card number, CVV or expiry. `orders` stores only the Stripe
+PaymentIntent id, `bookings` only the Connect transfer id, and
+`processed_webhook_events` only the event id and type.
 
 ## Field reference
 
@@ -267,25 +315,30 @@ For each major action, which table gets read and which gets written, in order.
    `avg_rating`, `base_city`, `verification_status`, honouring that
    counsellor's `profile_visibility`
 
-**Book a session**
-1. Read `services.price`, `services.duration_minutes` for the chosen service
-2. Read `availability_slots` where `status = 'open'`, or `status = 'held'`
-   with `held_until` in the past, for that counsellor
-3. Open a transaction and `SELECT … FOR UPDATE` the chosen slot row
-4. Insert into `orders` (job_seeker_id, counsellor_id, service_id, slot_id,
-   `unit_price` ← copied from `services.price`). The partial unique index on
-   `orders.slot_id` rejects a concurrent second booking here
-5. Update `availability_slots.status = 'held'`, `held_until = now() + 15 min`,
-   and commit
-6. On the payment webhook: insert `payment_events` (rejected if
-   `provider_event_id` already exists), then update `orders.status = 'paid'`,
-   `payment_status`, `paid_amount`, `paid_at`, and
-   `availability_slots.status = 'booked'`
-7. If no webhook arrives before `held_until`: the slot reverts to open and the
-   order moves to `cancelled`. A failed or unknown payment never yields a
+**Book a session** (as built)
+1. Read `services.price_minor` and `services.duration_minutes` for the chosen
+   service; the price is never taken from the request
+2. Open a transaction and `SELECT … FOR UPDATE` the Career Professional's
+   `users` row
+3. Check that an `availability_windows` row covers the time and allows the
+   modality, and that no live booking or unexpired hold overlaps it
+4. Insert into `orders` (job_seeker_id, service_id, window_id, starts_at,
+   ends_at, the frozen amount split, `status = 'awaiting_payment'`,
+   `hold_expires_at = now() + 15 min`) and commit
+5. Create a Stripe PaymentIntent and store `orders.payment_intent_id`
+6. On the signed `payment_intent.succeeded` webhook: insert
+   `processed_webhook_events` (rejected if `event_id` already exists), re-check
+   the time, set `orders.status = 'confirmed'` and insert `bookings` with its
+   meeting link
+7. If the hold lapses unpaid, a periodic job sets `orders.status = 'cancelled'`
+   and cancels the PaymentIntent. A failed or unknown payment never yields a
    confirmed booking
 
-**Reschedule a booking** (`US-69`)
+**Reschedule a booking** (`US-69`, planned; to be re-specified against
+availability windows and the row lock above)
+
+*As built in Sprint 3:* `POST /bookings/{bookingId}/reschedule` locks the booking row, then the Career Professional's row (the same lock as booking), checks the new time against the availability windows and the other bookings, and moves the same order and booking in place in one transaction. No new order is created and no payment is retaken; a time taken by someone else returns `SLOT_UNAVAILABLE` and the original booking is unchanged. The Sprint 1 steps below assumed slot rows, which the build replaced with availability windows.
+
 1. Read the order; confirm the requester is a participant and the booking is
    eligible
 2. In one transaction: lock and claim the new slot, set
@@ -307,6 +360,8 @@ For each major action, which table gets read and which gets written, in order.
 3. Trigger fires automatically: updates `services.avg_rating`/`review_count`
    (matched on `service_id`) and `users.avg_rating`/`review_count`
    (matched on `counsellor_id`) — no separate write from the application
+
+*As built in Sprint 3:* the review is accepted only from the buyer of a completed or paid-out booking, `UNIQUE (booking_id)` rejects a second review, and the application recomputes both ratings in the same transaction instead of a trigger.
 
 **Post / reply / like in the forum**
 1. Insert into `forum_posts` (author_id, category, title, content) — app
@@ -350,7 +405,21 @@ Every change is a reviewed migration committed alongside the code that needs
 it — the database is never altered by hand, and this document is updated in
 the same pull request so the two cannot drift.
 
-## Changes in this revision
+## Changes on 8 October 2026
+
+Brought in line with the schema on `dev`.
+
+- Added [Schema as built](#schema-as-built) and the status of every designed
+  table.
+- Double-booking: the slot-based unique index was replaced in the build by a
+  lock on the Career Professional's row, because availability is now stored as
+  windows. The missing database constraint is recorded as a known gap.
+- Payment idempotency now uses `processed_webhook_events`, and an order is
+  confirmed from the signed Stripe webhook.
+- The booking data flow describes the built steps; reschedule is marked
+  planned.
+
+## Changes in the Sprint 1 revision
 
 Applied after reviewing the first draft against the baselined backlog.
 

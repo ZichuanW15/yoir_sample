@@ -1,0 +1,41 @@
+{
+  "conflictStatus": 409,
+  "beforeExplicitRetry": {
+    "id": "0548c22a-b3ef-4351-a6b1-3696792c3a29",
+    "questionnaireVersion": "yoir-six-step-v1",
+    "revision": 1,
+    "status": "in_progress",
+    "currentStep": 2,
+    "totalSteps": 6,
+    "completedSteps": [
+      "now"
+    ],
+    "answers": {
+      "now": "other",
+      "other": {
+        "now": "Other session confirmed answer"
+      }
+    },
+    "createdAt": "2026-10-17T07:39:03.135827Z",
+    "updatedAt": "2026-10-17T07:39:05.312095Z"
+  },
+  "afterExplicitRetry": {
+    "id": "0548c22a-b3ef-4351-a6b1-3696792c3a29",
+    "questionnaireVersion": "yoir-six-step-v1",
+    "revision": 2,
+    "status": "in_progress",
+    "currentStep": 2,
+    "totalSteps": 6,
+    "completedSteps": [
+      "now"
+    ],
+    "answers": {
+      "now": "other",
+      "other": {
+        "now": "This browser draft"
+      }
+    },
+    "createdAt": "2026-10-17T07:39:03.135827Z",
+    "updatedAt": "2026-10-17T07:39:06.334743Z"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "command": [
+    "npx",
+    "jest",
+    "--ci",
+    "--runInBand",
+    "--runTestsByPath",
+    "__tests__/screens/forgot.test.tsx",
+    "__tests__/screens/reset.test.tsx",
+    "__tests__/screens/privacy-settings-boundaries.test.tsx",
+    "__tests__/screens/onboarding-focus.test.tsx",
+    "--json",
+    "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-dev-refresh-20261017/authoring-auth/regression-initial.json"
+  ],
+  "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+  "startedAt": "2026-10-17T06:32:32.521521+00:00",
+  "finishedAt": "2026-10-17T06:32:35.102933+00:00",
+  "exitCode": 0
+}

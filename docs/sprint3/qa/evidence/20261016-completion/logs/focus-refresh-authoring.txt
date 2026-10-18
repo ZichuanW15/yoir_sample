@@ -1,0 +1,3620 @@
+
+> yoir-mobile@0.1.0 test:ci
+> jest --ci --runInBand --runTestsByPath __tests__/screens/focus-refresh.test.tsx --json --outputFile=../artifacts/qa/sprint3-completion-20261016/focus-refresh-authoring/results.json
+
+FAIL __tests__/screens/focus-refresh.test.tsx (9.777 s)
+  ✕ QA-210 payment refresh failure clears formerly loaded rows and retry uses new data (1055 ms)
+  QA-195/198 same-mounted counsellor focus refresh
+    ✕ profile replaces a prior status with confirmed pending after returning (1203 ms)
+    ✕ profile replaces a prior status with confirmed verified after returning (1058 ms)
+    ✕ profile replaces a prior status with confirmed rejected after returning (1056 ms)
+    ✕ workspace replaces a prior status with confirmed pending after returning (1057 ms)
+    ✕ workspace replaces a prior status with confirmed verified after returning (1057 ms)
+    ✕ workspace replaces a prior status with confirmed rejected after returning (1055 ms)
+    ✕ profile marks previously verified status unavailable on focus failure, then recovers (1059 ms)
+    ✓ returning focus does not overwrite an unsaved profile draft (72 ms)
+
+  ● QA-195/198 same-mounted counsellor focus refresh › profile replaces a prior status with confirmed pending after returning
+
+    Unable to find an element with text: Verification pending
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Yoir"[39m
+        [36m/>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Account, Maya Chen"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mMC[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mProfessional profile[0m
+          [36m</Text>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mMC[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Edit profile photo"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<View>[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGLine />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<Text>[39m
+              [0mMaya Chen[0m
+            [36m</Text>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Verification"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGPath />[39m
+                    [36m<RNSVGPath />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+                [36m<Text>[39m
+                  [0mVerified Career Professional[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Paste an image URL instead"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                    "expanded": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mPaste an image URL instead[0m
+                [36m</Text>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Profile privacy"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mProfile privacy[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mHow you introduce yourself[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mLinkedIn profile URL[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"LinkedIn profile URL"[39m
+                [33mplaceholder[39m=[32m"https://www.linkedin.com/in/your-name"[39m
+                [33mvalue[39m=[32m"https://www.linkedin.com/in/maya-chen"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<RNSVGSvgView>[39m
+                [36m<RNSVGGroup>[39m
+                  [36m<RNSVGPath />[39m
+                  [36m<RNSVGPath />[39m
+                [36m</RNSVGGroup>[39m
+              [36m</RNSVGSvgView>[39m
+              [36m<Text>[39m
+                [0mThe Platform Owner opens this link to verify you before your listings go live.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mIntroduction[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Introduction"[39m
+                [33mplaceholder[39m=[32m"One or two sentences a Job Seeker reads first."[39m
+                [33mvalue[39m=[32m"Career counsellor specialising in interview preparation."[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mBackground[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Background"[39m
+                [33mplaceholder[39m=[32m"Where you have worked and what you did there."[39m
+                [33mvalue[39m=[32m"Ten years in graduate recruitment."[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mExperience[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Experience"[39m
+                [33mplaceholder[39m=[32m"The kind of clients you work with and the results you help them get."[39m
+                [33mvalue[39m=[32m"Coached over 400 candidates."[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mWhat Job Seekers check before booking[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mQualifications[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Qualifications"[39m
+                [33mplaceholder[39m=[32m"One per line, e.g.
+    Master of Career Development"[39m
+                [33mvalue[39m=[32m"Graduate Certificate in Career Development Practice"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mSkills and expertise[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Skills and expertise"[39m
+                [33mplaceholder[39m=[32m"Separate with commas, e.g. Interview preparation, Resume writing"[39m
+                [33mvalue[39m=[32m"Interview preparation"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mLanguages you work in[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Languages you work in"[39m
+                [33mplaceholder[39m=[32m"Separate with commas, e.g. English, Hindi"[39m
+                [33mvalue[39m=[32m"English"[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mDefault delivery[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mNew services start with this delivery method. You can change it per service.[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Online"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": true,
+                    "disabled": false,
+                    "selected": true,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mOnline[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"In person"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mIn person[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mWhere you are based[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"NSW"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mNSW[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"VIC"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": true,
+                    "disabled": false,
+                    "selected": true,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mVIC[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"QLD"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mQLD[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"WA"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mWA[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"SA"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mSA[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"TAS"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mTAS[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"ACT"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mACT[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"NT"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mNT[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mCity or region[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"City or region"[39m
+                [33mplaceholder[39m=[32m"Melbourne"[39m
+                [33mvalue[39m=[32m"Melbourne"[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<RNSVGSvgView>[39m
+            [36m<RNSVGGroup>[39m
+              [36m<RNSVGPath />[39m
+              [36m<RNSVGPath />[39m
+            [36m</RNSVGGroup>[39m
+          [36m</RNSVGSvgView>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mChanges save automatically.[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityRole[39m=[32m"tablist"[39m
+        [36m>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Workspace"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGLine />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mWorkspace[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Bookings"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGCircle />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mBookings[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Profile"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGPath />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mProfile[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      40 |     apiMock.getOwnCounsellorProfile.mockResolvedValue({ ...counsellorProfileFixture, verificationStatus: status });
+      41 |     await focusAgain();
+    > 42 |     expect(await screen.findByText(label)).toBeOnTheScreen();
+         |                         ^
+      43 |     expect(apiMock.getOwnCounsellorProfile).toHaveBeenCalledTimes(2);
+      44 |   });
+      45 |
+
+      at findByText (__tests__/screens/focus-refresh.test.tsx:42:25)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● QA-195/198 same-mounted counsellor focus refresh › profile replaces a prior status with confirmed verified after returning
+
+    Unable to find an element with text: Verified Career Professional
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Yoir"[39m
+        [36m/>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Account, Maya Chen"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mMC[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mProfessional profile[0m
+          [36m</Text>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mMC[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Edit profile photo"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<View>[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGLine />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<Text>[39m
+              [0mMaya Chen[0m
+            [36m</Text>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Verification"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mVerification pending[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Paste an image URL instead"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                    "expanded": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mPaste an image URL instead[0m
+                [36m</Text>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Profile privacy"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mProfile privacy[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mHow you introduce yourself[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mLinkedIn profile URL[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"LinkedIn profile URL"[39m
+                [33mplaceholder[39m=[32m"https://www.linkedin.com/in/your-name"[39m
+                [33mvalue[39m=[32m"https://www.linkedin.com/in/maya-chen"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<RNSVGSvgView>[39m
+                [36m<RNSVGGroup>[39m
+                  [36m<RNSVGPath />[39m
+                  [36m<RNSVGPath />[39m
+                [36m</RNSVGGroup>[39m
+              [36m</RNSVGSvgView>[39m
+              [36m<Text>[39m
+                [0mThe Platform Owner opens this link to verify you before your listings go live.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mIntroduction[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Introduction"[39m
+                [33mplaceholder[39m=[32m"One or two sentences a Job Seeker reads first."[39m
+                [33mvalue[39m=[32m"Career counsellor specialising in interview preparation."[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mBackground[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Background"[39m
+                [33mplaceholder[39m=[32m"Where you have worked and what you did there."[39m
+                [33mvalue[39m=[32m"Ten years in graduate recruitment."[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mExperience[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Experience"[39m
+                [33mplaceholder[39m=[32m"The kind of clients you work with and the results you help them get."[39m
+                [33mvalue[39m=[32m"Coached over 400 candidates."[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mWhat Job Seekers check before booking[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mQualifications[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Qualifications"[39m
+                [33mplaceholder[39m=[32m"One per line, e.g.
+    Master of Career Development"[39m
+                [33mvalue[39m=[32m"Graduate Certificate in Career Development Practice"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mSkills and expertise[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Skills and expertise"[39m
+                [33mplaceholder[39m=[32m"Separate with commas, e.g. Interview preparation, Resume writing"[39m
+                [33mvalue[39m=[32m"Interview preparation"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mLanguages you work in[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Languages you work in"[39m
+                [33mplaceholder[39m=[32m"Separate with commas, e.g. English, Hindi"[39m
+                [33mvalue[39m=[32m"English"[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mDefault delivery[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mNew services start with this delivery method. You can change it per service.[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Online"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": true,
+                    "disabled": false,
+                    "selected": true,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mOnline[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"In person"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mIn person[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mWhere you are based[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"NSW"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mNSW[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"VIC"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": true,
+                    "disabled": false,
+                    "selected": true,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mVIC[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"QLD"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mQLD[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"WA"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mWA[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"SA"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mSA[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"TAS"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mTAS[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"ACT"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mACT[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"NT"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mNT[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mCity or region[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"City or region"[39m
+                [33mplaceholder[39m=[32m"Melbourne"[39m
+                [33mvalue[39m=[32m"Melbourne"[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<RNSVGSvgView>[39m
+            [36m<RNSVGGroup>[39m
+              [36m<RNSVGPath />[39m
+              [36m<RNSVGPath />[39m
+            [36m</RNSVGGroup>[39m
+          [36m</RNSVGSvgView>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mChanges save automatically.[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityRole[39m=[32m"tablist"[39m
+        [36m>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Workspace"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGLine />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mWorkspace[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Bookings"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGCircle />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mBookings[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Profile"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGPath />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mProfile[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      40 |     apiMock.getOwnCounsellorProfile.mockResolvedValue({ ...counsellorProfileFixture, verificationStatus: status });
+      41 |     await focusAgain();
+    > 42 |     expect(await screen.findByText(label)).toBeOnTheScreen();
+         |                         ^
+      43 |     expect(apiMock.getOwnCounsellorProfile).toHaveBeenCalledTimes(2);
+      44 |   });
+      45 |
+
+      at findByText (__tests__/screens/focus-refresh.test.tsx:42:25)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● QA-195/198 same-mounted counsellor focus refresh › profile replaces a prior status with confirmed rejected after returning
+
+    Unable to find an element with text: Verification rejected
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Yoir"[39m
+        [36m/>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Account, Maya Chen"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mMC[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mProfessional profile[0m
+          [36m</Text>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mMC[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Edit profile photo"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<View>[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGLine />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<Text>[39m
+              [0mMaya Chen[0m
+            [36m</Text>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Verification"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGPath />[39m
+                    [36m<RNSVGPath />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+                [36m<Text>[39m
+                  [0mVerified Career Professional[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Paste an image URL instead"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                    "expanded": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mPaste an image URL instead[0m
+                [36m</Text>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Profile privacy"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mProfile privacy[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mHow you introduce yourself[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mLinkedIn profile URL[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"LinkedIn profile URL"[39m
+                [33mplaceholder[39m=[32m"https://www.linkedin.com/in/your-name"[39m
+                [33mvalue[39m=[32m"https://www.linkedin.com/in/maya-chen"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<RNSVGSvgView>[39m
+                [36m<RNSVGGroup>[39m
+                  [36m<RNSVGPath />[39m
+                  [36m<RNSVGPath />[39m
+                [36m</RNSVGGroup>[39m
+              [36m</RNSVGSvgView>[39m
+              [36m<Text>[39m
+                [0mThe Platform Owner opens this link to verify you before your listings go live.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mIntroduction[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Introduction"[39m
+                [33mplaceholder[39m=[32m"One or two sentences a Job Seeker reads first."[39m
+                [33mvalue[39m=[32m"Career counsellor specialising in interview preparation."[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mBackground[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Background"[39m
+                [33mplaceholder[39m=[32m"Where you have worked and what you did there."[39m
+                [33mvalue[39m=[32m"Ten years in graduate recruitment."[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mExperience[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Experience"[39m
+                [33mplaceholder[39m=[32m"The kind of clients you work with and the results you help them get."[39m
+                [33mvalue[39m=[32m"Coached over 400 candidates."[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mWhat Job Seekers check before booking[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mQualifications[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Qualifications"[39m
+                [33mplaceholder[39m=[32m"One per line, e.g.
+    Master of Career Development"[39m
+                [33mvalue[39m=[32m"Graduate Certificate in Career Development Practice"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mSkills and expertise[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Skills and expertise"[39m
+                [33mplaceholder[39m=[32m"Separate with commas, e.g. Interview preparation, Resume writing"[39m
+                [33mvalue[39m=[32m"Interview preparation"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mLanguages you work in[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Languages you work in"[39m
+                [33mplaceholder[39m=[32m"Separate with commas, e.g. English, Hindi"[39m
+                [33mvalue[39m=[32m"English"[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mDefault delivery[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mNew services start with this delivery method. You can change it per service.[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Online"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": true,
+                    "disabled": false,
+                    "selected": true,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mOnline[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"In person"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mIn person[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mWhere you are based[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"NSW"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mNSW[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"VIC"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": true,
+                    "disabled": false,
+                    "selected": true,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mVIC[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"QLD"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mQLD[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"WA"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mWA[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"SA"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mSA[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"TAS"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mTAS[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"ACT"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mACT[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"NT"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mNT[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mCity or region[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"City or region"[39m
+                [33mplaceholder[39m=[32m"Melbourne"[39m
+                [33mvalue[39m=[32m"Melbourne"[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<RNSVGSvgView>[39m
+            [36m<RNSVGGroup>[39m
+              [36m<RNSVGPath />[39m
+              [36m<RNSVGPath />[39m
+            [36m</RNSVGGroup>[39m
+          [36m</RNSVGSvgView>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mChanges save automatically.[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityRole[39m=[32m"tablist"[39m
+        [36m>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Workspace"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGLine />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mWorkspace[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Bookings"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGCircle />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mBookings[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Profile"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGPath />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mProfile[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      40 |     apiMock.getOwnCounsellorProfile.mockResolvedValue({ ...counsellorProfileFixture, verificationStatus: status });
+      41 |     await focusAgain();
+    > 42 |     expect(await screen.findByText(label)).toBeOnTheScreen();
+         |                         ^
+      43 |     expect(apiMock.getOwnCounsellorProfile).toHaveBeenCalledTimes(2);
+      44 |   });
+      45 |
+
+      at findByText (__tests__/screens/focus-refresh.test.tsx:42:25)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● QA-195/198 same-mounted counsellor focus refresh › workspace replaces a prior status with confirmed pending after returning
+
+    Unable to find an element with text: Verification pending
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Yoir"[39m
+        [36m/>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Account, Maya Chen"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mMC[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mYour workspace[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mGood to see you, [0m
+              [0mMaya[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Verification"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGDefs>[39m
+                      [36m<RNSVGRadialGradient />[39m
+                    [36m</RNSVGDefs>[39m
+                    [36m<RNSVGCircle />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View />[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<View />[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGPath />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mVerification[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mVerified Career Professional[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mYour profile carries the verified mark across Yoir.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<RNSVGSvgView>[39m
+                [36m<RNSVGGroup>[39m
+                  [36m<RNSVGPath />[39m
+                [36m</RNSVGGroup>[39m
+              [36m</RNSVGSvgView>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Sessions you are delivering"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGRect />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGCircle />[39m
+                    [36m<RNSVGCircle />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mMy sessions[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mEverything booked with you, and how to join it.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mOpen[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Professional profile"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGCircle />[39m
+                    [36m<RNSVGCircle />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0m5[0m
+                    [0m/[0m
+                    [0m5[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mProfessional profile[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mAll sections complete. Looking sharp.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mEdit[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Payouts and tax details"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGPath />[39m
+                    [36m<RNSVGPath />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mPayouts[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mReady · not GST registered[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mManage[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mMy services[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0m1 published[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"New"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<RNSVGSvgView>[39m
+                [36m<RNSVGGroup>[39m
+                  [36m<RNSVGLine />[39m
+                  [36m<RNSVGLine />[39m
+                [36m</RNSVGGroup>[39m
+              [36m</RNSVGSvgView>[39m
+              [36m<Text>[39m
+                [0mNew[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGRect />[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGLine />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                [36m</View>[39m
+                [36m<Text>[39m
+                  [0mInterview confidence coaching[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0m$95[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<Text>[39m
+                [0mPractical interview preparation and feedback.[0m
+              [36m</Text>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mOnline[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"Edit Interview confidence coaching"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGLine />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                  [36m<Text>[39m
+                    [0mEdit[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"Delete Interview confidence coaching"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGLine />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                  [36m<Text>[39m
+                    [0mDelete[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Availability"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGRect />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGCircle />[39m
+                    [36m<RNSVGCircle />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mAvailability[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mNo open times. Add availability so buyers can choose a time.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<RNSVGSvgView>[39m
+                [36m<RNSVGGroup>[39m
+                  [36m<RNSVGPath />[39m
+                [36m</RNSVGGroup>[39m
+              [36m</RNSVGSvgView>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityRole[39m=[32m"tablist"[39m
+        [36m>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Workspace"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGLine />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mWorkspace[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Bookings"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGCircle />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mBookings[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Profile"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGPath />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mProfile[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      51 |     apiMock.getOwnCounsellorProfile.mockResolvedValue({ ...counsellorProfileFixture, verificationStatus: status });
+      52 |     await focusAgain();
+    > 53 |     expect(await screen.findByText(label)).toBeOnTheScreen();
+         |                         ^
+      54 |     expect(apiMock.getOwnCounsellorProfile).toHaveBeenCalledTimes(2);
+      55 |   });
+      56 |
+
+      at findByText (__tests__/screens/focus-refresh.test.tsx:53:25)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● QA-195/198 same-mounted counsellor focus refresh › workspace replaces a prior status with confirmed verified after returning
+
+    Unable to find an element with text: Verified Career Professional
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Yoir"[39m
+        [36m/>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Account, Maya Chen"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mMC[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mYour workspace[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mGood to see you, [0m
+              [0mMaya[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Verification"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGDefs>[39m
+                      [36m<RNSVGRadialGradient />[39m
+                    [36m</RNSVGDefs>[39m
+                    [36m<RNSVGCircle />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View />[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<View />[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGPath />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mVerification[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mVerification pending[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mYour LinkedIn profile is with the Platform Owner for review.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<RNSVGSvgView>[39m
+                [36m<RNSVGGroup>[39m
+                  [36m<RNSVGPath />[39m
+                [36m</RNSVGGroup>[39m
+              [36m</RNSVGSvgView>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Sessions you are delivering"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGRect />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGCircle />[39m
+                    [36m<RNSVGCircle />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mMy sessions[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mEverything booked with you, and how to join it.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mOpen[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Professional profile"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGCircle />[39m
+                    [36m<RNSVGCircle />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0m5[0m
+                    [0m/[0m
+                    [0m5[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mProfessional profile[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mAll sections complete. Looking sharp.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mEdit[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Payouts and tax details"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGPath />[39m
+                    [36m<RNSVGPath />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mPayouts[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mReady · not GST registered[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mManage[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mMy services[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0m1 published[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"New"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<RNSVGSvgView>[39m
+                [36m<RNSVGGroup>[39m
+                  [36m<RNSVGLine />[39m
+                  [36m<RNSVGLine />[39m
+                [36m</RNSVGGroup>[39m
+              [36m</RNSVGSvgView>[39m
+              [36m<Text>[39m
+                [0mNew[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGRect />[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGLine />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                [36m</View>[39m
+                [36m<Text>[39m
+                  [0mInterview confidence coaching[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0m$95[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<Text>[39m
+                [0mPractical interview preparation and feedback.[0m
+              [36m</Text>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mOnline[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"Edit Interview confidence coaching"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGLine />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                  [36m<Text>[39m
+                    [0mEdit[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"Delete Interview confidence coaching"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGLine />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                  [36m<Text>[39m
+                    [0mDelete[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Availability"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGRect />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGCircle />[39m
+                    [36m<RNSVGCircle />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mAvailability[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mNo open times. Add availability so buyers can choose a time.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<RNSVGSvgView>[39m
+                [36m<RNSVGGroup>[39m
+                  [36m<RNSVGPath />[39m
+                [36m</RNSVGGroup>[39m
+              [36m</RNSVGSvgView>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityRole[39m=[32m"tablist"[39m
+        [36m>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Workspace"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGLine />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mWorkspace[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Bookings"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGCircle />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mBookings[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Profile"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGPath />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mProfile[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      51 |     apiMock.getOwnCounsellorProfile.mockResolvedValue({ ...counsellorProfileFixture, verificationStatus: status });
+      52 |     await focusAgain();
+    > 53 |     expect(await screen.findByText(label)).toBeOnTheScreen();
+         |                         ^
+      54 |     expect(apiMock.getOwnCounsellorProfile).toHaveBeenCalledTimes(2);
+      55 |   });
+      56 |
+
+      at findByText (__tests__/screens/focus-refresh.test.tsx:53:25)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● QA-195/198 same-mounted counsellor focus refresh › workspace replaces a prior status with confirmed rejected after returning
+
+    Unable to find an element with text: Verification rejected
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Yoir"[39m
+        [36m/>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Account, Maya Chen"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mMC[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mYour workspace[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mGood to see you, [0m
+              [0mMaya[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Verification"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGDefs>[39m
+                      [36m<RNSVGRadialGradient />[39m
+                    [36m</RNSVGDefs>[39m
+                    [36m<RNSVGCircle />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View />[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<View />[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGPath />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mVerification[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mVerified Career Professional[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mYour profile carries the verified mark across Yoir.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<RNSVGSvgView>[39m
+                [36m<RNSVGGroup>[39m
+                  [36m<RNSVGPath />[39m
+                [36m</RNSVGGroup>[39m
+              [36m</RNSVGSvgView>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Sessions you are delivering"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGRect />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGCircle />[39m
+                    [36m<RNSVGCircle />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mMy sessions[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mEverything booked with you, and how to join it.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mOpen[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Professional profile"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGCircle />[39m
+                    [36m<RNSVGCircle />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0m5[0m
+                    [0m/[0m
+                    [0m5[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mProfessional profile[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mAll sections complete. Looking sharp.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mEdit[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Payouts and tax details"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGPath />[39m
+                    [36m<RNSVGPath />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mPayouts[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mReady · not GST registered[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mManage[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mMy services[0m
+              [36m</Text>[39m
+              [36m<Text>[39m
+                [0m1 published[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"New"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<RNSVGSvgView>[39m
+                [36m<RNSVGGroup>[39m
+                  [36m<RNSVGLine />[39m
+                  [36m<RNSVGLine />[39m
+                [36m</RNSVGGroup>[39m
+              [36m</RNSVGSvgView>[39m
+              [36m<Text>[39m
+                [0mNew[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGRect />[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGLine />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                [36m</View>[39m
+                [36m<Text>[39m
+                  [0mInterview confidence coaching[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0m$95[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<Text>[39m
+                [0mPractical interview preparation and feedback.[0m
+              [36m</Text>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mOnline[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"Edit Interview confidence coaching"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGLine />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                  [36m<Text>[39m
+                    [0mEdit[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View[39m
+                  [33maccessibilityLabel[39m=[32m"Delete Interview confidence coaching"[39m
+                  [33maccessibilityRole[39m=[32m"button"[39m
+                  [33maccessibilityState[39m=[32m{
+                    {
+                      "disabled": false,
+                    }
+                  }[39m
+                  [33maccessible[39m=[32m{true}[39m
+                [36m>[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGLine />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                  [36m<Text>[39m
+                    [0mDelete[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Availability"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGRect />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGCircle />[39m
+                    [36m<RNSVGCircle />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mAvailability[0m
+                [36m</Text>[39m
+                [36m<Text>[39m
+                  [0mNo open times. Add availability so buyers can choose a time.[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<RNSVGSvgView>[39m
+                [36m<RNSVGGroup>[39m
+                  [36m<RNSVGPath />[39m
+                [36m</RNSVGGroup>[39m
+              [36m</RNSVGSvgView>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityRole[39m=[32m"tablist"[39m
+        [36m>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Workspace"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGLine />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mWorkspace[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Bookings"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGCircle />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mBookings[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Profile"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGPath />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mProfile[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      51 |     apiMock.getOwnCounsellorProfile.mockResolvedValue({ ...counsellorProfileFixture, verificationStatus: status });
+      52 |     await focusAgain();
+    > 53 |     expect(await screen.findByText(label)).toBeOnTheScreen();
+         |                         ^
+      54 |     expect(apiMock.getOwnCounsellorProfile).toHaveBeenCalledTimes(2);
+      55 |   });
+      56 |
+
+      at findByText (__tests__/screens/focus-refresh.test.tsx:53:25)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● QA-195/198 same-mounted counsellor focus refresh › profile marks previously verified status unavailable on focus failure, then recovers
+
+    Unable to find an element with text: Status unavailable
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Yoir"[39m
+        [36m/>[39m
+        [36m<View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Account, Maya Chen"[39m
+            [33maccessibilityRole[39m=[32m"button"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mMC[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<Text>[39m
+            [0mProfessional profile[0m
+          [36m</Text>[39m
+          [36m<View>[39m
+            [36m<View>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mMC[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Edit profile photo"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<View>[39m
+                  [36m<RNSVGSvgView>[39m
+                    [36m<RNSVGGroup>[39m
+                      [36m<RNSVGPath />[39m
+                      [36m<RNSVGLine />[39m
+                    [36m</RNSVGGroup>[39m
+                  [36m</RNSVGSvgView>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<Text>[39m
+              [0mMaya Chen[0m
+            [36m</Text>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Verification"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGPath />[39m
+                    [36m<RNSVGPath />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+                [36m<Text>[39m
+                  [0mVerified Career Professional[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Paste an image URL instead"[39m
+                [33maccessibilityRole[39m=[32m"button"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "disabled": false,
+                    "expanded": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mPaste an image URL instead[0m
+                [36m</Text>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGLine />[39m
+                    [36m<RNSVGLine />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Profile privacy"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "busy": false,
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mProfile privacy[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mHow you introduce yourself[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mLinkedIn profile URL[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"LinkedIn profile URL"[39m
+                [33mplaceholder[39m=[32m"https://www.linkedin.com/in/your-name"[39m
+                [33mvalue[39m=[32m"https://www.linkedin.com/in/maya-chen"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<RNSVGSvgView>[39m
+                [36m<RNSVGGroup>[39m
+                  [36m<RNSVGPath />[39m
+                  [36m<RNSVGPath />[39m
+                [36m</RNSVGGroup>[39m
+              [36m</RNSVGSvgView>[39m
+              [36m<Text>[39m
+                [0mThe Platform Owner opens this link to verify you before your listings go live.[0m
+              [36m</Text>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mIntroduction[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Introduction"[39m
+                [33mplaceholder[39m=[32m"One or two sentences a Job Seeker reads first."[39m
+                [33mvalue[39m=[32m"Career counsellor specialising in interview preparation."[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mBackground[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Background"[39m
+                [33mplaceholder[39m=[32m"Where you have worked and what you did there."[39m
+                [33mvalue[39m=[32m"Ten years in graduate recruitment."[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mExperience[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Experience"[39m
+                [33mplaceholder[39m=[32m"The kind of clients you work with and the results you help them get."[39m
+                [33mvalue[39m=[32m"Coached over 400 candidates."[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mWhat Job Seekers check before booking[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mQualifications[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Qualifications"[39m
+                [33mplaceholder[39m=[32m"One per line, e.g.
+    Master of Career Development"[39m
+                [33mvalue[39m=[32m"Graduate Certificate in Career Development Practice"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mSkills and expertise[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Skills and expertise"[39m
+                [33mplaceholder[39m=[32m"Separate with commas, e.g. Interview preparation, Resume writing"[39m
+                [33mvalue[39m=[32m"Interview preparation"[39m
+              [36m/>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mLanguages you work in[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"Languages you work in"[39m
+                [33mplaceholder[39m=[32m"Separate with commas, e.g. English, Hindi"[39m
+                [33mvalue[39m=[32m"English"[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mDefault delivery[0m
+            [36m</Text>[39m
+            [36m<Text>[39m
+              [0mNew services start with this delivery method. You can change it per service.[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"Online"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": true,
+                    "disabled": false,
+                    "selected": true,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mOnline[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"In person"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mIn person[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mWhere you are based[0m
+            [36m</Text>[39m
+            [36m<View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"NSW"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mNSW[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"VIC"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": true,
+                    "disabled": false,
+                    "selected": true,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mVIC[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"QLD"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mQLD[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"WA"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mWA[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"SA"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mSA[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"TAS"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mTAS[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"ACT"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mACT[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+              [36m<View[39m
+                [33maccessibilityLabel[39m=[32m"NT"[39m
+                [33maccessibilityRole[39m=[32m"radio"[39m
+                [33maccessibilityState[39m=[32m{
+                  {
+                    "checked": false,
+                    "disabled": false,
+                    "selected": false,
+                  }
+                }[39m
+                [33maccessible[39m=[32m{true}[39m
+              [36m>[39m
+                [36m<Text>[39m
+                  [0mNT[0m
+                [36m</Text>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+            [36m<View>[39m
+              [36m<Text>[39m
+                [0mCity or region[0m
+              [36m</Text>[39m
+              [36m<TextInput[39m
+                [33maccessibilityLabel[39m=[32m"City or region"[39m
+                [33mplaceholder[39m=[32m"Melbourne"[39m
+                [33mvalue[39m=[32m"Melbourne"[39m
+              [36m/>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View>[39m
+          [36m<RNSVGSvgView>[39m
+            [36m<RNSVGGroup>[39m
+              [36m<RNSVGPath />[39m
+              [36m<RNSVGPath />[39m
+            [36m</RNSVGGroup>[39m
+          [36m</RNSVGSvgView>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mChanges save automatically.[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityRole[39m=[32m"tablist"[39m
+        [36m>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Workspace"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGLine />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mWorkspace[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Bookings"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGCircle />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mBookings[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Profile"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGPath />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mProfile[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      60 |     apiMock.getOwnCounsellorProfile.mockRejectedValueOnce(apiError(503, 'UNAVAILABLE', 'Status refresh unavailable.'));
+      61 |     await focusAgain();
+    > 62 |     expect(await screen.findByText('Status unavailable')).toBeOnTheScreen();
+         |                         ^
+      63 |     expect(screen.queryByText('Verified Career Professional')).toBeNull();
+      64 |     expect(screen.getByText('Status refresh unavailable.')).toBeOnTheScreen();
+      65 |     await focusAgain();
+
+      at Object.findByText (__tests__/screens/focus-refresh.test.tsx:62:25)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+  ● QA-210 payment refresh failure clears formerly loaded rows and retry uses new data
+
+    Unable to find an element with text: Payments refresh unavailable.
+
+    [36m<View>[39m
+      [36m<View>[39m
+        [36m<Image[39m
+          [33maccessibilityLabel[39m=[32m"Yoir"[39m
+        [36m/>[39m
+        [36m<View[39m
+          [33maccessibilityLabel[39m=[32m"Account, Platform Owner"[39m
+          [33maccessibilityRole[39m=[32m"button"[39m
+          [33maccessibilityState[39m=[32m{
+            {
+              "disabled": false,
+            }
+          }[39m
+          [33maccessible[39m=[32m{true}[39m
+        [36m>[39m
+          [36m<View>[39m
+            [36m<Text>[39m
+              [0mPO[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+      [36m<View>[39m
+        [36m<Text>[39m
+          [0mYoir administration[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mPayments[0m
+        [36m</Text>[39m
+        [36m<Text>[39m
+          [0mThe split frozen on each order when it was paid. No card details are held.[0m
+        [36m</Text>[39m
+      [36m</View>[39m
+      [36m<RCTScrollView>[39m
+        [36m<View>[39m
+          [36m<View>[39m
+            [36m<View[39m
+              [33maccessibilityLabel[39m=[32m"Order for Admin QA coaching, Alex Morgan"[39m
+              [33maccessibilityRole[39m=[32m"button"[39m
+              [33maccessibilityState[39m=[32m{
+                {
+                  "disabled": false,
+                }
+              }[39m
+              [33maccessible[39m=[32m{true}[39m
+            [36m>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mAdmin QA coaching[0m
+                [36m</Text>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0mPartially refunded[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<Text>[39m
+                [0mAlex Morgan[0m
+                [0m [0m
+                [36m<Text>[39m
+                  [0mpaid[0m
+                [36m</Text>[39m
+                [0m [0m
+                [0mMaya Chen[0m
+              [36m</Text>[39m
+              [36m<View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0m$95.25[0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0mTotal[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0m$80.96[0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0mCareer Professional[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0m$14.29[0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0mYoir[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+                [36m<View>[39m
+                  [36m<Text>[39m
+                    [0m$12.50[0m
+                  [36m</Text>[39m
+                  [36m<Text>[39m
+                    [0mRefunded[0m
+                  [36m</Text>[39m
+                [36m</View>[39m
+              [36m</View>[39m
+              [36m<View>[39m
+                [36m<Text>[39m
+                  [0mSat, 10 Oct[0m
+                  [0m · Order: [0m
+                  [0mConfirmed[0m
+                [36m</Text>[39m
+                [36m<RNSVGSvgView>[39m
+                  [36m<RNSVGGroup>[39m
+                    [36m<RNSVGPath />[39m
+                  [36m</RNSVGGroup>[39m
+                [36m</RNSVGSvgView>[39m
+              [36m</View>[39m
+            [36m</View>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</RCTScrollView>[39m
+      [36m<View>[39m
+        [36m<View[39m
+          [33maccessibilityRole[39m=[32m"tablist"[39m
+        [36m>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Overview"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGCircle />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mOverview[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Verify"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGPath />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mVerify[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Users"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGPath />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mUsers[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Bookings"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGLine />[39m
+                [36m<RNSVGCircle />[39m
+                [36m<RNSVGCircle />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mBookings[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+          [36m<View[39m
+            [33maccessibilityLabel[39m=[32m"Payments"[39m
+            [33maccessibilityRole[39m=[32m"tab"[39m
+            [33maccessibilityState[39m=[32m{
+              {
+                "disabled": false,
+                "selected": false,
+              }
+            }[39m
+            [33maccessible[39m=[32m{true}[39m
+          [36m>[39m
+            [36m<RNSVGSvgView>[39m
+              [36m<RNSVGGroup>[39m
+                [36m<RNSVGRect />[39m
+                [36m<RNSVGPath />[39m
+                [36m<RNSVGCircle />[39m
+              [36m</RNSVGGroup>[39m
+            [36m</RNSVGSvgView>[39m
+            [36m<Text>[39m
+              [0mPayments[0m
+            [36m</Text>[39m
+          [36m</View>[39m
+        [36m</View>[39m
+      [36m</View>[39m
+    [36m</View>[39m
+
+      84 |   apiMock.listPaymentOversight.mockRejectedValueOnce(apiError(503, 'UNAVAILABLE', 'Payments refresh unavailable.'));
+      85 |   await focusAgain();
+    > 86 |   expect(await screen.findByText('Payments refresh unavailable.')).toBeOnTheScreen();
+         |                       ^
+      87 |   expect(screen.queryByText(payment.serviceTitle)).toBeNull();
+      88 |   expect(screen.queryByText('No orders yet.')).toBeNull();
+      89 |   apiMock.listPaymentOversight.mockResolvedValue([{ ...payment, serviceTitle: 'Fresh payment detail', refundedMinor: 9525, paymentStatus: 'refunded' }]);
+
+      at Object.findByText (__tests__/screens/focus-refresh.test.tsx:86:23)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       8 failed, 1 passed, 9 total
+Snapshots:   0 total
+Time:        9.891 s
+Ran all test suites within paths "__tests__/screens/focus-refresh.test.tsx".
+Test results written to: ../artifacts/qa/sprint3-completion-20261016/focus-refresh-authoring/results.json

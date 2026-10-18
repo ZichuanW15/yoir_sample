@@ -1,0 +1,25 @@
+{
+  "at": "2026-10-15T22:56:30.989213+00:00",
+  "scope": "10-second native onboarding read delay during process restart. Running wrapper caps delay at10seconds; this is not20seconds.",
+  "delayHits": [
+    {
+      "at": "2026-10-15T22:54:48.658075+00:00",
+      "ruleId": "android-d01-onboarding-restart-loading",
+      "method": "GET",
+      "path": "/api/v1/me/onboarding-state",
+      "userId": "qa-nr-android-pro",
+      "hit": 1,
+      "action": "delay",
+      "status": 200
+    }
+  ],
+  "responses": [
+    {
+      "at": "2026-10-15T22:54:58.665367+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/onboarding-state",
+      "userId": "qa-nr-android-pro",
+      "status": 200
+    }
+  ]
+}

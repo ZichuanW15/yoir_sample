@@ -1,0 +1,76 @@
+{
+  "at": "2026-10-15T22:50:56.490044+00:00",
+  "scope": "Read-only request audit around Android account switch; identifies backend requests but does not attribute an unobserved UI toast mechanism.",
+  "requests": [
+    {
+      "at": "2026-10-15T22:48:48.662024+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/notifications",
+      "userId": "qa-nr-android-other",
+      "status": 404
+    },
+    {
+      "at": "2026-10-15T22:48:48.665144+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/notifications",
+      "userId": "qa-nr-android-other",
+      "status": 404
+    },
+    {
+      "at": "2026-10-15T22:48:48.674789+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/notifications",
+      "userId": "qa-nr-android-other",
+      "status": 404
+    },
+    {
+      "at": "2026-10-15T22:48:48.678856+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/bookings",
+      "userId": "qa-nr-android-other",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:48:48.680548+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/bookings",
+      "userId": "qa-nr-android-other",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:48:48.680765+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/job-seeker-profile",
+      "userId": "qa-nr-android-other",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:48:48.682661+00:00",
+      "method": "GET",
+      "path": "/api/v1/bookings/qa-nr-android-move-booking",
+      "userId": "qa-nr-android-other",
+      "status": 404
+    },
+    {
+      "at": "2026-10-15T22:48:48.686542+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/bookings",
+      "userId": "qa-nr-android-other",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:49:43.485669+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/bookings",
+      "userId": "qa-nr-android-other",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:50:24.594107+00:00",
+      "method": "GET",
+      "path": "/api/v1/me/job-seeker-profile",
+      "userId": "qa-nr-android-other",
+      "status": 200
+    }
+  ]
+}

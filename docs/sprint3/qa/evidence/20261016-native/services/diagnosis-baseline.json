@@ -1,0 +1,54 @@
+{
+  "at": "2026-10-15T21:10:17.641115+00:00",
+  "checks": [
+    {
+      "platform": "ios",
+      "number": 1,
+      "email": "ios1-4274@example.com",
+      "userId": "21e135b3-d7c5-4070-a62c-f4dcfb8eea1b",
+      "diagnosisStatus": 404,
+      "diagnosis": {
+        "code": "NOT_FOUND",
+        "message": "Diagnosis not found.",
+        "requestId": "5f108d93-9c7b-4c18-a5f0-bd8bdacec568"
+      }
+    },
+    {
+      "platform": "ios",
+      "number": 2,
+      "email": "ios2-4274@example.com",
+      "userId": "05e8f28c-43f4-45f6-ac0b-9bdf60cd88f4",
+      "diagnosisStatus": 404,
+      "diagnosis": {
+        "code": "NOT_FOUND",
+        "message": "Diagnosis not found.",
+        "requestId": "53a3f62e-1bfc-4207-bf18-e4253bde4c13"
+      }
+    },
+    {
+      "platform": "android",
+      "number": 1,
+      "email": "android1-4274@example.com",
+      "userId": "5aaa78bd-d2a8-47e5-a782-dd3b9c21baf8",
+      "diagnosisStatus": 404,
+      "diagnosis": {
+        "code": "NOT_FOUND",
+        "message": "Diagnosis not found.",
+        "requestId": "c43aae6c-fabb-44c3-b801-9ca99218a950"
+      }
+    },
+    {
+      "platform": "android",
+      "number": 2,
+      "email": "android2-4274@example.com",
+      "userId": "ecc9f3cf-586b-400b-a829-3c9fedfc8a89",
+      "diagnosisStatus": 404,
+      "diagnosis": {
+        "code": "NOT_FOUND",
+        "message": "Diagnosis not found.",
+        "requestId": "922467d9-52b2-4b9b-ab83-6b36f6ddf36d"
+      }
+    }
+  ],
+  "scope": "Read-only diagnosis state from real isolated API; login sessions created for observation."
+}

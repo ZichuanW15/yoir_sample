@@ -1,0 +1,38 @@
+{
+  "at": "2026-10-15T22:20:48.179669+00:00",
+  "scope": "Real native review requests and independent public API stored count. Delay affects scheduling only.",
+  "events": [
+    {
+      "at": "2026-10-15T22:19:39.324589+00:00",
+      "ruleId": "android-d10-review-write",
+      "method": "POST",
+      "path": "/api/v1/bookings/qa-nr-android-completed-booking/review",
+      "userId": "qa-nr-android-buyer",
+      "hit": 1,
+      "action": "reject",
+      "status": 503
+    },
+    {
+      "at": "2026-10-15T22:20:28.975562+00:00",
+      "ruleId": "android-d10-review-doubletap",
+      "method": "POST",
+      "path": "/api/v1/bookings/qa-nr-android-completed-booking/review",
+      "userId": "qa-nr-android-buyer",
+      "hit": 1,
+      "action": "delay",
+      "status": 201
+    }
+  ],
+  "posts": [
+    {
+      "at": "2026-10-15T22:20:31.993350+00:00",
+      "method": "POST",
+      "path": "/api/v1/bookings/qa-nr-android-completed-booking/review",
+      "userId": "qa-nr-android-buyer",
+      "status": 201
+    }
+  ],
+  "storedReviewCount": 1,
+  "storedReviewId": "918ca762-4331-4231-86ff-1388a084ebe4",
+  "readback": "android-d10-review-readback.json"
+}

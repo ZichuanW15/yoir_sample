@@ -1,0 +1,60 @@
+{
+  "at": "2026-10-15T21:50:24.566484+00:00",
+  "scope": "Competing booking prerequisite through real API using development payment stub; not native checkout or provider evidence.",
+  "platform": "ios",
+  "userId": "qa-nr-ios-other",
+  "action": "create",
+  "createOrder": {
+    "status": 201,
+    "data": {
+      "id": "e0a77a7d-a954-47de-b614-8c7918163f93",
+      "serviceId": "qa-nr-ios-move-service",
+      "windowId": "qa-nr-ios-future-window",
+      "startsAt": "2026-10-24T03:00:00Z",
+      "endsAt": "2026-10-24T04:00:00Z",
+      "amountMinor": 8450,
+      "currency": "AUD",
+      "status": "awaiting_payment",
+      "paymentStatus": "not_started",
+      "holdExpiresAt": "2026-10-15T22:05:24.573218Z",
+      "amounts": {
+        "totalMinor": 8450,
+        "sessionGstMinor": 0,
+        "platformFeeMinor": 1690,
+        "platformFeeGstMinor": 154,
+        "counsellorPayoutMinor": 6760
+      },
+      "paymentProvider": "stub",
+      "paymentIntentClientSecret": null
+    }
+  },
+  "stubPayment": {
+    "status": 200,
+    "data": {
+      "paymentId": "stub_f554344c-7c6a-46ae-9ddc-3674c75a37eb",
+      "paymentStatus": "paid",
+      "booking": {
+        "id": "798592bc-e20d-4f2f-a522-e29c40be1dd8",
+        "orderId": "e0a77a7d-a954-47de-b614-8c7918163f93",
+        "serviceId": "qa-nr-ios-move-service",
+        "serviceTitle": "QA iOS Reschedule Session",
+        "startsAt": "2026-10-24T03:00:00Z",
+        "endsAt": "2026-10-24T04:00:00Z",
+        "timezone": "Australia/Melbourne",
+        "modality": "online",
+        "status": "confirmed",
+        "paymentStatus": "paid",
+        "amountMinor": 8450,
+        "refundedMinor": 0,
+        "cancelledByRole": null,
+        "meetingUrl": "https://meet.jit.si/yoir-798592bce20d4f2fa522e29c40be1dd8",
+        "counterpartyName": "",
+        "counterpartyRole": null,
+        "meetingArea": "",
+        "meetingAddress": "",
+        "preSessionBrief": "Temporary QA competing reservation for native reschedule conflict.",
+        "review": null
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+[
+  {
+    "label": "browser-phone-regression-final",
+    "exitCode": 1
+  },
+  {
+    "label": "browser-desktop-regression-final",
+    "exitCode": 1
+  },
+  {
+    "label": "browser-phone-defects-final",
+    "exitCode": 1
+  },
+  {
+    "label": "browser-desktop-defects-final",
+    "exitCode": 1
+  }
+]

@@ -1,6 +1,7 @@
 export type Role = 'job_seeker' | 'counsellor' | 'platform_owner';
 export type Modality = 'online' | 'in_person';
 export type VerificationStatus = 'pending' | 'verified' | 'rejected';
+export type ProfileVisibility = 'public' | 'partial' | 'restricted';
 
 export interface User {
   id: string;
@@ -22,6 +23,66 @@ export interface Session {
   refreshToken?: string | null;
   /** When the sliding window closes if the session is never used again. */
   refreshExpiresAt?: string | null;
+}
+
+export type DiagnosisStepId = 'now' | 'goal' | 'tried' | 'stuck' | 'barriers';
+
+export interface DiagnosisQuestion {
+  id: DiagnosisStepId;
+  step: number;
+  title: string;
+  hint: string;
+  multiple: boolean;
+  options: { id: string; label: string }[];
+  otherAllowed: boolean;
+}
+
+export interface DiagnosisQuestionnaire {
+  version: string;
+  totalSteps: number;
+  steps: DiagnosisQuestion[];
+  resultStep: { step: number; title: string; requiresAnswers: boolean };
+}
+
+export interface DiagnosisAnswers {
+  now?: string;
+  goal?: string;
+  tried?: string[];
+  stuck?: string;
+  barriers?: string[];
+  other: Partial<Record<DiagnosisStepId, string>>;
+}
+
+export interface DiagnosisRecord {
+  id: string;
+  questionnaireVersion: string;
+  revision: number;
+  status: 'in_progress' | 'answers_complete';
+  currentStep: number;
+  totalSteps: number;
+  completedSteps: DiagnosisStepId[];
+  answers: DiagnosisAnswers;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface DiagnosisDirection {
+  diagnosisId: string;
+  questionnaireVersion: string;
+  sourceRevision: number;
+  ruleVersion: string;
+  area: string;
+  summary: string;
+  suggestedSteps: string[];
+  matchingWeights: Record<string, number>;
+}
+
+export interface DiagnosisMarketplaceCriteria {
+  diagnosisId: string;
+  area: string;
+  query: string | null;
+  modality: Modality | null;
+  unsupportedSignals: string[];
 }
 export interface Location { state: string; cityOrRegion: string }
 
@@ -48,11 +109,18 @@ export interface Service {
   active: boolean;
   averageRating: number | null;
   reviewCount: number;
+  /** US-54 — public feedback returned with service detail. Listings may omit it. */
+  reviews?: Review[];
   /**
    * Present only on a counsellor's own listing, never on the public one: a room URL
    * is an access credential, so the marketplace must not carry it.
    */
   meetingUrl?: string | null;
+  /**
+   * Own listing only: the earliest time a job seeker could book this service, the
+   * same first time its picker offers. Null when nothing is open.
+   */
+  nextAvailableAt?: string | null;
 }
 
 export interface ApiErrorBody { code: string; message: string; fieldErrors?: Record<string, string>; requestId: string }
@@ -69,6 +137,8 @@ export interface AvailabilityWindow {
   modalities: Modality[];
   /** True once a session is booked inside it, so shortening it may be refused. */
   hasBookings?: boolean;
+  /** Minutes still open to book: not yet past, booked or held. */
+  freeMinutes?: number;
 }
 
 /**
@@ -134,7 +204,30 @@ export interface Booking {
   counterpartyRole?: Role | null;
   /** Where an in-person session happens, as the service advertises it. */
   meetingArea?: string;
+  /** Present once this completed booking has already been reviewed. */
+  review?: Review | null;
+  /** US-42 — what the Job Seeker asked to cover, given before payment. Empty when none was given. */
+  preSessionBrief?: string;
+  /** US-43 — the specific meeting point for this booking, set by the counsellor after
+   * confirmation. Empty until they add one; distinct from the service's own meetingArea. */
+  meetingAddress?: string;
 }
+
+/** US-53/54 — one verified-purchase review. */
+export interface Review {
+  id: string;
+  bookingId: string;
+  serviceId: string;
+  authorName: string;
+  rating: number;
+  comment: string;
+  createdAt: string;
+}
+
+export interface ReviewDraft { rating: number; comment: string }
+
+/** US-27 — the signed-in user's current profile visibility. */
+export interface PrivacySettings { visibility: ProfileVisibility }
 
 export interface StubPaymentConfirmation { paymentId: string; paymentStatus: 'paid'; booking: Booking }
 
@@ -235,6 +328,9 @@ export interface CounsellorProfile {
   verificationStatus: VerificationStatus;
   overallRating: number | null;
   reviewCount: number;
+  /** Public responses use this to make a restricted profile explicit. */
+  visibility?: ProfileVisibility;
+  restricted?: boolean;
 }
 
 export type CounsellorProfileUpdate = Pick<
@@ -242,6 +338,14 @@ export type CounsellorProfileUpdate = Pick<
   | 'photoUrl' | 'linkedinUrl' | 'introduction' | 'background' | 'experience'
   | 'qualifications' | 'expertise' | 'languages' | 'baseLocation' | 'defaultModality'
 >;
+
+/** US-05 — first-login onboarding progress: profile setup (US-30) and verification
+ * submission (US-31). `complete` is both, so the app has one flag to route on. */
+export interface OnboardingState {
+  profileComplete: boolean;
+  verificationSubmitted: boolean;
+  complete: boolean;
+}
 
 /** US-34/35/37/38 — what a counsellor sends when publishing a service. */
 export interface ServiceDraft {
@@ -327,6 +431,16 @@ export interface AdminCounsellor {
   bookingCount: number;
   grossMinor: number;
   payoutMinor: number;
+  joinedAt: string;
+}
+
+/** US-71 — a Job Seeker as the Platform Owner sees them. */
+export interface AdminJobSeeker {
+  id: string;
+  name: string;
+  email: string;
+  emailVerified: boolean;
+  bookingCount: number;
   joinedAt: string;
 }
 

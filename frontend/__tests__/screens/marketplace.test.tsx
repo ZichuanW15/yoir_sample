@@ -27,6 +27,7 @@ describe('Marketplace screen', () => {
     await tick();
     expect(listing(serviceFixture.title)).toBeOnTheScreen();
     expect(screen.getByText('2 of 2 services')).toBeOnTheScreen();
+    expect(screen.getAllByText('Career Professional · ★ 4.9 (46)')).toHaveLength(2);
     expect(callsTo('GET', '/services')[0][1]?.headers).not.toHaveProperty('Authorization');
     fireEvent.press(listing(serviceFixture.title));
     expect(navigation.push).toHaveBeenCalledWith({ pathname: '/services/[serviceId]', params: { serviceId: serviceFixture.id } });

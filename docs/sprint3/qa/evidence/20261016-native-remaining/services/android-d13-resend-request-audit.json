@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-15T23:14:40.098821+00:00",
+  "scope": "Android native resend doubletap with3second test delay. Real application202 responses; no mail provider or inbox evidence.",
+  "delayHits": [
+    {
+      "at": "2026-10-15T23:14:22.292357+00:00",
+      "ruleId": "android-d13-verification-doubletap",
+      "method": "POST",
+      "path": "/api/v1/auth/email-verification-requests",
+      "userId": null,
+      "hit": 1,
+      "action": "delay",
+      "status": 202
+    }
+  ],
+  "requests": [
+    {
+      "at": "2026-10-15T23:14:22.447197+00:00",
+      "method": "POST",
+      "path": "/api/v1/auth/email-verification-requests",
+      "userId": null,
+      "status": 202
+    },
+    {
+      "at": "2026-10-15T23:14:25.304651+00:00",
+      "method": "POST",
+      "path": "/api/v1/auth/email-verification-requests",
+      "userId": null,
+      "status": 202
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "at": "2026-10-15T22:54:08.681754+00:00",
+  "userId": "qa-nr-android-buyer",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/counsellors/qa-nr-android-pro": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-android-pro",
+        "displayName": "QA Android Pro",
+        "linkedinUrl": "https://www.linkedin.com/in/qa-native-fixture/",
+        "introduction": "Android QA introduction",
+        "background": "Android QA background",
+        "experience": "Android QA experience",
+        "qualifications": [
+          "QA qualification"
+        ],
+        "expertise": [
+          "Career planning"
+        ],
+        "languages": [
+          "English"
+        ],
+        "baseLocation": {
+          "state": "VIC",
+          "cityOrRegion": "Melbourne"
+        },
+        "defaultModality": "online",
+        "verificationStatus": "verified",
+        "overallRating": 5.0,
+        "reviewCount": 1,
+        "visibility": "public"
+      }
+    }
+  }
+}

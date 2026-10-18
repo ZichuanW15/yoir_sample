@@ -115,18 +115,18 @@ def booking_received(
     separately on the monthly statement.
     """
     settings = get_settings()
-    meeting_area = (
-        f"{service.location_city}, {service.location_state}"
-        if service.location_city and service.location_state
-        else ""
-    )
+    # US-36: the area frozen on the order, matching the booking it confirms.
+    meeting_area = order.area_for(service)
+    # US-36: what was bought, by the name it had when the order was placed. Payment
+    # can confirm after a rename, and the receipt already uses the frozen title.
+    service_title = order.title_for(service)
     return _deliver(
         "booking_received",
         to=counsellor.email,
-        subject=f"New booking: {service.title}",
+        subject=f"New booking: {service_title}",
         name=counsellor.name,
         job_seeker_name=job_seeker.name,
-        service_title=service.title,
+        service_title=service_title,
         details=[
             ("When", _when(booking.starts_at, booking.timezone)),
             ("Delivery", "Online" if booking.modality == "online" else "In person"),
@@ -151,11 +151,8 @@ def booking_confirmed(
 ) -> bool:
     """The job seeker's confirmation: when, where or how to join, and their receipt."""
     settings = get_settings()
-    meeting_area = (
-        f"{service.location_city}, {service.location_state}"
-        if service.location_city and service.location_state
-        else ""
-    )
+    # US-36: the area frozen on the order, matching the booking it confirms.
+    meeting_area = order.area_for(service)
     hours = settings.cancellation_full_refund_hours
     percent = settings.cancellation_late_refund_percent
     cancellation_note = (
@@ -174,7 +171,8 @@ def booking_confirmed(
         to=job_seeker.email,
         subject=f"Your session with {counsellor.name} is booked",
         name=job_seeker.name,
-        service_title=service.title,
+        # US-36: the frozen title, matching the receipt this email carries.
+        service_title=order.title_for(service),
         counsellor_name=counsellor.name,
         when=_when(booking.starts_at, booking.timezone),
         details=[

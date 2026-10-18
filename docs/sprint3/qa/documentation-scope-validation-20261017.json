@@ -1,0 +1,27 @@
+{
+  "checkedAt": "2026-10-17T05:15:09.226550+00:00",
+  "testedSource": "1e01d25eff97c55aead1b9fd767d28514cf823cb",
+  "scope": "Documentation-only selection of completed executed cases. Existing recorded PASS/FAIL/XFAIL outcomes retained.",
+  "qaMappings": 23,
+  "nativeCompletedCases": 23,
+  "nativeCounts": {
+    "PASS": 15,
+    "FAIL": 8
+  },
+  "manifestPackagesVerified": 7,
+  "manifestFilesVerified": 1097,
+  "sourceFilesVerified": 361,
+  "originalExecutionArtifactsChanged": false,
+  "notRunDescriptionsInSprint3Markdown": 0,
+  "whitespaceCheck": "pass",
+  "documentationManifestUpdates": [
+    "docs/sprint3/qa/evidence/20261014/manifest.json",
+    "docs/sprint3/qa/evidence/20261016/manifest.json",
+    "docs/sprint3/qa/evidence/20261016-completion/manifest.json",
+    "docs/sprint3/qa/evidence/20261016-gap-followup/manifest.json",
+    "docs/sprint3/qa/evidence/20261016-native/manifest.json",
+    "docs/sprint3/qa/evidence/20261016-native-remaining/manifest.json",
+    "docs/sprint3/qa/evidence/20261017-final/manifest.json"
+  ],
+  "applicationTestsRerun": false
+}

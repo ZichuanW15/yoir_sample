@@ -1,0 +1,77 @@
+INFO:     Started server process [78062]
+INFO:     Waiting for application startup.
+Mail is NOT configured (MAILGUN_API_KEY and MAILGUN_DOMAIN missing): every message will be logged and discarded, including email confirmation and booking confirmations.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:43160 (Press CTRL+C to quit)
+INFO:     127.0.0.1:58539 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58539 - "POST /api/v1/auth/users HTTP/1.1" 201 Created
+INFO:     127.0.0.1:58539 - "POST /api/v1/auth/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58539 - "GET /api/v1/services HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58539 - "GET /api/v1/services/c6dbf97a-3485-4cde-90f9-eb7638a08744 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58539 - "GET /api/v1/services/c6dbf97a-3485-4cde-90f9-eb7638a08744/slots?modality=online HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58539 - "POST /api/v1/orders HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58539 - "POST /api/v1/auth/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58539 - "POST /api/v1/orders HTTP/1.1" 201 Created
+INFO:     127.0.0.1:58539 - "POST /api/v1/orders/353a3818-71b7-4c2a-81b7-6b546df0975c/payments/stub HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58542 - "POST /api/v1/auth/users HTTP/1.1" 201 Created
+INFO:     127.0.0.1:58542 - "POST /api/v1/auth/sessions HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:58542 - "POST /api/v1/auth/sessions HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:58542 - "POST /api/v1/auth/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58542 - "POST /api/v1/auth/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58542 - "POST /api/v1/orders/missing-order/payments/stub HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58542 - "DELETE /api/v1/auth/sessions/current HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:58542 - "DELETE /api/v1/auth/sessions/current HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:58542 - "POST /api/v1/orders/missing-order/payments/stub HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:58542 - "POST /api/v1/orders/missing-order/payments/stub HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:58542 - "POST /api/v1/orders/missing-order/payments/stub HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:58542 - "POST /api/v1/orders/missing-order/payments/stub HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58542 - "GET /api/v1/services HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58550 - "POST /api/v1/auth/users HTTP/1.1" 201 Created
+INFO:     127.0.0.1:58551 - "POST /api/v1/auth/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58550 - "POST /api/v1/auth/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58551 - "GET /api/v1/services HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58550 - "GET /api/v1/services/c6dbf97a-3485-4cde-90f9-eb7638a08744 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58551 - "GET /api/v1/services/c6dbf97a-3485-4cde-90f9-eb7638a08744/slots?modality=online HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58550 - "POST /api/v1/orders HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58551 - "POST /api/v1/orders HTTP/1.1" 201 Created
+INFO:     127.0.0.1:58550 - "POST /api/v1/orders/3534ce23-7d5f-44dd-adc2-e1bca4328cc6/payments/stub HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58551 - "GET /api/v1/services/c6dbf97a-3485-4cde-90f9-eb7638a08744/slots?modality=online HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58550 - "POST /api/v1/orders/3534ce23-7d5f-44dd-adc2-e1bca4328cc6/payments/stub HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58551 - "DELETE /api/v1/auth/sessions/current HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:58550 - "POST /api/v1/orders/3534ce23-7d5f-44dd-adc2-e1bca4328cc6/payments/stub HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:58553 - "DELETE /api/v1/auth/sessions/current HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:58550 - "POST /api/v1/auth/users HTTP/1.1" 201 Created
+INFO:     127.0.0.1:58554 - "POST /api/v1/auth/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58550 - "GET /api/v1/me/services HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58554 - "POST /api/v1/me/services HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:58550 - "GET /api/v1/me/services HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58554 - "POST /api/v1/auth/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58550 - "POST /api/v1/auth/sessions HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58554 - "POST /api/v1/me/services HTTP/1.1" 201 Created
+INFO:     127.0.0.1:58550 - "GET /api/v1/services/1236e654-6136-4bd5-85a0-fdf6a8ec0825 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58554 - "GET /api/v1/me/services HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58550 - "GET /api/v1/me/services HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58554 - "POST /api/v1/me/availability-windows HTTP/1.1" 201 Created
+INFO:     127.0.0.1:58550 - "GET /api/v1/me/availability-windows HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58554 - "GET /api/v1/services/1236e654-6136-4bd5-85a0-fdf6a8ec0825/slots?modality=online HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58550 - "DELETE /api/v1/me/availability-windows/cd425568-1489-499b-8273-d3ce703e4668 HTTP/1.1" 404 Not Found
+INFO:     127.0.0.1:58554 - "GET /api/v1/services/1236e654-6136-4bd5-85a0-fdf6a8ec0825/slots?modality=online HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58550 - "PATCH /api/v1/me/availability-windows/cd425568-1489-499b-8273-d3ce703e4668 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58554 - "GET /api/v1/services/1236e654-6136-4bd5-85a0-fdf6a8ec0825/slots?modality=online HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58550 - "GET /api/v1/services/1236e654-6136-4bd5-85a0-fdf6a8ec0825/slots?modality=online HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58554 - "DELETE /api/v1/me/availability-windows/cd425568-1489-499b-8273-d3ce703e4668 HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:58550 - "GET /api/v1/services/1236e654-6136-4bd5-85a0-fdf6a8ec0825/slots?modality=online HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58554 - "GET /api/v1/me/availability-windows HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58550 - "DELETE /api/v1/auth/sessions/current HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:58554 - "GET /api/v1/me/services HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:58555 - "DELETE /api/v1/auth/sessions/current HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:58554 - "GET /api/v1/me/services HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:58556 - "DELETE /api/v1/auth/sessions/current HTTP/1.1" 204 No Content
+INFO:     127.0.0.1:58554 - "GET /api/v1/me/services HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:58841 - "GET /api/v1/health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58841 - "GET /job-seeker HTTP/1.1" 200 OK
+INFO:     127.0.0.1:58841 - "GET /api/v1/qa-intentionally-missing HTTP/1.1" 404 Not Found
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [78062]

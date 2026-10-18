@@ -1,0 +1,30 @@
+{
+  "platform": "ios",
+  "kind": "booking-detail-regression",
+  "command": [
+    "./node_modules/.bin/jest",
+    "--config",
+    "jest.config.ios.js",
+    "--runInBand",
+    "--runTestsByPath",
+    "__tests__/screens/booking-detail.test.tsx",
+    "--json",
+    "--outputFile",
+    "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/authoring/ios-booking-detail-regression.json",
+    "--testNamePattern",
+    "AT-US-43-2:"
+  ],
+  "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+  "startedAt": "2026-10-17T06:43:11.410226+00:00",
+  "finishedAt": "2026-10-17T06:43:13.016685+00:00",
+  "exitCode": 0,
+  "source": "__tests__/screens/booking-detail.test.tsx",
+  "sourceSha256": "41421b94ccc97246ffea9e152f309aa1eaa570503fbc166e18814a914675c20f",
+  "results": {
+    "numTotalTests": 9,
+    "numPassedTests": 1,
+    "numFailedTests": 0,
+    "numPendingTests": 8,
+    "numRuntimeErrorTestSuites": 0
+  }
+}

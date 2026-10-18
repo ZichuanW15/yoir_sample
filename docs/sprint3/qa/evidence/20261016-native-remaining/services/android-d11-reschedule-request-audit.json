@@ -1,0 +1,32 @@
+{
+  "at": "2026-10-15T22:27:22.637671+00:00",
+  "scope": "Native Android reschedule API audit; actual 409 conflict used a separately documented real competing booking fixture",
+  "faults": [
+    {
+      "at": "2026-10-15T22:25:07.085484+00:00",
+      "ruleId": "android-d11-reschedule-write",
+      "method": "POST",
+      "path": "/api/v1/bookings/qa-nr-android-move-booking/reschedule",
+      "userId": "qa-nr-android-buyer",
+      "hit": 1,
+      "action": "reject",
+      "status": 503
+    }
+  ],
+  "posts": [
+    {
+      "at": "2026-10-15T22:25:53.031939+00:00",
+      "method": "POST",
+      "path": "/api/v1/bookings/qa-nr-android-move-booking/reschedule",
+      "userId": "qa-nr-android-buyer",
+      "status": 409
+    },
+    {
+      "at": "2026-10-15T22:26:44.842756+00:00",
+      "method": "POST",
+      "path": "/api/v1/bookings/qa-nr-android-move-booking/reschedule",
+      "userId": "qa-nr-android-buyer",
+      "status": 200
+    }
+  ]
+}

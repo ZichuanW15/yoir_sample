@@ -1,0 +1,24 @@
+{
+  "before": {
+    "users": 6,
+    "services": 7,
+    "orders": 0,
+    "bookings": 0,
+    "availability_windows": 12
+  },
+  "after": {
+    "users": 10,
+    "services": 8,
+    "orders": 2,
+    "bookings": 2,
+    "availability_windows": 12
+  },
+  "expected": {
+    "users": 10,
+    "services": 8,
+    "orders": 2,
+    "bookings": 2,
+    "availability_windows": 12
+  },
+  "matches": true
+}

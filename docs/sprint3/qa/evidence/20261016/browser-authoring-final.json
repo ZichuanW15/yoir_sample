@@ -1,0 +1,170 @@
+{
+  "stats": {
+    "startTime": "2026-10-15T20:12:24.319Z",
+    "duration": 31592.38,
+    "expected": 7,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  },
+  "errors": [],
+  "cases": [
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 38,
+      "title": "US53/54/55 real review validates, retains a failed draft, persists once and updates public ratings @injected-network",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4135,
+          "startTime": "2026-10-15T20:12:25.496Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 98,
+      "title": "US53 real confirmed booking blocks a review in the page and API",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1421,
+          "startTime": "2026-10-15T20:12:29.854Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 98,
+      "title": "US53 real cancelled booking blocks a review in the page and API",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1394,
+          "startTime": "2026-10-15T20:12:31.283Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 113,
+      "title": "US53 another buyer cannot open or review a completed booking",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1394,
+          "startTime": "2026-10-15T20:12:32.681Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 126,
+      "title": "US32/33/58 admin confirmation, approval and reasoned reinvestigation persist through the real API",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 7155,
+          "startTime": "2026-10-15T20:12:34.079Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 170,
+      "title": "US48 admin payment detail retries a failed real read and preserves the recorded split @injected-network",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2463,
+          "startTime": "2026-10-15T20:12:41.241Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 193,
+      "title": "US48 an old existing order opens by ID beyond the first 200 list rows @defect",
+      "project": "chromium-web",
+      "status": "unexpected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 6431,
+          "startTime": "2026-10-15T20:12:43.711Z",
+          "retry": 0,
+          "errors": [
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-workflows.spec.ts",
+                "column": 81,
+                "line": 208
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Payment reference qa-s3-archive-200', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Payment reference qa-s3-archive-200', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Payment reference qa-s3-archive-200', { exact: true })\u001b[22m\n\n\n  206 |   // Acceptance assertion: the existing read-by-ID API must support this screen.\n  207 |   // Current UI searches only the default list, showing a false not-found result.\n> 208 |   await expect(page.getByText(`Payment reference ${orderId}`, { exact: true })).toBeVisible();\n      |                                                                                 ^\n  209 | });\n  210 |\n  211 | test('US40/41 alternate delivery and held time stay consistent across buyer and counsellor Web views', async ({ page, request, browser }) => {\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-workflows.spec.ts:208:81"
+            }
+          ],
+          "attachments": [
+            "attachments/browser-authoring-final-001-old-order-api-proof.json",
+            "attachments/browser-authoring-final-002-screenshot.png",
+            "attachments/browser-authoring-final-003-sprint3-workflow-screen.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 211,
+      "title": "US40/41 alternate delivery and held time stay consistent across buyer and counsellor Web views",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5040,
+          "startTime": "2026-10-15T20:12:50.564Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    }
+  ]
+}

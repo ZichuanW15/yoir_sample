@@ -1,0 +1,125 @@
+{
+  "executions": [
+    {
+      "name": "original-assertion-fixed-product",
+      "productBaseline": "04ff6d47cef270c2ceabbff878e255bc17cc1600",
+      "scope": "Original exact-string assertion against original PR #246 product.",
+      "startTime": 1792222167190,
+      "numPassedTests": 0,
+      "numFailedTests": 1,
+      "numTotalTests": 1,
+      "report": "authoring/original-assertion-fixed-product.json",
+      "log": "authoring/original-assertion-fixed-product.log",
+      "note": "Focused authoring/comparison evidence; not added to fresh full-suite totals."
+    },
+    {
+      "name": "corrected-assertion-base-product",
+      "productBaseline": "bad7a8ba78c64b794fdbbbb22381673f1a3e4784",
+      "scope": "Corrected regex assertion against pre-fix dev.",
+      "startTime": 1792222202446,
+      "numPassedTests": 0,
+      "numFailedTests": 1,
+      "numTotalTests": 1,
+      "report": "authoring/corrected-assertion-base-product.json",
+      "log": "authoring/corrected-assertion-base-product.log",
+      "note": "Focused authoring/comparison evidence; not added to fresh full-suite totals."
+    },
+    {
+      "name": "corrected-assertion-fixed-product",
+      "productBaseline": "04ff6d47cef270c2ceabbff878e255bc17cc1600",
+      "scope": "Corrected regex assertion against original PR #246 product.",
+      "startTime": 1792222191089,
+      "numPassedTests": 1,
+      "numFailedTests": 0,
+      "numTotalTests": 1,
+      "report": "authoring/corrected-assertion-fixed-product.json",
+      "log": "authoring/corrected-assertion-fixed-product.log",
+      "note": "Focused authoring/comparison evidence; not added to fresh full-suite totals."
+    },
+    {
+      "name": "existing-regression-fixed-product",
+      "productBaseline": "04ff6d47cef270c2ceabbff878e255bc17cc1600",
+      "scope": "Existing confirmation, checkout, root-layout and desktop regression on original PR head.",
+      "startTime": 1792222202445,
+      "numPassedTests": 19,
+      "numFailedTests": 0,
+      "numTotalTests": 19,
+      "report": "authoring/existing-regression-fixed-product.json",
+      "log": "authoring/existing-regression-fixed-product.log",
+      "note": "Focused authoring/comparison evidence; not added to fresh full-suite totals."
+    },
+    {
+      "name": "confirmation-history-shared",
+      "productBaseline": "04ff6d47cef270c2ceabbff878e255bc17cc1600",
+      "scope": "Eight authored confirmation-history cases on original PR head; shared preset.",
+      "startTime": 1792222306780,
+      "numPassedTests": 8,
+      "numFailedTests": 0,
+      "numTotalTests": 8,
+      "report": "authoring/confirmation-history-shared.json",
+      "log": "authoring/confirmation-history-shared.log",
+      "note": "Focused authoring/comparison evidence; not added to fresh full-suite totals."
+    },
+    {
+      "name": "confirmation-history-ios",
+      "productBaseline": "04ff6d47cef270c2ceabbff878e255bc17cc1600",
+      "scope": "Eight authored confirmation-history cases on original PR head; ios preset.",
+      "startTime": 1792222312887,
+      "numPassedTests": 8,
+      "numFailedTests": 0,
+      "numTotalTests": 8,
+      "report": "authoring/confirmation-history-ios.json",
+      "log": "authoring/confirmation-history-ios.log",
+      "note": "Focused authoring/comparison evidence; not added to fresh full-suite totals."
+    },
+    {
+      "name": "confirmation-history-android",
+      "productBaseline": "04ff6d47cef270c2ceabbff878e255bc17cc1600",
+      "scope": "Eight authored confirmation-history cases on original PR head; android preset.",
+      "startTime": 1792222312887,
+      "numPassedTests": 8,
+      "numFailedTests": 0,
+      "numTotalTests": 8,
+      "report": "authoring/confirmation-history-android.json",
+      "log": "authoring/confirmation-history-android.log",
+      "note": "Focused authoring/comparison evidence; not added to fresh full-suite totals."
+    },
+    {
+      "name": "final-confirmation-history-shared",
+      "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+      "scope": "Eight confirmation-history cases on the integrated main working tree; shared preset.",
+      "startTime": 1792222532473,
+      "numPassedTests": 8,
+      "numFailedTests": 0,
+      "numTotalTests": 8,
+      "report": "authoring/final-confirmation-history-shared.json",
+      "log": "authoring/final-confirmation-history-shared.log",
+      "note": "Focused authoring/comparison evidence; not added to fresh full-suite totals."
+    },
+    {
+      "name": "final-confirmation-history-ios",
+      "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+      "scope": "Eight confirmation-history cases on the integrated main working tree; ios preset.",
+      "startTime": 1792222532473,
+      "numPassedTests": 8,
+      "numFailedTests": 0,
+      "numTotalTests": 8,
+      "report": "authoring/final-confirmation-history-ios.json",
+      "log": "authoring/final-confirmation-history-ios.log",
+      "note": "Focused authoring/comparison evidence; not added to fresh full-suite totals."
+    },
+    {
+      "name": "final-confirmation-history-android",
+      "productBaseline": "8713b38d63ccb969dcc69a44a02f888fd65caa9a",
+      "scope": "Eight confirmation-history cases on the integrated main working tree; android preset.",
+      "startTime": 1792222532473,
+      "numPassedTests": 8,
+      "numFailedTests": 0,
+      "numTotalTests": 8,
+      "report": "authoring/final-confirmation-history-android.json",
+      "log": "authoring/final-confirmation-history-android.log",
+      "note": "Focused authoring/comparison evidence; not added to fresh full-suite totals."
+    }
+  ],
+  "selection": "Explicit original-PR and main-overlay comparisons only. Unpublished scratch product-patch experiments are not included."
+}

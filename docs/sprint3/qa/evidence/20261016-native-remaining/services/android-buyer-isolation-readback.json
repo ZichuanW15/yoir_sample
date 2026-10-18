@@ -1,0 +1,52 @@
+{
+  "at": "2026-10-15T22:51:10.227889+00:00",
+  "userId": "qa-nr-android-other",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/me/job-seeker-profile": {
+      "status": 200,
+      "data": {
+        "name": "QA Android Other",
+        "email": "a2@example.com",
+        "photoUrl": null,
+        "headline": "",
+        "careerGoals": ""
+      }
+    },
+    "/me/bookings": {
+      "status": 200,
+      "data": [
+        {
+          "id": "6dce94cc-fd6a-4c62-aaca-4a12b79384f6",
+          "orderId": "b6542596-cabf-4b0d-ab07-8a51a0de82aa",
+          "serviceId": "qa-nr-android-move-service",
+          "serviceTitle": "QA Android Reschedule Session",
+          "startsAt": "2026-10-24T03:00:00Z",
+          "endsAt": "2026-10-24T04:00:00Z",
+          "timezone": "Australia/Melbourne",
+          "modality": "online",
+          "status": "cancelled",
+          "paymentStatus": "paid",
+          "amountMinor": 8450,
+          "refundedMinor": 0,
+          "cancelledByRole": "job_seeker",
+          "meetingUrl": "https://meet.jit.si/yoir-6dce94ccfd6a4c62aaca4a12b79384f6",
+          "counterpartyName": "QA Android Pro",
+          "counterpartyRole": "counsellor",
+          "meetingArea": "",
+          "meetingAddress": "",
+          "preSessionBrief": "Temporary QA competing reservation for native reschedule conflict.",
+          "review": null
+        }
+      ]
+    },
+    "/bookings/qa-nr-android-move-booking": {
+      "status": 404,
+      "data": {
+        "code": "NOT_FOUND",
+        "message": "Booking not found.",
+        "requestId": "3849c1e3-4376-4bba-882c-fa5a8f144f9d"
+      }
+    }
+  }
+}

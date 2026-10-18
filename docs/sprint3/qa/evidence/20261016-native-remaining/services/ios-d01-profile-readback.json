@@ -1,0 +1,31 @@
+{
+  "at": "2026-10-15T21:38:25.887003+00:00",
+  "userId": "qa-nr-ios-new",
+  "reads": {
+    "/me/counsellor-profile": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-ios-new",
+        "displayName": "QA iOS New",
+        "linkedinUrl": "https://www.linkedin.com/in/nativeqa/",
+        "introduction": "NativeQAcareerintroduction",
+        "background": "QAbackground",
+        "experience": "QA\u2006e\u2006x\u2006pe\u2006ri\u2006en\u2006ce",
+        "qualifications": [],
+        "expertise": [],
+        "languages": [],
+        "defaultModality": "online",
+        "verificationStatus": "pending",
+        "reviewCount": 0
+      }
+    },
+    "/me/onboarding-state": {
+      "status": 200,
+      "data": {
+        "profileComplete": true,
+        "verificationSubmitted": true,
+        "complete": true
+      }
+    }
+  }
+}

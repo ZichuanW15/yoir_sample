@@ -5,9 +5,10 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useAuth } from '@/src/auth/AuthContext';
 import { initials } from '@/src/format';
 import { Avatar, Button } from '@/src/components/ui';
-import { Glyph } from '@/src/components/Glyph';
+import { Glyph, GlyphName } from '@/src/components/Glyph';
 import { NotificationsPanel } from '@/src/components/NotificationsPanel';
-import { useAnimatedValue, USE_NATIVE_DRIVER } from '@/src/motion';
+import { hovered, useDesktop } from '@/src/responsive';
+import { FadeUp, useAnimatedValue, USE_NATIVE_DRIVER } from '@/src/motion';
 import { useProfilePhoto } from '@/src/profilePhoto';
 import { colors, fonts, radius, shadow, type } from '@/src/theme';
 
@@ -50,7 +51,7 @@ interface PendingConfirm {
   resolve(value: boolean): void;
 }
 
-const roleLabel: Record<string, string> = {
+export const roleLabel: Record<string, string> = {
   job_seeker: 'Job Seeker',
   counsellor: 'Career Professional',
   platform_owner: 'Platform Owner',
@@ -143,6 +144,7 @@ function AccountSheet({ onClose }: { onClose(): void }) {
   const { session, logout } = useAuth();
   const { flash } = useChrome();
   const photo = useProfilePhoto();
+  const desktop = useDesktop();
   const t = useAnimatedValue(0);
 
   useEffect(() => {
@@ -150,6 +152,7 @@ function AccountSheet({ onClose }: { onClose(): void }) {
   }, [t]);
 
   if (!session) return null;
+  if (desktop) return <AccountMenu onClose={onClose} />;
   const counsellor = session.user.role === 'counsellor';
 
   return (
@@ -178,6 +181,16 @@ function AccountSheet({ onClose }: { onClose(): void }) {
 
         {counsellor ? (
           <Button label="Open my workspace" tone="soft" height={52} onPress={() => { onClose(); router.replace('/counsellor'); }} />
+        ) : null}
+
+        {counsellor ? (
+          <Button
+            label="Verification"
+            tone="outline"
+            height={52}
+            icon={<Glyph name="shieldCheck" size={18} color={colors.green} />}
+            onPress={() => { onClose(); router.push('/counsellor/verification'); }}
+          />
         ) : null}
 
         {session.user.role === 'job_seeker' ? (
@@ -214,11 +227,14 @@ function AccountSheet({ onClose }: { onClose(): void }) {
 
 function ConfirmSheet({ options, onCancel, onConfirm }: { options: ConfirmOptions; onCancel(): void; onConfirm(): void }) {
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const t = useAnimatedValue(0);
 
   useEffect(() => {
     Animated.timing(t, { toValue: 1, duration: 350, easing: Easing.bezier(0.2, 0, 0, 1), useNativeDriver: USE_NATIVE_DRIVER }).start();
   }, [t]);
+
+  if (desktop) return <ConfirmDialog options={options} onCancel={onCancel} onConfirm={onConfirm} t={t} />;
 
   return (
     <View style={sheetS.host}>
@@ -246,6 +262,97 @@ function ConfirmSheet({ options, onCancel, onConfirm }: { options: ConfirmOption
     </View>
   );
 }
+
+/** Desktop: the account menu opens beside the sidebar's account button, as a popover. */
+function AccountMenu({ onClose }: { onClose(): void }) {
+  const { session, logout } = useAuth();
+  const { flash } = useChrome();
+  const photo = useProfilePhoto();
+  if (!session) return null;
+  const role = session.user.role;
+  const go = (run: () => void) => () => { onClose(); run(); };
+  const items: { label: string; glyph: GlyphName; onPress(): void; danger?: boolean }[] = [
+    ...(role === 'counsellor' ? [
+      { label: 'Open my workspace', glyph: 'briefcase' as const, onPress: go(() => router.replace('/counsellor')) },
+      { label: 'Verification', glyph: 'shieldCheck' as const, onPress: go(() => router.push('/counsellor/verification')) },
+    ] : []),
+    ...(role === 'job_seeker' ? [{ label: 'Edit profile', glyph: 'pencil' as const, onPress: go(() => router.push('/job-seeker/profile')) }] : []),
+    ...(role !== 'platform_owner' ? [
+      { label: 'My sessions', glyph: 'calendar' as const, onPress: go(() => router.push('/bookings')) },
+      { label: 'Profile privacy', glyph: 'lock' as const, onPress: go(() => router.push('/settings/privacy')) },
+    ] : []),
+    { label: 'Log out', glyph: 'logout', danger: true, onPress: go(() => { logout(); router.replace('/'); flash('Logged out'); }) },
+  ];
+
+  return (
+    <View style={sheetS.host}>
+      <Pressable accessibilityRole="button" accessibilityLabel="Close" style={StyleSheet.absoluteFill} onPress={onClose} />
+      <FadeUp duration={250} style={[menuS.panel, shadow.toast]}>
+        <View style={menuS.identity}>
+          <Avatar initials={initials(session.user.name)} photo={photo} size={56} ring />
+          <View style={sheetS.identityCopy}>
+            <Text style={type.display24}>{session.user.name}</Text>
+            <View style={sheetS.roleTag}><Text style={sheetS.roleText}>{roleLabel[role]}</Text></View>
+          </View>
+        </View>
+        <View style={menuS.items}>
+          {items.map((item) => (
+            <Pressable
+              key={item.label}
+              onPress={item.onPress}
+              accessibilityRole="button"
+              accessibilityLabel={item.label}
+              style={(state) => [menuS.item, hovered(state) && { backgroundColor: colors.chip }]}
+            >
+              <Glyph name={item.glyph} size={18} color={item.danger ? colors.danger : colors.green} />
+              <Text style={[menuS.itemText, item.danger && { color: colors.danger }]}>{item.label}</Text>
+            </Pressable>
+          ))}
+        </View>
+      </FadeUp>
+    </View>
+  );
+}
+
+/** Desktop: a centred dialog instead of a sheet rising from the bottom. */
+function ConfirmDialog({ options, onCancel, onConfirm, t }: { options: ConfirmOptions; onCancel(): void; onConfirm(): void; t: Animated.Value }) {
+  return (
+    <View style={[sheetS.host, menuS.centre]}>
+      <Animated.View style={[sheetS.scrim, { opacity: t }]}>
+        <Pressable accessibilityRole="button" accessibilityLabel="Cancel" style={StyleSheet.absoluteFill} onPress={onCancel} />
+      </Animated.View>
+      <FadeUp duration={300} style={[menuS.dialog, shadow.toast]}>
+        <Text accessibilityRole="header" style={type.display24}>{options.title}</Text>
+        <Text style={confirmS.message}>{options.message}</Text>
+        <View style={menuS.dialogActions}>
+          <Button label={options.cancelLabel ?? 'Cancel'} tone="quiet" height={48} labelSize={15} onPress={onCancel} />
+          <Button
+            label={options.confirmLabel ?? 'Confirm'}
+            tone={options.destructive ? 'danger' : 'primary'}
+            height={48}
+            labelSize={15}
+            onPress={onConfirm}
+            style={options.destructive ? confirmS.destructiveButton : undefined}
+          />
+        </View>
+      </FadeUp>
+    </View>
+  );
+}
+
+const menuS = StyleSheet.create({
+  panel: {
+    position: 'absolute', left: 268, bottom: 18, width: 300, padding: 18, gap: 14,
+    backgroundColor: colors.white, borderWidth: 1, borderColor: colors.lineSoft, borderRadius: 22,
+  },
+  identity: { flexDirection: 'row', alignItems: 'center', gap: 14 },
+  items: { gap: 4 },
+  item: { flexDirection: 'row', alignItems: 'center', gap: 12, height: 46, paddingHorizontal: 12, borderRadius: radius.sm },
+  itemText: { fontFamily: fonts.bold, fontSize: 14, color: colors.ink },
+  centre: { justifyContent: 'center', alignItems: 'center', padding: 24 },
+  dialog: { width: '100%', maxWidth: 440, backgroundColor: colors.white, borderRadius: 28, padding: 28, gap: 16 },
+  dialogActions: { flexDirection: 'row', justifyContent: 'flex-end', gap: 10, marginTop: 6 },
+});
 
 const confirmS = StyleSheet.create({
   message: { fontFamily: fonts.sans, fontSize: 14, lineHeight: 21, color: colors.muted },

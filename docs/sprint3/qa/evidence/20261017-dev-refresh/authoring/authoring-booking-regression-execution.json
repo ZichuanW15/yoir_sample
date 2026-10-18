@@ -1,0 +1,17 @@
+{
+  "command": [
+    "/opt/homebrew/opt/node@20/bin/node",
+    "node_modules/jest/bin/jest.js",
+    "--ci",
+    "--runInBand",
+    "--runTestsByPath",
+    "__tests__/screens/service-booking-recovery.test.tsx",
+    "__tests__/screens/feedback-response-contract.test.tsx",
+    "--json",
+    "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-dev-refresh-20261017/authoring-booking/regression.json"
+  ],
+  "cwd": "frontend",
+  "startedAt": "2026-10-17T06:31:47.523299+00:00",
+  "finishedAt": "2026-10-17T06:31:50.436915+00:00",
+  "exitCode": 0
+}

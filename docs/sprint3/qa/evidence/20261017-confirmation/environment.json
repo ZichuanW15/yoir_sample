@@ -1,0 +1,74 @@
+{
+  "recordedAt": "2026-10-17T07:48:29.405120+00:00",
+  "python": "3.12.14",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "node": "v20.20.2",
+  "npm": "10.8.2",
+  "timezone": "Australia/Melbourne",
+  "browser": "Chromium desktop and phone-viewport responsive Web, fresh Expo export; separate exclusively owned SQLite APIs.",
+  "browserEnvironments": {
+    "browser-desktop-admin-followup": {
+      "WEB_QA_PORT": "43128",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-desktop-admin-followup",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "browser-desktop-defects": {
+      "WEB_QA_PORT": "43128",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-desktop-defects",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "browser-desktop-defects-final": {
+      "WEB_QA_PORT": "43128",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-desktop-defects-final",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "browser-desktop-regression": {
+      "WEB_QA_PORT": "43128",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-desktop-regression",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "browser-desktop-regression-final": {
+      "WEB_QA_PORT": "43128",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-desktop-regression-final",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "browser-phone-admin-followup": {
+      "WEB_QA_PORT": "43129",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-phone-admin-followup",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "browser-phone-defects": {
+      "WEB_QA_PORT": "43129",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "browser-phone-defects-final": {
+      "WEB_QA_PORT": "43129",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-phone-defects-final",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "browser-phone-regression": {
+      "WEB_QA_PORT": "43129",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    },
+    "browser-phone-regression-final": {
+      "WEB_QA_PORT": "43129",
+      "WEB_QA_OUTPUT_DIR": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-confirmation-20261017/browser-phone-regression-final",
+      "TZ": "Australia/Melbourne",
+      "CI": "true"
+    }
+  },
+  "frontend": "Fresh shared/iOS/Android platform-preset component runs; not device execution.",
+  "backend": "Retained 20261017-meeting-area PostgreSQL and live-client evidence; see retained-backend-evidence.json.",
+  "providers": "Synthetic fixtures, stub payment and controlled email transport; no external provider acceptance claimed."
+}

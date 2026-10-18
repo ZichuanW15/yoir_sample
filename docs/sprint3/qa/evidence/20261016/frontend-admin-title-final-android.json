@@ -1,0 +1,91 @@
+{
+  "startTime": 1792095596930,
+  "success": true,
+  "wasInterrupted": false,
+  "numPassedTests": 11,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTotalTests": 11,
+  "numPassedTestSuites": 1,
+  "numFailedTestSuites": 0,
+  "numRuntimeErrorTestSuites": 0,
+  "cases": [
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) the shell redirects a guest and withholds administration content",
+      "status": "passed",
+      "duration": 57,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) the shell redirects a job seeker and withholds administration content",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) the shell redirects a professional and withholds administration content",
+      "status": "passed",
+      "duration": 52,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) the owner sees all five sections and can open the account sheet to log out",
+      "status": "passed",
+      "duration": 64,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) overview renders stored money, unsplit gross, action counts and drill-down destinations",
+      "status": "passed",
+      "duration": 60,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) zero totals show genuine empty states without a made-up pending action or unsplit amount",
+      "status": "passed",
+      "duration": 56,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) failed statistics can be retried without displaying invented zero totals",
+      "status": "passed",
+      "duration": 108,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) the professional directory exposes a verified-but-unpayable account and links its verification",
+      "status": "passed",
+      "duration": 54,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) a Job Seeker directory deep link displays its read-only role, email state and booking count",
+      "status": "passed",
+      "duration": 55,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) a partial directory failure exposes no incomplete list and retries both role reads",
+      "status": "passed",
+      "duration": 106,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/admin-overview-users.test.tsx",
+      "fullName": "US-48/71 platform-owner workspace (real components, mocked API) the bookings overview shows the returned session identity, delivery and status",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    }
+  ]
+}

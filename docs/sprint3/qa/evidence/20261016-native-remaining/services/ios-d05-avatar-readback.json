@@ -1,0 +1,22 @@
+{
+  "at": "2026-10-15T21:59:21.675408+00:00",
+  "userId": "qa-nr-ios-buyer",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/me/job-seeker-profile": {
+      "status": 200,
+      "data": {
+        "name": "QA iOS Buyer",
+        "email": "i1@example.com",
+        "photoUrl": {
+          "isDataUri": true,
+          "mimeType": "image/jpeg",
+          "length": 3323,
+          "sha256": "ac991e5a817e97ecddedf61509b75c570273bd2951680cb2b8981f5327523477"
+        },
+        "headline": "iOS QA Analyst",
+        "careerGoals": "iOS QA career goal"
+      }
+    }
+  }
+}

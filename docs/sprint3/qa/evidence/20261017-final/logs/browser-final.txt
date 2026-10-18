@@ -1,0 +1,48 @@
+
+> yoir-mobile@0.1.0 test:web
+> playwright test --config playwright.config.ts --grep-invert '@defect'
+
+[WebServer] Mail is NOT configured (MAILGUN_API_KEY and MAILGUN_DOMAIN missing): every message will be logged and discarded, including email confirmation and booking confirmations.
+
+Running 38 tests using 1 worker
+
+  ✓   1 [chromium-web] › e2e/integrity.spec.ts:48:5 › DEF-PROFILE-PROVENANCE: live verified identity agrees with the persisted counsellor profile (1.4s)
+  ✓   2 [chromium-web] › e2e/integrity.spec.ts:59:5 › CURRENT-IMPLEMENTATION: newly registered counsellor receives publish 403 with no saved or falsely successful service (2.6s)
+  ✓   3 [chromium-web] › e2e/sprint3-completion.spec.ts:88:7 › US32/33/71 real pending decision refreshes profile, My Services and administrator users (3.8s)
+  ✓   4 [chromium-web] › e2e/sprint3-completion.spec.ts:88:7 › US32/33/71 real verified decision refreshes profile, My Services and administrator users (3.6s)
+  ✓   5 [chromium-web] › e2e/sprint3-completion.spec.ts:88:7 › US32/33/71 real rejected decision refreshes profile, My Services and administrator users (3.8s)
+  ✓   6 [chromium-web] › e2e/sprint3-completion.spec.ts:128:5 › US31/32 a real conflicting verification submission never falsely becomes Pending (2.8s)
+  ✓   7 [chromium-web] › e2e/sprint3-completion.spec.ts:157:5 › US27/28 an already-open public profile removes private fields after real privacy changes and refresh (2.7s)
+  ✓   8 [chromium-web] › e2e/sprint3-completion.spec.ts:217:5 › US54/55 an unrated real service stays New in listings and shows an empty review state (1.9s)
+  ✓   9 [chromium-web] › e2e/sprint3-completion.spec.ts:244:5 › US09/12/13 a no-results marketplace search preserves completed diagnosis and original answers (8.9s)
+  ✓  10 [chromium-web] › e2e/sprint3-completion.spec.ts:306:5 › US36/43/48 a real paid booking keeps its purchased title and price across service edit and withdrawal (5.7s)
+  ✓  11 [chromium-web] › e2e/sprint3-diagnosis.spec.ts:67:5 › US09/10/11 server-backed Web diagnosis validates, resumes after login and isolates accounts (11.1s)
+  ✓  12 [chromium-web] › e2e/sprint3-diagnosis.spec.ts:111:5 › US12/13 server-derived direction leads through a real professional and service to a stub booking (10.0s)
+  ✓  13 [chromium-web] › e2e/sprint3-diagnosis.spec.ts:165:5 › US09/12 cancelled retake preserves confirmed answers and completed retake updates the same record (12.2s)
+  ✓  14 [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:73:5 › [S3-DIAGNOSIS-SERVER-ACK][QA-165] Continue waits for the real saved-step acknowledgement @injected-network (2.5s)
+  ✓  15 [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:110:5 › [S3-DIAGNOSIS-SAVE-RECOVERY][QA-165] a refused server save retains the answer and retries without advancement @injected-network (2.4s)
+  ✓  16 [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:143:5 › [S3-DIAGNOSIS-SERVER-RESUME][QA-162][QA-168] a fresh browser resumes the same account server-confirmed answers (2.5s)
+  ✓  17 [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:233:5 › [QA-165][QA-168] a real revision conflict reloads confirmed progress before an explicit retry (3.4s)
+  ✓  18 [chromium-web] › e2e/sprint3-integration-acceptance.spec.ts:264:5 › [QA-171] result retry recovers the real direction without submitting the completed answer twice @injected-network (3.4s)
+  ✓  19 [chromium-web] › e2e/sprint3-workflows.spec.ts:38:5 › US53/54/55 real review validates, retains a failed draft, persists once and updates public ratings @injected-network (3.8s)
+  ✓  20 [chromium-web] › e2e/sprint3-workflows.spec.ts:98:7 › US53 real confirmed booking blocks a review in the page and API (1.4s)
+  ✓  21 [chromium-web] › e2e/sprint3-workflows.spec.ts:98:7 › US53 real cancelled booking blocks a review in the page and API (1.4s)
+  ✓  22 [chromium-web] › e2e/sprint3-workflows.spec.ts:113:5 › US53 another buyer cannot open or review a completed booking (1.4s)
+  ✓  23 [chromium-web] › e2e/sprint3-workflows.spec.ts:126:5 › US32/33/58 admin confirmation, approval and reasoned reinvestigation persist through the real API (6.6s)
+  ✓  24 [chromium-web] › e2e/sprint3-workflows.spec.ts:170:5 › US48 admin payment detail retries a failed real read and preserves the recorded split @injected-network (2.3s)
+  ✓  25 [chromium-web] › e2e/sprint3-workflows.spec.ts:211:5 › US40/41 alternate delivery and held time stay consistent across buyer and counsellor Web views (4.5s)
+  ✓  26 [chromium-web] › e2e/web.spec.ts:37:5 › US44/45/46 public Web catalogue, search, detail and back (2.7s)
+  ✓  27 [chromium-web] › e2e/web.spec.ts:53:7 › US01/04 Web registration persists job_seeker (2.2s)
+  ✓  28 [chromium-web] › e2e/web.spec.ts:53:7 › US01/04 Web registration persists counsellor (2.3s)
+  ✓  29 [chromium-web] › e2e/web.spec.ts:70:5 › US03 duplicate registration remains on the form with input preserved (1.3s)
+  ✓  30 [chromium-web] › e2e/web.spec.ts:85:5 › US07 invalid login stays anonymous and can retry (3.8s)
+  ✓  31 [chromium-web] › e2e/web.spec.ts:106:5 › US06/08 Web login, logout and server-side revoked-token replay (3.2s)
+  ✓  32 [chromium-web] › e2e/web.spec.ts:120:5 › US40/41/47/68 real browser booking to stub receipt (not provider acceptance) (4.0s)
+  ✓  33 [chromium-web] › e2e/web.spec.ts:145:5 › US44 Web network failure exposes retry and recovers @injected-network (2.8s)
+  ✓  34 [chromium-web] › e2e/web.spec.ts:155:5 › US34/35/37/38 counsellor Web publishing validates area and persists both delivery modes (5.0s)
+  ✓  35 [chromium-web] › e2e/web.spec.ts:199:5 › US34 counsellor publishing preserves the draft after a transport failure and retries once @injected-network (3.3s)
+  ✓  36 [chromium-web] › e2e/web.spec.ts:234:5 › US39 real Web availability windows create, derive service starts and remove through the API (4.3s)
+  ✓  37 [chromium-web] › e2e/web.spec.ts:295:5 › [QA-106][US08-AC3] logout prevents browser history and protected deep-link access (3.7s)
+  ✓  38 [chromium-web] › e2e/web.spec.ts:332:5 › US45 implemented Web keyword search shows matching results and a recoverable empty state (1.5s)
+
+  38 passed (2.5m)

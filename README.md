@@ -85,6 +85,17 @@ assessment.
 | US-70 Email verification and password recovery | [us70](docs/sprint2/frontend/us70-email-verification-and-password-recovery.md) | |
 | Client feedback: navigation, notifications, terminology and branding | [frontend](docs/sprint2/frontend/client-feedback-navigation-notifications-and-branding.md) | |
 
+### Sprint 3 — [docs/sprint3/](docs/sprint3/)
+
+| Area | Documents |
+|---|---|
+| Handover | [Handover to the client](docs/sprint3/handover.md): what is handed over, the delivery record, and how to run, configure and deploy the system |
+| US-09–13 Yoir Diagnosis | [Integrated delivery record](docs/sprint3/backend/us09-us13-yoir-diagnosis.md), [frontend detail](docs/sprint3/frontend/us09-us13-yoir-diagnosis.md), [backend US-09–11 detail](docs/sprint3/backend/us09-us11-diagnosis.md) |
+| Backend delivery | [US-05 onboarding](docs/sprint3/backend/us05-career-professional-onboarding-state.md), [US-27–29 profile privacy](docs/sprint3/backend/us27-us29-profile-privacy.md), [US-31–33 verification](docs/sprint3/backend/us31-us33-linkedin-verification.md), [US-36 service editing](docs/sprint3/backend/us36-service-edit-and-removal.md), [US-43/69 booking detail and rescheduling](docs/sprint3/backend/us43-us69-booking-detail-and-reschedule.md), [US-53–55 reviews](docs/sprint3/backend/us53-us55-reviews-and-ratings.md) |
+| Frontend delivery | [US-30 profile autosave](docs/sprint3/frontend/us30-professional-profile-autosave.md), [US-31–32 verification](docs/sprint3/frontend/us31-us32-linkedin-verification.md), [US-33/58 verification review](docs/sprint3/frontend/us33-us58-verification-review.md), [US-48/71 owner oversight](docs/sprint3/frontend/us48-us71-platform-owner-oversight.md), [US-05 onboarding](docs/sprint3/frontend/us05-career-professional-onboarding.md), [US-27–29 profile privacy](docs/sprint3/frontend/us27-us29-profile-privacy.md), [US-36 service editing](docs/sprint3/frontend/us36-service-edit-and-removal.md), [US-42 My bookings](docs/sprint3/frontend/us42-my-bookings.md), [US-43/69 booking detail and rescheduling](docs/sprint3/frontend/us43-us69-booking-detail-and-reschedule.md), [US-53–55 reviews and ratings](docs/sprint3/frontend/us53-us55-reviews-and-ratings.md), [US-70 password reset](docs/sprint3/frontend/us70-password-reset.md) |
+| Evidence and process | [Feature walkthrough](docs/sprint3/walkthrough/sprint-3-feature-walkthrough.md), [Sprint 3 planning](docs/sprint3/process/sprint-3-planning.md), [AI usage log](docs/sprint3/process/ai-usage-log.md), [desktop walkthrough](docs/sprint3/walkthrough/sprint-3-feature-walkthrough-desktop.md), [Sprint 3 review and client feedback](docs/sprint3/client-feedback/sprint-3-review-and-client-feedback.md), [Sprint 3 retrospective](docs/sprint3/process/sprint-3-retrospective.md), [process documentation and Sprint 3 insights](docs/sprint3/process/process-documentation-and-insights.md), [QA evidence](docs/sprint3/qa/README.md), [meeting minutes](docs/sprint3/meeting-minutes/) |
+| Project | [Requirements](docs/sprint3/project/requirements.md), [Product Backlog](docs/sprint3/project/product-backlog.md), [Risk Register with the Sprint 3 review](docs/sprint3/project/risk-register.md) |
+
 ### Deployment and payments
 
 - [Deploying the dev environment](docs/deployment/dev-environment.md) — FastAPI Cloud, Neon, and the Stripe and Mailgun sandboxes
@@ -104,15 +115,17 @@ codebase for iOS, Android and the web build. The backend is FastAPI on Python 3.
 SQLAlchemy 2.0 and PostgreSQL 16, Alembic migrations applied on startup, Argon2 password
 hashing and JWT bearer sessions; its dependencies are managed by uv and it deploys to
 FastAPI Cloud. They communicate over REST/JSON under `/api/v1` as published in
-[openapi.yaml](docs/sprint1/executable-architecture/openapi.yaml); 49 of the 61 published
-operations are implemented at runtime. Payments run through Stripe in test mode, so no
+[openapi.yaml](docs/sprint1/executable-architecture/openapi.yaml); 66 of the 76 published
+operations are implemented at runtime; the other 10 belong to the deferred Forum, order-linked
+messaging and disputes, or to booking completion, which a scheduled job handles. Payments
+run through Stripe in test mode, so no
 real money moves; without Stripe keys the server falls back to a labelled development
 stub. Email goes through Mailgun, and is logged instead when no Mailgun key is set.
 
 [interface-contract.md](docs/sprint1/executable-architecture/interface-contract.md)
 carries the human-readable control rules and invariants,
 [interface-traceability.csv](docs/sprint1/executable-architecture/interface-traceability.csv)
-maps every operation to its requirement IDs, and
+maps every operation to its requirement IDs and implementation status, and
 [backend-integration.md](docs/sprint1/executable-architecture/backend-integration.md)
 is the starting point for backend contributors.
 

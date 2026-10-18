@@ -1,0 +1,44 @@
+{
+  "at": "2026-10-15T23:21:38.852023+00:00",
+  "scope": "Only the three exact owned service processes were sent SIGINT. No device, user service, product source, dependency or adb mapping was modified by this cleanup.",
+  "sessionExits": {
+    "api": {
+      "sessionId": 69983,
+      "pid": 87011,
+      "exitCode": 0
+    },
+    "metro": {
+      "sessionId": 38179,
+      "pid": 87015,
+      "exitCode": 0
+    },
+    "navigation": {
+      "sessionId": 49100,
+      "pid": 92152,
+      "exitCode": 0
+    }
+  },
+  "ports": {
+    "43189": {
+      "connectExCode": 61,
+      "connectionRefused": true
+    },
+    "8099": {
+      "connectExCode": 61,
+      "connectionRefused": true
+    },
+    "43219": {
+      "connectExCode": 61,
+      "connectionRefused": true
+    }
+  },
+  "listenersAfter": "",
+  "lsofExitCode": 1,
+  "databasePath": "/private/var/folders/5h/35gmrt4n5zq84_8vh5md45nm0000gn/T/yoir-web-qa-aqhcu3id/web_test.db",
+  "databaseExists": false,
+  "ownedTemporaryDirectoryExists": false,
+  "temporaryDatabaseDeletedByNormalContextCleanup": true,
+  "faultRulesRemaining": [],
+  "allPortsReleased": true,
+  "adbReverseCleanup": "Delegated to root/device agent; not performed by service agent."
+}

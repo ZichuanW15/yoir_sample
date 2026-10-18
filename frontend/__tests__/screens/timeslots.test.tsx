@@ -1,6 +1,7 @@
-import { apiFailure, callsTo, deferred, jsonResponse, navigation, renderPublic, reply, routeParams, tick } from '../public-screen-utils';
+import { apiFailure, callsTo, deferred, fetchMock, jsonResponse, navigation, renderPublic, reply, routeParams, tick } from '../public-screen-utils';
 import { act, fireEvent, screen, waitFor } from '@testing-library/react-native';
 import TimeSlotsScreen from '@/app/services/[serviceId]/timeslots';
+import { Service } from '@/src/api/types';
 import { counsellorSessionFixture, orderFixture, serviceFixture, sessionFixture, slotFixture } from '../fixtures';
 
 const orderPath = '/orders';
@@ -41,15 +42,45 @@ describe('time-slot selection', () => {
     await screen.findByRole('radio', { name: /60 min$/ });
     fireEvent.press(screen.getByRole('radio', { name: 'In person' }));
     expect(screen.getByText('Meeting area: Melbourne, VIC')).toBeOnTheScreen();
+    // Switching re-reads the offers, so the online ones are never booked as in person.
+    await screen.findByRole('radio', { name: /60 min$/ });
     choose();
     reserve();
     await tick();
     const [, init] = callsTo('POST', orderPath)[0];
     expect(init?.headers).toMatchObject({ Authorization: 'Bearer test-access-token' });
-    expect(JSON.parse(init?.body as string)).toEqual({ serviceId: 'service-1', startsAt: slotFixture.startsAt, modality: 'in_person', timezone: expect.any(String) });
+    expect(JSON.parse(init?.body as string)).toEqual({
+      serviceId: 'service-1', startsAt: slotFixture.startsAt, modality: 'in_person', timezone: expect.any(String), preSessionBrief: null,
+    });
     expect(navigation.push).toHaveBeenCalledWith({
       pathname: '/bookings/checkout', params: { orderId: 'order-1', serviceId: 'service-1', modality: 'in_person', amountMinor: '10500', startsAt: slotFixture.startsAt, endsAt: slotFixture.endsAt, holdExpiresAt: '' },
     });
+  });
+
+  test('[US-42] an entered pre-session brief is trimmed and sent with the reservation', async () => {
+    available();
+    reply('POST', orderPath, jsonResponse(orderFixture, 201));
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
+    await screen.findByRole('radio', { name: /60 min$/ });
+    choose();
+    fireEvent.changeText(
+      screen.getByLabelText('Anything to share before the session? (optional)'),
+      '  Keen to go over salary negotiation.  ',
+    );
+    reserve();
+    await tick();
+    expect(JSON.parse(callsTo('POST', orderPath)[0][1]?.body as string)).toMatchObject({
+      preSessionBrief: 'Keen to go over salary negotiation.',
+    });
+  });
+
+  test('[US-42] the pre-session brief field only appears once a time is chosen', async () => {
+    available();
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
+    await screen.findByRole('radio', { name: /60 min$/ });
+    expect(screen.queryByLabelText('Anything to share before the session? (optional)')).toBeNull();
+    choose();
+    expect(screen.getByLabelText('Anything to share before the session? (optional)')).toBeOnTheScreen();
   });
 
   test('[QA-121] a reservation conflict refreshes availability, clears selection and keeps the reason', async () => {
@@ -102,5 +133,54 @@ describe('time-slot selection', () => {
     await tick();
     expect(screen.getByText('Only Job Seekers can book services.')).toBeOnTheScreen();
     expect(navigation.push).not.toHaveBeenCalled();
+  });
+
+  test('[QA-118][US40-AC4] an empty answer says nothing is open and points to other Career Professionals', async () => {
+    reply('GET', '/services/service-1', jsonResponse(serviceFixture));
+    reply('GET', slotsPath, jsonResponse([]));
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
+    expect(await screen.findByText('No open times right now')).toBeOnTheScreen();
+    expect(screen.getByText(/Maya Chen has nothing free at the moment\./)).toBeOnTheScreen();
+    expect(screen.queryAllByRole('radio')).toHaveLength(0);
+    expect(screen.getByRole('button', { name: 'Continue to payment' })).toBeDisabled();
+    fireEvent.press(screen.getByRole('button', { name: 'See other Career Professionals' }));
+    expect(navigation.push).toHaveBeenCalledWith('/marketplace');
+  });
+
+  test('[US40-AC4] nothing open online, but times in person, offers the switch', async () => {
+    const both: Service = { ...serviceFixture, modalities: ['online', 'in_person'], location: { state: 'VIC', cityOrRegion: 'Melbourne' } };
+    reply('GET', '/services/service-1', jsonResponse(both));
+    // Replies are keyed by path, so the delivery method is read off the request itself.
+    reply('GET', slotsPath, () => jsonResponse(
+      String(fetchMock.mock.calls.at(-1)?.[0]).includes('modality=in_person') ? [slotFixture] : [],
+    ));
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
+    expect(await screen.findByText(/has nothing free online at the moment/)).toBeOnTheScreen();
+    fireEvent.press(screen.getByRole('button', { name: 'Show in-person times' }));
+    expect(await screen.findByRole('radio', { name: /60 min$/ })).toBeOnTheScreen();
+    expect(screen.queryByText('No open times right now')).toBeNull();
+  });
+
+  test('[US40-AC4] while times are loading nothing claims that none are open', async () => {
+    const pending = deferred<Response>();
+    reply('GET', '/services/service-1', jsonResponse(serviceFixture));
+    reply('GET', slotsPath, () => pending.promise);
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
+    await tick();
+    expect(screen.queryByText('No open times right now')).toBeNull();
+    await act(async () => pending.resolve(jsonResponse([])));
+    expect(await screen.findByText('No open times right now')).toBeOnTheScreen();
+  });
+
+  test('[US40-AC4] a failed read is retried, never shown as nothing open', async () => {
+    available();
+    reply('GET', slotsPath, new TypeError('offline'));
+    await renderPublic(<TimeSlotsScreen />, sessionFixture);
+    await screen.findByText('We could not reach Yoir. Check your connection and try again.');
+    expect(screen.queryByText('No open times right now')).toBeNull();
+    reply('GET', slotsPath, jsonResponse([slotFixture]));
+    fireEvent.press(screen.getByRole('button', { name: 'Try again' }));
+    expect(await screen.findByRole('radio', { name: /60 min$/ })).toBeOnTheScreen();
+    expect(screen.queryByText('We could not reach Yoir. Check your connection and try again.')).toBeNull();
   });
 });

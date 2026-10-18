@@ -9,12 +9,14 @@ import { AvailabilityWindow, CounsellorProfile, PayoutStatus, Service } from '@/
 import { useAuth } from '@/src/auth/AuthContext';
 import { useChrome } from '@/src/chrome';
 import { CounsellorNav } from '@/src/components/CounsellorNav';
+import { DesktopPage, Glow, PageHeader, useDesktop } from '@/src/desktop';
 import { Glyph } from '@/src/components/Glyph';
 import { VerifyEmailBanner } from '@/src/components/VerifyEmailBanner';
-import { Avatar, ErrorBanner, Eyebrow, Press, Tag } from '@/src/components/ui';
-import { fmtDay, initials, modalityLabel, money } from '@/src/format';
+import { Avatar, ErrorBanner, Eyebrow, Press, Spinner, Tag } from '@/src/components/ui';
+import { fmtDay, fmtTime, hoursAndMinutes, initials, modalityLabel, money } from '@/src/format';
 import { FadeUp, Float, Pop, Pulse, ScreenIn } from '@/src/motion';
-import { colors, fonts, radius, type } from '@/src/theme';
+import { colors, fonts, radius, shadow, type } from '@/src/theme';
+import { unknownVerification, verificationCopy, verificationState } from '@/src/verification';
 
 const ACircle = createAnimatedSvg(Circle);
 /** LinkedIn URL, introduction, background, experience, base location. */
@@ -33,8 +35,34 @@ export default function CounsellorWorkspace() {
   const { session } = useAuth();
   const { openSheet, confirm } = useChrome();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const [data, setData] = useState<Workspace | null>(null);
   const [error, setError] = useState('');
+  // US-05 — whether first-login onboarding is done. `checked` separates "still
+  // loading" from "checked and complete/incomplete"; `complete` fails open on a
+  // failed check, rather than trapping an already-onboarded counsellor on a
+  // spinner. A state of its own, not the shared `error` above: `load()` clears
+  // that to '' on its own next success, which would silently wipe a reported
+  // onboarding-check failure out from under it.
+  const [onboardingChecked, setOnboardingChecked] = useState(false);
+  const [onboardingComplete, setOnboardingComplete] = useState(true);
+  const [onboardingError, setOnboardingError] = useState('');
+
+  const loadOnboarding = useCallback(async () => {
+    if (!session) return;
+    try {
+      const state = await api.getOnboardingState(session.accessToken);
+      setOnboardingComplete(state.complete);
+      setOnboardingError('');
+    } catch (cause) {
+      setOnboardingComplete(true);
+      setOnboardingError(userFacingError(cause));
+    } finally {
+      setOnboardingChecked(true);
+    }
+  }, [session]);
+
+  useFocusEffect(useCallback(() => { void loadOnboarding(); }, [loadOnboarding]));
 
   const load = useCallback(async () => {
     if (!session) return;
@@ -77,9 +105,22 @@ export default function CounsellorWorkspace() {
 
   if (!session || session.user.role !== 'counsellor') return <Redirect href="/" />;
 
+  // US-05 — neither the onboarding flow nor this workspace shows until the
+  // backend has answered, and an incomplete onboarding sends the counsellor
+  // there instead of here.
+  if (!onboardingChecked) {
+    return (
+      <View style={[s.screen, s.onboardingLoading, desktop && s.desktopCanvas]}>
+        <Spinner size={28} color={colors.green} />
+      </View>
+    );
+  }
+  if (!onboardingComplete) return <Redirect href="/counsellor/onboarding" />;
+
   const name = session.user.name;
   const firstName = name.split(' ')[0];
-  const verified = data?.profile.verificationStatus === 'verified';
+  // US-32: the backend's status in the shared wording, and no status until it is read.
+  const verification = data ? verificationCopy[verificationState(data.profile)] : null;
   const done = data
     ? [data.profile.linkedinUrl, data.profile.introduction, data.profile.background, data.profile.experience, data.profile.baseLocation?.state]
       .filter(Boolean).length
@@ -88,9 +129,198 @@ export default function CounsellorWorkspace() {
   // feature can find them. The workspace shows only live ones, which is what
   // the delete confirmation promises.
   const services = (data?.services ?? []).filter((service) => service.active);
-  // Availability is the counsellor's own calendar now, not a per-service list.
+  // Availability is the counsellor's own calendar now, not a per-service list. The
+  // backend lists only windows that have not ended, and counts booked or held time
+  // as taken, so a full calendar does not read as open.
   const upcomingWindows = [...(data?.windows ?? [])]
     .sort((a, b) => a.startsAt.localeCompare(b.startsAt));
+  const freeMinutes = upcomingWindows.reduce((sum, window) => sum + (window.freeMinutes ?? 0), 0);
+  const calendarEnds = upcomingWindows.reduce<string | null>(
+    (latest, window) => (!latest || window.endsAt.localeCompare(latest) > 0 ? window.endsAt : latest),
+    null,
+  );
+
+  const availabilityHint = freeMinutes > 0 && calendarEnds
+    ? `${hoursAndMinutes(freeMinutes)} free to book, through ${fmtDay(calendarEnds)}.`
+    : upcomingWindows.length
+      ? 'Fully booked. Add availability so buyers can choose a time.'
+      : 'No open times. Add availability so buyers can choose a time.';
+
+  // Desktop: services on the left in two columns, the workspace's shortcuts in a
+  // rail on the right. The sidebar carries the wordmark, account and sections.
+  if (desktop) {
+    const rows = Array.from({ length: Math.ceil(services.length / 2) }, (_, i) => services.slice(i * 2, i * 2 + 2));
+    return (
+      <DesktopPage>
+        <PageHeader eyebrow="Your workspace" title={`Good to see you, ${firstName}`} />
+
+        {error ? <ErrorBanner message={error} /> : null}
+        {onboardingError ? <ErrorBanner message={onboardingError} /> : null}
+        <VerifyEmailBanner what="publish a service" />
+
+        <View style={s.desktopColumns}>
+          <View style={s.desktopMain}>
+            <Press
+              onPress={() => router.push('/counsellor/verification')}
+              scaleTo={0.99}
+              accessibilityLabel="Verification"
+              style={[s.verify, s.desktopVerify]}
+            >
+              <Glow size={180} style={{ right: -30, top: -40 }} />
+              <View style={s.verifyTile}>
+                <View style={s.verifyTileWash} />
+                <Glyph name="shieldCheck" size={26} color={colors.yellow} />
+              </View>
+              <View style={s.verifyCopy}>
+                <Text style={s.verifyEyebrow}>Verification</Text>
+                <Text style={s.verifyTitle}>{verification?.label ?? unknownVerification(Boolean(error))}</Text>
+                {verification ? <Text style={s.verifyBody}>{verification.body}</Text> : null}
+              </View>
+              <Glyph name="chevronRight" size={18} color={colors.yellow} />
+            </Press>
+
+            {data?.payouts && !data.payouts.payoutsEnabled ? (
+              <Press
+                onPress={() => router.push('/counsellor/payouts')}
+                scaleTo={0.99}
+                accessibilityLabel="Set up payouts"
+                style={s.payoutCard}
+              >
+                <View style={s.payoutTile}><Glyph name="lock" size={18} color={colors.amberInk} /></View>
+                <View style={s.payoutCopy}>
+                  <Text style={s.payoutTitle}>
+                    {data.payouts.stripeAccountId ? 'Finish payout setup' : 'Set up payouts'}
+                  </Text>
+                  <Text style={s.payoutBody}>Your services stay hidden from Explore until Stripe can pay you.</Text>
+                </View>
+                <View style={s.payoutPill}><Text style={s.payoutPillText}>Start</Text></View>
+              </Press>
+            ) : null}
+
+            {/* The "New" control stays beside the list it adds to, under its own name. */}
+            <View style={s.sectionHead}>
+              <View style={s.sectionCopy}>
+                <Eyebrow style={s.sectionEyebrow}>My services</Eyebrow>
+                <Text style={type.display24}>{services.length ? `${services.length} published` : 'No services yet'}</Text>
+              </View>
+              <Press onPress={() => router.push('/counsellor/services/new')} scaleTo={0.95} accessibilityLabel="New" style={[s.newPill, s.desktopNewPill]}>
+                <Glyph name="plus" size={14} color={colors.white} />
+                <Text style={s.newPillText}>New</Text>
+              </Press>
+            </View>
+
+            {data && !services.length ? (
+              <Press
+                onPress={() => router.push('/counsellor/services/new')}
+                scaleTo={0.99}
+                accessibilityLabel="Publish your first service"
+                style={s.emptyServices}
+              >
+                <View style={s.emptyMarkFill}><Glyph name="plus" size={24} color={colors.eyebrow} /></View>
+                <Text style={s.emptyTitle}>Publish your first service</Text>
+                <Text style={s.emptyBody}>Describe what you offer, set a price and say how you deliver it.</Text>
+              </Press>
+            ) : null}
+
+            {rows.map((row) => (
+              <View key={row[0].id} style={s.desktopRow}>
+                {row.map((service) => (
+                  <View key={service.id} style={[s.serviceCard, s.desktopServiceCard]}>
+                    <View style={s.serviceHead}>
+                      <View style={s.serviceTile}><Glyph name="briefcase" size={18} color={colors.green} /></View>
+                      <Text style={s.serviceTitle}>{service.title}</Text>
+                      <Text style={s.servicePrice}>{money(service.priceMinor)}</Text>
+                    </View>
+                    <Text style={s.serviceBody} numberOfLines={2}>{service.description}</Text>
+                    <View style={s.tagRow}>
+                      {service.modalities.map((modality) => (
+                        <Tag key={modality} label={modalityLabel(modality)} />
+                      ))}
+                      {service.location ? (
+                        <Tag label={`${service.location.cityOrRegion}, ${service.location.state}`} bg={colors.yellowTint} fg={colors.amberDeep} />
+                      ) : null}
+                      {service.nextAvailableAt === undefined ? null : service.nextAvailableAt ? (
+                        <Tag
+                          label={`Next open ${fmtDay(service.nextAvailableAt)} · ${fmtTime(service.nextAvailableAt)}`}
+                          bg={colors.greenTint}
+                          fg={colors.successInk}
+                        />
+                      ) : (
+                        <Tag label="No open times" bg={colors.dangerBg} fg={colors.dangerInk} />
+                      )}
+                    </View>
+                    <View style={[s.serviceActions, s.desktopActions]}>
+                      <Press
+                        onPress={() => router.push(`/counsellor/services/${service.id}/edit`)}
+                        scaleTo={0.95}
+                        accessibilityLabel={`Edit ${service.title}`}
+                        style={s.actionButton}
+                      >
+                        <Glyph name="pencil" size={14} color={colors.green} />
+                        <Text style={s.actionButtonText}>Edit</Text>
+                      </Press>
+                      <Press
+                        onPress={() => { void removeService(service); }}
+                        scaleTo={0.95}
+                        accessibilityLabel={`Delete ${service.title}`}
+                        style={[s.actionButton, s.actionButtonDanger]}
+                      >
+                        <Glyph name="trash" size={14} color={colors.danger} />
+                        <Text style={[s.actionButtonText, s.actionButtonDangerText]}>Delete</Text>
+                      </Press>
+                    </View>
+                  </View>
+                ))}
+                {row.length === 1 ? <View style={s.desktopSpacer} /> : null}
+              </View>
+            ))}
+          </View>
+
+          <View style={s.desktopRail}>
+            <Press onPress={() => router.push('/bookings')} scaleTo={0.99} accessibilityLabel="Sessions you are delivering" style={s.profileCard}>
+              <View style={s.payoutTileReady}><Glyph name="calendar" size={18} color={colors.green} /></View>
+              <View style={s.profileCopy}>
+                <Text style={s.rowTitle}>My sessions</Text>
+                <Text style={s.rowSub}>Everything booked with you, and how to join it.</Text>
+              </View>
+              <View style={s.profilePill}><Text style={s.profilePillText}>Open</Text></View>
+            </Press>
+
+            <Press onPress={() => router.push('/counsellor/profile')} scaleTo={0.99} accessibilityLabel="Professional profile" style={s.profileCard}>
+              <ProfileRing done={done} />
+              <View style={s.profileCopy}>
+                <Text style={s.rowTitle}>Professional profile</Text>
+                <Text style={s.rowSub}>
+                  {done === TOTAL_SECTIONS ? 'All sections complete. Looking sharp.' : `${done} of ${TOTAL_SECTIONS} sections complete.`}
+                </Text>
+              </View>
+              <View style={s.profilePill}><Text style={s.profilePillText}>{done ? 'Edit' : 'Set up'}</Text></View>
+            </Press>
+
+            {data?.payouts?.payoutsEnabled ? (
+              <Press onPress={() => router.push('/counsellor/payouts')} scaleTo={0.99} accessibilityLabel="Payouts and tax details" style={s.profileCard}>
+                <View style={s.payoutTileReady}><Glyph name="shieldCheck" size={18} color={colors.green} /></View>
+                <View style={s.profileCopy}>
+                  <Text style={s.rowTitle}>Payouts</Text>
+                  <Text style={s.rowSub}>{data.payouts.gstRegistered ? 'Ready · GST registered' : 'Ready · not GST registered'}</Text>
+                </View>
+                <View style={s.profilePill}><Text style={s.profilePillText}>Manage</Text></View>
+              </Press>
+            ) : null}
+
+            <Press onPress={() => router.push('/counsellor/availability')} scaleTo={0.99} accessibilityLabel="Availability" style={s.availCard}>
+              <View style={s.availTile}><Glyph name="calendar" size={22} color={colors.green} /></View>
+              <View style={s.availCopy}>
+                <Text style={s.availTitle}>Availability</Text>
+                <Text style={s.availHint}>{availabilityHint}</Text>
+              </View>
+              <Glyph name="chevronRight" size={18} color={colors.amberInk} />
+            </Press>
+          </View>
+        </View>
+      </DesktopPage>
+    );
+  }
 
   return (
     <ScreenIn style={s.screen}>
@@ -108,37 +338,40 @@ export default function CounsellorWorkspace() {
         </FadeUp>
 
         {error ? <ErrorBanner message={error} /> : null}
+        {onboardingError ? <ErrorBanner message={onboardingError} /> : null}
 
-        <FadeUp delay={80} style={s.verify}>
-          <Pulse style={s.verifyGlow} duration={5000}>
-            <Svg width={120} height={120}>
-              <Defs>
-                <RadialGradient id="verifyGlow" cx="50%" cy="50%" r="50%">
-                  <Stop offset="0" stopColor={colors.yellow} stopOpacity={0.28} />
-                  <Stop offset="0.7" stopColor={colors.yellow} stopOpacity={0} />
-                </RadialGradient>
-              </Defs>
-              <Circle cx={60} cy={60} r={60} fill="url(#verifyGlow)" />
-            </Svg>
-          </Pulse>
-          <Float style={s.verifyDot} distance={9} duration={4000}><View style={s.verifyDotFill} /></Float>
-          <Pop delay={300}>
-            <View style={s.verifyTile}>
-              <View style={s.verifyTileWash} />
-              <Glyph name="shieldCheck" size={26} color={colors.yellow} />
+        <FadeUp delay={80}>
+          <Press
+            onPress={() => router.push('/counsellor/verification')}
+            scaleTo={0.98}
+            accessibilityLabel="Verification"
+            style={s.verify}
+          >
+            <Pulse style={s.verifyGlow} duration={5000}>
+              <Svg width={120} height={120}>
+                <Defs>
+                  <RadialGradient id="verifyGlow" cx="50%" cy="50%" r="50%">
+                    <Stop offset="0" stopColor={colors.yellow} stopOpacity={0.28} />
+                    <Stop offset="0.7" stopColor={colors.yellow} stopOpacity={0} />
+                  </RadialGradient>
+                </Defs>
+                <Circle cx={60} cy={60} r={60} fill="url(#verifyGlow)" />
+              </Svg>
+            </Pulse>
+            <Float style={s.verifyDot} distance={9} duration={4000}><View style={s.verifyDotFill} /></Float>
+            <Pop delay={300}>
+              <View style={s.verifyTile}>
+                <View style={s.verifyTileWash} />
+                <Glyph name="shieldCheck" size={26} color={colors.yellow} />
+              </View>
+            </Pop>
+            <View style={s.verifyCopy}>
+              <Text style={s.verifyEyebrow}>Verification</Text>
+              <Text style={s.verifyTitle}>{verification?.label ?? unknownVerification(Boolean(error))}</Text>
+              {verification ? <Text style={s.verifyBody}>{verification.body}</Text> : null}
             </View>
-          </Pop>
-          <View style={s.verifyCopy}>
-            <Text style={s.verifyEyebrow}>Verification</Text>
-            <Text style={s.verifyTitle}>{verified ? 'Verified Career Professional' : 'Verification pending'}</Text>
-            <Text style={s.verifyBody}>
-              {verified
-                ? 'Your profile carries the verified mark across Yoir.'
-                : data?.profile.linkedinUrl
-                  ? 'Your LinkedIn profile is with the Platform Owner for review.'
-                  : 'Add your LinkedIn profile URL so the Platform Owner can verify you.'}
-            </Text>
-          </View>
+            <Glyph name="chevronRight" size={18} color={colors.yellow} />
+          </Press>
         </FadeUp>
 
         {/* US-47 — a counsellor who cannot be paid cannot be found either, so the
@@ -252,11 +485,17 @@ export default function CounsellorWorkspace() {
                     fg={colors.amberDeep}
                   />
                 ) : null}
-                <Tag
-                  label={`${upcomingWindows.length} available`}
-                  bg={colors.greenTint}
-                  fg={colors.successInk}
-                />
+                {/* The first time a job seeker would be offered, worked out for this
+                    service's length and delivery: a window count cannot say that. */}
+                {service.nextAvailableAt === undefined ? null : service.nextAvailableAt ? (
+                  <Tag
+                    label={`Next open ${fmtDay(service.nextAvailableAt)} · ${fmtTime(service.nextAvailableAt)}`}
+                    bg={colors.greenTint}
+                    fg={colors.successInk}
+                  />
+                ) : (
+                  <Tag label="No open times" bg={colors.dangerBg} fg={colors.dangerInk} />
+                )}
               </View>
               <View style={s.serviceActions}>
                 <Press
@@ -308,9 +547,11 @@ export default function CounsellorWorkspace() {
             <View style={s.availCopy}>
               <Text style={s.availTitle}>Availability</Text>
               <Text style={s.availHint}>
-                {upcomingWindows.length
-                  ? `${upcomingWindows.length} open slots. Next on ${fmtDay(upcomingWindows[0].startsAt)}.`
-                  : 'No open slots. Add availability so buyers can choose a time.'}
+                {freeMinutes > 0 && calendarEnds
+                  ? `${hoursAndMinutes(freeMinutes)} free to book, through ${fmtDay(calendarEnds)}.`
+                  : upcomingWindows.length
+                    ? 'Fully booked. Add availability so buyers can choose a time.'
+                    : 'No open times. Add availability so buyers can choose a time.'}
               </Text>
             </View>
             <Glyph name="chevronRight" size={18} color={colors.amberInk} />
@@ -354,6 +595,7 @@ function ProfileRing({ done }: { done: number }) {
 
 const s = StyleSheet.create({
   screen: { flex: 1, backgroundColor: colors.white },
+  onboardingLoading: { alignItems: 'center', justifyContent: 'center' },
   topBar: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingHorizontal: 22, paddingBottom: 6 },
   wordmark: { width: 66, height: 25, resizeMode: 'contain' },
   avatarRing: { width: 50, height: 50, borderRadius: 25, borderWidth: 2, borderColor: colors.yellow, backgroundColor: colors.white, alignItems: 'center', justifyContent: 'center' },
@@ -422,5 +664,16 @@ const s = StyleSheet.create({
   availCopy: { flex: 1, gap: 3 },
   availTitle: { fontFamily: fonts.bold, fontSize: 16, color: colors.amberDeep },
   availHint: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 19, color: colors.amberInk },
+
+  desktopCanvas: { backgroundColor: colors.canvas },
+  desktopColumns: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', gap: 24 },
+  desktopMain: { flexGrow: 999, flexShrink: 1, flexBasis: 0, minWidth: '60%', gap: 22 },
+  desktopRail: { flexGrow: 1, flexShrink: 1, flexBasis: 300, gap: 14 },
+  desktopVerify: { paddingVertical: 24, paddingHorizontal: 26, gap: 18 },
+  desktopNewPill: { height: 46, paddingHorizontal: 20 },
+  desktopRow: { flexDirection: 'row', gap: 16 },
+  desktopServiceCard: { flex: 1, minWidth: 0, ...shadow.card },
+  desktopSpacer: { flex: 1 },
+  desktopActions: { marginTop: 'auto' },
 
 });

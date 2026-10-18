@@ -1,0 +1,11 @@
+
+> yoir-mobile@0.1.0 test:web
+> playwright test --config playwright.config.ts --grep-invert '@defect' e2e/sprint3-meeting-area.spec.ts
+
+[WebServer] Mail is NOT configured (MAILGUN_API_KEY and MAILGUN_DOMAIN missing): every message will be logged and discarded, including email confirmation and booking confirmations.
+
+Running 1 test using 1 worker
+
+  ✓  1 [chromium-web] › e2e/sprint3-meeting-area.spec.ts:47:5 › US36/43 both parties retain the purchased in-person area after a listing move and withdrawal (3.1s)
+
+  1 passed (5.5s)

@@ -1,0 +1,49 @@
+{
+  "at": "2026-10-15T22:08:25.447552+00:00",
+  "scope": "Actual native email-verification resend requests; delay is harness scheduling only, responses come from real app. No inbox/provider/verified-state evidence.",
+  "requests": [
+    {
+      "at": "2026-10-15T22:07:23.423848+00:00",
+      "method": "POST",
+      "path": "/api/v1/auth/email-verification-requests",
+      "userId": null,
+      "status": 202
+    },
+    {
+      "at": "2026-10-15T22:08:13.021614+00:00",
+      "method": "POST",
+      "path": "/api/v1/auth/email-verification-requests",
+      "userId": null,
+      "status": 202
+    },
+    {
+      "at": "2026-10-15T22:08:15.851336+00:00",
+      "method": "POST",
+      "path": "/api/v1/auth/email-verification-requests",
+      "userId": null,
+      "status": 202
+    }
+  ],
+  "delayHits": [
+    {
+      "at": "2026-10-15T22:07:20.407048+00:00",
+      "ruleId": "ios-d13-verification-pending",
+      "method": "POST",
+      "path": "/api/v1/auth/email-verification-requests",
+      "userId": null,
+      "hit": 1,
+      "action": "delay",
+      "status": 202
+    },
+    {
+      "at": "2026-10-15T22:08:12.847081+00:00",
+      "ruleId": "ios-d13-verification-doubletap",
+      "method": "POST",
+      "path": "/api/v1/auth/email-verification-requests",
+      "userId": null,
+      "hit": 1,
+      "action": "delay",
+      "status": 202
+    }
+  ]
+}

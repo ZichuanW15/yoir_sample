@@ -1,0 +1,165 @@
+{
+  "stats": {
+    "startTime": "2026-10-15T21:02:19.525Z",
+    "duration": 35276.876000000004,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  },
+  "errors": [],
+  "cases": [
+    {
+      "file": "frontend/e2e/sprint3-integration-acceptance.spec.ts",
+      "title": "@defect [S3-DIAGNOSIS-SERVER-ACK][QA-165] Continue waits for the real saved-step acknowledgement",
+      "line": 73,
+      "projectName": "chromium-web",
+      "expectedStatus": "passed",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 2542,
+          "retry": 0,
+          "startTime": "2026-10-15T21:02:20.691Z",
+          "errors": [
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-integration-acceptance.spec.ts",
+                "column": 91,
+                "line": 94
+              },
+              "message": "Error: The UI advanced without attempting the required diagnosis API save.\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\n\n  92 |     await expect.poll(async () => writes > 0\n  93 |       || await page.getByRole('progressbar', { name: 'Step 2 of 6' }).isVisible()).toBe(true);\n> 94 |     expect(writes, 'The UI advanced without attempting the required diagnosis API save.').toBe(1);\n     |                                                                                           ^\n  95 |     await expect.poll(() => serverStatus).toBe(200);\n  96 |     await expect(page.getByRole('progressbar', { name: 'Step 1 of 6' })).toBeVisible();\n  97 |     release();\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-integration-acceptance.spec.ts:94:91"
+            }
+          ],
+          "attachments": [
+            {
+              "name": "diagnosis-boundary-readback",
+              "contentType": "application/json",
+              "path": "attachments/case-01-0-diagnosis-boundary-readback.json"
+            },
+            {
+              "name": "integration-acceptance-screen",
+              "contentType": "image/png",
+              "path": "attachments/case-01-2-integration-acceptance-screen.png"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/e2e/sprint3-integration-acceptance.spec.ts",
+      "title": "@defect [S3-DIAGNOSIS-SAVE-RECOVERY][QA-165] a refused server save retains the answer and retries without advancement",
+      "line": 109,
+      "projectName": "chromium-web",
+      "expectedStatus": "passed",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 2958,
+          "retry": 0,
+          "startTime": "2026-10-15T21:02:23.631Z",
+          "errors": [
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-integration-acceptance.spec.ts",
+                "column": 119,
+                "line": 124
+              },
+              "message": "Error: No diagnosis save was attempted; the injected failure and retry UI were not reached.\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m1\u001b[39m\nReceived: \u001b[31m0\u001b[39m\n\n  122 |     await expect.poll(async () => interceptedWrites > 0\n  123 |       || await page.getByRole('progressbar', { name: 'Step 2 of 6' }).isVisible()).toBe(true);\n> 124 |     expect(interceptedWrites, 'No diagnosis save was attempted; the injected failure and retry UI were not reached.').toBe(1);\n      |                                                                                                                       ^\n  125 |     await expect(page.getByRole('alert')).toContainText('Diagnosis was not saved');\n  126 |     await expect(page.getByRole('progressbar', { name: 'Step 1 of 6' })).toBeVisible();\n  127 |     await expect(page.getByLabel('Tell us a little more (optional)', { exact: true })).toHaveValue('Retain this answer while offline');\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-integration-acceptance.spec.ts:124:119"
+            }
+          ],
+          "attachments": [
+            {
+              "name": "diagnosis-boundary-readback",
+              "contentType": "application/json",
+              "path": "attachments/case-02-0-diagnosis-boundary-readback.json"
+            },
+            {
+              "name": "integration-acceptance-screen",
+              "contentType": "image/png",
+              "path": "attachments/case-02-2-integration-acceptance-screen.png"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/e2e/sprint3-integration-acceptance.spec.ts",
+      "title": "@defect [S3-DIAGNOSIS-SERVER-RESUME][QA-162][QA-168] a fresh browser resumes the same account server-confirmed answers",
+      "line": 142,
+      "projectName": "chromium-web",
+      "expectedStatus": "passed",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 9418,
+          "retry": 0,
+          "startTime": "2026-10-15T21:02:27.383Z",
+          "errors": [
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-integration-acceptance.spec.ts",
+                "column": 76,
+                "line": 159
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('progressbar', { name: 'Step 2 of 6' })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByRole('progressbar', { name: 'Step 2 of 6' }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('progressbar', { name: 'Step 2 of 6' })\u001b[22m\n\n\n  157 |       displayedStep: await second.getByRole('progressbar').getAttribute('aria-label') });\n  158 |     await info.attach('fresh-browser-resume-screen', { body: await second.screenshot({ fullPage: true }), contentType: 'image/png' });\n> 159 |     await expect(second.getByRole('progressbar', { name: 'Step 2 of 6' })).toBeVisible();\n      |                                                                            ^\n  160 |     await second.getByRole('button', { name: 'Back', exact: true }).click();\n  161 |     await expect(second.getByLabel('Tell us a little more (optional)', { exact: true })).toHaveValue('Confirmed in another session');\n  162 |   } finally {\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-integration-acceptance.spec.ts:159:76"
+            }
+          ],
+          "attachments": [
+            {
+              "name": "diagnosis-boundary-readback",
+              "contentType": "application/json",
+              "path": "attachments/case-03-0-diagnosis-boundary-readback.json"
+            },
+            {
+              "name": "fresh-browser-resume-screen",
+              "contentType": "image/png",
+              "path": "attachments/case-03-1-fresh-browser-resume-screen.png"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "file": "frontend/e2e/sprint3-integration-acceptance.spec.ts",
+      "title": "@defect [S3-PROFILE-UNRATED][QA-219] a real unrated professional has an explicit neutral rating state",
+      "line": 167,
+      "projectName": "chromium-web",
+      "expectedStatus": "passed",
+      "status": "unexpected",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 13666,
+          "retry": 0,
+          "startTime": "2026-10-15T21:02:39.002Z",
+          "errors": [
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-integration-acceptance.spec.ts",
+                "column": 104,
+                "line": 184
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/^(No reviews yet|No ratings yet|Not yet rated|Unrated|New on Yoir)$/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText(/^(No reviews yet|No ratings yet|Not yet rated|Unrated|New on Yoir)$/i) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/^(No reviews yet|No ratings yet|Not yet rated|Unrated|New on Yoir)$/i)\u001b[22m\n\n\n  182 |     reviewCount: profile.reviewCount }), contentType: 'application/json' });\n  183 |   // Accept neutral equivalent wording; verification status is not a rating state.\n> 184 |   await expect(page.getByText(/^(No reviews yet|No ratings yet|Not yet rated|Unrated|New on Yoir)$/i)).toBeVisible();\n      |                                                                                                        ^\n  185 | });\n  186 |\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-integration-acceptance.spec.ts:184:104"
+            }
+          ],
+          "attachments": [
+            {
+              "name": "unrated-api-precondition",
+              "contentType": "application/json",
+              "path": "attachments/case-04-0-unrated-api-precondition.json"
+            },
+            {
+              "name": "integration-acceptance-screen",
+              "contentType": "image/png",
+              "path": "attachments/case-04-2-integration-acceptance-screen.png"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

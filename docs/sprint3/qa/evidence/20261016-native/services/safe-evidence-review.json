@@ -1,0 +1,38 @@
+{
+  "at": "2026-10-15T21:28:36.498453+00:00",
+  "reviewedFiles": [
+    "source-verification.json",
+    "api.log",
+    "diagnosis-baseline.json",
+    "bundle-prewarm.json",
+    "android-loading-diagnostic.json",
+    "health.json",
+    "metro-ipv4.log",
+    "cleanup.json",
+    "metro.log",
+    "android-reverse-missing.json",
+    "android-reverse-probes.json",
+    "health-d03.json",
+    "environment.json",
+    "diagnosis-final.json",
+    "android-update-failure.json",
+    "cleanup-start.json"
+  ],
+  "findings": {},
+  "excludedScripts": [
+    "prepare.py",
+    "readback.py",
+    "prewarm.py"
+  ],
+  "safeLogs": [
+    "api.log",
+    "metro.log",
+    "metro-ipv4.log"
+  ],
+  "notes": [
+    "API log contains only startup mail-disabled warning, no outgoing mail body or token.",
+    "Metro logs contain startup and bundle timing only.",
+    "JSON account emails are generated example.com fixtures; source hashes, request IDs and public Expo kernel asset URLs are not credentials.",
+    "prepare.py and readback.py contain the disposable QA password and should not be packaged."
+  ]
+}

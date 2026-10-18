@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Mentor Communication Log
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Mentor-Communication-Log
-  Wiki commit: 28ebead (2026-09-18)
+  Wiki commit: 8fa8c88 (2026-10-18)
   Exported:    2026-09-18
 -->
 
@@ -53,13 +53,13 @@
 
 | # | Action | Owner | Due | Status |
 | --- | --- | --- | --- | --- |
-| 1 | Add due dates, size, priority and impact criteria to all project board tasks | Manushresth | | Open |
-| 2 | Break user stories into subtasks on the board to expose dependencies and blockers | Manushresth | | Open |
-| 3 | Add acceptance criteria to each backlog task | Manushresth | | Open |
-| 4 | Tie product and sprint backlogs to GitHub Issues for workflow automation | Manushresth | | Open |
-| 5 | Set up a Mermaid chart per pull request | Manushresth | | Open |
-| 6 | Confirm database schema so backend high-level design can proceed | Evelyn, Jashan | | Open |
-| 7 | Ask the teaching team about Sprint 1 deliverable templates and formatting, then post to Slack | Erfan | | Open |
-| 8 | Place executable architecture and design-by-concept docs in the baseline repo `docs` folder | Manushresth | | Open |
-| 9 | Inform Jared to include Erfan on all future client communication emails | Manushresth | | Open |
-| 10 | CC Erfan on all future client communications | All | | Ongoing |
+| 1 | Add due dates, size, priority and impact criteria to all project board tasks | Manushresth | | Closed |
+| 2 | Break user stories into subtasks on the board to expose dependencies and blockers | Manushresth | | Closed |
+| 3 | Add acceptance criteria to each backlog task | Manushresth | | Closed |
+| 4 | Tie product and sprint backlogs to GitHub Issues for workflow automation | Manushresth | | Closed |
+| 5 | Set up a Mermaid chart per pull request | Manushresth | | Closed |
+| 6 | Confirm database schema so backend high-level design can proceed | Evelyn, Jashan | | Closed |
+| 7 | Ask the teaching team about Sprint 1 deliverable templates and formatting, then post to Slack | Erfan | | Closed |
+| 8 | Place executable architecture and design-by-concept docs in the baseline repo `docs` folder | Manushresth | | Closed |
+| 9 | Inform Jared to include Erfan on all future client communication emails | Manushresth | | Closed |
+| 10 | CC Erfan on all future client communications | All | | Closed |

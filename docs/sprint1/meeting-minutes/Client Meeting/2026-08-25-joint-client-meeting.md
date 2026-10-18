@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Client meeting minutes
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Client-meeting-minutes
-  Wiki commit: b50cda4 (2026-08-25)
+  Wiki commit: 8fa8c88 (2026-10-18)
   Exported:    2026-08-26
 -->
 
@@ -135,8 +135,8 @@ If all inherited features cannot be completed as a reliable, integrated product 
 
 | # | Action | Owner | Due | Status |
 |---|---|---|---|---|
-| 1 | Send one consolidated follow-up email containing the meeting minutes, transcript, recording and written clarification questions | Jared | After the meeting | Open |
-| 2 | Include two proposed diagrams/flows in the client email: account creation-to-login and the complete post-login service journey | Jared, Jason | With the follow-up email | Open |
-| 3 | Assess cross-platform mobile delivery against the inherited responsive-web baseline and semester constraints, then provide the client with a feasible recommendation | Both teams | Before Sprint 2 implementation | Open |
-| 4 | Investigate LinkedIn integration availability and limitations; distinguish account linking from Yoir's professional-verification decision | Both technical teams | Before implementing verification | Open |
-| 5 | Compare mock, provider-sandbox and production payment approaches and recommend a feasible, secure payment boundary | Both technical teams | Before implementing payment | Open |
+| 1 | Send one consolidated follow-up email containing the meeting minutes, transcript, recording and written clarification questions | Jared | After the meeting | Closed |
+| 2 | Include two proposed diagrams/flows in the client email: account creation-to-login and the complete post-login service journey | Jared, Jason | With the follow-up email | Closed |
+| 3 | Assess cross-platform mobile delivery against the inherited responsive-web baseline and semester constraints, then provide the client with a feasible recommendation | Both teams | Before Sprint 2 implementation | Closed |
+| 4 | Investigate LinkedIn integration availability and limitations; distinguish account linking from Yoir's professional-verification decision | Both technical teams | Before implementing verification | Closed |
+| 5 | Compare mock, provider-sandbox and production payment approaches and recommend a feasible, secure payment boundary | Both technical teams | Before implementing payment | Closed |

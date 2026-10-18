@@ -1,0 +1,133 @@
+{
+  "at": "2026-10-15T21:54:07.183193+00:00",
+  "userId": "qa-nr-ios-buyer",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/bookings/qa-nr-ios-completed-booking": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-ios-completed-booking",
+        "orderId": "qa-nr-ios-completed-order",
+        "serviceId": "qa-nr-ios-review-service",
+        "serviceTitle": "QA iOS Review Session",
+        "startsAt": "2026-10-12T21:34:11.498496Z",
+        "endsAt": "2026-10-12T22:34:11.498496Z",
+        "timezone": "Australia/Melbourne",
+        "modality": "online",
+        "status": "completed",
+        "paymentStatus": "paid",
+        "amountMinor": 8450,
+        "refundedMinor": 0,
+        "cancelledByRole": null,
+        "meetingUrl": null,
+        "counterpartyName": "QA iOS Pro",
+        "counterpartyRole": "counsellor",
+        "meetingArea": "",
+        "meetingAddress": "",
+        "preSessionBrief": "iOS fixture brief: discuss career direction.",
+        "review": {
+          "id": "a86225d3-781a-47e9-9c64-d6f14a9e4836",
+          "bookingId": "qa-nr-ios-completed-booking",
+          "serviceId": "qa-nr-ios-review-service",
+          "jobSeekerId": "qa-nr-ios-buyer",
+          "rating": 5,
+          "comment": "iOS native QA review: clear and useful guidance.",
+          "createdAt": "2026-10-15T21:52:43.525285Z"
+        }
+      }
+    },
+    "/services/qa-nr-ios-review-service": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-ios-review-service",
+        "counsellor": {
+          "id": "qa-nr-ios-pro",
+          "displayName": "QA iOS Pro",
+          "introduction": "iOS QA introduction",
+          "verificationStatus": "verified",
+          "overallRating": 5.0,
+          "reviewCount": 1
+        },
+        "title": "QA iOS Review Session",
+        "description": "Isolated iOS review acceptance fixture.",
+        "priceMinor": 8450,
+        "durationMinutes": 60,
+        "currency": "AUD",
+        "modalities": [
+          "online"
+        ],
+        "location": null,
+        "active": true,
+        "averageRating": 5.0,
+        "reviewCount": 1,
+        "reviews": [
+          {
+            "id": "a86225d3-781a-47e9-9c64-d6f14a9e4836",
+            "bookingId": "qa-nr-ios-completed-booking",
+            "serviceId": "qa-nr-ios-review-service",
+            "jobSeekerId": "qa-nr-ios-buyer",
+            "rating": 5,
+            "comment": "iOS native QA review: clear and useful guidance.",
+            "createdAt": "2026-10-15T21:52:43.525285Z"
+          }
+        ]
+      }
+    },
+    "/counsellors/qa-nr-ios-pro": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-ios-pro",
+        "displayName": "QA iOS Pro",
+        "linkedinUrl": "https://www.linkedin.com/in/qa-native-fixture/",
+        "introduction": "iOS QA introduction",
+        "background": "iOS QA background",
+        "experience": "iOS QA experience",
+        "qualifications": [
+          "QA qualification"
+        ],
+        "expertise": [
+          "Career planning"
+        ],
+        "languages": [
+          "English"
+        ],
+        "baseLocation": {
+          "state": "VIC",
+          "cityOrRegion": "Melbourne"
+        },
+        "defaultModality": "online",
+        "verificationStatus": "verified",
+        "overallRating": 5.0,
+        "reviewCount": 1,
+        "visibility": "public"
+      }
+    },
+    "/services/qa-nr-ios-unrated-service": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-ios-unrated-service",
+        "counsellor": {
+          "id": "qa-nr-ios-pro",
+          "displayName": "QA iOS Pro",
+          "introduction": "iOS QA introduction",
+          "verificationStatus": "verified",
+          "overallRating": 5.0,
+          "reviewCount": 1
+        },
+        "title": "QA iOS Unrated Session",
+        "description": "Isolated iOS unrated acceptance fixture.",
+        "priceMinor": 8450,
+        "durationMinutes": 60,
+        "currency": "AUD",
+        "modalities": [
+          "online"
+        ],
+        "location": null,
+        "active": true,
+        "averageRating": null,
+        "reviewCount": 0,
+        "reviews": []
+      }
+    }
+  }
+}

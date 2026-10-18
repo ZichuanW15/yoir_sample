@@ -27,8 +27,10 @@ from app.models import Booking, Order, Service, User
 from app.schemas import (
     AdminBookingOut,
     AdminCounsellorOut,
+    AdminJobSeekerOut,
     AdminMoneyOut,
     AdminStatsOut,
+    PaymentOversightDetailOut,
     PaymentOversightOut,
     SubmitVerificationRequest,
     VerificationDecisionRequest,
@@ -105,11 +107,32 @@ def list_verification_submissions(
     return [_submission_out(user) for user in submissions]
 
 
+@router.get(
+    "/admin/verifications/{submission_id}", response_model=VerificationSubmissionOut,
+    operation_id="getVerificationSubmission",
+    openapi_extra={"x-required-role": "platform_owner", "x-requirement-ids": ["US-58"]},
+)
+def get_verification_submission(
+    submission_id: str,
+    _owner: User = Depends(require_platform_owner),
+    db: Session = Depends(get_db),
+) -> VerificationSubmissionOut:
+    """US-58. One submission, read on its own, whatever has since been decided.
+
+    The queue is filtered and ordered for working through; a submission opened from
+    it, or from a link, has to be found without fetching everyone's to search them.
+    """
+    counsellor = db.get(User, submission_id)
+    if counsellor is None or counsellor.role != "counsellor":
+        raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Submission not found.")
+    return _submission_out(counsellor)
+
+
 @router.post(
     "/admin/verifications/{submission_id}/decision",
     response_model=VerificationSubmissionOut, operation_id="decideVerification",
     openapi_extra={
-        "x-required-role": "platform_owner", "x-requirement-ids": ["US-32", "US-58"],
+        "x-required-role": "platform_owner", "x-requirement-ids": ["US-32", "US-33", "US-58"],
     },
 )
 def decide_verification(
@@ -118,7 +141,9 @@ def decide_verification(
     _owner: User = Depends(require_platform_owner),
     db: Session = Depends(get_db),
 ) -> VerificationSubmissionOut:
-    """US-32, US-58. Approve or reject a counsellor, and tell them which."""
+    """US-32, US-33, US-58. Approve or reject a counsellor, and tell them which — or,
+    for a submission that already has an outcome, record an additional manual
+    investigation's result, including sending it back to pending."""
     counsellor = db.get(User, submission_id)
     if counsellor is None or counsellor.role != "counsellor":
         raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Submission not found.")
@@ -145,10 +170,15 @@ def decide_verification(
     # the email gets through, and a post-commit attribute read can fail. Reporting a
     # 500 here would tell the Platform Owner a recorded decision had failed, and
     # invite them to make it again.
-    try:
-        messages.verification_decided(recipient, recipient_name, payload.decision, reason)
-    except Exception:
-        log.exception("Could not send the verification decision email to %s", recipient)
+    #
+    # US-33: sending back to pending is not one of the two outcomes the template
+    # speaks to (verified, or rejected-with-a-reason), and no notification is in
+    # scope for it — the counsellor sees the change next time a view loads.
+    if payload.decision != "pending":
+        try:
+            messages.verification_decided(recipient, recipient_name, payload.decision, reason)
+        except Exception:
+            log.exception("Could not send the verification decision email to %s", recipient)
     return result
 
 
@@ -170,43 +200,92 @@ def list_payment_oversight(
     The Platform Owner needs to see that money moved and where it went; they have no
     business seeing a card number, and this application never holds one.
     """
+    rows = db.execute(
+        _oversight_query().order_by(Order.created_at.desc()).limit(limit)
+    ).all()
+    return [PaymentOversightOut(**_payment_fields(*row)) for row in rows]
+
+
+@router.get(
+    "/admin/payments/{order_id}", response_model=PaymentOversightDetailOut,
+    operation_id="getPaymentOversight",
+    openapi_extra={"x-required-role": "platform_owner", "x-requirement-ids": ["US-48"]},
+)
+def get_payment_oversight(
+    order_id: str,
+    _owner: User = Depends(require_platform_owner),
+    db: Session = Depends(get_db),
+) -> PaymentOversightDetailOut:
+    """US-48. One order end to end: who bought what from whom, for when, how the
+    money was split and how far the order has got.
+
+    Found by its id however old it is, not only while it is among the newest orders
+    the list returns. Nothing here changes the order; it is read, as it stands now.
+    """
+    row = db.execute(_oversight_query().where(Order.id == order_id)).one_or_none()
+    if row is None:
+        raise ApiError(status.HTTP_404_NOT_FOUND, NOT_FOUND, "Order not found.")
+    order, booking, service, seeker_row, counsellor_row = row
+    return PaymentOversightDetailOut(
+        **_payment_fields(*row),
+        job_seeker_id=seeker_row.id,
+        job_seeker_email=seeker_row.email,
+        counsellor_id=counsellor_row.id,
+        counsellor_email=counsellor_row.email,
+        service_id=service.id,
+        starts_at=order.starts_at,
+        ends_at=order.ends_at,
+        timezone=order.timezone,
+        modality=order.modality,
+        session_gst_minor=order.session_gst_minor,
+        platform_fee_gst_minor=order.platform_fee_gst_minor,
+        hold_expires_at=order.hold_expires_at if order.status == "awaiting_payment" else None,
+        booking_status=booking.status if booking is not None else None,
+        completed_at=booking.completed_at if booking is not None else None,
+        paid_out_at=booking.paid_out_at if booking is not None else None,
+        cancelled_at=booking.cancelled_at if booking is not None else None,
+        cancelled_by_role=booking.cancelled_by_role if booking is not None else None,
+    )
+
+
+def _oversight_query():
+    """Each order with its service, both parties and its booking, if it has one."""
     job_seeker = aliased_user()
     counsellor = aliased_user()
-    rows = db.execute(
+    return (
         select(Order, Booking, Service, job_seeker, counsellor)
         .join(Service, Service.id == Order.service_id)
         .join(job_seeker, job_seeker.id == Order.job_seeker_id)
         .join(counsellor, counsellor.id == Service.counsellor_id)
         .outerjoin(Booking, Booking.order_id == Order.id)
-        .order_by(Order.created_at.desc())
-        .limit(limit)
-    ).all()
+    )
 
-    return [
-        PaymentOversightOut(
-            # The PaymentIntent id when Stripe took the money; otherwise the order's
-            # own id, so a stub-paid order still has something to quote.
-            payment_id=order.payment_intent_id or order.id,
-            order_id=order.id,
-            booking_id=booking.id if booking is not None else None,
-            job_seeker_name=seeker_row.name,
-            counsellor_name=counsellor_row.name,
-            service_title=service.title,
-            amount_minor=order.amount_minor,
-            platform_fee_minor=order.platform_fee_minor,
-            counsellor_payout_minor=order.counsellor_payout_minor,
-            refunded_minor=booking.refunded_minor if booking is not None else 0,
-            currency=order.currency,
-            payment_status=order.payment_status,
-            order_status=order.status,
-            created_at=order.created_at,
-        )
-        for order, booking, service, seeker_row, counsellor_row in rows
-    ]
+
+def _payment_fields(
+    order: Order, booking: Booking | None, service: Service, seeker_row: User, counsellor_row: User,
+) -> dict:
+    """What the list and the single order share, so the two can never disagree."""
+    return {
+        # The PaymentIntent id when Stripe took the money; otherwise the order's own
+        # id, so a stub-paid order still has something to quote.
+        "payment_id": order.payment_intent_id or order.id,
+        "order_id": order.id,
+        "booking_id": booking.id if booking is not None else None,
+        "job_seeker_name": seeker_row.name,
+        "counsellor_name": counsellor_row.name,
+        "service_title": order.title_for(service),
+        "amount_minor": order.amount_minor,
+        "platform_fee_minor": order.platform_fee_minor,
+        "counsellor_payout_minor": order.counsellor_payout_minor,
+        "refunded_minor": booking.refunded_minor if booking is not None else 0,
+        "currency": order.currency,
+        "payment_status": order.payment_status,
+        "order_status": order.status,
+        "created_at": order.created_at,
+    }
 
 
 # --- the dashboard ----------------------------------------------------------
-
 
 @router.get(
     "/admin/stats", response_model=AdminStatsOut, operation_id="getPlatformStats",
@@ -299,7 +378,7 @@ def list_all_bookings(
     return [
         AdminBookingOut(
             id=booking.id,
-            service_title=service.title,
+            service_title=order.title_for(service),
             job_seeker_name=seeker_row.name,
             counsellor_name=counsellor_row.name,
             starts_at=booking.starts_at,
@@ -367,6 +446,41 @@ def list_all_counsellors(
             joined_at=user.created_at,
         )
         for user, service_count, booking_count, gross, payout in rows
+    ]
+
+
+@router.get(
+    "/admin/job-seekers", response_model=list[AdminJobSeekerOut],
+    operation_id="listAllJobSeekers",
+    openapi_extra={"x-required-role": "platform_owner", "x-requirement-ids": ["US-71"]},
+)
+def list_all_job_seekers(
+    _owner: User = Depends(require_platform_owner),
+    db: Session = Depends(get_db),
+) -> list[AdminJobSeekerOut]:
+    """US-71. Every job seeker, newest first, with how many sessions each has booked."""
+    booked = (
+        select(Booking.job_seeker_id, func.count().label("bookings"))
+        .group_by(Booking.job_seeker_id)
+        .subquery()
+    )
+    rows = db.execute(
+        select(User, booked.c.bookings)
+        .outerjoin(booked, booked.c.job_seeker_id == User.id)
+        .where(User.role == "job_seeker")
+        .order_by(User.created_at.desc())
+    ).all()
+
+    return [
+        AdminJobSeekerOut(
+            id=user.id,
+            name=user.name,
+            email=user.email,
+            email_verified=user.email_verified_at is not None,
+            booking_count=int(booking_count or 0),
+            joined_at=user.created_at,
+        )
+        for user, booking_count in rows
     ]
 
 

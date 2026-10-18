@@ -1,0 +1,133 @@
+{
+  "at": "2026-10-15T22:20:42.413729+00:00",
+  "userId": "qa-nr-android-buyer",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/bookings/qa-nr-android-completed-booking": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-android-completed-booking",
+        "orderId": "qa-nr-android-completed-order",
+        "serviceId": "qa-nr-android-review-service",
+        "serviceTitle": "QA Android Review Session",
+        "startsAt": "2026-10-12T21:34:11.498496Z",
+        "endsAt": "2026-10-12T22:34:11.498496Z",
+        "timezone": "Australia/Melbourne",
+        "modality": "online",
+        "status": "completed",
+        "paymentStatus": "paid",
+        "amountMinor": 8450,
+        "refundedMinor": 0,
+        "cancelledByRole": null,
+        "meetingUrl": null,
+        "counterpartyName": "QA Android Pro",
+        "counterpartyRole": "counsellor",
+        "meetingArea": "",
+        "meetingAddress": "",
+        "preSessionBrief": "Android fixture brief: discuss career direction.",
+        "review": {
+          "id": "918ca762-4331-4231-86ff-1388a084ebe4",
+          "bookingId": "qa-nr-android-completed-booking",
+          "serviceId": "qa-nr-android-review-service",
+          "jobSeekerId": "qa-nr-android-buyer",
+          "rating": 5,
+          "comment": "Qa native review",
+          "createdAt": "2026-10-15T22:20:31.986556Z"
+        }
+      }
+    },
+    "/services/qa-nr-android-review-service": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-android-review-service",
+        "counsellor": {
+          "id": "qa-nr-android-pro",
+          "displayName": "QA Android Pro",
+          "introduction": "Android QA introduction",
+          "verificationStatus": "verified",
+          "overallRating": 5.0,
+          "reviewCount": 1
+        },
+        "title": "QA Android Review Session",
+        "description": "Isolated Android review acceptance fixture.",
+        "priceMinor": 8450,
+        "durationMinutes": 60,
+        "currency": "AUD",
+        "modalities": [
+          "online"
+        ],
+        "location": null,
+        "active": true,
+        "averageRating": 5.0,
+        "reviewCount": 1,
+        "reviews": [
+          {
+            "id": "918ca762-4331-4231-86ff-1388a084ebe4",
+            "bookingId": "qa-nr-android-completed-booking",
+            "serviceId": "qa-nr-android-review-service",
+            "jobSeekerId": "qa-nr-android-buyer",
+            "rating": 5,
+            "comment": "Qa native review",
+            "createdAt": "2026-10-15T22:20:31.986556Z"
+          }
+        ]
+      }
+    },
+    "/counsellors/qa-nr-android-pro": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-android-pro",
+        "displayName": "QA Android Pro",
+        "linkedinUrl": "https://www.linkedin.com/in/qa-native-fixture/",
+        "introduction": "Android QA introduction",
+        "background": "Android QA background",
+        "experience": "Android QA experience",
+        "qualifications": [
+          "QA qualification"
+        ],
+        "expertise": [
+          "Career planning"
+        ],
+        "languages": [
+          "English"
+        ],
+        "baseLocation": {
+          "state": "VIC",
+          "cityOrRegion": "Melbourne"
+        },
+        "defaultModality": "online",
+        "verificationStatus": "verified",
+        "overallRating": 5.0,
+        "reviewCount": 1,
+        "visibility": "public"
+      }
+    },
+    "/services/qa-nr-android-unrated-service": {
+      "status": 200,
+      "data": {
+        "id": "qa-nr-android-unrated-service",
+        "counsellor": {
+          "id": "qa-nr-android-pro",
+          "displayName": "QA Android Pro",
+          "introduction": "Android QA introduction",
+          "verificationStatus": "verified",
+          "overallRating": 5.0,
+          "reviewCount": 1
+        },
+        "title": "QA Android Unrated Session",
+        "description": "Isolated Android unrated acceptance fixture.",
+        "priceMinor": 8450,
+        "durationMinutes": 60,
+        "currency": "AUD",
+        "modalities": [
+          "online"
+        ],
+        "location": null,
+        "active": true,
+        "averageRating": null,
+        "reviewCount": 0,
+        "reviews": []
+      }
+    }
+  }
+}

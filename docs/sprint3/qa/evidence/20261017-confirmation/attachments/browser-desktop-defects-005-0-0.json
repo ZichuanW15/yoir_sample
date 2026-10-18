@@ -1,0 +1,44 @@
+{
+  "injectedStatus": 503,
+  "refusedReads": 1,
+  "replacementStarts": 0,
+  "pageUrl": "http://127.0.0.1:43128/job-seeker",
+  "original": {
+    "id": "94d60912-b9d1-4604-88bf-fd4728fd3cb5",
+    "questionnaireVersion": "yoir-six-step-v1",
+    "revision": 1,
+    "status": "in_progress",
+    "currentStep": 2,
+    "totalSteps": 6,
+    "completedSteps": [
+      "now"
+    ],
+    "answers": {
+      "now": "other",
+      "other": {
+        "now": "Keep the server-confirmed answer"
+      }
+    },
+    "createdAt": "2026-10-17T07:41:57.549095Z",
+    "updatedAt": "2026-10-17T07:41:57.554098Z"
+  },
+  "stored": {
+    "id": "94d60912-b9d1-4604-88bf-fd4728fd3cb5",
+    "questionnaireVersion": "yoir-six-step-v1",
+    "revision": 1,
+    "status": "in_progress",
+    "currentStep": 2,
+    "totalSteps": 6,
+    "completedSteps": [
+      "now"
+    ],
+    "answers": {
+      "now": "other",
+      "other": {
+        "now": "Keep the server-confirmed answer"
+      }
+    },
+    "createdAt": "2026-10-17T07:41:57.549095Z",
+    "updatedAt": "2026-10-17T07:41:57.554098Z"
+  }
+}

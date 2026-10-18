@@ -1,0 +1,18 @@
+{
+  "command": [
+    "npx",
+    "jest",
+    "--ci",
+    "--runInBand",
+    "--config",
+    "jest.config.defects.js",
+    "--runTestsByPath",
+    "__tests__/defects/sprint3-private-matches.test.tsx",
+    "--json",
+    "--outputFile=/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-dev-refresh-20261017/authoring-auth/advisory-initial.json"
+  ],
+  "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+  "startedAt": "2026-10-17T06:32:35.103381+00:00",
+  "finishedAt": "2026-10-17T06:32:36.562106+00:00",
+  "exitCode": 1
+}

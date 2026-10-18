@@ -1,0 +1,778 @@
+{
+  "stats": {
+    "startTime": "2026-10-17T04:53:39.903Z",
+    "duration": 148106.102,
+    "expected": 38,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "errors": [],
+  "cases": [
+    {
+      "file": "integrity.spec.ts",
+      "line": 48,
+      "title": "DEF-PROFILE-PROVENANCE: live verified identity agrees with the persisted counsellor profile",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1367,
+          "startTime": "2026-10-17T04:53:41.022Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "integrity.spec.ts",
+      "line": 59,
+      "title": "CURRENT-IMPLEMENTATION: newly registered counsellor receives publish 403 with no saved or falsely successful service",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2595,
+          "startTime": "2026-10-17T04:53:42.478Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": []
+        }
+      ]
+    },
+    {
+      "file": "sprint3-completion.spec.ts",
+      "line": 88,
+      "title": "US32/33/71 real pending decision refreshes profile, My Services and administrator users",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3764,
+          "startTime": "2026-10-17T04:53:45.090Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-03-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-completion.spec.ts",
+      "line": 88,
+      "title": "US32/33/71 real verified decision refreshes profile, My Services and administrator users",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3606,
+          "startTime": "2026-10-17T04:53:48.861Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-04-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-completion.spec.ts",
+      "line": 88,
+      "title": "US32/33/71 real rejected decision refreshes profile, My Services and administrator users",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3795,
+          "startTime": "2026-10-17T04:53:52.473Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-05-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-completion.spec.ts",
+      "line": 128,
+      "title": "US31/32 a real conflicting verification submission never falsely becomes Pending",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2796,
+          "startTime": "2026-10-17T04:53:56.277Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-06-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-completion.spec.ts",
+      "line": 157,
+      "title": "US27/28 an already-open public profile removes private fields after real privacy changes and refresh",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2716,
+          "startTime": "2026-10-17T04:53:59.080Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-07-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-completion.spec.ts",
+      "line": 217,
+      "title": "US54/55 an unrated real service stays New in listings and shows an empty review state",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1926,
+          "startTime": "2026-10-17T04:54:01.804Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-08-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-completion.spec.ts",
+      "line": 244,
+      "title": "US09/12/13 a no-results marketplace search preserves completed diagnosis and original answers",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 8858,
+          "startTime": "2026-10-17T04:54:03.737Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-09-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-completion.spec.ts",
+      "line": 306,
+      "title": "US36/43/48 a real paid booking keeps its purchased title and price across service edit and withdrawal",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 5686,
+          "startTime": "2026-10-17T04:54:12.600Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-10-0.json",
+            "attachments/browser-final-10-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-diagnosis.spec.ts",
+      "line": 67,
+      "title": "US09/10/11 server-backed Web diagnosis validates, resumes after login and isolates accounts",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 11146,
+          "startTime": "2026-10-17T04:54:18.295Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-11-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-diagnosis.spec.ts",
+      "line": 111,
+      "title": "US12/13 server-derived direction leads through a real professional and service to a stub booking",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 10016,
+          "startTime": "2026-10-17T04:54:29.447Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-12-0.json",
+            "attachments/browser-final-12-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-diagnosis.spec.ts",
+      "line": 165,
+      "title": "US09/12 cancelled retake preserves confirmed answers and completed retake updates the same record",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 12217,
+          "startTime": "2026-10-17T04:54:39.468Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-13-0.json",
+            "attachments/browser-final-13-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-integration-acceptance.spec.ts",
+      "line": 73,
+      "title": "[S3-DIAGNOSIS-SERVER-ACK][QA-165] Continue waits for the real saved-step acknowledgement @injected-network",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2535,
+          "startTime": "2026-10-17T04:54:51.695Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-14-0.json",
+            "attachments/browser-final-14-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-integration-acceptance.spec.ts",
+      "line": 110,
+      "title": "[S3-DIAGNOSIS-SAVE-RECOVERY][QA-165] a refused server save retains the answer and retries without advancement @injected-network",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2432,
+          "startTime": "2026-10-17T04:54:54.234Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-15-0.json",
+            "attachments/browser-final-15-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-integration-acceptance.spec.ts",
+      "line": 143,
+      "title": "[S3-DIAGNOSIS-SERVER-RESUME][QA-162][QA-168] a fresh browser resumes the same account server-confirmed answers",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2490,
+          "startTime": "2026-10-17T04:54:56.671Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-16-0.json",
+            "attachments/browser-final-16-1.png",
+            "attachments/browser-final-16-2.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-integration-acceptance.spec.ts",
+      "line": 233,
+      "title": "[QA-165][QA-168] a real revision conflict reloads confirmed progress before an explicit retry",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3428,
+          "startTime": "2026-10-17T04:54:59.166Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-17-0.json",
+            "attachments/browser-final-17-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-integration-acceptance.spec.ts",
+      "line": 264,
+      "title": "[QA-171] result retry recovers the real direction without submitting the completed answer twice @injected-network",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3351,
+          "startTime": "2026-10-17T04:55:02.599Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-18-0.json",
+            "attachments/browser-final-18-1.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 38,
+      "title": "US53/54/55 real review validates, retains a failed draft, persists once and updates public ratings @injected-network",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3755,
+          "startTime": "2026-10-17T04:55:05.961Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-19-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 98,
+      "title": "US53 real confirmed booking blocks a review in the page and API",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1372,
+          "startTime": "2026-10-17T04:55:09.721Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-20-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 98,
+      "title": "US53 real cancelled booking blocks a review in the page and API",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1413,
+          "startTime": "2026-10-17T04:55:11.098Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-21-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 113,
+      "title": "US53 another buyer cannot open or review a completed booking",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1390,
+          "startTime": "2026-10-17T04:55:12.515Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-22-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 126,
+      "title": "US32/33/58 admin confirmation, approval and reasoned reinvestigation persist through the real API",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 6578,
+          "startTime": "2026-10-17T04:55:13.908Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-23-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 170,
+      "title": "US48 admin payment detail retries a failed real read and preserves the recorded split @injected-network",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2338,
+          "startTime": "2026-10-17T04:55:20.490Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-24-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 211,
+      "title": "US40/41 alternate delivery and held time stay consistent across buyer and counsellor Web views",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4495,
+          "startTime": "2026-10-17T04:55:22.833Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-25-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 37,
+      "title": "US44/45/46 public Web catalogue, search, detail and back",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2735,
+          "startTime": "2026-10-17T04:55:27.339Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-26-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 53,
+      "title": "US01/04 Web registration persists job_seeker",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2235,
+          "startTime": "2026-10-17T04:55:30.078Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-27-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 53,
+      "title": "US01/04 Web registration persists counsellor",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2319,
+          "startTime": "2026-10-17T04:55:32.319Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-28-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 70,
+      "title": "US03 duplicate registration remains on the form with input preserved",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1315,
+          "startTime": "2026-10-17T04:55:34.642Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-29-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 85,
+      "title": "US07 invalid login stays anonymous and can retry",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3754,
+          "startTime": "2026-10-17T04:55:35.961Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-30-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 106,
+      "title": "US06/08 Web login, logout and server-side revoked-token replay",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3247,
+          "startTime": "2026-10-17T04:55:39.721Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-31-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 120,
+      "title": "US40/41/47/68 real browser booking to stub receipt (not provider acceptance)",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4006,
+          "startTime": "2026-10-17T04:55:42.973Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-32-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 145,
+      "title": "US44 Web network failure exposes retry and recovers @injected-network",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 2849,
+          "startTime": "2026-10-17T04:55:46.984Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-33-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 155,
+      "title": "US34/35/37/38 counsellor Web publishing validates area and persists both delivery modes",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4972,
+          "startTime": "2026-10-17T04:55:49.839Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-34-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 199,
+      "title": "US34 counsellor publishing preserves the draft after a transport failure and retries once @injected-network",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3281,
+          "startTime": "2026-10-17T04:55:54.815Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-35-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 234,
+      "title": "US39 real Web availability windows create, derive service starts and remove through the API",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 4288,
+          "startTime": "2026-10-17T04:55:58.100Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-36-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 295,
+      "title": "[QA-106][US08-AC3] logout prevents browser history and protected deep-link access",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 3660,
+          "startTime": "2026-10-17T04:56:02.393Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-37-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 332,
+      "title": "US45 implemented Web keyword search shows matching results and a recoverable empty state",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1519,
+          "startTime": "2026-10-17T04:56:06.057Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-final-38-0.png"
+          ]
+        }
+      ]
+    }
+  ]
+}

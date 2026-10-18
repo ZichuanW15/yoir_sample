@@ -1,37 +1,48 @@
+import { Href, router, useLocalSearchParams } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { api, userFacingError } from '@/src/api/client';
-import { AdminCounsellor } from '@/src/api/types';
+import { AdminCounsellor, AdminJobSeeker } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
-import { AdminShell } from '@/src/admin/shell';
+import { AdminShell, LoadFailed } from '@/src/admin/shell';
 import { Glyph } from '@/src/components/Glyph';
-import { Card, ErrorBanner, Tag } from '@/src/components/ui';
+import { Card, Chip, Tag } from '@/src/components/ui';
+import { useDesktop } from '@/src/desktop';
 import { fmtDay, initials } from '@/src/format';
 import { FadeUp } from '@/src/motion';
 import { colors, fonts, type } from '@/src/theme';
+import { VerificationTag } from '@/src/verification';
 
 const currency = (minor: number) =>
   `$${(minor / 100).toLocaleString('en-AU', { maximumFractionDigits: 0 })}`;
 
-const statusTone: Record<string, { bg: string; fg: string }> = {
-  pending: { bg: colors.yellowTint, fg: colors.amberInk },
-  verified: { bg: colors.greenTint, fg: colors.greenDeep },
-  rejected: { bg: colors.dangerBg, fg: colors.dangerInk },
-};
-
-export default function AdminCounsellorsScreen() {
+/**
+ * US-71. Who has an account, read-only: Career Professionals or Job Seekers, each
+ * with their role and where their account stands. A Career Professional's row
+ * opens their verification (US-58).
+ *
+ * Which of the two is showing lives in the address (`role`), so the dashboard's
+ * tiles can open either one and a reload stays where it was.
+ */
+export default function AdminUsersScreen() {
   const { session } = useAuth();
-  const [rows, setRows] = useState<AdminCounsellor[] | null>(null);
+  const { role } = useLocalSearchParams<{ role?: string }>();
+  const seekers = role === 'job_seeker';
+  const [people, setPeople] = useState<{ professionals: AdminCounsellor[]; jobSeekers: AdminJobSeeker[] } | null>(null);
   const [error, setError] = useState('');
+  const desktop = useDesktop();
 
   const load = useCallback(async () => {
     if (!session) return;
     try {
-      setRows(await api.listAllCounsellors(session.accessToken));
+      const [professionals, jobSeekers] = await Promise.all([
+        api.listAllCounsellors(session.accessToken),
+        api.listAllJobSeekers(session.accessToken),
+      ]);
+      setPeople({ professionals, jobSeekers });
       setError('');
     } catch (value) {
       setError(userFacingError(value));
-      setRows([]);
     }
   }, [session]);
 
@@ -40,52 +51,152 @@ export default function AdminCounsellorsScreen() {
     void run();
   }, [load]);
 
+  const show = (next: 'counsellor' | 'job_seeker') => router.setParams({ role: next });
+
+  const roleChips = people ? (
+    <View style={styles.roles}>
+      <Chip
+        label={`Career Professionals · ${people.professionals.length}`}
+        selected={!seekers}
+        onPress={() => show('counsellor')}
+      />
+      <Chip
+        label={`Job Seekers · ${people.jobSeekers.length}`}
+        selected={seekers}
+        onPress={() => show('job_seeker')}
+      />
+    </View>
+  ) : null;
+
   return (
-    <AdminShell title="Career Professionals" subtitle="Newest first, with what each has sold." busy={rows === null}>
-      {error ? <ErrorBanner message={error} /> : null}
-      {rows && rows.length === 0 ? <Text style={type.body}>No Career Professionals yet.</Text> : null}
+    <AdminShell
+      title="Users"
+      subtitle="Everyone with a Yoir account, newest first. Nothing here can be changed."
+      busy={people === null && !error}
+      headerRight={roleChips}
+    >
+      {error ? <LoadFailed message={error} onRetry={() => { setError(''); void load(); }} /> : null}
 
-      {(rows ?? []).map((row, index) => {
-        const tone = statusTone[row.verificationStatus] ?? statusTone.pending;
-        // Verified but unpayable is the state worth spotting: everything they list
-        // is unbookable, and nothing in the app tells them so.
-        const blocked = row.verificationStatus === 'verified' && !row.payoutsEnabled;
-        return (
-          <FadeUp key={row.id} delay={60 + index * 30}>
-            <Card pad={18} style={styles.card}>
-              <View style={styles.head}>
-                <View style={styles.avatar}><Text style={styles.avatarText}>{initials(row.name)}</Text></View>
-                <View style={styles.headCopy}>
-                  <Text style={styles.name}>{row.name}</Text>
-                  <Text style={type.small}>{row.email}</Text>
-                </View>
-                <Tag label={row.verificationStatus} bg={tone.bg} fg={tone.fg} />
-              </View>
+      {people && desktop ? (
+        // Desktop: Career Professionals as a grid of cards, Job Seekers as rows in one card.
+        seekers ? (
+          people.jobSeekers.length ? (
+            <FadeUp delay={60} style={styles.desktopList}>
+              {people.jobSeekers.map((row) => <JobSeekerRow key={row.id} row={row} />)}
+            </FadeUp>
+          ) : null
+        ) : (
+          <View style={styles.desktopGrid}>
+            {people.professionals.map((row, index) => <ProfessionalCard key={row.id} row={row} index={index} desktop />)}
+          </View>
+        )
+      ) : null}
 
-              <View style={styles.flags}>
-                <Flag ok={row.emailVerified} label="Email confirmed" />
-                <Flag ok={row.payoutsEnabled} label="Payouts ready" />
-              </View>
+      {people ? (
+        <>
+          {/* Desktop shows the role chips beside the title instead. */}
+          {desktop ? null : roleChips}
 
-              {blocked ? (
-                <Text style={styles.warn}>
-                  Verified but cannot be paid, so nothing they list can be booked.
-                </Text>
-              ) : null}
+          {desktop ? null : seekers
+            ? people.jobSeekers.map((row, index) => <JobSeekerCard key={row.id} row={row} index={index} />)
+            : people.professionals.map((row, index) => <ProfessionalCard key={row.id} row={row} index={index} />)}
 
-              <View style={styles.figures}>
-                <Figure label="Services" value={String(row.serviceCount)} />
-                <Figure label="Bookings" value={String(row.bookingCount)} />
-                <Figure label="Gross" value={currency(row.grossMinor)} />
-                <Figure label="Earned" value={currency(row.payoutMinor)} />
-              </View>
-
-              <Text style={styles.meta}>Joined {fmtDay(row.joinedAt)}</Text>
-            </Card>
-          </FadeUp>
-        );
-      })}
+          {(seekers ? people.jobSeekers : people.professionals).length === 0 ? (
+            <Text style={type.body}>{seekers ? 'No Job Seekers yet.' : 'No Career Professionals yet.'}</Text>
+          ) : null}
+        </>
+      ) : null}
     </AdminShell>
+  );
+}
+
+function ProfessionalCard({ row, index, desktop }: { row: AdminCounsellor; index: number; desktop?: boolean }) {
+  // Verified but unpayable is the state worth spotting: everything they list
+  // is unbookable, and nothing in the app tells them so.
+  const blocked = row.verificationStatus === 'verified' && !row.payoutsEnabled;
+  return (
+    <FadeUp delay={60 + Math.min(index, 8) * 30} style={desktop && styles.desktopCell}>
+      <Card
+        pad={desktop ? 20 : 18}
+        style={[styles.card, desktop && styles.desktopFlat]}
+        accessibilityLabel={`${row.name}, Career Professional. Open their verification`}
+        onPress={() => router.push(`/admin/verifications/${encodeURIComponent(row.id)}` as Href)}
+      >
+        <Who name={row.name} email={row.email} opens />
+
+        <View style={styles.tags}>
+          <Tag label="Career Professional" />
+          <VerificationTag state={row.verificationStatus} short />
+        </View>
+
+        <View style={styles.flags}>
+          <Flag ok={row.emailVerified} label={row.emailVerified ? 'Email confirmed' : 'Email not confirmed'} />
+          <Flag ok={row.payoutsEnabled} label={row.payoutsEnabled ? 'Payouts ready' : 'Payouts not set up'} />
+        </View>
+
+        {blocked ? (
+          <Text style={styles.warn}>
+            Verified but cannot be paid, so nothing they list can be booked.
+          </Text>
+        ) : null}
+
+        <View style={styles.figures}>
+          <Figure label="Services" value={String(row.serviceCount)} />
+          <Figure label="Bookings" value={String(row.bookingCount)} />
+          <Figure label="Gross" value={currency(row.grossMinor)} />
+          <Figure label="Earned" value={currency(row.payoutMinor)} />
+        </View>
+
+        <Text style={styles.meta}>Joined {fmtDay(row.joinedAt)}</Text>
+      </Card>
+    </FadeUp>
+  );
+}
+
+function JobSeekerCard({ row, index }: { row: AdminJobSeeker; index: number }) {
+  return (
+    <FadeUp delay={60 + Math.min(index, 8) * 30}>
+      <Card pad={18} style={styles.card}>
+        <Who name={row.name} email={row.email} />
+
+        <View style={styles.tags}>
+          <Tag label="Job Seeker" />
+          <Tag label={row.bookingCount === 1 ? '1 booking' : `${row.bookingCount} bookings`} bg={colors.greenTint} fg={colors.greenDeep} />
+        </View>
+
+        <View style={styles.flags}>
+          <Flag ok={row.emailVerified} label={row.emailVerified ? 'Email confirmed' : 'Email not confirmed'} />
+        </View>
+
+        <Text style={styles.meta}>Joined {fmtDay(row.joinedAt)}</Text>
+      </Card>
+    </FadeUp>
+  );
+}
+
+/** Desktop: a Job Seeker as one row, everything the mobile card says read across. */
+function JobSeekerRow({ row }: { row: AdminJobSeeker }) {
+  return (
+    <View style={styles.desktopRow}>
+      <View style={styles.desktopWho}><Who name={row.name} email={row.email} /></View>
+      <Tag label="Job Seeker" />
+      <Tag label={row.bookingCount === 1 ? '1 booking' : `${row.bookingCount} bookings`} bg={colors.greenTint} fg={colors.greenDeep} />
+      <Flag ok={row.emailVerified} label={row.emailVerified ? 'Email confirmed' : 'Email not confirmed'} />
+      <Text style={styles.meta}>Joined {fmtDay(row.joinedAt)}</Text>
+    </View>
+  );
+}
+
+function Who({ name, email, opens }: { name: string; email: string; opens?: boolean }) {
+  return (
+    <View style={styles.head}>
+      <View style={styles.avatar}><Text style={styles.avatarText}>{initials(name)}</Text></View>
+      <View style={styles.headCopy}>
+        <Text style={styles.name} numberOfLines={1}>{name}</Text>
+        <Text style={type.small} numberOfLines={1}>{email}</Text>
+      </View>
+      {opens ? <Glyph name="chevronRight" size={16} color={colors.mark} /> : null}
+    </View>
   );
 }
 
@@ -108,6 +219,7 @@ function Figure({ label, value }: { label: string; value: string }) {
 }
 
 const styles = StyleSheet.create({
+  roles: { flexDirection: 'row', flexWrap: 'wrap', gap: 8 },
   card: { gap: 12 },
   head: { flexDirection: 'row', alignItems: 'center', gap: 12 },
   avatar: {
@@ -117,6 +229,7 @@ const styles = StyleSheet.create({
   avatarText: { fontFamily: fonts.bold, fontSize: 14, color: colors.green },
   headCopy: { flex: 1, gap: 2 },
   name: { fontFamily: fonts.bold, fontSize: 15, color: colors.ink },
+  tags: { flexDirection: 'row', flexWrap: 'wrap', gap: 6 },
   flags: { flexDirection: 'row', flexWrap: 'wrap', gap: 14 },
   flag: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   flagText: { fontFamily: fonts.semi, fontSize: 12 },
@@ -126,4 +239,14 @@ const styles = StyleSheet.create({
   figureValue: { fontFamily: fonts.extra, fontSize: 16, color: colors.ink },
   figureLabel: { fontFamily: fonts.sans, fontSize: 11, color: colors.sub },
   meta: { fontFamily: fonts.sans, fontSize: 12, color: colors.sub },
+  desktopGrid: { flexDirection: 'row', flexWrap: 'wrap', gap: 16 },
+  // Two to a row at desktop widths; a card never narrows below what its four figures need.
+  desktopCell: { flexGrow: 1, flexBasis: 420, maxWidth: '100%' },
+  desktopFlat: { borderWidth: 1, borderColor: colors.lineSoft, boxShadow: 'none' },
+  desktopList: { backgroundColor: colors.white, borderWidth: 1, borderColor: colors.lineSoft, borderRadius: 22, overflow: 'hidden' },
+  desktopRow: {
+    flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', gap: 14,
+    paddingHorizontal: 20, paddingVertical: 14, borderBottomWidth: 1, borderBottomColor: colors.lineSoft,
+  },
+  desktopWho: { flexGrow: 1, flexBasis: 220, minWidth: 0 },
 });

@@ -1,27 +1,46 @@
-import { apiMock, counsellorProfileFixture, renderCounsellor, serviceFixture, setupCounsellorMocks } from './counsellor-screen-utils';
+import { apiMock, counsellorProfileFixture, deferred, renderCounsellor, serviceFixture, settle, setupCounsellorMocks } from './counsellor-screen-utils';
 import { fireEvent, screen, waitFor } from '@testing-library/react-native';
 import { router } from 'expo-router';
 import Dashboard from '@/app/counsellor';
+import { OnboardingState } from '@/src/api/types';
 import { sessionFixture } from '../fixtures';
 import { apiError } from '@/src/api/errors';
+import { fmtDay, fmtTime } from '@/src/format';
 beforeEach(setupCounsellorMocks);
 describe('Counsellor dashboard UI — QA #133 (mocked API boundary)', () => {
   test.each([null, sessionFixture])('hides the workspace from anonymous or job-seeker users (%j)', async (session) => {
     await renderCounsellor(<Dashboard />, session); expect(screen.getByTestId('redirect')).toHaveTextContent('/');
     expect(screen.queryByRole('button', { name: 'New' })).toBeNull();
   });
-  test('loads the signed-in counsellor services, profile completion and availability window counts', async () => {
+  test('loads the signed-in counsellor services, profile completion and the time still open to book', async () => {
+    apiMock.listOwnServices.mockResolvedValue([{ ...serviceFixture, nextAvailableAt: '2030-09-19T10:00:00Z' }]);
     apiMock.listOwnAvailabilityWindows.mockResolvedValue([
-      { id: 'open', modalities: ['online'], startsAt: '2030-09-20T09:00:00Z', endsAt: '2030-09-20T10:00:00Z', hasBookings: false },
-      { id: 'booked', modalities: ['online'], startsAt: '2030-09-19T09:00:00Z', endsAt: '2030-09-19T10:00:00Z', hasBookings: true },
+      { id: 'open', modalities: ['online'], startsAt: '2030-09-20T09:00:00Z', endsAt: '2030-09-20T10:00:00Z', hasBookings: false, freeMinutes: 60 },
+      { id: 'booked', modalities: ['online'], startsAt: '2030-09-19T09:00:00Z', endsAt: '2030-09-19T11:00:00Z', hasBookings: true, freeMinutes: 60 },
     ]);
     await renderCounsellor(<Dashboard />); await screen.findByText(serviceFixture.title);
     expect(apiMock.listOwnServices).toHaveBeenCalledWith('counsellor-1', 'counsellor-access-token');
-    expect(screen.getByText('Verified Career Professional')).toBeTruthy(); expect(screen.getByText('5/5')).toBeTruthy(); expect(screen.getByText(/2 open slots\. Next on/)).toBeTruthy();
+    expect(screen.getByText('Verified Career Professional')).toBeTruthy(); expect(screen.getByText('5/5')).toBeTruthy();
+    // Booked time is not counted as open, and the service shows when it can next be booked.
+    expect(screen.getByText(`2 hours free to book, through ${fmtDay('2030-09-20T10:00:00Z')}.`)).toBeTruthy();
+    expect(screen.getByText(`Next open ${fmtDay('2030-09-19T10:00:00Z')} · ${fmtTime('2030-09-19T10:00:00Z')}`)).toBeTruthy();
     fireEvent.press(screen.getByRole('button', { name: 'New' })); expect(router.push).toHaveBeenLastCalledWith('/counsellor/services/new');
     fireEvent.press(screen.getByRole('button', { name: `Edit ${serviceFixture.title}` })); expect(router.push).toHaveBeenLastCalledWith('/counsellor/services/service-1/edit');
     fireEvent.press(screen.getByRole('button', { name: 'Professional profile' })); expect(router.push).toHaveBeenLastCalledWith('/counsellor/profile');
     fireEvent.press(screen.getByRole('button', { name: 'Availability' })); expect(router.push).toHaveBeenLastCalledWith('/counsellor/availability');
+  });
+  test('a fully booked calendar is not shown as open, and a service with nothing open says so', async () => {
+    apiMock.listOwnServices.mockResolvedValue([{ ...serviceFixture, nextAvailableAt: null }]);
+    apiMock.listOwnAvailabilityWindows.mockResolvedValue([
+      { id: 'booked', modalities: ['online'], startsAt: '2030-09-19T09:00:00Z', endsAt: '2030-09-19T10:00:00Z', hasBookings: true, freeMinutes: 0 },
+    ]);
+    await renderCounsellor(<Dashboard />); await screen.findByText(serviceFixture.title);
+    expect(screen.getByText('Fully booked. Add availability so buyers can choose a time.')).toBeTruthy();
+    expect(screen.getByText('No open times')).toBeTruthy(); expect(screen.queryByText(/^Next open/)).toBeNull();
+  });
+  test('an empty calendar asks for availability', async () => {
+    await renderCounsellor(<Dashboard />); await screen.findByText(serviceFixture.title);
+    expect(screen.getByText('No open times. Add availability so buyers can choose a time.')).toBeTruthy();
   });
   test('shows the first-service entry and missing LinkedIn guidance for an empty pending profile', async () => {
     apiMock.listOwnServices.mockResolvedValue([]);
@@ -47,5 +66,36 @@ describe('Counsellor dashboard UI — QA #133 (mocked API boundary)', () => {
     await renderCounsellor(<Dashboard />); await screen.findByText(serviceFixture.title);
     fireEvent.press(screen.getByRole('button', { name: `Delete ${serviceFixture.title}` })); fireEvent.press(screen.getByLabelText('Delete'));
     await screen.findByText('Service is still in use.'); expect(screen.getByText(serviceFixture.title)).toBeTruthy();
+  });
+});
+
+describe('Counsellor dashboard onboarding gate — US-05 (mocked API boundary)', () => {
+  const incomplete: OnboardingState = { profileComplete: false, verificationSubmitted: false, complete: false };
+
+  test('shows neither the workspace nor the onboarding gate until onboarding state is received', async () => {
+    const pending = deferred<OnboardingState>();
+    apiMock.getOnboardingState.mockReturnValueOnce(pending.promise);
+    await renderCounsellor(<Dashboard />);
+    expect(screen.queryByText('Good to see you, Maya')).toBeNull();
+    expect(screen.queryByTestId('redirect')).toBeNull();
+
+    await settle(pending, incomplete);
+    expect(screen.getByTestId('redirect')).toHaveTextContent('/counsellor/onboarding');
+  });
+
+  test('an incomplete onboarding state sends a first-login counsellor to onboarding, not the workspace', async () => {
+    apiMock.getOnboardingState.mockResolvedValue(incomplete);
+    await renderCounsellor(<Dashboard />);
+    expect(await screen.findByTestId('redirect')).toHaveTextContent('/counsellor/onboarding');
+    expect(screen.queryByText(serviceFixture.title)).toBeNull();
+    expect(screen.queryByRole('button', { name: 'New' })).toBeNull();
+  });
+
+  test('a failed onboarding check fails open: the already-familiar workspace still renders, with the failure surfaced', async () => {
+    apiMock.getOnboardingState.mockRejectedValue(apiError(503, 'UNAVAILABLE', 'Onboarding status is temporarily unavailable.'));
+    await renderCounsellor(<Dashboard />);
+    await screen.findByText(serviceFixture.title);
+    expect(screen.getByText('Onboarding status is temporarily unavailable.')).toBeTruthy();
+    expect(screen.queryByTestId('redirect')).toBeNull();
   });
 });

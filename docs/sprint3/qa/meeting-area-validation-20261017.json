@@ -1,0 +1,79 @@
+{
+  "checkedAt": "2026-10-17T06:52:06.988498+00:00",
+  "devBaseline": "9cce9737ded87c13a7575d7236a051c5db7628f8",
+  "localHeadBeforePendingMerge": "38cd806227453e820838081d6fbea907c6e5ef14",
+  "localMergePending": true,
+  "qaTaskMappings": 23,
+  "sourceFilesVerified": 372,
+  "evidencePackages": [
+    {
+      "path": "docs/sprint3/qa/evidence/20261014/manifest.json",
+      "sha256": "b5cb0b7dd430ba41a2743038cfc770c187f07a95c7c19f70bc698c4747a88f4e",
+      "files": 48
+    },
+    {
+      "path": "docs/sprint3/qa/evidence/20261016/manifest.json",
+      "sha256": "66e2ecd77935a1596c61272834f5fa469e5597e9a3b5d3994c06fa8cab41978b",
+      "files": 104
+    },
+    {
+      "path": "docs/sprint3/qa/evidence/20261016-completion/manifest.json",
+      "sha256": "53ef8c7aee1729cd1968d712a0ca8b08b7ed7aff173a6384d61113f4ae002204",
+      "files": 69
+    },
+    {
+      "path": "docs/sprint3/qa/evidence/20261016-gap-followup/manifest.json",
+      "sha256": "789204ac30baeb33d5686a6a5e82d8d09470dfb295b190a1343dbd270232567a",
+      "files": 66
+    },
+    {
+      "path": "docs/sprint3/qa/evidence/20261016-native/manifest.json",
+      "sha256": "22b960f421f69ddb782e1646b85c5e16572401dd6d2954d2faa313005b95e95c",
+      "files": 103
+    },
+    {
+      "path": "docs/sprint3/qa/evidence/20261016-native-remaining/manifest.json",
+      "sha256": "53e81f448b93c2d62add48aa0f90ecbe7c11cd086f6ba74f8a36464e157a7bbb",
+      "files": 547
+    },
+    {
+      "path": "docs/sprint3/qa/evidence/20261017-dev-refresh/manifest.json",
+      "sha256": "7feef6cf8d492a93d063794ef81e1093d5f1d38f2c3b50cf9832d0309ed195c7",
+      "files": 33
+    },
+    {
+      "path": "docs/sprint3/qa/evidence/20261017-final/manifest.json",
+      "sha256": "3f23cfd83ed01d8dbb2fd311edc6b1cb723f52a0abc4e6b9ebd086f0b1d5ec09",
+      "files": 160
+    },
+    {
+      "path": "docs/sprint3/qa/evidence/20261017-meeting-area/manifest.json",
+      "sha256": "88aa7ae5b435b54ec6ed03cb816a574e0e76c970cca1040e7ffbb7ff44229597",
+      "files": 134
+    }
+  ],
+  "evidenceFilesVerified": 1264,
+  "backendCounts": {
+    "pass": 916,
+    "fail": 0,
+    "error": 0,
+    "xfail": 18,
+    "skip": 0
+  },
+  "meetingAreaCasesPassed": 15,
+  "browserRegression": "38 complete-suite passes and one separately executed new case",
+  "sourceStableDuringExecutions": true,
+  "frontendRegressionEvidenceRetainedWithMatchingHashes": true,
+  "reportHealth": "passed",
+  "productDependencyWorkflowDifferencesFromDev": [],
+  "gitDiffWhitespace": "passed",
+  "remoteChange": "PR244 merged by user instruction; QA branch not pushed",
+  "localCommitCreated": false,
+  "repositoryMetadata": {
+    "openApiOperations": 76,
+    "localRefs": 80,
+    "markdownRelativeLinks": 1363,
+    "brokenLinks": [],
+    "workflowYamlAndSeedJson": "passed"
+  }
+}

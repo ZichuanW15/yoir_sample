@@ -1,0 +1,28 @@
+{
+  "platform": "ios",
+  "kind": "confirmation-defect",
+  "command": [
+    "./node_modules/.bin/jest",
+    "--config",
+    "jest.config.ios-defects.js",
+    "--runInBand",
+    "--runTestsByPath",
+    "__tests__/defects/sprint3-confirmation-history.test.tsx",
+    "--json",
+    "--outputFile",
+    "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/artifacts/qa/sprint3-meeting-area-20261017/authoring/ios-confirmation-defect.json"
+  ],
+  "cwd": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend",
+  "startedAt": "2026-10-17T06:43:34.021990+00:00",
+  "finishedAt": "2026-10-17T06:43:35.625408+00:00",
+  "exitCode": 1,
+  "source": "__tests__/defects/sprint3-confirmation-history.test.tsx",
+  "sourceSha256": "d826b69a255c318b5aa6ea9b5814c4eca97d85c99436f921c1fb8a8de0457c3f",
+  "results": {
+    "numTotalTests": 1,
+    "numPassedTests": 0,
+    "numFailedTests": 1,
+    "numPendingTests": 0,
+    "numRuntimeErrorTestSuites": 0
+  }
+}

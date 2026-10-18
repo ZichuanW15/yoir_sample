@@ -1,10 +1,12 @@
 from datetime import date, datetime
 from typing import Annotated, Literal
+from urllib.parse import urlsplit
 
 from pydantic import BaseModel, ConfigDict, EmailStr, Field, StringConstraints, field_validator
 from pydantic.alias_generators import to_camel
 
 Role = Literal["job_seeker", "counsellor", "platform_owner"]
+ProfileVisibility = Literal["public", "partial", "restricted"]
 Modality = Literal["online", "in_person"]
 # Payment vocabulary (payments spec §5). An order is the spec's pending_payment
 # booking; a Booking row exists only once Stripe has confirmed the payment.
@@ -206,6 +208,35 @@ class CounsellorProfileOut(CamelModel):
     verification_status: Literal["pending", "verified", "rejected"]
     overall_rating: float | None = None
     review_count: int
+    visibility: ProfileVisibility | None = None
+    restricted: bool | None = None
+
+
+class PrivacySettingsOut(CamelModel):
+    visibility: ProfileVisibility
+
+
+class UpdateProfileVisibilityRequest(CamelModel):
+    model_config = ConfigDict(extra="forbid")
+
+    visibility: ProfileVisibility
+
+
+class OnboardingStateOut(CamelModel):
+    """US-05. Whether a Career Professional has cleared first-login onboarding.
+
+    Two checks, not one, because the app lists them separately: `profileComplete`
+    mirrors what `update_own_counsellor_profile` already requires before it accepts
+    a save (a LinkedIn URL plus an introduction, background and experience), and
+    `verificationSubmitted` mirrors `verificationState()` on the frontend — a
+    LinkedIn URL on file is a submission, whatever the Platform Owner has since
+    decided about it. `complete` is both, so the app has one flag to route on
+    without re-deriving the rule client-side.
+    """
+
+    profile_complete: bool
+    verification_submitted: bool
+    complete: bool
 
 
 #: One qualification, skill or language on a Career Professional's profile.
@@ -227,6 +258,14 @@ class UpdateCounsellorProfileRequest(CamelModel):
     languages: list[ProfileItem] = Field(default=[], max_length=20)
     base_location: "Location | None" = None
     default_modality: Modality = "online"
+
+    @field_validator("linkedin_url", mode="before")
+    @classmethod
+    def _validate_linkedin_url(cls, value: object) -> object:
+        # Same check as SubmitVerificationRequest's, and for the same reason:
+        # this is the other write path that can put a URL in front of
+        # Linking.openURL, so it cannot settle for a weaker check.
+        return _require_linkedin_profile_url(value)
 
 
 class Location(CamelModel):
@@ -317,6 +356,16 @@ class OwnServiceOut(ServiceOut):
     """
 
     meeting_url: str | None = None
+    #: The earliest time a job seeker could book it, exactly as its time picker would
+    #: offer it. None when nothing is open, which is what the counsellor needs to see:
+    #: a count of windows says nothing about whether this service fits in any of them.
+    next_available_at: datetime | None = None
+
+
+class ServiceDetailOut(ServiceOut):
+    """US-54 — the service detail screen only; the Marketplace list stays light."""
+
+    reviews: list["ReviewOut"] = []
 
 
 class CreateAvailabilityWindowRequest(CamelModel):
@@ -350,6 +399,9 @@ class AvailabilityWindowOut(CamelModel):
     #: True once any part of the window has been booked, so the screen can show that
     #: shortening it would strand a session rather than silently refusing the edit.
     has_bookings: bool = False
+    #: Minutes still open to book: the part not yet past, less every booking and
+    #: unpaid hold inside it. A fully booked window is on the calendar but not free.
+    free_minutes: int = 0
 
 
 class BookableStartOut(CamelModel):
@@ -371,6 +423,9 @@ class CreateOrderRequest(CamelModel):
     starts_at: datetime
     modality: Modality
     timezone: str = Field(min_length=1, max_length=100)
+    #: US-42 — optional. What the job seeker wants to cover, shown to the
+    #: counsellor so they can prepare; never required to complete a booking.
+    pre_session_brief: str | None = Field(default=None, max_length=500)
 
 
 class BookingAmountsOut(CamelModel):
@@ -431,6 +486,20 @@ class BookingOut(CamelModel):
     counterparty_role: Role | None = None
     #: Where an in-person session happens, as the service advertises it.
     meeting_area: str = ""
+    #: US-43 — the specific meeting point for this booking, set by the counsellor
+    #: after confirmation. Empty until they add one.
+    meeting_address: str = ""
+    #: US-42 — what the job seeker asked to cover, frozen from the order at booking
+    #: time. Empty when none was given.
+    pre_session_brief: str = ""
+    #: US-53 — the buyer's review once written, so the app stops offering another.
+    review: "ReviewOut | None" = None
+
+
+class UpdateMeetingAddressRequest(CamelModel):
+    """US-43 — the counsellor's own words for where to meet, for one booking."""
+
+    meeting_address: str | None = Field(default=None, max_length=300)
 
 
 class StubPaymentConfirmation(CamelModel):
@@ -496,6 +565,50 @@ class CancelBookingOut(CamelModel):
     booking: BookingOut
     refunded_minor: int
     currency: Literal["AUD"]
+
+
+class RescheduleBookingRequest(CamelModel):
+    """US-69 — move a confirmed booking to another open slot on the same order.
+
+    Shaped like `CreateOrderRequest`'s time fields rather than carrying a slot id:
+    availability is derived, not stored, so there is no persisted slot row to name.
+    """
+
+    #: The new start. Its end follows from the service's duration, the same as
+    #: creating an order — the client does not get to decide how long it is buying.
+    starts_at: datetime
+    modality: Modality
+    timezone: str = Field(min_length=1, max_length=100)
+
+
+class SubmitReviewRequest(CamelModel):
+    """US-53 — the buyer's rating and comment on one completed booking."""
+
+    model_config = ConfigDict(extra="forbid")
+
+    rating: int = Field(ge=1, le=5)
+    comment: str = Field(min_length=1, max_length=4000)
+
+    @field_validator("comment")
+    @classmethod
+    def _comment_says_something(cls, value: str) -> str:
+        # min_length alone lets "   " through, and a written review has to say something.
+        value = value.strip()
+        if not value:
+            raise ValueError("Write a short review.")
+        return value
+
+
+class ReviewOut(CamelModel):
+    """US-54/US-55 — one stored review, as published by the executable contract."""
+
+    id: str
+    booking_id: str
+    service_id: str
+    job_seeker_id: str
+    rating: int
+    comment: str
+    created_at: datetime
 
 
 class StripeOnboardingRequest(CamelModel):
@@ -621,18 +734,67 @@ class VerificationSubmissionOut(CamelModel):
 
 
 class VerificationDecisionRequest(CamelModel):
+    """US-58's initial call, and US-33's re-decision after an additional manual
+    investigation — the same shape either way, since reopening a verified or
+    rejected submission back to pending is itself a decision worth recording."""
+
     model_config = ConfigDict(extra="forbid")
 
-    decision: Literal["verified", "rejected"]
+    decision: Literal["pending", "verified", "rejected"]
     #: Told to the counsellor, so a rejection is something they can act on rather
     #: than a dead end. Required for a rejection; the router enforces that.
     reason: str = Field(default="", max_length=1000)
+
+
+def _require_linkedin_profile_url(value: object) -> str:
+    """A safe https linkedin.com profile URL, normalised — never the raw input.
+
+    Checking only the host (as this once did) lets a scheme ride along past it:
+    `javascript://linkedin.com/...` and `ftp://linkedin.com/...` both parse a
+    linkedin.com host, but are not links a browser should ever be handed. The
+    app later passes the stored value to `Linking.openURL`, which on Web
+    assigns it to `window.location`, so only `https` may reach that boundary.
+
+    A backslash is rejected outright rather than parsed: Python's `urlsplit`
+    does not treat it as a delimiter, but a browser's WHATWG URL parser does —
+    early, and as equivalent to a forward slash — so the two can disagree on
+    which host a URL names. `https://evil.example\\@linkedin.com/...` is one
+    such string: this module's `.hostname` reports `linkedin.com`, a browser
+    opens `evil.example`. Credentials are rejected too, on the same principle:
+    a profile link legitimately has none, so the userinfo component is pure
+    attack surface with no cost to removing it.
+    """
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError("Enter your LinkedIn profile URL.")
+    raw = value.strip()
+    if "\\" in raw:
+        raise ValueError("Must be a linkedin.com profile URL.")
+    if "://" in raw:
+        scheme, _, _rest = raw.partition("://")
+        if scheme.lower() != "https":
+            raise ValueError("Must be a linkedin.com profile URL.")
+        normalised = raw
+    else:
+        normalised = f"https://{raw}"
+    parsed = urlsplit(normalised)
+    if parsed.username is not None or parsed.password is not None:
+        raise ValueError("Must be a linkedin.com profile URL.")
+    host = (parsed.hostname or "").lower()
+    if host != "linkedin.com" and not host.endswith(".linkedin.com"):
+        raise ValueError("Must be a linkedin.com profile URL.")
+    return normalised
 
 
 class SubmitVerificationRequest(CamelModel):
     model_config = ConfigDict(extra="forbid")
 
     linked_in_url: str = Field(min_length=1, max_length=2000)
+
+    @field_validator("linked_in_url", mode="before")
+    @classmethod
+    def _validate_linkedin_url(cls, value: object) -> object:
+        # US-31 AC: a non-LinkedIn URL is rejected server-side, not just by the app.
+        return _require_linkedin_profile_url(value)
 
 
 class PaymentOversightOut(CamelModel):
@@ -656,6 +818,35 @@ class PaymentOversightOut(CamelModel):
     payment_status: PaymentStatus
     order_status: OrderStatus
     created_at: datetime
+
+
+class PaymentOversightDetailOut(PaymentOversightOut):
+    """US-48. One order end to end: the list row, plus who exactly, which session,
+    the whole frozen split and how far the order has got.
+
+    The session is read off the order, not the booking, so an order still being paid
+    for — or one that never got a booking — still shows the time it was for.
+    """
+
+    job_seeker_id: str
+    job_seeker_email: str
+    counsellor_id: str
+    counsellor_email: str
+    service_id: str
+    starts_at: datetime
+    ends_at: datetime
+    timezone: str
+    modality: Modality
+    session_gst_minor: int
+    platform_fee_gst_minor: int
+    #: Set while an unpaid order holds its time; the time is released when it passes.
+    hold_expires_at: datetime | None = None
+    #: The session's own progress once paid for. None until a booking exists.
+    booking_status: BookingStatus | None = None
+    completed_at: datetime | None = None
+    paid_out_at: datetime | None = None
+    cancelled_at: datetime | None = None
+    cancelled_by_role: Role | None = None
 
 
 class AdminBookingOut(CamelModel):
@@ -692,6 +883,15 @@ class AdminCounsellorOut(CamelModel):
     joined_at: datetime
 
 
+class AdminJobSeekerOut(CamelModel):
+    id: str
+    name: str
+    email: str
+    email_verified: bool
+    booking_count: int
+    joined_at: datetime
+
+
 class AdminMoneyOut(CamelModel):
     """Totals read from the frozen per-order breakdown, never recalculated.
 
@@ -722,3 +922,5 @@ class AdminStatsOut(CamelModel):
 # Location is declared after the profile models that reference it.
 CounsellorProfileOut.model_rebuild()
 UpdateCounsellorProfileRequest.model_rebuild()
+# ReviewOut is declared after ServiceDetailOut, which references it (US-54).
+ServiceDetailOut.model_rebuild()

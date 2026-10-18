@@ -492,6 +492,186 @@ def test_editing_a_service_needs_a_counsellor_session(
     ).status_code == 403
 
 
+def test_renaming_a_service_does_not_rewrite_what_was_already_bought(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    counsellor_headers: dict[str, str],
+    job_seeker_headers: dict[str, str],
+    platform_owner_headers: dict[str, str],
+) -> None:
+    """US-36 AC3: an order and its booking keep the service information they were
+    bought with. The receipt is a tax invoice for a GST-registered Career Professional,
+    so its description must not change after it has been issued."""
+    start = datetime.now(UTC) + timedelta(days=3)
+    db_session.add(AvailabilityWindow(
+        counsellor_id=service.counsellor_id, starts_at=start, ends_at=start + timedelta(hours=3),
+    ))
+    db_session.commit()
+    order = client.post(
+        "/api/v1/orders",
+        headers=job_seeker_headers,
+        json={
+            "serviceId": service.id, "startsAt": start.isoformat(),
+            "modality": "online", "timezone": "Australia/Melbourne",
+        },
+    )
+    assert order.status_code == 201, order.text
+    paid = client.post(
+        f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers,
+    )
+    booking_id = paid.json()["booking"]["id"]
+    bought_as = service.title
+
+    renamed = client.patch(
+        f"/api/v1/me/services/{service.id}",
+        headers=counsellor_headers,
+        json=service_body(title="Renamed after it was bought", priceMinor=1),
+    )
+    assert renamed.status_code == 200, renamed.text
+
+    detail = client.get(f"/api/v1/bookings/{booking_id}", headers=job_seeker_headers).json()
+    mine = client.get("/api/v1/me/bookings", headers=job_seeker_headers).json()
+    receipt = client.get(
+        f"/api/v1/bookings/{booking_id}/receipt", headers=job_seeker_headers,
+    ).json()
+    admin_bookings = client.get("/api/v1/admin/bookings", headers=platform_owner_headers).json()
+    admin_payments = client.get("/api/v1/admin/payments", headers=platform_owner_headers).json()
+
+    assert detail["serviceTitle"] == bought_as
+    assert [row["serviceTitle"] for row in mine] == [bought_as]
+    assert receipt["description"] == bought_as
+    assert receipt["totalMinor"] == 9500
+    assert [row["serviceTitle"] for row in admin_bookings] == [bought_as]
+    assert [row["serviceTitle"] for row in admin_payments] == [bought_as]
+    # The listing itself shows the new name to anyone browsing.
+    assert client.get(f"/api/v1/services/{service.id}").json()["title"] == (
+        "Renamed after it was bought"
+    )
+
+
+def test_a_rename_before_payment_does_not_change_the_confirmation_emails(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    counsellor_headers: dict[str, str],
+    job_seeker_headers: dict[str, str],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """US-36 AC3: the title is frozen when the order is placed, but the emails are
+    sent when payment confirms. A rename in between must not give the emails a
+    different name from the receipt they carry."""
+    from app.mail import messages
+
+    sent: dict[str, dict[str, Any]] = {}
+    monkeypatch.setattr(
+        messages, "_deliver",
+        lambda template, /, *, to, subject, **context: sent.update(
+            {template: {"subject": subject, **context}},
+        ) or True,
+    )
+    start = datetime.now(UTC) + timedelta(days=3)
+    db_session.add(AvailabilityWindow(
+        counsellor_id=service.counsellor_id, starts_at=start, ends_at=start + timedelta(hours=3),
+    ))
+    db_session.commit()
+    order = client.post(
+        "/api/v1/orders",
+        headers=job_seeker_headers,
+        json={
+            "serviceId": service.id, "startsAt": start.isoformat(),
+            "modality": "online", "timezone": "Australia/Melbourne",
+        },
+    )
+    assert order.status_code == 201, order.text
+    bought_as = service.title
+
+    renamed = client.patch(
+        f"/api/v1/me/services/{service.id}",
+        headers=counsellor_headers,
+        json=service_body(title="Renamed before payment"),
+    )
+    assert renamed.status_code == 200, renamed.text
+    paid = client.post(
+        f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers,
+    )
+    assert paid.status_code == 200, paid.text
+
+    assert sent["booking_confirmed"]["service_title"] == bought_as
+    assert sent["booking_received"]["service_title"] == bought_as
+    assert sent["booking_received"]["subject"] == f"New booking: {bought_as}"
+
+
+def test_moving_an_in_person_service_does_not_move_a_session_already_booked(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    counsellor_headers: dict[str, str],
+    job_seeker_headers: dict[str, str],
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    """US-36 AC3: the meeting area is frozen when the order is placed, like the title.
+    Moving the listing before payment must not move the emails, and moving it after
+    must not move the booking either party reads."""
+    from app.mail import messages
+
+    sent: dict[str, dict[str, Any]] = {}
+    monkeypatch.setattr(
+        messages, "_deliver",
+        lambda template, /, *, to, subject, **context: sent.update(
+            {template: context},
+        ) or True,
+    )
+    service.modalities = ["in_person"]
+    service.location_state = "VIC"
+    service.location_city = "Melbourne"
+    start = datetime.now(UTC) + timedelta(days=3)
+    db_session.add(AvailabilityWindow(
+        counsellor_id=service.counsellor_id, starts_at=start, ends_at=start + timedelta(hours=3),
+        modalities=["in_person"],
+    ))
+    db_session.commit()
+    order = client.post(
+        "/api/v1/orders",
+        headers=job_seeker_headers,
+        json={
+            "serviceId": service.id, "startsAt": start.isoformat(),
+            "modality": "in_person", "timezone": "Australia/Melbourne",
+        },
+    )
+    assert order.status_code == 201, order.text
+
+    def move_to(city: str) -> None:
+        moved = client.patch(
+            f"/api/v1/me/services/{service.id}",
+            headers=counsellor_headers,
+            json=service_body(
+                modalities=["in_person"], location={"state": "VIC", "cityOrRegion": city},
+            ),
+        )
+        assert moved.status_code == 200, moved.text
+
+    move_to("Geelong")
+    paid = client.post(
+        f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers,
+    )
+    assert paid.status_code == 200, paid.text
+    booking_id = paid.json()["booking"]["id"]
+    assert sent["booking_confirmed"]["meeting_area"] == "Melbourne, VIC"
+    assert sent["booking_received"]["meeting_area"] == "Melbourne, VIC"
+
+    move_to("Ballarat")
+    for headers in (job_seeker_headers, counsellor_headers):
+        detail = client.get(f"/api/v1/bookings/{booking_id}", headers=headers).json()
+        mine = client.get("/api/v1/me/bookings", headers=headers).json()
+        assert detail["meetingArea"] == "Melbourne, VIC"
+        assert [row["meetingArea"] for row in mine] == ["Melbourne, VIC"]
+    # The listing itself shows where new bookings will meet.
+    assert client.get(f"/api/v1/services/{service.id}").json()["location"] == {
+        "state": "VIC", "cityOrRegion": "Ballarat",
+    }
+
+
 # --- US-39: availability can differ by how the session is delivered ----------
 
 
@@ -623,3 +803,113 @@ def test_windows_offering_different_modalities_are_not_merged(
     assert {frozenset(w.modalities) for w in windows} == {
         frozenset(["online"]), frozenset(["online", "in_person"]),
     }
+
+
+# --- what the counsellor is shown as open -----------------------------------
+
+
+def test_the_calendar_leaves_out_windows_that_have_ended(
+    client: TestClient,
+    db_session: Session,
+    counsellor: Any,
+    counsellor_headers: dict[str, str],
+) -> None:
+    """An ended window can take no booking, so listing it only reads as open time."""
+    now = datetime.now(UTC)
+    add_window(db_session, counsellor, starts_at=now - timedelta(days=3))
+    under_way = add_window(db_session, counsellor, starts_at=now - timedelta(hours=1))
+    ahead = add_window(db_session, counsellor, starts_at=now + timedelta(days=2))
+
+    calendar = client.get(
+        "/api/v1/me/availability-windows", headers=counsellor_headers,
+    ).json()
+
+    assert [window["id"] for window in calendar] == [under_way.id, ahead.id]
+
+
+def test_each_window_reports_the_time_still_free_to_book(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    counsellor: Any,
+    counsellor_headers: dict[str, str],
+    job_seeker_headers: dict[str, str],
+) -> None:
+    """Booked time is gone, and so is the part of a window already behind us."""
+    now = datetime.now(UTC)
+    booked = add_window(db_session, counsellor)
+    untouched = add_window(db_session, counsellor, starts_at=now + timedelta(days=3))
+    under_way = add_window(db_session, counsellor, starts_at=now - timedelta(hours=1))
+    order = client.post(
+        "/api/v1/orders", headers=job_seeker_headers, json=order_payload(service, booked),
+    )
+    client.post(f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers)
+
+    calendar = {
+        window["id"]: window
+        for window in client.get(
+            "/api/v1/me/availability-windows", headers=counsellor_headers,
+        ).json()
+    }
+
+    assert calendar[booked.id]["hasBookings"] is True
+    assert calendar[booked.id]["freeMinutes"] == 180 - service.duration_minutes
+    assert calendar[untouched.id]["freeMinutes"] == 180
+    # Two of its three hours are still to come; allow for the clock moving on.
+    assert 119 <= calendar[under_way.id]["freeMinutes"] <= 120
+
+
+def test_an_unpaid_hold_takes_the_time_it_holds(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    counsellor: Any,
+    counsellor_headers: dict[str, str],
+    job_seeker_headers: dict[str, str],
+) -> None:
+    """The picker offers nothing while a hold is alive, so the calendar must not either."""
+    window = add_window(db_session, counsellor, hours=1)
+    held = client.post(
+        "/api/v1/orders", headers=job_seeker_headers, json=order_payload(service, window),
+    )
+    assert held.status_code == 201
+
+    calendar = client.get(
+        "/api/v1/me/availability-windows", headers=counsellor_headers,
+    ).json()
+
+    assert calendar[0]["hasBookings"] is False
+    assert calendar[0]["freeMinutes"] == 0
+
+
+def test_each_service_reports_the_next_time_a_job_seeker_could_book_it(
+    client: TestClient,
+    db_session: Session,
+    service: Service,
+    counsellor: Any,
+    counsellor_headers: dict[str, str],
+    job_seeker_headers: dict[str, str],
+) -> None:
+    """The first of exactly what the time picker offers, so the two never disagree."""
+    def next_open() -> str | None:
+        own = client.get("/api/v1/me/services", headers=counsellor_headers).json()
+        return own[0]["nextAvailableAt"]
+
+    def first_offered() -> str:
+        return client.get(f"/api/v1/services/{service.id}/slots").json()[0]["startsAt"]
+
+    # Availability that has already ended offers nothing, however much of it there is.
+    add_window(db_session, counsellor, starts_at=datetime.now(UTC) - timedelta(days=3))
+    assert next_open() is None
+
+    window = add_window(db_session, counsellor)
+    assert next_open() == first_offered()
+
+    order = client.post(
+        "/api/v1/orders", headers=job_seeker_headers, json=order_payload(service, window),
+    )
+    client.post(f"/api/v1/orders/{order.json()['id']}/payments/stub", headers=job_seeker_headers)
+
+    # Booking the first time moves the next one on, for the counsellor and the picker alike.
+    assert next_open() == first_offered()
+    assert next_open() != window.starts_at.isoformat().replace("+00:00", "Z")

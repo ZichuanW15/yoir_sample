@@ -1,0 +1,39 @@
+{
+  "at": "2026-10-15T22:14:30.952934+00:00",
+  "faults": [
+    {
+      "at": "2026-10-15T22:14:05.060054+00:00",
+      "ruleId": "ios-d09-bookings-read",
+      "method": "GET",
+      "path": "/api/v1/admin/bookings",
+      "userId": "qa-nr-ios-owner",
+      "hit": 1,
+      "action": "reject",
+      "status": 503
+    }
+  ],
+  "realReads": [
+    {
+      "at": "2026-10-15T22:13:27.080658+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/bookings",
+      "userId": "qa-nr-ios-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:13:35.354577+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/bookings",
+      "userId": "qa-nr-ios-owner",
+      "status": 200
+    },
+    {
+      "at": "2026-10-15T22:14:14.532786+00:00",
+      "method": "GET",
+      "path": "/api/v1/admin/bookings",
+      "userId": "qa-nr-ios-owner",
+      "status": 200
+    }
+  ],
+  "writesSinceFault": []
+}

@@ -1,0 +1,540 @@
+{
+  "packagedAt": "2026-10-15T20:47:17.621934+00:00",
+  "files": [
+    {
+      "path": "logs/backend-lint.txt",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19,
+      "source": "artifacts/qa/sprint3-completion-20261016/backend-lint/console.txt",
+      "sourceSha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "logs/backend-lint-complete.txt",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19,
+      "source": "artifacts/qa/sprint3-completion-20261016/backend-lint-complete/console.txt",
+      "sourceSha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "logs/backend-postgres.txt",
+      "sha256": "494d3af804c61abae0b294c5544f519ec0d7fa291a6f1eb9b4b839e3cc60a550",
+      "bytes": 3037,
+      "source": "artifacts/qa/sprint3-completion-20261016/backend-postgres/console.txt",
+      "sourceSha256": "494d3af804c61abae0b294c5544f519ec0d7fa291a6f1eb9b4b839e3cc60a550"
+    },
+    {
+      "path": "logs/backend-postgres-complete.txt",
+      "sha256": "522fc50668d5eac679f92232a2902ed597cfd46fa041579f1b2f33cb1c95c904",
+      "bytes": 10890,
+      "source": "artifacts/qa/sprint3-completion-20261016/backend-postgres-complete/console.txt",
+      "sourceSha256": "522fc50668d5eac679f92232a2902ed597cfd46fa041579f1b2f33cb1c95c904"
+    },
+    {
+      "path": "logs/backend-postgres-final.txt",
+      "sha256": "875fa0a8eba99713770bc9b22836cc758303bf5adddf115df128ff7c842816cc",
+      "bytes": 10864,
+      "source": "artifacts/qa/sprint3-completion-20261016/backend-postgres-final/console.txt",
+      "sourceSha256": "875fa0a8eba99713770bc9b22836cc758303bf5adddf115df128ff7c842816cc"
+    },
+    {
+      "path": "logs/browser-regression.txt",
+      "sha256": "f74b5766971f718bce39f0f439f102ee2b8e293d9232f7838ba19978abdbe889",
+      "bytes": 5204,
+      "source": "artifacts/qa/sprint3-completion-20261016/browser-regression/console.txt",
+      "sourceSha256": "f74b5766971f718bce39f0f439f102ee2b8e293d9232f7838ba19978abdbe889"
+    },
+    {
+      "path": "logs/focus-refresh-authoring.txt",
+      "sha256": "c57c3baa7e6619d26dbcbf45ca2ae4be19a9db2798c3ab5580600ff9a33b5a26",
+      "bytes": 137068,
+      "source": "artifacts/qa/sprint3-completion-20261016/focus-refresh-authoring/console.txt",
+      "sourceSha256": "c57c3baa7e6619d26dbcbf45ca2ae4be19a9db2798c3ab5580600ff9a33b5a26"
+    },
+    {
+      "path": "logs/focus-refresh-blur-final.txt",
+      "sha256": "17a2250e954b666f34d29e8b1c4a2a482abc0426e41713d65c49f1efb9d75d3b",
+      "bytes": 1446,
+      "source": "artifacts/qa/sprint3-completion-20261016/focus-refresh-blur-final/console.txt",
+      "sourceSha256": "17a2250e954b666f34d29e8b1c4a2a482abc0426e41713d65c49f1efb9d75d3b"
+    },
+    {
+      "path": "logs/focus-refresh-final.txt",
+      "sha256": "a31be45080621b707cc17b1d6cbefe4d1a36af1206d6a8be658af14779c202fa",
+      "bytes": 1397,
+      "source": "artifacts/qa/sprint3-completion-20261016/focus-refresh-final/console.txt",
+      "sourceSha256": "a31be45080621b707cc17b1d6cbefe4d1a36af1206d6a8be658af14779c202fa"
+    },
+    {
+      "path": "logs/frontend-android.txt",
+      "sha256": "34512ddd81b817ea1e36a1a79d73dcf57659407ea381a7bbfc61989d65bc3a51",
+      "bytes": 4664,
+      "source": "artifacts/qa/sprint3-completion-20261016/frontend-android/console.txt",
+      "sourceSha256": "34512ddd81b817ea1e36a1a79d73dcf57659407ea381a7bbfc61989d65bc3a51"
+    },
+    {
+      "path": "logs/frontend-build.txt",
+      "sha256": "8080e7db50ee56ba08b2febcdf8fdf3b1f73b882f25918b5cdf633b42107dbb5",
+      "bytes": 1639,
+      "source": "artifacts/qa/sprint3-completion-20261016/frontend-build/console.txt",
+      "sourceSha256": "8080e7db50ee56ba08b2febcdf8fdf3b1f73b882f25918b5cdf633b42107dbb5"
+    },
+    {
+      "path": "logs/frontend-ios.txt",
+      "sha256": "f418455c492f179daf695f7407c66d2c1696218d553e1ad0fb53f0503ac4e22e",
+      "bytes": 4372,
+      "source": "artifacts/qa/sprint3-completion-20261016/frontend-ios/console.txt",
+      "sourceSha256": "f418455c492f179daf695f7407c66d2c1696218d553e1ad0fb53f0503ac4e22e"
+    },
+    {
+      "path": "logs/frontend-lint.txt",
+      "sha256": "b0d139fb9ee6b501b6c9166c07126de5c63fe59e4d9170762e12a6b77792cb26",
+      "bytes": 38,
+      "source": "artifacts/qa/sprint3-completion-20261016/frontend-lint/console.txt",
+      "sourceSha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "0ff23a426eff421736f881f5f284dacf9095ffefe790fe3d22a4d41d5c56eefd",
+        "previousPackagedBytes": 39,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "logs/frontend-shared.txt",
+      "sha256": "a2a7299f8adf94e3285a84d4be76efcb0f73895021827d42dd81eab396a3bc35",
+      "bytes": 3431,
+      "source": "artifacts/qa/sprint3-completion-20261016/frontend-shared/console.txt",
+      "sourceSha256": "a2a7299f8adf94e3285a84d4be76efcb0f73895021827d42dd81eab396a3bc35"
+    },
+    {
+      "path": "logs/frontend-typecheck.txt",
+      "sha256": "15c7a0e30c0924df227605778969f7eb32b19ab419c5f0096b1f7552103f70a9",
+      "bytes": 46,
+      "source": "artifacts/qa/sprint3-completion-20261016/frontend-typecheck/console.txt",
+      "sourceSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+        "previousPackagedBytes": 47,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "logs/live-httpx.txt",
+      "sha256": "8451192965d921e24d6597e987652756e70a18279a53855a7c217586ea0cad76",
+      "bytes": 233,
+      "source": "artifacts/qa/sprint3-completion-20261016/live-httpx/console.txt",
+      "sourceSha256": "8451192965d921e24d6597e987652756e70a18279a53855a7c217586ea0cad76"
+    },
+    {
+      "path": "logs/live-typescript.txt",
+      "sha256": "bf7060dd7fbab0ee9933ba77f0d8bc0327d985bd8810aa7890c57834f7a48e2b",
+      "bytes": 855,
+      "source": "artifacts/qa/sprint3-completion-20261016/live-typescript/console.txt",
+      "sourceSha256": "bf7060dd7fbab0ee9933ba77f0d8bc0327d985bd8810aa7890c57834f7a48e2b"
+    },
+    {
+      "path": "logs/root-focused-final.txt",
+      "sha256": "9f1dfad2c95012466b05e332c5a925615a3bafb6bda27ecf9d9b33ae834891a8",
+      "bytes": 846,
+      "source": "artifacts/qa/sprint3-completion-20261016/root-focused-final/console.txt",
+      "sourceSha256": "9f1dfad2c95012466b05e332c5a925615a3bafb6bda27ecf9d9b33ae834891a8"
+    },
+    {
+      "path": "executions.json",
+      "sha256": "584e70a4301b4eebaaa8ea58b284bbd9021f2cf4d2be4989f7c44f0ba67b4a83",
+      "bytes": 88715
+    },
+    {
+      "path": "source-manifest.json",
+      "sha256": "5ab258c94529cb3dc8cab552277fa8b512790536584b4bcfdaa7e2bfc77e65b7",
+      "bytes": 41038
+    },
+    {
+      "path": "agent-screens.json",
+      "sha256": "9ee982bdfd2f82f0de0c7ef204e5178e17847eed8fb93d8fae606d425350168e",
+      "bytes": 16312,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-screens/results.json",
+      "sourceSha256": "073604c68825145ce4b03cd52633320e2bde38e06b74adabf3fd0927d505474b"
+    },
+    {
+      "path": "focus-refresh-authoring.json",
+      "sha256": "0cbe3c84cb3ed4383d646fb37215cc8ec2c1a9f0d634625290f4c98b09a2cf91",
+      "bytes": 161275,
+      "source": "artifacts/qa/sprint3-completion-20261016/focus-refresh-authoring/results.json",
+      "sourceSha256": "00fe45333e70fe0f2b69b13d3032b45fce81777367eeb7c420b15728f5a87f92"
+    },
+    {
+      "path": "focus-refresh-blur-final.json",
+      "sha256": "3c1adddf1621304fefdc3af72f30c63e202c76b91d948e2d2526a0b0af923efd",
+      "bytes": 2952,
+      "source": "artifacts/qa/sprint3-completion-20261016/focus-refresh-blur-final/results.json",
+      "sourceSha256": "b39282d5e8094963c301dbffe432c280e6aa4e123b3171ab7c1c907cd966d515"
+    },
+    {
+      "path": "focus-refresh-final.json",
+      "sha256": "e8adc75d378b3bf1ac1b041ee41b360b90b970c3ee539634620ef1d4bd2299ab",
+      "bytes": 2928,
+      "source": "artifacts/qa/sprint3-completion-20261016/focus-refresh-final/results.json",
+      "sourceSha256": "9f7dc6edba5f24d82973b3f59f01c26a2c68dcc381f30552f84fa5f69ed4dcde"
+    },
+    {
+      "path": "frontend-android.json",
+      "sha256": "0d2a483470f052839f4a8420f3145230410764f4eff5e46d96c57743f3d93075",
+      "bytes": 165733,
+      "source": "artifacts/qa/sprint3-completion-20261016/frontend-android/results.json",
+      "sourceSha256": "a70da6eb64e59348d2b04903cb24a084bfb7187931e792fd970d5b0927593edb"
+    },
+    {
+      "path": "frontend-ios.json",
+      "sha256": "21f77dab422270a5a636dd03973de83a7c54d2db1584d830ec3586c59da4636f",
+      "bytes": 165753,
+      "source": "artifacts/qa/sprint3-completion-20261016/frontend-ios/results.json",
+      "sourceSha256": "a5721d0ed81e3b3d90a49e3deff7ef51175ec80a8c96b45421f4136bc45a9ae1"
+    },
+    {
+      "path": "frontend-shared.json",
+      "sha256": "14e3b96f793594d3a171cea37a360cab4bc8e5af16a16caa6f75a8a949f71265",
+      "bytes": 163148,
+      "source": "artifacts/qa/sprint3-completion-20261016/frontend-shared/results.json",
+      "sourceSha256": "5ee085cd916ab18b3c61bdf241a6cc5774641b7ada012b8ddbefef0454748e4e"
+    },
+    {
+      "path": "live-typescript.json",
+      "sha256": "c34d05d59bb5a29c57ed5677a9bedab95571efb45334eba091bcdb5accfcd873",
+      "bytes": 884,
+      "source": "artifacts/qa/sprint3-completion-20261016/live-typescript/results.json",
+      "sourceSha256": "7bdad3698fa0efb1aeb7254b2297c359ba5a40b511e6fbf28e99fd8369af623e"
+    },
+    {
+      "path": "root-focused-final.json",
+      "sha256": "00041722602558e50498705dae4abd63eb91e29786330844f3db3c6ddaeafe03",
+      "bytes": 6496,
+      "source": "artifacts/qa/sprint3-completion-20261016/root-focused-final/results.json",
+      "sourceSha256": "d69d7a2931de99944410e2a78bbf55eff4491a0704544554a77c09d5f49faeb8"
+    },
+    {
+      "path": "attachments/case-003-0.png",
+      "sha256": "740cd08e86e352d2bd66049f6b2cf0bd9a3e9a1f6cbde4bb3b8df60bc59c7a78",
+      "bytes": 57006,
+      "source": "artifacts/qa/sprint3-completion-20261016/browser-regression/report/results.json",
+      "sourceSha256": "efd15e79aa4476a6b8fee99dd132a33baaffb049f52bc9b5c61d77d7addeb588"
+    },
+    {
+      "path": "attachments/case-004-0.png",
+      "sha256": "c3129d1df2ce7199bb6b8a3bb768edf39c10d38254083c09ad7c26650f55934f",
+      "bytes": 56167,
+      "source": "artifacts/qa/sprint3-completion-20261016/browser-regression/report/results.json",
+      "sourceSha256": "efd15e79aa4476a6b8fee99dd132a33baaffb049f52bc9b5c61d77d7addeb588"
+    },
+    {
+      "path": "attachments/case-005-0.png",
+      "sha256": "53507e0a37625870e3abf6c19a320ed4048f3f9e42df465c3a09c7d49c1ec57e",
+      "bytes": 56136,
+      "source": "artifacts/qa/sprint3-completion-20261016/browser-regression/report/results.json",
+      "sourceSha256": "efd15e79aa4476a6b8fee99dd132a33baaffb049f52bc9b5c61d77d7addeb588"
+    },
+    {
+      "path": "attachments/case-006-0.png",
+      "sha256": "4bca47e980d854af4496995b09d06e2414a35db88c9035865a660d833f50a60f",
+      "bytes": 20532,
+      "source": "artifacts/qa/sprint3-completion-20261016/browser-regression/report/results.json",
+      "sourceSha256": "efd15e79aa4476a6b8fee99dd132a33baaffb049f52bc9b5c61d77d7addeb588"
+    },
+    {
+      "path": "attachments/case-007-0.png",
+      "sha256": "99bd9138853835c32478a2bd776756745e942b08c0d2dcb65d13c65e1fce697c",
+      "bytes": 59226,
+      "source": "artifacts/qa/sprint3-completion-20261016/browser-regression/report/results.json",
+      "sourceSha256": "efd15e79aa4476a6b8fee99dd132a33baaffb049f52bc9b5c61d77d7addeb588"
+    },
+    {
+      "path": "attachments/case-008-0.png",
+      "sha256": "857f8663e6751ecf278dcd12a28689ae772399a09ae8608240f186a54c847190",
+      "bytes": 40722,
+      "source": "artifacts/qa/sprint3-completion-20261016/browser-regression/report/results.json",
+      "sourceSha256": "efd15e79aa4476a6b8fee99dd132a33baaffb049f52bc9b5c61d77d7addeb588"
+    },
+    {
+      "path": "attachments/case-009-0.png",
+      "sha256": "d7f51c8908d28abc34eba135400171af29ecf957ad8a136eb453574b95fccfc0",
+      "bytes": 6588,
+      "source": "artifacts/qa/sprint3-completion-20261016/browser-regression/report/results.json",
+      "sourceSha256": "efd15e79aa4476a6b8fee99dd132a33baaffb049f52bc9b5c61d77d7addeb588"
+    },
+    {
+      "path": "attachments/case-011-0.json",
+      "sha256": "e357f89a515cf920f4c4b9f732571363153bfac801908415a579e3110cdd088c",
+      "bytes": 156,
+      "source": "artifacts/qa/sprint3-completion-20261016/browser-regression/report/results.json",
+      "sourceSha256": "efd15e79aa4476a6b8fee99dd132a33baaffb049f52bc9b5c61d77d7addeb588"
+    },
+    {
+      "path": "browser-regression.json",
+      "sha256": "1e131b0fc04ace6f2b606008f5e63aaa9bc77e8d17a783748829c76ef98f0c0a",
+      "bytes": 16436,
+      "source": "artifacts/qa/sprint3-completion-20261016/browser-regression/report/results.json",
+      "sourceSha256": "efd15e79aa4476a6b8fee99dd132a33baaffb049f52bc9b5c61d77d7addeb588"
+    },
+    {
+      "path": "agent-backend-junit-final-focused.xml",
+      "sha256": "3d44eff87d3ce04e5544591498a98bb27dd07985b959af3d61b821db94c6aa2c",
+      "bytes": 4947,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-backend/junit-final-focused.xml",
+      "sourceSha256": "3d44eff87d3ce04e5544591498a98bb27dd07985b959af3d61b821db94c6aa2c"
+    },
+    {
+      "path": "agent-backend-junit-final.xml",
+      "sha256": "f5a57d70cfcc465e2c318eba0aacf77c7d7f9869b8adfc132472c594aa6ccba2",
+      "bytes": 19362,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-backend/junit-final.xml",
+      "sourceSha256": "f5a57d70cfcc465e2c318eba0aacf77c7d7f9869b8adfc132472c594aa6ccba2"
+    },
+    {
+      "path": "agent-backend-junit-initial.xml",
+      "sha256": "08865b8d8004542087eadd855fdc2c559d45a7268216c2de2a3fd0dc83c5b546",
+      "bytes": 4947,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-backend/junit-initial.xml",
+      "sourceSha256": "08865b8d8004542087eadd855fdc2c559d45a7268216c2de2a3fd0dc83c5b546"
+    },
+    {
+      "path": "agent-backend-recovery-junit-final.xml",
+      "sha256": "0f161ad9cee5af836e07fd080d5e0fec84cc43301dfd1e70a2e93ade0e2555d1",
+      "bytes": 11374,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-backend-recovery/junit-final.xml",
+      "sourceSha256": "0f161ad9cee5af836e07fd080d5e0fec84cc43301dfd1e70a2e93ade0e2555d1"
+    },
+    {
+      "path": "agent-backend-recovery-junit-initial.xml",
+      "sha256": "8933b9d2caf735aabcf3b6e5d1aa0ed2248b323190979c023ca9c27c0622af15",
+      "bytes": 2041,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-backend-recovery/junit-initial.xml",
+      "sourceSha256": "8933b9d2caf735aabcf3b6e5d1aa0ed2248b323190979c023ca9c27c0622af15"
+    },
+    {
+      "path": "backend-postgres-complete-junit.xml",
+      "sha256": "44d6eee26599e0f74eca585e14f98a93e33b0c1794a9ded3860f8d4ea35de73d",
+      "bytes": 126191,
+      "source": "artifacts/qa/sprint3-completion-20261016/backend-postgres-complete/junit.xml",
+      "sourceSha256": "44d6eee26599e0f74eca585e14f98a93e33b0c1794a9ded3860f8d4ea35de73d"
+    },
+    {
+      "path": "backend-postgres-final-junit.xml",
+      "sha256": "c5cfbb6fb51b184d4df1b7476d0d468e76a1bf0068ad17da70a61a040322cfd8",
+      "bytes": 124414,
+      "source": "artifacts/qa/sprint3-completion-20261016/backend-postgres-final/junit.xml",
+      "sourceSha256": "c5cfbb6fb51b184d4df1b7476d0d468e76a1bf0068ad17da70a61a040322cfd8"
+    },
+    {
+      "path": "live-httpx-junit.xml",
+      "sha256": "95af94439b291404121318c1dfab5b395f3cb2f15c72fb393dbf314955fdf073",
+      "bytes": 498,
+      "source": "artifacts/qa/sprint3-completion-20261016/live-httpx/junit.xml",
+      "sourceSha256": "95af94439b291404121318c1dfab5b395f3cb2f15c72fb393dbf314955fdf073"
+    },
+    {
+      "path": "agent-backend-summary.json",
+      "sha256": "ccc8544e74843fa95f3c5f3c9a1275c4074a68a876a7b16bdeae6b27faac49c9",
+      "bytes": 2158,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-backend/summary.json",
+      "sourceSha256": "ccc8544e74843fa95f3c5f3c9a1275c4074a68a876a7b16bdeae6b27faac49c9"
+    },
+    {
+      "path": "logs/agent-backend-ruff.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-backend/ruff.log",
+      "sourceSha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "logs/agent-backend-sqlite-final-focused.log",
+      "sha256": "b1a83e51aa80d391ea799c50596016ab38168b6fec8eb8b9c70add79f1361958",
+      "bytes": 1813,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-backend/sqlite-final-focused.log",
+      "sourceSha256": "b1a83e51aa80d391ea799c50596016ab38168b6fec8eb8b9c70add79f1361958"
+    },
+    {
+      "path": "logs/agent-backend-sqlite-final.log",
+      "sha256": "b69f01c2639d7e1fbdede0a869809e092cffba820dd4cf7e0b6546225aeaad70",
+      "bytes": 1726,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-backend/sqlite-final.log",
+      "sourceSha256": "b69f01c2639d7e1fbdede0a869809e092cffba820dd4cf7e0b6546225aeaad70"
+    },
+    {
+      "path": "logs/agent-backend-sqlite-initial.log",
+      "sha256": "191d3dd4243188c0c0edcc90cee376c6a37f139a6b71e4ecc5a3d6b2ce5bf024",
+      "bytes": 1807,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-backend/sqlite-initial.log",
+      "sourceSha256": "191d3dd4243188c0c0edcc90cee376c6a37f139a6b71e4ecc5a3d6b2ce5bf024"
+    },
+    {
+      "path": "agent-backend-recovery-summary.json",
+      "sha256": "bd38245883bae5b33ef8214a94d57b728d951a788177bd14543b2eee3a48e489",
+      "bytes": 2598,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-backend-recovery/summary.json",
+      "sourceSha256": "bd38245883bae5b33ef8214a94d57b728d951a788177bd14543b2eee3a48e489"
+    },
+    {
+      "path": "logs/agent-backend-recovery-ruff.log",
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+      "bytes": 19,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-backend-recovery/ruff.log",
+      "sourceSha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "logs/agent-backend-recovery-sqlite-final.log",
+      "sha256": "c4ba059f065fa8f992d211fb6496864185c332a02854066c843052dc8834ccd4",
+      "bytes": 1987,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-backend-recovery/sqlite-final.log",
+      "sourceSha256": "c4ba059f065fa8f992d211fb6496864185c332a02854066c843052dc8834ccd4"
+    },
+    {
+      "path": "logs/agent-backend-recovery-sqlite-initial.log",
+      "sha256": "cd06961d98a49b1f0939c20f43d3c6d27bc0ee8d4fe158d7dff401f66407681a",
+      "bytes": 1635,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-backend-recovery/sqlite-initial.log",
+      "sourceSha256": "cd06961d98a49b1f0939c20f43d3c6d27bc0ee8d4fe158d7dff401f66407681a"
+    },
+    {
+      "path": "agent-screens-summary.json",
+      "sha256": "17e8e1cfd8e25b382fea9f059ac1d41ddecef0880147dcb3cd49c5f80835971e",
+      "bytes": 1794,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-screens/summary.json",
+      "sourceSha256": "17e8e1cfd8e25b382fea9f059ac1d41ddecef0880147dcb3cd49c5f80835971e"
+    },
+    {
+      "path": "logs/agent-screens-eslint.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-screens/eslint.log",
+      "sourceSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "logs/agent-screens-jest.log",
+      "sha256": "216f427ca6ee034dcd2fb595585b286a755ba88a310ba3734d5562551a701cbe",
+      "bytes": 949,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-screens/jest.log",
+      "sourceSha256": "216f427ca6ee034dcd2fb595585b286a755ba88a310ba3734d5562551a701cbe"
+    },
+    {
+      "path": "logs/agent-screens-typecheck.log",
+      "sha256": "15c7a0e30c0924df227605778969f7eb32b19ab419c5f0096b1f7552103f70a9",
+      "bytes": 46,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-screens/typecheck.log",
+      "sourceSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "889a78dbad4ff91dcee8522495a247aa3c0333ce9fa44b4c6718d75eda4a69c2",
+        "previousPackagedBytes": 47,
+        "trailingWhitespaceLinesRemoved": 0,
+        "extraEofNewlinesRemoved": 1,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "logs/agent-web-run.log",
+      "sha256": "6d1e43ae4b38c8a005740608b2ce38083cb71782f92fa86d54905b31a7581b5c",
+      "bytes": 5000,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-web/run.log",
+      "sourceSha256": "ee7379007e95c1eb2332ced3d2fb9717d048981ca5f3548cfb0022b3028b7bab",
+      "publicationWhitespaceNormalization": {
+        "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+        "previousPackagedSha256": "ee7379007e95c1eb2332ced3d2fb9717d048981ca5f3548cfb0022b3028b7bab",
+        "previousPackagedBytes": 5002,
+        "trailingWhitespaceLinesRemoved": 2,
+        "extraEofNewlinesRemoved": 0,
+        "outcomesChanged": false
+      }
+    },
+    {
+      "path": "logs/agent-web-final-run.log",
+      "sha256": "719cbeeec1d9db4893af6b04085f977c1a82508b7ffd144547d362df16328df8",
+      "bytes": 1391,
+      "source": "artifacts/qa/sprint3-completion-20261016/agent-web/final/run.log",
+      "sourceSha256": "719cbeeec1d9db4893af6b04085f977c1a82508b7ffd144547d362df16328df8"
+    },
+    {
+      "path": "logs/root-focused-jest.log",
+      "sha256": "6e3eb201abcad2085c97c516cd2c06fb5cdfadf58b4fe64849fe3188e391df80",
+      "bytes": 30030,
+      "source": "artifacts/qa/sprint3-completion-20261016/root/focused-jest.log",
+      "sourceSha256": "6e3eb201abcad2085c97c516cd2c06fb5cdfadf58b4fe64849fe3188e391df80"
+    },
+    {
+      "path": "environment.json",
+      "sha256": "c35b48391079e49c0d63f4e2987a53177ca7392da3fb4b4065708dcd023fbd1d",
+      "bytes": 1180,
+      "source": "artifacts/qa/sprint3-completion-20261016/environment.json",
+      "sourceSha256": "c35b48391079e49c0d63f4e2987a53177ca7392da3fb4b4065708dcd023fbd1d"
+    },
+    {
+      "path": "live-readback.json",
+      "sha256": "c5e0cbd4cee8a2ef9a8fc80d16019f42adb8463c0b84e26250e8ea4593e383f7",
+      "bytes": 1237,
+      "source": "artifacts/qa/sprint3-completion-20261016/live-readback.json",
+      "sourceSha256": "c5e0cbd4cee8a2ef9a8fc80d16019f42adb8463c0b84e26250e8ea4593e383f7"
+    },
+    {
+      "path": "live-server.log",
+      "sha256": "1279430de534f51a49c277c548a7944ce08e273d957610f4d67c8352faddc6f1",
+      "bytes": 6668,
+      "source": "artifacts/qa/sprint3-completion-20261016/live-server.log",
+      "sourceSha256": "1279430de534f51a49c277c548a7944ce08e273d957610f4d67c8352faddc6f1"
+    },
+    {
+      "path": "backend-coverage.json",
+      "sha256": "5c437ce8a7c7980a3d64407a372bfef1b0960b232edadff066df957882063416",
+      "bytes": 32886,
+      "source": "artifacts/qa/sprint3-completion-20261016/backend-postgres-complete/coverage.json",
+      "sourceSha256": "292fe6cad808ee56789821450d3c54e2c245718122e65495848f5f64a2ef9738"
+    },
+    {
+      "path": "frontend-coverage.json",
+      "sha256": "0647d8fbe89492456321433c299d81c8703e54739a884661217d969f0da52c87",
+      "bytes": 34681,
+      "source": "artifacts/qa/sprint3-completion-20261016/frontend-shared/coverage/coverage-summary.json",
+      "sourceSha256": "1caa30f2b117061377b66218ed71628ebb0f23d10b5b8c007cb932ac27b6b067"
+    },
+    {
+      "path": "added-case-inventory.json",
+      "sha256": "da843db31aef6ba3bdac26cfd15118f9a721868d76dc64b990d8c6c09f263eef",
+      "bytes": 86660
+    },
+    {
+      "path": "README.md",
+      "sha256": "6f901f7d1f08faa7334c3452aac314c04fe52e39ce982519b36000b8c516d98f",
+      "bytes": 2179
+    }
+  ],
+  "omissions": [
+    "Regenerable HTML/LCOV, Playwright trace ZIPs and duplicate screenshots remain under ignored artifacts/qa/sprint3-completion-20261016/.",
+    "Jest/Playwright JSONs are reduced to per-case outcomes, diagnostics and selected attachments; original hashes identify source reports.",
+    "No new defect-suite, native-device, deployed-system, external provider delivery/transfer or remote CI evidence."
+  ],
+  "notARerun": true,
+  "publicationWhitespaceNormalization": {
+    "performedAt": "2026-10-16T00:04:56.232172+00:00",
+    "sourceCommit": "7ce59e5982ddf13925bd5b1c77968d747e5787de",
+    "originalManifestSha256": "2bfafe3f2d91508fe9ce7e8f52286fba1a77745c625a4a472571bbba247247cb",
+    "filesNormalized": 4,
+    "transformation": "Remove trailing horizontal whitespace and extra blank lines at EOF from published text evidence. Original source hashes and recorded outcomes are unchanged. No tests were rerun."
+  },
+  "documentationRevisions": [
+    {
+      "date": "2026-10-17",
+      "scope": "Describe completed executed cases only; source execution reports, logs and outcomes retain their original bytes.",
+      "files": [
+        {
+          "path": "README.md",
+          "previousSha256": "3f08ed8c37a5d04f3dddd5b6579eff58a13bc9eb9ef1e776e4107a181734acef",
+          "previousBytes": 2276,
+          "sha256": "6f901f7d1f08faa7334c3452aac314c04fe52e39ce982519b36000b8c516d98f",
+          "bytes": 2179
+        }
+      ]
+    }
+  ]
+}

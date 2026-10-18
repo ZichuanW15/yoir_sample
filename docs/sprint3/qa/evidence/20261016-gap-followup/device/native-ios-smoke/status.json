@@ -1,0 +1,16 @@
+{
+  "status": "BLOCKED",
+  "assertionsPassed": 0,
+  "D02": "NOT RUN",
+  "D03": "NOT RUN",
+  "setupObserved": [
+    "DeviceHub opened and Start button clicked for iPhone18Pro",
+    "Owned API /health returned 200",
+    "Owned Metro /status returned 200 packager-status:running"
+  ],
+  "blocker": "After boot and Device menu inspection, CUA exposed only Device menu tree; screenshot unavailable; Escape and outside click gave no tree change; fresh Cancel element threw error -10005 (element no longer valid); rebinding by bundle ID did not recover. No Yoir screen or diagnosis checkpoint reached.",
+  "uiEvidence": "device-hub-ui-blocker.txt",
+  "productDefectClaim": false,
+  "cleanup": "Owned API/Metro sessions exited 0; simulator shutdown and ports checked, see cleanup.json",
+  "finishedAtUtc": "2026-10-15T21:01:32.920073+00:00"
+}

@@ -182,13 +182,17 @@ def test_service_creation_persists_and_is_visible_to_owner_and_public(
         stored = db.get(Service, body["id"])
         assert stored is not None and stored.counsellor_id == counsellor.id
         assert stored.title == body["title"] and stored.modalities == modalities
-    public_body = {key: value for key, value in body.items() if key != "meetingUrl"}
+    public_body = {
+        key: value for key, value in body.items()
+        if key not in {"meetingUrl", "nextAvailableAt"}
+    }
     own = client.get("/api/v1/me/services", headers=counsellor_headers)
     assert own.status_code == 200 and own.json() == [body]
     public = client.get("/api/v1/services")
     assert public.status_code == 200 and public.json() == [public_body]
     detail = client.get(f"/api/v1/services/{body['id']}")
-    assert detail.status_code == 200 and detail.json() == public_body
+    # US-54: the detail view also carries the review list, empty for a new service.
+    assert detail.status_code == 200 and detail.json() == {**public_body, "reviews": []}
     assert not {"email", "passwordHash", "password"} & body["counsellor"].keys()
 
 

@@ -1,0 +1,24 @@
+{
+  "at": "2026-10-15T21:54:36.614699+00:00",
+  "downstreamPosts": [
+    {
+      "at": "2026-10-15T21:54:13.784357+00:00",
+      "method": "POST",
+      "path": "/api/v1/admin/verifications/qa-nr-android-candidate/decision",
+      "userId": "qa-nr-android-owner",
+      "status": 200
+    }
+  ],
+  "faultHits": [
+    {
+      "at": "2026-10-15T21:54:05.226530+00:00",
+      "ruleId": "android-d06-owner-decision",
+      "method": "POST",
+      "path": "/api/v1/admin/verifications/qa-nr-android-candidate/decision",
+      "userId": "qa-nr-android-owner",
+      "hit": 1,
+      "action": "reject",
+      "status": 503
+    }
+  ]
+}

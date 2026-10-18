@@ -1,0 +1,18 @@
+{
+  "at": "2026-10-15T22:58:27.944093+00:00",
+  "userId": "qa-nr-android-pro",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/me/payout-status": {
+      "status": 200,
+      "data": {
+        "stripeAccountId": null,
+        "chargesEnabled": false,
+        "payoutsEnabled": false,
+        "onboardingRequired": true,
+        "abn": null,
+        "gstRegistered": false
+      }
+    }
+  }
+}

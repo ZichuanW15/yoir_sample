@@ -40,6 +40,12 @@ class User(Base):
     # Any role's profile photo: a counsellor's URL, or a job seeker's image stored
     # inline as a data URI (there is no file storage to hold an upload).
     photo_url: Mapped[str | None] = mapped_column(String, nullable=True)
+    # US-27/US-28: applies to both member roles. Public profile serializers must
+    # enforce this server-side so a client cannot recover fields merely by calling
+    # the API directly.
+    profile_visibility: Mapped[str] = mapped_column(
+        String, default="public", nullable=False,
+    )
 
     # Job-seeker-only profile fields (left null for other roles).
     headline: Mapped[str | None] = mapped_column(String, nullable=True)
@@ -90,6 +96,26 @@ class User(Base):
     services: Mapped[list["Service"]] = relationship(back_populates="counsellor")
 
 
+class Diagnosis(Base):
+    """US-09–11: one private, versioned answer record per Job Seeker.
+
+    Progress is derived from explicitly saved answers, not supplied by the client.
+    An empty multi-choice answer is different from a step not yet submitted.
+    """
+
+    __tablename__ = "diagnoses"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=_uuid)
+    job_seeker_id: Mapped[str] = mapped_column(
+        ForeignKey("users.id"), unique=True, nullable=False,
+    )
+    questionnaire_version: Mapped[str] = mapped_column(String(64), nullable=False)
+    answers: Mapped[dict] = mapped_column(JSON, nullable=False, default=dict)
+    revision: Mapped[int] = mapped_column(Integer, nullable=False, default=0)
+    created_at: Mapped[datetime] = mapped_column(UtcDateTime, default=_now, nullable=False)
+    updated_at: Mapped[datetime] = mapped_column(UtcDateTime, default=_now, nullable=False)
+
+
 class RevokedToken(Base):
     """US-08: durable revocation of a verified JWT, without storing the credential."""
 
@@ -130,6 +156,12 @@ class Service(Base):
     review_count: Mapped[int] = mapped_column(Integer, default=0)
 
     counsellor: Mapped[User] = relationship(back_populates="services")
+
+    def meeting_area(self) -> str:
+        """The listing's in-person area as one line, or empty when it names none."""
+        if self.location_city and self.location_state:
+            return f"{self.location_city}, {self.location_state}"
+        return ""
 
 
 class AvailabilityWindow(Base):
@@ -180,6 +212,10 @@ class Order(Base):
     currency: Mapped[str] = mapped_column(String, nullable=False, default="AUD")
     timezone: Mapped[str] = mapped_column(String, nullable=False)
     modality: Mapped[str] = mapped_column(String, nullable=False)
+    # US-42 — what the job seeker wants to cover, collected before payment so the
+    # counsellor can prepare. Optional; never edited after the order is placed, so a
+    # booking list reads the same note the counsellor originally saw.
+    pre_session_brief: Mapped[str | None] = mapped_column(String, nullable=True)
     # awaiting_payment | confirmed | cancelled | refunded_slot_taken
     status: Mapped[str] = mapped_column(String, nullable=False, default="awaiting_payment")
     # not_started | paid | failed | refunded | partially_refunded
@@ -208,6 +244,27 @@ class Order(Base):
         Boolean, default=False, nullable=False,
     )
     counsellor_abn_at_booking: Mapped[str | None] = mapped_column(String(11), nullable=True)
+    # US-36 — the service's title as it was when this order was placed, frozen like the
+    # amounts above. The receipt is a tax invoice for a GST-registered Career
+    # Professional, so renaming the listing afterwards must not rewrite what was bought.
+    # Null only on an order created before migration 0011 that it could not backfill.
+    service_title: Mapped[str | None] = mapped_column(String, nullable=True)
+
+    # US-36 — where an in-person session meets ("City, STATE"), as the listing said when
+    # this order was placed. Moving the listing must not move a session already paid
+    # for. Empty when the service named no area; null only on an order created before
+    # migration 0012 that it could not backfill.
+    meeting_area: Mapped[str | None] = mapped_column(String, nullable=True)
+
+    def title_for(self, service: "Service") -> str:
+        """What was bought, by the name it had then; the live title only as a fallback."""
+        return self.service_title or service.title
+
+    def area_for(self, service: "Service") -> str:
+        """Where it was booked to meet; the listing's current area only as a fallback."""
+        if self.meeting_area is not None:
+            return self.meeting_area
+        return service.meeting_area()
 
 
 class Booking(Base):
@@ -242,9 +299,35 @@ class Booking(Base):
     # Where an online session happens. Stored rather than derived on read, so the
     # link in a confirmation email sent months ago still matches what the app shows.
     meeting_url: Mapped[str | None] = mapped_column(String, nullable=True)
+    # US-43 — the specific in-person meeting point for this one booking, set by the
+    # counsellor after confirmation. The service's own location (meeting_area) only
+    # ever holds a state and city/region, never a street address.
+    meeting_address: Mapped[str | None] = mapped_column(String, nullable=True)
     # Raised by charge.dispute.created; holds the payout back for admin review.
     flagged_for_review: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
     review_reason: Mapped[str | None] = mapped_column(String, nullable=True)
+
+
+class Review(Base):
+    """US-53: a buyer's rating and comment on a completed booking.
+
+    One row per booking, never per order — a booking is what actually happened,
+    and an order with no completed booking has nothing to review. The service and
+    counsellor ids are denormalised here (both reachable through the booking) so
+    US-54/US-55's aggregates can be recomputed with a plain filter, not a join.
+    """
+
+    __tablename__ = "reviews"
+
+    id: Mapped[str] = mapped_column(String, primary_key=True, default=_uuid)
+    booking_id: Mapped[str] = mapped_column(ForeignKey("bookings.id"), unique=True, nullable=False)
+    order_id: Mapped[str] = mapped_column(ForeignKey("orders.id"), nullable=False)
+    service_id: Mapped[str] = mapped_column(ForeignKey("services.id"), index=True, nullable=False)
+    counsellor_id: Mapped[str] = mapped_column(ForeignKey("users.id"), index=True, nullable=False)
+    job_seeker_id: Mapped[str] = mapped_column(ForeignKey("users.id"), nullable=False)
+    rating: Mapped[int] = mapped_column(Integer, nullable=False)
+    comment: Mapped[str] = mapped_column(String, nullable=False)
+    created_at: Mapped[datetime] = mapped_column(UtcDateTime, default=_now, nullable=False)
 
 
 class ProcessedWebhookEvent(Base):

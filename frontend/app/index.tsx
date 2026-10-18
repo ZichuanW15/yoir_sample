@@ -5,6 +5,7 @@ import { useAuth } from '@/src/auth/AuthContext';
 import { Glyph, GlyphName } from '@/src/components/Glyph';
 import { EntryScene } from '@/src/components/Scenes';
 import { Card, Press } from '@/src/components/ui';
+import { desktopAuthBody, useDesktop } from '@/src/desktop';
 import { FadeUp, ScreenIn } from '@/src/motion';
 import { homeFor } from '@/src/navigation';
 import { colors, fonts, radius, shadow, type } from '@/src/theme';
@@ -34,28 +35,43 @@ const roles: { role: PublicRole; glyph: GlyphName; holder: string; ink: string; 
 export default function EntryScreen() {
   const { session } = useAuth();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
 
   if (session) return <Redirect href={homeFor(session.user.role)} />;
 
   return (
-    <ScreenIn duration={500} style={[styles.screen, { paddingTop: insets.top }]}>
-      <ScrollView contentContainerStyle={[styles.body, { paddingBottom: 24 + insets.bottom }]}>
-        <View style={styles.wordmarkRow}>
-          <Image source={require('@/assets/images/yoir-wordmark.png')} style={styles.wordmark} resizeMode="contain" accessibilityLabel="Yoir" />
-        </View>
+    <ScreenIn duration={500} style={[styles.screen, { paddingTop: insets.top }, desktop && styles.desktopScreen]}>
+      <ScrollView
+        showsVerticalScrollIndicator={!desktop}
+        contentContainerStyle={[styles.body, { paddingBottom: 24 + insets.bottom }, desktop && styles.desktopBody]}
+      >
+        {/* Desktop: the brand panel beside this column already carries the wordmark,
+            the headline and the introduction, so the column only asks the question. */}
+        {desktop ? (
+          <FadeUp duration={500} style={styles.desktopHead}>
+            <Text style={type.eyebrow}>Get started</Text>
+            <Text style={styles.desktopTitle}>Who are you here as?</Text>
+          </FadeUp>
+        ) : (
+          <>
+            <View style={styles.wordmarkRow}>
+              <Image source={require('@/assets/images/yoir-wordmark.png')} style={styles.wordmark} resizeMode="contain" accessibilityLabel="Yoir" />
+            </View>
 
-        <View style={[styles.sceneHolder, shadow.card]}>
-          <EntryScene />
-        </View>
+            <View style={[styles.sceneHolder, shadow.card]}>
+              <EntryScene />
+            </View>
 
-        <FadeUp delay={150} duration={600} style={styles.headlineBlock}>
-          <Text style={type.display40}>
-            Career guidance <Text style={styles.headlineAccent}>that fits you</Text>
-          </Text>
-          <Text style={type.body}>
-            Yoir connects job seekers with verified Career Professionals. Tell us how you will use it.
-          </Text>
-        </FadeUp>
+            <FadeUp delay={150} duration={600} style={styles.headlineBlock}>
+              <Text style={type.display40}>
+                Career guidance <Text style={styles.headlineAccent}>that fits you</Text>
+              </Text>
+              <Text style={type.body}>
+                Yoir connects job seekers with verified Career Professionals. Tell us how you will use it.
+              </Text>
+            </FadeUp>
+          </>
+        )}
 
         <FadeUp delay={300} duration={600} style={styles.roleList}>
           {roles.map((entry) => (
@@ -81,7 +97,7 @@ export default function EntryScreen() {
         <FadeUp delay={450} duration={600} style={styles.guestBlock}>
           <Press
             scaleTo={0.96}
-            style={styles.guestPill}
+            style={[styles.guestPill, desktop && styles.desktopGuestPill]}
             accessibilityLabel="Just looking? Browse as a guest"
             onPress={() => router.replace('/marketplace')}
           >
@@ -131,4 +147,11 @@ const styles = StyleSheet.create({
   signIn: { paddingVertical: 8, paddingHorizontal: 10 },
   signInLabel: { fontFamily: fonts.sans, fontSize: 14, color: colors.muted },
   signInAccent: { fontFamily: fonts.bold, color: colors.green },
+  // Desktop: the screen fills the panel beside the brand panel and scrolls as a whole;
+  // its content is the centred 460px column, bar included.
+  desktopScreen: { flex: 1, backgroundColor: 'transparent' },
+  desktopBody: { ...desktopAuthBody, gap: 14 },
+  desktopHead: { gap: 14, marginBottom: 10 },
+  desktopTitle: { fontFamily: fonts.serif, fontSize: 32, lineHeight: 37, letterSpacing: -0.4, color: colors.ink },
+  desktopGuestPill: { backgroundColor: colors.white },
 });

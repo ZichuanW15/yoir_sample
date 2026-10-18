@@ -1,0 +1,15 @@
+{
+  "at": "2026-10-15T22:27:15.748547+00:00",
+  "userId": "qa-nr-android-other",
+  "photoEvidence": "Image data URIs are summarized as MIME, string length and SHA256; no image content logged.",
+  "reads": {
+    "/bookings/qa-nr-android-move-booking": {
+      "status": 404,
+      "data": {
+        "code": "NOT_FOUND",
+        "message": "Booking not found.",
+        "requestId": "174cf0ab-a521-4e78-a938-85133f474e34"
+      }
+    }
+  }
+}

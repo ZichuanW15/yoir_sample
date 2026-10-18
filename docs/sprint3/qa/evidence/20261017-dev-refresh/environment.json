@@ -1,0 +1,10 @@
+{
+  "recordedAt": "2026-10-17T06:35:37.628994+00:00",
+  "python": "3.12.14",
+  "platform": "macOS-26.6.2-arm64-arm-64bit",
+  "node": "v20.20.2",
+  "npm": "10.8.2",
+  "timezone": "Australia/Melbourne",
+  "runtime": "Jest Expo shared/iOS/Android component presets with controlled HTTP, router and native seams. Prepared locked dependencies reused.",
+  "productSource": "origin/dev@972caeed8b16603b11580206692909288a83a436"
+}

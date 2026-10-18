@@ -1,0 +1,1906 @@
+{
+  "total": {
+    "lines": {
+      "total": 2521,
+      "covered": 2387,
+      "skipped": 0,
+      "pct": 94.68
+    },
+    "statements": {
+      "total": 2993,
+      "covered": 2763,
+      "skipped": 0,
+      "pct": 92.31
+    },
+    "functions": {
+      "total": 898,
+      "covered": 814,
+      "skipped": 0,
+      "pct": 90.64
+    },
+    "branches": {
+      "total": 2316,
+      "covered": 2016,
+      "skipped": 0,
+      "pct": 87.04
+    },
+    "branchesTrue": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/app/_layout.tsx": {
+    "lines": {
+      "total": 5,
+      "covered": 5,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 2,
+      "covered": 2,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 8,
+      "covered": 8,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 4,
+      "covered": 4,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/app/index.tsx": {
+    "lines": {
+      "total": 10,
+      "covered": 9,
+      "skipped": 0,
+      "pct": 90
+    },
+    "functions": {
+      "total": 5,
+      "covered": 4,
+      "skipped": 0,
+      "pct": 80
+    },
+    "statements": {
+      "total": 11,
+      "covered": 10,
+      "skipped": 0,
+      "pct": 90.9
+    },
+    "branches": {
+      "total": 2,
+      "covered": 2,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/app/admin/bookings.tsx": {
+    "lines": {
+      "total": 18,
+      "covered": 16,
+      "skipped": 0,
+      "pct": 88.88
+    },
+    "functions": {
+      "total": 5,
+      "covered": 5,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 20,
+      "covered": 17,
+      "skipped": 0,
+      "pct": 85
+    },
+    "branches": {
+      "total": 16,
+      "covered": 10,
+      "skipped": 0,
+      "pct": 62.5
+    }
+  },
+  "frontend/app/admin/counsellors.tsx": {
+    "lines": {
+      "total": 32,
+      "covered": 31,
+      "skipped": 0,
+      "pct": 96.87
+    },
+    "functions": {
+      "total": 17,
+      "covered": 16,
+      "skipped": 0,
+      "pct": 94.11
+    },
+    "statements": {
+      "total": 36,
+      "covered": 34,
+      "skipped": 0,
+      "pct": 94.44
+    },
+    "branches": {
+      "total": 36,
+      "covered": 27,
+      "skipped": 0,
+      "pct": 75
+    }
+  },
+  "frontend/app/admin/index.tsx": {
+    "lines": {
+      "total": 64,
+      "covered": 62,
+      "skipped": 0,
+      "pct": 96.87
+    },
+    "functions": {
+      "total": 36,
+      "covered": 34,
+      "skipped": 0,
+      "pct": 94.44
+    },
+    "statements": {
+      "total": 77,
+      "covered": 74,
+      "skipped": 0,
+      "pct": 96.1
+    },
+    "branches": {
+      "total": 51,
+      "covered": 45,
+      "skipped": 0,
+      "pct": 88.23
+    }
+  },
+  "frontend/app/admin/payments.tsx": {
+    "lines": {
+      "total": 18,
+      "covered": 18,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 7,
+      "covered": 7,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 21,
+      "covered": 20,
+      "skipped": 0,
+      "pct": 95.23
+    },
+    "branches": {
+      "total": 17,
+      "covered": 14,
+      "skipped": 0,
+      "pct": 82.35
+    }
+  },
+  "frontend/app/admin/verifications.tsx": {
+    "lines": {
+      "total": 20,
+      "covered": 20,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 8,
+      "covered": 8,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 24,
+      "covered": 23,
+      "skipped": 0,
+      "pct": 95.83
+    },
+    "branches": {
+      "total": 13,
+      "covered": 11,
+      "skipped": 0,
+      "pct": 84.61
+    }
+  },
+  "frontend/app/admin/payments/[orderId].tsx": {
+    "lines": {
+      "total": 27,
+      "covered": 26,
+      "skipped": 0,
+      "pct": 96.29
+    },
+    "functions": {
+      "total": 10,
+      "covered": 10,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 32,
+      "covered": 30,
+      "skipped": 0,
+      "pct": 93.75
+    },
+    "branches": {
+      "total": 30,
+      "covered": 29,
+      "skipped": 0,
+      "pct": 96.66
+    }
+  },
+  "frontend/app/admin/verifications/[submissionId].tsx": {
+    "lines": {
+      "total": 46,
+      "covered": 45,
+      "skipped": 0,
+      "pct": 97.82
+    },
+    "functions": {
+      "total": 14,
+      "covered": 13,
+      "skipped": 0,
+      "pct": 92.85
+    },
+    "statements": {
+      "total": 56,
+      "covered": 51,
+      "skipped": 0,
+      "pct": 91.07
+    },
+    "branches": {
+      "total": 61,
+      "covered": 58,
+      "skipped": 0,
+      "pct": 95.08
+    }
+  },
+  "frontend/app/auth/forgot.tsx": {
+    "lines": {
+      "total": 20,
+      "covered": 20,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 4,
+      "covered": 4,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 20,
+      "covered": 20,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 12,
+      "covered": 11,
+      "skipped": 0,
+      "pct": 91.66
+    }
+  },
+  "frontend/app/auth/login.tsx": {
+    "lines": {
+      "total": 26,
+      "covered": 24,
+      "skipped": 0,
+      "pct": 92.3
+    },
+    "functions": {
+      "total": 5,
+      "covered": 3,
+      "skipped": 0,
+      "pct": 60
+    },
+    "statements": {
+      "total": 26,
+      "covered": 24,
+      "skipped": 0,
+      "pct": 92.3
+    },
+    "branches": {
+      "total": 24,
+      "covered": 19,
+      "skipped": 0,
+      "pct": 79.16
+    }
+  },
+  "frontend/app/auth/register.tsx": {
+    "lines": {
+      "total": 34,
+      "covered": 33,
+      "skipped": 0,
+      "pct": 97.05
+    },
+    "functions": {
+      "total": 6,
+      "covered": 5,
+      "skipped": 0,
+      "pct": 83.33
+    },
+    "statements": {
+      "total": 34,
+      "covered": 33,
+      "skipped": 0,
+      "pct": 97.05
+    },
+    "branches": {
+      "total": 34,
+      "covered": 32,
+      "skipped": 0,
+      "pct": 94.11
+    }
+  },
+  "frontend/app/auth/reset.tsx": {
+    "lines": {
+      "total": 27,
+      "covered": 27,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 2,
+      "covered": 2,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 27,
+      "covered": 27,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 14,
+      "covered": 13,
+      "skipped": 0,
+      "pct": 92.85
+    }
+  },
+  "frontend/app/auth/verify.tsx": {
+    "lines": {
+      "total": 35,
+      "covered": 35,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 6,
+      "covered": 6,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 36,
+      "covered": 36,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 24,
+      "covered": 24,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/app/auth/welcome.tsx": {
+    "lines": {
+      "total": 11,
+      "covered": 11,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 5,
+      "covered": 5,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 11,
+      "covered": 11,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 4,
+      "covered": 4,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/app/bookings/checkout.tsx": {
+    "lines": {
+      "total": 67,
+      "covered": 53,
+      "skipped": 0,
+      "pct": 79.1
+    },
+    "functions": {
+      "total": 16,
+      "covered": 14,
+      "skipped": 0,
+      "pct": 87.5
+    },
+    "statements": {
+      "total": 76,
+      "covered": 57,
+      "skipped": 0,
+      "pct": 75
+    },
+    "branches": {
+      "total": 60,
+      "covered": 35,
+      "skipped": 0,
+      "pct": 58.33
+    }
+  },
+  "frontend/app/bookings/confirmation.tsx": {
+    "lines": {
+      "total": 48,
+      "covered": 30,
+      "skipped": 0,
+      "pct": 62.5
+    },
+    "functions": {
+      "total": 15,
+      "covered": 10,
+      "skipped": 0,
+      "pct": 66.66
+    },
+    "statements": {
+      "total": 58,
+      "covered": 35,
+      "skipped": 0,
+      "pct": 60.34
+    },
+    "branches": {
+      "total": 42,
+      "covered": 21,
+      "skipped": 0,
+      "pct": 50
+    }
+  },
+  "frontend/app/bookings/index.tsx": {
+    "lines": {
+      "total": 57,
+      "covered": 40,
+      "skipped": 0,
+      "pct": 70.17
+    },
+    "functions": {
+      "total": 23,
+      "covered": 14,
+      "skipped": 0,
+      "pct": 60.86
+    },
+    "statements": {
+      "total": 65,
+      "covered": 43,
+      "skipped": 0,
+      "pct": 66.15
+    },
+    "branches": {
+      "total": 90,
+      "covered": 71,
+      "skipped": 0,
+      "pct": 78.88
+    }
+  },
+  "frontend/app/bookings/receipt.tsx": {
+    "lines": {
+      "total": 19,
+      "covered": 19,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 7,
+      "covered": 7,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 21,
+      "covered": 21,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 20,
+      "covered": 20,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/app/bookings/[bookingId]/index.tsx": {
+    "lines": {
+      "total": 52,
+      "covered": 52,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 13,
+      "covered": 13,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 58,
+      "covered": 55,
+      "skipped": 0,
+      "pct": 94.82
+    },
+    "branches": {
+      "total": 72,
+      "covered": 64,
+      "skipped": 0,
+      "pct": 88.88
+    }
+  },
+  "frontend/app/bookings/[bookingId]/reschedule.tsx": {
+    "lines": {
+      "total": 58,
+      "covered": 56,
+      "skipped": 0,
+      "pct": 96.55
+    },
+    "functions": {
+      "total": 15,
+      "covered": 13,
+      "skipped": 0,
+      "pct": 86.66
+    },
+    "statements": {
+      "total": 66,
+      "covered": 60,
+      "skipped": 0,
+      "pct": 90.9
+    },
+    "branches": {
+      "total": 52,
+      "covered": 47,
+      "skipped": 0,
+      "pct": 90.38
+    }
+  },
+  "frontend/app/bookings/[bookingId]/review.tsx": {
+    "lines": {
+      "total": 40,
+      "covered": 39,
+      "skipped": 0,
+      "pct": 97.5
+    },
+    "functions": {
+      "total": 12,
+      "covered": 11,
+      "skipped": 0,
+      "pct": 91.66
+    },
+    "statements": {
+      "total": 50,
+      "covered": 48,
+      "skipped": 0,
+      "pct": 96
+    },
+    "branches": {
+      "total": 48,
+      "covered": 42,
+      "skipped": 0,
+      "pct": 87.5
+    }
+  },
+  "frontend/app/counsellor/availability.tsx": {
+    "lines": {
+      "total": 98,
+      "covered": 92,
+      "skipped": 0,
+      "pct": 93.87
+    },
+    "functions": {
+      "total": 36,
+      "covered": 32,
+      "skipped": 0,
+      "pct": 88.88
+    },
+    "statements": {
+      "total": 119,
+      "covered": 108,
+      "skipped": 0,
+      "pct": 90.75
+    },
+    "branches": {
+      "total": 58,
+      "covered": 51,
+      "skipped": 0,
+      "pct": 87.93
+    }
+  },
+  "frontend/app/counsellor/index.tsx": {
+    "lines": {
+      "total": 72,
+      "covered": 67,
+      "skipped": 0,
+      "pct": 93.05
+    },
+    "functions": {
+      "total": 27,
+      "covered": 22,
+      "skipped": 0,
+      "pct": 81.48
+    },
+    "statements": {
+      "total": 84,
+      "covered": 78,
+      "skipped": 0,
+      "pct": 92.85
+    },
+    "branches": {
+      "total": 70,
+      "covered": 62,
+      "skipped": 0,
+      "pct": 88.57
+    }
+  },
+  "frontend/app/counsellor/onboarding.tsx": {
+    "lines": {
+      "total": 21,
+      "covered": 21,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 7,
+      "covered": 7,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 26,
+      "covered": 26,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 34,
+      "covered": 34,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/app/counsellor/payouts.tsx": {
+    "lines": {
+      "total": 72,
+      "covered": 72,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 16,
+      "covered": 16,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 83,
+      "covered": 81,
+      "skipped": 0,
+      "pct": 97.59
+    },
+    "branches": {
+      "total": 78,
+      "covered": 76,
+      "skipped": 0,
+      "pct": 97.43
+    }
+  },
+  "frontend/app/counsellor/profile.tsx": {
+    "lines": {
+      "total": 95,
+      "covered": 91,
+      "skipped": 0,
+      "pct": 95.78
+    },
+    "functions": {
+      "total": 29,
+      "covered": 27,
+      "skipped": 0,
+      "pct": 93.1
+    },
+    "statements": {
+      "total": 119,
+      "covered": 114,
+      "skipped": 0,
+      "pct": 95.79
+    },
+    "branches": {
+      "total": 97,
+      "covered": 89,
+      "skipped": 0,
+      "pct": 91.75
+    }
+  },
+  "frontend/app/counsellor/verification.tsx": {
+    "lines": {
+      "total": 46,
+      "covered": 43,
+      "skipped": 0,
+      "pct": 93.47
+    },
+    "functions": {
+      "total": 10,
+      "covered": 7,
+      "skipped": 0,
+      "pct": 70
+    },
+    "statements": {
+      "total": 53,
+      "covered": 47,
+      "skipped": 0,
+      "pct": 88.67
+    },
+    "branches": {
+      "total": 59,
+      "covered": 54,
+      "skipped": 0,
+      "pct": 91.52
+    }
+  },
+  "frontend/app/counsellor/services/new.tsx": {
+    "lines": {
+      "total": 3,
+      "covered": 3,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 1,
+      "covered": 1,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 4,
+      "covered": 4,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 4,
+      "covered": 4,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/app/counsellor/services/[serviceId]/edit.tsx": {
+    "lines": {
+      "total": 26,
+      "covered": 26,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 9,
+      "covered": 9,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 35,
+      "covered": 33,
+      "skipped": 0,
+      "pct": 94.28
+    },
+    "branches": {
+      "total": 24,
+      "covered": 19,
+      "skipped": 0,
+      "pct": 79.16
+    }
+  },
+  "frontend/app/job-seeker/diagnosis.tsx": {
+    "lines": {
+      "total": 55,
+      "covered": 55,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 19,
+      "covered": 19,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 68,
+      "covered": 67,
+      "skipped": 0,
+      "pct": 98.52
+    },
+    "branches": {
+      "total": 87,
+      "covered": 83,
+      "skipped": 0,
+      "pct": 95.4
+    }
+  },
+  "frontend/app/job-seeker/index.tsx": {
+    "lines": {
+      "total": 19,
+      "covered": 17,
+      "skipped": 0,
+      "pct": 89.47
+    },
+    "functions": {
+      "total": 7,
+      "covered": 6,
+      "skipped": 0,
+      "pct": 85.71
+    },
+    "statements": {
+      "total": 22,
+      "covered": 20,
+      "skipped": 0,
+      "pct": 90.9
+    },
+    "branches": {
+      "total": 42,
+      "covered": 39,
+      "skipped": 0,
+      "pct": 92.85
+    }
+  },
+  "frontend/app/job-seeker/profile.tsx": {
+    "lines": {
+      "total": 77,
+      "covered": 65,
+      "skipped": 0,
+      "pct": 84.41
+    },
+    "functions": {
+      "total": 14,
+      "covered": 13,
+      "skipped": 0,
+      "pct": 92.85
+    },
+    "statements": {
+      "total": 84,
+      "covered": 70,
+      "skipped": 0,
+      "pct": 83.33
+    },
+    "branches": {
+      "total": 40,
+      "covered": 34,
+      "skipped": 0,
+      "pct": 85
+    }
+  },
+  "frontend/app/marketplace/index.tsx": {
+    "lines": {
+      "total": 108,
+      "covered": 99,
+      "skipped": 0,
+      "pct": 91.66
+    },
+    "functions": {
+      "total": 63,
+      "covered": 55,
+      "skipped": 0,
+      "pct": 87.3
+    },
+    "statements": {
+      "total": 143,
+      "covered": 129,
+      "skipped": 0,
+      "pct": 90.2
+    },
+    "branches": {
+      "total": 97,
+      "covered": 79,
+      "skipped": 0,
+      "pct": 81.44
+    }
+  },
+  "frontend/app/professionals/[counsellorId].tsx": {
+    "lines": {
+      "total": 35,
+      "covered": 35,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 14,
+      "covered": 14,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 39,
+      "covered": 39,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 40,
+      "covered": 40,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/app/services/[serviceId].tsx": {
+    "lines": {
+      "total": 49,
+      "covered": 47,
+      "skipped": 0,
+      "pct": 95.91
+    },
+    "functions": {
+      "total": 18,
+      "covered": 16,
+      "skipped": 0,
+      "pct": 88.88
+    },
+    "statements": {
+      "total": 56,
+      "covered": 52,
+      "skipped": 0,
+      "pct": 92.85
+    },
+    "branches": {
+      "total": 58,
+      "covered": 48,
+      "skipped": 0,
+      "pct": 82.75
+    }
+  },
+  "frontend/app/services/[serviceId]/timeslots.tsx": {
+    "lines": {
+      "total": 72,
+      "covered": 71,
+      "skipped": 0,
+      "pct": 98.61
+    },
+    "functions": {
+      "total": 20,
+      "covered": 18,
+      "skipped": 0,
+      "pct": 90
+    },
+    "statements": {
+      "total": 82,
+      "covered": 77,
+      "skipped": 0,
+      "pct": 93.9
+    },
+    "branches": {
+      "total": 89,
+      "covered": 81,
+      "skipped": 0,
+      "pct": 91.01
+    }
+  },
+  "frontend/app/settings/privacy.tsx": {
+    "lines": {
+      "total": 37,
+      "covered": 36,
+      "skipped": 0,
+      "pct": 97.29
+    },
+    "functions": {
+      "total": 11,
+      "covered": 10,
+      "skipped": 0,
+      "pct": 90.9
+    },
+    "statements": {
+      "total": 46,
+      "covered": 43,
+      "skipped": 0,
+      "pct": 93.47
+    },
+    "branches": {
+      "total": 28,
+      "covered": 23,
+      "skipped": 0,
+      "pct": 82.14
+    }
+  },
+  "frontend/src/chrome.tsx": {
+    "lines": {
+      "total": 58,
+      "covered": 52,
+      "skipped": 0,
+      "pct": 89.65
+    },
+    "functions": {
+      "total": 29,
+      "covered": 21,
+      "skipped": 0,
+      "pct": 72.41
+    },
+    "statements": {
+      "total": 74,
+      "covered": 60,
+      "skipped": 0,
+      "pct": 81.08
+    },
+    "branches": {
+      "total": 32,
+      "covered": 26,
+      "skipped": 0,
+      "pct": 81.25
+    }
+  },
+  "frontend/src/floatingError.tsx": {
+    "lines": {
+      "total": 20,
+      "covered": 20,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 10,
+      "covered": 10,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 24,
+      "covered": 23,
+      "skipped": 0,
+      "pct": 95.83
+    },
+    "branches": {
+      "total": 12,
+      "covered": 8,
+      "skipped": 0,
+      "pct": 66.66
+    }
+  },
+  "frontend/src/format.ts": {
+    "lines": {
+      "total": 36,
+      "covered": 36,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 15,
+      "covered": 15,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 42,
+      "covered": 42,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 12,
+      "covered": 12,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/src/motion.tsx": {
+    "lines": {
+      "total": 38,
+      "covered": 38,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 18,
+      "covered": 18,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 43,
+      "covered": 42,
+      "skipped": 0,
+      "pct": 97.67
+    },
+    "branches": {
+      "total": 15,
+      "covered": 11,
+      "skipped": 0,
+      "pct": 73.33
+    }
+  },
+  "frontend/src/navigation.ts": {
+    "lines": {
+      "total": 7,
+      "covered": 7,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 2,
+      "covered": 2,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 9,
+      "covered": 9,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 6,
+      "covered": 6,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/src/notifications.ts": {
+    "lines": {
+      "total": 31,
+      "covered": 28,
+      "skipped": 0,
+      "pct": 90.32
+    },
+    "functions": {
+      "total": 14,
+      "covered": 14,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 46,
+      "covered": 39,
+      "skipped": 0,
+      "pct": 84.78
+    },
+    "branches": {
+      "total": 29,
+      "covered": 22,
+      "skipped": 0,
+      "pct": 75.86
+    }
+  },
+  "frontend/src/profilePhoto.ts": {
+    "lines": {
+      "total": 20,
+      "covered": 19,
+      "skipped": 0,
+      "pct": 95
+    },
+    "functions": {
+      "total": 10,
+      "covered": 8,
+      "skipped": 0,
+      "pct": 80
+    },
+    "statements": {
+      "total": 24,
+      "covered": 22,
+      "skipped": 0,
+      "pct": 91.66
+    },
+    "branches": {
+      "total": 12,
+      "covered": 10,
+      "skipped": 0,
+      "pct": 83.33
+    }
+  },
+  "frontend/src/theme.ts": {
+    "lines": {
+      "total": 7,
+      "covered": 7,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 7,
+      "covered": 7,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/src/verification.tsx": {
+    "lines": {
+      "total": 11,
+      "covered": 11,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 4,
+      "covered": 4,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 15,
+      "covered": 15,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 20,
+      "covered": 19,
+      "skipped": 0,
+      "pct": 95
+    }
+  },
+  "frontend/src/admin/shell.tsx": {
+    "lines": {
+      "total": 21,
+      "covered": 21,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 7,
+      "covered": 7,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 25,
+      "covered": 24,
+      "skipped": 0,
+      "pct": 96
+    },
+    "branches": {
+      "total": 19,
+      "covered": 18,
+      "skipped": 0,
+      "pct": 94.73
+    }
+  },
+  "frontend/src/api/authBridge.ts": {
+    "lines": {
+      "total": 16,
+      "covered": 16,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 11,
+      "covered": 9,
+      "skipped": 0,
+      "pct": 81.81
+    },
+    "statements": {
+      "total": 20,
+      "covered": 19,
+      "skipped": 0,
+      "pct": 95
+    },
+    "branches": {
+      "total": 4,
+      "covered": 3,
+      "skipped": 0,
+      "pct": 75
+    }
+  },
+  "frontend/src/api/client.ts": {
+    "lines": {
+      "total": 97,
+      "covered": 94,
+      "skipped": 0,
+      "pct": 96.9
+    },
+    "functions": {
+      "total": 66,
+      "covered": 63,
+      "skipped": 0,
+      "pct": 95.45
+    },
+    "statements": {
+      "total": 106,
+      "covered": 103,
+      "skipped": 0,
+      "pct": 97.16
+    },
+    "branches": {
+      "total": 65,
+      "covered": 65,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/src/api/errors.ts": {
+    "lines": {
+      "total": 4,
+      "covered": 4,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 2,
+      "covered": 2,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 4,
+      "covered": 4,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/src/auth/AuthContext.tsx": {
+    "lines": {
+      "total": 52,
+      "covered": 52,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 15,
+      "covered": 15,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 64,
+      "covered": 63,
+      "skipped": 0,
+      "pct": 98.43
+    },
+    "branches": {
+      "total": 33,
+      "covered": 30,
+      "skipped": 0,
+      "pct": 90.9
+    }
+  },
+  "frontend/src/auth/sessionStore.web.ts": {
+    "lines": {
+      "total": 8,
+      "covered": 8,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 3,
+      "covered": 3,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 8,
+      "covered": 8,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/src/components/BottomNav.tsx": {
+    "lines": {
+      "total": 4,
+      "covered": 4,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 2,
+      "covered": 2,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 4,
+      "covered": 4,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 6,
+      "covered": 3,
+      "skipped": 0,
+      "pct": 50
+    }
+  },
+  "frontend/src/components/CounsellorNav.tsx": {
+    "lines": {
+      "total": 8,
+      "covered": 7,
+      "skipped": 0,
+      "pct": 87.5
+    },
+    "functions": {
+      "total": 4,
+      "covered": 2,
+      "skipped": 0,
+      "pct": 50
+    },
+    "statements": {
+      "total": 10,
+      "covered": 8,
+      "skipped": 0,
+      "pct": 80
+    },
+    "branches": {
+      "total": 4,
+      "covered": 4,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/src/components/Glyph.tsx": {
+    "lines": {
+      "total": 10,
+      "covered": 6,
+      "skipped": 0,
+      "pct": 60
+    },
+    "functions": {
+      "total": 7,
+      "covered": 3,
+      "skipped": 0,
+      "pct": 42.85
+    },
+    "statements": {
+      "total": 10,
+      "covered": 6,
+      "skipped": 0,
+      "pct": 60
+    },
+    "branches": {
+      "total": 9,
+      "covered": 1,
+      "skipped": 0,
+      "pct": 11.11
+    }
+  },
+  "frontend/src/components/JobSeekerNav.tsx": {
+    "lines": {
+      "total": 12,
+      "covered": 12,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 4,
+      "covered": 4,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 13,
+      "covered": 13,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 10,
+      "covered": 10,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/src/components/NotificationsPanel.tsx": {
+    "lines": {
+      "total": 16,
+      "covered": 16,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 8,
+      "covered": 8,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 19,
+      "covered": 19,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 12,
+      "covered": 12,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/src/components/Scenes.tsx": {
+    "lines": {
+      "total": 62,
+      "covered": 62,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 27,
+      "covered": 27,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 73,
+      "covered": 73,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 7,
+      "covered": 5,
+      "skipped": 0,
+      "pct": 71.42
+    }
+  },
+  "frontend/src/components/TopBar.tsx": {
+    "lines": {
+      "total": 8,
+      "covered": 7,
+      "skipped": 0,
+      "pct": 87.5
+    },
+    "functions": {
+      "total": 2,
+      "covered": 1,
+      "skipped": 0,
+      "pct": 50
+    },
+    "statements": {
+      "total": 8,
+      "covered": 7,
+      "skipped": 0,
+      "pct": 87.5
+    },
+    "branches": {
+      "total": 10,
+      "covered": 6,
+      "skipped": 0,
+      "pct": 60
+    }
+  },
+  "frontend/src/components/VerifyEmailBanner.tsx": {
+    "lines": {
+      "total": 10,
+      "covered": 10,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 2,
+      "covered": 2,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 12,
+      "covered": 11,
+      "skipped": 0,
+      "pct": 91.66
+    },
+    "branches": {
+      "total": 13,
+      "covered": 12,
+      "skipped": 0,
+      "pct": 92.3
+    }
+  },
+  "frontend/src/components/animatedSvg.tsx": {
+    "lines": {
+      "total": 4,
+      "covered": 4,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 2,
+      "covered": 2,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 4,
+      "covered": 4,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 0,
+      "covered": 0,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/src/components/booking.tsx": {
+    "lines": {
+      "total": 10,
+      "covered": 10,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 5,
+      "covered": 5,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 12,
+      "covered": 12,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 12,
+      "covered": 12,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/src/components/ui.tsx": {
+    "lines": {
+      "total": 29,
+      "covered": 26,
+      "skipped": 0,
+      "pct": 89.65
+    },
+    "functions": {
+      "total": 14,
+      "covered": 11,
+      "skipped": 0,
+      "pct": 78.57
+    },
+    "statements": {
+      "total": 32,
+      "covered": 28,
+      "skipped": 0,
+      "pct": 87.5
+    },
+    "branches": {
+      "total": 48,
+      "covered": 45,
+      "skipped": 0,
+      "pct": 93.75
+    }
+  },
+  "frontend/src/counsellor/ServiceForm.tsx": {
+    "lines": {
+      "total": 61,
+      "covered": 59,
+      "skipped": 0,
+      "pct": 96.72
+    },
+    "functions": {
+      "total": 15,
+      "covered": 13,
+      "skipped": 0,
+      "pct": 86.66
+    },
+    "statements": {
+      "total": 71,
+      "covered": 68,
+      "skipped": 0,
+      "pct": 95.77
+    },
+    "branches": {
+      "total": 76,
+      "covered": 74,
+      "skipped": 0,
+      "pct": 97.36
+    }
+  },
+  "frontend/src/counsellor/availabilityPlanner.ts": {
+    "lines": {
+      "total": 51,
+      "covered": 51,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 13,
+      "covered": 13,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 62,
+      "covered": 62,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 16,
+      "covered": 15,
+      "skipped": 0,
+      "pct": 93.75
+    }
+  },
+  "frontend/src/diagnosis/view.tsx": {
+    "lines": {
+      "total": 119,
+      "covered": 117,
+      "skipped": 0,
+      "pct": 98.31
+    },
+    "functions": {
+      "total": 26,
+      "covered": 25,
+      "skipped": 0,
+      "pct": 96.15
+    },
+    "statements": {
+      "total": 152,
+      "covered": 140,
+      "skipped": 0,
+      "pct": 92.1
+    },
+    "branches": {
+      "total": 125,
+      "covered": 94,
+      "skipped": 0,
+      "pct": 75.2
+    }
+  },
+  "frontend/src/marketplace/filters.ts": {
+    "lines": {
+      "total": 22,
+      "covered": 22,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 11,
+      "covered": 11,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 35,
+      "covered": 35,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 32,
+      "covered": 31,
+      "skipped": 0,
+      "pct": 96.87
+    }
+  },
+  "frontend/src/payments/config.tsx": {
+    "lines": {
+      "total": 16,
+      "covered": 16,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 6,
+      "covered": 6,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 19,
+      "covered": 19,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 4,
+      "covered": 2,
+      "skipped": 0,
+      "pct": 50
+    }
+  },
+  "frontend/src/payments/payoutStage.ts": {
+    "lines": {
+      "total": 11,
+      "covered": 11,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 3,
+      "covered": 3,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 13,
+      "covered": 13,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 12,
+      "covered": 12,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/src/payments/waitForBooking.ts": {
+    "lines": {
+      "total": 10,
+      "covered": 10,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 3,
+      "covered": 3,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 16,
+      "covered": 16,
+      "skipped": 0,
+      "pct": 100
+    },
+    "branches": {
+      "total": 13,
+      "covered": 13,
+      "skipped": 0,
+      "pct": 100
+    }
+  },
+  "frontend/src/payments/waitForPayouts.ts": {
+    "lines": {
+      "total": 13,
+      "covered": 13,
+      "skipped": 0,
+      "pct": 100
+    },
+    "functions": {
+      "total": 4,
+      "covered": 4,
+      "skipped": 0,
+      "pct": 100
+    },
+    "statements": {
+      "total": 21,
+      "covered": 20,
+      "skipped": 0,
+      "pct": 95.23
+    },
+    "branches": {
+      "total": 17,
+      "covered": 16,
+      "skipped": 0,
+      "pct": 94.11
+    }
+  }
+}

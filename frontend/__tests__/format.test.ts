@@ -1,9 +1,16 @@
 import {
-  countdown, deviceTimezone, duration, fmtDay, fmtLong, fmtTime, initials, modalityLabel, money,
+  countdown, deviceTimezone, duration, fmtDay, fmtLong, fmtTime, hoursAndMinutes, initials, modalityLabel, money,
   monthDay, sameDay, startOfWeek, timeRange,
 } from '@/src/format';
 
 describe('display formatting', () => {
+  test('writes a length of time in hours and minutes', () => {
+    expect(hoursAndMinutes(45)).toBe('45 min');
+    expect(hoursAndMinutes(60)).toBe('1 hour');
+    expect(hoursAndMinutes(150)).toBe('2 hours 30 min');
+    expect(hoursAndMinutes(0)).toBe('0 min');
+  });
+
   test('formats whole-dollar AUD prices', () => {
     expect(money(9500)).toBe('$95');
     expect(money(16500)).toBe('$165');

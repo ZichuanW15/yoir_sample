@@ -1,0 +1,277 @@
+{
+  "stats": {
+    "startTime": "2026-10-17T06:46:47.852Z",
+    "duration": 60880.835,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 7,
+    "flaky": 0
+  },
+  "errors": [],
+  "cases": [
+    {
+      "file": "integrity.spec.ts",
+      "line": 96,
+      "title": "DEF-MONEY-CENTS: real persisted cents remain visible in the marketplace and service detail @defect",
+      "project": "chromium-web",
+      "status": "unexpected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 11770,
+          "startTime": "2026-10-17T06:46:48.950Z",
+          "retry": 0,
+          "errors": [
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/integrity.spec.ts",
+                "column": 27,
+                "line": 118
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAccessibleName\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('button', { name: 'Exact cents a81dc35a-84f8-46fc-be31-d2d8531b5bba by' })\nExpected pattern: \u001b[32m/\\$70\\.50/\u001b[39m\nReceived string:  \u001b[31m\"Exact cents a81dc35a-84f8-46fc-be31-d2d8531b5bba by Maya Chen, $71\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"soft toHaveAccessibleName\" getByRole('button', { name: 'Exact cents a81dc35a-84f8-46fc-be31-d2d8531b5bba by' }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('button', { name: 'Exact cents a81dc35a-84f8-46fc-be31-d2d8531b5bba by' })\u001b[22m\n\u001b[2m    14 × locator resolved to <button tabindex=\"0\" role=\"button\" type=\"button\" class=\"css-g5y9jx r-1loqt21 r-1otgn73\" aria-label=\"Exact cents a81dc35a-84f8-46fc-be31-d2d8531b5bba by Maya Chen, $71\">…</button>\u001b[22m\n\u001b[2m       - unexpected value \"Exact cents a81dc35a-84f8-46fc-be31-d2d8531b5bba by Maya Chen, $71\"\u001b[22m\n\n\n  116 |   // Keep both independent display failures in the evidence instead of stopping\n  117 |   // at the first screen. Do not import the production formatter as the oracle.\n> 118 |   await expect.soft(card).toHaveAccessibleName(/\\$70\\.50/);\n      |                           ^\n  119 |   await card.click();\n  120 |   await expect(page).toHaveURL(new RegExp(`/services/${service.id}$`));\n  121 |   await expect(page.getByText('About this service', { exact: true })).toBeVisible();\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/integrity.spec.ts:118:27"
+            },
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/integrity.spec.ts",
+                "column": 98,
+                "line": 122
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('$70.50', { exact: true }).visible().first()\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"soft toBeVisible\" getByText('$70.50', { exact: true }).visible().first() with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('$70.50', { exact: true }).visible().first()\u001b[22m\n\n\n  120 |   await expect(page).toHaveURL(new RegExp(`/services/${service.id}$`));\n  121 |   await expect(page.getByText('About this service', { exact: true })).toBeVisible();\n> 122 |   await expect.soft(page.getByText('$70.50', { exact: true }).filter({ visible: true }).first()).toBeVisible();\n      |                                                                                                  ^\n  123 | });\n  124 |\n  125 | test('DEF-PRICE-SIGN: negative browser input must not publish a positive-price service @defect', async ({ page, request }) => {\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/integrity.spec.ts:122:98"
+            }
+          ],
+          "attachments": [
+            "attachments/browser-defects-01-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "integrity.spec.ts",
+      "line": 125,
+      "title": "DEF-PRICE-SIGN: negative browser input must not publish a positive-price service @defect",
+      "project": "chromium-web",
+      "status": "unexpected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 13314,
+          "startTime": "2026-10-17T06:47:01.100Z",
+          "retry": 0,
+          "errors": [
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/integrity.spec.ts",
+                "column": 46,
+                "line": 142
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"soft toBeVisible\" getByRole('alert') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\n\n  140 |   // Soft UI assertions keep persistence and transmitted-price evidence available\n  141 |   // when the current bug redirects to the dashboard after creating the service.\n> 142 |   await expect.soft(page.getByRole('alert')).toBeVisible();\n      |                                              ^\n  143 |   await expect.soft(page).toHaveURL(/\\/counsellor\\/services\\/new$/);\n  144 |   expect.soft(sentPrices.some(price => price > 0), 'The submitted minus sign must not become a positive price').toBe(false);\n  145 |   const saved = await ownServices(request, session.accessToken);\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/integrity.spec.ts:142:46"
+            },
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/integrity.spec.ts",
+                "column": 27,
+                "line": 143
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mpage\u001b[39m\u001b[2m).\u001b[22mtoHaveURL\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nExpected pattern: \u001b[32m/\\/counsellor\\/services\\/new$/\u001b[39m\nReceived string:  \u001b[31m\"http://127.0.0.1:43126/counsellor\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"soft toHaveURL\" with timeout 5000ms\u001b[22m\n\u001b[2m    14 × locator resolved to <html lang=\"en\">…</html>\u001b[22m\n\u001b[2m       - unexpected value \"http://127.0.0.1:43126/counsellor\"\u001b[22m\n\n\n  141 |   // when the current bug redirects to the dashboard after creating the service.\n  142 |   await expect.soft(page.getByRole('alert')).toBeVisible();\n> 143 |   await expect.soft(page).toHaveURL(/\\/counsellor\\/services\\/new$/);\n      |                           ^\n  144 |   expect.soft(sentPrices.some(price => price > 0), 'The submitted minus sign must not become a positive price').toBe(false);\n  145 |   const saved = await ownServices(request, session.accessToken);\n  146 |   expect(saved.filter(item => item.title === title), 'Invalid negative input must not persist a service').toEqual([]);\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/integrity.spec.ts:143:27"
+            },
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/integrity.spec.ts",
+                "column": 113,
+                "line": 144
+              },
+              "message": "Error: The submitted minus sign must not become a positive price\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32mfalse\u001b[39m\nReceived: \u001b[31mtrue\u001b[39m\n\n  142 |   await expect.soft(page.getByRole('alert')).toBeVisible();\n  143 |   await expect.soft(page).toHaveURL(/\\/counsellor\\/services\\/new$/);\n> 144 |   expect.soft(sentPrices.some(price => price > 0), 'The submitted minus sign must not become a positive price').toBe(false);\n      |                                                                                                                 ^\n  145 |   const saved = await ownServices(request, session.accessToken);\n  146 |   expect(saved.filter(item => item.title === title), 'Invalid negative input must not persist a service').toEqual([]);\n  147 | });\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/integrity.spec.ts:144:113"
+            },
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/integrity.spec.ts",
+                "column": 107,
+                "line": 146
+              },
+              "message": "Error: Invalid negative input must not persist a service\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoEqual\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // deep equality\u001b[22m\n\n\u001b[32m- Expected  -  1\u001b[39m\n\u001b[31m+ Received  + 27\u001b[39m\n\n\u001b[32m- Array []\u001b[39m\n\u001b[31m+ Array [\u001b[39m\n\u001b[31m+   Object {\u001b[39m\n\u001b[31m+     \"active\": true,\u001b[39m\n\u001b[31m+     \"averageRating\": null,\u001b[39m\n\u001b[31m+     \"counsellor\": Object {\u001b[39m\n\u001b[31m+       \"displayName\": \"Maya Chen\",\u001b[39m\n\u001b[31m+       \"id\": \"8d8ad4ac-0b7e-4441-9a8d-8a7719cca696\",\u001b[39m\n\u001b[31m+       \"introduction\": \"Career Professional specialising in early-career transitions and interview preparation.\",\u001b[39m\n\u001b[31m+       \"overallRating\": 4.9,\u001b[39m\n\u001b[31m+       \"reviewCount\": 46,\u001b[39m\n\u001b[31m+       \"verificationStatus\": \"verified\",\u001b[39m\n\u001b[31m+     },\u001b[39m\n\u001b[31m+     \"currency\": \"AUD\",\u001b[39m\n\u001b[31m+     \"description\": \"A dedicated browser QA service for checking publication and price integrity.\",\u001b[39m\n\u001b[31m+     \"durationMinutes\": 60,\u001b[39m\n\u001b[31m+     \"id\": \"9b99235b-5798-46aa-8fdd-60ff11aa529c\",\u001b[39m\n\u001b[31m+     \"location\": null,\u001b[39m\n\u001b[31m+     \"meetingUrl\": null,\u001b[39m\n\u001b[31m+     \"modalities\": Array [\u001b[39m\n\u001b[31m+       \"online\",\u001b[39m\n\u001b[31m+     ],\u001b[39m\n\u001b[31m+     \"nextAvailableAt\": \"2026-10-18T09:00:00Z\",\u001b[39m\n\u001b[31m+     \"priceMinor\": 7050,\u001b[39m\n\u001b[31m+     \"reviewCount\": 0,\u001b[39m\n\u001b[31m+     \"title\": \"Negative price 3609e381-3863-486c-879e-4b529ab6637d\",\u001b[39m\n\u001b[31m+   },\u001b[39m\n\u001b[31m+ ]\u001b[39m\n\n  144 |   expect.soft(sentPrices.some(price => price > 0), 'The submitted minus sign must not become a positive price').toBe(false);\n  145 |   const saved = await ownServices(request, session.accessToken);\n> 146 |   expect(saved.filter(item => item.title === title), 'Invalid negative input must not persist a service').toEqual([]);\n      |                                                                                                           ^\n  147 | });\n  148 |\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/integrity.spec.ts:146:107"
+            }
+          ],
+          "attachments": [
+            "attachments/browser-defects-02-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-accessibility.spec.ts",
+      "line": 7,
+      "title": "DEF-DIAGNOSIS-WEB-CHECKED: a selected diagnosis radio exposes its checked state @defect",
+      "project": "chromium-web",
+      "status": "unexpected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 7340,
+          "startTime": "2026-10-17T06:47:14.828Z",
+          "retry": 0,
+          "errors": [
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-accessibility.spec.ts",
+                "column": 24,
+                "line": 40
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveAttribute\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByRole('radio', { name: 'Something else', exact: true })\nExpected: \u001b[32m\"true\"\u001b[39m\nReceived: \u001b[31m\"\"\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveAttribute\" getByRole('radio', { name: 'Something else', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('radio', { name: 'Something else', exact: true })\u001b[22m\n\u001b[2m    14 × locator resolved to <div role=\"radio\" tabindex=\"0\" aria-label=\"Something else\" class=\"css-g5y9jx r-1loqt21 r-1otgn73 r-1awozwy r-cpet4d r-1rf8fdq r-1a8msfu r-1777fci r-gu64tb\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"null\"\u001b[22m\n\n\n  38 |     body: await page.screenshot({ fullPage: true }), contentType: 'image/png',\n  39 |   });\n> 40 |   await expect(option).toHaveAttribute('aria-checked', 'true');\n     |                        ^\n  41 | });\n  42 |\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-accessibility.spec.ts:40:24"
+            }
+          ],
+          "attachments": [
+            "attachments/browser-defects-03-0.json",
+            "attachments/browser-defects-03-1.png",
+            "attachments/browser-defects-03-2.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-integration-acceptance.spec.ts",
+      "line": 168,
+      "title": "@defect [S3-PROFILE-UNRATED][QA-219] a real unrated professional has an explicit neutral rating state",
+      "project": "chromium-web",
+      "status": "unexpected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 5287,
+          "startTime": "2026-10-17T06:47:22.516Z",
+          "retry": 0,
+          "errors": [
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-integration-acceptance.spec.ts",
+                "column": 104,
+                "line": 185
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText(/^(No reviews yet|No ratings yet|Not yet rated|Unrated|New on Yoir)$/i)\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText(/^(No reviews yet|No ratings yet|Not yet rated|Unrated|New on Yoir)$/i) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText(/^(No reviews yet|No ratings yet|Not yet rated|Unrated|New on Yoir)$/i)\u001b[22m\n\n\n  183 |     reviewCount: profile.reviewCount }), contentType: 'application/json' });\n  184 |   // Accept neutral equivalent wording; verification status is not a rating state.\n> 185 |   await expect(page.getByText(/^(No reviews yet|No ratings yet|Not yet rated|Unrated|New on Yoir)$/i)).toBeVisible();\n      |                                                                                                        ^\n  186 | });\n  187 |\n  188 | test('@defect [S3-DIAGNOSIS-HOME-READ-RECOVERY][QA-162][QA-168] an unavailable saved diagnosis offers retry without replacing confirmed answers @injected-network', async ({ page, request }, info) => {\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-integration-acceptance.spec.ts:185:104"
+            }
+          ],
+          "attachments": [
+            "attachments/browser-defects-04-0.json",
+            "attachments/browser-defects-04-1.png",
+            "attachments/browser-defects-04-2.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-integration-acceptance.spec.ts",
+      "line": 188,
+      "title": "@defect [S3-DIAGNOSIS-HOME-READ-RECOVERY][QA-162][QA-168] an unavailable saved diagnosis offers retry without replacing confirmed answers @injected-network",
+      "project": "chromium-web",
+      "status": "unexpected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 6479,
+          "startTime": "2026-10-17T06:47:28.134Z",
+          "retry": 0,
+          "errors": [
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-integration-acceptance.spec.ts",
+                "column": 43,
+                "line": 215
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('alert')\nExpected substring: \u001b[32m\"Saved diagnosis is temporarily unavailable\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" getByRole('alert') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('alert')\u001b[22m\n\n\n  213 |     await page.getByRole('button', { name: 'Log in', exact: true }).click();\n  214 |     await expect.poll(() => refusedReads).toBeGreaterThan(0);\n> 215 |     await expect(page.getByRole('alert')).toContainText('Saved diagnosis is temporarily unavailable');\n      |                                           ^\n  216 |     await expect(page.getByRole('button', { name: 'Continue', exact: true })).toHaveCount(0);\n  217 |     expect(starts).toBe(0);\n  218 |     expect(await readback(request, user)).toEqual(confirmed);\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-integration-acceptance.spec.ts:215:43"
+            }
+          ],
+          "attachments": [
+            "attachments/browser-defects-05-0.json",
+            "attachments/browser-defects-05-1.png",
+            "attachments/browser-defects-05-2.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "sprint3-workflows.spec.ts",
+      "line": 193,
+      "title": "US48 an old existing order opens by ID beyond the first 200 list rows @defect",
+      "project": "chromium-web",
+      "status": "unexpected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 6484,
+          "startTime": "2026-10-17T06:47:34.960Z",
+          "retry": 0,
+          "errors": [
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-workflows.spec.ts",
+                "column": 81,
+                "line": 208
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m(\u001b[22m\u001b[2m)\u001b[22m failed\n\nLocator: getByText('Payment reference qa-s3-archive-200', { exact: true })\nExpected: visible\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" getByText('Payment reference qa-s3-archive-200', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Payment reference qa-s3-archive-200', { exact: true })\u001b[22m\n\n\n  206 |   // Acceptance assertion: the existing read-by-ID API must support this screen.\n  207 |   // Current UI searches only the default list, showing a false not-found result.\n> 208 |   await expect(page.getByText(`Payment reference ${orderId}`, { exact: true })).toBeVisible();\n      |                                                                                 ^\n  209 | });\n  210 |\n  211 | test('US40/41 alternate delivery and held time stay consistent across buyer and counsellor Web views', async ({ page, request, browser }) => {\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/sprint3-workflows.spec.ts:208:81"
+            }
+          ],
+          "attachments": [
+            "attachments/browser-defects-06-0.json",
+            "attachments/browser-defects-06-1.png",
+            "attachments/browser-defects-06-2.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 349,
+      "title": "[QA-118][US40-AC4] real empty availability has an explanatory state @defect",
+      "project": "chromium-web",
+      "status": "expected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "passed",
+          "duration": 1359,
+          "startTime": "2026-10-17T06:47:41.793Z",
+          "retry": 0,
+          "errors": [],
+          "attachments": [
+            "attachments/browser-defects-07-0.png"
+          ]
+        }
+      ]
+    },
+    {
+      "file": "web.spec.ts",
+      "line": 374,
+      "title": "US68 forged anonymous confirmation URL must not claim success @defect",
+      "project": "chromium-web",
+      "status": "unexpected",
+      "expectedStatus": "passed",
+      "results": [
+        {
+          "status": "failed",
+          "duration": 5264,
+          "startTime": "2026-10-17T06:47:43.241Z",
+          "retry": 0,
+          "errors": [
+            {
+              "location": {
+                "file": "/Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/web.spec.ts",
+                "column": 66,
+                "line": 380
+              },
+              "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveCount\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator:  getByText('You’re booked', { exact: true })\nExpected: \u001b[32m0\u001b[39m\nReceived: \u001b[31m1\u001b[39m\nTimeout:  5000ms\n\nCall log:\n\u001b[2m  - Expect \"toHaveCount\" getByText('You’re booked', { exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('You’re booked', { exact: true })\u001b[22m\n\u001b[2m    14 × locator resolved to 1 element\u001b[22m\n\u001b[2m       - unexpected value \"1\"\u001b[22m\n\n\n  378 |   // A real app screen must be present before checking the negative assertion.\n  379 |   await expect(page.getByRole('button', { name: 'Back to Explore' })).toBeVisible();\n> 380 |   await expect(page.getByText(\"You’re booked\", { exact: true })).toHaveCount(0);\n      |                                                                  ^\n  381 | });\n  382 |\n    at /Users/zhouzhny/Desktop/SWEN90014-2026-CSD-Koala/frontend/e2e/web.spec.ts:380:66"
+            }
+          ],
+          "attachments": [
+            "attachments/browser-defects-08-0.png",
+            "attachments/browser-defects-08-1.png"
+          ]
+        }
+      ]
+    }
+  ]
+}

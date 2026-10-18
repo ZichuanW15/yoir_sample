@@ -1,0 +1,18 @@
+PASS ios-components __tests__/screens/booking-detail.test.tsx
+  booking detail — US-43
+    ✓ AT-US-43-2: an in-person booking with no address yet shows a not-yet-provided state, and the counsellor can add one (124 ms)
+    ○ skipped AT-US-43-1: an online booking shows the service, Job Seeker, time with timezone, pre-session brief and the meeting link, which opens outside the app
+    ○ skipped an existing address can be edited
+    ○ skipped a Job Seeker sees the address once added, but has no edit controls
+    ○ skipped a Job Seeker with no address yet sees a Career-Professional-facing message instead
+    ○ skipped AT-US-43-3: a non-participant is rejected by the backend and sees no delivery information
+    ○ skipped AC4: a confirmed online booking with no link recorded shows a clear not-yet-provided state
+    ○ skipped a load failure shows an error with a working retry
+    ○ skipped back returns to My Bookings
+
+Test Suites: 1 passed, 1 total
+Tests:       8 skipped, 1 passed, 9 total
+Snapshots:   0 total
+Time:        0.745 s, estimated 1 s
+Ran all test suites within paths "__tests__/screens/booking-detail.test.tsx".
+Test results written to: ../artifacts/qa/sprint3-meeting-area-20261017/authoring/ios-booking-detail-regression.json

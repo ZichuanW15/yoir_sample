@@ -1,0 +1,64 @@
+{
+  "at": "2026-10-15T23:20:37.268287+00:00",
+  "scope": "Android native auth request audit after23:10UTC. Invalid/known/unknown email labels come from native UI; request bodies and secrets are not logged. No mail provider delivery, valid token consumption, reset success, or password change evidence.",
+  "requests": [
+    {
+      "at": "2026-10-15T23:14:22.447197+00:00",
+      "method": "POST",
+      "path": "/api/v1/auth/email-verification-requests",
+      "userId": null,
+      "status": 202
+    },
+    {
+      "at": "2026-10-15T23:14:25.304651+00:00",
+      "method": "POST",
+      "path": "/api/v1/auth/email-verification-requests",
+      "userId": null,
+      "status": 202
+    },
+    {
+      "at": "2026-10-15T23:16:42.262557+00:00",
+      "method": "POST",
+      "path": "/api/v1/auth/password-reset-requests",
+      "userId": null,
+      "status": 400
+    },
+    {
+      "at": "2026-10-15T23:17:58.849999+00:00",
+      "method": "POST",
+      "path": "/api/v1/auth/password-reset-requests",
+      "userId": null,
+      "status": 202
+    },
+    {
+      "at": "2026-10-15T23:19:46.431169+00:00",
+      "method": "POST",
+      "path": "/api/v1/auth/password-reset-requests",
+      "userId": null,
+      "status": 202
+    }
+  ],
+  "faults": [
+    {
+      "at": "2026-10-15T23:14:22.292357+00:00",
+      "ruleId": "android-d13-verification-doubletap",
+      "method": "POST",
+      "path": "/api/v1/auth/email-verification-requests",
+      "userId": null,
+      "hit": 1,
+      "action": "delay",
+      "status": 202
+    },
+    {
+      "at": "2026-10-15T23:17:43.193992+00:00",
+      "ruleId": "android-d12-reset-request",
+      "method": "POST",
+      "path": "/api/v1/auth/password-reset-requests",
+      "userId": null,
+      "hit": 1,
+      "action": "reject",
+      "status": 503
+    }
+  ],
+  "unknownEmailPrecheck": "android-d12-unknown-email-precheck.json"
+}

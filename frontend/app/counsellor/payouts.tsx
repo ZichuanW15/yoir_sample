@@ -10,6 +10,7 @@ import { useChrome } from '@/src/chrome';
 import { BackBar } from '@/src/components/booking';
 import { Glyph } from '@/src/components/Glyph';
 import { Button, Chip, ErrorBanner, Field, Tag } from '@/src/components/ui';
+import { DesktopPage, PageHeader, useDesktop } from '@/src/desktop';
 import { FadeUp, Pop, ScreenIn } from '@/src/motion';
 import { usePaymentConfig } from '@/src/payments';
 import { onboardingReturnTo, openOnboarding } from '@/src/payments/onboarding';
@@ -36,6 +37,7 @@ export default function CounsellorPayoutsScreen() {
   const { session } = useAuth();
   const { flash } = useChrome();
   const insets = useSafeAreaInsets();
+  const desktop = useDesktop();
   const { config } = usePaymentConfig();
 
   const [status, setStatus] = useState<PayoutStatus | null>(null);
@@ -138,6 +140,90 @@ export default function CounsellorPayoutsScreen() {
   const feeNote = config?.provider === 'stripe'
     ? 'Yoir takes its commission from each session; the rest is transferred to you.'
     : 'This build is not connected to Stripe, so no real payouts are made yet.';
+
+  // Desktop: Stripe's side and the tax answers side by side, since they are separate.
+  if (desktop) {
+    return (
+      <DesktopPage>
+        <PageHeader
+          eyebrow="Payouts"
+          title="Getting paid"
+          subtitle="Job seekers pay Yoir when they book. After each session takes place, your share is transferred to your own account."
+        />
+
+        {error ? <ErrorBanner message={error} /> : null}
+
+        <View style={s.desktopColumns}>
+          <View style={[s.card, ready ? s.cardReady : s.cardPending, s.desktopCard]}>
+            <View style={s.cardHeading}>
+              <Glyph name={ready ? 'shieldCheck' : 'lock'} size={20} color={ready ? colors.green : colors.amberInk} />
+              <Text style={[s.cardTitle, s.desktopCardTitle, ready ? s.readyInk : s.pendingInk]}>
+                {started && !ready && checking ? 'Confirming with Stripe…' : payoutStageTitle(stage)}
+              </Text>
+            </View>
+            <Text style={[s.cardBody, ready ? s.readyInk : s.pendingInk]}>
+              {ready
+                ? 'Stripe has verified your details. Your services can be booked and your payouts will arrive automatically.'
+                : started
+                  ? checking
+                    ? 'Checking with Stripe. This usually takes a few seconds — you can stay on this page.'
+                    : 'Stripe still needs something from you. Until it is done, your services stay hidden from Explore.'
+                  : 'Stripe handles your identity and bank details directly — Yoir never sees them. Your services stay hidden from Explore until this is done.'}
+            </Text>
+            <View style={s.flags}>
+              <Tag
+                label={status?.chargesEnabled ? 'Charges enabled' : 'Charges pending'}
+                bg={status?.chargesEnabled ? colors.greenTint : colors.chip}
+                fg={status?.chargesEnabled ? colors.successInk : colors.muted}
+              />
+              <Tag
+                label={ready ? 'Payouts enabled' : 'Payouts pending'}
+                bg={ready ? colors.greenTint : colors.chip}
+                fg={ready ? colors.successInk : colors.muted}
+              />
+            </View>
+            <Button
+              label={payoutActionLabel(stage)}
+              height={50}
+              labelSize={15}
+              busy={busy}
+              onPress={setUpPayouts}
+              tone={ready ? 'outline' : 'primary'}
+              style={s.desktopButton}
+            />
+          </View>
+
+          <View style={[s.form, s.desktopCard]}>
+            <Text style={type.groupLabel}>Tax details</Text>
+            <Text style={s.formBody}>
+              Receipts are issued in your name, because you are the one supplying the session.
+              These answers decide what those receipts say. {feeNote}
+            </Text>
+            <Field
+              label="ABN (optional)"
+              value={formatAbn(abnDigits(abn))}
+              onChangeText={(text) => { setAbn(abnDigits(text)); setAbnError(''); }}
+              keyboardType="number-pad"
+              placeholder="12 345 678 901"
+              maxLength={14}
+            />
+            {abnError ? <Text style={s.fieldError}>{abnError}</Text> : null}
+            <Text style={s.toggleLabel}>Are you registered for GST?</Text>
+            <View style={s.toggleRow}>
+              <Chip label="Not registered" selected={!gstRegistered} onPress={() => setGstRegistered(false)} />
+              <Chip label="Registered" selected={gstRegistered} onPress={() => setGstRegistered(true)} />
+            </View>
+            <Text style={s.hint}>
+              {gstRegistered
+                ? 'Your receipts will be tax invoices showing your ABN and the GST inside the price.'
+                : 'Your receipts will show no GST, because none is charged on your sessions.'}
+            </Text>
+            <Button label="Save tax details" height={50} labelSize={15} busy={saving} onPress={saveTaxDetails} style={s.desktopButton} />
+          </View>
+        </View>
+      </DesktopPage>
+    );
+  }
 
   return (
     <ScreenIn style={s.screen}>
@@ -248,4 +334,9 @@ const s = StyleSheet.create({
   toggleLabel: { fontFamily: fonts.bold, fontSize: 14, color: colors.ink, marginTop: 4 },
   toggleRow: { flexDirection: 'row', gap: 8 },
   hint: { fontFamily: fonts.sans, fontSize: 13, lineHeight: 20, color: colors.muted },
+
+  desktopColumns: { flexDirection: 'row', flexWrap: 'wrap', alignItems: 'flex-start', gap: 22 },
+  desktopCard: { flexGrow: 1, flexShrink: 1, flexBasis: 340, padding: 26, gap: 14, borderRadius: radius.xl },
+  desktopCardTitle: { fontSize: 17, lineHeight: 22 },
+  desktopButton: { alignSelf: 'flex-start', paddingHorizontal: 24 },
 });

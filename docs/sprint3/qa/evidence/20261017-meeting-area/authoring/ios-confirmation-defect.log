@@ -1,0 +1,30 @@
+FAIL ios-defects __tests__/defects/sprint3-confirmation-history.test.tsx
+  ✕ [S3-CONFIRMATION-AREA][QA-201] confirmation retains the booked meeting area after the listing moves (97 ms)
+
+  ● [S3-CONFIRMATION-AREA][QA-201] confirmation retains the booked meeting area after the listing moves
+
+    expect(element).toHaveTextContent()
+
+    Expected element to have text content:
+      In person · Melbourne, VIC
+    Received:
+      In person · Geelong, VIC. Your Career Professional confirms the exact meeting point before the session. Keep the booking reference — your Career Professional can see the booking now.
+
+      47 |   // Keep the correct acceptance assertion so a product fix makes this pass.
+      48 |   const deliveryNote = screen.getByText(/^In person ·/);
+    > 49 |   expect(deliveryNote).toHaveTextContent('In person · Melbourne, VIC');
+         |                        ^
+      50 |   expect(deliveryNote).not.toHaveTextContent('Geelong, VIC');
+      51 | });
+      52 |
+
+      at Object.toHaveTextContent (__tests__/defects/sprint3-confirmation-history.test.tsx:49:24)
+      at asyncGeneratorStep (node_modules/@babel/runtime/helpers/asyncToGenerator.js:3:17)
+      at _next (node_modules/@babel/runtime/helpers/asyncToGenerator.js:17:9)
+
+Test Suites: 1 failed, 1 total
+Tests:       1 failed, 1 total
+Snapshots:   0 total
+Time:        0.784 s, estimated 1 s
+Ran all test suites within paths "__tests__/defects/sprint3-confirmation-history.test.tsx".
+Test results written to: ../artifacts/qa/sprint3-meeting-area-20261017/authoring/ios-confirmation-defect.json

@@ -10,6 +10,7 @@ coverage/
 /understanding/
 /output/pdf/
 /.expo/
+/.idea/
 /expo-env.d.ts
 /artifacts/qa/
 /frontend/test-results/
@@ -17,3 +18,4 @@ coverage/
 
 # Reviewed QA logs are part of the repeatable evidence submission.
 !/docs/sprint2/qa/evidence/**/*.log
+!/docs/sprint3/qa/evidence/**/*.log

@@ -1,13 +1,15 @@
 import { Href, router } from 'expo-router';
 import { useCallback, useEffect, useState } from 'react';
-import { StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import { Animated, Easing, StyleProp, StyleSheet, Text, TextStyle, useWindowDimensions, View } from 'react-native';
+import Svg, { Circle, Defs, RadialGradient, Stop } from 'react-native-svg';
 import { api, userFacingError } from '@/src/api/client';
 import { PlatformStats } from '@/src/api/types';
 import { useAuth } from '@/src/auth/AuthContext';
-import { AdminShell } from '@/src/admin/shell';
-import { Card, ErrorBanner, Press } from '@/src/components/ui';
-import { Glyph } from '@/src/components/Glyph';
-import { FadeUp } from '@/src/motion';
+import { AdminShell, LoadFailed } from '@/src/admin/shell';
+import { Card, Press } from '@/src/components/ui';
+import { Glow, useDesktop } from '@/src/desktop';
+import { Glyph, GlyphName } from '@/src/components/Glyph';
+import { FadeUp, Pop, Pulse, USE_NATIVE_DRIVER, useAnimatedValue } from '@/src/motion';
 import { colors, fonts, radius, type } from '@/src/theme';
 
 const currency = (minor: number) =>
@@ -19,12 +21,20 @@ const bookingLabel: Record<string, string> = {
   cancelled: 'Cancelled', refunded: 'Refunded',
 };
 
+const plural = (count: number, one: string, many: string) => `${count} ${count === 1 ? one : many}`;
+
+/**
+ * The Platform Owner's first screen. It leads with what Yoir exists to do — Job
+ * Seekers reach Career Professionals and book sessions, and money moves — then
+ * what is waiting on a decision, then the detail.
+ */
 export default function AdminOverviewScreen() {
   const { session } = useAuth();
   const [stats, setStats] = useState<PlatformStats | null>(null);
   const [error, setError] = useState('');
-  // Four tiles to a row once there is room for them; two on a phone, as before.
+  // Side by side once there is room; stacked on a phone.
   const wide = useWindowDimensions().width >= 860;
+  const desktop = useDesktop();
 
   const load = useCallback(async () => {
     if (!session) return;
@@ -41,167 +51,395 @@ export default function AdminOverviewScreen() {
     void run();
   }, [load]);
 
+  const bookings = stats ? bookingOrder.filter((status) => stats.bookingsByStatus[status]) : [];
+  const sessions = stats ? Object.values(stats.bookingsByStatus).reduce((total, count) => total + count, 0) : 0;
+  // Gross with no split recorded against it. Shown as its own part, so the bar always adds up to the gross.
+  const unsplit = stats
+    ? Math.max(stats.money.grossMinor - stats.money.counsellorPayoutMinor - stats.money.platformFeeMinor, 0)
+    : 0;
+
+  const note = sessions ? `Across ${plural(sessions, 'session', 'sessions')} booked on the platform.` : 'No session has been booked yet.';
+
+  // What the platform does, left to right, with the live count at each step.
+  const flow = stats ? (
+    <View style={[styles.flow, wide && styles.flowWide, desktop && styles.desktopFlow]}>
+      <Step
+        glyph="seeker" label="Job Seekers" value={stats.jobSeekers}
+        href={{ pathname: '/admin/counsellors', params: { role: 'job_seeker' } }}
+      />
+      <Arrow delay={0} />
+      <Step glyph="mentor" label="Career Professionals" value={stats.counsellors} href="/admin/counsellors" />
+      <Arrow delay={350} />
+      <Step glyph="calendar" label="Sessions booked" value={sessions} href="/admin/bookings" />
+    </View>
+  ) : null;
+
   return (
     <AdminShell
       title="Overview"
-      subtitle="Everything below is read from the breakdown frozen on each order, never recalculated."
+      subtitle="People, sessions and money, as Yoir holds them now."
       busy={!stats && !error}
     >
-      {error ? <ErrorBanner message={error} /> : null}
+      {error ? <LoadFailed message={error} onRetry={() => { setError(''); void load(); }} /> : null}
 
       {stats ? (
         <>
-          {stats.counsellorsPendingVerification > 0 ? (
-            <FadeUp delay={80}>
-              <Press
-                accessibilityLabel="Review pending verifications"
-                scaleTo={0.98}
-                style={styles.callout}
-                onPress={() => router.replace('/admin/verifications')}
-              >
-                <Glyph name="shieldCheck" size={20} color={colors.amberInk} />
-                <Text style={styles.calloutText}>
-                  {stats.counsellorsPendingVerification} Career Professional
-                  {stats.counsellorsPendingVerification === 1 ? '' : 's'} waiting on a decision
-                </Text>
-                <Glyph name="chevronRight" size={16} color={colors.amberInk} />
-              </Press>
+          {desktop ? (
+            // Desktop: the figure on the left and the flow on the right, in one wide band.
+            <FadeUp delay={60} style={[styles.hero, styles.desktopHero]}>
+              <Glow size={360} strength={0.26} style={styles.desktopGlow} />
+              <View style={styles.desktopHeroCopy}>
+                <Text style={[type.eyebrow, styles.heroEyebrow]}>Taken through Yoir</Text>
+                <CountUp value={stats.money.grossMinor} format={currency} style={[styles.heroFigure, styles.desktopFigure]} />
+                <Text style={styles.heroNote}>{note}</Text>
+              </View>
+              {flow}
             </FadeUp>
-          ) : null}
+          ) : (
+            <FadeUp delay={60} style={styles.hero}>
+              <Pulse style={styles.heroGlow} duration={5000}>
+                <Svg width={220} height={220}>
+                  <Defs>
+                    <RadialGradient id="overviewGlow" cx="50%" cy="50%" r="50%">
+                      <Stop offset="0" stopColor={colors.yellow} stopOpacity={0.26} />
+                      <Stop offset="0.7" stopColor={colors.yellow} stopOpacity={0} />
+                    </RadialGradient>
+                  </Defs>
+                  <Circle cx={110} cy={110} r={110} fill="url(#overviewGlow)" />
+                </Svg>
+              </Pulse>
 
-          <FadeUp delay={120} style={styles.section}>
-            <Text style={type.groupLabel}>People</Text>
-            <View style={styles.grid}>
-              <Stat wide={wide} label="Job seekers" value={stats.jobSeekers} />
-              <Stat wide={wide} label="Career Professionals" value={stats.counsellors} href="/admin/counsellors" />
-              <Stat
-                wide={wide}
-                label="Awaiting review"
-                value={stats.counsellorsPendingVerification}
-                href="/admin/verifications"
-              />
-              <Stat
-                wide={wide}
-                label="Cannot be paid"
-                value={stats.counsellorsAwaitingPayouts}
-                note="Verified, but payouts not set up — nothing they list can be booked."
-                href="/admin/counsellors"
-                alert
-              />
-            </View>
-          </FadeUp>
+              <Text style={[type.eyebrow, styles.heroEyebrow]}>Taken through Yoir</Text>
+              <CountUp value={stats.money.grossMinor} format={currency} style={styles.heroFigure} />
+              <Text style={styles.heroNote}>{note}</Text>
 
-          <FadeUp delay={180} style={styles.section}>
-            <Text style={type.groupLabel}>Activity</Text>
-            <View style={styles.grid}>
-              <Stat wide={wide} label="Active services" value={stats.servicesActive} />
-              <Stat
-                wide={wide}
-                label="Holds awaiting payment"
-                value={stats.ordersAwaitingPayment}
-                href="/admin/payments"
-              />
-              {bookingOrder
-                .filter((status) => stats.bookingsByStatus[status])
-                .map((status) => (
-                  <Stat
-                    key={status}
-                    wide={wide}
-                    label={`${bookingLabel[status]} bookings`}
-                    value={stats.bookingsByStatus[status]}
-                    href="/admin/bookings"
-                  />
-                ))}
-            </View>
-          </FadeUp>
+              {flow}
+            </FadeUp>
+          )}
 
-          <FadeUp delay={240} style={styles.section}>
-            <Text style={type.groupLabel}>Money</Text>
-            <Card pad={20} style={styles.money}>
-              <Line label="Gross taken" value={currency(stats.money.grossMinor)} strong />
-              <View style={styles.rule} />
-              <Line label="Career Professional payouts" value={currency(stats.money.counsellorPayoutMinor)} />
-              <Line label="Yoir commission" value={currency(stats.money.platformFeeMinor)} />
-              <Line label="…of which GST" value={currency(stats.money.platformFeeGstMinor)} muted />
-              <Line label="Session GST (Career Professionals')" value={currency(stats.money.sessionGstMinor)} muted />
-              <View style={styles.rule} />
-              <Line label="Refunded" value={currency(stats.money.refundedMinor)} />
-              <Text style={styles.footnote}>
-                Commission is taken out of the gross, and its GST is contained within it —
-                gross equals payouts plus commission.
-              </Text>
+          <FadeUp delay={140} style={styles.section}>
+            <Text style={type.groupLabel}>Needs you</Text>
+            <Card pad={6} style={[styles.needs, desktop && styles.desktopFlat]}>
+              {stats.counsellorsPendingVerification > 0 ? (
+                <Need
+                  glyph="shieldCheck"
+                  label="Review pending verifications"
+                  text={`${plural(stats.counsellorsPendingVerification, 'Career Professional', 'Career Professionals')} waiting on a decision`}
+                  href="/admin/verifications"
+                />
+              ) : null}
+              {stats.counsellorsAwaitingPayouts > 0 ? (
+                <Need
+                  glyph="lock"
+                  label="Verified but cannot be paid"
+                  text={`${plural(stats.counsellorsAwaitingPayouts, 'Career Professional is', 'Career Professionals are')} verified but cannot be paid`}
+                  note="Payouts are not set up, so nothing they list can be booked."
+                  href="/admin/counsellors"
+                />
+              ) : null}
+              {stats.counsellorsPendingVerification + stats.counsellorsAwaitingPayouts === 0 ? (
+                <View style={styles.need}>
+                  <View style={[styles.needMark, styles.calmMark]}><Glyph name="check" size={18} color={colors.greenDeep} /></View>
+                  <Text style={styles.needText}>Nothing is waiting on you.</Text>
+                </View>
+              ) : null}
             </Card>
           </FadeUp>
+
+          <View style={[styles.duo, wide && styles.duoWide]}>
+            <FadeUp delay={200} style={[styles.section, wide && styles.half]}>
+              <Text style={type.groupLabel}>Activity</Text>
+              <View style={styles.grid}>
+                <Stat glyph="briefcase" label="Active services" value={stats.servicesActive} />
+                <Stat glyph="clock" label="Holds awaiting payment" value={stats.ordersAwaitingPayment} href="/admin/payments" />
+              </View>
+              <Card
+                pad={20}
+                style={[styles.panel, desktop && styles.desktopFlat]}
+                accessibilityLabel="Sessions by status. Open bookings"
+                onPress={() => router.replace('/admin/bookings')}
+              >
+                <View style={styles.panelHead}>
+                  <Text style={type.display20}>Sessions by status</Text>
+                  <Glyph name="chevronRight" size={16} color={colors.mark} />
+                </View>
+                {bookings.length ? (
+                  <Bars rows={bookings.map((status) => ({ label: bookingLabel[status], count: stats.bookingsByStatus[status] }))} />
+                ) : (
+                  <Text style={type.small}>Nothing has been booked yet.</Text>
+                )}
+              </Card>
+            </FadeUp>
+
+            <FadeUp delay={260} style={[styles.section, wide && styles.half]}>
+              <Text style={type.groupLabel}>Money</Text>
+              <Card pad={20} style={[styles.panel, desktop && styles.desktopFlat]}>
+                <Text style={type.display20}>Where it went</Text>
+                <Split
+                  parts={[
+                    { label: 'Career Professional payouts', minor: stats.money.counsellorPayoutMinor, color: colors.greenDeep },
+                    { label: 'Yoir commission', minor: stats.money.platformFeeMinor, color: colors.eyebrow },
+                    ...(unsplit ? [{ label: 'No split recorded', minor: unsplit, color: colors.mark }] : []),
+                  ]}
+                />
+                <View style={styles.rule} />
+                <Line label="Commission GST, within the commission" value={currency(stats.money.platformFeeGstMinor)} />
+                <Line label="Session GST (Career Professionals')" value={currency(stats.money.sessionGstMinor)} />
+                <Line label="Refunded" value={currency(stats.money.refundedMinor)} />
+                <Text style={styles.footnote}>
+                  Read from the breakdown frozen on each order when it was paid, never recalculated.
+                </Text>
+              </Card>
+            </FadeUp>
+          </View>
         </>
       ) : null}
     </AdminShell>
   );
 }
 
-/**
- * One number on the dashboard.
- *
- * A nought is greyed and a figure that wants attention is tinted, so the numbers
- * asking for a decision are the ones the eye lands on first. `alert` marks the two
- * counts that mean somebody is stuck — it only colours the tile once it is not nought.
- */
-function Stat({ label, value, note, href, alert, wide }: {
-  label: string; value: number; note?: string; href?: Href; alert?: boolean; wide?: boolean;
+/** Runs 0 → 1 once, for marks that grow to their size. */
+function useGrow(delay: number) {
+  const t = useAnimatedValue(0);
+  useEffect(() => {
+    // Width is laid out, not composited, so this one cannot use the native driver.
+    const anim = Animated.timing(t, { toValue: 1, duration: 900, delay, easing: Easing.bezier(0.2, 0, 0, 1), useNativeDriver: false });
+    anim.start();
+    return () => anim.stop();
+  }, [t, delay]);
+  return t;
+}
+
+/** A figure that counts up to its value, so the screen arrives rather than appears. */
+function CountUp({ value, format = String, style }: {
+  value: number; format?: (value: number) => string; style?: StyleProp<TextStyle>;
 }) {
-  const warn = Boolean(alert) && value > 0;
+  const t = useAnimatedValue(0);
+  const [shown, setShown] = useState(0);
+  useEffect(() => {
+    const listener = t.addListener((at) => setShown(Math.round(at.value)));
+    const anim = Animated.timing(t, { toValue: value, duration: 900, delay: 200, easing: Easing.out(Easing.cubic), useNativeDriver: false });
+    anim.start();
+    return () => { anim.stop(); t.removeListener(listener); };
+  }, [t, value]);
+  return <Text style={style}>{format(shown)}</Text>;
+}
+
+/** One stage of what Yoir does, with how many are at it. Tapping it opens them. */
+function Step({ glyph, label, value, href }: { glyph: GlyphName; label: string; value: number; href: Href }) {
+  return (
+    <Press onPress={() => router.replace(href)} scaleTo={0.94} accessibilityLabel={`${label}: ${value}`} style={styles.step}>
+      <Pop delay={250}>
+        <View style={styles.stepMark}>
+          <View style={styles.stepWash} />
+          <Glyph name={glyph} size={22} color={colors.yellow} />
+        </View>
+      </Pop>
+      <CountUp value={value} style={styles.stepValue} />
+      <Text style={styles.stepLabel}>{label}</Text>
+    </Press>
+  );
+}
+
+/**
+ * The way from one stage to the next. A dot runs along it, over and over, each
+ * arrow a beat behind the one before, so the row reads as one movement left to right.
+ */
+function Arrow({ delay }: { delay: number }) {
+  const t = useAnimatedValue(0);
+  const [width, setWidth] = useState(0);
+  useEffect(() => {
+    const anim = Animated.loop(Animated.sequence([
+      Animated.delay(delay),
+      Animated.timing(t, { toValue: 1, duration: 1300, easing: Easing.inOut(Easing.ease), useNativeDriver: USE_NATIVE_DRIVER }),
+      // The same total for every arrow, so they stay a beat apart for good.
+      Animated.delay(1200 - delay),
+    ]));
+    anim.start();
+    return () => anim.stop();
+  }, [t, delay]);
+
+  return (
+    <View style={styles.arrow} onLayout={(event) => setWidth(event.nativeEvent.layout.width)}>
+      <View style={styles.arrowLine} />
+      <Animated.View
+        style={[styles.arrowDot, {
+          opacity: t.interpolate({ inputRange: [0, 0.15, 0.85, 1], outputRange: [0, 1, 1, 0] }),
+          transform: [{ translateX: t.interpolate({ inputRange: [0, 1], outputRange: [0, Math.max(width - 18, 0)] }) }],
+        }]}
+      />
+      <Glyph name="chevronRight" size={14} color={colors.yellow} />
+    </View>
+  );
+}
+
+/** Something that is stuck until the Platform Owner acts. Always an icon and words, never colour alone. */
+function Need({ glyph, label, text, note, href }: { glyph: GlyphName; label: string; text: string; note?: string; href: Href }) {
+  return (
+    <Press onPress={() => router.replace(href)} scaleTo={0.98} accessibilityLabel={label} style={styles.need}>
+      <View style={styles.needMark}><Glyph name={glyph} size={18} color={colors.amberInk} /></View>
+      <View style={styles.needCopy}>
+        <Text style={styles.needText}>{text}</Text>
+        {note ? <Text style={styles.needNote}>{note}</Text> : null}
+      </View>
+      <Glyph name="chevronRight" size={16} color={colors.mark} />
+    </Press>
+  );
+}
+
+/** One number, with the mark that says what it counts. A nought is greyed so real figures stand out. */
+function Stat({ glyph, label, value, href }: { glyph: GlyphName; label: string; value: number; href?: Href }) {
+  const desktop = useDesktop();
   return (
     <Card
       pad={16}
       accessibilityLabel={href ? `${label}: ${value}` : undefined}
       onPress={href ? () => router.replace(href) : undefined}
-      style={[styles.stat, wide && styles.statWide, warn && styles.statWarn]}
+      style={[styles.stat, desktop && styles.desktopFlat]}
     >
       <View style={styles.statTop}>
-        <Text style={[styles.statValue, value === 0 && styles.statZero, warn && styles.statWarnInk]}>
-          {value}
-        </Text>
-        {href ? <Glyph name="chevronRight" size={14} color={warn ? colors.amberInk : colors.mark} /> : null}
+        <View style={styles.statMark}><Glyph name={glyph} size={18} color={colors.green} /></View>
+        {href ? <Glyph name="chevronRight" size={14} color={colors.mark} /> : null}
       </View>
-      <Text style={[styles.statLabel, warn && styles.statWarnInk]}>{label}</Text>
-      {note ? <Text style={styles.statNote}>{note}</Text> : null}
+      <CountUp value={value} style={[styles.statValue, value === 0 && styles.statZero]} />
+      <Text style={styles.statLabel}>{label}</Text>
     </Card>
   );
 }
 
-function Line({ label, value, strong, muted }: {
-  label: string; value: string; strong?: boolean; muted?: boolean;
-}) {
+/** Counts side by side: one hue, the longest bar is the largest count, the figure at the end of each. */
+function Bars({ rows }: { rows: { label: string; count: number }[] }) {
+  const t = useGrow(350);
+  const most = Math.max(...rows.map((row) => row.count), 1);
+  return (
+    <View style={styles.bars}>
+      {rows.map((row) => (
+        <View key={row.label} style={styles.barRow}>
+          <Text style={styles.barLabel}>{row.label}</Text>
+          <View style={styles.barTrack}>
+            <Animated.View
+              style={[styles.bar, { width: t.interpolate({ inputRange: [0, 1], outputRange: ['0%', `${(row.count / most) * 100}%`] }) }]}
+            />
+          </View>
+          <Text style={styles.barValue}>{row.count}</Text>
+        </View>
+      ))}
+    </View>
+  );
+}
+
+/**
+ * How the gross divides. The two parts are told apart by the gap between them and
+ * by the key beneath, which names each and gives its amount in plain ink.
+ */
+function Split({ parts }: { parts: { label: string; minor: number; color: string }[] }) {
+  const t = useGrow(450);
+  const drawn = parts.filter((part) => part.minor > 0);
+  return (
+    <View style={styles.split}>
+      <View style={[styles.splitTrack, !drawn.length && styles.splitEmpty]}>
+        <Animated.View style={[styles.splitFill, { width: t.interpolate({ inputRange: [0, 1], outputRange: ['0%', '100%'] }) }]}>
+          {drawn.map((part, index) => (
+            <View key={part.label} style={{ flex: part.minor, backgroundColor: part.color, marginLeft: index ? 2 : 0 }} />
+          ))}
+        </Animated.View>
+      </View>
+      {parts.map((part) => (
+        <View key={part.label} style={styles.keyRow}>
+          <View style={[styles.swatch, { backgroundColor: part.color }]} />
+          <Text style={styles.keyLabel}>{part.label}</Text>
+          <Text style={styles.keyValue}>{currency(part.minor)}</Text>
+        </View>
+      ))}
+    </View>
+  );
+}
+
+function Line({ label, value }: { label: string; value: string }) {
   return (
     <View style={styles.line}>
-      <Text style={[styles.lineLabel, muted && styles.lineMuted]}>{label}</Text>
-      <Text style={[styles.lineValue, strong && styles.lineStrong, muted && styles.lineMuted]}>{value}</Text>
+      <Text style={styles.lineLabel}>{label}</Text>
+      <Text style={styles.lineValue}>{value}</Text>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   section: { gap: 10 },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
-  stat: { flexGrow: 1, flexBasis: '46%', gap: 3 },
-  statWide: { flexBasis: '22%', maxWidth: 280 },
-  statWarn: { backgroundColor: colors.yellowTint },
-  statWarnInk: { color: colors.amberDeep },
-  statTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+  duo: { gap: 16 },
+  duoWide: { flexDirection: 'row', alignItems: 'flex-start' },
+  half: { flex: 1 },
+
+  // The brand block, as on the Job Seeker's home: the logo's green, gold and cream.
+  hero: { overflow: 'hidden', backgroundColor: colors.green, borderRadius: radius.hero, padding: 22, gap: 6 },
+  heroGlow: { position: 'absolute', right: -70, top: -80 },
+  heroEyebrow: { color: colors.yellow },
+  // The one large figure on the screen, in the same sans as every other number.
+  heroFigure: { fontFamily: fonts.extra, fontSize: 48, lineHeight: 54, letterSpacing: -1, color: colors.canvas },
+  heroNote: { fontFamily: fonts.sans, fontSize: 14, lineHeight: 20, color: colors.onDarkMuted },
+
+  flow: { flexDirection: 'row', alignItems: 'flex-start', marginTop: 18 },
+  flowWide: { maxWidth: 620 },
+  step: { flex: 1, alignItems: 'center', gap: 4 },
+  stepMark: { width: 48, height: 48, borderRadius: radius.md, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' },
+  stepWash: { position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: colors.white, opacity: 0.14 },
+  stepValue: { marginTop: 4, fontFamily: fonts.extra, fontSize: 22, color: colors.canvas },
+  stepLabel: { fontFamily: fonts.semi, fontSize: 12, lineHeight: 16, color: colors.onDarkMuted, textAlign: 'center' },
+  // As tall as the step's mark, so the arrow runs between the marks' centres.
+  arrow: { width: 34, height: 48, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-end' },
+  arrowLine: { position: 'absolute', left: 0, right: 12, height: 1.5, borderRadius: 1, backgroundColor: colors.onDarkMuted, opacity: 0.45 },
+  arrowDot: { position: 'absolute', left: 0, width: 6, height: 6, borderRadius: 3, backgroundColor: colors.yellow },
+
+  needs: { gap: 0 },
+  need: { flexDirection: 'row', alignItems: 'center', gap: 12, padding: 12 },
+  needMark: { width: 40, height: 40, borderRadius: 14, backgroundColor: colors.yellowTint, alignItems: 'center', justifyContent: 'center' },
+  calmMark: { backgroundColor: colors.greenTint },
+  needCopy: { flex: 1, gap: 2 },
+  needText: { flex: 1, fontFamily: fonts.bold, fontSize: 14, lineHeight: 20, color: colors.ink },
+  needNote: { fontFamily: fonts.sans, fontSize: 12, lineHeight: 17, color: colors.muted },
+
+  grid: { flexDirection: 'row', gap: 10 },
+  stat: { flex: 1, gap: 4 },
+  statTop: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: 6 },
+  statMark: { width: 36, height: 36, borderRadius: 12, backgroundColor: colors.greenTint, alignItems: 'center', justifyContent: 'center' },
   statValue: { fontFamily: fonts.extra, fontSize: 26, color: colors.ink },
   statZero: { color: colors.mark },
-  statLabel: { fontFamily: fonts.semi, fontSize: 13, color: colors.muted },
-  statNote: { fontFamily: fonts.sans, fontSize: 11, lineHeight: 16, color: colors.sub },
-  money: { gap: 2, width: '100%', maxWidth: 620 },
-  line: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingVertical: 5 },
-  lineLabel: { fontFamily: fonts.sans, fontSize: 14, color: colors.muted },
-  lineValue: { fontFamily: fonts.semi, fontSize: 14, color: colors.ink },
-  lineStrong: { fontFamily: fonts.extra, fontSize: 19 },
-  lineMuted: { fontSize: 12, color: colors.sub },
-  rule: { height: 1, backgroundColor: colors.line, marginVertical: 10 },
-  footnote: { marginTop: 10, fontFamily: fonts.sans, fontSize: 11, lineHeight: 17, color: colors.sub },
-  callout: {
-    flexDirection: 'row', alignItems: 'center', gap: 12,
-    padding: 16, borderRadius: radius.lg, backgroundColor: colors.yellowTint,
+  statLabel: { fontFamily: fonts.semi, fontSize: 13, lineHeight: 18, color: colors.muted },
+
+  panel: { gap: 14 },
+  panelHead: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' },
+
+  bars: { gap: 12 },
+  barRow: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  barLabel: { width: 82, fontFamily: fonts.sans, fontSize: 13, color: colors.muted },
+  barTrack: { flex: 1, height: 10, justifyContent: 'center' },
+  // Square where it starts, rounded where the count ends.
+  bar: { height: 10, minWidth: 4, backgroundColor: colors.greenDeep, borderTopRightRadius: 4, borderBottomRightRadius: 4 },
+  barValue: { width: 28, textAlign: 'right', fontFamily: fonts.bold, fontSize: 13, color: colors.ink },
+
+  split: { gap: 10 },
+  splitTrack: { height: 14, borderRadius: 4, overflow: 'hidden' },
+  splitEmpty: { backgroundColor: colors.chip },
+  splitFill: { height: 14, flexDirection: 'row', borderRadius: 4, overflow: 'hidden' },
+  keyRow: { flexDirection: 'row', alignItems: 'center', gap: 8 },
+  swatch: { width: 10, height: 10, borderRadius: 3 },
+  keyLabel: { flex: 1, fontFamily: fonts.sans, fontSize: 14, color: colors.muted },
+  keyValue: { fontFamily: fonts.bold, fontSize: 14, color: colors.ink },
+
+  rule: { height: 1, backgroundColor: colors.line },
+  line: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12 },
+  lineLabel: { flex: 1, fontFamily: fonts.sans, fontSize: 13, color: colors.sub },
+  lineValue: { fontFamily: fonts.semi, fontSize: 13, color: colors.muted },
+  footnote: { fontFamily: fonts.sans, fontSize: 11, lineHeight: 17, color: colors.sub },
+
+  desktopHero: {
+    flexDirection: 'row', flexWrap: 'wrap', alignItems: 'center', justifyContent: 'space-between',
+    paddingVertical: 34, paddingHorizontal: 40, gap: 32,
   },
-  calloutText: { flex: 1, fontFamily: fonts.bold, fontSize: 14, color: colors.amberDeep },
+  desktopGlow: { right: -90, top: -110 },
+  desktopHeroCopy: { flexGrow: 1, flexBasis: 280, gap: 6 },
+  desktopFigure: { fontSize: 50, lineHeight: 55 },
+  // Room for three steps of 120 and the two arrows between them.
+  desktopFlow: { width: 460, marginTop: 0 },
+  desktopFlat: { borderWidth: 1, borderColor: colors.lineSoft, boxShadow: 'none' },
 });

@@ -1,0 +1,385 @@
+{
+  "startTime": 1792096673310,
+  "success": true,
+  "wasInterrupted": false,
+  "numPassedTests": 53,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTotalTests": 53,
+  "numPassedTestSuites": 4,
+  "numFailedTestSuites": 0,
+  "numRuntimeErrorTestSuites": 0,
+  "cases": [
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests requires a counsellor role before showing bank or tax controls (null)",
+      "status": "passed",
+      "duration": 58,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests requires a counsellor role before showing bank or tax controls ({\n  accessToken: 'test-access-token',\n  expiresAt: '2026-08-28T07:00:00.000Z',\n  user: [Object]\n})",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests before status arrives does not claim readiness and displays the non-Stripe disclosure",
+      "status": "passed",
+      "duration": 58,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests server-ready status shows update action, enabled flags and populated tax details",
+      "status": "passed",
+      "duration": 58,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests a pending connected account polls and only becomes ready from the server update",
+      "status": "passed",
+      "duration": 58,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests an exhausted readiness poll keeps incomplete setup actionable",
+      "status": "passed",
+      "duration": 54,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests unmount cancels the active readiness poll",
+      "status": "passed",
+      "duration": 52,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests a status-read failure is visible and never presented as ready",
+      "status": "passed",
+      "duration": 53,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests opens a fresh platform return link, blocks duplicate setup presses and re-reads status after returning",
+      "status": "passed",
+      "duration": 123,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests a failed onboarding request does not open the browser and can be retried with a new request",
+      "status": "passed",
+      "duration": 162,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests a browser-launch failure restores the setup action without assuming successful onboarding",
+      "status": "passed",
+      "duration": 111,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests a short ABN is rejected before saving and changing the input clears its error",
+      "status": "passed",
+      "duration": 68,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests GST registration requires an ABN and toggling it off allows null tax details",
+      "status": "passed",
+      "duration": 76,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests normalizes and caps an ABN, submits tax details and blocks duplicate saves until confirmation",
+      "status": "passed",
+      "duration": 70,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests server tax validation preserves input and shows field and general errors before a successful retry",
+      "status": "passed",
+      "duration": 176,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests a tax network failure restores the save button without success feedback",
+      "status": "passed",
+      "duration": 112,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/counsellor-payouts.test.tsx",
+      "fullName": "US-47 payout setup and tax details — component/API boundary tests Back falls back to the counsellor workspace when there is no history",
+      "status": "passed",
+      "duration": 54,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary guest state makes no authenticated request and can close the panel",
+      "status": "passed",
+      "duration": 19,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary refreshes the signed-in account and shows an empty successful result without bulk-read action",
+      "status": "passed",
+      "duration": 7,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary pending responses do not fabricate notifications; resolved rows distinguish read/unread and relative age",
+      "status": "passed",
+      "duration": 9,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary opening a linked notification marks only that row read, closes and navigates to its route",
+      "status": "passed",
+      "duration": 6,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary a notification without a destination is marked read while the panel stays open",
+      "status": "passed",
+      "duration": 6,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary mark-all only submits unread IDs and removes the unread action after the local update",
+      "status": "passed",
+      "duration": 7,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary the intentionally missing endpoint HTTP 404 degrades to the empty panel",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary the intentionally missing endpoint HTTP 405 degrades to the empty panel",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary the intentionally missing endpoint HTTP 501 degrades to the empty panel",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary a read-mark failure does not prevent opening the intended booking",
+      "status": "passed",
+      "duration": 5,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary an unavailable notification service leaves the surrounding panel usable",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary opening the panel again refreshes cached rows from the current server response",
+      "status": "passed",
+      "duration": 8,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/notifications-panel.test.tsx",
+      "fullName": "notification panel — implemented UI with controlled HTTP boundary logout hides cached private notifications immediately",
+      "status": "passed",
+      "duration": 5,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt renders supplier, buyer, invoice and exact cents from the authenticated API response",
+      "status": "passed",
+      "duration": 33,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt does not fabricate a receipt while its API response is pending",
+      "status": "passed",
+      "duration": 5,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt a non-tax receipt hides ABN and explains that no GST was charged",
+      "status": "passed",
+      "duration": 5,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt a tax invoice without a supplier ABN omits an empty ABN row",
+      "status": "passed",
+      "duration": 5,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt HTTP 403 never renders another booking receipt",
+      "status": "passed",
+      "duration": 5,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt HTTP 404 never renders another booking receipt",
+      "status": "passed",
+      "duration": 4,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt a network error renders a recoverable explanation without payment facts",
+      "status": "passed",
+      "duration": 4,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt guest access does not request or expose receipt data",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt missing booking ID does not request an unrelated receipt",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt Back respects history availability = true",
+      "status": "passed",
+      "duration": 5,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/receipt.test.tsx",
+      "fullName": "server-issued booking receipt Back respects history availability = false",
+      "status": "passed",
+      "duration": 6,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "email verification link and recovery waits for server confirmation, adopts and persists the returned session exactly once",
+      "status": "passed",
+      "duration": 22,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "email verification link and recovery a missing token makes no verification request and offers sign-in navigation",
+      "status": "passed",
+      "duration": 4,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "email verification link and recovery a rejected token shows Expired token. without adopting a session",
+      "status": "passed",
+      "duration": 5,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "email verification link and recovery a rejected token shows This link has already been used. without adopting a session",
+      "status": "passed",
+      "duration": 4,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "email verification link and recovery network failure offers recovery without claiming verification succeeded",
+      "status": "passed",
+      "duration": 5,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "email verification link and recovery resend rejects whitespace without an HTTP request",
+      "status": "passed",
+      "duration": 7,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "email verification link and recovery resend trims the address, disables repeated presses and uses enumeration-safe success copy",
+      "status": "passed",
+      "duration": 9,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "email verification link and recovery the signed-in email is prefilled and a failed resend can be retried",
+      "status": "passed",
+      "duration": 12,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "unverified-email banner is absent for a guest",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "unverified-email banner is absent for a verified account",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "unverified-email banner describes the default booking prerequisite",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/verify-email.test.tsx",
+      "fullName": "unverified-email banner supports publishing copy and only shows sent state after the resend response",
+      "status": "passed",
+      "duration": 3,
+      "failureMessages": []
+    }
+  ]
+}

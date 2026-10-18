@@ -27,10 +27,10 @@ answer. None of the five stories is claimed as accepted.
 | `/job-seeker/diagnosis` | [`app/job-seeker/diagnosis.tsx`](../../../frontend/app/job-seeker/diagnosis.tsx) | Steps 1–5, one question per screen, then step 6: their Yoir Direction. |
 | `/job-seeker` | [`app/job-seeker/index.tsx`](../../../frontend/app/job-seeker/index.tsx) | Home: best matches and a Retake diagnosis button. |
 
-Shared code: [`src/diagnosis/model.ts`](../../../frontend/src/diagnosis/model.ts) (questions, direction
-rules, ranking), [`src/diagnosis/view.tsx`](../../../frontend/src/diagnosis/view.tsx) (`useDiagnosis`,
-`DirectionCard`, `BestMatches`) and [`src/diagnosis/storage.ts`](../../../frontend/src/diagnosis/storage.ts)
-with its web variant `storage.web.ts`.
+Shared code: [`backend/app/diagnosis.py`](../../../backend/app/diagnosis.py) owns the versioned
+questions, direction rules and Marketplace criteria, while
+[`src/diagnosis/view.tsx`](../../../frontend/src/diagnosis/view.tsx) provides the server-backed
+`useDiagnosis`, `DirectionCard` and `BestMatches` UI integration.
 
 Entry: after login `homeFor('job_seeker')` in [`src/navigation.ts`](../../../frontend/src/navigation.ts)
 sends a Job Seeker to `/job-seeker`. If no diagnosis is stored for them, Home redirects to
@@ -129,7 +129,7 @@ sub-issues [#161](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala
 | US-11: progress survives closing the app | Only a finished diagnosis survives | Not covered |
 | US-11: back keeps answers | Yes | Checked manually |
 | US-11: other users' triage rejected | Backend (#167) | Not covered |
-| US-12: result tied to the responses | Worked out in the app, not returned by the backend | `__tests__/diagnosis.test.ts` "the Yoir Direction" |
+| US-12: result tied to the responses | Worked out in the app, not returned by the backend | `__tests__/screens/diagnosis.test.tsx` "the Yoir Direction" |
 | US-12: result explains the direction and next step | Step 6 card | Checked manually |
 | US-12: incomplete triage rejected | The result is only reachable from step 5 | Not covered on the server |
 | US-12: failure shows an error, never a fabricated match | Matches show an error with Try again if loading fails | `BestMatches` error state; not unit tested |
@@ -140,7 +140,7 @@ sub-issues [#161](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala
 
 ## Tests
 
-- [`__tests__/diagnosis.test.ts`](../../../frontend/__tests__/diagnosis.test.ts): "the main challenge
+- [`__tests__/screens/diagnosis.test.tsx`](../../../frontend/__tests__/screens/diagnosis.test.tsx): "the main challenge
   decides the area to work on", "\"Not sure\" falls back to the goal, then to the situation", "barriers
   add their own next steps, and what they tried changes the advice", "put the Career Professionals who
   fit the direction first", "a barrier brings in related people without outranking the main area",

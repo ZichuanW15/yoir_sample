@@ -1,0 +1,15 @@
+
+> yoir-mobile@0.1.0 test:client:live
+> node -e "if (!process.env.LIVE_API_BASE_URL) throw new Error('LIVE_API_BASE_URL is required for the live TypeScript client test')" && jest --ci --runInBand --config jest.config.live.js --json --outputFile=../artifacts/qa/sprint3-completion-20261016/live-typescript/results.json
+
+PASS __tests__/integration/live-client.test.ts
+  TypeScript client to live backend
+    ✓ registers, authenticates, discovers a slot, creates an order and completes stub payment (187 ms)
+    ✓ counsellor eligibility, real service persistence and availability create/read/update/delete (204 ms)
+
+Test Suites: 1 passed, 1 total
+Tests:       2 passed, 2 total
+Snapshots:   0 total
+Time:        0.604 s, estimated 1 s
+Ran all test suites.
+Test results written to: ../artifacts/qa/sprint3-completion-20261016/live-typescript/results.json

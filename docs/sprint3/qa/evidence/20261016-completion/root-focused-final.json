@@ -1,0 +1,161 @@
+{
+  "startTime": 1792096603917,
+  "success": true,
+  "wasInterrupted": false,
+  "numPassedTests": 21,
+  "numFailedTests": 0,
+  "numPendingTests": 0,
+  "numTotalTests": 21,
+  "numPassedTestSuites": 3,
+  "numFailedTestSuites": 0,
+  "numRuntimeErrorTestSuites": 0,
+  "cases": [
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "fullName": "job seeker home — QA-162/174 and entry navigation guests can browse and register without reading a private diagnosis",
+      "status": "passed",
+      "duration": 178,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "fullName": "job seeker home — QA-162/174 and entry navigation a non-seeker goes to the correct workspace",
+      "status": "passed",
+      "duration": 4,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "fullName": "job seeker home — QA-162/174 and entry navigation a non-seeker goes to the correct workspace",
+      "status": "passed",
+      "duration": 2,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "fullName": "job seeker home — QA-162/174 and entry navigation no question or match is fabricated while progress loads; a new user enters diagnosis",
+      "status": "passed",
+      "duration": 6,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "fullName": "job seeker home — QA-162/174 and entry navigation a skipped diagnosis offers a fresh start without claiming completed results",
+      "status": "passed",
+      "duration": 24,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "fullName": "job seeker home — QA-162/174 and entry navigation unfinished answers expose the actual resume step and continue action",
+      "status": "passed",
+      "duration": 21,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "fullName": "job seeker home — QA-162/174 and entry navigation completed answers offer result, retake, professional detail and Explore navigation",
+      "status": "passed",
+      "duration": 29,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "fullName": "job seeker home — QA-162/174 and entry navigation a failed catalogue keeps the local result and retry recovers real client data",
+      "status": "passed",
+      "duration": 32,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/job-seeker-home.test.tsx",
+      "fullName": "job seeker home — QA-162/174 and entry navigation an empty catalogue preserves the completed direction and retake action",
+      "status": "passed",
+      "duration": 19,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "fullName": "public professional detail — QA-186/219 waits for profile and services before presenting identity or booking navigation",
+      "status": "passed",
+      "duration": 27,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "fullName": "public professional detail — QA-186/219 renders returned qualifications, location and rating, and only this professional’s services",
+      "status": "passed",
+      "duration": 18,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "fullName": "public professional detail — QA-186/219 requests the exact external LinkedIn URL without claiming an OS handoff",
+      "status": "passed",
+      "duration": 17,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "fullName": "public professional detail — QA-186/219 a failed profile read hides profile data until a successful retry",
+      "status": "passed",
+      "duration": 17,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "fullName": "public professional detail — QA-186/219 a failed services read hides profile data until a successful retry",
+      "status": "passed",
+      "duration": 20,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "fullName": "public professional detail — QA-186/219 a restricted response never reconstructs private content from services: {\"restricted\":true}",
+      "status": "passed",
+      "duration": 7,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "fullName": "public professional detail — QA-186/219 a restricted response never reconstructs private content from services: {\"visibility\":\"restricted\"}",
+      "status": "passed",
+      "duration": 6,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "fullName": "public professional detail — QA-186/219 a sparse partially visible response omits unavailable sections and external links",
+      "status": "passed",
+      "duration": 10,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/screens/professional-detail.test.tsx",
+      "fullName": "public professional detail — QA-186/219 an unrated pending profile does not fabricate a score or verified badge",
+      "status": "passed",
+      "duration": 13,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.native.test.ts",
+      "fullName": "uses the exact account-specific key and leaves serialized answers intact",
+      "status": "passed",
+      "duration": 1,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.native.test.ts",
+      "fullName": "an unreadable secure store returns no record without a fabricated saved answer",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    },
+    {
+      "file": "frontend/__tests__/diagnosis/storage.native.test.ts",
+      "fullName": "characterizes swallowed native write errors; resolution is not proof of persistence",
+      "status": "passed",
+      "duration": 0,
+      "failureMessages": []
+    }
+  ]
+}

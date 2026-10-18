@@ -1,13 +1,16 @@
 import { adoptSession, currentSession, platformClient, refreshOnce } from './authBridge';
 import { ApiError } from './errors';
 import {
-  AdminBooking, AdminCounsellor,
+  AdminBooking, AdminCounsellor, AdminJobSeeker,
   ApiErrorBody, AvailabilityWindow, BookableStart, CancelBookingResult, Booking, CounsellorProfile, CounsellorProfileUpdate,
+  OnboardingState,
   Order, OrderStatusResponse, PaymentConfig, PaymentIntent, PaymentOversight, PayoutStatus,
   PlatformStats, Receipt, RegisterRequest,
   Role, Service, ServiceDraft, ServiceUpdate, Session, StripeOnboarding,
   StubPaymentConfirmation, TaxDetailsUpdate, User, VerificationSubmission, WindowDraft,
-  JobSeekerProfile, JobSeekerProfileUpdate, AppNotification,
+  JobSeekerProfile, JobSeekerProfileUpdate, AppNotification, PrivacySettings, ProfileVisibility, Review, ReviewDraft,
+  DiagnosisDirection, DiagnosisMarketplaceCriteria, DiagnosisQuestionnaire,
+  DiagnosisRecord, DiagnosisStepId, Modality,
 } from './types';
 
 export { ApiError };
@@ -84,6 +87,16 @@ async function request<T>(path: string, init?: RequestInit, accessToken?: string
   return response.json() as Promise<T>;
 }
 
+type CounsellorProfileResponse = Omit<CounsellorProfile, 'overallRating'> & {
+  overallRating?: number | null;
+};
+
+/** The API omits nullable fields, while screens consume an explicit null. */
+const normaliseCounsellorProfile = ({ overallRating, ...profile }: CounsellorProfileResponse): CounsellorProfile => ({
+  ...profile,
+  overallRating: overallRating ?? null,
+});
+
 
 
 export const api = {
@@ -108,8 +121,13 @@ export const api = {
           accessToken,
         ).catch(() => undefined),
 
-  listServices: (query = ''): Promise<Service[]> =>
-    request(`/services${query.trim() ? `?query=${encodeURIComponent(query.trim())}` : ''}`),
+  listServices: (query = '', modality?: Modality | null): Promise<Service[]> => {
+    const filters = [
+      query.trim() ? `query=${encodeURIComponent(query.trim())}` : '',
+      modality ? `modality=${encodeURIComponent(modality)}` : '',
+    ].filter(Boolean).join('&');
+    return request(`/services${filters ? `?${filters}` : ''}`);
+  },
 
   getService: (id: string): Promise<Service> =>
     request(`/services/${encodeURIComponent(id)}`),
@@ -122,9 +140,16 @@ export const api = {
       + (modality ? `?modality=${encodeURIComponent(modality)}` : ''),
     ),
 
-  /** `startsAt` is the chosen time; its end follows from the service's duration. */
-  createOrder: (serviceId: string, startsAt: string, modality: string, timezone: string, accessToken: string): Promise<Order> =>
-    request('/orders', { method: 'POST', body: JSON.stringify({ serviceId, startsAt, modality, timezone }) }, accessToken),
+  /**
+   * `startsAt` is the chosen time; its end follows from the service's duration.
+   * `preSessionBrief` (US-42) is optional — what the Job Seeker wants to cover,
+   * shown to the Career Professional so they can prepare.
+   */
+  createOrder: (
+    serviceId: string, startsAt: string, modality: string, timezone: string,
+    preSessionBrief: string | null, accessToken: string,
+  ): Promise<Order> =>
+    request('/orders', { method: 'POST', body: JSON.stringify({ serviceId, startsAt, modality, timezone, preSessionBrief }) }, accessToken),
 
   completeStubPayment: (order: Order, accessToken: string): Promise<StubPaymentConfirmation> =>
     request(`/orders/${encodeURIComponent(order.id)}/payments/stub`, { method: 'POST' }, accessToken),
@@ -167,8 +192,34 @@ export const api = {
   getBooking: (bookingId: string, accessToken: string): Promise<Booking> =>
     request(`/bookings/${encodeURIComponent(bookingId)}`, {}, accessToken),
 
+  /**
+   * US-69 — move a confirmed upcoming booking to another open slot. Either
+   * participant may call this; the backend keeps the same order and booking and
+   * rejects outright (no partial move) if the chosen time is no longer free.
+   */
+  rescheduleBooking: (
+    bookingId: string, startsAt: string, modality: string, timezone: string, accessToken: string,
+  ): Promise<Booking> =>
+    request(
+      `/bookings/${encodeURIComponent(bookingId)}/reschedule`,
+      { method: 'POST', body: JSON.stringify({ startsAt, modality, timezone }) },
+      accessToken,
+    ),
+
+  /** US-43 — the counsellor delivering the session sets where it meets; `null` clears it. */
+  updateBookingMeetingAddress: (bookingId: string, meetingAddress: string | null, accessToken: string): Promise<Booking> =>
+    request(
+      `/bookings/${encodeURIComponent(bookingId)}/meeting-address`,
+      { method: 'PATCH', body: JSON.stringify({ meetingAddress }) },
+      accessToken,
+    ),
+
   getBookingReceipt: (bookingId: string, accessToken: string): Promise<Receipt> =>
     request(`/bookings/${encodeURIComponent(bookingId)}/receipt`, undefined, accessToken),
+
+  /** US-53 — the backend enforces completed ownership and one review per booking. */
+  createReview: (bookingId: string, draft: ReviewDraft, accessToken: string): Promise<Review> =>
+    request(`/bookings/${encodeURIComponent(bookingId)}/review`, { method: 'POST', body: JSON.stringify(draft) }, accessToken),
 
   // --- counsellor payouts (US-47) ----------------------------------------
 
@@ -214,21 +265,82 @@ export const api = {
   updateJobSeekerProfile: (update: JobSeekerProfileUpdate, accessToken: string): Promise<JobSeekerProfile> =>
     request('/me/job-seeker-profile', { method: 'PATCH', body: JSON.stringify(update) }, accessToken),
 
+  /** US-27 — shared by Job Seekers and Career Professionals. */
+  getPrivacySettings: (accessToken: string): Promise<PrivacySettings> =>
+    request('/me/profile-visibility', undefined, accessToken),
+
+  updateProfileVisibility: (visibility: ProfileVisibility, accessToken: string): Promise<PrivacySettings> =>
+    request('/me/profile-visibility', { method: 'PATCH', body: JSON.stringify({ visibility }) }, accessToken),
+
   // --- counsellor workspace (contract-published, backend pending) ---
 
   /** The Career Professionals a Job Seeker can book: the people behind Explore's services. */
-  listCounsellors: (): Promise<CounsellorProfile[]> =>
-    request('/counsellors'),
+  listCounsellors: async (query = ''): Promise<CounsellorProfile[]> =>
+    (await request<CounsellorProfileResponse[]>(
+      `/counsellors${query.trim() ? `?query=${encodeURIComponent(query.trim())}` : ''}`,
+    )).map(normaliseCounsellorProfile),
+
+  // --- Yoir Diagnosis ------------------------------------------------------
+
+  getDiagnosisQuestionnaire: (accessToken: string): Promise<DiagnosisQuestionnaire> =>
+    request('/me/diagnosis/questionnaire', undefined, accessToken),
+
+  getOwnDiagnosis: (accessToken: string): Promise<DiagnosisRecord> =>
+    request('/me/diagnosis', undefined, accessToken),
+
+  startDiagnosis: (questionnaireVersion: string, accessToken: string): Promise<DiagnosisRecord> =>
+    request(
+      '/me/diagnosis',
+      { method: 'POST', body: JSON.stringify({ questionnaireVersion }) },
+      accessToken,
+    ),
+
+  saveDiagnosisStep: (
+    diagnosisId: string,
+    stepId: DiagnosisStepId,
+    input: {
+      questionnaireVersion: string;
+      expectedRevision: number;
+      value: string | string[];
+      other?: string | null;
+    },
+    accessToken: string,
+  ): Promise<DiagnosisRecord> =>
+    request(
+      `/diagnoses/${encodeURIComponent(diagnosisId)}/steps/${encodeURIComponent(stepId)}`,
+      { method: 'PUT', body: JSON.stringify(input) },
+      accessToken,
+    ),
+
+  getDiagnosisDirection: (
+    diagnosisId: string, accessToken: string,
+  ): Promise<DiagnosisDirection> =>
+    request(
+      `/diagnoses/${encodeURIComponent(diagnosisId)}/direction`, undefined, accessToken,
+    ),
+
+  getDiagnosisMarketplaceCriteria: (
+    diagnosisId: string, accessToken: string,
+  ): Promise<DiagnosisMarketplaceCriteria> =>
+    request(
+      `/diagnoses/${encodeURIComponent(diagnosisId)}/marketplace-criteria`,
+      undefined,
+      accessToken,
+    ),
 
   /** A Career Professional's public profile: what a Job Seeker reads before booking. */
-  getCounsellorProfile: (counsellorId: string): Promise<CounsellorProfile> =>
-    request(`/counsellors/${encodeURIComponent(counsellorId)}`),
+  getCounsellorProfile: async (counsellorId: string): Promise<CounsellorProfile> =>
+    normaliseCounsellorProfile(await request<CounsellorProfileResponse>(`/counsellors/${encodeURIComponent(counsellorId)}`)),
 
   getOwnCounsellorProfile: (user: User, accessToken: string): Promise<CounsellorProfile> =>
-    request(`/counsellors/${encodeURIComponent(user.id)}`, undefined, accessToken),
+    request('/me/counsellor-profile', undefined, accessToken),
 
   updateOwnCounsellorProfile: (counsellorId: string, update: CounsellorProfileUpdate, accessToken: string): Promise<CounsellorProfile> =>
     request('/me/counsellor-profile', { method: 'PATCH', body: JSON.stringify(update) }, accessToken),
+
+  /** US-05 — whether first-login onboarding (profile setup, verification submission) is done. */
+  getOnboardingState: (accessToken: string): Promise<OnboardingState> =>
+    request('/me/onboarding-state', undefined, accessToken),
 
   listOwnServices: (counsellorId: string, accessToken: string): Promise<Service[]> =>
     request('/me/services', undefined, accessToken),
@@ -310,6 +422,9 @@ export const api = {
 
   listAllCounsellors: (accessToken: string): Promise<AdminCounsellor[]> =>
     request('/admin/counsellors', {}, accessToken),
+
+  listAllJobSeekers: (accessToken: string): Promise<AdminJobSeeker[]> =>
+    request('/admin/job-seekers', {}, accessToken),
 };
 
 /** Field-level errors published by the API, keyed by the form field they belong to. */

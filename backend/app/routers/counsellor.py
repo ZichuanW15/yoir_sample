@@ -1,11 +1,10 @@
 from datetime import UTC, datetime
-from urllib.parse import urlsplit
 
 from fastapi import APIRouter, Depends, Response, status
 from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.availability import LIVE_BOOKING_STATUSES
+from app.availability import LIVE_BOOKING_STATUSES, Busy, busy_periods, free_minutes
 from app.config import get_settings
 from app.db import get_db
 from app.errors import NOT_FOUND, VALIDATION_ERROR, ApiError
@@ -20,6 +19,7 @@ from app.schemas import (
     CreateAvailabilityWindowRequest,
     CreateServiceRequest,
     Location,
+    OnboardingStateOut,
     OwnServiceOut,
     PayoutStatusOut,
     StripeOnboardingOut,
@@ -47,7 +47,7 @@ def list_own_services(
         .where(Service.counsellor_id == user.id)
         .order_by(Service.title)
     )
-    return [own_service_to_out(s) for s in services]
+    return [own_service_to_out(s, db) for s in services]
 
 
 @router.post("/services", status_code=status.HTTP_201_CREATED,
@@ -88,7 +88,7 @@ def create_service(
         # Build the response — including the counsellor relationship read — before
         # committing. A failure here rolls back instead of leaving a saved service
         # behind a 500, which would otherwise invite a duplicate-creating retry.
-        result = own_service_to_out(service)
+        result = own_service_to_out(service, db)
         db.commit()
     except Exception:
         db.rollback()
@@ -146,7 +146,7 @@ def update_service(
     service.meeting_url = (payload.meeting_url or "").strip() or None
     try:
         db.flush()
-        result = own_service_to_out(service)
+        result = own_service_to_out(service, db)
         db.commit()
     except Exception:
         db.rollback()
@@ -176,7 +176,37 @@ def delete_service(
 # --- US-30 / US-31: the professional profile --------------------------------
 
 
-def counsellor_profile_out(user: User) -> CounsellorProfileOut:
+def counsellor_profile_out(
+    user: User, *, enforce_visibility: bool = False,
+) -> CounsellorProfileOut:
+    visibility = user.profile_visibility or "public"
+    if enforce_visibility and visibility == "restricted":
+        return CounsellorProfileOut(
+            id=user.id,
+            display_name=user.name,
+            verification_status=user.verification_status,
+            overall_rating=user.overall_rating,
+            review_count=user.review_count,
+            visibility="restricted",
+            restricted=True,
+        )
+
+    if enforce_visibility and visibility == "partial":
+        # US-28 requires hidden fields to be absent from the response, not merely
+        # replaced with empty strings for the app to interpret.  These are the
+        # agreed summary fields described by the Privacy screen; all personal and
+        # professional-detail fields are deliberately left unset.
+        return CounsellorProfileOut(
+            id=user.id,
+            display_name=user.name,
+            introduction=user.introduction or "",
+            default_modality=user.default_modality or "online",
+            verification_status=user.verification_status,
+            overall_rating=user.overall_rating,
+            review_count=user.review_count,
+            visibility="partial",
+        )
+
     location = None
     if user.base_location_state and user.base_location_city:
         location = Location(
@@ -198,12 +228,34 @@ def counsellor_profile_out(user: User) -> CounsellorProfileOut:
         verification_status=user.verification_status,
         overall_rating=user.overall_rating,
         review_count=user.review_count,
+        visibility=visibility if enforce_visibility else None,
     )
 
 
-@router.patch("/counsellor-profile", response_model=CounsellorProfileOut)
+@router.get(
+    "/counsellor-profile", response_model=CounsellorProfileOut,
+    response_model_exclude_none=True,
+    operation_id="getOwnCounsellorProfile",
+    openapi_extra={"x-required-role": "counsellor", "x-requirement-ids": ["US-28", "US-30"]},
+)
+def get_own_counsellor_profile(
+    response: Response,
+    user: User = Depends(require_counsellor),
+) -> CounsellorProfileOut:
+    """Return the owner's complete profile regardless of public visibility."""
+    response.headers["Cache-Control"] = "private, no-store"
+    return counsellor_profile_out(user)
+
+
+@router.patch(
+    "/counsellor-profile", response_model=CounsellorProfileOut,
+    response_model_exclude_none=True,
+    operation_id="updateOwnCounsellorProfile",
+    openapi_extra={"x-required-role": "counsellor", "x-requirement-ids": ["US-30"]},
+)
 def update_own_counsellor_profile(
     payload: UpdateCounsellorProfileRequest,
+    response: Response,
     user: User = Depends(require_counsellor),
     db: Session = Depends(get_db),
 ) -> CounsellorProfileOut:
@@ -212,17 +264,11 @@ def update_own_counsellor_profile(
     The LinkedIn URL is required because it is what the Platform Owner verifies the
     counsellor from; a profile without one cannot be reviewed. Verification status is
     not settable here — that is the Platform Owner's to decide, not the subject's.
-    """
-    raw = payload.linkedin_url if "//" in payload.linkedin_url else f"https://{payload.linkedin_url}"
-    host = (urlsplit(raw).hostname or "").lower()
-    if host != "linkedin.com" and not host.endswith(".linkedin.com"):
-        raise ApiError(
-            status.HTTP_400_BAD_REQUEST,
-            VALIDATION_ERROR,
-            "Give the LinkedIn profile the Platform Owner should verify you from.",
-            {"linkedinUrl": "Must be a linkedin.com address."},
-        )
 
+    The URL itself is validated and normalised by `UpdateCounsellorProfileRequest`
+    (the same check `SubmitVerificationRequest` uses) — not here, so the two write
+    paths can never drift back out of agreement with each other.
+    """
     user.photo_url = payload.photo_url
     user.linkedin_url = payload.linkedin_url
     user.introduction = payload.introduction
@@ -238,7 +284,34 @@ def update_own_counsellor_profile(
     user.default_modality = payload.default_modality
     db.commit()
     db.refresh(user)
+    response.headers["Cache-Control"] = "private, no-store"
     return counsellor_profile_out(user)
+
+
+@router.get(
+    "/onboarding-state", response_model=OnboardingStateOut, operation_id="getOnboardingState",
+    openapi_extra={"x-requirement-ids": ["US-05"]},
+)
+def get_onboarding_state(
+    user: User = Depends(require_counsellor),
+) -> OnboardingStateOut:
+    """US-05. Whether this Career Professional still has first-login setup to do.
+
+    Read-only: this never writes `verification_submitted_at` or anything else.
+    `update_own_counsellor_profile` (US-30) and `submit_verification` (US-31) already
+    own those writes; this endpoint only reports what they have recorded, so the app
+    has one place to ask "is onboarding done" without duplicating either rule.
+    """
+    profile_complete = bool(user.introduction and user.background and user.experience)
+    # Matches the frontend's own verificationState(): pending with no LinkedIn URL on
+    # file is "unsubmitted", everything else (pending-with-a-URL, verified, rejected)
+    # is a submission that has happened.
+    verification_submitted = not (user.verification_status == "pending" and not user.linkedin_url)
+    return OnboardingStateOut(
+        profile_complete=profile_complete,
+        verification_submitted=verification_submitted,
+        complete=profile_complete and verification_submitted,
+    )
 
 
 # --- US-39: counsellor availability windows ---------------------------------
@@ -295,13 +368,24 @@ def _booked_spans(db: Session, window: AvailabilityWindow) -> list[tuple[datetim
     return [(b.starts_at, b.ends_at) for b in bookings]
 
 
-def _window_out(db: Session, window: AvailabilityWindow) -> AvailabilityWindowOut:
+def _window_out(
+    db: Session,
+    window: AvailabilityWindow,
+    taken: list[Busy] | None = None,
+    now: datetime | None = None,
+) -> AvailabilityWindowOut:
+    """`taken` is passed in when listing a whole calendar, so it is read once rather
+    than once per window."""
+    now = now or datetime.now(UTC)
+    if taken is None:
+        taken = busy_periods(db, window.counsellor_id, now)
     return AvailabilityWindowOut(
         id=window.id,
         starts_at=window.starts_at,
         ends_at=window.ends_at,
         modalities=list(window.modalities or ["online", "in_person"]),
         has_bookings=bool(_booked_spans(db, window)),
+        free_minutes=free_minutes(window, taken, now),
     )
 
 
@@ -347,13 +431,23 @@ def list_own_availability_windows(
     user: User = Depends(require_counsellor),
     db: Session = Depends(get_db),
 ) -> list[AvailabilityWindowOut]:
-    """US-39. The caller's whole calendar, soonest first."""
+    """US-39. The caller's calendar from now on, soonest first.
+
+    A window that has ended is left out. Nothing can be booked in it any more, and
+    listed beside current ones it read as open time: the workspace counted it as
+    availability while the time picker, rightly, offered nothing.
+    """
+    now = datetime.now(UTC)
     windows = db.scalars(
         select(AvailabilityWindow)
-        .where(AvailabilityWindow.counsellor_id == user.id)
+        .where(
+            AvailabilityWindow.counsellor_id == user.id,
+            AvailabilityWindow.ends_at > now,
+        )
         .order_by(AvailabilityWindow.starts_at)
     )
-    return [_window_out(db, w) for w in windows]
+    taken = busy_periods(db, user.id, now)
+    return [_window_out(db, w, taken, now) for w in windows]
 
 
 @router.post(

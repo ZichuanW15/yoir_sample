@@ -1,0 +1,9 @@
+{
+  "at": "2026-10-15T21:16:42.591852+00:00",
+  "reverseList": "\n",
+  "observation": "Mappings are absent at this observation; both existed and returned HTTP 200 at 08:12 AEDT. No mapping mutation was performed by services agent.",
+  "expoGoVersion": "57.0.9",
+  "internetPermissionGranted": true,
+  "httpProxy": null,
+  "privateDnsMode": null
+}

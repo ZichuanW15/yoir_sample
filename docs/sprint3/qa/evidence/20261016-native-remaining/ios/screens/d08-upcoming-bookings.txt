@@ -1,0 +1,89 @@
+Window: "iPhone 18 Pro", App: Device Hub.
+0 standard window iPhone 18 Pro – iOS 27.0, ID: com.apple.dt.DeviceKit.DeviceManagementWindow-AppWindow-1, Secondary Actions: Raise
+	1 split group
+		2 split group com.apple.dt.DeviceKit.DeviceManagementWindow-AppWindow-1, SidebarNavigationSplitView
+			3 scroll area
+				4 list Sidebar
+					5 row (selectable) Description: Available, Value: Expanded
+					6 row (selected) Description: iphone.gen3, Value: iPhone 18 Pro
+27.0
+Simulator
+			7 search text field (settable) Search
+				8 button Search
+			9 splitter (disabled, settable, float) 248
+			10 container
+				11 container
+					12 button Description: Notifications, Secondary Actions: Cancel
+					13 button Description: Account, QA iOS Buyer, Secondary Actions: Cancel
+					14 text Description: My sessions, Secondary Actions: Cancel
+					15 element (selected) Description: Coming up, Secondary Actions: Cancel
+					16 button Description: Past, Secondary Actions: Cancel
+					17 button Description: QA iOS Reschedule Session, booking details, Secondary Actions: Cancel
+					18 text Description: Saturday 24 October · 10:00 am – 11:00 am · Australia/Melbourne, Secondary Actions: Cancel
+					19 text Description: Online · $84, Secondary Actions: Cancel
+					20 text Description: Before the session, Secondary Actions: Cancel
+					21 text Description: iOS fixture brief: discuss career direction., Secondary Actions: Cancel
+					22 button Description: Join the session, Secondary Actions: Cancel
+					23 button Description: View receipt, Secondary Actions: Cancel
+					24 button Cancel
+					25 button Description: QA iOS Reschedule Session, booking details, Secondary Actions: Cancel
+					26 text Description: Saturday 24 October · 11:00 am – 12:00 pm · Australia/Melbourne, Secondary Actions: Cancel
+					27 text Description: Online · $84, Secondary Actions: Cancel
+					28 text Description: Before the session, Secondary Actions: Cancel
+					29 text Description: iOS fixture brief: discuss career direction., Secondary Actions: Cancel
+					30 button Description: Join the session, Secondary Actions: Cancel
+					31 button Description: View receipt, Secondary Actions: Cancel
+					32 button Cancel
+					33 button Description: QA iOS In-person Session, booking details, Secondary Actions: Cancel
+					34 text Description: Saturday 24 October · 12:00 pm – 1:00 pm · Australia/Melbourne, Secondary Actions: Cancel
+					35 text Description: In person · Melbourne, VIC · $84, Secondary Actions: Cancel
+					36 text Description: Before the session, Secondary Actions: Cancel
+					37 text Description: iOS fixture brief: discuss career direction., Secondary Actions: Cancel
+					38 text Description: Your Career Professional confirms the exact meeting point before the session., Secondary Actions: Cancel
+					39 button Description: View receipt, Secondary Actions: Cancel
+					40 button Cancel
+					41 button Description: QA iOS In-person Session, booking details, Secondary Actions: Cancel
+					42 text Description: Saturday 24 October · 1:00 pm – 2:00 pm · Australia/Melbourne, Secondary Actions: Cancel
+					43 text Description: In person · Melbourne, VIC · $84, Secondary Actions: Cancel
+					44 text Description: Before the session, Secondary Actions: Cancel
+					45 text Description: iOS fixture brief: discuss career direction., Secondary Actions: Cancel
+					46 text Description: Your Career Professional confirms the exact meeting point before the session., Secondary Actions: Cancel
+					47 button Description: View receipt, Secondary Actions: Cancel
+					48 button Cancel
+					49 button Description: Home, Secondary Actions: Cancel
+					50 button Description: Explore, Secondary Actions: Cancel
+					51 button (selected) Description: Bookings, Secondary Actions: Cancel
+					52 image Description: Gear Shape, Filled, ID: gearshape.fill, Secondary Actions: Cancel
+				53 button Description: Home, ID: app.grid.3x3
+				54 button Description: Screenshot, ID: camera.viewfinder
+				55 button Description: Record, ID: record.circle
+				56 button Rotate Left
+	57 toolbar
+		58 menu button Add, Help: Add Device, ID: plus
+		59 toggle button Description: Filter, Help: Sort and Filter, Value: off
+		60 button Description: Hide Sidebar, Secondary Actions: Increment, Decrement, Delete, Cancel
+		61 toggle button Description: Capture Keyboard, Value: off
+		62 toggle button (disabled) Description: Resize mode, Help: Enter resize mode, Value: off
+		63 Zoom
+			64 radio button Description: Zoom Out, Value: 0, ID: minus.magnifyingglass
+			65 radio button Description: arrowtriangles.up.right.down.left.magnifyingglass, Help: Zoom to Fit, Value: 1
+			66 radio button Description: Zoom To Actual Size, Help: Physical Size, Value: 0, ID: 1.magnifyingglass
+			67 radio button Description: Zoom In, Value: 0, ID: plus.magnifyingglass
+		68 button Description: Open in New Window, Secondary Actions: Increment, Decrement, Delete, Cancel, Move previous, Move next, Remove from toolbar
+		69 menu button More, Help: More Actions, ID: ellipsis
+		70 radio button Description: Edit, Help: Settings, Value: 0, ID: slider.horizontal.3
+		71 radio button Description: text.document, Help: Reports, Value: 0
+		72 radio button Description: Info, Value: 0, ID: info
+	73 close button
+	74 full screen button Help: this button also has an action to zoom the window, Secondary Actions: zoom the window
+	75 minimize button
+	76 text iPhone 18 Pro iOS 27.0
+77 menu bar
+	78 Device Hub
+	79 File
+	80 Edit
+	81 View
+	82 Device
+	83 Controls
+	84 Window
+	85 Help

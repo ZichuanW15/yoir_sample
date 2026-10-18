@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Mentor Communication Log
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Mentor-Communication-Log
-  Wiki commit: 28ebead (2026-09-18)
+  Wiki commit: 8fa8c88 (2026-10-18)
   Exported:    2026-09-18
 -->
 
@@ -39,16 +39,16 @@
 
 | Action | Owner | Due | Status |
 | --- | --- | --- | --- |
-| Complete the documentation for the Sprint 2 submission | Manu | This weekend | Open |
-| Meet with the team to work through the triage and matching function | Manu | 18 Sep 2026 | Open |
-| Raise the pull requests for the payment and SMTP functionality | Jashan |  | Open |
-| Fix the overlapping time slots issue | Jashan |  | Open |
-| Verify the payment distribution mechanism with the client, Stripe or manual | Jashan |  | Open |
-| Prepare the documentation for the Sprint 2 delivery | Evelyn |  | Open |
-| Continue the documentation for the Sprint delivery | Jared |  | Open |
-| Confirm the current design concept version with Manu and upload the updates to GitHub | James |  | Open |
-| Double-check the test coverage and evidence | Wilson |  | Open |
-| Research the matching algorithm options and build a comparison table of costs, effort and trade-offs | Team | 18 Sep 2026 | Open |
-| Discuss the matching implementation approach at the workshop | Team | Next workshop | Open |
-| Prepare the MVP demo for the workshop | Team | Next workshop | Open |
-| Confirm the rescheduled workshop slot, Thursday 9:00-10:00 am | Erfan | Before next week | Open |
+| Complete the documentation for the Sprint 2 submission | Manu | This weekend | Closed |
+| Meet with the team to work through the triage and matching function | Manu | 18 Sep 2026 | Closed |
+| Raise the pull requests for the payment and SMTP functionality | Jashan |  | Closed |
+| Fix the overlapping time slots issue | Jashan |  | Closed |
+| Verify the payment distribution mechanism with the client, Stripe or manual | Jashan |  | Closed |
+| Prepare the documentation for the Sprint 2 delivery | Evelyn |  | Closed |
+| Continue the documentation for the Sprint delivery | Jared |  | Closed |
+| Confirm the current design concept version with Manu and upload the updates to GitHub | James |  | Closed |
+| Double-check the test coverage and evidence | Wilson |  | Closed |
+| Research the matching algorithm options and build a comparison table of costs, effort and trade-offs | Team | 18 Sep 2026 | Closed |
+| Discuss the matching implementation approach at the workshop | Team | Next workshop | Closed |
+| Prepare the MVP demo for the workshop | Team | Next workshop | Closed |
+| Confirm the rescheduled workshop slot, Thursday 9:00-10:00 am | Erfan | Before next week | Closed |

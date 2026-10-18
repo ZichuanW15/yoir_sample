@@ -1,0 +1,54 @@
+test_atomic_writer_does_not_normalise_crlf_bytes (__main__.BoardInsightsTests.test_atomic_writer_does_not_normalise_crlf_bytes) ... ok
+test_atomic_writer_replaces_only_changed_content (__main__.BoardInsightsTests.test_atomic_writer_replaces_only_changed_content) ... ok
+test_done_column_item_from_another_iteration_is_not_counted (__main__.BoardInsightsTests.test_done_column_item_from_another_iteration_is_not_counted) ... ok
+test_duplicate_project_item_or_field_is_rejected (__main__.BoardInsightsTests.test_duplicate_project_item_or_field_is_rejected) ... ok
+test_empty_board_is_rendered_safely (__main__.BoardInsightsTests.test_empty_board_is_rendered_safely) ... ok
+test_fetch_project_follows_pagination_and_skips_draft (__main__.BoardInsightsTests.test_fetch_project_follows_pagination_and_skips_draft) ... ok
+test_field_value_truncation_is_rejected (__main__.BoardInsightsTests.test_field_value_truncation_is_rejected) ... ok
+test_flow_item_from_another_iteration_is_not_counted_in_current_sprint (__main__.BoardInsightsTests.test_flow_item_from_another_iteration_is_not_counted_in_current_sprint) ... ok
+test_fractional_story_points_are_not_rounded_to_one_decimal (__main__.BoardInsightsTests.test_fractional_story_points_are_not_rounded_to_one_decimal) ... ok
+test_future_only_sprint_is_not_selected (__main__.BoardInsightsTests.test_future_only_sprint_is_not_selected) ... ok
+test_graphql_does_not_retry_authentication_error_or_leak_token (__main__.BoardInsightsTests.test_graphql_does_not_retry_authentication_error_or_leak_token) ... ok
+test_graphql_errors_are_sanitised (__main__.BoardInsightsTests.test_graphql_errors_are_sanitised) ... ok
+test_graphql_passes_timeout_and_returns_data (__main__.BoardInsightsTests.test_graphql_passes_timeout_and_returns_data) ... ok
+test_graphql_retries_transient_http_status_and_honours_retry_after (__main__.BoardInsightsTests.test_graphql_retries_transient_http_status_and_honours_retry_after) ... ok
+test_graphql_retries_transient_network_failures_with_bounded_backoff (__main__.BoardInsightsTests.test_graphql_retries_transient_network_failures_with_bounded_backoff) ... ok
+test_historical_sprint_fallback_is_not_labelled_active (__main__.BoardInsightsTests.test_historical_sprint_fallback_is_not_labelled_active) ... ok
+test_incomplete_item_count_is_rejected (__main__.BoardInsightsTests.test_incomplete_item_count_is_rejected) ... ok
+test_invalid_issue_state_fails_closed (__main__.BoardInsightsTests.test_invalid_issue_state_fails_closed) ... ok
+test_invalid_story_point_values_fail_closed (__main__.BoardInsightsTests.test_invalid_story_point_values_fail_closed) ... ok
+test_item_page_limit_is_enforced_before_an_extra_request (__main__.BoardInsightsTests.test_item_page_limit_is_enforced_before_an_extra_request) ... ok
+test_iteration_end_is_exclusive_and_next_sprint_starts_on_boundary (__main__.BoardInsightsTests.test_iteration_end_is_exclusive_and_next_sprint_starts_on_boundary) ... ok
+test_missing_field_value_page_info_is_rejected (__main__.BoardInsightsTests.test_missing_field_value_page_info_is_rejected) ... ok
+test_missing_item_cursor_is_rejected (__main__.BoardInsightsTests.test_missing_item_cursor_is_rejected) ... ok
+test_missing_item_page_info_is_rejected (__main__.BoardInsightsTests.test_missing_item_page_info_is_rejected) ... ok
+test_missing_organization_is_rejected (__main__.BoardInsightsTests.test_missing_organization_is_rejected) ... ok
+test_missing_project_is_rejected (__main__.BoardInsightsTests.test_missing_project_is_rejected) ... ok
+test_missing_sprint_on_flow_item_is_reported (__main__.BoardInsightsTests.test_missing_sprint_on_flow_item_is_reported) ... ok
+test_missing_story_points_is_reported_not_crashed (__main__.BoardInsightsTests.test_missing_story_points_is_reported_not_crashed) ... ok
+test_missing_token_is_a_clear_error (__main__.BoardInsightsTests.test_missing_token_is_a_clear_error) ... ok
+test_no_sprint_configuration_is_explicit (__main__.BoardInsightsTests.test_no_sprint_configuration_is_explicit) ... ok
+test_normal_fixture_builds_all_sections (__main__.BoardInsightsTests.test_normal_fixture_builds_all_sections) ... ok
+test_null_connections_and_empty_board_are_safe (__main__.BoardInsightsTests.test_null_connections_and_empty_board_are_safe) ... ok
+test_output_is_stable_for_the_same_snapshot_and_date (__main__.BoardInsightsTests.test_output_is_stable_for_the_same_snapshot_and_date) ... ok
+test_project_change_during_pagination_is_rejected (__main__.BoardInsightsTests.test_project_change_during_pagination_is_rejected) ... ok
+test_project_field_truncation_is_rejected (__main__.BoardInsightsTests.test_project_field_truncation_is_rejected) ... ok
+test_project_title_or_fields_change_during_pagination_is_rejected (__main__.BoardInsightsTests.test_project_title_or_fields_change_during_pagination_is_rejected) ... ok
+test_repeated_item_cursor_is_rejected (__main__.BoardInsightsTests.test_repeated_item_cursor_is_rejected) ... ok
+test_splice_preserves_everything_outside_markers (__main__.BoardInsightsTests.test_splice_preserves_everything_outside_markers) ... ok
+test_splice_rejects_duplicate_markers (__main__.BoardInsightsTests.test_splice_rejects_duplicate_markers) ... ok
+test_splice_rejects_invalid_generated_section (__main__.BoardInsightsTests.test_splice_rejects_invalid_generated_section) ... ok
+test_splice_rejects_missing_markers (__main__.BoardInsightsTests.test_splice_rejects_missing_markers) ... ok
+test_splice_rejects_reversed_markers (__main__.BoardInsightsTests.test_splice_rejects_reversed_markers) ... ok
+test_splice_requires_standalone_markers (__main__.BoardInsightsTests.test_splice_requires_standalone_markers) ... ok
+test_untrusted_project_labels_cannot_inject_markdown_or_mermaid (__main__.BoardInsightsTests.test_untrusted_project_labels_cannot_inject_markdown_or_mermaid) ... ok
+test_actions_are_sha_pinned_and_render_precedes_commit (__main__.WorkflowDefinitionTests.test_actions_are_sha_pinned_and_render_precedes_commit) ... ok
+test_mermaid_configuration_exists_and_is_valid_json (__main__.WorkflowDefinitionTests.test_mermaid_configuration_exists_and_is_valid_json) ... ok
+test_publication_is_event_gated_and_serialised (__main__.WorkflowDefinitionTests.test_publication_is_event_gated_and_serialised) ... ok
+test_pull_requests_and_pushes_have_a_secret_free_validation_job (__main__.WorkflowDefinitionTests.test_pull_requests_and_pushes_have_a_secret_free_validation_job) ... ok
+test_wiki_authentication_target_and_push_are_safe (__main__.WorkflowDefinitionTests.test_wiki_authentication_target_and_push_are_safe) ... ok
+
+----------------------------------------------------------------------
+Ran 49 tests in 0.021s
+
+OK

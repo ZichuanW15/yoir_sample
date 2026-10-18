@@ -1,0 +1,9 @@
+PASS __tests__/screens/service-booking-recovery.test.tsx
+PASS __tests__/screens/feedback-response-contract.test.tsx
+
+Test Suites: 2 passed, 2 total
+Tests:       8 passed, 8 total
+Snapshots:   0 total
+Time:        1.472 s
+Ran all test suites within paths "__tests__/screens/service-booking-recovery.test.tsx", "__tests__/screens/feedback-response-contract.test.tsx".
+Test results written to: ../artifacts/qa/sprint3-dev-refresh-20261017/authoring-booking/regression.json

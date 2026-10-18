@@ -1,0 +1,66 @@
+{
+  "scope": "D02 and D03 on each platform; actual native UI, local diagnosis storage only",
+  "baseline": "cdcc44e66d647a9c5993736b797312b495715a3f",
+  "branch": "sprint3-qa",
+  "uiExecution": "Codex-assisted at Wilson request; CUA, Android through IntelliJ IDEA Running Devices, iOS through Xcode Device Hub",
+  "firstCheckpointUtc": "2026-10-15T21:11:51.314Z",
+  "lastCheckpointUtc": "2026-10-15T21:27:33.402Z",
+  "cases": [
+    {
+      "case": "D02",
+      "platform": "ios",
+      "result": "PASS",
+      "boundary": "Expo Go, same-device local diagnosis"
+    },
+    {
+      "case": "D03",
+      "platform": "ios",
+      "result": "PASS",
+      "boundary": "Expo Go, same-device local diagnosis"
+    },
+    {
+      "case": "D02",
+      "platform": "android",
+      "result": "PASS",
+      "boundary": "Expo Go, same-device local diagnosis"
+    },
+    {
+      "case": "D03",
+      "platform": "android",
+      "result": "PASS",
+      "boundary": "Expo Go, same-device local diagnosis"
+    }
+  ],
+  "totals": {
+    "passed": 4,
+    "failed": 0,
+    "notRun": 22
+  },
+  "notRun": [
+    "D01",
+    "D04",
+    "D05",
+    "D06",
+    "D07",
+    "D08",
+    "D09",
+    "D10",
+    "D11",
+    "D12",
+    "D13"
+  ],
+  "notRunPlatforms": [
+    "ios",
+    "android"
+  ],
+  "observations": 32,
+  "screenshots": 33,
+  "serverDiagnosisFinal": {
+    "accounts": 4,
+    "status": 404,
+    "meaning": "No server diagnosis saved; local persistence does not prove server integration."
+  },
+  "sourceFilesVerified": 346,
+  "productChanged": false,
+  "published": false
+}

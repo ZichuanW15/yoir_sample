@@ -1,0 +1,23 @@
+{
+  "writes": 1,
+  "serverStatus": 200,
+  "stored": {
+    "id": "9473078e-520e-4479-ac9a-d8785288cdd9",
+    "questionnaireVersion": "yoir-six-step-v1",
+    "revision": 1,
+    "status": "in_progress",
+    "currentStep": 2,
+    "totalSteps": 6,
+    "completedSteps": [
+      "now"
+    ],
+    "answers": {
+      "now": "other",
+      "other": {
+        "now": "Returning after caring for family"
+      }
+    },
+    "createdAt": "2026-10-17T07:43:57.120615Z",
+    "updatedAt": "2026-10-17T07:43:59.348602Z"
+  }
+}

@@ -45,6 +45,7 @@ def busy_periods(
     counsellor_id: str,
     now: datetime | None = None,
     exclude_order_id: str | None = None,
+    exclude_booking_id: str | None = None,
 ) -> list[Busy]:
     """Every span of this counsellor's time that is already spoken for."""
     now = now or datetime.now(UTC)
@@ -56,7 +57,11 @@ def busy_periods(
             Booking.status.in_(LIVE_BOOKING_STATUSES),
         )
     )
-    taken.extend(Busy(b.starts_at, b.ends_at) for b in bookings)
+    # US-69 — a booking being rescheduled must not read its own current span as a
+    # clash with the new one it is moving to; it is the same booking, not a second one.
+    taken.extend(
+        Busy(b.starts_at, b.ends_at) for b in bookings if b.id != exclude_booking_id
+    )
 
     # An unpaid order holds its span only while its hold is alive; once it lapses the
     # time is offerable again without anything having to sweep it up first.
@@ -83,6 +88,7 @@ def is_free(
     ends_at: datetime,
     now: datetime | None = None,
     exclude_order_id: str | None = None,
+    exclude_booking_id: str | None = None,
     modality: str | None = None,
 ) -> bool:
     """Whether this exact span sits inside a suitable window and clashes with nothing.
@@ -102,7 +108,7 @@ def is_free(
         return False
     return not any(
         _overlaps(starts_at, ends_at, busy.starts_at, busy.ends_at)
-        for busy in busy_periods(db, counsellor_id, now, exclude_order_id)
+        for busy in busy_periods(db, counsellor_id, now, exclude_order_id, exclude_booking_id)
     )
 
 
@@ -155,6 +161,43 @@ def bookable_starts(
                     return sorted(starts)
             cursor += step
     return sorted(starts)
+
+
+def next_bookable_start(
+    db: Session, service: Service, now: datetime | None = None,
+) -> datetime | None:
+    """The earliest time a job seeker could book this service, or None.
+
+    The first of exactly what the time picker offers, so a counsellor told their next
+    open time is Thursday at nine sees the same Thursday at nine a job seeker does.
+    """
+    starts = bookable_starts(db, service, now)
+    return starts[0] if starts else None
+
+
+def free_minutes(window: AvailabilityWindow, taken: list[Busy], now: datetime) -> int:
+    """How much of this window is still open: not yet past, booked or held.
+
+    Measured against the same `taken` that `bookable_starts` offers around, so the
+    calendar cannot call time free that the picker refuses. Whether a particular
+    service fits in what is left is a separate question, answered per service.
+    """
+    start, end = max(window.starts_at, now), window.ends_at
+    if end <= start:
+        return 0
+    spans = sorted(
+        (max(busy.starts_at, start), min(busy.ends_at, end))
+        for busy in taken
+        if _overlaps(busy.starts_at, busy.ends_at, start, end)
+    )
+    # A booking and a hold can overlap each other, so count covered time once.
+    covered, cursor = timedelta(), start
+    for span_start, span_end in spans:
+        span_start = max(span_start, cursor)
+        if span_end > span_start:
+            covered += span_end - span_start
+            cursor = span_end
+    return int((end - start - covered).total_seconds() // 60)
 
 
 def _ceil_to_step(moment: datetime, step: timedelta, origin: datetime | None = None) -> datetime:
