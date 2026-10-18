@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: User Story Map
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/User-Story-Map
-  Wiki commit: c5be4bb (2026-10-18)
+  Wiki commit: 14e0bc8 (2026-10-18)
   Exported:    2026-10-18
 -->
 
@@ -139,7 +139,7 @@ The dependency frames answer *what has to exist before this story can be demonst
 
 The dependency images below are the 27 August pre-clarification snapshot. Current dependencies are recorded on GitHub as *Blocked by* entries on the active issues; deferred stories must not be treated as prerequisites for the revised 43-story plan.
 
-![Full dependency map](images/user-story-map-full-dependencies.png)
+[Full dependency map on the Miro story map board](https://miro.com/app/board/uXjVHtnlqKA=/?share_link_id=876750713477)
 
 ## 8. Traceability
 
