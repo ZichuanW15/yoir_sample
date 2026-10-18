@@ -15,7 +15,7 @@ All **23 QA tasks** and parent criteria were reviewed. The
 At that snapshot all QA/parent issues were open and all QA tasks were assigned
 to `Zhouzhny`.
 
-[Execution timestamps](evidence/20261016/executions.json) are UTC. The evening of
+[Execution timestamps](../evidence/20261016/executions.json) are UTC. The evening of
 15 October UTC is **16 October in Melbourne (UTC+11)**. Source hashes identify
 the version of tests at each execution. Packaging is not another test run.
 
@@ -59,8 +59,8 @@ Admin screen line coverage ranges from 88.88% (`bookings`) to 100%
 (`payments`, `verifications`); admin shell is 100%. Native diagnosis storage is
 40% in the shared report. Existing frontend thresholds apply to
 API/auth/marketplace/format paths. See
-[frontend metrics](evidence/20261016/frontend-coverage.json) and
-[backend metrics](evidence/20261016/backend-coverage.json) for individual files
+[frontend metrics](../evidence/20261016/frontend-coverage.json) and
+[backend metrics](../evidence/20261016/backend-coverage.json) for individual files
 and backend missing lines/branches.
 
 ## Added coverage
@@ -79,8 +79,8 @@ retained and rerun.
 | Review UI | 14 component cases for eligibility, validation, pending-write and recovery; real Web submission and independent ratings readback. |
 | Availability/booking | Hold expiry, free minutes/next start, pay→reschedule→cancel, flushed-SQL failure rollback/retry, real Web modality fallback and held-time consistency. |
 
-The [matrix](qa-matrix.md) maps all 23 tasks to exact sources and limits;
-the [plan](test-plan.md) gives commands and expected outcomes.
+The [matrix](../qa-matrix.md) maps all 23 tasks to exact sources and limits;
+the [plan](../test-plan.md) gives commands and expected outcomes.
 
 ## Sprint 3 failures retained
 
@@ -122,10 +122,10 @@ negative-price conversion and forged booking confirmation.
   shell/deep link and JSON API 404. Independent PostgreSQL reads after live clients
   confirm +4 users, +1 service, +2 orders, +2 bookings and unchanged window count.
 
-[Execution records](evidence/20261016/executions.json) contain exact argv, cwd,
+[Execution records](../evidence/20261016/executions.json) contain exact argv, cwd,
 UTC times, exit code and source overlays. Originals remain in ignored
 `artifacts/qa/sprint3-20261016/`; selected evidence is copied under
-[evidence/20261016](evidence/20261016/README.md) with SHA-256 hashes.
+[evidence/20261016](../evidence/20261016/README.md) with SHA-256 hashes.
 
 Authoring mistakes are retained separately: initial privacy-list tests lacked an
 active-service fixture; browser drafts used wrong selectors and assumed OrderOut

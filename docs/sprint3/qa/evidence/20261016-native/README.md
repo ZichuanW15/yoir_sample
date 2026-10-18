@@ -1,6 +1,6 @@
 # Native diagnosis evidence — 16 October 2026
 
-See the [execution report](../../test-results-native-20261016.md) for scope,
+See the [execution report](../../archive/test-results-native-20261016.md) for scope,
 results and limitations. Product: `cdcc44e66d647a9c5993736b797312b495715a3f`
 with the existing local QA overlay. Android UI was operated in IntelliJ IDEA
 Running Devices; iOS UI was operated in Xcode Device Hub.
@@ -12,7 +12,7 @@ The 32 timestamped
 observations and 33 screenshots are checkpoints and setup captures, not extra
 test cases. `android-01-launch.png` is a setup capture without an observation row.
 
-- [Completed case selection](../../completed-native-cases-20261016.json): dated PASS/FAIL cases.
+- [Completed case selection](../../archive/completed-native-cases-20261016.json): dated PASS/FAIL cases.
 - [Original execution summary](summary.json): captured run metadata.
 - [Observations](observations.json): timestamped operator observations, with
   corresponding original screenshots and accessibility snapshots in `screens/`.

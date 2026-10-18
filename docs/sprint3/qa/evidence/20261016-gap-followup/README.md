@@ -1,6 +1,6 @@
 # 16 October 2026 — gap follow-up evidence
 
-See the [result report](../../test-results-gap-followup-20261016.md).
+See the [result report](../../archive/test-results-gap-followup-20261016.md).
 This package records 6 added passing regressions and 7 added failed acceptance
 assertions. Dates use 16 October Melbourne / 15 October evening UTC.
 Packaging is not another application execution.

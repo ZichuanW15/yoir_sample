@@ -164,13 +164,13 @@ Both focused cases passed through the real client with controlled HTTP replies.
 
 The preceding dev-only counts identify the original source-document execution.
 The `sprint3-qa` overlay adds executed API, component and browser coverage. Its
-[17 October report](../qa/test-results-final-20261017.md) records the tested
-`0df4068` product, and the [dev refresh report](../qa/test-results-dev-refresh-20261017.md)
+[17 October report](../qa/archive/test-results-final-20261017.md) records the tested
+`0df4068` product, and the [dev refresh report](../qa/archive/test-results-dev-refresh-20261017.md)
 records reconciliation with `972caee`. That dev update adds documentation; product
 code is unchanged. Suite counts belong to their dated executions and are not added
-together. The [meeting-area report](../qa/test-results-meeting-area-20261017.md)
+together. The [meeting-area report](../qa/archive/test-results-meeting-area-20261017.md)
 retains the subsequent `9cce973` baseline from PR #244. The
-[latest confirmation report](../qa/test-results-confirmation-20261017.md) records
+[latest confirmation report](../qa/archive/test-results-confirmation-20261017.md) records
 `8713b38d63ccb969dcc69a44a02f888fd65caa9a`, including the desktop layout update
 and PR #246. Fresh full component runs passed 610 shared and 619 per native
 preset. Confirmation now consumes a successfully read purchase snapshot; its
@@ -192,5 +192,5 @@ The [QA matrix](../qa/qa-matrix.md) links these results to the QA tasks.
 - A restricted Career Professional's profile hides the rating that Explore still shows.
 - [Native D10](../qa/device-acceptance.md) passed on both Expo Go simulator platforms on
   16 October (`cdcc44e`): review validation, refused submission/retry, duplicate control and
-  service/profile rating readbacks. The [automated advisory result](../qa/test-results-final-20261017.md)
+  service/profile rating readbacks. The [automated advisory result](../qa/archive/test-results-final-20261017.md)
   separately retains the missing neutral wording for an unrated professional.

@@ -4,7 +4,7 @@
 **Local branch:** `sprint3-qa`; added tests are an uncommitted overlay.
 Remote `dev` was rechecked at the end and still points to this product baseline.
 **Scope:** completed test cases on this baseline, prioritising US-09–13, plus
-existing merged regression. See the [23-task matrix](qa-matrix.md) and [test plan](test-plan.md).
+existing merged regression. See the [23-task matrix](../qa-matrix.md) and [test plan](../test-plan.md).
 
 ## Outcome
 
@@ -57,9 +57,9 @@ this exported-Web issue. The source forwards `accessibilityState`, which the
 installed React Native Web boundary does not translate into the expected DOM
 attributes. No product fix was made.
 
-Evidence: [ARIA observation](evidence/20261014/browser-defects-diagnosis-radio-state.json),
-[Web failures](evidence/20261014/browser-defects.json), and
-[`sprint3-accessibility.spec.ts`](../../../frontend/e2e/sprint3-accessibility.spec.ts).
+Evidence: [ARIA observation](../evidence/20261014/browser-defects-diagnosis-radio-state.json),
+[Web failures](../evidence/20261014/browser-defects.json), and
+[`sprint3-accessibility.spec.ts`](../../../../frontend/e2e/sprint3-accessibility.spec.ts).
 This case uses the existing advisory `@defect` group.
 
 ### S3-BE-SERVICE-HISTORY — editing a listing changes historical booking details
@@ -78,9 +78,9 @@ SQLite run exited 1 with the actual assertion failure; the normal narrow strict
 XFAIL catches only `KnownAcceptanceDefect`. A setup error still fails normally,
 and a future fix produces XPASS until the marker is reviewed/removed.
 
-Evidence: [PostgreSQL delta](evidence/20261014/backend-history-defect.xml),
-[unmasked failure](evidence/20261014/logs/backend-history-unmasked-sqlite.txt), and
-[`test_sprint3_service_history_qa.py`](../../../backend/tests/test_sprint3_service_history_qa.py).
+Evidence: [PostgreSQL delta](../evidence/20261014/backend-history-defect.xml),
+[unmasked failure](../evidence/20261014/logs/backend-history-unmasked-sqlite.txt), and
+[`test_sprint3_service_history_qa.py`](../../../../backend/tests/test_sprint3_service_history_qa.py).
 
 ### Diagnosis completion is still local to the frontend
 
@@ -93,7 +93,7 @@ baseline.
 
 This is recorded as an integration gap, not an assertion that a missing save
 must remain missing. The browser report attaches the observation without making
-404 a required regression outcome. [Original observation](evidence/20261014/browser-diagnosis-final-server-diagnosis-observation.json).
+404 a required regression outcome. [Original observation](../evidence/20261014/browser-diagnosis-final-server-diagnosis-observation.json).
 
 US-12/13 matching is client-side on this baseline. Review UI cases use mocked
 responses; the baseline has no review submission/aggregation endpoints.
@@ -119,16 +119,16 @@ coverage in the shared report; component/platform runs do not certify the OS
 storage lifecycle.
 
 These values cannot be compared directly with September's narrower source set.
-[Frontend per-file metrics](evidence/20261014/frontend-coverage.json) and
-[backend metrics/gaps](evidence/20261014/backend-coverage.json) retain the measured
+[Frontend per-file metrics](../evidence/20261014/frontend-coverage.json) and
+[backend metrics/gaps](../evidence/20261014/backend-coverage.json) retain the measured
 scope rather than presenting a single percentage as whole-story acceptance.
 
 ## Reproduction and provenance
 
-- Full procedures and expected outcomes: [test plan](test-plan.md).
+- Full procedures and expected outcomes: [test plan](../test-plan.md).
 - Exact per-run commands, source overlays, UTC start/end and exits:
-  [execution records](evidence/20261014/executions.json).
-- Selected original outputs and hashes: [evidence index](evidence/20261014/README.md).
+  [execution records](../evidence/20261014/executions.json).
+- Selected original outputs and hashes: [evidence index](../evidence/20261014/README.md).
 - Node 20 / npm 10, Python 3.12, locked frontend install; existing backend
   environment matched all applicable lockfile versions. Missing `colorama` and
   `greenlet` are excluded by this machine's platform markers.

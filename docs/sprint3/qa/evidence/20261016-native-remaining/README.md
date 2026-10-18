@@ -1,12 +1,12 @@
 # Remaining native cases evidence — 16 October 2026
 
-See the [report](../../test-results-native-remaining-20261016.md) for the
+See the [report](../../archive/test-results-native-remaining-20261016.md) for the
 completed cases from the 16 October Expo Go simulator/emulator execution.
 
 ## Scope and counting
 
 The selected **19 completed case/platform outcomes** are **11 PASS and 8 FAIL**.
-The [completed-case selection](../../completed-native-cases-20261016.json) records
+The [completed-case selection](../../archive/completed-native-cases-20261016.json) records
 exact case/platform identities and original source hashes. Counts use whole-case
 PASS/FAIL verdicts. Checkpoints are evidence for those cases, not additional cases.
 Android D09 remains FAIL because its Bookings false-empty checkpoint failed,

@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Sprint 3 Review & Client Feedback
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-3-Review-and-Client-Feedback
-  Wiki commit: fa8c5fc (2026-10-18)
+  Wiki commit: a76e9c0 (2026-10-18)
   Exported:    2026-10-18
 -->
 
@@ -51,7 +51,7 @@ Selected [Sprint 3 Planning actions](https://github.com/swen90014-2026-sm2/SWEN9
 | A5 | Agree the diagnosis entry options and rules with the client (RR-13, RR-14) | Open. Both remain open in [Requirements §8.2](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements#82-open); on 16 October Sam said he is rewriting the questions. |
 | A6 | Client demonstration of the diagnosis-to-booking slice before the sprint closes | Held 16 October; the diagnosis itself was explained, not shown live. |
 | A7 | Merge the back end and close each story once its QA evidence is recorded | Done. Back ends merged by 17 October, QA sub-issues closed 16 October, stories closed 18 October. |
-| A10 | Tag the Sprint 3 build, record the CI run on the tag, keep one current test-results page | Tag not created yet. The [QA evidence index][qa-readme] names one latest report and lists the others as historical. |
+| A10 | Tag the Sprint 3 build, record the CI run on the tag, keep one current test-results page | Partly. One current results page with the CI runs on the tested build and on `main` ([current results][qa-current]), and the dated reports moved into an archive, on 18 October. The build is not tagged, by decision. |
 
 ## 3. Delivery by story
 
@@ -178,7 +178,7 @@ QA Lead: Zhenyang. The latest edition was executed on 17 October 2026 against `d
 - Zhenyang's five supplementary confirmations (real email, password reset, provider payment and payout setup, offline recovery and Android photo-permission denial) are attributed separately and excluded from the totals.
 - The [17 October issue snapshot][qa-snapshot] recorded 23 closed QA tasks and 23 open parent stories. The parent stories were closed by the team on 18 October.
 
-QA files: [evidence index][qa-readme] · [latest report, 17 October][qa-latest] · [full review, 17 October][qa-final] · [meeting-area report, 17 October][qa-area] · [QA matrix][qa-matrix] · [test plan][qa-plan] · [native procedures][qa-device].
+QA files: [current results][qa-current] · [evidence index][qa-readme] · [latest report, 17 October][qa-latest] · [full review, 17 October][qa-final] · [meeting-area report, 17 October][qa-area] · [QA matrix][qa-matrix] · [test plan][qa-plan] · [native procedures][qa-device].
 
 ## 7. Known limitations and open items
 
@@ -265,14 +265,15 @@ Fifteen stories were not targeted this semester: Forum (US-14–22), order-linke
 [qa225]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/225
 [qa228]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/228
 [qa231]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/issues/231
+[qa-current]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/dev/docs/sprint3/qa/test-results.md
 [qa-readme]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/dev/docs/sprint3/qa/README.md
-[qa-latest]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/dev/docs/sprint3/qa/test-results-confirmation-20261017.md
-[qa-final]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/dev/docs/sprint3/qa/test-results-final-20261017.md
-[qa-area]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/dev/docs/sprint3/qa/test-results-meeting-area-20261017.md
+[qa-latest]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/dev/docs/sprint3/qa/archive/test-results-confirmation-20261017.md
+[qa-final]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/dev/docs/sprint3/qa/archive/test-results-final-20261017.md
+[qa-area]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/dev/docs/sprint3/qa/archive/test-results-meeting-area-20261017.md
 [qa-matrix]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/dev/docs/sprint3/qa/qa-matrix.md
 [qa-plan]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/dev/docs/sprint3/qa/test-plan.md
 [qa-device]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/dev/docs/sprint3/qa/device-acceptance.md
-[qa-snapshot]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/dev/docs/sprint3/qa/issue-snapshot-20261017.json
+[qa-snapshot]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/dev/docs/sprint3/qa/archive/issue-snapshot-20261017.json
 [doc-diagnosis]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/dev/docs/sprint3/backend/us09-us13-yoir-diagnosis.md
 [doc-fe]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/tree/dev/docs/sprint3/frontend
 [doc-be]: https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/tree/dev/docs/sprint3/backend

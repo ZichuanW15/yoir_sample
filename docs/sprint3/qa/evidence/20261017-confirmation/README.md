@@ -5,8 +5,8 @@ QA HEAD before the pending local merge: `424cf6537372d78aa35cf2b937a7696d4daaba8
 Owner: Wilson (`Zhouzhny`). Execution timezone: Australia/Melbourne; machine
 records use UTC.
 
-See the [human-readable report](../../test-results-confirmation-20261017.md)
-for scope, authoring corrections and results, and the [validation](../../confirmation-validation-20261017.json)
+See the [human-readable report](../../archive/test-results-confirmation-20261017.md)
+for scope, authoring corrections and results, and the [validation](../../archive/confirmation-validation-20261017.json)
 for repository/evidence checks.
 
 ## Results in this package

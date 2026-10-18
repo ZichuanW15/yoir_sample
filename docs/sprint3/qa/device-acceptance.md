@@ -5,16 +5,16 @@ results on **16 October 2026**, with product baseline
 `cdcc44e66d647a9c5993736b797312b495715a3f` and the recorded QA overlay.
 **Test owner: Wilson.**
 
-The [completed-case projection](completed-native-cases-20261016.json) records
+The [completed-case projection](archive/completed-native-cases-20261016.json) records
 **23 case/platform outcomes: 15 PASS and 8 FAIL** in the retained scope.
-The [first native report](test-results-native-20261016.md) contributes four
-D02/D03 passes. The [follow-up report](test-results-native-remaining-20261016.md)
+The [first native report](archive/test-results-native-20261016.md) contributes four
+D02/D03 passes. The [follow-up report](archive/test-results-native-remaining-20261016.md)
 contributes eleven passes and eight failures. This scoped summary counts the
 listed PASS/FAIL results; original execution artifacts retain their collected
 records. Repeated screenshots and API readbacks are supporting evidence rather
 than additional native cases.
 
-The [17 October automated report](test-results-final-20261017.md) records the
+The [17 October automated report](archive/test-results-final-20261017.md) records the
 later `dev@0df4068` API, component and browser executions. Native observations
 below remain attached to their 16 October source revision.
 

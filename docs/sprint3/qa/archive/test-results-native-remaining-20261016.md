@@ -32,7 +32,7 @@ to the original automated execution logs or counted as new case/platform runs.
 
 ## Scope and baseline
 
-The selected case outcomes follow the procedures in [device acceptance](device-acceptance.md).
+The selected case outcomes follow the procedures in [device acceptance](../device-acceptance.md).
 Android UI was operated through IntelliJ IDEA Running Devices; iOS through
 Xcode Device Hub. Results use actual UI observations, with independent API
 readbacks where persistence or ownership is asserted.
@@ -40,7 +40,7 @@ readbacks where persistence or ownership is asserted.
 Product baseline is `cdcc44e66d647a9c5993736b797312b495715a3f`, with the existing
 local QA overlay on `sprint3-qa`. API and Metro health checks returned 200 on
 owned ports 43189 and 8099; the service environment records 346 source hashes.
-[Final source verification](evidence/20261016-native-remaining/services/source-integrity-final.json)
+[Final source verification](../evidence/20261016-native-remaining/services/source-integrity-final.json)
 matched all 346 hashes with no differences. Product code was not changed to
 make an acceptance check pass. Service and network cleanup are recorded below.
 
@@ -50,7 +50,7 @@ Those results are preserved and are not counted again in this run.
 
 ## Environment and fixture boundary
 
-The [setup record](evidence/20261016-native-remaining/services/fixtures.json) declares
+The [setup record](../evidence/20261016-native-remaining/services/fixtures.json) declares
 separate iOS and Android accounts, services, bookings and availability windows.
 It explicitly labels payment, verification and completed-session states as
 fixtures. These are preconditions, not evidence that the native app created a
@@ -73,7 +73,7 @@ Read-only device metadata was collected at 23:14:51 UTC (10:14:51 AEDT):
 | iOS | iPhone 18 Pro simulator; iOS 27.0, runtime build 24A434 | Expo Go 57.0.9; Xcode Device Hub |
 | Android | emulator-5554, sdk_gphone64_arm64; Android 16 / API 36 | Expo Go 57.0.9, version code 444; IntelliJ IDEA Running Devices |
 
-[Device facts](evidence/20261016-native-remaining/device-final-facts.json) record the read-only command sources. It identifies
+[Device facts](../evidence/20261016-native-remaining/device-final-facts.json) record the read-only command sources. It identifies
 the devices at collection time. Restart/restoration observations are recorded
 in the native observation logs; a separate original process-lifecycle command
 log was not retained. Device metadata does not prove those earlier restarts.
@@ -115,7 +115,7 @@ and normal request records distinguish these 503 responses from genuine product
 | D13 / additional UI | Android | Resend duplicate control, receipt, payout-status display and notification fallback | FAIL |
 
 Selected recorded outcomes: **11 passed and 8 failed**. The original
-machine-readable [case ledger](evidence/20261016-native-remaining/case-ledger.json)
+machine-readable [case ledger](../evidence/20261016-native-remaining/case-ledger.json)
 and checkpoint evidence retain their archived contents.
 
 ## Recording rules
@@ -526,28 +526,28 @@ it is recorded separately from the named rating/delivery case outcomes.
 
 ## Evidence and closeout
 
-The [evidence package](evidence/20261016-native-remaining/README.md) contains
+The [evidence package](../evidence/20261016-native-remaining/README.md) contains
 106 root observations and 104 iOS observations, their original screenshots and
 available accessibility snapshots, the case/substep ledger, and the allowlisted
 service records. Root observations include the initial iOS onboarding failure;
 they are not all Android-only checkpoints and are not extra cases.
 
-[Final reconciliation](evidence/20261016-native-remaining/services/final-reconciliation.json)
+[Final reconciliation](../evidence/20261016-native-remaining/services/final-reconciliation.json)
 performed 14 fresh logins and the listed independent reads successfully. These
 API checks corroborate final stored state; they do not add native acceptance
-passes. [Service cleanup](evidence/20261016-native-remaining/services/cleanup.json)
+passes. [Service cleanup](../evidence/20261016-native-remaining/services/cleanup.json)
 records exit code 0 for the owned API, Metro and local navigation processes,
 released ports 43189/8099/43219, no remaining fault rules, and deletion of the
-owned temporary SQLite directory. [Network cleanup](evidence/20261016-native-remaining/device-network-cleanup.json)
+owned temporary SQLite directory. [Network cleanup](../evidence/20261016-native-remaining/device-network-cleanup.json)
 removed only the two matching Android reverse mappings and then observed an
 empty list. The original mapping-creation log was not retained; ownership is an
 explicit evidence-based inference in that record. Devices and applications were
 left running; network cleanup is not device shutdown.
 
-The [publication allowlist](evidence/20261016-native-remaining/services/publish-safety.json),
-[copy audit](evidence/20261016-native-remaining/copy-audit.json),
-[local validation](evidence/20261016-native-remaining/validation.json), and
-[SHA-256 manifest](evidence/20261016-native-remaining/manifest.json) distinguish
+The [publication allowlist](../evidence/20261016-native-remaining/services/publish-safety.json),
+[copy audit](../evidence/20261016-native-remaining/copy-audit.json),
+[local validation](../evidence/20261016-native-remaining/validation.json), and
+[SHA-256 manifest](../evidence/20261016-native-remaining/manifest.json) distinguish
 original evidence from this written assessment. Private credentials, live fault
 controls, executable harness scripts, navigation HTML and raw logs are excluded.
 Prior D02/D03 evidence is preserved separately. This report selects PASS/FAIL
