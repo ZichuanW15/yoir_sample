@@ -45,7 +45,7 @@ Fill in each row on the day it happens, with the date, the link or file name, an
 ## 3. The system at handover
 
 - **Scope delivered:** 43 active stories across accounts and profiles, the Yoir Diagnosis and direction, Career Professional verification and services, availability and booking, sandbox payment, bookings, reviews and ratings, and Platform Owner oversight. Sprint 3's 23 stories are listed with their evidence in the [Sprint 3 Review](client-feedback/sprint-3-review-and-client-feedback.md).
-- **Branches:** `dev` holds the current build; the last application change is commit `8713b38` (17 October 2026), and later commits are documentation only. `main` still holds the Sprint 2 release, because `main` is updated only after client and QA sign-off.
+- **Branches:** `dev` holds the current build; the last application change is commit `8713b38` (17 October 2026), and later commits are documentation only. `main` was brought up to date with `dev` on 18 October 2026 (PR #247), so both branches hold the Sprint 3 build.
 - **Not built this semester:** the Forum, order-linked messaging and disputes (Requirements RR-08, RR-20), live payouts and refunds outside Stripe test mode, in-app notifications (US-60, US-61), and App Store or Google Play release.
 - **Platforms:** one Expo codebase for iOS and Android, run in Expo Go during development. The web export is served by the back end for demonstrations, with a desktop layout at 1024 px and wider. There is no EAS build configuration yet.
 
