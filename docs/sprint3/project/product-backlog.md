@@ -8,7 +8,7 @@
 
 # Yoir Product Backlog
 
-**Updated 18 September 2026:** [Sprint 2 Review & Client Feedback](Sprint-2-Review-and-Client-Feedback) records the client's emails and the PO clarification that **US-09–13 Diagnosis/Triage and direction/matching were always planned for Sprint 3 and are its highest-priority development feature**. Sprint 2 captures feedback and refines requirements; this is not delayed Sprint 2 scope. IDs, estimates and the 43-story active scope are retained; no acceptance or Board-field changes are implied.
+**Updated 18 September 2026:** [Sprint 2 Review & Client Feedback](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Review-and-Client-Feedback) records the client's emails and the PO clarification that **US-09–13 Diagnosis/Triage and direction/matching were always planned for Sprint 3 and are its highest-priority development feature**. Sprint 2 captures feedback and refines requirements; this is not delayed Sprint 2 scope. IDs, estimates and the 43-story active scope are retained; no acceptance or Board-field changes are implied.
 
 ## 1. Product Goal
 
@@ -78,7 +78,7 @@ Backlog order is represented first by epic order and then by story order within 
 
 **Epic total:** 5 stories / estimates TBD
 
-**Source and detailed acceptance:** [Requirements §3](Requirements#3-priority-diagnosistriage-and-direction-requirements) records the six steps, workbook ranges, testable criteria and outstanding routing/ranking decisions. The workbook is a topic/question bank plus an overarching six-step flow, not a requirement to ask every user all 59 topic questions. See [source inventory](Sprint-2-Review-and-Client-Feedback#12-workbook-content-and-open-decisions).
+**Source and detailed acceptance:** [Requirements §3](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements#3-priority-diagnosistriage-and-direction-requirements) records the six steps, workbook ranges, testable criteria and outstanding routing/ranking decisions. The workbook is a topic/question bank plus an overarching six-step flow, not a requirement to ask every user all 59 topic questions. See [source inventory](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Review-and-Client-Feedback#12-workbook-content-and-open-decisions).
 
 ### Epic C - Privacy and User Profiles
 
@@ -203,7 +203,7 @@ At the end of Sprint 3 (18 October 2026) the issues for Forum (US-14–22), orde
 | `CLIENT-09` | **Client email E03** | Show qualifications, experience, skills/expertise, LinkedIn, languages and services before booking. | `US-30`, `US-31`–`US-32`, `US-46` |
 | `CLIENT-10` | **Client email E03; visual approval pending** | Refine the digital prototype and app typography/visuals towards Yoir branding using the pitch-night reference, then record PO/client review. This is not approval of a specific font, palette or final design. | Diagnosis, profile, Explore and booking journey |
 
-E02/E03 and source-version boundaries are documented in [Sprint 2 Review & Client Feedback](Sprint-2-Review-and-Client-Feedback). These emails do not expand the earlier payment scope or approve placeholder commission, refund, tax or payout settings in implementation documents.
+E02/E03 and source-version boundaries are documented in [Sprint 2 Review & Client Feedback](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Review-and-Client-Feedback). These emails do not expand the earlier payment scope or approve placeholder commission, refund, tax or payout settings in implementation documents.
 
 ### Cross-cutting acceptance for this feedback
 

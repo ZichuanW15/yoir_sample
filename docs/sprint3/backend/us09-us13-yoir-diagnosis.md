@@ -4,9 +4,9 @@ This document is the combined Sprint 3 delivery record for the Yoir Diagnosis jo
 the five parent user stories to their frontend, backend and test evidence without duplicating the
 layer-specific documentation.
 
-- Frontend detail: [US-09–13 frontend delivery](frontend/us09-us13-yoir-diagnosis.md)
-- Backend detail: [US-09–11 private progress API](backend/us09-us11-diagnosis.md)
-- Visual evidence: [Sprint 3 feature walkthrough](walkthrough/sprint-3-feature-walkthrough.md),
+- Frontend detail: [US-09–13 frontend delivery](../frontend/us09-us13-yoir-diagnosis.md)
+- Backend detail: [US-09–11 private progress API](us09-us11-diagnosis.md)
+- Visual evidence: [Sprint 3 feature walkthrough](../walkthrough/sprint-3-feature-walkthrough.md),
   screens 11–21
 
 ## Scope and traceability
@@ -72,23 +72,23 @@ discovery routes return only public, visibility-safe professional and service da
 
 Key implementation locations:
 
-- [`frontend/app/job-seeker/diagnosis.tsx`](../../frontend/app/job-seeker/diagnosis.tsx): diagnosis
+- [`frontend/app/job-seeker/diagnosis.tsx`](../../../frontend/app/job-seeker/diagnosis.tsx): diagnosis
   route and navigation into the result.
-- [`frontend/src/diagnosis/view.tsx`](../../frontend/src/diagnosis/view.tsx): state, validation,
+- [`frontend/src/diagnosis/view.tsx`](../../../frontend/src/diagnosis/view.tsx): state, validation,
   server-backed resume, direction card and matching presentation.
-- [`frontend/app/marketplace/index.tsx`](../../frontend/app/marketplace/index.tsx): Explore handoff,
+- [`frontend/app/marketplace/index.tsx`](../../../frontend/app/marketplace/index.tsx): Explore handoff,
   matching order and fit labels.
-- [`frontend/src/api/client.ts`](../../frontend/src/api/client.ts): typed diagnosis and discovery API
+- [`frontend/src/api/client.ts`](../../../frontend/src/api/client.ts): typed diagnosis and discovery API
   calls.
-- [`backend/app/routers/diagnosis.py`](../../backend/app/routers/diagnosis.py): private diagnosis,
+- [`backend/app/routers/diagnosis.py`](../../../backend/app/routers/diagnosis.py): private diagnosis,
   progress, direction and marketplace-criteria endpoints.
-- [`backend/app/diagnosis.py`](../../backend/app/diagnosis.py): questionnaire validation,
+- [`backend/app/diagnosis.py`](../../../backend/app/diagnosis.py): questionnaire validation,
   deterministic direction rules and keyword-weight matching.
-- [`backend/app/routers/services.py`](../../backend/app/routers/services.py): public professional and
+- [`backend/app/routers/services.py`](../../../backend/app/routers/services.py): public professional and
   service discovery.
-- [`backend/migrations/versions/0009_diagnosis_progress.py`](../../backend/migrations/versions/0009_diagnosis_progress.py):
+- [`backend/migrations/versions/0009_diagnosis_progress.py`](../../../backend/migrations/versions/0009_diagnosis_progress.py):
   persistent diagnosis records and account ownership constraint.
-- [`docs/sprint1/executable-architecture/openapi.yaml`](../sprint1/executable-architecture/openapi.yaml):
+- [`docs/sprint1/executable-architecture/openapi.yaml`](../../sprint1/executable-architecture/openapi.yaml):
   published API contract and requirement identifiers.
 
 ## Acceptance evidence by story
@@ -105,24 +105,24 @@ Key implementation locations:
 
 Backend coverage:
 
-- [`backend/tests/test_diagnosis.py`](../../backend/tests/test_diagnosis.py): start/resume, privacy,
+- [`backend/tests/test_diagnosis.py`](../../../backend/tests/test_diagnosis.py): start/resume, privacy,
   ordered saves, validation and revision conflicts.
-- [`backend/tests/test_diagnosis_direction.py`](../../backend/tests/test_diagnosis_direction.py):
+- [`backend/tests/test_diagnosis_direction.py`](../../../backend/tests/test_diagnosis_direction.py):
   completion guard and deterministic direction results.
-- [`backend/tests/test_diagnosis_marketplace_criteria.py`](../../backend/tests/test_diagnosis_marketplace_criteria.py):
+- [`backend/tests/test_diagnosis_marketplace_criteria.py`](../../../backend/tests/test_diagnosis_marketplace_criteria.py):
   translation from direction signals to supported Explore criteria.
-- [`backend/tests/test_diagnosis_contract.py`](../../backend/tests/test_diagnosis_contract.py): runtime
+- [`backend/tests/test_diagnosis_contract.py`](../../../backend/tests/test_diagnosis_contract.py): runtime
   and published-contract alignment.
-- [`backend/tests/test_diagnosis_migration.py`](../../backend/tests/test_diagnosis_migration.py):
+- [`backend/tests/test_diagnosis_migration.py`](../../../backend/tests/test_diagnosis_migration.py):
   migration and persistence behaviour.
 
 Frontend coverage:
 
-- [`frontend/__tests__/screens/diagnosis.test.tsx`](../../frontend/__tests__/screens/diagnosis.test.tsx):
+- [`frontend/__tests__/screens/diagnosis.test.tsx`](../../../frontend/__tests__/screens/diagnosis.test.tsx):
   creation, resume, confirmed progress, results, matching handoff and safe retakes.
-- [`frontend/__tests__/api/diagnosis-client.test.ts`](../../frontend/__tests__/api/diagnosis-client.test.ts):
+- [`frontend/__tests__/api/diagnosis-client.test.ts`](../../../frontend/__tests__/api/diagnosis-client.test.ts):
   authenticated request and response boundary.
-- [`frontend/e2e/web.spec.ts`](../../frontend/e2e/web.spec.ts): login-to-diagnosis journey in the web
+- [`frontend/e2e/web.spec.ts`](../../../frontend/e2e/web.spec.ts): login-to-diagnosis journey in the web
   application.
 
 ## Known limits
