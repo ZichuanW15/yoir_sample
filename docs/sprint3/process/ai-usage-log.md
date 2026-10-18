@@ -2,8 +2,8 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: AI Usage Log
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/AI-Usage-Log
-  Wiki commit: d6cf91f (2026-10-08)
-  Exported:    2026-10-08
+  Wiki commit: 23d05bc (2026-10-18)
+  Exported:    2026-10-18
 -->
 
 # AI Usage Log
@@ -33,6 +33,8 @@ Add a row to §3 with:
 
 ## 3. Log
 
+Wilson's 18 September entry was reconstructed on 8 October 2026 from the Codex conversation and linked project records.
+
 | Date | Member | Tool | Used for | Artefact | How the result was checked |
 |---|---|---|---|---|---|
 | Sprint 1, by 26 Aug | Team | Claude | Drafting commit messages and generating interface definitions | Discussed at the 26 Aug stand-up | Not recorded |
@@ -41,7 +43,12 @@ Add a row to §3 with:
 | 8 Sep 2026 | Jared | Codex | US-01 registration validation and contract on the back end | PR [#146](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/146), branch `codex/us01-registration-backend` | Not recorded |
 | 14 Sep 2026 | Evelyn | Claude (Sonnet model) | Fixing a test that re-queried a slot after it might have been deleted | Commit `f7fa624` | Part of the backend suite that passed in Application CI on the Sprint 2 tag |
 | 18 Sep 2026 | Jared | Codex | Transcribing the client's email screenshots, inspecting the diagnosis workbook read-only, organising the feedback and acceptance record, and drafting the linked requirement and story-map updates | [Sprint 2 Review & Client Feedback](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Review-and-Client-Feedback); [Requirements](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements); [Product Backlog](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Product-Backlog); [User Story Map](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/User-Story-Map) | Sources, story IDs and links checked during preparation; disclosure note on the review page |
+| 18 Sep 2026 | Wilson | Codex | Addressing PR review feedback: resolving the dev merge conflicts, migrating QA tests to the availability-window and booking contracts, correcting HTTP response mocks, and updating defect-report validation and evidence. | PR [#155](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/155); commit [`8aa2428`](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/commit/8aa24284dbbcf64a18e63b783cf43648574d75c6); [dev-sync validation report](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/8aa24284dbbcf64a18e63b783cf43648574d75c6/docs/sprint2/qa/dev-sync-review-20260918.md) | Fresh local runs recorded 564 PostgreSQL tests passed with 15 xfailed, 298 frontend tests passed, and passing typecheck/lint checks. Further browser, live-client and platform-component results are in the report. Hosted CI status was not verified during that work. |
 | 19 Sep 2026 | Evelyn | Codex | Inspecting the back-end models, schemas, routers, migrations, tests and CI metadata to draft the back-end story documents | `docs/sprint2/backend/us30-counsellor-profile.md`, `us34-us41-services-and-availability.md`, `us44-us46-marketplace-discovery.md` | Used to find mismatches, not to invent results; disclosure note in each document |
+| 4 Oct 2026 | Evelyn | Claude | Exploring possible approaches for implementing the Yoir Diagnosis, to understand the options before the team built it | No artefact (exploration only, no code committed) | Used for understanding only; the implementation was written and reviewed by the team |
+| 14–15 Oct 2026 | Evelyn | Claude | Help with the US-36 backend implementation (editing and withdrawing a service while preserving existing order data) | US-36 backend sub-issue #200 | Reviewed and tested by me before committing |
+| 17 Oct 2026 | Evelyn | Claude Code (Claude Opus 5.5) | US-36 fixes found during review: freezing the service title in booking emails and the in-person meeting area on orders (backend), and showing the booked title and area on the confirmation screen (frontend); with tests and the US-36 document | PRs #243, #244, #246 | New tests failed before each fix and passed after; full backend and affected frontend tests passed locally; CI passed |
+
 
 ## 4. Gaps in this record
 
