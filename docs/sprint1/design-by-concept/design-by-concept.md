@@ -1,6 +1,6 @@
 # Design by Concept: Yoir
 
-Team CSD-Koala · SWEN90014 Semester 2, 2026 · First written in Sprint 1 · Updated 8 October 2026 to match the build
+Team CSD-Koala · SWEN90014 Semester 2, 2026 · First written in Sprint 1 · Updated 8 October 2026 and 18 October 2026 to match the build
 
 This document explains the architecture drawn in
 [`design-by-concept.drawio`](design-by-concept.drawio)
@@ -25,6 +25,8 @@ component with a status:
 - **Deferred** (grey box): outside the active 43-story scope
   ([Requirements](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements), RR-08).
 - **Payment path** (purple box): built components on the Stripe path.
+
+On 18 October 2026, at the end of Sprint 3, the statuses were checked again against `dev` (code at commit `8713b38`). The diagnosis, reviews and ratings, privacy settings, reschedule and the additional-investigation outcome are now built, and the diagram and the reuse plan (§8) mark them so.
 
 | Area | Sprint 1 design | Built |
 |---|---|---|
@@ -151,7 +153,7 @@ Uvicorn serves the FastAPI application on FastAPI Cloud. Inside:
   Alembic migrations applied at startup, the published OpenAPI schema,
   standard-library logging, and an in-process periodic job that releases lapsed
   holds, completes sessions and pays Career Professionals.
-- **Data models**: SQLAlchemy 2.0 mappings for nine tables. The as-built tables
+- **Data models**: SQLAlchemy 2.0 mappings for eleven tables. The as-built tables
   and the design are in
   [`database-schema.md`](database-schema.md).
 
@@ -368,7 +370,7 @@ routing and the ORM. Build the rules specific to Yoir: booking holds, order stat
 Career Professional verification, and role and ownership checks. When a library provides
 the mechanism and Yoir supplies the rules, the component is a **mix**.
 
-**Status** is checked against `dev` at commit `4f579d3` on 8 October 2026.
+**Status** is checked against `dev` at commit `8713b38` on 18 October 2026.
 *Implemented* means in code and tested; *Partial* means some of it is in code;
 *Planned* means it is in the active backlog but not built; *Deferred* means it is
 outside the active 43-story scope.
@@ -377,7 +379,7 @@ outside the active 43-story scope.
 
 | Component | Decision | Reused | Built by the team | Why this is cost-effective | Serves | Status |
 |---|---|---|---|---|---|---|
-| App shell and navigation | Mix | Handover Expo scaffold as the project base, upgraded to Expo SDK 57; React Native; `expo-router`; React Navigation | All screens, the role gate (`AuthContext`), route layout | One codebase covers iOS and Android with two frontend developers. Routing and native bridging are solved problems; screens and role rules are specific to Yoir | `CLIENT-04`, `NFR-02` | Implemented for accounts, Explore, booking and checkout, the Career Professional workspace and payouts, and the Platform Owner screens. In progress: the diagnosis (answers stay on the device until PR #233), reviews and reschedule |
+| App shell and navigation | Mix | Handover Expo scaffold as the project base, upgraded to Expo SDK 57; React Native; `expo-router`; React Navigation | All screens, the role gate (`AuthContext`), route layout | One codebase covers iOS and Android with two frontend developers. Routing and native bridging are solved problems; screens and role rules are specific to Yoir | `CLIENT-04`, `NFR-02` | Implemented for accounts, the diagnosis, Explore, booking, checkout and reschedule, privacy and reviews, the Career Professional workspace and payouts, and the Platform Owner screens. A desktop layout for wide screens was added to the web build on 17 October |
 | UI components and theme | Mix | `@expo/vector-icons`, `react-native-svg`, `expo-linear-gradient`, Google Fonts | Button, form field, notice and screen components; theme tokens; motion | The screen set is small and follows the baseline prototypes. A full component library would need its theming overridden on most screens | `NFR-01`, `NFR-03` | Implemented |
 | API client | Built now, mix planned | Platform `fetch`, TypeScript | Typed client (`src/api/client.ts`) and error mapping. The Sprint 1 in-memory demo API has been removed | Hand-writing was quicker while the contract kept changing. Generating types from `openapi.yaml` with `openapi-typescript` pays off now that the contract has 67 operations | `NFR-07` | Hand-written client implemented; generation planned |
 
@@ -388,11 +390,11 @@ outside the active 43-story scope.
 | HTTP API layer | Mix | FastAPI, Uvicorn, Pydantic v2, `pydantic-settings`, `email-validator`, FastAPI's OpenAPI generation | Ten routers (auth, services, bookings, counsellor, job seeker, profile, admin, payments, webhooks, health), schemas, the error envelope | Validation and a live OpenAPI schema come with the framework, so the team writes only Yoir's endpoints | `NFR-05`, `NFR-07` | Implemented |
 | Domain services | Built | Nothing; these are Yoir's business rules | Booking, order, verification and ownership rules, testable without HTTP | No library holds these rules, and keeping them out of routers makes them cheap to unit test | `NFR-05`, `NFR-06` | Partial: availability, payments, meetings and mail are separate modules; order and booking rules still sit in the routers |
 | Authentication and sessions | Mix | `argon2-cffi` (Argon2id, RFC 9106 profile), PyJWT | Token issue and verification, revocation at logout, role guards | Password hashing and token signing should never be hand-written. A hosted identity service would add another external account and boundary for what two libraries already cover | `US-01`–`US-08`, `US-70`, `NFR-04` | Implemented, including email verification and password reset |
-| Data models | Mix | SQLAlchemy 2.0, `psycopg2` | Table mappings, seed data | The ORM is commodity; the schema is Yoir's | `database-schema.md` | Partial: nine tables built (`users`, `services`, `availability_windows`, `orders`, `bookings`, `processed_webhook_events`, `refresh_tokens`, `single_use_tokens`, `revoked_tokens`). Review and diagnosis tables are planned; messaging, dispute and forum tables are deferred |
-| Schema migrations | Reused | Alembic | Migration scripts only | A migration tool is commodity, so building one would be wasted effort | Deployed database | Implemented: eight Alembic revisions, applied at startup |
+| Data models | Mix | SQLAlchemy 2.0, `psycopg2` | Table mappings, seed data | The ORM is commodity; the schema is Yoir's | `database-schema.md` | Implemented: eleven tables (`users`, `services`, `availability_windows`, `orders`, `bookings`, `diagnoses`, `reviews`, `processed_webhook_events`, `refresh_tokens`, `single_use_tokens`, `revoked_tokens`). Messaging, dispute and forum tables are deferred |
+| Schema migrations | Reused | Alembic | Migration scripts only | A migration tool is commodity, so building one would be wasted effort | Deployed database | Implemented: twelve Alembic revisions, applied at startup |
 | Concurrency control | Mix | PostgreSQL 16 row locks | The Career Professional row lock and the overlap check in the booking transaction | The database already handles concurrent writes correctly. Redis or a distributed lock adds infrastructure without a stronger guarantee (§7) | `US-41`, `NFR-06` | Implemented: row lock, proven by a concurrent PostgreSQL test. The database `EXCLUDE` constraint is planned; its absence is a strict expected-failure test (§4) |
 | Order-linked messaging | Mix | PostgreSQL, HTTP polling | Conversation storage, `?since=` polling, the closed-conversation rule | Polling avoids running WebSocket infrastructure for two-person text chat (§7) | `US-49`, `US-50`, `US-62`, `US-63` | Deferred (Requirements RR-08) |
-| Diagnosis and direction | Built | Nothing at runtime; the content is the client's `Yoir Diagnosis.xlsx` | The six-step flow, saved answers, the direction rules and the hand-off into Explore | These are Yoir's own rules; no library holds them | `US-09`–`US-13` | Partial: front end merged, with answers kept on the device; back-end persistence in PR #233; direction rules await client approval (Requirements RR-13, RR-14) |
+| Diagnosis and direction | Built | Nothing at runtime; the content is the client's `Yoir Diagnosis.xlsx` | The six-step flow, saved answers, the direction rules and the hand-off into Explore | These are Yoir's own rules; no library holds them | `US-09`–`US-13` | Implemented: saved answers (PR #233), the direction and Explore criteria (PR #236), connected end to end (PR #242). The questions and direction rules are the team's version 1 and await client approval (Requirements RR-13, RR-14) |
 
 ### External boundaries
 
@@ -401,7 +403,7 @@ outside the active 43-story scope.
 | Payments | Mix | Stripe test mode: PaymentIntents, PaymentSheet (`@stripe/stripe-react-native`), Stripe Elements on the web build, webhooks, Stripe Connect | One gateway module (`app/payments/gateway.py`), the amount split, the order and booking states, idempotent webhook handling, the hold-release and payout jobs, a labelled stub for deployments without keys | Card handling must be reused so card data never reaches Yoir; only the booking-side rules are ours. One gateway module makes live keys a configuration change | `US-47`, `US-48`, `NFR-04`, `NFR-06`, `R-03`, `R-05` | Implemented in test mode |
 | Transactional email | Mix | Mailgun | A send adapter that logs instead of sending when no key is set; verification, password-reset, booking and verification-decision messages | Deliverability (spam filtering, retries) is not worth building | `US-70`, `US-68`, `US-58` | Implemented |
 | Object storage | Mix | S3-compatible storage (provider unconfirmed, §10 item 4); `expo-image-picker` on the device | Upload endpoint, ownership checks, image references on profiles and services | Keeping files outside the database is cheap and standard; the access rules are Yoir's | Profile and service images | Deferred: no storage integrated. Photos are a URL or an inline data URI on the user row, chosen with `expo-image-picker` |
-| Career Professional verification | Built | Nothing at runtime | LinkedIn URL submission and the Platform Owner review queue | LinkedIn's API does not return what verification needs (`R-01`); manual review needs no integration | `US-31`–`US-33`, `US-58`, `CLIENT-01` | Implemented for submission, status and the Platform Owner decision (`US-31`, `US-32`, `US-58`); the additional-investigation outcome (`US-33`) is in progress |
+| Career Professional verification | Built | Nothing at runtime | LinkedIn URL submission and the Platform Owner review queue | LinkedIn's API does not return what verification needs (`R-01`); manual review needs no integration | `US-31`–`US-33`, `US-58`, `CLIENT-01` | Implemented for submission, status, the Platform Owner decision and the additional-investigation outcome (`US-31`–`US-33`, `US-58`) |
 | Online session delivery | Reused | Jitsi Meet rooms by default, or the Career Professional's own Zoom / Google Meet link | Creating and storing the link when a booking is confirmed; the in-person meeting address | Built-in video is out of scope (baseline §7.2) | `US-43` | Implemented |
 
 ### Build, deploy and quality

@@ -1,11 +1,11 @@
-<mxfile host="app.diagrams.net" modified="2026-10-08T00:00:00.000Z" agent="Team CSD-Koala" version="24.7.17" type="device">
+<mxfile host="app.diagrams.net" modified="2026-10-18T00:00:00.000Z" agent="Team CSD-Koala" version="24.7.17" type="device">
   <diagram id="yoir-exec-arch" name="Executable Architecture">
     <mxGraphModel dx="2250" dy="1880" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="2250" pageHeight="1880" math="0" shadow="0">
       <root>
         <mxCell id="0" />
         <mxCell id="1" parent="0" />
         <!-- ============ TITLE / DEPLOYMENT ANNOTATIONS ============ -->
-        <mxCell id="title" value="Yoir — Executable Architecture&#10;Team CSD-Koala · SWEN90014 · updated 8 Oct 2026 (Sprint 3)" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=22;fontStyle=1;" vertex="1" parent="1">
+        <mxCell id="title" value="Yoir — Executable Architecture&#10;Team CSD-Koala · SWEN90014 · updated 18 Oct 2026 (end of Sprint 3)" style="text;html=1;whiteSpace=wrap;align=left;verticalAlign=middle;fontSize=22;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="40" y="20" width="700" height="60" as="geometry" />
         </mxCell>
         <mxCell id="device" value="iOS / Android app (Expo)&#10;web export served by the API for demos&#10;TestFlight / Play internal testing planned" style="rounded=1;whiteSpace=wrap;html=1;fontSize=13;fontStyle=1;fillColor=#f5f5f5;strokeColor=#333333;dashed=1;" vertex="1" parent="1">
@@ -92,13 +92,13 @@
         <mxCell id="gB5" value="Order chat (US-50, US-62)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fillColor=#eeeeee;strokeColor=#b0b0b0;fontColor=#9e9e9e;dashed=1;dashPattern=2 2;" vertex="1" parent="1">
           <mxGeometry x="490" y="872" width="370" height="28" as="geometry" />
         </mxCell>
-        <mxCell id="gB6" value="Submit review (US-53)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fffaf0;strokeColor=#e08a00;dashed=1;dashPattern=6 3;strokeWidth=1.5;" vertex="1" parent="1">
+        <mxCell id="gB6" value="Submit review (US-53)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffffff;strokeColor=#7f7f7f;" vertex="1" parent="1">
           <mxGeometry x="490" y="838" width="370" height="28" as="geometry" />
         </mxCell>
         <mxCell id="gB7" value="Raise dispute (US-51)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fillColor=#eeeeee;strokeColor=#b0b0b0;fontColor=#9e9e9e;dashed=1;dashPattern=2 2;" vertex="1" parent="1">
           <mxGeometry x="490" y="906" width="370" height="28" as="geometry" />
         </mxCell>
-        <mxCell id="gB8" value="Privacy settings (US-27) · enforced on profiles (US-28)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fffaf0;strokeColor=#e08a00;dashed=1;dashPattern=6 3;strokeWidth=1.5;" vertex="1" parent="1">
+        <mxCell id="gB8" value="Privacy settings (US-27) · enforced on profiles (US-28)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffffff;strokeColor=#7f7f7f;" vertex="1" parent="1">
           <mxGeometry x="490" y="804" width="370" height="28" as="geometry" />
         </mxCell>
         <mxCell id="gC" value="Career Professional screens" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=12;fontStyle=1;fillColor=none;strokeColor=#333333;spacingTop=4;" vertex="1" parent="1">
@@ -168,7 +168,7 @@
         <mxCell id="ep7" value="/orders/{id}/messages — poll ?since=" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#eeeeee;strokeColor=#b0b0b0;fontColor=#9e9e9e;dashed=1;dashPattern=2 2;" vertex="1" parent="1">
           <mxGeometry x="1255" y="608" width="220" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="ep8" value="/reviews — submit, aggregate" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fffaf0;strokeColor=#e08a00;dashed=1;dashPattern=6 3;strokeWidth=1.5;" vertex="1" parent="1">
+        <mxCell id="ep8" value="/reviews — submit, aggregate" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffff;strokeColor=#7f7f7f;" vertex="1" parent="1">
           <mxGeometry x="1255" y="544" width="220" height="26" as="geometry" />
         </mxCell>
         <mxCell id="ep9" value="/admin — verifications, payments, users" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffff;strokeColor=#7f7f7f;" vertex="1" parent="1">
@@ -198,7 +198,7 @@
         <mxCell id="sv6" value="order + booking rules, still in routers" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fffaf0;strokeColor=#e08a00;dashed=1;dashPattern=6 3;strokeWidth=1.5;" vertex="1" parent="1">
           <mxGeometry x="1525" y="480" width="220" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="sv7" value="rating aggregation (US-54, US-55)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fffaf0;strokeColor=#e08a00;dashed=1;dashPattern=6 3;strokeWidth=1.5;" vertex="1" parent="1">
+        <mxCell id="sv7" value="rating aggregation (US-54, US-55)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffff;strokeColor=#7f7f7f;" vertex="1" parent="1">
           <mxGeometry x="1525" y="512" width="220" height="26" as="geometry" />
         </mxCell>
         <mxCell id="gXC" value="Cross-cutting" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=top;fontSize=12;fontStyle=1;fillColor=none;strokeColor=#333333;spacingTop=4;" vertex="1" parent="1">
@@ -246,10 +246,10 @@
         <mxCell id="dm7" value="Refresh / single-use / revoked tokens" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffff;strokeColor=#7f7f7f;" vertex="1" parent="1">
           <mxGeometry x="1255" y="922" width="220" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="dm8" value="Diagnosis answers (PR #233)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fffaf0;strokeColor=#e08a00;dashed=1;dashPattern=6 3;strokeWidth=1.5;" vertex="1" parent="1">
+        <mxCell id="dm8" value="Diagnosis answers" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffff;strokeColor=#7f7f7f;" vertex="1" parent="1">
           <mxGeometry x="1255" y="954" width="220" height="26" as="geometry" />
         </mxCell>
-        <mxCell id="dm9" value="Review (rating, comment)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fffaf0;strokeColor=#e08a00;dashed=1;dashPattern=6 3;strokeWidth=1.5;" vertex="1" parent="1">
+        <mxCell id="dm9" value="Review (rating, comment)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffff;strokeColor=#7f7f7f;" vertex="1" parent="1">
           <mxGeometry x="1255" y="986" width="220" height="26" as="geometry" />
         </mxCell>
         <mxCell id="dm10" value="Conversation / Message" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#eeeeee;strokeColor=#b0b0b0;fontColor=#9e9e9e;dashed=1;dashPattern=2 2;" vertex="1" parent="1">
@@ -354,7 +354,7 @@
         <mxCell id="e_be_x6" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=classic;endFill=1;dashed=1;exitX=1;exitY=0.97;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;strokeColor=#b0b0b0;" edge="1" parent="1" source="colBE" target="x6">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="legend" value="&lt;b&gt;Legend&lt;/b&gt; — status on &lt;i&gt;dev&lt;/i&gt;, 8 Oct 2026" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#ffffff;strokeColor=#000000;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
+        <mxCell id="legend" value="&lt;b&gt;Legend&lt;/b&gt; — status on &lt;i&gt;dev&lt;/i&gt;, 18 Oct 2026" style="rounded=1;whiteSpace=wrap;html=1;fontSize=12;fillColor=#ffffff;strokeColor=#000000;align=left;verticalAlign=top;spacing=8;" vertex="1" parent="1">
           <mxGeometry x="820" y="18" width="450" height="150" as="geometry" />
         </mxCell>
         <mxCell id="lgB" value="Built" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffffff;strokeColor=#7f7f7f;" vertex="1" parent="1">
@@ -381,25 +381,25 @@
         <mxCell id="lgPt" value="built, on the Stripe path" style="text;html=1;align=left;verticalAlign=middle;fontSize=11;" vertex="1" parent="1">
           <mxGeometry x="965" y="134" width="295" height="24" as="geometry" />
         </mxCell>
-        <mxCell id="gB0" value="Yoir Diagnosis → Direction (US-09 – US-13)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fffaf0;strokeColor=#e08a00;dashed=1;dashPattern=6 3;strokeWidth=1.5;" vertex="1" parent="1">
+        <mxCell id="gB0" value="Yoir Diagnosis → Direction (US-09 – US-13)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffffff;strokeColor=#7f7f7f;" vertex="1" parent="1">
           <mxGeometry x="490" y="566" width="370" height="28" as="geometry" />
         </mxCell>
         <mxCell id="gB10" value="Job Seeker profile (US-29)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffffff;strokeColor=#7f7f7f;" vertex="1" parent="1">
           <mxGeometry x="490" y="600" width="370" height="28" as="geometry" />
         </mxCell>
-        <mxCell id="gB9" value="Reschedule a booking (US-69)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fffaf0;strokeColor=#e08a00;dashed=1;dashPattern=6 3;strokeWidth=1.5;" vertex="1" parent="1">
+        <mxCell id="gB9" value="Reschedule a booking (US-69)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffffff;strokeColor=#7f7f7f;" vertex="1" parent="1">
           <mxGeometry x="490" y="770" width="370" height="28" as="geometry" />
         </mxCell>
         <mxCell id="gC8" value="Payouts — Stripe Connect onboarding, tax details" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ede7f6;strokeColor=#635BFF;fontStyle=1;" vertex="1" parent="1">
           <mxGeometry x="490" y="1162" width="370" height="28" as="geometry" />
         </mxCell>
-        <mxCell id="gD5" value="Additional investigation outcome (US-33)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fillColor=#fffaf0;strokeColor=#e08a00;dashed=1;dashPattern=6 3;strokeWidth=1.5;" vertex="1" parent="1">
+        <mxCell id="gD5" value="Additional investigation outcome (US-33)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffffff;strokeColor=#7f7f7f;" vertex="1" parent="1">
           <mxGeometry x="490" y="1350" width="370" height="28" as="geometry" />
         </mxCell>
         <mxCell id="gD4" value="Users — Job Seekers and Career Professionals (US-71)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=11;fillColor=#ffffff;strokeColor=#7f7f7f;" vertex="1" parent="1">
           <mxGeometry x="490" y="1418" width="370" height="28" as="geometry" />
         </mxCell>
-        <mxCell id="ep11" value="/me/diagnosis — answers (PR #233)" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#fffaf0;strokeColor=#e08a00;dashed=1;dashPattern=6 3;strokeWidth=1.5;" vertex="1" parent="1">
+        <mxCell id="ep11" value="/me/diagnosis — answers" style="rounded=0;whiteSpace=wrap;html=1;fontSize=10;fillColor=#ffffff;strokeColor=#7f7f7f;" vertex="1" parent="1">
           <mxGeometry x="1255" y="512" width="220" height="26" as="geometry" />
         </mxCell>
       </root>

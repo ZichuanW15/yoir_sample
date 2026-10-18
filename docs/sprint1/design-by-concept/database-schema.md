@@ -11,6 +11,8 @@ flow describe the built mechanism; the other sections keep the Sprint 1 design
 for tables that are planned or deferred. See
 [Changes on 8 October 2026](#changes-on-8-october-2026) for what moved and why.
 
+**Updated 18 October 2026, end of Sprint 3.** The build on `dev` now has eleven tables (Alembic revisions `0001`–`0012`). Sprint 3 added `diagnoses` (`0009`, US-09–US-13) and `reviews` (`0010`, US-53–US-55), and froze the service title (`0011`) and the in-person meeting area (`0012`) on `orders` so a purchase keeps what was bought (US-36). Reschedule (US-69) is built on the existing tables. The tables and statuses below are current at 18 October.
+
 ## Schema as built
 
 | Table | Purpose | Key fields |
@@ -18,14 +20,16 @@ for tables that are planned or deferred. See
 | `users` | Every account in one wide table distinguished by `role`, with the Career Professional's profile, verification and Stripe Connect fields | email (unique), password_hash, role, email_verified_at, sessions_invalidated_at, profile_visibility, photo_url, qualifications / expertise / languages (JSON), base_location_state/city, default_modality, verification_status, overall_rating, review_count, stripe_account_id, payouts_enabled, abn, gst_registered |
 | `services` | Services a Career Professional sells | counsellor_id, title, description, price_minor, currency, duration_minutes, modalities (JSON), location_state/city, meeting_url, active, average_rating, review_count |
 | `availability_windows` | Spans of a Career Professional's time open for booking | counsellor_id, starts_at, ends_at, modalities |
-| `orders` | A checkout: the held time and the amount split, frozen at booking | job_seeker_id, service_id, window_id, starts_at, ends_at, status, payment_status, hold_expires_at, payment_intent_id (unique), amount_minor, platform_fee_minor, counsellor_payout_minor, pre_session_brief |
+| `orders` | A checkout: the held time and the amount split, frozen at booking | job_seeker_id, service_id, window_id, starts_at, ends_at, status, payment_status, hold_expires_at, payment_intent_id (unique), amount_minor, platform_fee_minor, counsellor_payout_minor, pre_session_brief, service_title, meeting_area |
+| `diagnoses` | One Yoir Diagnosis per Job Seeker | job_seeker_id (unique), questionnaire_version, answers (JSON), revision, created_at, updated_at |
+| `reviews` | A buyer's rating and comment for a completed session | booking_id (unique), order_id, service_id, counsellor_id, job_seeker_id, rating, comment, created_at |
 | `bookings` | A confirmed session, created from a paid order | order_id (unique), service_id, window_id, job_seeker_id, counsellor_id, starts_at, ends_at, status, meeting_url, meeting_address, transfer_id (unique), refunded_minor, flagged_for_review |
 | `processed_webhook_events` | Stripe webhook events already handled | event_id (primary key), event_type, processed_at |
 | `refresh_tokens` | Refresh tokens, rotated on every use | token_digest (primary key), family_id, user_id, expires_at, used_at, revoked_at |
 | `single_use_tokens` | Email-verification and password-reset links | token_digest (primary key), user_id, purpose, expires_at, used_at |
 | `revoked_tokens` | Access tokens revoked at logout | token_digest (primary key), expires_at, revoked_at |
 
-| Sprint 1 design | Status on 8 October 2026 |
+| Sprint 1 design | Status on 18 October 2026 |
 |---|---|
 | `users` | Built, with profile, verification and Stripe Connect fields added |
 | `services` | Built. Prices are in minor units; a `modalities` list replaces `modality` |
@@ -34,11 +38,11 @@ for tables that are planned or deferred. See
 | `payment_events` | Replaced by `processed_webhook_events`; the PaymentIntent id lives on `orders` |
 | `password_reset_tokens` | Built as `single_use_tokens`, which also holds email-verification links |
 | `refresh_tokens` | Built; `revoked_tokens` added for access tokens revoked at logout |
-| `reviews` | Planned (US-53–US-55, Sprint 3) |
+| `reviews` | Built in Sprint 3 (`0010_reviews`, US-53–US-55). One review per booking (`UNIQUE (booking_id)`) rather than per order. The service and Career Professional ratings are recomputed in application code (`backend/app/reviews.py`) on each review, not by a database trigger |
 | `messages` | Deferred (Requirements RR-08) |
 | `disputes` | Deferred (RR-08). A Stripe chargeback flags the booking for Platform Owner review instead (`bookings.flagged_for_review`) |
 | `forum_posts`, `forum_replies`, `forum_likes` | Deferred (RR-08) |
-| Diagnosis answers (not in the Sprint 1 design) | Planned: PR #233 adds diagnosis persistence for US-09–US-11 |
+| Diagnosis answers (not in the Sprint 1 design) | Built as `diagnoses` (`0009_diagnosis_progress`, PR #233): one record per Job Seeker with versioned answers and a revision number that rejects a stale save. The direction and Explore criteria (US-12, US-13) are computed from it and not stored |
 
 ## Schema as designed in Sprint 1
 
@@ -332,6 +336,9 @@ For each major action, which table gets read and which gets written, in order.
 
 **Reschedule a booking** (`US-69`, planned; to be re-specified against
 availability windows and the row lock above)
+
+*As built in Sprint 3:* `POST /bookings/{bookingId}/reschedule` locks the booking row, then the Career Professional's row (the same lock as booking), checks the new time against the availability windows and the other bookings, and moves the same order and booking in place in one transaction. No new order is created and no payment is retaken; a time taken by someone else returns `SLOT_UNAVAILABLE` and the original booking is unchanged. The Sprint 1 steps below assumed slot rows, which the build replaced with availability windows.
+
 1. Read the order; confirm the requester is a participant and the booking is
    eligible
 2. In one transaction: lock and claim the new slot, set
@@ -353,6 +360,8 @@ availability windows and the row lock above)
 3. Trigger fires automatically: updates `services.avg_rating`/`review_count`
    (matched on `service_id`) and `users.avg_rating`/`review_count`
    (matched on `counsellor_id`) — no separate write from the application
+
+*As built in Sprint 3:* the review is accepted only from the buyer of a completed or paid-out booking, `UNIQUE (booking_id)` rejects a second review, and the application recomputes both ratings in the same transaction instead of a trigger.
 
 **Post / reply / like in the forum**
 1. Insert into `forum_posts` (author_id, category, title, content) — app
