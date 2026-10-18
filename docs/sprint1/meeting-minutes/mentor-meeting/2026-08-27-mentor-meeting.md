@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Mentor Communication Log
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Mentor-Communication-Log
-  Wiki commit: 28ebead (2026-09-18)
+  Wiki commit: 8fa8c88 (2026-10-18)
   Exported:    2026-09-18
 -->
 
@@ -37,14 +37,14 @@
 
 | Action | Owner | Due | Status |
 | --- | --- | --- | --- |
-| Refine the project board and streamline documents for the Sprint 1 submission | Manu | 30 Aug 2026 | Open |
+| Refine the project board and streamline documents for the Sprint 1 submission | Manu | 30 Aug 2026 | Closed |
 | Upload the PDF version of the client meeting minutes to the main branch | Jared | End of week | Closed |
-| Refine the product backlog | Jared | End of week | Open |
-| Complete the executable architecture and database schema documents | Evelyn | Before Friday class, 28 Aug 2026 | Open |
-| Apply formatting changes to the executable architecture diagram | Jashan | Before next stand-up | Open |
-| Modify the UI screens to fit mobile app requirements and document them in the requirements | Ariz |  | Open |
-| Review the architecture documents and prepare success and failure test cases | Wilson |  | Open |
-| Verify and modify the front-end screens against the requirements | James |  | Open |
+| Refine the product backlog | Jared | End of week | Closed |
+| Complete the executable architecture and database schema documents | Evelyn | Before Friday class, 28 Aug 2026 | Closed |
+| Apply formatting changes to the executable architecture diagram | Jashan | Before next stand-up | Closed |
+| Modify the UI screens to fit mobile app requirements and document them in the requirements | Ariz |  | Closed |
+| Review the architecture documents and prepare success and failure test cases | Wilson |  | Closed |
+| Verify and modify the front-end screens against the requirements | James |  | Closed |
 | Confirm the executable architecture requirements with the teaching team | Erfan | After Friday class, 28 Aug 2026 | Closed |
 | CC Erfan on all emails to the supervisor and client | All | Ongoing | Closed |
 | Prepare for the oral interview | All | Next stand-up | Closed |

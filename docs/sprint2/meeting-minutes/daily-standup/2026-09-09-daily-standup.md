@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Daily Standups
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Daily-Standups
-  Wiki commit: 1144d7e (2026-09-16)
+  Wiki commit: 8fa8c88 (2026-10-18)
   Exported:    2026-09-18
 -->
 
@@ -45,17 +45,17 @@
 
 | Action | Owner | Due | Status |
 |---|---|---|---|
-| Send the When2Meet link in Slack for the client demo meeting | Manushresth |  | Open |
-| Work on US-47 (payment) and US-68 | Jashan |  | Open |
-| Set up SMTP configuration for the email functionality | Jashan |  | Open |
-| Resolve the serverless Postgres connection drop after 5 minutes of inactivity | Jashan |  | Open |
-| Continue work on US-06, US-07 and US-08 | Jared |  | Open |
-| Fix the branch naming convention on pull requests | Jared |  | Open |
-| Discuss MVP scope and timeline with Erfan before sending the client email | Jared | Supervisor meeting, 10-9-2026 | Open |
-| Review Jared's pull request | Evelyn |  | Open |
-| Continue register functionality for counsellors | Evelyn |  | Open |
-| Add edit and delete course functionality to the counsellor dashboard | James (WZC) |  | Open |
-| Prepare tests once frontend and backend features are complete | Zhenyang |  | Open |
-| Pull the latest dev branch code before starting new work | All |  | Open |
-| Add reviewers to pull requests for visibility | All |  | Open |
-| Schedule the client demo meeting to show Sprint 2 progress | Team | Next week | Open |
+| Send the When2Meet link in Slack for the client demo meeting | Manushresth |  | Closed |
+| Work on US-47 (payment) and US-68 | Jashan |  | Closed |
+| Set up SMTP configuration for the email functionality | Jashan |  | Closed |
+| Resolve the serverless Postgres connection drop after 5 minutes of inactivity | Jashan |  | Closed |
+| Continue work on US-06, US-07 and US-08 | Jared |  | Closed |
+| Fix the branch naming convention on pull requests | Jared |  | Closed |
+| Discuss MVP scope and timeline with Erfan before sending the client email | Jared | Supervisor meeting, 10-9-2026 | Closed |
+| Review Jared's pull request | Evelyn |  | Closed |
+| Continue register functionality for counsellors | Evelyn |  | Closed |
+| Add edit and delete course functionality to the counsellor dashboard | James (WZC) |  | Closed |
+| Prepare tests once frontend and backend features are complete | Zhenyang |  | Closed |
+| Pull the latest dev branch code before starting new work | All |  | Closed |
+| Add reviewers to pull requests for visibility | All |  | Closed |
+| Schedule the client demo meeting to show Sprint 2 progress | Team | Next week | Closed |

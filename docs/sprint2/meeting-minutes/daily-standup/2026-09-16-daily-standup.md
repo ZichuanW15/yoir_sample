@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Daily Standups
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Daily-Standups
-  Wiki commit: 1144d7e (2026-09-16)
+  Wiki commit: 8fa8c88 (2026-10-18)
   Exported:    2026-09-18
 -->
 
@@ -42,13 +42,13 @@
 
 | Action | Owner | Due | Status |
 |---|---|---|---|
-| Update the reuse plan documentation in the repo after merging the dev branch | Manushresth | Weekend | Open |
-| Update the Sprint 2 documentation | Manushresth |  | Open |
-| Check how to move user stories to Done when frontend QA is complete but backend is pending | Manushresth |  | Open |
-| Update and share meeting minutes | Manushresth |  | Open |
-| Raise a PR for the SMTP setup after verification | Jashan | 16-9-2026 | Open |
-| Fix the duplicate and overlapping slot booking bug | Jashan |  | Open |
-| Share the slot booking API endpoint changes with the frontend team | Jashan |  | Open |
-| Finish the Sprint 2 documentation deliverables | Evelyn |  | Open |
-| Follow up with the client on the triage questions and user stories | Jared |  | Open |
-| Add task descriptions and acceptance criteria to the task information section | All | Sprint 2 submission | Open |
+| Update the reuse plan documentation in the repo after merging the dev branch | Manushresth | Weekend | Closed |
+| Update the Sprint 2 documentation | Manushresth |  | Closed |
+| Check how to move user stories to Done when frontend QA is complete but backend is pending | Manushresth |  | Closed |
+| Update and share meeting minutes | Manushresth |  | Closed |
+| Raise a PR for the SMTP setup after verification | Jashan | 16-9-2026 | Closed |
+| Fix the duplicate and overlapping slot booking bug | Jashan |  | Closed |
+| Share the slot booking API endpoint changes with the frontend team | Jashan |  | Closed |
+| Finish the Sprint 2 documentation deliverables | Evelyn |  | Closed |
+| Follow up with the client on the triage questions and user stories | Jared |  | Closed |
+| Add task descriptions and acceptance criteria to the task information section | All | Sprint 2 submission | Closed |

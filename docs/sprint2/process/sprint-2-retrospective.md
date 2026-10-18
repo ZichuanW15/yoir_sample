@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Sprint 2 Retrospective
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Retrospective
-  Wiki commit: d6cf91f (2026-10-08)
+  Wiki commit: 8fa8c88 (2026-10-18)
   Exported:    2026-10-08
 -->
 
@@ -61,16 +61,16 @@ The team looked back at Sprint 2 to agree what to keep, what to change and who o
 
 | # | Action | Addresses | Owner | Due | Status |
 |---|---|---|---|---|---|
-| R1 | Agree and apply the closure rule: a story closes when its front-end, back-end and QA sub-issues are done and its acceptance is recorded. Close the Sprint 2 stories that meet it; record any that do not as carry-over with a reason. | D3, D4 | Jared, Manu | 10 Oct | Open |
-| R2 | Point every sub-issue, set the Sprint iteration on every sprint item and move cards when the work moves, not in a bulk update. | D2, D5 | Manu for the board; everyone for their own cards | 9 Oct, then ongoing | Open |
-| R3 | Merge small pull requests as each part finishes, each with its tests. Pull `dev` first, name branches `feature/US-xx-short-name` and add a reviewer to every pull request. | D1, D11 | All developers | Ongoing | Open |
-| R4 | Minute every meeting on the day, including planning and retrospectives. Go through the open Sprint 1 and Sprint 2 actions and close or carry each one with a date. | D8 | Manu | 10 Oct | Open |
-| R5 | Demonstrate to the client before the sprint closes so feedback can still be acted on. | D6 | Jared | Before 18 Oct | Open |
-| R6 | When scope moves, update the board, the User Story Map and the Requirements together, on the same day. | D7 | Jared, Manu | Ongoing | Open |
-| R7 | Bring the documents in line with the build: requirements (repository copy and resolution record), design concept and schema, reuse-plan status, traceability status and test results tied to the tag. | D9 | Manu (requirements, traceability); Evelyn and Jashan (design, schema); Zhenyang (test results) | 16 Oct | Open |
-| R8 | Create the [AI Usage Log](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/AI-Usage-Log) and record each use of an AI tool there. | D10 | Manu | 8 Oct | Open |
-| R9 | Track environment issues, such as the database connection drops, on the board like any other defect. | W4 | Jashan | Ongoing | Open |
-| R10 | Hold the Sprint 3 retrospective before the sprint closes, not after. | D8 | Manu | By 18 Oct | Open |
+| R1 | Agree and apply the closure rule: a story closes when its front-end, back-end and QA sub-issues are done and its acceptance is recorded. Close the Sprint 2 stories that meet it; record any that do not as carry-over with a reason. | D3, D4 | Jared, Manu | 10 Oct | Closed |
+| R2 | Point every sub-issue, set the Sprint iteration on every sprint item and move cards when the work moves, not in a bulk update. | D2, D5 | Manu for the board; everyone for their own cards | 9 Oct, then ongoing | Closed |
+| R3 | Merge small pull requests as each part finishes, each with its tests. Pull `dev` first, name branches `feature/US-xx-short-name` and add a reviewer to every pull request. | D1, D11 | All developers | Ongoing | Closed |
+| R4 | Minute every meeting on the day, including planning and retrospectives. Go through the open Sprint 1 and Sprint 2 actions and close or carry each one with a date. | D8 | Manu | 10 Oct | Closed |
+| R5 | Demonstrate to the client before the sprint closes so feedback can still be acted on. | D6 | Jared | Before 18 Oct | Closed |
+| R6 | When scope moves, update the board, the User Story Map and the Requirements together, on the same day. | D7 | Jared, Manu | Ongoing | Closed |
+| R7 | Bring the documents in line with the build: requirements (repository copy and resolution record), design concept and schema, reuse-plan status, traceability status and test results tied to the tag. | D9 | Manu (requirements, traceability); Evelyn and Jashan (design, schema); Zhenyang (test results) | 16 Oct | Closed |
+| R8 | Create the [AI Usage Log](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/AI-Usage-Log) and record each use of an AI tool there. | D10 | Manu | 8 Oct | Closed |
+| R9 | Track environment issues, such as the database connection drops, on the board like any other defect. | W4 | Jashan | Ongoing | Closed |
+| R10 | Hold the Sprint 3 retrospective before the sprint closes, not after. | D8 | Manu | By 18 Oct | Closed |
 
 ## 5. Keep doing
 

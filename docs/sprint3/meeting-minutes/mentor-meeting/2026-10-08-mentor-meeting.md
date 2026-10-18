@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Mentor Communication Log
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Mentor-Communication-Log
-  Wiki commit: 2b7b2db (2026-10-13)
+  Wiki commit: 8fa8c88 (2026-10-18)
   Exported:    2026-10-13
 -->
 
@@ -40,11 +40,11 @@
 
 | Action | Owner | Due | Status |
 | --- | --- | --- | --- |
-| Raise the rescheduling approval question for user story 69 at the workshop | Manu | 9 Oct 2026 | Open |
-| Merge the reviewed user stories | Jared | 8 Oct 2026 | Open |
-| Raise the pull requests for the admin endpoint tasks | Jashan | 9 Oct 2026 | Open |
-| Continue work on user stories 43, 54, 55 and 69 | Evelyn |  | Open |
-| Log in and finish all remaining tasks in the final sprint | Team | 18 Oct 2026 | Open |
-| Prepare for the risks and mitigation discussion | Team | 9 Oct 2026 | Open |
-| Prepare for and attend the architectural presentation | Team | Next week | Open |
-| Prepare for and attend the demo presentation | Team | Week after the architectural presentation | Open |
+| Raise the rescheduling approval question for user story 69 at the workshop | Manu | 9 Oct 2026 | Closed |
+| Merge the reviewed user stories | Jared | 8 Oct 2026 | Closed |
+| Raise the pull requests for the admin endpoint tasks | Jashan | 9 Oct 2026 | Closed |
+| Continue work on user stories 43, 54, 55 and 69 | Evelyn |  | Closed |
+| Log in and finish all remaining tasks in the final sprint | Team | 18 Oct 2026 | Closed |
+| Prepare for the risks and mitigation discussion | Team | 9 Oct 2026 | Closed |
+| Prepare for and attend the architectural presentation | Team | Next week | Closed |
+| Prepare for and attend the demo presentation | Team | Week after the architectural presentation | Closed |

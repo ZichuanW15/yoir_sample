@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Client Meeting Minutes
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Client-meeting-minutes
-  Wiki commit: c6cceb7 (2026-10-16)
+  Wiki commit: 8fa8c88 (2026-10-18)
   Exported:    2026-10-18
 -->
 
@@ -68,14 +68,14 @@
 
 | # | Action | Owner | Due | Status |
 |---|---|---|---|---|
-| 1 | Integrate the diagnosis front end with its back end and deploy it to the live link | Jared, Manu | 17-10-2026 | Open |
-| 2 | Email Sam once the diagnosis is live so he can try it | Jared | 17-10-2026 | Open |
-| 3 | Send Sam the screenshots page as a PDF and the demo video | Jared, Manu | With the update email | Open |
-| 4 | Send this week's minutes and transcript to Sam | Jared | After the meeting | Open |
-| 5 | Create an empty GitHub repository for the handover and share it with the team | Sam | Before the handover | Open |
-| 6 | Copy the repository into Sam's repository and prepare the zip file, with set-up documentation | Jared | 23-10-2026 | Open |
-| 7 | Review the live app and email feedback, including the revised diagnosis questions | Sam | Weekend of 17-18 Oct | Open |
-| 8 | Incorporate Sam's feedback before the acceptance session | Whole team | 23-10-2026 | Open |
+| 1 | Integrate the diagnosis front end with its back end and deploy it to the live link | Jared, Manu | 17-10-2026 | Closed |
+| 2 | Email Sam once the diagnosis is live so he can try it | Jared | 17-10-2026 | Closed |
+| 3 | Send Sam the screenshots page as a PDF and the demo video | Jared, Manu | With the update email | Closed |
+| 4 | Send this week's minutes and transcript to Sam | Jared | After the meeting | Closed |
+| 5 | Create an empty GitHub repository for the handover and share it with the team | Sam | Before the handover | Closed |
+| 6 | Copy the repository into Sam's repository and prepare the zip file, with set-up documentation | Jared | 23-10-2026 | Closed |
+| 7 | Review the live app and email feedback, including the revised diagnosis questions | Sam | Weekend of 17-18 Oct | Closed |
+| 8 | Incorporate Sam's feedback before the acceptance session | Whole team | 23-10-2026 | Closed |
 
 ### Carried over from Week 8
 

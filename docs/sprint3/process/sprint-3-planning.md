@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Sprint 3 Planning
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-3-Planning
-  Wiki commit: d6cf91f (2026-10-08)
+  Wiki commit: 8fa8c88 (2026-10-18)
   Exported:    2026-10-08
 -->
 
@@ -121,17 +121,17 @@ Code still goes to `dev` first, and `main` changes only after client and QA sign
 
 | # | Action | Owner | Due | Status |
 |---|---|---|---|---|
-| A1 | Assign the 10 back-end sub-issues without an owner: US-05, US-12, US-13, US-27, US-28, US-29, US-43, US-54, US-55, US-69 | Jared with Evelyn and Jashan | 9 Oct | Open |
-| A2 | Assign the 18 QA sub-issues, point every sub-issue and set the Sprint 3 iteration on every Sprint 3 item | Manu, Zhenyang | 9 Oct | Open |
-| A3 | Estimate US-09–13, US-29 and US-71 | Jared with the developers | 9 Oct | Open |
-| A4 | Review and merge PR #233, the diagnosis persistence back end | Jared, with a back-end reviewer | 10 Oct | Open |
-| A5 | Agree the diagnosis entry options and rules with the client (RR-13, RR-14) and give the team approved fixtures for US-12 and US-13 | Jared | 11 Oct | Open |
-| A6 | Book a client demonstration of the diagnosis-to-booking slice before the sprint closes | Jared | 10 Oct | Open |
-| A7 | Merge the back end for every story whose front end is Under Review, and close each story once its QA evidence is recorded | Evelyn, Jashan, Zhenyang | 16 Oct | Open |
-| A8 | Update the design concept diagram, the schema document and the reuse-plan status column to match the build | Evelyn, Jashan | 16 Oct | Open |
-| A9 | Add an implementation-status column to the interface traceability file, and make the README's operation count match `openapi.yaml` | Manu | 16 Oct | Open |
-| A10 | Tag the Sprint 3 build, record the CI run on the tag, keep one current test-results page and move older reports into an archive | Zhenyang, Manu | 18 Oct | Open |
-| A11 | Minute every Sprint 3 meeting on the day, and hold the Sprint 3 retrospective before the sprint closes | Manu | Ongoing; retrospective by 18 Oct | Open |
+| A1 | Assign the 10 back-end sub-issues without an owner: US-05, US-12, US-13, US-27, US-28, US-29, US-43, US-54, US-55, US-69 | Jared with Evelyn and Jashan | 9 Oct | Closed |
+| A2 | Assign the 18 QA sub-issues, point every sub-issue and set the Sprint 3 iteration on every Sprint 3 item | Manu, Zhenyang | 9 Oct | Closed |
+| A3 | Estimate US-09–13, US-29 and US-71 | Jared with the developers | 9 Oct | Closed |
+| A4 | Review and merge PR #233, the diagnosis persistence back end | Jared, with a back-end reviewer | 10 Oct | Closed |
+| A5 | Agree the diagnosis entry options and rules with the client (RR-13, RR-14) and give the team approved fixtures for US-12 and US-13 | Jared | 11 Oct | Closed |
+| A6 | Book a client demonstration of the diagnosis-to-booking slice before the sprint closes | Jared | 10 Oct | Closed |
+| A7 | Merge the back end for every story whose front end is Under Review, and close each story once its QA evidence is recorded | Evelyn, Jashan, Zhenyang | 16 Oct | Closed |
+| A8 | Update the design concept diagram, the schema document and the reuse-plan status column to match the build | Evelyn, Jashan | 16 Oct | Closed |
+| A9 | Add an implementation-status column to the interface traceability file, and make the README's operation count match `openapi.yaml` | Manu | 16 Oct | Closed |
+| A10 | Tag the Sprint 3 build, record the CI run on the tag, keep one current test-results page and move older reports into an archive | Zhenyang, Manu | 18 Oct | Closed |
+| A11 | Minute every Sprint 3 meeting on the day, and hold the Sprint 3 retrospective before the sprint closes | Manu | Ongoing; retrospective by 18 Oct | Closed |
 
 ## 9. Out of scope for Sprint 3
 

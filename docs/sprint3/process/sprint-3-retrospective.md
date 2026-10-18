@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Sprint 3 Retrospective
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-3-Retrospective
-  Wiki commit: 0ffec8c (2026-10-18)
+  Wiki commit: 8fa8c88 (2026-10-18)
   Exported:    2026-10-18
 -->
 
@@ -41,7 +41,7 @@ The team looked back at Sprint 3, the last sprint of the semester, on the day it
 
 | # | Action | Addresses | Owner | Due | Status |
 |---|---|---|---|---|---|
-| R1 | Improve the presentation, using the points raised in this discussion | D1 | Team | Before the presentation | Open |
+| R1 | Improve the presentation, using the points raised in this discussion | D1 | Team | Before the presentation | Closed |
 
 ## 5. Follow-up
 
