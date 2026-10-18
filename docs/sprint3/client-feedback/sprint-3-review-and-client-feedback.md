@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Sprint 3 Review & Client Feedback
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-3-Review-and-Client-Feedback
-  Wiki commit: 8fa8c88 (2026-10-18)
+  Wiki commit: 13a6509 (2026-10-18)
   Exported:    2026-10-18
 -->
 
@@ -134,7 +134,7 @@ Grouped and ordered as in [Sprint 3 Planning §3](https://github.com/swen90014-2
 
 1. **Diagnosis integration and the live link.** PR #242 connected the diagnosis screens to the questionnaire, progress, direction and Explore-criteria APIs and merged into `dev` on 17 October. The Deploy to FastAPI Cloud workflow succeeded for that merge ([run 38998332350](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/actions/runs/38998332350)) and for each later `dev` merge up to `f8f91e3`. Jared emails Sam once it is live so he can try it (action 2).
 2. **Revised diagnosis questions.** Sam is rewriting the questions (action 7). The questionnaire and direction rules are versioned and kept in one module, `backend/app/diagnosis.py`, so a new question set or rule table is a contained change (R-06). When Sam's version arrives, the team gets it in writing, confirms the rules before acceptance and records the decision against RR-13 and RR-14 in [Requirements §8](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements#8-requirements-resolution-record). Anything not changed by 23 October is listed as a known limitation in the handover.
-3. **Screenshots and demo video.** The [Sprint 3 Feature Walkthrough](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-3-Feature-Walkthrough) goes to Sam as a PDF with the demo video (action 3).
+3. **Screenshots and demo video.** The [Sprint 3 Feature Walkthrough](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-3-Feature-Walkthrough) goes to Sam as a PDF with the demo video (action 3). It was re-captured on 18 October on the current build, at phone size and at [desktop size](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-3-Feature-Walkthrough-Desktop), and now shows the diagnosis saved to the server, reviews and ratings, reschedule, privacy enforced on other members' views and the password reset.
 4. **Private deployment.** The demo stays private (Decision 2). R-07 lists the configuration to tighten before handover: refuse to start with the development JWT secret outside local development, restrict CORS to the deployed origin, turn off seeding and the API docs page in deployed environments, remove demo credentials from the repository docs and rotate the admin password.
 5. **Handover.** Both options are being prepared (Decision 3, actions 5–6). The handover document lists every external account (FastAPI Cloud, Neon, Stripe, Mailgun), who owns it and which settings and secrets it needs, and no secret value goes into the repository or the zip (R-10).
 6. **Acceptance.** The final session on Friday 23 October 2026, 5:30–6:30 pm, is the acceptance session: about 30 minutes for each team, with the subject coordinator and mentor attending to assess (Decision 4). It includes a product demo and a discussion of what is handed over (source code and set-up). The client's formal acceptance is due then; this page records none. The team incorporates Sam's emailed feedback beforehand (action 8).
