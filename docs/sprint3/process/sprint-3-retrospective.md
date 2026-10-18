@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Sprint 3 Retrospective
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-3-Retrospective
-  Wiki commit: 115a2c9 (2026-10-18)
+  Wiki commit: fa8c5fc (2026-10-18)
   Exported:    2026-10-18
 -->
 
@@ -20,7 +20,7 @@ The team looked back at Sprint 3, the last sprint of the semester, on the day it
 
 | Measure | Result |
 |---|---|
-| Committed | 23 stories; 60 SP across the 16 estimated stories. US-09–13, US-29 and US-71 were not estimated |
+| Committed | 23 stories, 84 SP: 60 SP estimated at planning, plus 24 SP for US-09–13, US-29 and US-71, estimated at sprint close |
 | On the board at close | All 23 stories and their 69 Front-end, Back-end and QA sub-issues in the Sprint 3 column, all closed |
 | Pull requests merged into `dev` | 14 |
 | Client | Demonstration on 16 October; acceptance due on 23 October |
