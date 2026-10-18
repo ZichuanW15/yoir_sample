@@ -16,7 +16,7 @@ The [earlier report](test-results-20261016.md) records the preceding dev
 synchronization and issue audit.
 
 Execution dates are **16 October in Melbourne (UTC+11)**; stored timestamps use
-15 October evening UTC. [Execution records](evidence/20261016-completion/executions.json)
+15 October evening UTC. [Execution records](../evidence/20261016-completion/executions.json)
 provide exact commands, working directories, times, exits and source hashes.
 Packaging is not another test run.
 
@@ -52,8 +52,8 @@ cases. Existing dependency advisories remain recorded in the earlier audit.
 Denominators are unchanged: frontend 2,454 lines / 2,210 branches; backend
 3,139 statements / 566 branches. Frontend now covers 2,318 lines and 1,916
 branches; backend covers 2,975 statements and 482 branches (combined 93.31%).
-The [frontend report](evidence/20261016-completion/frontend-coverage.json) and
-[backend report](evidence/20261016-completion/backend-coverage.json) retain
+The [frontend report](../evidence/20261016-completion/frontend-coverage.json) and
+[backend report](../evidence/20261016-completion/backend-coverage.json) retain
 per-file values and backend missing lines/branches.
 
 The email-verification page, receipt, seeker home, public professional detail,
@@ -66,22 +66,22 @@ The separate email-verification banner remains at 92.3% branch coverage.
 
 | Source | Cases | What the new tests establish |
 | --- | ---: | --- |
-| [`verify-email.test.tsx`](../../../frontend/__tests__/screens/verify-email.test.tsx) | 12 | Confirmation before session adoption, missing/invalid token, network error, resend validation/pending/retry, enumeration-safe response and prerequisite banners. Controlled HTTP responses. |
-| [`receipt.test.tsx`](../../../frontend/__tests__/screens/receipt.test.tsx) | 11 | Exact cents and receipt fields, loading/auth/error/missing-ID states and navigation. |
-| [`counsellor-payouts.test.tsx`](../../../frontend/__tests__/screens/counsellor-payouts.test.tsx) | 17 | Role/readiness gates, polling-result and cancellation wiring, browser return/error, ABN/GST fields and save/retry. Polling helper mocked here; existing helper tests separately exercise limits/timing. |
-| [`notifications-panel.test.tsx`](../../../frontend/__tests__/screens/notifications-panel.test.tsx) | 13 | Guest/account/loading/empty/read/unread states, marking/navigation/reopening and missing-endpoint fallback. Controlled notification responses and missing-endpoint fallback. |
-| [`job-seeker-home.test.tsx`](../../../frontend/__tests__/screens/job-seeker-home.test.tsx) | 9 | Roles, diagnosis entry/resume/completed state, empty/error catalogue, retry and navigation. |
-| [`professional-detail.test.tsx`](../../../frontend/__tests__/screens/professional-detail.test.tsx) | 9 | Public/partial/restricted views, loading/error, service filtering, links and no fabricated score. Explicit unrated-profile wording remains absent. |
-| [`focus-refresh.test.tsx`](../../../frontend/__tests__/screens/focus-refresh.test.tsx) | 9 | Mounted profile/workspace successful refresh, profile read failure/recovery and dirty draft during an in-flight blur save; controlled focus callbacks. |
+| [`verify-email.test.tsx`](../../../../frontend/__tests__/screens/verify-email.test.tsx) | 12 | Confirmation before session adoption, missing/invalid token, network error, resend validation/pending/retry, enumeration-safe response and prerequisite banners. Controlled HTTP responses. |
+| [`receipt.test.tsx`](../../../../frontend/__tests__/screens/receipt.test.tsx) | 11 | Exact cents and receipt fields, loading/auth/error/missing-ID states and navigation. |
+| [`counsellor-payouts.test.tsx`](../../../../frontend/__tests__/screens/counsellor-payouts.test.tsx) | 17 | Role/readiness gates, polling-result and cancellation wiring, browser return/error, ABN/GST fields and save/retry. Polling helper mocked here; existing helper tests separately exercise limits/timing. |
+| [`notifications-panel.test.tsx`](../../../../frontend/__tests__/screens/notifications-panel.test.tsx) | 13 | Guest/account/loading/empty/read/unread states, marking/navigation/reopening and missing-endpoint fallback. Controlled notification responses and missing-endpoint fallback. |
+| [`job-seeker-home.test.tsx`](../../../../frontend/__tests__/screens/job-seeker-home.test.tsx) | 9 | Roles, diagnosis entry/resume/completed state, empty/error catalogue, retry and navigation. |
+| [`professional-detail.test.tsx`](../../../../frontend/__tests__/screens/professional-detail.test.tsx) | 9 | Public/partial/restricted views, loading/error, service filtering, links and no fabricated score. Explicit unrated-profile wording remains absent. |
+| [`focus-refresh.test.tsx`](../../../../frontend/__tests__/screens/focus-refresh.test.tsx) | 9 | Mounted profile/workspace successful refresh, profile read failure/recovery and dirty draft during an in-flight blur save; controlled focus callbacks. |
 | [`storage.native.test.ts`](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/blob/b720204623ad0c9870cbcb9cfd2630e00431ca9b/frontend/__tests__/diagnosis/storage.native.test.ts) | 3 | Per-account keys/serialization and unavailable-read/write handling through mocked SecureStore. Swallowed write errors are characterized, not proof of a durable save. |
-| [`test_sprint3_completion_qa.py`](../../../backend/tests/test_sprint3_completion_qa.py) | 27 | Flushed-write rollback/retry for verification, service/profile/privacy; no premature email; six booked-service withdrawal histories, private readers, queue filters and role boundaries. Historical lifecycle states and email are fixtures/mocks. |
-| [`test_sprint3_recovery_boundaries_qa.py`](../../../backend/tests/test_sprint3_recovery_boundaries_qa.py) | 10 | Payment metadata recovery, ignored signed events, failure ordering, webhook transaction rollback/same-event retry, expiry/payout peer progress/retry and stale Connect redelivery. SDK calls mocked, local HMAC verification real. |
-| [`sprint3-completion.spec.ts`](../../../frontend/e2e/sprint3-completion.spec.ts) | 7 | Real three-status verification changes across views; real stale-write 409; public-profile privacy changes and reload; unrated-service state; no-results search preserving diagnosis answers. |
+| [`test_sprint3_completion_qa.py`](../../../../backend/tests/test_sprint3_completion_qa.py) | 27 | Flushed-write rollback/retry for verification, service/profile/privacy; no premature email; six booked-service withdrawal histories, private readers, queue filters and role boundaries. Historical lifecycle states and email are fixtures/mocks. |
+| [`test_sprint3_recovery_boundaries_qa.py`](../../../../backend/tests/test_sprint3_recovery_boundaries_qa.py) | 10 | Payment metadata recovery, ignored signed events, failure ordering, webhook transaction rollback/same-event retry, expiry/payout peer progress/retry and stale Connect redelivery. SDK calls mocked, local HMAC verification real. |
+| [`sprint3-completion.spec.ts`](../../../../frontend/e2e/sprint3-completion.spec.ts) | 7 | Real three-status verification changes across views; real stale-write 409; public-profile privacy changes and reload; unrated-service state; no-results search preserving diagnosis answers. |
 
-The [case inventory](evidence/20261016-completion/added-case-inventory.json)
+The [case inventory](../evidence/20261016-completion/added-case-inventory.json)
 records each added case. All 23 QA tasks remain mapped in the
-[QA matrix](qa-matrix.md).
-The [test plan](test-plan.md) supplies reproducible setups and expected outcomes.
+[QA matrix](../qa-matrix.md).
+The [test plan](../test-plan.md) supplies reproducible setups and expected outcomes.
 
 ## Environment and execution evidence
 
@@ -95,12 +95,12 @@ The [test plan](test-plan.md) supplies reproducible setups and expected outcomes
   export, `/api/v1`, and demo mode false. Focused setup ran separately on 43149.
   Successful HTTP responses in the new Web cases use the real API. Explicit
   reload actions verify the subsequent reads and displayed state.
-- [Live readback](evidence/20261016-completion/live-readback.json) independently
+- [Live readback](../evidence/20261016-completion/live-readback.json) independently
   confirms two paid/confirmed stub bookings, health and deep-link HTTP 200, and
   a missing API route returning JSON 404. Recorded database totals are a final
   snapshot, not a measured before/after delta. Stub payment is not provider proof.
-- [Source manifest](evidence/20261016-completion/source-manifest.json) and
-  [file manifest](evidence/20261016-completion/manifest.json) preserve baseline,
+- [Source manifest](../evidence/20261016-completion/source-manifest.json) and
+  [file manifest](../evidence/20261016-completion/manifest.json) preserve baseline,
   final QA overlay and original-report hashes. Selected logs, all case outcomes,
   coverage summaries and seven new Web screenshots are included. Regenerable
   reports/traces stay in ignored `artifacts/qa/sprint3-completion-20261016/`.

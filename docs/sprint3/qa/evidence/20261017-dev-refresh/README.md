@@ -3,7 +3,7 @@
 Dev baseline `972caeed8b16603b11580206692909288a83a436`; local QA merge
 `38cd806227453e820838081d6fbea907c6e5ef14` plus the recorded test overlay.
 
-The [execution report](../../test-results-dev-refresh-20261017.md) records the
+The [execution report](../../archive/test-results-dev-refresh-20261017.md) records the
 scope and outcomes. Full component runs at 06:33 UTC recorded 597 shared passes,
 606 iOS passes and 606 Android passes. Separate advisory runs recorded 4/19,
 4/20 and 4/20 pass/fail outcomes. Lint, type checking and report-health checks passed.

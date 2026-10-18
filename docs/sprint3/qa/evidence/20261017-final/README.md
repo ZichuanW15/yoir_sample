@@ -1,7 +1,7 @@
 # Final Sprint 3 QA evidence — 17 October 2026
 
 Product baseline: `0df4068f846b1a8346621af1c7584734980e7178`.
-See the [execution report](../../test-results-final-20261017.md),
+See the [execution report](../../archive/test-results-final-20261017.md),
 [QA matrix](../../qa-matrix.md) and [repeatable plan](../../test-plan.md).
 
 - [Executions](executions.json): exact commands, UTC timestamps, exit codes and

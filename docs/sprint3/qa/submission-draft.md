@@ -61,7 +61,7 @@ Update QA mappings, procedures, story documents and execution evidence.
   94.84% lines / 85.45% branches. Retained live HTTPX and TypeScript results:
   2 passes each, with their original execution timestamps.
 
-The [confirmation report](test-results-confirmation-20261017.md) and
+The [confirmation report](archive/test-results-confirmation-20261017.md) and
 [execution package](evidence/20261017-confirmation/README.md) record the actual
 commands, results, source boundaries and retained evidence for this edition.
 Historical application outcomes retain their original execution dates and are

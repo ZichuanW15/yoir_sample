@@ -6,6 +6,8 @@
 
 **QA branch:** `sprint3-qa`. **Owner:** Wilson (`Zhouzhny`).
 
+**Current results:** [test-results.md](test-results.md) is the one current results page. Since 18 October 2026 the dated reports, validation records and issue snapshots below are kept, unchanged, in [archive/](archive/).
+
 This edition incorporates the desktop layout update and the confirmation snapshot
 fix from [PR #246](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/246).
 After a successful booking read, confirmation now uses the purchased title and
@@ -15,24 +17,24 @@ QA changes are limited to tests, fixtures and evidence/documentation.
 
 ## Read first
 
-1. [Latest confirmation report](test-results-confirmation-20261017.md): confirmation
+1. [Latest confirmation report](archive/test-results-confirmation-20261017.md): confirmation
    snapshot and desktop-layout verification for `8713b38`, with dated retained evidence.
 2. [All 23 QA tasks](qa-matrix.md): parent criteria, executed sources and recorded
-   findings, reconciled with the [latest issue snapshot](issue-snapshot-20261017.json).
+   findings, reconciled with the [latest issue snapshot](archive/issue-snapshot-20261017.json).
 3. [Repeatable test plan](test-plan.md): commands, isolated databases, environments
    and expected outcomes.
 4. [Latest evidence](evidence/20261017-confirmation/README.md): per-case outcomes,
    logs, coverage, source hashes and packaging manifest.
 5. [Executed simulator procedures and results](device-acceptance.md): completed
    native cases and their dated observations.
-6. [Latest validation](confirmation-validation-20261017.json): source/evidence
+6. [Latest validation](archive/confirmation-validation-20261017.json): source/evidence
    hashes, report health, task mappings and repository checks for this edition.
 7. [Approved submission](submission-draft.md): commit text, scope and validation
    summary approved for publication on 17 October 2026.
 
 ## Automated results and execution boundaries
 
-The [confirmation report](test-results-confirmation-20261017.md) records this
+The [confirmation report](archive/test-results-confirmation-20261017.md) records this
 edition's executions. The full shared component run passed **610 cases in 70
 suites**; full iOS and Android component runs passed **619 cases each**. The eight
 confirmation scenarios are already included in these totals. Frontend lint, type
@@ -67,7 +69,7 @@ existing core-source 90% statements / 80% branches / 90% functions / 90% lines
 gates passed. The earlier 94.68% / 87.04% figures belong to the previous source
 set and are not current coverage.
 
-The [meeting-area report](test-results-meeting-area-20261017.md) retains the earlier
+The [meeting-area report](archive/test-results-meeting-area-20261017.md) retains the earlier
 `9cce973` PostgreSQL execution: **916 passed, 18 strict XFAILs**, 7 deselected,
 and **94.84% lines / 85.45% branches**. Its browser results were a 38-case full
 selection and a later separate one-case run. Its HTTPX and TypeScript runs passed
@@ -75,7 +77,7 @@ selection and a later separate one-case run. Its HTTPX and TypeScript runs passe
 boundaries; they are not fresh frontend verification of the desktop update.
 
 The earlier **17 October 06:33 UTC** component results—597 shared and 606 per
-native preset—remain in the [dev refresh report](test-results-dev-refresh-20261017.md)
+native preset—remain in the [dev refresh report](archive/test-results-dev-refresh-20261017.md)
 and [source records](evidence/20261017-dev-refresh/source-manifest.json). Earlier
 advisory counts include the then-failing confirmation assertion. Its matcher
 correction and promotion are documented separately below. Failed assertions and
@@ -146,7 +148,7 @@ separately.
 - Reconciled all seven frontend story documents and the backend service-history
   document with the latest baseline and dated evidence.
 
-The [earlier full review](test-results-final-20261017.md) established these retained boundaries:
+The [earlier full review](archive/test-results-final-20261017.md) established these retained boundaries:
 
 - Replaced tests for removed local diagnosis storage/rules with server-backed
   questionnaire, save/revision, resume, ownership, result, retake and Explore tests.
@@ -166,7 +168,7 @@ The [earlier full review](test-results-final-20261017.md) established these reta
 
 ## Executed scope and evidence
 
-The [issue snapshot](issue-snapshot-20261017.json) records 23 closed QA tasks and
+The [issue snapshot](archive/issue-snapshot-20261017.json) records 23 closed QA tasks and
 23 open parent stories. Their previous closure records QA delivery, not full
 parent-story acceptance. This review did not change remote issue states.
 
@@ -176,8 +178,8 @@ This update incorporates `dev` at `8713b38`; its commit and push were approved o
 state. Git history identifies the resulting publication commit. Published CI
 belongs to its exact commit; local results do not establish a new remote CI outcome.
 
-The [first native run](test-results-native-20261016.md) and
-[remaining native run](test-results-native-remaining-20261016.md)
+The [first native run](archive/test-results-native-20261016.md) and
+[remaining native run](archive/test-results-native-remaining-20261016.md)
 contain **23 completed case/platform outcomes: 15 PASS / 8 FAIL**, selected from
 the dated **16 October** Expo Go simulator/emulator executions on `cdcc44e`.
 The procedures and results identify the product revision for each execution.
@@ -188,18 +190,18 @@ accessibility and other executed failures remain documented.
 
 ## Historical reports
 
-- [17 October meeting-area review](test-results-meeting-area-20261017.md) and
+- [17 October meeting-area review](archive/test-results-meeting-area-20261017.md) and
   [its evidence](evidence/20261017-meeting-area/README.md) and
-  [its validation](meeting-area-validation-20261017.json)
-- [17 October dev-document refresh](test-results-dev-refresh-20261017.md) and
+  [its validation](archive/meeting-area-validation-20261017.json)
+- [17 October dev-document refresh](archive/test-results-dev-refresh-20261017.md) and
   [its evidence](evidence/20261017-dev-refresh/README.md) and
-  [its validation](dev-refresh-validation-20261017.json)
-- [17 October full review](test-results-final-20261017.md) and
+  [its validation](archive/dev-refresh-validation-20261017.json)
+- [17 October full review](archive/test-results-final-20261017.md) and
   [its evidence](evidence/20261017-final/README.md)
-- [14 October baseline](test-results-20261014.md)
-- [16 October initial run](test-results-20261016.md)
-- [16 October completion run](test-results-completion-20261016.md)
-- [16 October focused follow-up](test-results-gap-followup-20261016.md)
+- [14 October baseline](archive/test-results-20261014.md)
+- [16 October initial run](archive/test-results-20261016.md)
+- [16 October completion run](archive/test-results-completion-20261016.md)
+- [16 October focused follow-up](archive/test-results-gap-followup-20261016.md)
 
 These reports remain valid records of their dated executions. Their old claims
 about missing diagnosis integration, privacy key omission and mutable order

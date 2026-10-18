@@ -37,7 +37,7 @@ branches. Earlier results are recorded separately in the completion report:
 ## Added regressions
 
 The six additions in
-[`focus-refresh.test.tsx`](../../../frontend/__tests__/screens/focus-refresh.test.tsx)
+[`focus-refresh.test.tsx`](../../../../frontend/__tests__/screens/focus-refresh.test.tsx)
 cover workspace recovery after a failed refocus, reuse of a renewed session token,
 both user-directory roles after session replacement, and retry after either of
 the two directory reads fails. They retain the mounted component and verify
@@ -61,9 +61,9 @@ event was actually delivered.
 | `S3-PROFILE-UNRATED` | Real API reports zero reviews and no rating; profile and its name load with no star badge, but no explicit unrated text appears. | Missing neutral rating state; verification status is not rating information. |
 
 The three component assertions are in
-[`sprint3-refresh-acceptance.test.tsx`](../../../frontend/__tests__/defects/sprint3-refresh-acceptance.test.tsx).
+[`sprint3-refresh-acceptance.test.tsx`](../../../../frontend/__tests__/defects/sprint3-refresh-acceptance.test.tsx).
 The four browser assertions are in
-[`sprint3-integration-acceptance.spec.ts`](../../../frontend/e2e/sprint3-integration-acceptance.spec.ts).
+[`sprint3-integration-acceptance.spec.ts`](../../../../frontend/e2e/sprint3-integration-acceptance.spec.ts).
 The two save-related cases share the same missing write-integration boundary;
 seven failed assertions do not imply seven independent root causes. No product
 behaviour or expected assertion was weakened to manufacture a pass.
@@ -84,7 +84,7 @@ Chromium used an owned loopback API on 43169 with a temporary SQLite database,
 fresh QA accounts and real successful HTTP responses. The save-failure test
 records zero matching requests, identifying the missing diagnosis save call.
 
-[Packaged evidence](evidence/20261016-gap-followup/README.md) includes exact commands,
+[Packaged evidence](../evidence/20261016-gap-followup/README.md) includes exact commands,
 UTC times, exits, source hashes, per-case outcomes, API readbacks, screenshots and
 service cleanup. Local dates are 16 October Melbourne (UTC+11); UTC records fall
 on the evening of 15 October. Packaging and consistency checks are not new test
@@ -95,6 +95,6 @@ four evidence manifests, 36 current QA source hashes, case totals and unchanged
 coverage totals. Repository contract,
 JSON/YAML and local Markdown-link checks passed; owned test ports are released.
 
-The [QA matrix](qa-matrix.md) and
-[repeatable plan](test-plan.md) link these executed boundaries and preserved
+The [QA matrix](../qa-matrix.md) and
+[repeatable plan](../test-plan.md) link these executed boundaries and preserved
 failure results.

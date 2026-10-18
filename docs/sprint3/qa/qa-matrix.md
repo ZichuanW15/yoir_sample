@@ -4,8 +4,8 @@ Review date: **17 October 2026 (Australia/Melbourne)**. Product baseline:
 `8713b38d63ccb969dcc69a44a02f888fd65caa9a` (`dev`). **Owner: Wilson (`Zhouzhny`).**
 
 This matrix maps all **23 QA tasks** to the implemented behavior, parent criteria
-and executed test sources. Read the [latest confirmation report](test-results-confirmation-20261017.md),
-the [earlier component refresh](test-results-dev-refresh-20261017.md) and the
+and executed test sources. Read the [latest confirmation report](archive/test-results-confirmation-20261017.md),
+the [earlier component refresh](archive/test-results-dev-refresh-20261017.md) and the
 [repeatable plan](test-plan.md).
 Passing and failing outcomes are recorded separately for each execution.
 
@@ -32,7 +32,7 @@ per project. Latest browser advisory executions each recorded 1 pass / 9 failure
 all five component/browser report-health checks passed. The full and focused
 results remain separate executions.
 
-The [earlier meeting-area report](test-results-meeting-area-20261017.md) retains
+The [earlier meeting-area report](archive/test-results-meeting-area-20261017.md) retains
 the `9cce973` PostgreSQL execution (**916 passed / 18 strict XFAILs**, 7 deselected)
 and migration `0012` evidence. The **17 October 06:33 UTC** component runs remain
 dated evidence for the frontend before the desktop update: 597 shared and 606
@@ -40,7 +40,7 @@ per native preset. Their old coverage and advisory counts are not relabelled as
 this execution. The confirmation matcher correction and promotion retain their
 own evidence.
 
-The [17 October issue snapshot](issue-snapshot-20261017.json) records **23 closed
+The [17 October issue snapshot](archive/issue-snapshot-20261017.json) records **23 closed
 QA tasks and 23 open parent stories**. QA closure records delivery of testing and
 evidence. This review did not change issue states. Original parent criteria are
 retained in that snapshot.
@@ -108,8 +108,8 @@ boundaries; browser tests use the real served Web/API except explicit fault inje
   responses remain real; intentionally delayed/failed responses are named in the tests.
 - **Known defects:** advisory assertions and strict XFAILs retain their actual
   outcomes. Fixed behavior is promoted with a corresponding regression assertion.
-- **Native history:** [D02/D03](test-results-native-20261016.md) and the
-  [native follow-up report](test-results-native-remaining-20261016.md) contain
+- **Native history:** [D02/D03](archive/test-results-native-20261016.md) and the
+  [native follow-up report](archive/test-results-native-remaining-20261016.md) contain
   **23 completed case/platform outcomes: 15 PASS and 8 FAIL**, captured on
   16 October in Expo Go on an iOS simulator and Android emulator. These records
   retain their original product revision and local-API environment.

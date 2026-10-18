@@ -4,13 +4,13 @@
 **Current dev baseline:** `8713b38d63ccb969dcc69a44a02f888fd65caa9a`.
 
 The [QA matrix](qa-matrix.md) maps all 23 tasks to parent criteria and executable
-sources. The [latest confirmation report](test-results-confirmation-20261017.md)
+sources. The [latest confirmation report](archive/test-results-confirmation-20261017.md)
 records this edition's commands, times and outcomes after the desktop layout
-update and PR #246. The [meeting-area report](test-results-meeting-area-20261017.md)
+update and PR #246. The [meeting-area report](archive/test-results-meeting-area-20261017.md)
 retains its earlier API, migration, browser and advisory executions on `9cce973`.
-The [06:33 UTC component refresh](test-results-dev-refresh-20261017.md) retains
+The [06:33 UTC component refresh](archive/test-results-dev-refresh-20261017.md) retains
 its full regression and coverage results from before the desktop update.
-The [earlier full report](test-results-final-20261017.md) keeps its dated API,
+The [earlier full report](archive/test-results-final-20261017.md) keeps its dated API,
 browser and live-client results for the previous product.
 These procedures reproduce the recorded executions.
 Failed assertions retain their recorded outcomes.

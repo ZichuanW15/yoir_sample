@@ -2,7 +2,7 @@
 
 Product: `dev@9cce9737ded87c13a7575d7236a051c5db7628f8`, including PR #244.
 
-- [Report](../../test-results-meeting-area-20261017.md): exact executions and boundaries.
+- [Report](../../archive/test-results-meeting-area-20261017.md): exact executions and boundaries.
 - [Source manifest](source-manifest.json) and [executions](executions.json): commands,
   timestamps, outcomes and source changes between runs.
 - [PostgreSQL cases](backend-postgres.json) and [coverage](backend-coverage.json).

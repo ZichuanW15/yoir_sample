@@ -1,7 +1,7 @@
 # 16 October 2026 — test-completion evidence
 
 This is the separate follow-up to [the earlier run](../20261016/README.md).
-See the [results and scope](../../test-results-completion-20261016.md).
+See the [results and scope](../../archive/test-results-completion-20261016.md).
 Commands ran on 16 October Melbourne time (15 October evening UTC); packaging
 preserves those execution dates and is not another application test run.
 

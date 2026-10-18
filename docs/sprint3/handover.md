@@ -35,7 +35,7 @@ Fill in each row on the day it happens, with the date, the link or file name, an
 | Design: design concept, architecture diagram and database schema | [`docs/sprint1/design-by-concept/`](../sprint1/design-by-concept/) |
 | Requirements, product backlog and risk register at the end of Sprint 3 | [`docs/sprint3/project/`](project/) |
 | Per-story delivery documents | [`docs/sprint3/frontend/`](frontend/), [`docs/sprint3/backend/`](backend/) |
-| Verification and validation: test approach, QA matrix, results and evidence | [`docs/sprint3/qa/`](qa/) |
+| Verification and validation: the current results page, QA matrix, test plan, evidence and an archive of the dated reports | [`docs/sprint3/qa/test-results.md`](qa/test-results.md), [`docs/sprint3/qa/`](qa/) |
 | Feature walkthroughs, phone and desktop | [`docs/sprint3/walkthrough/`](walkthrough/) |
 | Sprint 3 review, retrospective, planning, process insights, AI usage log and meeting minutes | [`docs/sprint3/client-feedback/`](client-feedback/), [`docs/sprint3/process/`](process/), [`docs/sprint3/meeting-minutes/`](meeting-minutes/) |
 | Deployment guide and payment specification | [`docs/deployment/dev-environment.md`](../deployment/dev-environment.md), [`docs/payment/stripe-payment-spec.md`](../payment/stripe-payment-spec.md) |

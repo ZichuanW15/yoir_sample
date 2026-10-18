@@ -7,7 +7,7 @@ Independent API readback, evidence packaging and cleanup are complete.
 ## Scope and baseline
 
 This run executes the local diagnosis procedures D02 and D03 from the
-[device acceptance plan](device-acceptance.md), using actual simulator/emulator UI.
+[device acceptance plan](../device-acceptance.md), using actual simulator/emulator UI.
 Android is operated through **IntelliJ IDEA Running Devices**, as requested.
 iOS is operated through Xcode Device Hub. Codex controls the UI and records the
 observations at Wilson's request; this is assisted device execution, not a claim
@@ -35,10 +35,10 @@ remain historical evidence in the
 | Test time | 16 October Melbourne, AEDT / UTC+11; timestamped evidence uses the evening of 15 October UTC |
 
 The account and source details are in the packaged
-[environment record](evidence/20261016-native/services/environment.json).
+[environment record](../evidence/20261016-native/services/environment.json).
 Before UI execution, independent authenticated reads returned HTTP 404,
 `Diagnosis not found`, for all four accounts. The
-[baseline readback](evidence/20261016-native/services/diagnosis-baseline.json)
+[baseline readback](../evidence/20261016-native/services/diagnosis-baseline.json)
 establishes that no server diagnosis had been prepared for them. This is a
 precondition, not a final persistence result.
 
@@ -69,9 +69,9 @@ original note when later entering the first retake; that specific observation
 is in the CUA interaction transcript, without a separate screenshot checkpoint.
 
 Decisive packaged captures:
-[answers after restart](evidence/20261016-native/screens/ios-06-restart-retains-answers.png),
-[empty second account](evidence/20261016-native/screens/ios-08-second-account-empty.png),
-and [first account restored](evidence/20261016-native/screens/ios-09-first-account-restored.png).
+[answers after restart](../evidence/20261016-native/screens/ios-06-restart-retains-answers.png),
+[empty second account](../evidence/20261016-native/screens/ios-08-second-account-empty.png),
+and [first account restored](../evidence/20261016-native/screens/ios-09-first-account-restored.png).
 
 ### iOS D03
 
@@ -88,9 +88,9 @@ full Step 6 direction screen still displayed `Resume and applications` with
 suggested actions.
 
 Decisive packaged captures:
-[no-results search](evidence/20261016-native/screens/ios-11-explore-empty-search.png),
-[abandoned retake](evidence/20261016-native/screens/ios-13-abandon-retake-keeps-result.png),
-and [result detail after restart](evidence/20261016-native/screens/ios-15-result-detail-after-restart.png).
+[no-results search](../evidence/20261016-native/screens/ios-11-explore-empty-search.png),
+[abandoned retake](../evidence/20261016-native/screens/ios-13-abandon-retake-keeps-result.png),
+and [result detail after restart](../evidence/20261016-native/screens/ios-15-result-detail-after-restart.png).
 
 ### Android D02
 
@@ -105,9 +105,9 @@ Step 1 with no first-account note. Returning to the first account restored Step 
 Back retained `Something else`, the exact note `Android`, and `Find a job`.
 
 These checkpoints are recorded in
-[the observation log](evidence/20261016-native/observations.json), including
-[Android restart](evidence/20261016-native/screens/android-08-restart-restores-step.png)
-and [answers after account switching](evidence/20261016-native/screens/android-12-first-account-note-restored.png).
+[the observation log](../evidence/20261016-native/observations.json), including
+[Android restart](../evidence/20261016-native/screens/android-08-restart-restores-step.png)
+and [answers after account switching](../evidence/20261016-native/screens/android-12-first-account-note-restored.png).
 
 ### Android D03
 
@@ -122,14 +122,14 @@ Step 2, then was abandoned with Skip. Home kept the completed result. After a
 further actual Expo Go force-stop and relaunch through IDEA's device UI, both
 authenticated Home and the full Step 6 result retained `Resume and applications`
 and its three suggested next steps. The timestamped
-[final restart record](evidence/20261016-native/android-final-restart.json)
+[final restart record](../evidence/20261016-native/android-final-restart.json)
 records the successful process stop and test-port mappings before UI relaunch.
 
 Decisive packaged captures:
-[no-results search](evidence/20261016-native/screens/android-14-explore-empty-search.png),
-[completed retake](evidence/20261016-native/screens/android-15-retake-updates-result.png),
-[abandoned retake](evidence/20261016-native/screens/android-16-abandon-retake-keeps-result.png),
-and [result detail after restart](evidence/20261016-native/screens/android-18-result-detail-after-restart.png).
+[no-results search](../evidence/20261016-native/screens/android-14-explore-empty-search.png),
+[completed retake](../evidence/20261016-native/screens/android-15-retake-updates-result.png),
+[abandoned retake](../evidence/20261016-native/screens/android-16-abandon-retake-keeps-result.png),
+and [result detail after restart](../evidence/20261016-native/screens/android-18-result-detail-after-restart.png).
 
 ## Recovered setup incidents
 
@@ -143,7 +143,7 @@ setup incident, not a demonstrated Yoir product defect.
 An initial Android password mistyped through the on-screen keyboard produced an
 incorrect-credentials error; corrected input succeeded. That input incident is
 also not recorded as a product failure. The
-[lifecycle notes](evidence/20261016-native/lifecycle-notes.md) distinguish
+[lifecycle notes](../evidence/20261016-native/lifecycle-notes.md) distinguish
 retrospective approximate local times from timestamped UI observations and raw
 service diagnostics.
 
@@ -152,25 +152,25 @@ service diagnostics.
 The observed persistence is **same-device native local storage in Expo Go**.
 The displayed direction comes from the local rules on this baseline.
 
-The [final authenticated API readback](evidence/20261016-native/services/diagnosis-final.json)
+The [final authenticated API readback](../evidence/20261016-native/services/diagnosis-final.json)
 at 08:27:51 AEDT returned HTTP 404, `Diagnosis not found`, for all four accounts.
 The two first accounts had completed diagnoses in the UI, so their continued
 absence on the server confirms the integration gap within this run. Local
 restart and account-isolation passes do not close that gap.
 
-[Final source verification](evidence/20261016-native/services/source-verification.json)
-matched all 346 recorded files. [Service cleanup](evidence/20261016-native/services/cleanup.json)
+[Final source verification](../evidence/20261016-native/services/source-verification.json)
+matched all 346 recorded files. [Service cleanup](../evidence/20261016-native/services/cleanup.json)
 completed at 08:28:17 AEDT: both owned processes exited successfully, ports 43189
 and 8099 refused connections, and the temporary database and directory were
-absent. [Device cleanup](evidence/20261016-native/device-cleanup.json) terminated
+absent. [Device cleanup](../evidence/20261016-native/device-cleanup.json) terminated
 both Expo Go processes, removed the two owned Android reverse mappings and
 confirmed the remaining reverse list was empty. Both devices were already
 booted and remain booted; app data was not cleared. IDEA hardware input was
 restored to off.
 
-The [evidence package](evidence/20261016-native/README.md) contains 32 timestamped
+The [evidence package](../evidence/20261016-native/README.md) contains 32 timestamped
 observations and 33 original screenshots, plus source, environment and lifecycle
-records. Its [SHA-256 manifest](evidence/20261016-native/manifest.json) covers every
+records. Its [SHA-256 manifest](../evidence/20261016-native/manifest.json) covers every
 packaged file except itself. Local link, JSON and counting checks are recorded in
-[validation](evidence/20261016-native/validation.json). Existing historical
+[validation](../evidence/20261016-native/validation.json). Existing historical
 evidence is preserved.
