@@ -2,13 +2,15 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Sprint 3 Retrospective
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-3-Retrospective
-  Wiki commit: 8fa8c88 (2026-10-18)
+  Wiki commit: 115a2c9 (2026-10-18)
   Exported:    2026-10-18
 -->
 
 # Sprint 3 Retrospective
 
 **Sprint reviewed:** Sprint 3, 21 September – 18 October 2026 · **Meeting:** 18 October 2026, at the close of the sprint · **Facilitator:** Manushresth Krishnan (Scrum Master) · **Product Owner:** Wei Chen Cheng (Jared)
+
+**Attendees:** Ariz, Evelyn, James, Jared, Jashan, Manu, Zhenyang
 
 The team looked back at Sprint 3, the last sprint of the semester, on the day it closed, as the [Sprint 2 Retrospective](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Retrospective) asked (R10). The records behind the sprint are the [Sprint 3 insights](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Process-Documentation-and-Insights#9-sprint-3-insights), the [Sprint 3 Review & Client Feedback](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-3-Review-and-Client-Feedback), [Sprint 3 Planning](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-3-Planning) and the project board.
 

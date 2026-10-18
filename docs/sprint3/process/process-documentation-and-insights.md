@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Process Documentation and Insights
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Process-Documentation-and-Insights
-  Wiki commit: 0c33b0b (2026-10-18)
+  Wiki commit: 115a2c9 (2026-10-18)
   Exported:    2026-10-18
 -->
 
@@ -329,10 +329,10 @@ Sprint 3 Planning §6 added three rules and §8 listed eleven actions (A1–A11)
 | A5 Agree the diagnosis rules with the client (11 Oct) | Not done | RR-13 and RR-14 still open; on 16 Oct Sam said he is rewriting the questions (R-06). |
 | A6 Client demonstration before the sprint closes | Partly | Held on 16 Oct, but the diagnosis was not shown live and was not yet connected to its back end (#242, 17 Oct). |
 | A7 Merge the back ends and close each story once its QA evidence is recorded (16 Oct) | Partly | Back-end pull requests merged 12–16 Oct, with the diagnosis connection and the US-36 fixes on 17 Oct (#242–#244, #246); QA evidence recorded 16–17 Oct (#241); stories closed on 18 Oct. |
-| A8 Update the design concept, schema and reuse-plan status (16 Oct) | Partly | Updated on 8 Oct (`f6db563`), but not after the back-end merges: the schema document still lists reviews and diagnosis persistence as planned, and the reuse-plan status is checked at 8 Oct. |
+| A8 Update the design concept, schema and reuse-plan status (16 Oct) | Done late | Updated on 8 Oct (`f6db563`), then again on 18 Oct after the back-end merges: the diagram, the reuse-plan status and the schema document now show the diagnosis, reviews and reschedule as built (`6a235c6`). |
 | A9 Traceability status column and README operation count (16 Oct) | Done late | Both on 18 Oct (`d24a9ae`). |
 | A10 Tag the build, record CI on the tag, one current test-results page (18 Oct) | Partly | The QA README and the Sprint 3 Test Approach name one current report (`test-results-confirmation-20261017.md`), but the nine earlier reports sit beside it, and the build is not tagged. |
-| A11 Minute every meeting on the day; retrospective before close | Partly | The 16 Oct client meeting was minuted the same day; the 8 Oct supervisor meeting on 13 Oct and the 14 Oct stand-up on 18 Oct. The 15 Oct supervisor meeting named at the stand-up has no minutes. The [Sprint 3 Retrospective](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-3-Retrospective) was held on 18 Oct, the day the sprint closed. |
+| A11 Minute every meeting on the day; retrospective before close | Partly | The 16 Oct client meeting was minuted the same day; the 8 Oct supervisor meeting on 13 Oct and the 14 Oct stand-up on 18 Oct. The 15 Oct supervisor meeting was minuted on 18 Oct. The [Sprint 3 Retrospective](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-3-Retrospective) was held on 18 Oct, the day the sprint closed. |
 | R3 Small pull requests, branch names, a reviewer on every pull request | Partly | 7 of 14 pull requests had no review, 10 code and test commits went to `dev` directly, and no branch used the agreed `feature/US-xx-short-name` form (§9.2, observation 9). |
 | R6 Update scope records together when scope moves | Partly | The 18 Sep deferral reached GitHub only on 18 Oct; the Requirements and Product Backlog were updated the same day (§9.2, observation 7). |
 | R9 Track environment issues on the board | Not done | No board issue for the database connection drops; the Risk Register still lists them on 18 Oct (R-09). |
