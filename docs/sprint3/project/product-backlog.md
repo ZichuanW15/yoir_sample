@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Product Backlog
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Product-Backlog
-  Wiki commit: 9e20263 (2026-10-18)
+  Wiki commit: c5be4bb (2026-10-18)
   Exported:    2026-10-18
 -->
 
@@ -24,14 +24,14 @@ Professional/service discovery and the end-to-end diagnosis-to-review journey fo
 
 ## 2. Backlog Summary
 
-The revised active Product Backlog contains **43 stories**. Of these, 36 retained stories have existing estimates totalling **129 SP** and seven restored or newly clarified stories require cross-team estimation. A final total must not be reported until those seven estimates are agreed.
+The revised active Product Backlog contains **43 stories**. Of these, 36 retained stories have existing estimates totalling **129 SP** and seven restored or newly clarified stories require cross-team estimation. A final total must not be reported until those seven estimates are agreed. On 18 October 2026, at the close of Sprint 3, the team estimated the seven with the sizing guide: US-09 3, US-10 5, US-11 3, US-12 5, US-13 3, US-29 3 and US-71 2 (24 SP), so the active backlog now totals **153 SP**. Confirming the 43-story scope with the partner team remains open (Requirements RR-16).
 
 | Metric | Active backlog |
 |---|---:|
 | User stories | **43** |
-| Must-have | **41 stories / 120 known SP + 7 TBD estimates** |
+| Must-have | **41 stories / 144 SP** |
 | Should-have | **2 stories / 9 SP** |
-| Total estimate | **129 known SP + 7 TBD estimates** |
+| Total estimate | **153 SP** |
 
 Priority definitions:
 
@@ -42,7 +42,7 @@ Priority definitions:
 Status definitions:
 
 - **Baseline:** included in the revised active Product Backlog. Both teams must use the same ID, priority, and behaviour.
-- **TBD estimate:** the scope is confirmed, but story points must be agreed by both teams before sprint commitment.
+- **TBD estimate:** the scope is confirmed, but story points must be agreed by both teams before sprint commitment. No story has been in this state since 18 October 2026.
 
 ## 3. Ordered Product Backlog
 
@@ -70,13 +70,13 @@ Backlog order is represented first by epic order and then by story order within 
 
 | ID | User outcome | Acceptance summary | Priority | SP | Status |
 |---|---|---|---:|---:|---|
-| `US-09` | Enter the Yoir diagnosis journey. | A logged-in Job Seeker can start or resume triage as the primary post-login journey, beginning with their current situation. | Must-have | TBD | Baseline |
-| `US-10` | Complete the six-step Yoir triage. | Present the client's six named steps and situation/answer-dependent follow-up questions from the supplied workbook, preserving its options and free-text question types. | Must-have | TBD | Baseline |
-| `US-11` | Progress through triage safely. | Validate applicable required answers, preserve confirmed progress, support back/resume and prevent stale answers from an abandoned branch influencing the direction. | Must-have | TBD | Baseline |
-| `US-12` | Receive relevant direction or matching. | Explain the main support need and suggested next steps from approved answer-to-action rules, and recommend relevant Career Professional/service types without inventing scores or unsupported advice. | Must-have | TBD | Baseline |
-| `US-13` | Continue from diagnosis to Explore. | Carry the direction into relevant professional/service discovery and booking without requiring the user to repeat triage; explain no-match and retrieval-failure states accurately. | Must-have | TBD | Baseline |
+| `US-09` | Enter the Yoir diagnosis journey. | A logged-in Job Seeker can start or resume triage as the primary post-login journey, beginning with their current situation. | Must-have | 3 | Baseline |
+| `US-10` | Complete the six-step Yoir triage. | Present the client's six named steps and situation/answer-dependent follow-up questions from the supplied workbook, preserving its options and free-text question types. | Must-have | 5 | Baseline |
+| `US-11` | Progress through triage safely. | Validate applicable required answers, preserve confirmed progress, support back/resume and prevent stale answers from an abandoned branch influencing the direction. | Must-have | 3 | Baseline |
+| `US-12` | Receive relevant direction or matching. | Explain the main support need and suggested next steps from approved answer-to-action rules, and recommend relevant Career Professional/service types without inventing scores or unsupported advice. | Must-have | 5 | Baseline |
+| `US-13` | Continue from diagnosis to Explore. | Carry the direction into relevant professional/service discovery and booking without requiring the user to repeat triage; explain no-match and retrieval-failure states accurately. | Must-have | 3 | Baseline |
 
-**Epic total:** 5 stories / estimates TBD
+**Epic total:** 19 SP
 
 **Source and detailed acceptance:** [Requirements §3](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Requirements#3-priority-diagnosistriage-and-direction-requirements) records the six steps, workbook ranges, testable criteria and outstanding routing/ranking decisions. The workbook is a topic/question bank plus an overarching six-step flow, not a requirement to ask every user all 59 topic questions. See [source inventory](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-2-Review-and-Client-Feedback#12-workbook-content-and-open-decisions).
 
@@ -86,10 +86,10 @@ Backlog order is represented first by epic order and then by story order within 
 |---|---|---|---:|---:|---|
 | `US-27` | Control profile visibility. | A user can select public, partially visible, or restricted profile visibility. | Must-have | 4 | Baseline |
 | `US-28` | Have privacy settings enforced. | Other users receive only the profile fields allowed by the selected visibility setting. | Must-have | 2 | Baseline |
-| `US-29` | Maintain a Job Seeker profile. | A Job Seeker can create, view, and update the agreed core profile information used in their account and service journey. | Must-have | TBD | Baseline |
+| `US-29` | Maintain a Job Seeker profile. | A Job Seeker can create, view, and update the agreed core profile information used in their account and service journey. | Must-have | 3 | Baseline |
 | `US-30` | Maintain a Career Professional profile. | A Career Professional can manage photo, introduction, background, qualifications, experience, skills/expertise, LinkedIn URL, spoken languages, base location and default modality; linked services are visible in the public profile subject to privacy and publication rules. | Must-have | 5 | Baseline |
 
-**Epic total:** 11 known SP + 1 TBD estimate
+**Epic total:** 14 SP
 
 ### Epic D - Career Professional Verification
 
@@ -161,9 +161,9 @@ Backlog order is represented first by epic order and then by story order within 
 
 | ID | User outcome | Acceptance summary | Priority | SP | Status |
 |---|---|---|---:|---:|---|
-| `US-71` | View platform users as a Platform Owner. | A Platform Owner can view Job Seekers and Career Professionals with their role and relevant account/verification status; career professional approval and rejection remain governed by `US-58`. | Must-have | TBD | Baseline |
+| `US-71` | View platform users as a Platform Owner. | A Platform Owner can view Job Seekers and Career Professionals with their role and relevant account/verification status; career professional approval and rejection remain governed by `US-58`. | Must-have | 2 | Baseline |
 
-**Epic total:** 1 story / estimate TBD
+**Epic total:** 2 SP
 
 ## 4. Stories Outside the Active Backlog
 
