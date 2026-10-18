@@ -107,7 +107,7 @@ To deploy under the client's own accounts:
 | Commercial settings | `PLATFORM_FEE_PERCENT`, `COMMISSION_BASE`, `PLATFORM_GST_REGISTERED`, `PLATFORM_ABN`, `PLATFORM_LEGAL_NAME`, `MERCHANT_DISPLAY_NAME`, cancellation and payout settings | No, but the values are placeholders until the client decides them (§7) |
 | Other | `SEED_ON_STARTUP`, `JITSI_BASE_URL`, `PAYMENT_JOBS_ENABLED`, `PAYMENT_JOBS_INTERVAL_SECONDS`, `SLOT_HOLD_MINUTES` | No |
 
-**Before going live** (Risk Register R-07): set a new random `JWT_SECRET` (the code's default is a development placeholder), restrict `CORS_ALLOW_ORIGINS` to the deployed origin, set `SEED_ON_STARTUP=false` (the seed accounts share a published password), and consider disabling the interactive API docs at `/docs`, which are on by default (`backend/app/main.py`). The team's deployment guide currently contains the demonstration environment's admin login; remove it from the repository before the copy in D2 and rotate that password.
+**Before going live** (Risk Register R-07): set a new random `JWT_SECRET` (the code's default is a development placeholder), restrict `CORS_ALLOW_ORIGINS` to the deployed origin, set `SEED_ON_STARTUP=false` (the seed accounts share a published password), and consider disabling the interactive API docs at `/docs`, which are on by default (`backend/app/main.py`). The team's deployment guide contains the demonstration environment's admin login, kept on purpose so the client can sign in to the handed-over deployment; change that password once the client takes the deployment over.
 
 **External accounts used by the team**
 
