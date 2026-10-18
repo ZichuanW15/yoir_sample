@@ -66,7 +66,7 @@ responses fail immediately. API error text is bounded, control-cleaned and has
 the active token removed before it can reach a log.
 
 Story Points support non-negative fractional values without forcing them to one
-decimal place. Null Story Points remain visible as unpointed work. Empty boards,
+decimal place. Null Story Points remain visible as unpointed work. A sub-issue's Story Points are a task estimate inside its parent story's points, so every total and burndown counts the parent story and leaves its sub-issues out; the estimate-size distribution still lists each item. Empty boards,
 missing optional fields and missing iteration data render explicit warnings;
 malformed dates, durations, counts and non-finite or negative Story Points stop
 publication.

@@ -87,7 +87,7 @@ query($org: String!, $number: Int!, $cursor: String) {
           id
           content {
             __typename
-            ... on Issue { id number title state createdAt updatedAt closedAt url }
+            ... on Issue { id number title state createdAt updatedAt closedAt url parent { number } }
           }
           fieldValues(first: 100) {
             pageInfo { hasNextPage endCursor }
@@ -385,6 +385,9 @@ def _parse_issue(node: Mapping[str, Any]) -> Optional[dict[str, Any]]:
         "closed": _date(content.get("closedAt")),
         "url": _clean_text(content.get("url"), fallback="", limit=500),
         "points": None,
+        # A sub-issue's points are a task estimate inside its parent story's points,
+        # so totals count the parent only (see _sum_points).
+        "subissue": isinstance(content.get("parent"), Mapping),
         "status": None,
         "epic": None,
         "work_type": None,
@@ -676,7 +679,9 @@ def active_sprint(
 
 
 def _sum_points(items: Iterable[Mapping[str, Any]]) -> float:
-    return math.fsum(float(item.get("points") or 0) for item in items)
+    return math.fsum(
+        float(item.get("points") or 0) for item in items if not item.get("subissue")
+    )
 
 
 def _fmt_number(value: float) -> str:
