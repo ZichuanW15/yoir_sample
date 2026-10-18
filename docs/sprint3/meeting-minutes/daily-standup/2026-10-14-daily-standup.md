@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: Daily Standups
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Daily-Standups
-  Wiki commit: 542bb5d (2026-10-18)
+  Wiki commit: 44a7898 (2026-10-18)
   Exported:    2026-10-18
 -->
 
@@ -12,7 +12,7 @@
 | Field | Detail |
 |---|---|
 | Date | 14-10-2026 |
-| Time | To confirm |
+| Time | 7-7:30pm |
 | Location | Zoom |
 | Attendees | Manushresth (Scrum Master), Jared (PO), Evelyn, Jashan, Ariz, James (WZC), Zhenyang |
 | Minuted by | Manushresth |
