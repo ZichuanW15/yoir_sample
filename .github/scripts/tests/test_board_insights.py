@@ -83,6 +83,15 @@ def http_error(code, body=b"error", headers=None):
 
 
 class BoardInsightsTests(unittest.TestCase):
+    def test_sub_issue_points_are_not_added_to_totals(self):
+        node = {"content": {"__typename": "Issue", "number": 7, "state": "OPEN",
+                            "parent": {"number": 3}}, "fieldValues": {"nodes": [], "pageInfo": {"hasNextPage": False}}}
+        self.assertTrue(board._parse_issue(node)["subissue"])
+        node["content"].pop("parent")
+        self.assertFalse(board._parse_issue(node)["subissue"])
+        items = [{"points": 4}, {"points": 2, "subissue": True}, {"points": 3}]
+        self.assertEqual(board._sum_points(items), 7)
+
     def test_normal_fixture_builds_all_sections(self):
         snapshot, _ = fixture_snapshot()
         section = board.build_section(
