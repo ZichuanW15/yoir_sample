@@ -2,7 +2,7 @@
   Exported from the project wiki. Do not edit here - edit the wiki page and re-export.
   Source page: AI Usage Log
   Source URL:  https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/AI-Usage-Log
-  Wiki commit: fdee7df (2026-10-18)
+  Wiki commit: cb85c93 (2026-10-18)
   Exported:    2026-10-18
 -->
 
@@ -35,9 +35,13 @@ Add a row to §3 with:
 
 Wilson's 18 September entry was reconstructed on 8 October 2026 from the Codex conversation and linked project records.
 
+Wilson's Sprint 3 entry was reconstructed on 18 October 2026 from the Codex conversation, commits and dated QA evidence.
+
 Zichuan's 7 October entries were reconstructed on 18 October 2026 from the Codex conversation, commits, PR #234 and its GitHub check results.
 
 Manu's entries were reconstructed on 18 October 2026 from his Claude Code session history, which runs from 17 September; the 27 August entry comes from his session notes.
+
+Evelyn's 4 October, 14–15 October and 17 October entries were added on 18 October 2026 from her Claude conversation history and the linked pull requests.
 
 | Date | Member | Tool | Used for | Artefact | How the result was checked |
 |---|---|---|---|---|---|
@@ -63,6 +67,7 @@ Manu's entries were reconstructed on 18 October 2026 from his Claude Code sessio
 | 7–8 Oct 2026 | Manu | Claude Code (Claude Opus 5.5) | Checking the Sprint 2 feedback for gaps, then the follow-up documents: the requirements resolution record, this AI Usage Log, the Sprint 2 Retrospective and Sprint 3 Planning records, the design concept and schema updates, and the Sprint 3 feature walkthrough with iOS simulator screenshots | Repo `4f579d3`, `f6db563`, `10bad21`; wiki `d6cf91f`, `ed25726`, `37eaba3` | Contents shown to and approved by Manu before pushing; screenshots taken from the running build |
 | 11–12 Oct 2026 | Manu | Claude Code (Claude Opus 5.5) | Recording a 1.5–2 minute demo video of the app in the mobile emulator, with synthesised voice-over | Demo video (not in the repository) | Watched by Manu; an audio and video sync problem was found and fixed |
 | 13 Oct 2026 | Manu | Claude Code (Claude Opus 5.5) | Adding the Week 10 supervisor meeting minutes and the Week 11 architecture presentation deck to the wiki and the repository | Repo `a12b338`, `c57eee4`; wiki `2b7b2db`, `ad3d964` | Minutes formatted from the meeting summary Manu provided; checked by Manu before pushing |
+| 14–17 Oct 2026 | Wilson | Codex | Supporting Sprint 3 QA: reviewing test coverage, updating test cases for the latest dev features, and organising test evidence and documentation. | PR [#241](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/241); commit [`f9cc75d`](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/commit/f9cc75d9800230a8ee6cd95c132a330d69ad0698); [Sprint 3 Test Approach](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/wiki/Sprint-3-Test-Approach) | Local API, component and browser results were checked against the dated reports. Lint, type checking and all 16 GitHub checks on `f9cc75d` passed; known test failures remain recorded. |
 | 14–15 Oct 2026 | Evelyn | Claude | Help with the US-36 backend implementation (editing and withdrawing a service while preserving existing order data) | US-36 backend sub-issue #200 | Reviewed and tested by me before committing |
 | 16 Oct 2026 | Manu | Claude Code (Claude Opus 5.5) | Running Jared's diagnosis PR #242 locally to check the triage result, and summarising feedback for him | No artefact (feedback given to Jared) | Behaviour checked by running the PR locally |
 | 16–17 Oct 2026 | Jared | Codex | Connecting US-09–13 end to end: server-backed diagnosis questions and saved progress, deterministic Yoir Direction and keyword matching, safe retakes, Explore handoff, tests and delivery documentation | PR [#242](https://github.com/swen90014-2026-sm2/SWEN90014-2026-CSD-Koala/pull/242); commits `ab05700`–`d12a0da`; `docs/sprint3/us09-us13-yoir-diagnosis.md` | Manu and Evelyn reviewed the implementation and requested changes; Jared corrected keyword priority, merge conflicts and incomplete-retake behaviour. Both reviewers then approved the final commit, all required backend, frontend, contract, integration and platform CI checks passed, and PR #242 was merged into `dev` |
