@@ -113,15 +113,17 @@ codebase for iOS, Android and the web build. The backend is FastAPI on Python 3.
 SQLAlchemy 2.0 and PostgreSQL 16, Alembic migrations applied on startup, Argon2 password
 hashing and JWT bearer sessions; its dependencies are managed by uv and it deploys to
 FastAPI Cloud. They communicate over REST/JSON under `/api/v1` as published in
-[openapi.yaml](docs/sprint1/executable-architecture/openapi.yaml); 49 of the 61 published
-operations are implemented at runtime. Payments run through Stripe in test mode, so no
+[openapi.yaml](docs/sprint1/executable-architecture/openapi.yaml); 66 of the 76 published
+operations are implemented at runtime; the other 10 belong to the deferred Forum, order-linked
+messaging and disputes, or to booking completion, which a scheduled job handles. Payments
+run through Stripe in test mode, so no
 real money moves; without Stripe keys the server falls back to a labelled development
 stub. Email goes through Mailgun, and is logged instead when no Mailgun key is set.
 
 [interface-contract.md](docs/sprint1/executable-architecture/interface-contract.md)
 carries the human-readable control rules and invariants,
 [interface-traceability.csv](docs/sprint1/executable-architecture/interface-traceability.csv)
-maps every operation to its requirement IDs, and
+maps every operation to its requirement IDs and implementation status, and
 [backend-integration.md](docs/sprint1/executable-architecture/backend-integration.md)
 is the starting point for backend contributors.
 

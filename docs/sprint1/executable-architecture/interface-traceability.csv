@@ -1,77 +1,77 @@
-operationId,method,path,actor,requirement_ids,verification
-getOwnCounsellorProfile,GET,/me/counsellor-profile,Counsellor,US-28;US-30,Owner exception and complete-profile tests in test_profile_visibility.py and test_counsellor_profile_details.py
-getProfileVisibility,GET,/me/profile-visibility,Job Seeker or Counsellor,US-27,Role guard and durable privacy persistence tests in test_profile_visibility.py
-updateProfileVisibility,PATCH,/me/profile-visibility,Job Seeker or Counsellor,US-27;US-28,Validation ownership persistence and immediate filtering tests in test_profile_visibility.py
-register,POST,/auth/users,Public,US-01;US-02;US-03;US-04,EA-00 plus duplicate-email contract test
-login,POST,/auth/sessions,Public,US-06;US-07,Role-aware JWT and generic credential failure tests in test_login_sessions.py plus EA-01
-refreshSession,POST,/auth/sessions/refresh,Authenticated,US-06,Rotation and stolen-token family revocation tests in test_refresh_sessions.py
-requestPasswordReset,POST,/auth/password-reset-requests,Public,US-70,Non-enumeration and email-adapter test
-verifyEmail,POST,/auth/email-verifications,Public,US-06,Single-use purpose-scoped and expiry tests in test_verification.py
-requestEmailVerification,POST,/auth/email-verification-requests,Public,US-06,Non-enumeration and token-supersession tests in test_verification.py
-resetPassword,POST,/auth/password-resets,Public,US-70,Session-revocation and invalid-link tests in test_verification.py
-logout,DELETE,/auth/sessions/current,Authenticated,US-08,Durable replay isolation concurrent logout and failure tests in test_logout_sessions.py plus live HTTP smoke
-getDiagnosisQuestionnaire,GET,/me/diagnosis/questionnaire,Job Seeker,US-10;US-11,Versioned question definitions and role validation in test_diagnosis.py
-startDiagnosis,POST,/me/diagnosis,Job Seeker,US-09,Idempotent creation and account isolation in test_diagnosis.py
-getOwnDiagnosis,GET,/me/diagnosis,Job Seeker,US-09;US-11,Durable resume and missing diagnosis in test_diagnosis.py
-getDiagnosis,GET,/diagnoses/{diagnosisId},Owning Job Seeker,US-09;US-11,Indistinguishable missing and foreign records in test_diagnosis.py
-getDiagnosisDirection,GET,/diagnoses/{diagnosisId}/direction,Owning Job Seeker,US-12,Approved direction fixtures incomplete rejection and ownership tests in test_diagnosis_direction.py
-getDiagnosisMarketplaceCriteria,GET,/diagnoses/{diagnosisId}/marketplace-criteria,Owning Job Seeker,US-13,test_diagnosis_marketplace_criteria.py
-saveDiagnosisStep,PUT,/diagnoses/{diagnosisId}/steps/{stepId},Owning Job Seeker,US-10;US-11,Allowed answers sequential progress stale revisions and rollback in test_diagnosis.py
-listServices,GET,/services,Public,US-44;US-45,Public API contract test
-getService,GET,/services/{serviceId},Public,US-46;US-54,test_reviews.py
-listServiceSlots,GET,/services/{serviceId}/slots,Public,US-40,Open-slots-only integration test
-createOrder,POST,/orders,Job Seeker,US-41;US-42;US-47,EA-01 and EA-02
-createPaymentIntent,POST,/orders/{orderId}/payment-intents,Owning Job Seeker,US-47,Mocked Stripe PaymentIntent and idempotency tests in test_payments.py
-completeStubPayment,POST,/orders/{orderId}/payments/stub,Owning Job Seeker,US-47;US-68,Stub idempotency ownership and confirmed-booking integration tests
-processStripeWebhook,POST,/payments/stripe/webhook,Stripe signature,US-41;US-47;US-68,Signature replay and confirmation integration tests
-listMyBookings,GET,/me/bookings,Job Seeker or Counsellor,US-42,Ownership integration test
-getBooking,GET,/bookings/{bookingId},Participant or Platform Owner,US-43;US-68,EA-01 and EA-04
-setBookingMeetingAddress,PATCH,/bookings/{bookingId}/meeting-address,Owning Counsellor,US-43,test_booking_detail.py
-rescheduleBooking,POST,/bookings/{bookingId}/reschedule,Authorised participant,US-69,Atomic move and rollback tests
-listMessages,GET,/bookings/{bookingId}/messages,Participant,US-49;US-50,EA-04 and EA-05
-sendMessage,POST,/bookings/{bookingId}/messages,Participant,US-50;US-62;US-63,EA-04 and EA-05
-completeBooking,POST,/bookings/{bookingId}/completion,Booked Counsellor,US-53,State-transition integration test
-createReview,POST,/bookings/{bookingId}/review,Owning Job Seeker,US-53;US-54;US-55,test_reviews.py
-listOwnServices,GET,/me/services,Counsellor,US-34;US-36,Ownership contract test
-createService,POST,/me/services,Eligible Counsellor,US-34;US-35;US-37;US-38,Validation and role tests
-listCounsellors,GET,/counsellors,Public,US-13;US-28;US-44,Visibility-filtered response tests in test_profile_visibility.py and test_counsellor_profile_details.py
-getCounsellorProfile,GET,/counsellors/{counsellorId},Public,US-28;US-30;US-44;US-46,Public partial restricted and owner-exception tests in test_profile_visibility.py
-updateOwnCounsellorProfile,PATCH,/me/counsellor-profile,Counsellor,US-30,Ownership and validation tests
-getOnboardingState,GET,/me/onboarding-state,Counsellor,US-05,test_onboarding.py
-getOwnJobSeekerProfile,GET,/me/job-seeker-profile,Job Seeker,US-29,test_job_seeker_profile.py
-updateOwnJobSeekerProfile,PATCH,/me/job-seeker-profile,Job Seeker,US-29,test_job_seeker_profile.py
-submitVerification,POST,/me/verification-submissions,Counsellor,US-31;US-32,LinkedIn URL and ownership tests
-listForumBoards,GET,/forum/boards,Public,US-14,Public contract test
-listForumPosts,GET,/forum/posts,Public,US-15;US-22,Search filter and sort tests
-createForumPost,POST,/forum/posts,Job Seeker,US-16;US-17;US-19,Role and persistence tests
-replyToForumPost,POST,/forum/posts/{postId}/replies,Authenticated,US-18;US-20,Attribution and eligibility tests
-toggleForumLike,PUT,/forum/posts/{postId}/like,Authenticated,US-21,Idempotent toggle test
-submitDispute,POST,/orders/{orderId}/disputes,Owning Job Seeker,US-51,Ownership and persistence test
-listVerificationSubmissions,GET,/admin/verifications,Platform Owner,US-58,Role and response-schema tests
-getVerificationSubmission,GET,/admin/verifications/{submissionId},Platform Owner,US-58,Role guard plus read-after-decision and 404 tests in test_admin.py
-decideVerification,POST,/admin/verifications/{submissionId}/decision,Platform Owner,US-32;US-33;US-58,State and role tests
-listPaymentOversight,GET,/admin/payments,Platform Owner,US-48,Role and sensitive-field test
-getPaymentOversight,GET,/admin/payments/{orderId},Platform Owner,US-48,Role guard plus detail and progress and unpaid-hold and 404 tests in test_admin.py
-getPlatformStats,GET,/admin/stats,Platform Owner,US-48;US-58,Totals-match-the-frozen-order-breakdown test in test_admin.py
-listAllBookings,GET,/admin/bookings,Platform Owner,US-48,Role guard and both-parties-named test in test_admin.py
-listAllCounsellors,GET,/admin/counsellors,Platform Owner,US-48;US-58,Role guard and per-counsellor trade totals test in test_admin.py
-listAllJobSeekers,GET,/admin/job-seekers,Platform Owner,US-71,Role guard and per-job-seeker booking count test in test_admin.py
-resolveDispute,POST,/admin/disputes/{disputeId}/resolution,Platform Owner,US-52,Role and state consistency test
-healthCheck,GET,/health,Operations,NFR-02,Deployed readiness and no-secret response test
-getOrder,GET,/orders/{orderId},Job Seeker,US-41;US-47,Payment outcome polling test in test_payments.py
-processStripeConnectWebhook,POST,/payments/stripe/webhook/connect,Stripe,US-47,Signature verification and account.updated tests in test_payments.py
-stripeOnboardingReturn,GET,/payments/stripe/onboarding/return,Counsellor,US-47,Deep-link redirect test in test_payments.py
-stripeOnboardingRefresh,GET,/payments/stripe/onboarding/refresh,Counsellor,US-47,Signed-token Account Link test in test_payments.py
-getPaymentConfig,GET,/payments/config,Public,US-47,Publishable-key-only response test in test_payments.py
-cancelBooking,POST,/bookings/{bookingId}/cancel,Job Seeker or Counsellor,US-42;US-47,Refund policy and transfer reversal tests in test_payments.py
-getBookingReceipt,GET,/bookings/{bookingId}/receipt,Job Seeker or Counsellor,US-47,Agent-model receipt tests in test_payments.py
-startStripeOnboarding,POST,/me/stripe-onboarding,Counsellor,US-47,Account Link creation test in test_payments.py
-getPayoutStatus,GET,/me/payout-status,Counsellor,US-47,Payout readiness test in test_payments.py
-updateTaxDetails,PUT,/me/tax-details,Counsellor,US-47,ABN validation and GST snapshot tests in test_payments.py
-getCommissionStatement,GET,/me/commission-statements/{year}/{month},Counsellor,US-47,Monthly commission statement test in test_payments.py
-updateService,PATCH,/me/services/{serviceId},Counsellor,US-36,Ownership and validation tests in test_counsellor.py
-deleteService,DELETE,/me/services/{serviceId},Counsellor,US-36,Soft-delete and Marketplace-withdrawal tests in test_counsellor.py
-listOwnAvailabilityWindows,GET,/me/availability-windows,Counsellor,US-39,Window CRUD tests in test_counsellor.py
-createAvailabilityWindow,POST,/me/availability-windows,Counsellor,US-39;US-41,Merge and multi-service tests in test_counsellor.py
-updateAvailabilityWindow,PATCH,/me/availability-windows/{windowId},Counsellor,US-39;US-41,Booked-session protection test in test_counsellor.py
-deleteAvailabilityWindow,DELETE,/me/availability-windows/{windowId},Counsellor,US-39,Withdrawal and booking-guard tests in test_counsellor.py
+operationId,method,path,actor,requirement_ids,verification,implementation_status
+getOwnCounsellorProfile,GET,/me/counsellor-profile,Counsellor,US-28;US-30,Owner exception and complete-profile tests in test_profile_visibility.py and test_counsellor_profile_details.py,Implemented
+getProfileVisibility,GET,/me/profile-visibility,Job Seeker or Counsellor,US-27,Role guard and durable privacy persistence tests in test_profile_visibility.py,Implemented
+updateProfileVisibility,PATCH,/me/profile-visibility,Job Seeker or Counsellor,US-27;US-28,Validation ownership persistence and immediate filtering tests in test_profile_visibility.py,Implemented
+register,POST,/auth/users,Public,US-01;US-02;US-03;US-04,EA-00 plus duplicate-email contract test,Implemented
+login,POST,/auth/sessions,Public,US-06;US-07,Role-aware JWT and generic credential failure tests in test_login_sessions.py plus EA-01,Implemented
+refreshSession,POST,/auth/sessions/refresh,Authenticated,US-06,Rotation and stolen-token family revocation tests in test_refresh_sessions.py,Implemented
+requestPasswordReset,POST,/auth/password-reset-requests,Public,US-70,Non-enumeration and email-adapter test,Implemented
+verifyEmail,POST,/auth/email-verifications,Public,US-06,Single-use purpose-scoped and expiry tests in test_verification.py,Implemented
+requestEmailVerification,POST,/auth/email-verification-requests,Public,US-06,Non-enumeration and token-supersession tests in test_verification.py,Implemented
+resetPassword,POST,/auth/password-resets,Public,US-70,Session-revocation and invalid-link tests in test_verification.py,Implemented
+logout,DELETE,/auth/sessions/current,Authenticated,US-08,Durable replay isolation concurrent logout and failure tests in test_logout_sessions.py plus live HTTP smoke,Implemented
+getDiagnosisQuestionnaire,GET,/me/diagnosis/questionnaire,Job Seeker,US-10;US-11,Versioned question definitions and role validation in test_diagnosis.py,Implemented
+startDiagnosis,POST,/me/diagnosis,Job Seeker,US-09,Idempotent creation and account isolation in test_diagnosis.py,Implemented
+getOwnDiagnosis,GET,/me/diagnosis,Job Seeker,US-09;US-11,Durable resume and missing diagnosis in test_diagnosis.py,Implemented
+getDiagnosis,GET,/diagnoses/{diagnosisId},Owning Job Seeker,US-09;US-11,Indistinguishable missing and foreign records in test_diagnosis.py,Implemented
+getDiagnosisDirection,GET,/diagnoses/{diagnosisId}/direction,Owning Job Seeker,US-12,Approved direction fixtures incomplete rejection and ownership tests in test_diagnosis_direction.py,Implemented
+getDiagnosisMarketplaceCriteria,GET,/diagnoses/{diagnosisId}/marketplace-criteria,Owning Job Seeker,US-13,test_diagnosis_marketplace_criteria.py,Implemented
+saveDiagnosisStep,PUT,/diagnoses/{diagnosisId}/steps/{stepId},Owning Job Seeker,US-10;US-11,Allowed answers sequential progress stale revisions and rollback in test_diagnosis.py,Implemented
+listServices,GET,/services,Public,US-44;US-45,Public API contract test,Implemented
+getService,GET,/services/{serviceId},Public,US-46;US-54,test_reviews.py,Implemented
+listServiceSlots,GET,/services/{serviceId}/slots,Public,US-40,Open-slots-only integration test,Implemented
+createOrder,POST,/orders,Job Seeker,US-41;US-42;US-47,EA-01 and EA-02,Implemented
+createPaymentIntent,POST,/orders/{orderId}/payment-intents,Owning Job Seeker,US-47,Mocked Stripe PaymentIntent and idempotency tests in test_payments.py,Implemented
+completeStubPayment,POST,/orders/{orderId}/payments/stub,Owning Job Seeker,US-47;US-68,Stub idempotency ownership and confirmed-booking integration tests,Implemented
+processStripeWebhook,POST,/payments/stripe/webhook,Stripe signature,US-41;US-47;US-68,Signature replay and confirmation integration tests,Implemented
+listMyBookings,GET,/me/bookings,Job Seeker or Counsellor,US-42,Ownership integration test,Implemented
+getBooking,GET,/bookings/{bookingId},Participant or Platform Owner,US-43;US-68,EA-01 and EA-04,Implemented
+setBookingMeetingAddress,PATCH,/bookings/{bookingId}/meeting-address,Owning Counsellor,US-43,test_booking_detail.py,Implemented
+rescheduleBooking,POST,/bookings/{bookingId}/reschedule,Authorised participant,US-69,Atomic move and rollback tests,Implemented
+listMessages,GET,/bookings/{bookingId}/messages,Participant,US-49;US-50,EA-04 and EA-05,Not implemented: order-linked messaging is deferred (Requirements RR-08; RR-20)
+sendMessage,POST,/bookings/{bookingId}/messages,Participant,US-50;US-62;US-63,EA-04 and EA-05,Not implemented: order-linked messaging is deferred (Requirements RR-08; RR-20)
+completeBooking,POST,/bookings/{bookingId}/completion,Booked Counsellor,US-53,State-transition integration test,Not implemented: a scheduled job marks a booking completed after the session ends
+createReview,POST,/bookings/{bookingId}/review,Owning Job Seeker,US-53;US-54;US-55,test_reviews.py,Implemented
+listOwnServices,GET,/me/services,Counsellor,US-34;US-36,Ownership contract test,Implemented
+createService,POST,/me/services,Eligible Counsellor,US-34;US-35;US-37;US-38,Validation and role tests,Implemented
+listCounsellors,GET,/counsellors,Public,US-13;US-28;US-44,Visibility-filtered response tests in test_profile_visibility.py and test_counsellor_profile_details.py,Implemented
+getCounsellorProfile,GET,/counsellors/{counsellorId},Public,US-28;US-30;US-44;US-46,Public partial restricted and owner-exception tests in test_profile_visibility.py,Implemented
+updateOwnCounsellorProfile,PATCH,/me/counsellor-profile,Counsellor,US-30,Ownership and validation tests,Implemented
+getOnboardingState,GET,/me/onboarding-state,Counsellor,US-05,test_onboarding.py,Implemented
+getOwnJobSeekerProfile,GET,/me/job-seeker-profile,Job Seeker,US-29,test_job_seeker_profile.py,Implemented
+updateOwnJobSeekerProfile,PATCH,/me/job-seeker-profile,Job Seeker,US-29,test_job_seeker_profile.py,Implemented
+submitVerification,POST,/me/verification-submissions,Counsellor,US-31;US-32,LinkedIn URL and ownership tests,Implemented
+listForumBoards,GET,/forum/boards,Public,US-14,Public contract test,Not implemented: the Forum is deferred (Requirements RR-08; RR-20)
+listForumPosts,GET,/forum/posts,Public,US-15;US-22,Search filter and sort tests,Not implemented: the Forum is deferred (Requirements RR-08; RR-20)
+createForumPost,POST,/forum/posts,Job Seeker,US-16;US-17;US-19,Role and persistence tests,Not implemented: the Forum is deferred (Requirements RR-08; RR-20)
+replyToForumPost,POST,/forum/posts/{postId}/replies,Authenticated,US-18;US-20,Attribution and eligibility tests,Not implemented: the Forum is deferred (Requirements RR-08; RR-20)
+toggleForumLike,PUT,/forum/posts/{postId}/like,Authenticated,US-21,Idempotent toggle test,Not implemented: the Forum is deferred (Requirements RR-08; RR-20)
+submitDispute,POST,/orders/{orderId}/disputes,Owning Job Seeker,US-51,Ownership and persistence test,Not implemented: disputes are deferred (Requirements RR-08; RR-20)
+listVerificationSubmissions,GET,/admin/verifications,Platform Owner,US-58,Role and response-schema tests,Implemented
+getVerificationSubmission,GET,/admin/verifications/{submissionId},Platform Owner,US-58,Role guard plus read-after-decision and 404 tests in test_admin.py,Implemented
+decideVerification,POST,/admin/verifications/{submissionId}/decision,Platform Owner,US-32;US-33;US-58,State and role tests,Implemented
+listPaymentOversight,GET,/admin/payments,Platform Owner,US-48,Role and sensitive-field test,Implemented
+getPaymentOversight,GET,/admin/payments/{orderId},Platform Owner,US-48,Role guard plus detail and progress and unpaid-hold and 404 tests in test_admin.py,Implemented
+getPlatformStats,GET,/admin/stats,Platform Owner,US-48;US-58,Totals-match-the-frozen-order-breakdown test in test_admin.py,Implemented
+listAllBookings,GET,/admin/bookings,Platform Owner,US-48,Role guard and both-parties-named test in test_admin.py,Implemented
+listAllCounsellors,GET,/admin/counsellors,Platform Owner,US-48;US-58,Role guard and per-counsellor trade totals test in test_admin.py,Implemented
+listAllJobSeekers,GET,/admin/job-seekers,Platform Owner,US-71,Role guard and per-job-seeker booking count test in test_admin.py,Implemented
+resolveDispute,POST,/admin/disputes/{disputeId}/resolution,Platform Owner,US-52,Role and state consistency test,Not implemented: disputes are deferred (Requirements RR-08; RR-20)
+healthCheck,GET,/health,Operations,NFR-02,Deployed readiness and no-secret response test,Implemented
+getOrder,GET,/orders/{orderId},Job Seeker,US-41;US-47,Payment outcome polling test in test_payments.py,Implemented
+processStripeConnectWebhook,POST,/payments/stripe/webhook/connect,Stripe,US-47,Signature verification and account.updated tests in test_payments.py,Implemented
+stripeOnboardingReturn,GET,/payments/stripe/onboarding/return,Counsellor,US-47,Deep-link redirect test in test_payments.py,Implemented
+stripeOnboardingRefresh,GET,/payments/stripe/onboarding/refresh,Counsellor,US-47,Signed-token Account Link test in test_payments.py,Implemented
+getPaymentConfig,GET,/payments/config,Public,US-47,Publishable-key-only response test in test_payments.py,Implemented
+cancelBooking,POST,/bookings/{bookingId}/cancel,Job Seeker or Counsellor,US-42;US-47,Refund policy and transfer reversal tests in test_payments.py,Implemented
+getBookingReceipt,GET,/bookings/{bookingId}/receipt,Job Seeker or Counsellor,US-47,Agent-model receipt tests in test_payments.py,Implemented
+startStripeOnboarding,POST,/me/stripe-onboarding,Counsellor,US-47,Account Link creation test in test_payments.py,Implemented
+getPayoutStatus,GET,/me/payout-status,Counsellor,US-47,Payout readiness test in test_payments.py,Implemented
+updateTaxDetails,PUT,/me/tax-details,Counsellor,US-47,ABN validation and GST snapshot tests in test_payments.py,Implemented
+getCommissionStatement,GET,/me/commission-statements/{year}/{month},Counsellor,US-47,Monthly commission statement test in test_payments.py,Implemented
+updateService,PATCH,/me/services/{serviceId},Counsellor,US-36,Ownership and validation tests in test_counsellor.py,Implemented
+deleteService,DELETE,/me/services/{serviceId},Counsellor,US-36,Soft-delete and Marketplace-withdrawal tests in test_counsellor.py,Implemented
+listOwnAvailabilityWindows,GET,/me/availability-windows,Counsellor,US-39,Window CRUD tests in test_counsellor.py,Implemented
+createAvailabilityWindow,POST,/me/availability-windows,Counsellor,US-39;US-41,Merge and multi-service tests in test_counsellor.py,Implemented
+updateAvailabilityWindow,PATCH,/me/availability-windows/{windowId},Counsellor,US-39;US-41,Booked-session protection test in test_counsellor.py,Implemented
+deleteAvailabilityWindow,DELETE,/me/availability-windows/{windowId},Counsellor,US-39,Withdrawal and booking-guard tests in test_counsellor.py,Implemented
